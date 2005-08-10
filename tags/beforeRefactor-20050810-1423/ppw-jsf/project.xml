@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/css" href="ppw-libraries-settings/pom.css"?>
+<project>
+  <extend>../ppw-libraries-settings/project.xml</extend>
+  <pomVersion>1</pomVersion>
+  <name>JSF Library</name>
+  <groupId>ppw-libraries</groupId>
+  <artifactId>ppw-jsf-II</artifactId>
+  <shortDescription>Support for JSF.</shortDescription>
+  <description>Support for JSF.</description>
+  <inceptionYear>2004</inceptionYear>
+  <currentVersion>SNAPSHOT</currentVersion>
+  <package>be.peopleware.jsf_II</package>
+  <!--  <logo>http://maven.apache.org/images/maven.jpg</logo> -->
+  <developers>
+    <developer>
+      <name>Jan Dockx</name>
+      <id>jand</id>
+      <email>Jan.Dockx@peopleware.be</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+    </developer>
+    <developer>
+      <name>David Van Keer</name>
+      <id>dvankeer</id>
+      <email>David_Van_Keer@peopleware.be</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+    </developer>
+    <developer>
+      <name>Rene Clerckx</name>
+      <id>rclerckx</id>
+      <email>Rene.Clerckx@peopleware.be</email>
+      <organization>PeopleWare n.v.</organization>
+      <timezone>+1</timezone>
+    </developer>
+    <developer>
+      <name>Nele Smeets</name>
+      <id>nsmeets</id>
+      <email>Nele_Smeets@peopleware.be</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+    </developer>
+  </developers>
+  <contributors>
+    <contributor>
+      <name>Dirk Couck</name>
+      <email>Dirk_Couck@peopleware.be</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+    </contributor>
+  </contributors>
+  <dependencies>
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.0.4</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>hibernate</groupId>
+      <artifactId>hibernate</artifactId>
+      <version>2.1.6</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>servletapi</groupId>
+      <artifactId>servletapi</artifactId>
+      <version>2.4-20040521</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>ppw-libraries</groupId>
+      <artifactId>ppw-exception-I</artifactId>
+      <version>1.0.0-1.0</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>ppw-libraries</groupId>
+      <artifactId>ppw-bean-IV</artifactId>
+      <version>1.0.1-1.0</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>myfaces</groupId>
+      <artifactId>myfaces</artifactId>
+      <version>1.0.9</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>ppw-libraries</groupId>
+      <artifactId>ppw-servlet-I</artifactId>
+      <version>1.0.0-1.0</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>ppw-libraries</groupId>
+      <artifactId>ppw-persistence-I</artifactId>
+      <version>1.0.1-1.0</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>ppw-libraries</groupId>
+      <artifactId>ppw-i18n-I</artifactId>
+      <version>1.0.2-1.0</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>1.7.0</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>jspapi</groupId>
+      <artifactId>jsp-api</artifactId>
+      <version>2.0-20040521</version>
+      <type>jar</type>
+    </dependency>
+  </dependencies>
+</project>
+
