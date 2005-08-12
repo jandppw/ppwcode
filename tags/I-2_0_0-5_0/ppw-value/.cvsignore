@@ -1,0 +1,5 @@
+*.log
+target
+javadoc*
+.classpath
+.project
