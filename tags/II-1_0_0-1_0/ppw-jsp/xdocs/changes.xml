@@ -1,0 +1,34 @@
+<document>
+  <properties>
+    <title>Page title</title>
+    <author email="dvankeer@peopleware.be">David Van Keer</author>
+    <author email="jand@peopleware.be">Jan Dockx</author>
+  </properties>
+  <body>
+
+    <release version="II v1.0.0/1.0" date="2005-09-06" description="Dependencies">
+      <action dev="jand" type="update">
+        Using ppw-persistence II and ppw-bean V. incompatible change.
+      </action>
+    </release>
+
+    <release version="I v1.1.0/2.0" date="2005-08-14" description="Dependencies">
+      <action dev="jand" type="update">
+        Update of dependencies.
+      </action>
+    </release>
+
+    <release version="I v1.0.0/1.0" date="2005-01-05" description="Bugfix release">
+      <action dev="dvankeer" type="add">
+        Tag files still contained old class dependencies, replaced with new ones.
+      </action>
+    </release>
+
+    <release version="I v1.0.0/1.0" date="2005-01-05" description="First release">
+      <action dev="dvankeer" type="add">
+        First release with this version number scheme.
+      </action>
+    </release>
+
+  </body>
+</document>
