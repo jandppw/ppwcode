@@ -1,0 +1,224 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation=" http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>be.peopleware</groupId>
+  <artifactId>ppw-value-II</artifactId>
+  <packaging>jar</packaging>
+
+  <name>PeopleWare Value Type Library II</name>
+  <description>Support for value types. Value types are algebra's, and not classes, but
+    the only thing we have in Java are classes. Here, the most important patterns for
+    the implementation of value types (including enumeration types), are laid out.
+    Some common value types are implemented and offered for reuse.</description>
+  <inceptionYear>2004</inceptionYear>
+  <organization>
+    <name>PeopleWare n.v.</name>
+    <url>http://www.peopleware.be/</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>Copyright PeopleWare</name>
+      <url>LICENSE.txt</url>
+      <comments>We are planning to release this library as Open Source,
+        but for the time being, full copyright law applies.</comments>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <url>http://cvs.peopleware.be/projects/JavaLibraries/maven2Test/ppw-value/</url>
+
+  <version>1.3.0-1.2-MAVEN2TEST</version>
+
+  <scm>
+    <connection>scm:cvs:ext:${user.name}@cvs.peopleware.be:/ppw/projects/JavaLibraries/repository:ppw-value</connection>
+    <developerConnection>scm:cvs:ext:${user.name}@cvs.peopleware.be:/ppw/projects/JavaLibraries/repository:ppw-value</developerConnection>
+    <url>https://cvs.peopleware.be/viewcvs/JavaLibraries/repository/ppw-value</url>
+  </scm>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <compilerVersion>1.4</compilerVersion> <!-- don't use 1.5 just yet -->
+          <source>1.4</source> <!-- necessary to enable assertions -->
+          <target>1.4</target> <!-- don't make it backward compatible -->
+          <debug>true</debug>
+          <showDeprecation>true</showDeprecation>
+          <showWarnings>true</showWarnings>
+          <optimize>false</optimize>
+              <!-- to make debugging possible;
+                   should be set to true for a release with a profile -->
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>validate</phase>
+            <configuration>
+              <tasks>
+                <echo>user.name: ${user.name}</echo>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.0.4</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>hibernate</groupId>
+      <artifactId>hibernate</artifactId>
+      <version>2.1.8</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.4-20040521</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>javax.faces</groupId>
+      <artifactId>jsf-api</artifactId>
+      <version>1.1_01</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>be.peopleware</groupId>
+      <artifactId>ppw-bean-V</artifactId>
+      <version>1.0.0-1.0</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>org.toryt</groupId>
+      <artifactId>toryt-I</artifactId>
+      <version>1.3.0-3.0</version>
+      <type>jar</type>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <repositories>
+    <repository>
+      <id>ppw-missing</id>
+      <name>PeopleWare Repository of Missing Artifacts, via scp</name>
+      <url>https://cvs.peopleware.be/projects/maven/maven2/repository</url>
+    </repository>
+    <repository>
+      <id>ppw-libraries</id>
+      <name>PeopleWare Libraries Repository, via scp</name>
+      <url>https://cvs.peopleware.be/projects/JavaLibraries/maven2-repository</url>
+    </repository>
+  </repositories>
+  
+  <developers>
+    <developer>
+      <name>Jan Dockx</name>
+      <id>jand</id>
+      <email>Jan_Dockx@peopleware.be</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>project lead</role>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>David Van Keer</name>
+      <id>dvankeer</id>
+      <email>David_Van_Keer@peopleware.be</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Rene Clerckx</name>
+      <id>rclerckx</id>
+      <email>Rene_Clerckx@peopleware.be</email>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <timezone>+1</timezone>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Wim Lambrechts</name>
+      <id>wlambrec</id>
+      <email>Wim_Lambrechts@peopleware.be</email>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <timezone>+1</timezone>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Nele Smeets</name>
+      <id>nsmeets</id>
+      <email>Nele_Smeets@peopleware.be</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+  </developers>
+  <contributors>
+    <contributor>
+      <name>Dirk Couck</name>
+      <email>Dirk_Couck@peopleware.be</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>project manager</role>
+      </roles>
+    </contributor>
+  </contributors>
+  
+  
+<!--
+  <document-info>
+    This file is part of the PeopleWare Value Type Library II.
+    <authors>
+      <author>Jan Dockx</author>
+      <author>PeopleWare n.v.</author>
+    </authors>
+    <cvs>
+      <path>$Source$</path>
+      <revision>$Revision$</revision>
+      <date>$Date$ (UTC)</date>
+      <state>$State$</state>
+      <release>$Name$</release>
+    </cvs>
+    <copyright xml:lang="en-US">
+      <creationdate>2004</creationdate>
+      <lastmodifieddate>$Date$ (UTC)</lastmodifieddate>
+      <p xml:lang="nl-BE">Dit document is auteursrechtelijk beschermd.</p>
+      <p xml:lang="en-US">This document is copyrighted by the people and
+                          entities mentioned above in the <author> tag.</p>
+    </copyright>
+  </document-info>
+-->
+</project>
