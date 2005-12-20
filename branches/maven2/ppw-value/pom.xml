@@ -96,18 +96,12 @@
   
   <reporting>
     <!-- 
-        <report>maven-license-plugin</report>
-    <report>maven-javadoc-plugin</report>
-    <report>maven-faq-plugin</report>
     <report>maven-jdepend-plugin</report>
-    <report>maven-changes-plugin</report>
     <report>maven-checkstyle-plugin</report>
     <report>maven-linkcheck-plugin</report>
     <report>maven-pmd-plugin</report>
     <report>maven-tasklist-plugin</report>
-    <report>taglib</report>
     <+-    
-  	<report>maven-xhtml-plugin</report>
 -+>
     <report>maven-statcvs-plugin</report>
     <+-
@@ -135,7 +129,11 @@
           <tags>@mudo,@todo,@idea,MUDO,TODO,IDEA</tags>
         </configuration>
       </plugin>
-<!--
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>jxr-maven-plugin</artifactId>
+      </plugin>
+      <!--
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>maven-jdepend-plugin</artifactId>
