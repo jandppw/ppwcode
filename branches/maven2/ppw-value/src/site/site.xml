@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project name="PeopleWare Value Type Library II">
+
+  <!-- maven properties ${} style don't seem to work here -->
+
   <bannerLeft>
-    <name>PeopleWare</name>
+    <name>PeopleWare n.v.</name>
+    <src>http://cvs.peopleware.be/projects/Java/img/ppwlogo.jpg</src>
     <href>http://www.peopleware.be/</href>
   </bannerLeft>
   <bannerRight>
-    <name>ppw-value II</name>
+    <name>PeopleWare Value Type Library II</name>
   </bannerRight>
   <body>
     <links>
@@ -18,14 +22,14 @@
       <item name="Overview" href="apidocs/index.html"/>
       <item name="Trala" href="test1/test2/trala.html"/>
     </menu>
-    
+
     <menu name="Demo">
       <item name="APT Format" href="format.html"/>
       <item name="FAQ" href="faq.html"/>
-      <item name="Xdoc Example" href="xdoc.html"/>      
+      <item name="Xdoc Example" href="xdoc.html"/>
     </menu>
-    
+
     ${reports}
-    
+
   </body>
 </project>

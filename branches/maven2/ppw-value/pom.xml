@@ -3,11 +3,19 @@
          xsi:schemaLocation=" http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <properties>
+    <ppw.bareArtifactName>ppw-value</ppw.bareArtifactName>
+    <ppw.markVersion>II</ppw.markVersion>
+    <ppw.javaSourceDirectory>src/main/java</ppw.javaSourceDirectory>
+    <!-- include toryt in test compile, test run and a separate artifact -->
+    <ppw.torytSourceDirectory>src/test/toryt</ppw.torytSourceDirectory>
+  </properties>
+  
   <groupId>be.peopleware</groupId>
-  <artifactId>ppw-value-II</artifactId>
+  <artifactId>${ppw.bareArtifactName}-${ppw.markVersion}</artifactId>
   <packaging>jar</packaging>
 
-  <name>PeopleWare Value Type Library II</name>
+  <name>PeopleWare Value Type Library ${ppw.markVersion}</name>
   <description>Support for value types. Value types are algebra's, and not classes, but
     the only thing we have in Java are classes. Here, the most important patterns for
     the implementation of value types (including enumeration types), are laid out.
@@ -16,6 +24,9 @@
   <organization>
     <name>PeopleWare n.v.</name>
     <url>http://www.peopleware.be/</url>
+    <!--
+    <logo>http://cvs.peopleware.be/projects/Java/img/ppwlogo.jpg</logo>
+    -->
   </organization>
   <licenses>
     <license>
@@ -26,22 +37,18 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-  <url>http://cvs.peopleware.be/projects/JavaLibraries/maven2Test/ppw-value/</url>
+  <url>http://cvs.peopleware.be/projects/JavaLibraries/${pom.artifactId}/</url>
 
   <version>1.3.0-1.3</version>
 
   <scm>
-    <connection>scm:cvs:ext:${user.name}@cvs.peopleware.be:/ppw/projects/JavaLibraries/repository:ppw-value</connection>
-    <developerConnection>scm:cvs:ext:${user.name}@cvs.peopleware.be:/ppw/projects/JavaLibraries/repository:ppw-value</developerConnection>
-    <url>https://cvs.peopleware.be/viewcvs/JavaLibraries/repository/ppw-value</url>
+    <!-- no anonymous access possible
+    <connection />
+    -->
+    <developerConnection>scm:cvs:ext:${user.name}@cvs.peopleware.be:/ppw/projects/JavaLibraries/repository:${ppw.bareArtifactName}</developerConnection>
+    <url>https://cvs.peopleware.be/viewcvs/JavaLibraries/repository/${ppw.bareArtifactName}/</url>
   </scm>
 
-  <properties>
-    <ppw.javaSourceDirectory>src/main/java</ppw.javaSourceDirectory>
-    <!-- include toryt in test compile, test run and a separate artifact -->
-    <ppw.torytSourceDirectory>src/test/toryt</ppw.torytSourceDirectory>
-  </properties>
-  
   <build>
     <sourceDirectory>${ppw.javaSourceDirectory}</sourceDirectory>
     <resources>
@@ -63,6 +70,8 @@
           <include>**/*.xml</include>
           <!-- add betwixt files to jar -->
           <include>**/*.betwixt</include>
+          <!-- add text files to jar -->
+          <include>**/*.txt</include>
         </includes>
       </resource>
     </resources>
@@ -86,6 +95,30 @@
   </build>
   
   <reporting>
+    <!-- 
+        <report>maven-license-plugin</report>
+    <report>maven-javadoc-plugin</report>
+    <report>maven-faq-plugin</report>
+    <report>maven-jdepend-plugin</report>
+    <report>maven-changes-plugin</report>
+    <report>maven-checkstyle-plugin</report>
+    <report>maven-linkcheck-plugin</report>
+    <report>maven-pmd-plugin</report>
+    <report>maven-tasklist-plugin</report>
+    <report>taglib</report>
+    <+-    
+  	<report>maven-xhtml-plugin</report>
+-+>
+    <report>maven-statcvs-plugin</report>
+    <+-
+  This plugin is usefull when we have different version to compare, currently
+  we only have 1 version in CVS. This plugin needs to be tested when we have 
+  at least 2 version in CVS.
+        <report>maven-jdiff-plugin</report>      
+-+>
+    <+- <report>maven-doccheck-plugin</report> -+>
+    
+    -->
     <plugins>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -230,9 +263,11 @@
             <tag>return</tag> <!-- we want the standard tag here -->
             <tag>result-cm-Result:</tag>
             <tag>throws</tag> <!-- we want the standard tag here -->
+            <tag>except-cm-Also Throws:</tag>
             <tag>init-m-Initially:</tag>
             <tag>protected.invar-tf-Protected Invariants:</tag>
             <tag>protected.post-cm-Protected Postconditions:</tag>
+            <tag>protected.result-cm-Protected Result:</tag>
             <tag>see</tag> <!-- we want the standard tag here -->
             <tag>author</tag> <!-- we want the standard tag here -->
             <tag>annotation-a-Annotations:</tag>
