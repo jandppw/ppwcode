@@ -57,6 +57,8 @@
       </resource>
       <resource>
         <directory>${ppw.javaSourceDirectory}</directory>
+        <!-- ${project.compileSourceRoots} doesn't work here, probably because that is a list or an array,
+             and not 1 directory -->
         <includes>
           <!-- add tlds to taglib jar -->
           <include>*.tld</include>
@@ -91,18 +93,57 @@
                should be set to true for a release with a profile -->
         </configuration>
       </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>validate</phase>
+            <configuration>
+              <tasks>
+                <echo>!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</echo>
+                <echo>!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</echo>
+                <echo>!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</echo>
+                <echo>!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</echo>
+                <echo>user.name: ${user.name}</echo>
+                <echo>pom: ${pom}</echo>
+                <echo>settings: ${settings}</echo>
+                <echo>pom.groupId: ${pom.groupId}</echo>
+                <echo>pom.artifactId: ${pom.artifactId}</echo>
+                <echo>pom.packaging: ${pom.packaging}</echo>
+                <echo>pom.name: ${pom.name}</echo>
+                <echo>pom.description: ${pom.description}</echo>
+                <echo>pom.url: ${pom.url}</echo>
+                <echo>pom.mailingLists: ${pom.mailingLists}</echo>
+                <echo>pom.developers: ${pom.developers}</echo>
+                <echo>pom.scm.connection: ${pom.scm.connection}</echo>
+                <echo>pom.organization: ${pom.organization}</echo>
+                <echo>project: ${project}</echo>
+                <echo>maven: ${maven}</echo>
+                <echo>maven.project: ${maven.project}</echo>
+                <echo>project.build.sourceDirectory: ${project.build.sourceDirectory}</echo>
+                <echo>pom.build: ${project.build}</echo>
+                <echo>toedeloe: ${toedeloe}</echo>
+                <echo>user.language: ${user.language}</echo>
+                <echo>user.country: ${user.country}</echo>
+                <echo>project.compileSourceRoots: ${project.compileSourceRoots}</echo>
+                <echo>!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</echo>
+                <echo>!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</echo>
+                <echo>!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</echo>
+                <echo>!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</echo>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   
   <reporting>
     <!-- 
-    <report>maven-jdepend-plugin</report>
-    <report>maven-checkstyle-plugin</report>
     <report>maven-linkcheck-plugin</report>
-    <report>maven-pmd-plugin</report>
-    <report>maven-tasklist-plugin</report>
-    <+-    
--+>
     <report>maven-statcvs-plugin</report>
     <+-
   This plugin is usefull when we have different version to compare, currently
@@ -110,10 +151,20 @@
   at least 2 version in CVS.
         <report>maven-jdiff-plugin</report>      
 -+>
-    <+- <report>maven-doccheck-plugin</report> -+>
-    
+    <report>maven-doccheck-plugin</report>
     -->
     <plugins>
+<!-- NullPointerException
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <excludes>**/_Contract_*.java</excludes>
+          <propertiesFile>toolProperties/checkstyle-ppw.xml</propertiesFile>
+          <suppressionsFile>toolProperties/checkstyle-suppressions.xml</suppressionsFile>
+        </configuration>
+      </plugin>
+-->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>surefire-report-maven-plugin</artifactId>
@@ -133,12 +184,15 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>jxr-maven-plugin</artifactId>
       </plugin>
-      <!--
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
-        <artifactId>maven-jdepend-plugin</artifactId>
+        <artifactId>jdepend-maven-plugin</artifactId>
+        <!-- currently requires build from source from svn https://svn.codehaus.org/mojo/trunk/mojo/jdepend-maven-plugin;
+              checkout and do <kbd>mvn install</kbd> -->
+        <!-- jdepend-2-dot exists! -->
+        <!-- there is currently no way to provide jdepend with configuration (properties file); for the time being, it
+             is stored in ${basedir}/toolProperties, but not used -->
       </plugin>
--->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>changes-maven-plugin</artifactId>
@@ -280,6 +334,31 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
+        <!-- there currently seems to be no way to point pmd to a configuration file -->
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>changelog-maven-plugin</artifactId>
+        <!-- can also send announcement mails -->
+        <!-- can also create report from jira -->
+        <reportSets>
+          <reportSet>
+            <id>allReports</id>
+            <configuration>
+              <type>date</type>
+              <dates>
+                <date implementation="java.lang.String">1990-01-01</date>
+                <!-- since before Java exists: show all -->
+              </dates>
+              <dateFormat>yyyy-MM-dd</dateFormat>
+            </configuration>
+            <reports>
+              <report>changelog</report>
+              <report>dev-activity</report>
+              <report>file-activity</report>
+            </reports>
+          </reportSet>
+        </reportSets>
       </plugin>
     </plugins>
   </reporting>
@@ -336,7 +415,14 @@
       <url>https://cvs.peopleware.be/projects/JavaLibraries/maven2-repository</url>
     </repository>
   </repositories>
-
+  
+  <pluginRepositories>
+    <pluginRepository>
+      <id>pluginSnapshots</id>
+      <url>http://snapshots.maven.codehaus.org/maven2</url>
+    </pluginRepository>
+  </pluginRepositories>
+  
   <developers>
     <developer>
       <name>Jan Dockx</name>
@@ -411,7 +497,7 @@
 
 <!--
   <document-info>
-    This file is part of the PeopleWare Value Type Library II.
+    This file is part of the course "Working with Maven 2"
     <authors>
       <author>Jan Dockx</author>
       <author>PeopleWare n.v.</author>
@@ -426,9 +512,28 @@
     <copyright xml:lang="en-US">
       <creationdate>2004</creationdate>
       <lastmodifieddate>$Date$ (UTC)</lastmodifieddate>
-      <p xml:lang="nl-BE">Dit document is auteursrechtelijk beschermd.</p>
+      <p xml:lang="nl-BE">Dit document is auteursrechtelijk beschermd door de
+        natuurlijke en rechtspersonen hierboven vermeld in de authors-tag.<br />
+        GelicentiÃ«erd onder de Apache License, Versie 2.0 (de "Licentie");
+        U mag dit bestand niet gebruiken behalve onder de voorwaarden vermeld in
+        de Licentie. U kan een versie van de Licentie bekomen op
+        <a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a><br />
+        Tenzij vereist door de toepasselijke wetgeving of door een geschreven
+        overeenkomst, wordt software gedistribueerd onder de Licentie "ZOALS ZE IS",
+        ZONDER ENIGE GARANTIE OF VOORWAARDE IN ENIGE VORM. Zie de Licentie voor de
+        specifieke bepalingen van rechten en plichten onder de Licentie.
+      </p>
       <p xml:lang="en-US">This document is copyrighted by the people and
-                          entities mentioned above in the <author> tag.</p>
+        entities mentioned above in the authors-tag.<br />
+        Licensed under the Apache License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+        <a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a><br />
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.</p>
     </copyright>
   </document-info>
 -->
