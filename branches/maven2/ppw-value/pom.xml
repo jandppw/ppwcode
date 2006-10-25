@@ -10,7 +10,7 @@
     <!-- include toryt in test compile, test run and a separate artifact -->
     <ppw.torytSourceDirectory>src/test/toryt</ppw.torytSourceDirectory>
   </properties>
-  
+
   <groupId>be.peopleware</groupId>
   <artifactId>${ppw.bareArtifactName}-${ppw.markVersion}</artifactId>
   <packaging>jar</packaging>
@@ -39,7 +39,7 @@
   </licenses>
   <url>http://cvs.peopleware.be/projects/JavaLibraries/${pom.artifactId}/</url>
 
-  <version>1.3.0-1.3</version>
+  <version>2.0.1-1.2-M2</version>
 
   <scm>
     <!-- no anonymous access possible
@@ -140,16 +140,16 @@
       </plugin>
     </plugins>
   </build>
-  
+
   <reporting>
-    <!-- 
+    <!--
     <report>maven-linkcheck-plugin</report>
     <report>maven-statcvs-plugin</report>
     <+-
   This plugin is usefull when we have different version to compare, currently
-  we only have 1 version in CVS. This plugin needs to be tested when we have 
+  we only have 1 version in CVS. This plugin needs to be tested when we have
   at least 2 version in CVS.
-        <report>maven-jdiff-plugin</report>      
+        <report>maven-jdiff-plugin</report>
 -+>
     <report>maven-doccheck-plugin</report>
     -->
@@ -177,7 +177,14 @@
         <artifactId>taglist-maven-plugin</artifactId>
         <configuration>
           <multipleLineComments>true</multipleLineComments>
-          <tags>@mudo,@todo,@idea,MUDO,TODO,IDEA</tags>
+          <tags>
+            <tag>@mudo</tag>
+            <tag>@todo</tag>
+            <tag>@idea</tag>
+            <tag>MUDO</tag>
+            <tag>TODO</tag>
+            <tag>IDEA</tag>
+          </tags>
         </configuration>
       </plugin>
       <plugin>
@@ -207,6 +214,7 @@
           <package>false</package>
           <private>false</private>
           <breakiterator>true</breakiterator> <!-- use new algorithm to determine end of first sentence -->
+          <stylesheet>maven</stylesheet>
           <docfilessubdirs>true</docfilessubdirs> <!-- enable deep copy of all doc-files subdirectories ... -->
           <excludedocfilessubdir>CVS</excludedocfilessubdir> <!-- ... but don't copy CVS files -->
           <linksource>true</linksource> <!-- HTML version of each source file -->
@@ -302,32 +310,118 @@
           <overview></overview>
           -->
           <tags> <!-- order defines order in which tags are shown -->
-            <tag>note-a-Note:</tag>
-            <!-- for some reason, we cannot mention the deprecated tag here at all
-              <tag>deprecated</tag>
-            -->
-            <tag>protected-a-Information for Subtype Implementors:</tag>
-            <tag>invar-tf-Invariants:</tag>
-            <tag>basic-cm-Basic inspector</tag>
-            <tag>param</tag> <!-- we want the standard tag here -->
-            <tag>pre-cm-Preconditions:</tag>
-            <tag>post-cm-Postconditions:</tag>
-            <tag>return</tag> <!-- we want the standard tag here -->
-            <tag>result-cm-Result:</tag>
-            <tag>throws</tag> <!-- we want the standard tag here -->
-            <tag>except-cm-Also Throws:</tag>
-            <tag>init-m-Initially:</tag>
-            <tag>protected.invar-tf-Protected Invariants:</tag>
-            <tag>protected.post-cm-Protected Postconditions:</tag>
-            <tag>protected.result-cm-Protected Result:</tag>
-            <tag>see</tag> <!-- we want the standard tag here -->
-            <tag>author</tag> <!-- we want the standard tag here -->
-            <tag>annotation-a-Annotations:</tag>
-            <tag>version</tag> <!-- we want the standard tag here -->
-            <tag>since</tag> <!-- we want the standard tag here -->
-            <tag>mudo-a-Must do:</tag>
-            <tag>todo-a-To do:</tag>
-            <tag>idea-a-Idea:</tag>
+            <tag>
+              <name>note</name>
+              <placement>a</placement>
+              <head>Note:</head>
+            </tag>
+            <tag>
+              <name>deprecated</name>
+              <!-- we want the standard tag here -->
+            </tag>
+            <tag>
+              <name>protected</name>
+              <placement>a</placement>
+              <head>Information for Subtype Implementors:</head>
+            </tag>
+            <tag>
+              <name>invar</name>
+              <placement>tf</placement>
+              <head>Invariants:</head>
+            </tag>
+            <tag>
+              <name>basic</name>
+              <placement>cm</placement>
+              <head>Basic inspector</head>
+            </tag>
+            <tag>
+              <name>param</name>
+              <!-- we want the standard tag here -->
+            </tag>
+            <tag>
+              <name>pre</name>
+              <placement>cm</placement>
+              <head>Preconditions:</head>
+            </tag>
+            <tag>
+              <name>post</name>
+              <placement>cm</placement>
+              <head>Postconditions:</head>
+            </tag>
+            <tag>
+              <name>return</name>
+              <!-- we want the standard tag here -->
+            </tag>
+            <tag>
+              <name>result</name>
+              <placement>cm</placement>
+              <head>Result:</head>
+            </tag>
+            <tag>
+              <name>throws</name>
+              <!-- we want the standard tag here -->
+            </tag>
+            <tag>
+              <name>except</name>
+              <placement>cm</placement>
+              <head>Also Throws:</head>
+            </tag>
+            <tag>
+              <name>init</name>
+              <placement>m</placement>
+              <head>Initially:</head>
+            </tag>
+            <tag>
+              <name>protected.invar</name>
+              <placement>tf</placement>
+              <head>Protected Invariants:</head>
+            </tag>
+            <tag>
+              <name>protected.post</name>
+              <placement>cm</placement>
+              <head>Protected Postconditions:</head>
+            </tag>
+            <tag>
+              <name>protected.result</name>
+              <placement>cm</placement>
+              <head>Protected Result:</head>
+            </tag>
+            <tag>
+              <name>see</name>
+              <!-- we want the standard tag here -->
+            </tag>
+            <tag>
+              <name>author</name>
+              <!-- we want the standard tag here -->
+            </tag>
+            <tag>
+              <name>annotation</name>
+              <placement>a</placement>
+              <head>Annotations:</head>
+            </tag>
+            <tag>
+              <name>version</name>
+              <!-- we want the standard tag here -->
+            </tag>
+            <tag>
+              <name>since</name>
+              <!-- we want the standard tag here -->
+            </tag>
+            <tag>
+              <name>mudo</name>
+              <placement>a</placement>
+              <head>Must do:</head>
+            </tag>
+            <tag>
+              <name>todo</name>
+              <placement>a</placement>
+              <head>To do:</head>
+            </tag>
+            <tag>
+              <name>idea</name>
+              <placement>a</placement>
+              <head>Idea:</head>
+            </tag>
           </tags>
         </configuration>
       </plugin>
@@ -415,14 +509,14 @@
       <url>https://cvs.peopleware.be/projects/JavaLibraries/maven2-repository</url>
     </repository>
   </repositories>
-  
+
   <pluginRepositories>
     <pluginRepository>
       <id>pluginSnapshots</id>
       <url>http://snapshots.maven.codehaus.org/maven2</url>
     </pluginRepository>
   </pluginRepositories>
-  
+
   <developers>
     <developer>
       <name>Jan Dockx</name>
