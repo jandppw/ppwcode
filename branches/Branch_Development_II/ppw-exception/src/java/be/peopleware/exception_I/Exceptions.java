@@ -12,7 +12,7 @@ import javax.servlet.jsp.el.ELException;
 
 
 /**
- * Convenience methods for working with {@link java.lang.Exception}s.
+ * Convenience methods for working with {@link java.lang.Throwable}s.
  *
  * @author      Jan Dockx
  * @author      PeopleWare n.v.
@@ -41,6 +41,14 @@ public class Exceptions {
    * {@link ELException#getRootCause() "root cause"} for an exception
    * of type <code>exceptionType</code>. <code>null</code> is returned
    * if no such cause is found.
+   *
+   * @todo This method makes this library dependent on the JEE JSP API.
+   *       This should be circumvented: this dependency should be optional.
+   * @note More checks will be added as more, relevant, exception
+   *       classes are discovered that use another method than
+   *       {@link Throwable#getCause()} as inspector in an exception
+   *       chaining mechanisms. This property of {@link Throwable} was added
+   *       since 1.4, and the entire JSE API has been retrofitted since.
    *
    * @param     exc
    *            The exception to look in.
