@@ -43,7 +43,7 @@ public class _Test_LocalizedMessageException extends _Test_Object {
 
   public static void main(final String[] args) {
     Test.main(new String[]
-        {"be.peopleware.exception_I._Test_LocalizedMessageException"}); //$NON-NLS-1$
+        {"be.peopleware.exception_II._Test_LocalizedMessageException"}); //$NON-NLS-1$
   }
 
   protected void testClassMethods() {

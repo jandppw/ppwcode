@@ -10,6 +10,8 @@ package be.peopleware.exception_I;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.el.ELException;
 
+import org.apache.commons.logging.Log;
+
 
 /**
  * Convenience methods for working with {@link java.lang.Throwable}s.
@@ -86,6 +88,17 @@ public class Exceptions {
       }
     }
     return result;
+  }
+
+  public static void handleThrowable(Throwable t) {
+//    Log log =
+  }
+
+  /**
+   * Returns a logger
+   */
+  public static /*Log*/ void loggerForThrowable(Throwable t) {
+
   }
 
 }
