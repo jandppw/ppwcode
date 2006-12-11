@@ -25,7 +25,7 @@ public class TestProgrammingError extends TestCase {
   }
 
 
-  /*<method signature="defaultMessage(String, Throwable)">*/
+  /*<method signature="ProgrammingError(String, Throwable)">*/
   //-----------------------------------------------------------------------
 
   public void testProgrammingErrorStringThrowable1() {
@@ -55,7 +55,7 @@ public class TestProgrammingError extends TestCase {
   public void testProgrammingErrorStringThrowable(String message, Throwable t) {
     ProgrammingError subject = new ProgrammingError(message, t);
     testInvariants(subject);
-    assertEquals(message, subject.getMessage());
+    assertEquals(ProgrammingError.defaultMessage(message, t), subject.getMessage());
     assertEquals(t, subject.getCause());
   }
 
@@ -63,7 +63,7 @@ public class TestProgrammingError extends TestCase {
 
 
 
-  /*<method signature="defaultMessage(Throwable)">*/
+  /*<method signature="ProgrammingError(Throwable)">*/
   //-----------------------------------------------------------------------
 
   public void testProgrammingErrorThrowable1() {
@@ -103,7 +103,7 @@ public class TestProgrammingError extends TestCase {
   private void testProgrammingErrorString(String message) {
     ProgrammingError subject = new ProgrammingError(message);
     testInvariants(subject);
-    assertEquals(message, subject.getMessage());
+    assertEquals(ProgrammingError.defaultMessage(message, null), subject.getMessage());
     assertEquals(null, subject.getCause());
   }
 

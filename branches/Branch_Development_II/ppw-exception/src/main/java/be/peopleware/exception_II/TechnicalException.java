@@ -4,7 +4,7 @@
   TO SELECTED PARTIES.
 </license>*/
 
-package be.peopleware.exception_I;
+package be.peopleware.exception_II;
 
 
 /**
@@ -72,6 +72,7 @@ public class TechnicalException extends LocalizedMessageException {
   /**
    * @return    getMessage() != null ? getMessage() : KEY;
    */
+  @Override
   public final String[] getLocalizedMessageKeys() {
     return new String[] {getMessage() != null ? getMessage() : KEY};
   }

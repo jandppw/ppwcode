@@ -4,7 +4,7 @@
   TO SELECTED PARTIES.
 </license>*/
 
-package be.peopleware.exception_I;
+package be.peopleware.exception_II;
 
 
 import be.peopleware.i18n_I.DefaultResourceBundleLoadStrategy;
@@ -163,6 +163,7 @@ public abstract class LocalizedMessageException extends Exception {
    * or there is no entry in the bundles with the given keys, the
    * non-localized message is returned.
    */
+  @Override
   public final String getLocalizedMessage() {
     ResourceBundleLoadStrategy strategy = getLocalizedMessageResourceBundleLoadStrategy();
     String[] keys = getLocalizedMessageKeys();

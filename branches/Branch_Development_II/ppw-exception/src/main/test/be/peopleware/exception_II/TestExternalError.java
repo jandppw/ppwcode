@@ -26,7 +26,7 @@ public class TestExternalError extends TestCase {
 
 
 
-  /*<method signature="defaultMessage(String, Throwable)">*/
+  /*<method signature="ExternalError(String, Throwable)">*/
   //-----------------------------------------------------------------------
 
   public void testExternalErrorStringThrowable1() {
@@ -56,7 +56,7 @@ public class TestExternalError extends TestCase {
   public void testExternalErrorStringThrowable(String message, Throwable t) {
     ExternalError subject = new ExternalError(message, t);
     testInvariants(subject);
-    assertEquals(message, subject.getMessage());
+    assertEquals(ExternalError.defaultMessage(message, t), subject.getMessage());
     assertEquals(t, subject.getCause());
   }
 
@@ -64,7 +64,7 @@ public class TestExternalError extends TestCase {
 
 
 
-  /*<method signature="defaultMessage(Throwable)">*/
+  /*<method signature="ExternalError(Throwable)">*/
   //-----------------------------------------------------------------------
 
   public void testExternalErrorThrowable1() {
@@ -104,7 +104,7 @@ public class TestExternalError extends TestCase {
   private void testExternalErrorString(String message) {
     ExternalError subject = new ExternalError(message);
     testInvariants(subject);
-    assertEquals(message, subject.getMessage());
+    assertEquals(ExternalError.defaultMessage(message, null), subject.getMessage());
     assertEquals(null, subject.getCause());
   }
 
@@ -112,7 +112,7 @@ public class TestExternalError extends TestCase {
 
 
 
-  /*<method signature="defaultMessage()">*/
+  /*<method signature="ExternalError()">*/
   //-----------------------------------------------------------------------
 
   public void testExternalError() {

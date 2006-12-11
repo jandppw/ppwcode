@@ -4,13 +4,13 @@
   TO SELECTED PARTIES.
 </license>*/
 
-package be.peopleware.exception_I;
+package be.peopleware.exception_II;
 
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.el.ELException;
 
-import org.apache.commons.logging.Log;
+//import org.apache.commons.logging.Log;
 
 
 /**
@@ -66,7 +66,7 @@ public class Exceptions {
    * @result    (result != null) ==> exceptionType.isInstance(result);
    */
   public static Throwable huntFor(final Throwable exc,
-                                  final Class exceptionType) {
+                                  final Class<?> exceptionType) {
     Throwable result = null;
     if ((exc != null) && (exceptionType.isInstance(exc))) {
       result = exc;
@@ -98,7 +98,7 @@ public class Exceptions {
    * Returns a logger
    */
   public static /*Log*/ void loggerForThrowable(Throwable t) {
-
+    // ??
   }
 
 }

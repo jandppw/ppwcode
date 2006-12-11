@@ -4,7 +4,7 @@
   TO SELECTED PARTIES.
 </license>*/
 
-package be.peopleware.exception_I;
+package be.peopleware.exception_II;
 
 
 import java.util.HashSet;
