@@ -51,7 +51,7 @@ import be.peopleware.metainfo.vcs.CvsInfo;
          date     = "$Date$",
          state    = "$State$",
          tag      = "$Name$")
-public class InternalException extends Error {
+public class InternalException extends Exception {
 
   /**
    * The empty string.

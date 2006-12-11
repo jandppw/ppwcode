@@ -97,12 +97,12 @@ public class ExceptionShouldNotHappenError extends ProgrammingError {
   /**
    * {@value}
    */
-  public final static String MESSAGE_PATTERN =
+  public static final String MESSAGE_PATTERN =
     "An exception of type {0} occured, " +
     "in a situation where this could not happen because {1}";
 
   /**
-   * @pre
+   * @pre unexpected != null;
    * @return MessageFormat.format(MESSAGE_PATTERN,
    *                    unexpected.getClass().getName(), message);
    */
