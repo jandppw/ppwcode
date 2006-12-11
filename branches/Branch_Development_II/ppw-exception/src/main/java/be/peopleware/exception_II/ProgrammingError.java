@@ -1,11 +1,13 @@
 /*<license>
-  Copyright 2005, PeopleWare n.v.
+  Copyright 2006, PeopleWare n.v.
   NO RIGHTS ARE GRANTED FOR THE USE OF THIS SOFTWARE, EXCEPT, IN WRITING,
   TO SELECTED PARTIES.
 </license>*/
 
-
 package be.peopleware.exception_II;
+
+
+import be.peopleware.metainfo.vcs.CvsInfo;
 
 
 /**
@@ -15,29 +17,23 @@ package be.peopleware.exception_II;
  *   decision trees, or unreachable <code>default</code>-clause
  *   in a <code>switch</code>-statement, or a <code>catch</code>-clause
  *   of an exception that can never occur, ...).</p>
+ * <p>The {@link #getMessage() message} should describe the programming
+ *   error as closely as possible. If you cannot pinpoint the exact
+ *   nature of the programming error, you should say so explicitly.
+ *   If you become aware of the programming error by catching an
+ *   {@link Exception} or an {@link Error}, it should be carried by
+ *   instances of this class as the {@link #getCause() cause}.</p>
  *
  * @invar     getMessage() != null;
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
  */
+@CvsInfo(revision = "$Revision$",
+         date     = "$Date$",
+         state    = "$State$",
+         tag      = "$Name$")
 public class ProgrammingError extends Error {
-
-  /*<section name="Meta Information">*/
-  //------------------------------------------------------------------
-
-  /** {@value} */
-  public static final String CVS_REVISION = "$Revision$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_DATE = "$Date$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_STATE = "$State$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_TAG = "$Name$"; //$NON-NLS-1$
-
-  /*</section>*/
-
-
 
   /*<construction>*/
   //------------------------------------------------------------------

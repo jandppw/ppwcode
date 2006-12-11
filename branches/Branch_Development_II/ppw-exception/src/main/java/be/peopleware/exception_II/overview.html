@@ -6,22 +6,25 @@
     <title>PeopleWare Exception Library II</title>
 
     <meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" />
+    <link href="../../../../doc-css/doc.css" rel="stylesheet" type="text/css" />
   </head>
 
-  <body><h1>Exceptions Are Important</h1> <p>One of the badly understood
+  <body><h1>Exceptions Are Important</h1> 
+  <p>One of the badly understood
   features of modern object oriented programming languages is the importance
   of <dfn>exceptions</dfn> and how to deal with them. In comparison to a
   complete application, the nominal flow of an application only takes a
   relatively small part of the development effort. The true development cost
   of an application is in the code that deals with <dfn>exceptional
   conditions</dfn>. This is especially true for a web application, where the
-  liberties the end-user has have to be compensated by application code. In
+  liberties the end-user has, have to be compensated by application code. In
   essence, in all security sensitive applications, undetermined behavior is
   the major risk. If we do not deal with exceptional conditions, it means that
   anything can happen in these conditions, making the application inherently
   unstable and unsafe. And in web applications, based on the very simple,
   stateless HTTP protocol, there are so much more exceptional conditions than
-  in a desktop application.</p> <h2>My Application Works (If Nothing
+  in a desktop application.</p> 
+  <h2>My Application Works (If Nothing
   Unexpected Happens)</h2> <p>One popular approach to exception handling is to
   let them all propagate to the final layer, where the user is then presented
   with an error dialog or an error page. This is surely the cheapest way of
@@ -55,7 +58,8 @@
   that is not explicitly forbidden (<dfn>precondition</dfn>) that keeps your
   code from reaching its nominal effect (<dfn>postcondition</dfn>). Calling
   code in violation of preconditions is not an exceptional condition, but a
-  <dfn>programming error</dfn>.</p> <p>Any method tries to reach its nominal
+  <dfn>programming error</dfn>.</p> 
+  <p>Every method tries to reach its nominal
   postcondition (which is oftern not completely deterministic in an
   environment with dynamic binding like an object oriented programming
   language). That is its reason for being. During its execution, it might
@@ -91,21 +95,25 @@
       prime object and the explicit actual arguments of the method call, is
       examined by the code of the method, and the method decided that it can
       (or will) not implement the postcondition in these circumstances for
-      <dfn>semantic reasons</dfn> . <br /> E.g., we want to withdraw money
+      <dfn>semantic reasons</dfn>.<br /> 
+      E.g., we want to withdraw money
       from an account, and the requested amount is larger than the balance.
       Or, the first name of a person is mandatory, and we want to set the
       first name of a person from an actual argument, and the argument is
-      <code>null</code> . <br /> This kind of exceptional conditions we will
-      call <dfn>semantic exceptional conditions</dfn> .</li>
+      <code>null</code>.<br /> 
+      This kind of exceptional conditions we will
+    call <dfn>semantic exceptional conditions</dfn>.</li>
 
-      <li>The method could not reach the postcondition for a <dfn>technical
-      reason</dfn> outside the system. <br /> E.g., we are saving data to a
+      <li>CONFUSION STARTS HERE The method could not reach the postcondition for a <dfn>technical
+      reason</dfn> outside the system.<br /> 
+      E.g., we are saving data to a
       database, and the connection fails (maybe somebody tripped over a
       network cable). Or, we need to access a webservice, and we can't resolve
       the domain name (maybe our DNS server is down). Or, as a final example,
       the postcondition cannot be reached because the system runs out of
-      memory. <br /> This kind of exceptional conditions we call
-      <dfn>technical exceptional conditions</dfn> .</li>
+      memory.<br /> 
+      This kind of exceptional conditions we call
+    <dfn>technical exceptional conditions</dfn> .</li>
     </ol> <p>The above examples obviously are based on the premise that
   network connection stability, network administrator clumsiness and the
   amount of RAM in the machine are outside the system we are developing. If
@@ -128,7 +136,9 @@
   <dfn>Semantic exceptions</dfn> are internal exceptions that signal internal
   exceptional conditions of semantic nature. <dfn>Technical exceptions</dfn>
   signal external exceptional conditions of technical nature, but this
-  distinction will prove rather moot later on.</p> <h1>Programming Errors</h1>
+  distinction will prove rather moot later on.</p>
+  <p>END OF CONFUSION </p>
+  <h1>Programming Errors</h1>
   <p><dfn>Programming errors</dfn> are not exceptional conditions, not in the
   sense that we make mistakes a lot, but in the sense that exceptional
   conditions are still <dfn>expected conditions</dfn>, and <dfn>programming
@@ -155,25 +165,29 @@
   exhaustively known, and either be listed in the preconditions as
   unacceptable for the method, or be dealt with in the code. The latter can
   mean reaching the nominal effect in those conditions, or throwing an
-  exception. <br /> So, if a method behaves weird when it is called in
+  exception.<br /> 
+  So, if a method behaves weird when it is called in
   violation of its preconditions, this is not a bug in the implementation of
   the method. Actually, as method implementors, we don't care about this.
   Calling a method in violation of its preconditions is a programming error in
   the implementation of the <em>calling</em> method, not of the called method.
-  </p> <p> The point I'm trying to make is, that if a condition can occur
+  </p> 
+  <p> The point I'm trying to make is, that if a condition can occur
   during execution of a method that was <em>not</em> taken into account either
   in the preconditions or in the code, i.e., it is an <dfn>unexpected
-  condition</dfn> , you have made a <dfn>programming error</dfn> . Since you
+  condition</dfn>, you have made a <dfn>programming error</dfn> . Since you
   didn't expect the condition, you didn't reason about how your code behaves
   when it occurs, and as a consequence the state of the entire system has
   become <dfn>undetermined</dfn> : we don't know where we are anymore, and
   anything we do now will have unpredictable consequences. If you look at it
   as having forgotten to list the condition in the method's preconditions, it
   is clear that the calling method will be quite surprised, and since it has
-  no clue what happened, it cannot react. <br /> An <dfn>unexpected
+  no clue what happened, it cannot react.<br />
+   An <dfn>unexpected
   condition</dfn> is different from an <dfn>expected exceptional
-  condition</dfn> . We have reasoned about <dfn>expected conditions</dfn> ,
-  and </p> <ul>
+  condition</dfn>. We have reasoned about <dfn>expected conditions</dfn>,
+  and </p> 
+  <ul>
       <li>some we have defined as being outside our scope, and we have
       documented that in preconditions,</li>
 
@@ -181,7 +195,7 @@
       nominal effect under these conditions),</li>
 
       <li>and some we deal with inside the nominal flow of our code.</li>
-    </ul> <p>Note that encountering unexpected conditions is not the only kind
+  </ul> <p>Note that encountering unexpected conditions is not the only kind
   of programming error possible. You can, e.g., also blatantly fail to reach
   your postcondition, when you typed a <code>-</code> where a <code>+</code>
   was in order. But it is a very important kind of programming error, because
@@ -246,7 +260,8 @@
   programming error, not only when unexpected exceptions occur. Programming
   errors that result in an unexpected exception feature this behavior
   naturally. But there is also a large class of programming errors that we
-  might detect ourselves.</p> <p> A best-practices programming style is to
+  might detect ourselves.</p> 
+  <p> A best-practices programming style is to
   write down all thoughts about you're algorithm using <code>assert</code>
   statements. Programmers will recognize this experience: while coding, now
   and then, you sit back and take a look at your method's implementation, and
@@ -256,13 +271,14 @@
   brainstorm as an assertion. You have just spend some minutes proving to
   yourself that this variable can never be <code>null</code> in this place in
   your code: this proves that this knowledge is not trivial. So, it should
-  surely be documented. Now, rather than writing a <code>//</code> -comment,
+  surely be documented. Now, rather than writing a <code>//</code>-comment,
   by writing an <code>assert</code> -clause, you're assumption will also be
   put to the test during execution (when assertions are enabled). If the
   assertion fails, it means that your reasoning was flawed, and thus that you
-  have made a programming error. The <code>assert</code> -mechanism will throw
+  have made a programming error. The <code>assert</code>-mechanism will throw
   an exception when this happens, which is exactly the behavior we said above
-  we'd like. <br /> Now and again, you also encounter the situation where we
+  we'd like.<br />
+   Now and again, you also encounter the situation where we
   might detect a programming error in the flow of the code. E.g., as the
   result of a test (an <code>else</code> -branch that cannot occur in a large
   decision tree, or a <code>default</code> case in a <code>switch</code>
@@ -316,22 +332,25 @@
   gets feedback about what he did wrong, for him to be able to correct his
   input or behavior. Also, the same applies for any other kind of
   <dfn>internal exception</dfn> (e.g., security exceptions) that reaches the
-  user. <br /> So, in general, we know what to do. In particular, what we need
+  user.<br /> 
+  So, in general, we know what to do. In particular, what we need
   to tell the user exactly and how, depends on the particular kind of
   exception, the exact circumstances in which it occurred, possible i18n
-  settings, and more. </p> <p> When a <dfn>technical exception</dfn> , or any
-  other kind of <dfn>external exception</dfn> , occurs, there is little we can
+  settings, and more. </p> 
+  <p> When a <dfn>technical exception</dfn>, or any
+  other kind of <dfn>external exception</dfn>, occurs, there is little we can
   do. Since these conditions are, per definition, considered to be outside the
   system, we do not want to deal with them (otherwise, we would consider them
   part of the system). By placing them outside of the system, we are saying
   that we only guarantee correct behavior of our application when they do not
   occur. This may sound very much like a precondition, and in fact it is.
-  These are (often implicit) preconditions for the system as a whole. <br />
+  These are (often implicit) preconditions for the system as a whole.<br />
   When a external exception occurs, we want to inform the user of that fact,
   make clear that it has nothing to do with him, but we also want to notify
   the persons that are responsible for solving the external problem, a.s.a.p.
   The user cannot continue until the problem is fixed, and we exit the
-  application gracefully, making sure that no harm has been done. <br /> So,
+  application gracefully, making sure that no harm has been done.<br /> 
+  So,
   in general, we know what to do. In this case, the message to show to the
   user can be very generic. But again, in particular, what we want to tell the
   administrator has to be very precise for the particular kind of exception
@@ -344,14 +363,15 @@
   expected internal conditions are of interest to the end-user, expected
   external conditions are of interest to the administrator, and unexpected
   conditions are of interest to the developer. Sadly, because exceptions
-  necessarily occur at runtime, the end-user is always confronted with them.
-  <br /> For expected external exceptions, there is nothing we can do: shit
+  necessarily occur at runtime, the end-user is always confronted with them.<br /> 
+  For expected external exceptions, there is nothing we can do: shit
   happens. We apologize to the user, and will correct the situation a.s.a.p.
   With a web application, this is relatively easy to do (mail a trouble ticket
   to the administrator and show a decent page to the end user). For a desktop
   application, this is much more problematic. Either the end-user is the
   administrator, and chances are that he doesn't have the ability to correct
-  the problem, or the administrator is unknown to us. <br /> For unexpected
+  the problem, or the administrator is unknown to us.<br /> 
+  For unexpected
   exceptions, the problem is greater. The developer is one sizable step
   further removed from the running application. Mailing a trouble ticket is
   feasible, but might be considered a back door by the client, and thus be
@@ -371,7 +391,7 @@
   we need the applicable handling code for the different kinds of exceptions,
   and it needs to be constructed in such a way that the appropriate particular
   behavior with respect to the particular kind of exception and the exact
-  circumstances, and view-related issues is executed in some way.</p>
+  circumstances, and view-related issues, is executed in some way.</p>
   <h3>Exception Classes</h3> <p>Obviously, in a modern language such as Java,
   the way to recognize the different kinds of exceptions, is to introduce
   different exception classes in an inheritance hierarchy, and to use these
@@ -387,7 +407,7 @@
   in deployment after an initial acceptance phase for performance reasons.
   Therefor, it is sensible to use{@link be.peopleware.exception_II.ProgrammingError} instead to
   document branches that should be unreachable (the <code>catch</code>-clause
-  of exceptions that should't occur, or <code>else</code>-branches of decision
+  of exceptions that shouldn't occur, or <code>else</code>-branches of decision
   trees or <code>default</code> branches of <code>switch</code>-statements
   that should never be choosen). It would be nice if
   <code>AssertionError</code> would be a subclass of {@link be.peopleware.exception_II.ProgrammingError}, but we cannot change the core API, of course.
@@ -395,12 +415,12 @@
   <code>AssertionError</code> doesn't provide a constructuror that takes a
   <code>Throwable</code> as an argument, which is important information in
   some cases. The user should be aware that the reaction higher up to
-  this error is probably an immediate shutdown of the application.</p>
+  this error is probably an immediate shutdown of the application, with a warning to the developer and a note in the log.</p>
   <h4>ExternalError</h4>
   <p>An {@link be.peopleware.exception_II.ExternalError} should be used whenever an operation fails
   because of expected reasons we decide are outside our system.  When you decide to throw this error,
   you should know that the reaction higher up probably is to shut down the
-  system. We have choosen to use an <code>Error</code> here, because we feel
+  system, with a warning to the developer and a note in the log. We have choosen to use an <code>Error</code> here, because we feel
   that code higher up should not be concerned with occurrences like these (we
   do consider the occurrence outside the system, remember), unless it is the
   code that is specifically handling external errors. The exception thus should
@@ -410,7 +430,7 @@
   exception), we we believe the documented semantics of <code>Error</code> are
   closer to our need.</p>
   <h4>InternalException</h4>
-  <p>{@link be.peopleware.exception_II.InternalException} is the general super type for all exceptions that signal expected exceptional occurences that we consider to be internal to the system. These should be dealt with, and to notify the programmer of this, this is a checked exception. The difference with other checked exceptions is that, by throwing an {@link be.peopleware.exception_II.InternalException}, we are telling our users that we decided that this occurence indeed <em>is</em> internal, and should be handled.</p>
+  <p>{@link be.peopleware.exception_II.InternalException} is the general super type for all exceptions that signal expected exceptional occurences that we consider to be internal to the system. These should be dealt with, and to notify the programmer of this during development, this is a checked exception. The difference with other checked exceptions is that, by throwing an {@link be.peopleware.exception_II.InternalException}, we are telling our users that we decided that this occurence indeed <em>is</em> internal, and should be handled.</p>
   <p>Other checked exceptions should be used, in particular by lower level libraries, to signal exceptional occurences, when the developer of that code does not want to decide whether or not the condition is to be considered internal or external, or a programming error. Take, e.g., a persistence library, that might need to signal that a file is corrupt. Some programs that use the library will consider this problem to be external, but the library can also be used by an application that specifically scans for corrupt files, in which case the condition is obviously internal. The point is, the lower level library is supporting code, and is not in a position to make the call. For reasons explained higher, I strongly believe that such a library should throw checked exceptions, though.</p>
   <h4>SecurityException</h4>
   <p>{@link be.peopleware.exception_II.SemanticException} is a subtype of {@link be.peopleware.exception_II.InternalException}, to be used as supertype to signal security related exceptional conditions.</p>
