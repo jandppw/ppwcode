@@ -11,7 +11,10 @@ import be.peopleware.metainfo.vcs.CvsInfo;
 
 
 /**
- * <p>Supertype for exceptions related to security.</p>
+ * <p>Supertype for exceptions related to semantics:
+ *   the nominal effect of a method could not be reached,
+ *   because doing so under the given circumstances would
+ *   violate semantics (often type invariants).</p>
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
@@ -20,7 +23,7 @@ import be.peopleware.metainfo.vcs.CvsInfo;
          date     = "$Date$",
          state    = "$State$",
          tag      = "$Name$")
-public class SecurityException extends InternalException {
+public class SemanticException extends InternalException {
 
   /*<construction>*/
   //------------------------------------------------------------------
@@ -41,7 +44,7 @@ public class SecurityException extends InternalException {
    *                                       messageIdentifier);
    * @post      new.getCause() == cause;
    */
-  public SecurityException(final String messageIdentifier,
+  public SemanticException(final String messageIdentifier,
                            final Throwable cause) {
     super(messageIdentifier, cause);
   }
