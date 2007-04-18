@@ -336,8 +336,9 @@
   </goal>
 
   <!-- include SQL schema in site -->
+<!--
   <preGoal name="xdoc:copy-user-resources">
     <attainGoal name="hbm2ddl:site" />
   </preGoal>
-
+-->
 </project>
