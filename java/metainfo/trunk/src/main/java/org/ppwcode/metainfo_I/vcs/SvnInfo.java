@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2007 - $Date: 2008-06-03 11:58:23 +0200 (Tue, 03 Jun 2008) $ by PeopleWare n.v..
+Copyright 2007 - $Date: 2007-05-08 16:33:08 +0200 (Tue, 08 May 2007) $ by PeopleWare n.v..
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,62 +17,51 @@ limitations under the License.
 package org.ppwcode.metainfo_I.vcs;
 
 
+import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.ppwcode.metainfo_I.Copyright;
+import org.ppwcode.metainfo_I.License;
+
 
 /**
- * Annotation for CVS meta-data. By using this annotation,
- * the CVS data about the source revision the compiled code is based on,
+ * Annotation for Subversion meta-data. By using this annotation,
+ * the Subversion data about the source revision the compiled code is based on,
  * is available in the code.
  *
  * Usage pattern:
  * <pre>
- * ATCvsInfo(revision = &quot;$Revision: 1106 $&quot;,
- *          date     = &quot;$Date: 2008-06-03 11:58:23 +0200 (Tue, 03 Jun 2008) $&quot;,
- *          state    = &quot;$State$&quot;,
- *          tag      = &quot;$Name$&quot;)
+ * ATSvnInfo(revision = &quot;$Revision: 857 $&quot;,
+ *           date     = &quot;$Date: 2007-05-08 16:33:08 +0200 (Tue, 08 May 2007) $&quot;)
  * public class ... {
  *  ...
- *  }
+ * }
  * </pre>
  *
  * @author    Jan Dockx
  */
-@CvsInfo(revision = "$Revision: 1106 $",
-         date     = "$Date: 2008-06-03 11:58:23 +0200 (Tue, 03 Jun 2008) $",
-         state    = "$State$",
-         tag      = "$Name$")
+@Copyright("2007 - $Date: 2007-05-08 16:33:08 +0200 (Tue, 08 May 2007) $, PeopleWare n.v.")
+@License(APACHE_V2)
+@SvnInfo(revision = "$Revision: 857 $",
+         date     = "$Date: 2007-05-08 16:33:08 +0200 (Tue, 08 May 2007) $")
 @Documented
 @Retention(RetentionPolicy.CLASS)
 @Target(ElementType.TYPE)
-public @interface CvsInfo {
+public @interface SvnInfo {
 
   /**
-   * Source code revision.
-   * Fill out with &quot;$Revision: 1106 $&quot;
+   * Source code revision. Fill out with &quot;$Revision: 857 $&quot;
    */
   String revision();
 
   /**
-   * Source code revision. Fill out with
-   * &quot;$Date: 2008-06-03 11:58:23 +0200 (Tue, 03 Jun 2008) $&quot;
+   * Source code revision. Fill out with &quot;$Date: 2007-05-08 16:33:08 +0200 (Tue, 08 May 2007) $&quot;
    */
   String date();
-
-  /**
-   * Source code revision.
-   * Fill out with &quot;$State$&quot;
-   */
-  String state();
-
-  /**
-   * Source code revision.
-   * Fill out with &quot;$Name$&quot;
-   */
-  String tag();
 
 }
