@@ -25,10 +25,22 @@ limitations under the License.
 <p>This project offers annotations that are intended to put passive
   meta information from development into class files. The information
   can be read using reflection.</p>
-<p>The main intention of this library is to be able to very simply get
-  meta information (license, version, ...) from files distributed in
-  binary format. {@link org.ppwcode.metainfo_I.reader} offers a simple
-  command line reader.</p>
-<p>IDEA: further development of reader needed.</p>
+<p>The main intention of this library is to be able to embed meta information
+  (license, version, ...) in the binary distribution, i.e., the class files,
+  of libraries (and other projects).</p>
+<p>IDEA: Currently, the project does not offer a reader. The idea is that
+  some reader is offered in this project which allows to visualize the
+  meta information in classes in a jar easily. By using retention policy
+  {@link java.lang.annotation.RetentionPolicy.RUNTIME}, this would be simple,
+  since then we could use reflection. This was developed in a simple version in
+  a separate branch. As explained in the package documentation though,
+  this would make it a big hurdle for libraries to use this project,
+  because it introduces undue runtime dependencies for their users.
+  A reader that peeks into jar files, and reads (parses) class files,
+  should be made. This seems quite difficult at this time. In any
+  case, having the information in the class files helps a lot. If,
+  without the reader, a developer wants to see the meta information,
+  opening the class file with a text editor works too. The meta
+  information stands out.</p>
 </body>
 </html>

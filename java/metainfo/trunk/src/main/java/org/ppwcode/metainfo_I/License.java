@@ -53,7 +53,7 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
 @SvnInfo(revision = "$Revision: 1082 $",
          date     = "$Date: 2008-03-15 18:07:05 +0100 (Sat, 15 Mar 2008) $")
 @Documented
-@Retention(RetentionPolicy.RUNTIME)
+@Retention(RetentionPolicy.CLASS)
 @Target(ElementType.TYPE)
 public @interface License {
 

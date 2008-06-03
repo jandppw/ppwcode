@@ -24,9 +24,20 @@ limitations under the License.
 
 <p>Annotations to put meta-information into class files.</p>
 <p>{@link org.ppwcode.metainfo_I.Copyright} holds structured copyright information.
-   {@link org.ppwcode.metainfo_I.License} holds structured license information, for
-   selected Open Source licenses. {@link org.ppwcode.metainfo_I.vcs}
-   is a package that contains annotations to hold structured information for each
-   file for Version Control Systems (<acronym title="Version Control System">VCS</acronym>).</p>
+  {@link org.ppwcode.metainfo_I.License} holds structured license information, for
+  selected Open Source licenses. {@link org.ppwcode.metainfo_I.vcs}
+  is a package that contains annotations to hold structured information for each
+  file for Version Control Systems (<acronym title="Version Control System">VCS</acronym>).</p>
+ <h3>Retention policy</h3>
+<p>All annotations in this library should have retention policy {@link java.lang.annotation.RetentionPolicy.CLASS}.
+  If we would use {@link java.lang.annotation.RetentionPolicy.RUNTIME}, we could use reflection to access
+  the meta information, at the cost of a little extra memory during runtime. That would be nice, yet,
+  it would also have use consequences for all projects that use libraries that use the meta information.
+  With a retention policy {@link java.lang.annotation.RetentionPolicy.RUNTIME}, any project P using one
+  or more libraries which employ ppwcode meta info, would have a runtime dependency on this library,
+  although it would probably never be used at runtime. By making the retention policy
+  {@link java.lang.annotation.RetentionPolicy.CLASS}, the meta information is embedded in the class files,
+  i.e., the binaries, as intended, and libraries using ppwcode meta info will only have a compile
+  time dependency on this library.</p>
 </body>
 </html>
