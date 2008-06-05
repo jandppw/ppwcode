@@ -1,0 +1,3 @@
+#summary PeopleWare is the software company that owns this project.
+
+[http://www.peopleware.be/ PeopleWare] is the software company that owns this project. [http://www.peopleware.be/ PeopleWare] is located in Belgium.
