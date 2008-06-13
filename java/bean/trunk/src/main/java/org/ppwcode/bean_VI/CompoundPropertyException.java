@@ -1,11 +1,23 @@
 /*<license>
-  Copyright 2004, PeopleWare n.v.
-  NO RIGHTS ARE GRANTED FOR THE USE OF THIS SOFTWARE, EXCEPT, IN WRITING,
-  TO SELECTED PARTIES.
+Copyright 2004 - $Date$ by PeopleWare n.v..
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 </license>*/
 
-package be.peopleware.bean_V;
+package org.ppwcode.bean_VI;
 
+
+import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,6 +26,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
+
+import org.ppwcode.metainfo_I.Copyright;
+import org.ppwcode.metainfo_I.License;
+import org.ppwcode.metainfo_I.vcs.SvnInfo;
 
 
 /**
@@ -63,23 +79,11 @@ import java.util.Map.Entry;
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
  */
+@Copyright("2004 - $Date$, PeopleWare n.v.")
+@License(APACHE_V2)
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public final class CompoundPropertyException extends PropertyException {
-
-  /*<section name="Meta Information">*/
-  //------------------------------------------------------------------
-
-  /** {@value} */
-  public static final String CVS_REVISION = "$Revision$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_DATE = "$Date$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_STATE = "$State$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_TAG = "$Name$"; //$NON-NLS-1$
-
-  /*</section>*/
-
-
 
   /*<construction;>*/
   //------------------------------------------------------------------
@@ -182,7 +186,7 @@ public final class CompoundPropertyException extends PropertyException {
    * @post      !new.isClosed();
    * @since IV
    */
-  public CompoundPropertyException(final Class originType,
+  public CompoundPropertyException(final Class<?> originType,
                                    final String propertyName,
                                    final String message,
                                    final Throwable cause) {
@@ -249,8 +253,8 @@ public final class CompoundPropertyException extends PropertyException {
    *
    * @basic
    */
-  public Map getElementExceptions() {
-    Map result = null;
+  public Map<String, Set<PropertyException>> getElementExceptions() {
+    Map<String, Set<PropertyException>> result = null;
     if (isClosed()) {
       result = $elementExceptions; // is made unmodifiable by now
     }
@@ -264,8 +268,8 @@ public final class CompoundPropertyException extends PropertyException {
   /**
    * @return    getElementExceptions().get(null);
    */
-  public Set getGeneralElementExceptions() {
-    return (Set)getElementExceptions().get(null);
+  public Set<PropertyException> getGeneralElementExceptions() {
+    return getElementExceptions().get(null);
   }
 
   /**
@@ -300,9 +304,9 @@ public final class CompoundPropertyException extends PropertyException {
                                          + getPropertyName()
                                          + " are allowed"); //$NON-NLS-1$
     }
-    Set propertySet = (Set)$elementExceptions.get(pExc.getPropertyName());
+    HashSet<PropertyException> propertySet = $elementExceptions.get(pExc.getPropertyName());
     if (propertySet == null) {
-      propertySet = new java.util.HashSet();
+      propertySet = new HashSet<PropertyException>();
       $elementExceptions.put(pExc.getPropertyName(), propertySet);
     }
     propertySet.add(pExc);
@@ -311,23 +315,23 @@ public final class CompoundPropertyException extends PropertyException {
   /**
    * @pre       $elementExceptions instanceof java.util.HashMap;
    */
-  private Map deepImmutableCopy() {
-    Map result = (Map)((HashMap)$elementExceptions).clone();
-    Iterator iter = result.keySet().iterator();
+  private Map<String, Set<PropertyException>> deepImmutableCopy() {
+    @SuppressWarnings("unchecked")
+    Map<String, Set<PropertyException>> result = (HashMap<String, Set<PropertyException>>)$elementExceptions.clone();
+    Iterator<String> iter = result.keySet().iterator();
     while (iter.hasNext()) {
-      Object key = iter.next();
+      String key = iter.next();
       result.put(key, Collections.unmodifiableSet(
-                          (Set)((HashSet)result.get(key)).clone()));
+                          (HashSet)(result.get(key)).clone());
     }
     return Collections.unmodifiableMap(result);
   }
 
   private void makeImmutable() {
-    Iterator iter = $elementExceptions.keySet().iterator();
+    Iterator<String> iter = $elementExceptions.keySet().iterator();
     while (iter.hasNext()) {
-      Object key = iter.next();
-      $elementExceptions.put(key, Collections.unmodifiableSet(
-                                      (Set)$elementExceptions.get(key)));
+      String key = iter.next();
+      $elementExceptions.put(key, Collections.unmodifiableSet($elementExceptions.get(key)));
     }
     $elementExceptions = Collections.unmodifiableMap($elementExceptions);
   }
@@ -355,7 +359,7 @@ public final class CompoundPropertyException extends PropertyException {
    * @invar     ($elementExceptions.size() == 1) ==>
    *                ($elementExceptions.get(getPropertyName()) != null);
    */
-  private Map $elementExceptions = new HashMap();
+  private HashMap<String, > extends HashSet<PropertyException>> $elementExceptions = new HashMap<String, HashSet<PropertyException>>();
 
   /*</property>*/
 

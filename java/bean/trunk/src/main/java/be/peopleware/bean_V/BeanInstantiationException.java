@@ -7,6 +7,8 @@
 package be.peopleware.bean_V;
 
 
+import org.ppwcode.bean_VI.PropertyException;
+
 import be.peopleware.exception_I.TechnicalException;
 
 
@@ -29,9 +31,9 @@ public class BeanInstantiationException extends TechnicalException {
   //------------------------------------------------------------------
 
   /** {@value} */
-  public static final String CVS_REVISION = "$Revision$"; //$NON-NLS-1$
+  public static final String CVS_REVISION = "$Revision:1123 $"; //$NON-NLS-1$
   /** {@value} */
-  public static final String CVS_DATE = "$Date$"; //$NON-NLS-1$
+  public static final String CVS_DATE = "$Date:2008-06-12 22:26:03 +0200 (Thu, 12 Jun 2008) $"; //$NON-NLS-1$
   /** {@value} */
   public static final String CVS_STATE = "$State$"; //$NON-NLS-1$
   /** {@value} */

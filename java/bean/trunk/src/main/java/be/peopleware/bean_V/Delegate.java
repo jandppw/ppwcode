@@ -17,7 +17,7 @@ package be.peopleware.bean_V;
  *   (see <a href="http://www.beedra.org/">Beedra</a>).</p>
  * <p>Delegates know which bean and which property they work for.
  *   This knowledge can, e.g., be used to throw
- *   {@link be.peopleware.bean_V.PropertyException}s.
+ *   {@link org.ppwcode.bean_VI.PropertyException}s.
  *   Delegates are not beans themselves (there is no default
  *   constructor). The properties introduced in this class
  *   are immutable.</p>
@@ -217,9 +217,9 @@ public class Delegate {
   //------------------------------------------------------------------
 
   /** {@value} */
-  public static final String CVS_REVISION = "$Revision$"; //$NON-NLS-1$
+  public static final String CVS_REVISION = "$Revision:1123 $"; //$NON-NLS-1$
   /** {@value} */
-  public static final String CVS_DATE = "$Date$"; //$NON-NLS-1$
+  public static final String CVS_DATE = "$Date:2008-06-12 22:26:03 +0200 (Thu, 12 Jun 2008) $"; //$NON-NLS-1$
   /** {@value} */
   public static final String CVS_STATE = "$State$"; //$NON-NLS-1$
   /** {@value} */

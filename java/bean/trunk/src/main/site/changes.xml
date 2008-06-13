@@ -4,13 +4,26 @@
   <!-- There are four valid values for action type:  add, fix, remove, update. -->
 
   <properties>
-    <title>Changes to ppw-bean</title>
+    <title>Changes to ppwcode-bean</title>
     <author email="David_Van_Keer@peopleware.be">David Van Keer</author>
     <author email="Jan_Dockx@peopleware.be">Jan Dockx</author>
     <author email="Nele_Smeets@peopleware.be">Nele Smeets</author>
     <author email="Wim_Lambrechts@peopleware.be">Wim Lambrechts</author>
   </properties>
   <body>
+
+    <release version="VI v1.0.0/1.0" date="MUDO"
+      description="big cleanup">
+      <action dev="jand" type="update">
+        Moved project from PeopleWare to ppwcode. Packages thus have new names.
+      </action>
+      <action dev="jand" type="update">
+        Using Toryt annotations for contracts.
+      </action>
+      <action dev="jand" type="update">
+        Cleanup of PropertyException. hasSameValues method is removed.
+      </action>
+    </release>
 
     <release version="V v1.0.0/1.1" date="2006-05-22"
       description="Picture of J.J Rousseau">

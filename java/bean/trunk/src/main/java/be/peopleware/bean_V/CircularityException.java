@@ -6,6 +6,8 @@
 
 package be.peopleware.bean_V;
 
+import org.ppwcode.bean_VI.PropertyException;
+
 
 /**
  * Thrown when the user tried to create a circularity in the
@@ -21,9 +23,9 @@ public class CircularityException extends PropertyException {
   //------------------------------------------------------------------
 
   /** {@value} */
-  public static final String CVS_REVISION = "$Revision$"; //$NON-NLS-1$
+  public static final String CVS_REVISION = "$Revision:1123 $"; //$NON-NLS-1$
   /** {@value} */
-  public static final String CVS_DATE = "$Date$"; //$NON-NLS-1$
+  public static final String CVS_DATE = "$Date:2008-06-12 22:26:03 +0200 (Thu, 12 Jun 2008) $"; //$NON-NLS-1$
   /** {@value} */
   public static final String CVS_STATE = "$State$"; //$NON-NLS-1$
   /** {@value} */

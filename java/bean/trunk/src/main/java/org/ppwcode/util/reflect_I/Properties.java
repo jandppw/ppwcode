@@ -1,11 +1,23 @@
 /*<license>
-  Copyright 2004, PeopleWare n.v.
-  NO RIGHTS ARE GRANTED FOR THE USE OF THIS SOFTWARE, EXCEPT, IN WRITING,
-  TO SELECTED PARTIES.
+Copyright 2004 - $Date$ by PeopleWare n.v..
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 </license>*/
 
-package be.peopleware.bean_V;
+package org.ppwcode.util.reflect_I;
 
+
+import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
@@ -18,80 +30,144 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import org.apache.taglibs.standard.lang.jstl.Coercions;
-import org.apache.taglibs.standard.lang.jstl.ELException;
-import org.apache.taglibs.standard.lang.jstl.Logger;
+import org.apache.commons.beanutils.PropertyUtils;
+//import org.apache.taglibs.standard.lang.jstl.Coercions;
+//import org.apache.taglibs.standard.lang.jstl.ELException;
+//import org.apache.taglibs.standard.lang.jstl.Logger;
+import org.ppwcode.metainfo_I.Copyright;
+import org.ppwcode.metainfo_I.License;
+import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.MethodContract;
+import org.toryt.annotations_I.Throw;
 
 
 /**
  * Convenience methods for working with JavaBeans.
+ * These are to be considered merely extensions of methods available
+ * in {@link java.beans} and
+ * <a href="http://commons.apache.org/beanutils/" target="extern">Apache Jakarta Commons Beanutils</a>,
+ * and not a replacement.
+ *
+ * @note Since the previous version, a number of methods are removed, notably:
+ * <dl>
+ *   <dt>{@code PropertyDescriptor getPropertyDescriptor(final Class beanClass, final String propertyName)}</dt>
+ *   <dd>use <a href="http://jakarta.apache.org/commons/beanutils/api/org/apache/commons/beanutils/PropertyUtils.html"
+ *       target="extern">Apache Jakarta Commons Beanutils PropertyUtil.getPropertyDescriptor()</a> instead</dd>
+ * </dl>
  *
  * @mudo (jand) most methods are also in Toryt.support.Reflection; consolidate
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
  */
-public class Beans {
+@Copyright("2004 - $Date: 2008-03-15 18:07:05 +0100 (Sat, 15 Mar 2008) $, PeopleWare n.v.")
+@License(APACHE_V2)
+@SvnInfo(revision = "$Revision: 1082 $",
+         date     = "$Date: 2008-03-15 18:07:05 +0100 (Sat, 15 Mar 2008) $")
+public class Properties {
 
-  /*<section name="Meta Information">*/
-  //------------------------------------------------------------------
-
-  /** {@value} */
-  public static final String CVS_REVISION = "$Revision$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_DATE = "$Date$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_STATE = "$State$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_TAG = "$Name$"; //$NON-NLS-1$
-
-  /*</section>*/
-
+  private Properties() {
+    // no instances possible
+  }
 
   /**
    * Returns the {@link PropertyDescriptor} of the property with
-   * name <code>propertyName</code> of <code>beanClass</code>. If such a
-   * property or such an descriptor does not exist, an exception is thrown.
+   * name <code>propertyName</code> of <code>beanClass</code>.
+   * If no property descriptor is found, {@code null} is returned.
    *
    * @param     beanClass
    *            The bean class to get the property descriptor of
    * @param     propertyName
    *            The programmatic name of the property we want the descriptor for
-   * @return    PropertyDescription
-   *            result != null;
-   * @throws    IntrospectionException
-   *            Cannot get the <code>BeanInfo</code> of <code>beanClass</code>,
-   *            cannot find a property descriptor.
    *
-   * @pre       beanClass != null;
+   * @note In contrast to other methods in this class, the propertyName cannot be
+   *       nested or indexed.
+   * @note This method was deprecated in version V, and now no longer is. The reason
+   *       for its existence is that {@link PropertyUtils} does not feature a method
+   *       to retrieve a {@link PropertyDescriptor} based on a {@link Class} argument.
+   *       Since the previous version, the semantics have changed! No more exception
+   *       is thrown, but {@code null} is returned if no descriptor is found.
    *
-   * @deprecated Use <a href="http://jakarta.apache.org/commons/beanutils/api/org/apache/commons/beanutils/PropertyUtils.html"
-   *               target="extern">Apache Jakarta Commons beanutils PropertyUtil.getPropertyDescriptor()</a> instead.
+   * @idea extend to use BeanUtils nested notation for properties
    */
-  public static PropertyDescriptor
-      getPropertyDescriptor(final Class beanClass, final String propertyName)
-      throws IntrospectionException {
+  @MethodContract(
+    pre  = @Expression("beanClass != null"),
+    post = {
+      @Expression("PropertyUtils.getPropertyDescriptors(^beanClass).contains(result)"),
+      @Expression("result.name == ^propertyName")
+    }
+  )
+  public static PropertyDescriptor getPropertyDescriptor(final Class<?> beanClass, final String propertyName) {
     assert beanClass != null;
-    BeanInfo beanInfo = Introspector.getBeanInfo(beanClass);
-                                 // throws IntrospectionException
-    PropertyDescriptor[] propertyDescriptors =
-        beanInfo.getPropertyDescriptors();
-                                 // entries in the array are never null
-    PropertyDescriptor descriptor = null;
-    for (int i = 0; i < propertyDescriptors.length; i++) {
-      if (propertyDescriptors[i].getName().equals(propertyName)) {
-                // PropertyDescriptors always return a non-null name
-        descriptor = propertyDescriptors[i];
-        break;
+    PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(beanClass);
+      // entries in the array are never null
+    for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
+      assert propertyDescriptor != null;
+      if (propertyDescriptor.equals(propertyName)) {
+        return propertyDescriptor;
       }
     }
-    if (descriptor == null) {
-      throw new IntrospectionException("No property descriptor found for " //$NON-NLS-1$
-                                       + propertyName
-                                       + " in " //$NON-NLS-1$
-                                       + beanClass.getName());
+    return null;
+  }
+
+  /**
+   * Return true if {@code beanClass} has a property with name {@code propertyName}.
+   *
+   * @note In contrast to other methods in this class, the propertyName cannot be
+   *       nested or indexed.
+   *
+   * @idea extend to use BeanUtils nested notation for properties
+   */
+  @MethodContract(
+    pre  = @Expression("^beanClass != null"),
+    post = @Expression("exists(PropertyDescriptor pd : PropertyUtils.getPropertyDescriptors(beanClass)) {pd.name == ^propertyName}")
+  )
+  public static boolean hasProperty(final Class<?> beanClass, final String propertyName) {
+    assert beanClass != null;
+    PropertyDescriptor[] props = PropertyUtils.getPropertyDescriptors(beanClass);
+    for (PropertyDescriptor prop : props) {
+      assert prop.getName() != null;
+      if (prop.getName().equals(propertyName)) {
+        return true;
+      }
     }
-    return descriptor;
+    return false;
+  }
+
+  /**
+   * Return true if {@code bean} has a property with name {@code propertyName}.
+   * {@code propertyName} can be a nested or indexed property name. In that
+   * case, the actual dynamic value of the separate steps in the chain
+   * is used to go further, and as a result, several exceptions might occur.
+   * They are eaten however, and {@code null} is returned.
+   *
+   * @param propertyName
+   *        The name of the property to verify. This can be a nested or indexed
+   *        property name.
+   */
+  @MethodContract(
+    pre  = @Expression("^bean != null"),
+    post = @Expression("PropertyUtils.getPropertyDescriptor(^bean, ^propertyName) != null")
+  )
+  public static boolean hasProperty(final Object bean, final String propertyName) {
+    assert bean != null;
+    try {
+      PropertyDescriptor pd = PropertyUtils.getPropertyDescriptor(bean, propertyName);
+      return pd != null;
+    }
+    catch (IllegalAccessException iaExc) {
+      return false;
+    }
+    catch (IllegalArgumentException iaExc) {
+      return false;
+    }
+    catch (InvocationTargetException iExc) {
+      return false;
+    }
+    catch (NoSuchMethodException nsmExc) {
+      return false;
+    }
   }
 
   /**
@@ -104,42 +180,52 @@ public class Beans {
    *            The bean class to get the property editor of
    * @param     propertyName
    *            The programmatic name of the property we want the editor for
+   *
    * @return    PropertyEditor
    *            Returns the {@link PropertyEditor} of the property with
    *            name <code>propertyName</code> of <code>beanClass</code>.
-   * @throws    IntrospectionException
-   *            Cannot get the <code>BeanInfo</code> of <code>beanClass</code>,
-   *            cannot find a property descriptor.
-   * @throws    InstantiationException
-   *            Could not instantiate the editor according to bean info.
-   * @throws    IllegalAccessException
-   *            Could not instantiate the editor according to bean info.
-   * @throws    ClassCastException
-   *            Could not instantiate the editor according to bean info.
-   *
-   * @pre       beanClass != null;
    */
-  public static PropertyEditor
-      getPropertyEditorInstance(final Class beanClass,
-                                final String propertyName)
-      throws IntrospectionException,
-             InstantiationException,
-             IllegalAccessException,
-             ClassCastException {
+  @MethodContract(
+    pre  = @Expression("^beanClass != null"),
+    post = @Expression("PropertyUtils.getPropertyDescriptor(^beanClass, ^propertyName"),
+    exc  = {
+      @Throw(
+        type = IntrospectionException.class,
+        cond = @Expression("getPropertyDescriptor(^beanClass, ^propertyName) == null")
+      ),
+      @Throw(
+        type = InstantiationException.class,
+        cond = @Expression(value = "true", description = "exception when instantiating the property editor")
+      ),
+      @Throw(
+        type = IllegalAccessException.class,
+        cond = @Expression(value = "true", description = "exception when instantiating the property editor")
+      ),
+      @Throw(
+        type = ClassCastException.class,
+        cond = @Expression(value = "true", description = "exception when instantiating the property editor")
+      )
+    }
+  )
+  public static PropertyEditor getPropertyEditorInstance(final Class<?> beanClass, final String propertyName)
+      throws IntrospectionException, InstantiationException, IllegalAccessException, ClassCastException {
     assert beanClass != null;
-    PropertyEditor result = null;
     PropertyDescriptor descriptor = getPropertyDescriptor(beanClass, propertyName);
-    Class editorClass = descriptor.getPropertyEditorClass();
-    // probable not found
+    if (descriptor == null) {
+      throw new IntrospectionException("no descriptor found for property " + propertyName +
+                                       " of class " + beanClass);
+    }
+    Class<?> editorClass = descriptor.getPropertyEditorClass();
     if (editorClass != null) {
-      result = (PropertyEditor)editorClass.newInstance();
+      return (PropertyEditor)editorClass.newInstance();
       // InstantiationException, IllegalAccessException, ClassCastException
     }
     else {
-      result = PropertyEditorManager.findEditor(descriptor.getPropertyType());
+      return PropertyEditorManager.findEditor(descriptor.getPropertyType());
     }
-    return result;
   }
+
+  // HIGHER IS DONE, LOWER IS NOT DONE
 
   /**
    * Returns the method object of the inspector of the property with
@@ -395,7 +481,7 @@ public class Beans {
            NoSuchMethodException,
            InvocationTargetException,
            IllegalAccessException {
-    Method mutator = Beans.getPropertyWriteMethod(bean.getClass(),
+    Method mutator = Properties.getPropertyWriteMethod(bean.getClass(),
                                                   propertyName);
     // != null; throws loads of exceptions
     if (mutator.getParameterTypes().length != 1) {
@@ -422,75 +508,6 @@ public class Beans {
                                           + expectedType
                                           + "\""); //$NON-NLS-1$
     }
-  }
-
-  private static final String PREFIXED_FQCN_PATTERN = "\\."; //$NON-NLS-1$
-
-  private static final String EMPTY = ""; //$NON-NLS-1$
-
-  private static final String DOT = "."; //$NON-NLS-1$
-
-  /**
-   * Return a fully qualified class name that is in the same package
-   * as <code>fqcn</code>, and has as class name
-   * <code>prefix + <var>ClassName</var></code>.
-   *
-   * @param prefix
-   *        The prefix to add before the class name.
-   * @param fqcn
-   *        The fully qualified class name to start from.
-   */
-  public static String prefixedFqcn(final String prefix,
-                                    final String fqcn) {
-    String[] parts = fqcn.split(PREFIXED_FQCN_PATTERN);
-    String prefixedName = prefix + parts[parts.length - 1];
-    String result = EMPTY;
-    for (int i = 0; i < parts.length - 1; i++) {
-      result = result + parts[i] + DOT;
-    }
-    result = result + prefixedName;
-    return result;
-  }
-
-  /**
-   * Load the class with name
-   * <code>prefixedFqcn(prefix, fqcn)</code>.
-   *
-   * @param prefix
-   *        The prefix to add before the class name.
-   * @param fqcn
-   *        The original fully qualified class name to derive
-   *        the prefixed class name from.
-   * @throws ClassNotFoundException
-   *         true;
-   */
-  public static Class loadPrefixedClass(final String prefix,
-                                        final String fqcn)
-      throws ClassNotFoundException {
-    return Class.forName(prefixedFqcn(prefix, fqcn));
-  }
-
-  /**
-   * Instantiate an object of a type
-   * <code>prefixedFqcn(prefix, fqcn)</code>.
-   *
-   * @param cl
-   *        The class-loader from which we should create
-   *        the bean. If this is null, then the system class-loader
-   *        is used.
-   * @param prefix
-   *        The prefix to add before the class name.
-   * @param fqcn
-   *        The original fully qualified class name to derive
-   *        the prefixed class name from.
-   * @throws ClassNotFoundException
-   * @throws IOException
-   */
-  public static Object instantiatePrefixed(final ClassLoader cl,
-                                           final String prefix,
-                                           final String fqcn)
-      throws IOException, ClassNotFoundException {
-    return java.beans.Beans.instantiate(cl, prefixedFqcn(prefix, fqcn));
   }
 
   /**
@@ -534,8 +551,8 @@ public class Beans {
              SecurityException,
              IllegalAccessException,
              IllegalArgumentException {
-    Class clazz = Class.forName(fqClassName); // LinkageError,
-                                              // ClassNotFoundException
+    Class<?> clazz = Class.forName(fqClassName); // LinkageError,
+                                                 // ClassNotFoundException
     Field field = clazz.getField(constantName); // NoSuchFieldException
                                                 // NullPointerException
                                                 // SecurityException
