@@ -19,6 +19,13 @@
 <p>Representation invariants, i.e., invariants on private fields, are expressed
   as {@link Expression expressions} inside a ?????? MUDO ???? annation on the field.</p>
 
+<h3>Method contracts</h3>
+<p>All methods have a contract, except for {@link Basic} inspectors.
+  The method contract is expressed in a {@link MethodContract} annotation.
+  It features preconditions ({@link MethodContract#pre()}), postconditions
+  ({@link MethodContract#post()}), which are {@link Expression expressions},
+  and exception-definitions.</p>
+
 <h3>Initial values</h3>
 
 
