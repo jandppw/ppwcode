@@ -31,8 +31,10 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
 
 
 /**
- * Annotation to hold the part of the Toryt contract at type level. At this level,
- * the contract only holds type invariants.
+ * Annotation to hold the part of the Toryt contract at type level or for
+ * variables (fields). At this level, the contract only holds type invariants:
+ * public type invariants at the level of the type, and representation
+ * invariants at the level of private instance or class variables.
  *
  * @mudo ATInherited doesn't work for interfaces. If it doesn't work for interfaces,
  *       and we have to write special code anyway, maybe we should not use @Inherited
@@ -43,9 +45,9 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
          date     = "$Date: 2008-03-15 18:07:05 +0100 (Sat, 15 Mar 2008) $")
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE})
+@Target({ElementType.TYPE, ElementType.FIELD})
 @Inherited // MUDO has no effect for interfaces
-public @interface TypeContract {
+public @interface Invars {
 
   /**
    * The list of invariants for the type.

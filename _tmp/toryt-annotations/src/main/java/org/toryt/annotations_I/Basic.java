@@ -35,7 +35,7 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
  * can set or describe initial values for the property that is expressed by
  * the basic inspector. This extends all constructor postconditions (also that of
  * an implicit constructor). We can also add type invariants: instead of mentioning
- * type invariants on the type level using {@link TypeContract}, for invariants that
+ * type invariants on the type level using {@link Invars}, for invariants that
  * are only concerned with 1 property, it often is clearer for the human reader to
  * find them with the property it is concerned with.
  */
