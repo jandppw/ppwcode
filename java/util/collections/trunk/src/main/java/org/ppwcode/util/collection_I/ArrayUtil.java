@@ -38,7 +38,7 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision: 1037 $",
          date     = "$Date: 2007-07-27 01:11:14 +0200 (Fri, 27 Jul 2007) $")
-public abstract class ArrayUtils {
+public abstract class ArrayUtil {
 
   public static <_Base_> _Base_[] subArray(_Base_[] array, int fromInclusive, int toExclusive) {
     assert fromInclusive >= 0;
