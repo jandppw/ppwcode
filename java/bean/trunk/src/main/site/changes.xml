@@ -4,7 +4,7 @@
   <!-- There are four valid values for action type:  add, fix, remove, update. -->
 
   <properties>
-    <title>Changes to ppwcode-bean</title>
+    <title>Changes to ppwcode bean</title>
     <author email="David_Van_Keer@peopleware.be">David Van Keer</author>
     <author email="Jan_Dockx@peopleware.be">Jan Dockx</author>
     <author email="Nele_Smeets@peopleware.be">Nele Smeets</author>
@@ -22,6 +22,25 @@
       </action>
       <action dev="jand" type="update">
         Cleanup of PropertyException. hasSameValues method is removed.
+        Brought code to Java 5 (generics and other changes).
+      </action>
+      <action dev="jand" type="update">
+        Cleanup of CompoundPropertyException. hasSameValues method is removed.
+        Added contains(PropertyException). Brought code to Java 5 (generics and other changes).
+      </action>
+      <action dev="jand" type="remove">
+        Removed almost-deprecated BeanInstantiationException.
+      </action>
+      <action dev="jand" type="remove">
+        Removed Delegate. This was never used.
+      </action>
+      <action dev="jand" type="remove">
+        Removed CircularityException. This was never used.
+      </action>
+      <action dev="jand" type="remove">
+        Removed ConstraintException and DuplicateKeyException.
+        If we continue to use these, they belong in the persistence
+        project.
       </action>
     </release>
 
