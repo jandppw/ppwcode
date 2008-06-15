@@ -25,11 +25,15 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
 
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.toryt.annotations_I.Basic;
+import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.Invars;
+import org.toryt.annotations_I.MethodContract;
+import org.toryt.annotations_I.Throw;
 
 
 /**
@@ -48,33 +52,10 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
  *   is stored and remembered until all validation is done, and then
  *   collected in a compound exception, which makes it possible to provide
  *   full feedback on validity to the end user in one pass.</p>
- *
- * @invar     getElementExceptions() != null;
- * @invar     (foreach Object o; getElementExceptions().containsKey(o);
- *                o instanceof String);
- * @invar     (foreach Object o; getElementExceptions().containsValue(o);
- *                o instanceof java.util.Set);
- * @invar     !getElementExceptions().contains("");
- * @invar     !getElementExceptions().containsValue(null);
- * @invar     (foreach java.util.Set s; getElementExceptions().containsValue(s);
- *                !s.isEmpty());
- * @invar     (foreach java.util.Set s; getElementExceptions().containsValue(s);
- *                (foreach Object o; s.contains(o);
- *                    o instanceof PropertyException));
- * @invar     (foreach java.util.Set s; getElementExceptions().containsValue(s);
- *                !s.contains(null));
- * @invar     (foreach String key; getElementExceptions().containsKey(key);
- *                (foreach PropertyException e;
- *                    getElementsException().get(key).contains(e);
- *                        e.getPropertyName().equals(key)));
- * @invar     (getElementsExceptions().size() > 1) ==>
- *                getPropertyName() == null;
- * @invar     (getElementsExceptions().size() == 1) ==>
- *                (getElementsExceptions().get(getPropertyName()) != null);
- * @invar     (foreach String key; getElementExceptions().containsKey(key);
- *                (foreach PropertyException e;
- *                    getElementsException().get(key).contains(e);
- *                        e.getOrigin() == getOrigin()));
+ * <p>Compound property exceptions are build during a certain time, and migth
+ *   eventually be thrown or not be thrown. An {@link #isEmpty()} compound
+ *   property exception should never be thrown. Before a compound property
+ *   exception is thrown, it should be {@link #isClosed closed}.</p>
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
@@ -83,7 +64,13 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
+@Invars(@Expression("elementsException.size > 1 ? propertyName == null"))
 public final class CompoundPropertyException extends PropertyException {
+
+  /**
+   * The empty String.
+   */
+  public final static String EMPTY = "";
 
   /*<construction;>*/
   //------------------------------------------------------------------
@@ -99,24 +86,22 @@ public final class CompoundPropertyException extends PropertyException {
    * @param     cause
    *            The exception that occurred, causing this exception to be
    *            thrown, if that is the case.
-   *
-   * @pre       origin != null;
-   * @pre       (propertyName != null) ==> ! propertyName.equals("");
-   * @pre       (message != null) ==> ! message.equals("");
-   * @post      new.getOrigin() == origin;
-   * @post      (propertyName != null) ==>
-   *                new.getpropertyName().equals(propertyName);
-   * @post      (propertyName == null) ==> new.getpropertyName() == null;
-   * @post      (message != null) ==> new.getMessage().equals(message);
-   * @post      (message == null) ==> new.getMessage() == null;
-   * @post      new.getCause() == cause ;
-   * @post      new.getElementExceptions().isEmpty();
-   * @post      !new.isClosed();
    */
-  public CompoundPropertyException(final Object origin,
-                                   final String propertyName,
-                                   final String message,
-                                   final Throwable cause) {
+  @MethodContract(
+    pre  = {
+      @Expression("^origin != null"),
+      @Expression("^propertyName != null ? hasProperty(^origin.class, ^propertyName)"),
+      @Expression("^message == null || ! ^message.equals(EMPTY)")
+    },
+    post = {
+      @Expression("origin == ^origin"),
+      @Expression("originType == ^origin.class"),
+      @Expression("propertyName == ^propertyName"),
+      @Expression("message == ^message"),
+      @Expression("cause == ^cause")
+    }
+  )
+  public CompoundPropertyException(final Object origin, final String propertyName, final String message, final Throwable cause) {
     super(origin, propertyName, message, cause);
   }
 
@@ -137,20 +122,22 @@ public final class CompoundPropertyException extends PropertyException {
    *            The exception that occurred, causing this exception to be
    *            thrown, if that is the case.
    *
-   * @pre       origin != null;
-   * @pre       (propertyName != null) ==> ! propertyName.equals("");
-   * @pre       (message != null) ==> ! message.equals("");
-   * @post      new.getOrigin() == origin;
-   * @post      (propertyName != null) ==>
-   *                new.getpropertyName().equals(propertyName);
-   * @post      (propertyName == null) ==> new.getpropertyName() == null;
-   * @post      (message != null) ==> new.getMessage().equals(message);
-   * @post      (message == null) ==> new.getMessage() == null;
-   * @post      new.getCause() == cause ;
-   * @post      new.getElementExceptions().isEmpty();
-   * @post      !new.isClosed();
    * @since IV 1.0.1/1.0
    */
+  @MethodContract(
+    pre  = {
+      @Expression("^origin != null"),
+      @Expression("^propertyName != null ? hasProperty(^origin.class, ^propertyName)"),
+      @Expression("^message == null || ! ^message.equals(EMPTY)")
+    },
+    post = {
+      @Expression("inOriginInitialization ? origin == null : origin == ^origin"),
+      @Expression("originType == ^origin.class"),
+      @Expression("propertyName == ^propertyName"),
+      @Expression("message == ^message"),
+      @Expression("cause == ^cause")
+    }
+  )
   public CompoundPropertyException(final Object origin,
                                    final boolean inOriginInitialization,
                                    final String propertyName,
@@ -171,25 +158,23 @@ public final class CompoundPropertyException extends PropertyException {
    *            The exception that occurred, causing this exception to be
    *            thrown, if that is the case.
    *
-   * @pre       origin != null;
-   * @pre       (propertyName != null) ==> ! propertyName.equals("");
-   * @pre       (message != null) ==> ! message.equals("");
-   * @post      new.getOriginType() == originType;
-   * @post      new.getOrigin() == null;
-   * @post      (propertyName != null) ==>
-   *                new.getpropertyName().equals(propertyName);
-   * @post      (propertyName == null) ==> new.getpropertyName() == null;
-   * @post      (message != null) ==> new.getMessage().equals(message);
-   * @post      (message == null) ==> new.getMessage() == null;
-   * @post      new.getCause() == cause ;
-   * @post      new.getElementExceptions().isEmpty();
-   * @post      !new.isClosed();
    * @since IV
    */
-  public CompoundPropertyException(final Class<?> originType,
-                                   final String propertyName,
-                                   final String message,
-                                   final Throwable cause) {
+  @MethodContract(
+    pre  = {
+      @Expression("^originType != null"),
+      @Expression("^propertyName != null ? hasProperty(^origin.class, ^propertyName)"),
+      @Expression("^message == null || ! ^message.equals(EMPTY)")
+    },
+    post = {
+      @Expression("origin == null"),
+      @Expression("originType == ^originType"),
+      @Expression("propertyName == ^propertyName"),
+      @Expression("message == ^message"),
+      @Expression("cause == ^cause")
+    }
+  )
+  public CompoundPropertyException(final Class<?> originType, final String propertyName, final String message, final Throwable cause) {
     super(originType, propertyName, message, cause);
   }
 
@@ -204,18 +189,19 @@ public final class CompoundPropertyException extends PropertyException {
    * To make the exception immutable, it needs to be closed before it is
    * thrown. Element exceptions can only be added to the compound when
    * it is not yet closed.
-   *
-   * @basic
    */
+  @Basic(init = @Expression("false"))
   public boolean isClosed() {
     return $closed;
   }
 
-  /**
-   * @post      new.isClosed();
-   * @throws IllegalStateException
-   *         isClosed();
-   */
+  @MethodContract(
+    post = @Expression("closed"),
+    exc = @Throw(
+      type = IllegalStateException.class,
+      cond = @Expression("'closed")
+    )
+  )
   public void close() throws IllegalStateException {
     if ($closed) {
       throw new IllegalStateException("can't close twice");
@@ -235,10 +221,9 @@ public final class CompoundPropertyException extends PropertyException {
 
   /**
    * There are no element exceptions.
-   *
-   * @return getElementExceptions().isEmpty();
    */
-  public boolean isEmpty() {
+  @MethodContract(post = @Expression("elementExceptions.empty"))
+  public final boolean isEmpty() {
     return $elementExceptions.isEmpty();
   }
 
@@ -250,61 +235,74 @@ public final class CompoundPropertyException extends PropertyException {
    * as the key for general exceptions that can not be attributed
    * to a single exception. If there are multiple entries in the map,
    * the property name of this exception must be <code>null</code>.
-   *
-   * @basic
    */
-  public Map<String, Set<PropertyException>> getElementExceptions() {
-    Map<String, Set<PropertyException>> result = null;
-    if (isClosed()) {
-      result = $elementExceptions; // is made unmodifiable by now
+  @Basic(
+    invars = {
+      @Expression("elementExceptions != null"),
+      @Expression("! elementExceptions.containsKey(EMPTY)"),
+      @Expression("! elementExceptions.containsValue(null)"),
+      @Expression("for (Set s : elementExceptions.values) {! s.isEmpty()}"),
+      @Expression("for (Set s : elementExceptions.values) {! s.contains(null)}"),
+      @Expression("for (Map.Entry e : elementExceptions.entrySet) {for (PropertyException pe : e.value) {pe.propertyName == e.key}}"),
+      @Expression("for (Set e : elementExceptions.values) {for (PropertyException pe : s) {pe.origin == origin}}"),
+      @Expression("propertyName != null ? elementExceptions.size == 1"),
+      @Expression("propertyName != null ? for (String s) {s != propertyName ? ! elementExceptions.containsKey(s)}")
+    },
+    init = @Expression("elementExceptions.empty")
+  )
+  public final Map<String, Set<PropertyException>> getElementExceptions() {
+    if ($closed) {
+      return $elementExceptions; // is made unmodifiable by now
     }
     else {
-      // deep copy
-      result = deepImmutableCopy();
+      return deepImmutableElementExceptionsCopy();
     }
-    return result;
   }
 
-  /**
-   * @return    getElementExceptions().get(null);
-   */
+  @MethodContract(post = @Expression("deepEquals(resul, elementExceptions[null])"))
   public Set<PropertyException> getGeneralElementExceptions() {
-    return getElementExceptions().get(null);
+    Set<PropertyException> result = $elementExceptions.get(null);
+    return $closed ? result : immutablePESetCopy(result);
   }
 
   /**
    * @param     pExc
-   *            The exception to add als element to the compound.
-   * @post      new.getElementExceptions().get(pExc.getPropertyName())
-   *                .contains(pExc);
-   * @post      !isClosed();
-   * @throws    IllegalStateException
-   *            isClosed();
-   * @throws    IllegalArgumentException
-   *            pExc == null;
-   * @throws    IllegalArgumentException
-   *            (getPropertyName() != null)
-   *            && (! getPropertyName().equals(pExc.getPropertyName()));
-   * @throws    IllegalArgumentException
-   *            Same origin or origin type!
-   * @mudo (jand) implement and document this last exception!
+   *            The exception to add as element to the compound.
    */
+  @MethodContract(
+    post = {
+      @Expression("elementExceptions.containsKey(^pExc.propertyName)"),
+      @Expression("elementExceptions[^pExc.propertyName].contains(^pExc)"),
+      @Expression(value = "! 'closed",
+                  description = "since we cannot make true something in the old state, an exception " +
+                                "has to be thrown when the exception is closed in the old state")
+    },
+    exc = {
+      @Throw(type = IllegalStateException.class, cond = @Expression("'closed")),
+      @Throw(type = IllegalArgumentException.class, cond = @Expression("^pExc == null")),
+      @Throw(type = IllegalArgumentException.class, cond = @Expression("propertyName != null && ^pExc.propertyName != propertyName")),
+      @Throw(type = IllegalArgumentException.class, cond = @Expression("origin != null && ^pExc.origin != origin")),
+      @Throw(type = IllegalArgumentException.class, cond = @Expression("^pExc.originType != originType"))
+    }
+  )
   public void addElementException(final PropertyException pExc)
       throws IllegalStateException, IllegalArgumentException {
     if (isClosed()) {
-      throw new IllegalStateException("cannot add exceptions to " //$NON-NLS-1$
-                                      + "compound when closed"); //$NON-NLS-1$
+      throw new IllegalStateException("cannot add exceptions to compound when closed");
     }
     if (pExc == null) {
-      throw new IllegalArgumentException("Cannot add null exception."); //$NON-NLS-1$
+      throw new IllegalArgumentException("Cannot add null exception.");
     }
-    if ((getPropertyName() != null)
-        && (!getPropertyName().equals(pExc.getPropertyName()))) {
-      throw new IllegalArgumentException("only properties for property " //$NON-NLS-1$
-                                         + getPropertyName()
-                                         + " are allowed"); //$NON-NLS-1$
+    if ((getPropertyName() != null) && (!getPropertyName().equals(pExc.getPropertyName()))) {
+      throw new IllegalArgumentException("only exceptions for property " + getPropertyName() + " are allowed");
     }
-    HashSet<PropertyException> propertySet = $elementExceptions.get(pExc.getPropertyName());
+    if ((getOrigin() != null) && (pExc.getOrigin() != getOrigin())) {
+      throw new IllegalArgumentException("only exceptions for origin " + getOrigin() + " are allowed");
+    }
+    if ((getOrigin() == null) && (pExc.getOriginType() != getOriginType())) {
+      throw new IllegalArgumentException("only exceptions for origin type " + getOriginType() + " are allowed");
+    }
+    Set<PropertyException> propertySet = $elementExceptions.get(pExc.getPropertyName());
     if (propertySet == null) {
       propertySet = new HashSet<PropertyException>();
       $elementExceptions.put(pExc.getPropertyName(), propertySet);
@@ -312,139 +310,127 @@ public final class CompoundPropertyException extends PropertyException {
     propertySet.add(pExc);
   }
 
-  /**
-   * @pre       $elementExceptions instanceof java.util.HashMap;
-   */
-  private Map<String, Set<PropertyException>> deepImmutableCopy() {
-    @SuppressWarnings("unchecked")
-    Map<String, Set<PropertyException>> result = (HashMap<String, Set<PropertyException>>)$elementExceptions.clone();
-    Iterator<String> iter = result.keySet().iterator();
-    while (iter.hasNext()) {
-      String key = iter.next();
-      result.put(key, Collections.unmodifiableSet(
-                          (HashSet)(result.get(key)).clone());
+  private Map<String, Set<PropertyException>> deepImmutableElementExceptionsCopy() {
+    Map<String, Set<PropertyException>> result = new HashMap<String, Set<PropertyException>>($elementExceptions);
+    for (Map.Entry<String, Set<PropertyException>> e : result.entrySet()) {
+      Set<PropertyException> pes = e.getValue();
+      e.setValue(immutablePESetCopy(pes));
     }
     return Collections.unmodifiableMap(result);
   }
 
+  private Set<PropertyException> immutablePESetCopy(Set<PropertyException> pes) {
+    return Collections.unmodifiableSet(new HashSet<PropertyException>(pes));
+  }
+
   private void makeImmutable() {
-    Iterator<String> iter = $elementExceptions.keySet().iterator();
-    while (iter.hasNext()) {
-      String key = iter.next();
-      $elementExceptions.put(key, Collections.unmodifiableSet($elementExceptions.get(key)));
+    for (Map.Entry<String, Set<PropertyException>> e : $elementExceptions.entrySet()) {
+      e.setValue(Collections.unmodifiableSet(e.getValue()));
     }
     $elementExceptions = Collections.unmodifiableMap($elementExceptions);
   }
 
-  /**
-   * @invar     $elementExceptions != null;
-   * @invar     (foreach Object o; $elementExceptions.containsKey(o);
-   *                o instanceof String);
-   * @invar     (foreach Object o; $elementExceptions.containsValue(o);
-   *                o instanceof java.util.Set);
-   * @invar     !$elementExceptions.contains("");
-   * @invar     !$elementExceptions.containsValue(null);
-   * @invar     (foreach java.util.Set s; $elementExceptions.containsValue(s);
-   *                !s.isEmpty());
-   * @invar     (foreach java.util.Set s; $elementExceptions.containsValue(s);
-   *                (foreach Object o; s.contains(o);
-   *                    o instanceof PropertyException));
-   * @invar     (foreach java.util.Set s; $elementExceptions.containsValue(s);
-   *                !s.contains(null));
-   * @invar     (foreach String key; $elementExceptions.containsKey(key);
-   *                (foreach PropertyException e;
-   *                    $elementExceptions.get(key).contains(e);
-   *                        e.getPropertyName() == key));
-   * @invar     ($elementExceptions.size() > 1) ==> getPropertyName() == null;
-   * @invar     ($elementExceptions.size() == 1) ==>
-   *                ($elementExceptions.get(getPropertyName()) != null);
-   */
-  private HashMap<String, > extends HashSet<PropertyException>> $elementExceptions = new HashMap<String, HashSet<PropertyException>>();
+  @Invars({
+    @Expression("$elementExceptions != null"),
+    @Expression("! $elementExceptions.containsKey(EMPTY)"),
+    @Expression("! $elementExceptions.containsValue(null)"),
+    @Expression("for (Set s : $elementExceptions.values) {! s.isEmpty()}"),
+    @Expression("for (Set s : $elementExceptions.values) {! s.contains(null)}"),
+    @Expression("for (Map.Entry e : $elementExceptions.entrySet) {for (PropertyException pe : e.value) {pe.propertyName == e.key}}"),
+    @Expression("for (Set e : elementExceptions.values) {for (PropertyException pe : s) {pe.origin == origin}}"),
+    @Expression("propertyName != null ? for (String s) {s != propertyName ? ! $elementExceptions.containsKey(s)}")
+  })
+  private Map<String, Set<PropertyException>> $elementExceptions = new HashMap<String, Set<PropertyException>>();
 
   /*</property>*/
 
 
 
+  /*<property name="size">*/
+  //------------------------------------------------------------------
+
   /**
-   * @return    (other != null)
-   *                && (getOrigin() == other.getOrigin())
-   *                && ((getPropertyName() == null)
-   *                    ? other.getPropertyName() == null
-   *                    : getPropertyName().equals(other.getPropertyName()))
-   *                && ((getCause() == null)
-   *                    ? other.getCause() == null
-   *                    : getCause().equals(other.getCause()))
-   *                && ((getMessage() == null)
-   *                    ? other.getMessage() == null
-   *                    : getMessage().equals(other.getMessage()));
+   * The total number of exceptions in this compound.
    */
-  public boolean hasSameValues(final PropertyException other) {
-    return super.hasSameValues(other)
-            && (other instanceof CompoundPropertyException)
-            && sourceContainsAllInTarget(this,
-                                         (CompoundPropertyException)other)
-            && sourceContainsAllInTarget((CompoundPropertyException)other,
-                                         this);
+  @MethodContract(
+    post = @Expression("sum(Set s : elementExceptions) {s.size})")
+  )
+  public int getSize() {
+    int acc = 0;
+    for (Set<PropertyException> s : $elementExceptions.values()) {
+      acc += s.size();
+    }
+    return acc;
   }
 
-  private boolean sourceContainsAllInTarget(
-      final CompoundPropertyException source,
-      final CompoundPropertyException target) {
-    Iterator sets = source.$elementExceptions.entrySet().iterator();
-    while (sets.hasNext()) {
-      Map.Entry entry = (Entry)sets.next();
-      Set otherSet = (Set)target.getElementExceptions().get(entry.getKey());
-      if (otherSet == null) {
-        return false;
-      }
-      Iterator exceptions = ((Set)entry.getValue()).iterator();
-      while (exceptions.hasNext()) {
-        PropertyException pe = (PropertyException)exceptions.next();
-        boolean found = false;
-        Iterator otherExceptions = otherSet.iterator();
-        while (otherExceptions.hasNext() && !found) {
-          PropertyException otherPe = (PropertyException)otherExceptions.next();
-          if (pe.hasSameValues(otherPe)) {
-            found = true;
-          }
-        }
-        if (!found) {
-          return false;
-        }
-      }
-      // if we get here, all exceptions in this entry are matched
+  /*</property>*/
+
+
+
+  /*<property name="an element">*/
+  //------------------------------------------------------------------
+
+  /**
+   * Returns an element exception of this instance. Especially
+   * intresting if <code>size == 1</code>, of course.
+   * Returns <code>null</code> if <code>size == 0</code>.
+   */
+  @MethodContract(post = @Expression("result != null ? contains(result"))
+  public PropertyException getAnElement() {
+    if (isEmpty()) {
+      return null;
     }
-    // if we get here, all exceptions in all entries are matched
-    return true;
+    else {
+      Iterator<Set<PropertyException>> iter1 = getElementExceptions().values().iterator();
+      Set<PropertyException> s = iter1.next();
+      Iterator<PropertyException> iter2 = s.iterator();
+      return iter2.next();
+    }
+  }
+
+  /*</property>*/
+
+
+
+  /*<section name="contains">*/
+  //------------------------------------------------------------------
+
+  /**
+   * Checks whether this exact property exception is in the compound
+   * with reference semantics.
+   */
+  @MethodContract(
+    post = @Expression("^pe != null && elementExceptions[pe.propertyName].contains(pe)")
+  )
+  public final boolean contains(PropertyException pe) {
+    if (pe == null) {
+      return false;
+    }
+    Set<PropertyException> pes = $elementExceptions.get(pe.getPropertyName());
+    return pes.contains(pe);
   }
 
   /**
    * Checks whether there is a property exception with these parameters
    * in this compounds element exceptions.
-   *
-   * @result    getElementExceptions().get(propertyName) != null;
-   * @result    !getElementExceptions().get(propertyName).isEmpty();
-   * @result    (exists PropertyException pe;
-   *                getElementExceptions().get(propertyName).contains(pe);
-   *                (pe.hasProperties(origin, propertyName, message, cause)));
    */
-  public boolean contains(final Object origin,
-                          final String propertyName,
-                          final String message,
-                          final Throwable cause) {
-    boolean result = false;
-    Set propertySet = (Set)$elementExceptions.get(propertyName);
+  @MethodContract(
+    post = {
+      @Expression("elementExceptions.containsKey(^propertyName)"),
+      @Expression("exists(PropertyException pe : elementExceptions[^propertyName]) {pe.hasProperties(^origin, ^propertyName, ^message, ^cause}")
+    }
+  )
+  public final boolean contains(final Object origin, final String propertyName, final String message, final Throwable cause) {
+    Set<PropertyException> propertySet = $elementExceptions.get(propertyName);
     if (propertySet != null) {
-      assert (propertySet != null) && (!propertySet.isEmpty());
-      Iterator pexcs = propertySet.iterator();
-      while (pexcs.hasNext()) {
-        PropertyException candidate = (PropertyException)pexcs.next();
+      assert ! propertySet.isEmpty();
+      for (PropertyException candidate : propertySet) {
         if (candidate.hasProperties(origin, propertyName, message, cause)) {
-          result = true;
+          return true;
         }
       }
     }
-    return result;
+    return false;
   }
 
 
@@ -452,43 +438,88 @@ public final class CompoundPropertyException extends PropertyException {
    * Checks whether there is a property exception with these parameters
    * in this compounds element exceptions.
    *
-   * @result    getElementExceptions().get(propertyName) != null;
-   * @result    !getElementExceptions().get(propertyName).isEmpty();
-   * @result    (exists PropertyException pe;
-   *                getElementExceptions().get(propertyName).contains(pe);
-   *                (pe.hasProperties(originType, propertyName, message, cause)));
    * @since IV
    */
-  public boolean contains(final Class originType,
-                          final String propertyName,
-                          final String message,
-                          final Throwable cause) {
-    boolean result = false;
-    Set propertySet = (Set)$elementExceptions.get(propertyName);
+  @MethodContract(
+    post = {
+      @Expression("elementExceptions.containsKey(^propertyName)"),
+      @Expression("exists(PropertyException pe : elementExceptions[^propertyName]) {pe.hasProperties(^originType, ^propertyName, ^message, ^cause}")
+    }
+  )
+  public final boolean contains(final Class<?> originType, final String propertyName, final String message, final Throwable cause) {
+    Set<PropertyException> propertySet = $elementExceptions.get(propertyName);
     if (propertySet != null) {
-      assert (propertySet != null) && (!propertySet.isEmpty());
-      Iterator pexcs = propertySet.iterator();
-      while (pexcs.hasNext()) {
-        PropertyException candidate = (PropertyException)pexcs.next();
+      assert ! propertySet.isEmpty();
+      for (PropertyException candidate : propertySet) {
         if (candidate.hasProperties(originType, propertyName, message, cause)) {
-          result = true;
+          return true;
         }
       }
     }
-    return result;
+    return false;
   }
+
+  /*</section>*/
+
+
+
+  /*<section name="reports on">*/
+  //------------------------------------------------------------------
+
+  @MethodContract(post = @Expression("contains(^origin, ^propertyName, ^message, ^cause)"))
+  @Override
+  public final boolean reportsOn(final Object origin, final String propertyName, final String message, final Throwable cause) {
+    return contains(origin, propertyName, message, cause);
+  }
+
+  /**
+   * @since IV
+   */
+  @MethodContract(post = @Expression("contains(^originType, ^propertyName, ^message, ^cause)"))
+  @Override
+  public final boolean reportsOn(final Class<?> originType, final String propertyName, final String message, final Throwable cause) {
+    return contains(originType, propertyName, message, cause);
+  }
+
+  /*</section>*/
+
+
 
   /**
    * This method throws this exception if it is not empty.
    * If this is not empty, this is closed. If the number of element
    * exceptions is larger than 1, this is thrown. If there is exactly
    * 1 element exception, that is thrown instead.
-   *
-   * @mudo contract
    */
-  public void throwIfNotEmpty() throws PropertyException {
+  @MethodContract(
+    post = {
+      @Expression(
+        value = "! 'empty",
+        description = "since we cannot change the old value of empty, we are " +
+                      "forced to throw an exception if we are not empty"
+      ),
+      @Expression("closed")
+    },
+    exc = {
+      @Throw(
+        type = CompoundPropertyException.class,
+        cond = {
+          @Expression("size > 1"),
+          @Expression("thrown == this")
+        }
+      ),
+      @Throw(
+         type = PropertyException.class,
+         cond = {
+           @Expression("size == 1"),
+           @Expression("thrown == anElement")
+         }
+       )
+    }
+  )
+  public final void throwIfNotEmpty() throws PropertyException {
+    close();
     if (!isEmpty()) {
-      close();
       if (getSize() > 1) {
         throw this;
       }
@@ -498,62 +529,57 @@ public final class CompoundPropertyException extends PropertyException {
     }
   }
 
-  /**
-   * @return sum(foreach Set s; getElementExceptions().values().contains(s);
-   *              s.size());
-   */
-  public int getSize() {
-    int acc = 0;
-    Iterator iter = getElementExceptions().values().iterator();
-    while (iter.hasNext()) {
-      Set s = (Set)iter.next();
-      acc += s.size();
-    }
-    return acc;
-  }
-
-  /**
-   * Returns an element exception of this instance. Especially
-   * intresting if <code>getSize() == 1</code>, of course.
-   * Returns <code>null</code> if <code>getSize() == 0</code>.
-   */
-  public PropertyException getAnElement() {
-    if (isEmpty()) {
-      return null;
-    }
-    else {
-      Iterator iter = getElementExceptions().values().iterator();
-      Set s = (Set)iter.next();
-      iter = s.iterator();
-      return (PropertyException)iter.next();
-    }
-  }
-
-  /**
-   * @result contains(final Object origin,
-   *                  final String propertyName,
-   *                  final String message,
-   *                  final Throwable cause);
-   */
-  public boolean reportsOn(final Object origin,
-                           final String propertyName,
-                           final String message,
-                           final Throwable cause) {
-    return contains(origin, propertyName, message, cause);
-  }
-
-  /**
-   * @result contains(final Object origin,
-   *                  final String propertyName,
-   *                  final String message,
-   *                  final Throwable cause);
-   * @since IV
-   */
-  public boolean reportsOn(final Class originType,
-                           final String propertyName,
-                           final String message,
-                           final Throwable cause) {
-    return contains(originType, propertyName, message, cause);
-  }
+//  /**
+//   * @return    (other != null)
+//   *                && (getOrigin() == other.getOrigin())
+//   *                && ((getPropertyName() == null)
+//   *                    ? other.getPropertyName() == null
+//   *                    : getPropertyName().equals(other.getPropertyName()))
+//   *                && ((getCause() == null)
+//   *                    ? other.getCause() == null
+//   *                    : getCause().equals(other.getCause()))
+//   *                && ((getMessage() == null)
+//   *                    ? other.getMessage() == null
+//   *                    : getMessage().equals(other.getMessage()));
+//   */
+//  public boolean hasSameValues(final PropertyException other) {
+//    return super.hasSameValues(other)
+//            && (other instanceof CompoundPropertyException)
+//            && sourceContainsAllInTarget(this,
+//                                         (CompoundPropertyException)other)
+//            && sourceContainsAllInTarget((CompoundPropertyException)other,
+//                                         this);
+//  }
+//
+//  private boolean sourceContainsAllInTarget(
+//      final CompoundPropertyException source,
+//      final CompoundPropertyException target) {
+//    Iterator sets = source.$elementExceptions.entrySet().iterator();
+//    while (sets.hasNext()) {
+//      Map.Entry entry = (Entry)sets.next();
+//      Set otherSet = (Set)target.getElementExceptions().get(entry.getKey());
+//      if (otherSet == null) {
+//        return false;
+//      }
+//      Iterator exceptions = ((Set)entry.getValue()).iterator();
+//      while (exceptions.hasNext()) {
+//        PropertyException pe = (PropertyException)exceptions.next();
+//        boolean found = false;
+//        Iterator otherExceptions = otherSet.iterator();
+//        while (otherExceptions.hasNext() && !found) {
+//          PropertyException otherPe = (PropertyException)otherExceptions.next();
+//          if (pe.hasSameValues(otherPe)) {
+//            found = true;
+//          }
+//        }
+//        if (!found) {
+//          return false;
+//        }
+//      }
+//      // if we get here, all exceptions in this entry are matched
+//    }
+//    // if we get here, all exceptions in all entries are matched
+//    return true;
+//  }
 
 }

@@ -28,7 +28,7 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
-import org.toryt.annotations_I.TypeContract;
+import org.toryt.annotations_I.Invars;
 
 
 /**
@@ -70,7 +70,7 @@ import org.toryt.annotations_I.TypeContract;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-@TypeContract(
+@Invars(
   @Expression("message == null || ! message.equals(EMPTY)")
 )
 public class PropertyException extends SemanticException {
@@ -89,9 +89,6 @@ public class PropertyException extends SemanticException {
    * @param     cause
    *            The exception that occurred, causing this exception to be
    *            thrown, if that is the case.
-   *
-   * @idea (jand): check effectively that <code>propertyName</code> is
-   *               a property of <code>origin</code>
    */
   @MethodContract(
     pre  = {
@@ -297,6 +294,9 @@ public class PropertyException extends SemanticException {
 
 
 
+  /*<section name="comparison">*/
+  //------------------------------------------------------------------
+
   /**
    * @param     origin
    *            The origin to compare the one of this Exception with.
@@ -357,6 +357,13 @@ public class PropertyException extends SemanticException {
                     : getMessage().equals(message));
   }
 
+  /*</section>*/
+
+
+
+  /*<section name="reports on">*/
+  //------------------------------------------------------------------
+
   /**
    * Does this exception, in some way, report about
    * an exceptional condition concerning <code>origin</code>,
@@ -411,6 +418,7 @@ public class PropertyException extends SemanticException {
     return hasProperties(originType, propertyName, message, cause);
   }
 
+  /*</section>*/
 
 
 
