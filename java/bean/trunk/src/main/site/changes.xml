@@ -42,6 +42,14 @@
         If we continue to use these, they belong in the persistence
         project.
       </action>
+      <action dev="jand" type="remove">
+        Removed i18n concerns for the time being. There was little here,
+        and there will be less (or everything).
+      </action>
+      <action dev="jand" type="add">
+        SetterPropertyException, for almost all semantic exceptions with simple property setters
+        and constructors.
+      </action>
     </release>
 
     <release version="V v1.0.0/1.1" date="2006-05-22"
