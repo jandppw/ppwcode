@@ -144,7 +144,7 @@ public class PropertyException extends SemanticException {
       @Expression("^message == null || ! ^message.equals(EMPTY)")
     },
     post = {
-      @Expression("inOriginInitialization ? origin == null : origin == ^origin"),
+      @Expression("^inOriginInitialization ? origin == null : origin == ^origin"),
       @Expression("originType == ^origin.class"),
       @Expression("propertyName == ^propertyName"),
       @Expression("message == ^message"),
