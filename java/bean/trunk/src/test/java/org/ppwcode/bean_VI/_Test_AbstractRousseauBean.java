@@ -4,13 +4,14 @@
   TO SELECTED PARTIES.
 </license>*/
 
-package be.peopleware.bean_V;
+package org.ppwcode.bean_VI;
 
 
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.ppwcode.bean_VI.AbstractRousseauBean;
 import org.ppwcode.bean_VI.CompoundPropertyException;
 import org.ppwcode.bean_VI.RousseauBean;
 

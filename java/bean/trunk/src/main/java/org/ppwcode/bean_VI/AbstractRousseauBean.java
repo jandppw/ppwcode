@@ -4,7 +4,7 @@
   TO SELECTED PARTIES.
 </license>*/
 
-package be.peopleware.bean_V;
+package org.ppwcode.bean_VI;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -13,9 +13,6 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.ppwcode.bean_VI.CompoundPropertyException;
-import org.ppwcode.bean_VI.PropertyException;
-import org.ppwcode.bean_VI.RousseauBean;
 
 
 /**
