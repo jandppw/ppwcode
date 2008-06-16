@@ -29,6 +29,7 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.util.reflect_I.CloneUtil;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.Invars;
 import org.toryt.annotations_I.MethodContract;
 
 
@@ -61,6 +62,7 @@ import org.toryt.annotations_I.MethodContract;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision: 1124 $",
          date     = "$Date: 2008-06-14 00:35:00 +0200 (Sat, 14 Jun 2008) $")
+@Invars(@Expression("propertyName != null"))
 public class SetterPropertyException extends PropertyException {
 
   /*<construction>*/
@@ -84,7 +86,8 @@ public class SetterPropertyException extends PropertyException {
   @MethodContract(
     pre  = {
       @Expression("^origin != null"),
-      @Expression("^propertyName != null ? hasProperty(^origin.class, ^propertyName)"),
+      @Expression("^propertyName != null"),
+      @Expression("hasProperty(^origin.class, ^propertyName)"),
       @Expression("^message == null || ! ^message.equals(EMPTY)")
     },
     post = {
@@ -104,6 +107,7 @@ public class SetterPropertyException extends PropertyException {
                                  final String message,
                                  final Throwable cause) {
     super(origin, propertyName, message, cause);
+    assert propertyName != null;
     $propertyValue = safePropertyValue(origin, propertyName);
     $vetoedValue = safeReference(vetoedValue);
   }
@@ -131,14 +135,15 @@ public class SetterPropertyException extends PropertyException {
   @MethodContract(
     pre  = {
       @Expression("^origin != null"),
-      @Expression("^propertyName != null ? hasProperty(^origin.class, ^propertyName)"),
+      @Expression("^propertyName != null"),
+      @Expression("hasProperty(^origin.class, ^propertyName)"),
       @Expression("^message == null || ! ^message.equals(EMPTY)")
     },
     post = {
       @Expression("inOriginInitialization ? origin == null : origin == ^origin"),
       @Expression("originType == ^origin.class"),
       @Expression("propertyName == ^propertyName"),
-      @Expression("propertyValue == inOriginInitialization ? null : safeReference(^origin[^propertyName])"),
+      @Expression("propertyValue == (inOriginInitialization ? null : safeReference(^origin[^propertyName]))"),
       @Expression("vetoedValue == safeReference(^vetoedValue)"),
       @Expression("message == ^message"),
       @Expression("cause == ^cause")
@@ -151,6 +156,7 @@ public class SetterPropertyException extends PropertyException {
                                  final String message,
                                  final Throwable cause) {
     super(origin, inOriginInitialization, propertyName, message, cause);
+    assert propertyName != null;
     if (! inOriginInitialization) {
       $propertyValue = safePropertyValue(origin, propertyName);
     }
@@ -178,7 +184,8 @@ public class SetterPropertyException extends PropertyException {
   @MethodContract(
     pre  = {
       @Expression("^originType != null"),
-      @Expression("^propertyName != null ? hasProperty(^origin.class, ^propertyName)"),
+      @Expression("^propertyName != null"),
+      @Expression("hasProperty(^originType, ^propertyName)"),
       @Expression("^message == null || ! ^message.equals(EMPTY)")
     },
     post = {
@@ -197,6 +204,7 @@ public class SetterPropertyException extends PropertyException {
                                  final String message,
                                  final Throwable cause) {
     super(originType, propertyName, message, cause);
+    assert propertyName != null;
     $vetoedValue = safeReference(vetoedValue);
   }
 

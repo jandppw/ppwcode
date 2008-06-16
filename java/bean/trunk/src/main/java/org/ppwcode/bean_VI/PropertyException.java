@@ -185,7 +185,7 @@ public class PropertyException extends SemanticException {
   @MethodContract(
     pre  = {
       @Expression("^originType != null"),
-      @Expression("^propertyName != null ? hasProperty(^origin.class, ^propertyName)"),
+      @Expression("^propertyName != null ? hasProperty(^originType, ^propertyName)"),
       @Expression("^message == null || ! ^message.equals(EMPTY)")
     },
     post = {

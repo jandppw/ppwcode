@@ -33,7 +33,7 @@ import org.junit.Test;
 
 public class PropertyExceptionTest {
 
-  public class OriginStub {
+  public static class OriginStub {
 
     public final Object getStubProperty() {
       return $stubProperty;
@@ -205,11 +205,11 @@ public class PropertyExceptionTest {
     }
   }
 
-  private boolean eqn(String s1, String s2) {
+  private static boolean eqn(String s1, String s2) {
     return s1 == null ? s2 == null : s1.equals(s2);
   }
 
-  private void testHasPropertiesObjectStringStringThrowable(PropertyException subject, Object origin, String propertyName, String message, Throwable cause) {
+  public static void testHasPropertiesObjectStringStringThrowable(PropertyException subject, Object origin, String propertyName, String message, Throwable cause) {
     // execute
     boolean result = subject.hasProperties(origin, propertyName, message, cause);
     // validate
@@ -233,7 +233,7 @@ public class PropertyExceptionTest {
     }
   }
 
-  private void testHasPropertiesClassOfQStringStringThrowable(PropertyException subject, Class<?> originType, String propertyName, String message, Throwable cause) {
+  public static void testHasPropertiesClassOfQStringStringThrowable(PropertyException subject, Class<?> originType, String propertyName, String message, Throwable cause) {
     // execute
     boolean result = subject.hasProperties(originType, propertyName, message, cause);
     // validate
@@ -257,7 +257,7 @@ public class PropertyExceptionTest {
     }
   }
 
-  private void testReportsOnObjectStringStringThrowable(PropertyException subject, Object origin, String propertyName, String message, Throwable cause) {
+  public static void testReportsOnObjectStringStringThrowable(PropertyException subject, Object origin, String propertyName, String message, Throwable cause) {
     // execute
     boolean result = subject.reportsOn(origin, propertyName, message, cause);
     // validate PROTECTED
@@ -280,7 +280,7 @@ public class PropertyExceptionTest {
     }
   }
 
-  private void testReportsOnClassOfQStringStringThrowable(PropertyException subject, Class<?> originType, String propertyName, String message, Throwable cause) {
+  public static void testReportsOnClassOfQStringStringThrowable(PropertyException subject, Class<?> originType, String propertyName, String message, Throwable cause) {
     // execute
     boolean result = subject.reportsOn(originType, propertyName, message, cause);
     // validate PROTECTED
