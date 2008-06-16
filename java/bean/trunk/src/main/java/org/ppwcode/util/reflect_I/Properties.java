@@ -19,21 +19,15 @@ package org.ppwcode.util.reflect_I;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
-import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
-import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.apache.commons.beanutils.PropertyUtils;
-//import org.apache.taglibs.standard.lang.jstl.Coercions;
-//import org.apache.taglibs.standard.lang.jstl.ELException;
-//import org.apache.taglibs.standard.lang.jstl.Logger;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
@@ -46,17 +40,32 @@ import org.toryt.annotations_I.Throw;
  * Convenience methods for working with JavaBeans.
  * These are to be considered merely extensions of methods available
  * in {@link java.beans} and
- * <a href="http://commons.apache.org/beanutils/" target="extern">Apache Jakarta Commons Beanutils</a>,
+ * <a href="http://commons.apache.org/beanutils/" target="extern">Apache Jakarta Commons BeanUtils</a>,
  * and not a replacement.
  *
- * @note Since the previous version, a number of methods are removed, notably:
+ * @note The methods of the class {@code Beans} of the previous version have been moved here and into {@link Classes}.
+ *       Furthermore, a number of methods are removed, notably:
  * <dl>
  *   <dt>{@code PropertyDescriptor getPropertyDescriptor(final Class beanClass, final String propertyName)}</dt>
  *   <dd>use <a href="http://jakarta.apache.org/commons/beanutils/api/org/apache/commons/beanutils/PropertyUtils.html"
- *       target="extern">Apache Jakarta Commons Beanutils PropertyUtil.getPropertyDescriptor()</a> instead</dd>
+ *       target="extern">Apache Jakarta Commons BeanUtils PropertyUtil.getPropertyDescriptor()</a> instead</dd>
+ *   <dt>{@coe setPropertyValueCoerced(final Object bean, final String propertyName, final Object value)}</dt>
+ *   <dd>No replacement, except <a href="http://jakarta.apache.org/commons/beanutils/api/org/apache/commons/beanutils/PropertyUtils.html"
+ *       target="extern">Apache Jakarta Commons BeanUtils PropertyUtil.setProperty(Object, String, Object)</a>;
+ *       the method was removed because there was a dependency on Apache JSTL EL, which is really too silly in a package like this.</dd>
+ *   <dt>{@code void setPropertyValue(final Object bean, final String propertyName, final Object value)}</dt>
+ *   <dd>previously deprecated; use <a href="http://jakarta.apache.org/commons/beanutils/api/org/apache/commons/beanutils/PropertyUtils.html"
+ *       target="extern">Apache Jakarta Commons beanUtils PropertyUtil.setProperty()</a> instead.</dd>
+ *   <dt>{@code Object getPropertyValue(final Object bean, final String propertyName)}</dt>
+ *   <dd>previously deprecated; use  <a href="http://jakarta.apache.org/commons/beanutils/api/org/apache/commons/beanutils/PropertyUtils.html"
+ *       target="extern">Apache Jakarta Commons beanUtils PropertyUtil.getProperty()</a> instead.</dd>
+ *   <dt>{@code Object getNavigatedPropertyValue(final Object bean, final String propertyExpression)}</dt>
+ *   <dd>previously deprecated; use <a href="http://jakarta.apache.org/commons/beanutils/api/org/apache/commons/beanutils/PropertyUtils.html"
+ *       target="extern">Apache Jakarta Commons beanUtils PropertyUtil.getProperty()</a> instead.</dd>
  * </dl>
  *
  * @mudo (jand) most methods are also in Toryt.support.Reflection; consolidate
+ * @mudo do away with all the different exceptions
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
@@ -225,8 +234,6 @@ public class Properties {
     }
   }
 
-  // HIGHER IS DONE, LOWER IS NOT DONE
-
   /**
    * Returns the method object of the inspector of the property with
    * name <code>propertyName</code> of <code>beanClass</code>. If such a
@@ -241,15 +248,19 @@ public class Properties {
    *            The bean class to get the property read method of
    * @param     propertyName
    *            The programmatic name of the property we want to read
-   * @pre       beanClass != null;
-   * @return    result != null;
-   * @throws    IntrospectionException
-   *            Cannot get the <code>BeanInfo</code> of <code>beanClass</code>.
-   * @throws    NoSuchMethodException
-   *            There is no read method for this property.
    */
-  public static Method getPropertyReadMethod(final Class beanClass,
-                                             final String propertyName)
+  @MethodContract(
+    pre  = @Expression("beanClass != null"),
+    post = {
+      @Expression("result != null"),
+      @Expression("getPropertyDescriptor(beanClass, propertyName).readMethod")
+    },
+    exc  = {
+      @Throw(type = IntrospectionException.class, cond = @Expression(value = "true", description = "Cannot get the BeanInfo of <beanClass.")),
+      @Throw(type = NoSuchMethodException.class, cond = @Expression(value = "getPropertyDescriptor(beanClass, propertyName).readMethod == null"))
+    }
+  )
+  public static Method getPropertyReadMethod(final Class<?> beanClass, final String propertyName)
       throws IntrospectionException, NoSuchMethodException {
     assert beanClass != null;
     Method inspector = getPropertyDescriptor(beanClass, propertyName).getReadMethod();
@@ -273,13 +284,13 @@ public class Properties {
    *            The bean class to get the property read method of
    * @param     propertyName
    *            The programmatic name of the property we want to read
-   * @pre       beanClass != null;
-   * @throws    IntrospectionException
-   *            Cannot get the <code>BeanInfo</code> of <code>beanClass</code>,
-   *            cannot find a property descriptor.
    */
-  public static boolean hasPropertyReadMethod(final Class beanClass,
-                                              final String propertyName)
+  @MethodContract(
+    pre  = @Expression("beanClass != null"),
+    post = @Expression("getPropertyDescriptor(beanClass, propertyName).readMethod != null"),
+    exc  = @Throw(type = IntrospectionException.class, cond = @Expression(value = "true", description = "Cannot get the BeanInfo of <beanClass."))
+  )
+  public static boolean hasPropertyReadMethod(final Class<?> beanClass, final String propertyName)
       throws IntrospectionException {
     assert beanClass != null;
     return getPropertyDescriptor(beanClass, propertyName).getReadMethod() != null;
@@ -294,15 +305,19 @@ public class Properties {
    *            The bean class to get the property write method of
    * @param     propertyName
    *            The programmatic name of the property we want to write
-   * @pre       beanClass != null;
-   * @return    result != null;
-   * @throws    IntrospectionException
-   *            Cannot get the <code>BeanInfo</code> of <code>beanClass</code>.
-   * @throws    NoSuchMethodException
-   *            There is no write method for this property.
    */
-  public static Method getPropertyWriteMethod(final Class beanClass,
-                                              final String propertyName)
+  @MethodContract(
+    pre  = @Expression("beanClass != null"),
+    post = {
+      @Expression("result != null"),
+      @Expression("getPropertyDescriptor(beanClass, propertyName).writeMethod")
+    },
+    exc  = {
+      @Throw(type = IntrospectionException.class, cond = @Expression(value = "true", description = "Cannot get the BeanInfo of <beanClass.")),
+      @Throw(type = NoSuchMethodException.class, cond = @Expression(value = "getPropertyDescriptor(beanClass, propertyName).writeMethod == null"))
+    }
+  )
+  public static Method getPropertyWriteMethod(final Class<?> beanClass, final String propertyName)
       throws IntrospectionException, NoSuchMethodException {
     assert beanClass != null;
     Method mutator = getPropertyDescriptor(beanClass, propertyName).getWriteMethod();
@@ -315,203 +330,7 @@ public class Properties {
   }
 
   /**
-   * The value of the property <code>propertyExpression</code>
-   * of object <code>bean</code>. <code>propertyExpression</code>
-   * can be an expression to navigate through an object graph,
-   * of the form <code><var>property1</var>.<var>property2</var>.<var>property3</var></code>.
-   *
-   * @param     bean
-   *            The bean to get the property value of
-   * @param     propertyExpression
-   *            A dot-separated chain of programmatic property names
-   *            to navigate.
-   * @throws    NullPointerException
-   *            bean == null; or an intermediate property is null
-   * @throws    IntrospectionException
-   *            Cannot get the <code>BeanInfo</code> of <code>bean</code> class.
-   * @throws    NoSuchMethodException
-   *            There is no read method for this property in the bean.
-   * @throws    IllegalAccessException
-   *            This user is not allowed to access the read method of
-   *            the <code>propertyName()</code>-property of <code>bean</code>.
-   * @throws    InvocationTargetException
-   *            The read method of the property <code>propertyName</code>,
-   *            applied to <code>bean</code>, has thrown an exception.
-   *
-   * @deprecated Use <a href="http://jakarta.apache.org/commons/beanutils/api/org/apache/commons/beanutils/PropertyUtils.html"
-   *               target="extern">Apache Jakarta Commons beanutils PropertyUtil.getProperty()</a> instead.
-   */
-  public static Object getNavigatedPropertyValue(final Object bean,
-                                        final String propertyExpression)
-      throws NullPointerException,
-             IntrospectionException,
-             NoSuchMethodException,
-             IllegalAccessException,
-             InvocationTargetException {
-    String[] parts = propertyExpression.split("\\.");
-    Object cursor = bean;
-    for (int lcv = 0; lcv < parts.length; lcv++) {
-      cursor = getPropertyValue(cursor, parts[lcv]);
-    }
-    return cursor;
-  }
-
-  /**
-   * The value to be written to the text file, as String.
-   *
-   * @param     bean
-   *            The bean to get the property value of
-   * @param     propertyName
-   *            The programmatic name of the property we want to read
-   * @return    Object
-   *            @todo (dvankeer): (JAVADOC) Write description.
-   * @throws    NullPointerException
-   *            bean == null;
-   * @throws    IntrospectionException
-   *            Cannot get the <code>BeanInfo</code> of <code>bean</code> class.
-   * @throws    NoSuchMethodException
-   *            There is no read method for this property in the bean.
-   * @throws    IllegalAccessException
-   *            This user is not allowed to access the read method of
-   *            the <code>propertyName()</code>-property of <code>bean</code>.
-   * @throws    InvocationTargetException
-   *            The read method of the property <code>propertyName</code>,
-   *            applied to <code>bean</code>, has thrown an exception.
-   *
-   * @deprecated Use <a href="http://jakarta.apache.org/commons/beanutils/api/org/apache/commons/beanutils/PropertyUtils.html"
-   *               target="extern">Apache Jakarta Commons beanutils PropertyUtil.getProperty()</a> instead.
-   */
-  public static Object getPropertyValue(final Object bean,
-                                        final String propertyName)
-      throws NullPointerException,
-             IntrospectionException,
-             NoSuchMethodException,
-             IllegalAccessException,
-             InvocationTargetException {
-    Method inspector = getPropertyReadMethod(bean.getClass(), propertyName);
-    // != null; throws loads of exceptions
-    Object result = null;
-    try {
-      result = inspector.invoke(bean, null);
-    }
-    catch (IllegalArgumentException iaExc) {
-      assert false : "Should not happen, since there are no " //$NON-NLS-1$
-                     + "arguments, and the implicit argument is " //$NON-NLS-1$
-                     + "not null and of the correct type"; //$NON-NLS-1$
-    }
-    /* ExceptionInInitializerError can occur with invoke, but we do not
-        take into account errors */
-    return result;
-  }
-
-  /**
-   * Set the value of the property with name <code>propertyName</code>
-   * of the bean <code>bean</code> to <code>value</code>.
-   *
-   * @param     bean
-   *            The bean to set the property value of
-   * @param     propertyName
-   *            The programmatic name of the property we want to write
-   * @param     value
-   *            The value to be stored in the property
-   * @throws    NullPointerException
-   *            bean == null;
-   * @throws    IntrospectionException
-   *            Cannot get the <code>BeanInfo</code> of <code>bean</code> class.
-   * @throws    NoSuchMethodException
-   *            There is no write method for this property in the bean.
-   * @throws    IllegalAccessException
-   *            This user is not allowed to access the write method of
-   *            the <code>propertyName()</code>-property of <code>bean</code>.
-   * @throws    InvocationTargetException
-   *            The write method of the property <code>propertyName</code>,
-   *            applied to <code>bean</code>, has thrown an exception.
-   * @throws    IllegalArgumentException
-   *            <code>value</code> cannot be coerced in an value of the type
-   *            expected by the property write method.
-   *
-   * @deprecated Use <a href="http://jakarta.apache.org/commons/beanutils/api/org/apache/commons/beanutils/PropertyUtils.html"
-   *               target="extern">Apache Jakarta Commons beanutils PropertyUtil.setProperty()</a> instead.
-   */
-  public static void setPropertyValue(final Object bean,
-                                      final String propertyName,
-                                      final Object value)
-      throws NullPointerException,
-             IntrospectionException,
-             NoSuchMethodException,
-             IllegalAccessException,
-             InvocationTargetException,
-             IllegalArgumentException {
-    Method mutator = getPropertyWriteMethod(bean.getClass(), propertyName);
-    // != null; throws loads of exceptions
-    Object[] args = {value};
-    mutator.invoke(bean, args);
-    /* ExceptionInInitializerError can occur with invoke, but we do not
-        take into account errors */
-  }
-
-  /**
-   * Set the value of the property with name <code>propertyName</code>
-   * of the bean <code>bean</code> to <code>value</code>, after coercing
-   * it according to EL rules.
-   *
-   * @param     bean
-   *            The bean to set the property value of
-   * @param     propertyName
-   *            The programmatic name of the property we want to write
-   * @param     value
-   *            The value to be stored in the property
-   * @throws    IntrospectionException
-   *            Cannot get the <code>BeanInfo</code> of <code>bean</code> class.
-   * @throws    NoSuchMethodException
-   *            There is no write method for this property in the bean.
-   * @throws    IllegalAccessException
-   *            This user is not allowed to access the write method of
-   *            the <code>propertyName()</code>-property of <code>bean</code>.
-   * @throws    InvocationTargetException
-   *            The write method of the property <code>propertyName</code>,
-   *            applied to <code>bean</code>, has thrown an exception.
-   *
-   * @idea (jand): Candidate for more broad use
-   */
-  public static void setPropertyValueCoerced(final Object bean,
-                                             final String propertyName,
-                                             final Object value)
-    throws IntrospectionException,
-           NoSuchMethodException,
-           InvocationTargetException,
-           IllegalAccessException {
-    Method mutator = Properties.getPropertyWriteMethod(bean.getClass(),
-                                                  propertyName);
-    // != null; throws loads of exceptions
-    if (mutator.getParameterTypes().length != 1) {
-      throw new IllegalArgumentException("property setter \"" //$NON-NLS-1$
-                                         + mutator
-                                         + "\" expects more or less " //$NON-NLS-1$
-                                         + "than 1 argument"); //$NON-NLS-1$
-    }
-    Class expectedType = mutator.getParameterTypes()[0];
-    // array length is checked already
-    try {
-      Object coercedValue = Coercions.coerce(value,
-                                             expectedType,
-                                             new Logger(System.err));
-      Object[] args = {coercedValue};
-      mutator.invoke(bean, args);
-      /* ExceptionInInitializerError can occur with invoke, but we do not
-          take into account errors */
-    }
-    catch (ELException elExc) {
-      throw new IllegalArgumentException("unable to coerce \"" //$NON-NLS-1$
-                                          + value
-                                          + "\" into type \"" //$NON-NLS-1$
-                                          + expectedType
-                                          + "\""); //$NON-NLS-1$
-    }
-  }
-
-  /**
-   * Returns the constant(public final static) with the given fully qualified
+   * Returns the constant (public final static) with the given fully qualified
    * name.
    *
    * @param     fqClassName
@@ -519,38 +338,25 @@ public class Properties {
    *            for the constant.
    * @param     constantName
    *            The name of the constant whose value to return.
-   * @return    Object
-   *            The value of the field named <code>constantName</code>
-   *            in class <code>fqClassName</code>.
-   * @throws    LinkageError
-   *            Error retrieving value.
-   * @throws    ClassNotFoundException
-   *            Could not find class <code>fqClassName</code>.
-   * @throws    NoSuchFieldException
-   *            Could not find a field named <code>constantName</code>
-   *            in class <code>fqClassName</code>.
-   * @throws    NullPointerException
-   *            Error retrieving value.
-   * @throws    SecurityException
-   *            Not allowed to read the value of the field named
-   *            <code>constantName</code>
-   *            in class <code>fqClassName</code>.
-   * @throws    IllegalAccessException
-   *            The field named
-   *            <code>constantName</code>
-   *            in class <code>fqClassName</code> is not public.
-   * @throws    IllegalArgumentException
-   *            Error retrieving value.
    */
-  public static Object constant(final String fqClassName,
-                                final String constantName)
-      throws LinkageError,
-             ClassNotFoundException,
-             NoSuchFieldException,
-             NullPointerException,
-             SecurityException,
-             IllegalAccessException,
-             IllegalArgumentException {
+  @MethodContract(
+    post = @Expression("Class.forName(fqClassName).getField(constantName).get(null)"),
+    exc  = {
+      @Throw(type = LinkageError.class, cond = @Expression(value = "true")),
+      @Throw(type = ClassNotFoundException.class, cond = @Expression(value = "true", description = "Could not find fqClassName")),
+      @Throw(type = NoSuchFieldException.class,
+             cond = @Expression(value = "true", description = "Could not find a field name constantName in class fqClassName")),
+      @Throw(type = NullPointerException.class, cond = @Expression(value = "true")),
+      @Throw(type = SecurityException.class,
+             cond = @Expression(value = "true", description = "Not allowed to read the value of the field named constantName in class fqClassName")),
+      @Throw(type = IllegalAccessException.class,
+             cond = @Expression(value = "true", description = "The field named constantName in class fqClassName is not public.")),
+      @Throw(type = IllegalArgumentException.class, cond = @Expression(value = "true"))
+    }
+  )
+  public static Object constant(final String fqClassName, final String constantName)
+      throws LinkageError, ClassNotFoundException, NoSuchFieldException, NullPointerException,
+             SecurityException, IllegalAccessException, IllegalArgumentException {
     Class<?> clazz = Class.forName(fqClassName); // LinkageError,
                                                  // ClassNotFoundException
     Field field = clazz.getField(constantName); // NoSuchFieldException
