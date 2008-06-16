@@ -113,6 +113,9 @@ import java.lang.reflect.Modifier;
  *
  * @idea (jand) most methods are also in ppw-bean; consolidate
  *
+ * @note The methods of the class {@code Beans} of the previous version have been moved here and into {@link Properties}.
+ *       Furthermore, a number of methods are removed.
+ *
  * @author Jan Dockx
  *
  * @note partial copy from toryt_II_dev
@@ -257,6 +260,24 @@ public class Classes {
   private final static String EMPTY = "";
 
   private final static String DOT = ".";
+
+  /**
+   * Load the class with name
+   * <code>prefixedFqcn(prefix, fqcn)</code>.
+   *
+   * @param prefix
+   *        The prefix to add before the class name.
+   * @param fqcn
+   *        The original fully qualified class name to derive
+   *        the prefixed class name from.
+   * @throws ClassNotFoundException
+   *         true;
+   */
+  public static Class<?> loadPrefixedClass(final String prefix,
+                                           final String fqcn)
+      throws ClassNotFoundException {
+    return Class.forName(prefixedFqcn(prefix, fqcn));
+  }
 
   /**
    * Instantiate an object of a type
