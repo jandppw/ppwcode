@@ -139,32 +139,4 @@ public interface RousseauBean {
    */
   void normalize();
 
-  /**
-   * This instance has the same values as the instance <code>rb</code>.
-   * This comparison does not take into account to-many associations,
-   * to avoid infinite loops. Comparison is independent of normalization,
-   * i.e., it should return the same result when the participants in the
-   * comparison are normalized or not. To accomplish that, this method
-   * may call {@link #normalize()} itself.
-   *
-   * @param     rb
-   *            The object to compare values with.
-   * @result   result ==> (rb != null) && (getClass() == rb.getClass());
-   */
-  boolean hasSameValues(final RousseauBean rb);
-
-  /**
-   * Overridden to make final.
-   *
-   * @see Object
-   */
-  boolean equals(final Object other);
-
-  /**
-   * Overridden to make final.
-   *
-   * @see Object
-   */
-  int hashCode();
-
 }
