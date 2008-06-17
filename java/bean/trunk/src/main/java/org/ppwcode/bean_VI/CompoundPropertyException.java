@@ -56,6 +56,9 @@ import org.toryt.annotations_I.Throw;
  *   eventually be thrown or not be thrown. An {@link #isEmpty()} compound
  *   property exception should never be thrown. Before a compound property
  *   exception is thrown, it should be {@link #isClosed closed}.</p>
+ * <p>Compound property exceptions are meant as a flat list. You should
+ *   not nest compound property exceptions. This also avoids cyclic
+ *   element exceptions.</p>
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
@@ -245,7 +248,9 @@ public final class CompoundPropertyException extends PropertyException {
       @Expression("for (Set s : elementExceptions.values) {! s.contains(null)}"),
       @Expression("for (Map.Entry e : elementExceptions.entrySet) {for (PropertyException pe : e.value) {pe.propertyName == e.key}}"),
       @Expression("for (Set e : elementExceptions.values) {for (PropertyException pe : s) {pe.origin == origin}}"),
-      @Expression("propertyName != null ? elementExceptions.size == 1"),
+      @Expression("for (Set e : elementExceptions.values) {for (PropertyException pe : s) {pe.originType == originType}}"),
+      @Expression("for (Set e : elementExceptions.values) {for (PropertyException pe : s) {! pe instanceof CompoundPropertyException}}"),
+      @Expression("propertyName != null ? elementExceptions.size <= 1"),
       @Expression("propertyName != null ? for (String s) {s != propertyName ? ! elementExceptions.containsKey(s)}")
     },
     init = @Expression("elementExceptions.empty")
@@ -259,10 +264,19 @@ public final class CompoundPropertyException extends PropertyException {
     }
   }
 
-  @MethodContract(post = @Expression("deepEquals(resul, elementExceptions[null])"))
+  @MethodContract(post = @Expression("result.equals(elementExceptions[null])"))
   public Set<PropertyException> getGeneralElementExceptions() {
     Set<PropertyException> result = $elementExceptions.get(null);
     return $closed ? result : immutablePESetCopy(result);
+  }
+
+  @MethodContract(post = @Expression("union (Set s : getElementExceptions().values()"))
+  public Set<PropertyException> getAllElementExceptions() {
+    Set<PropertyException> result = new HashSet<PropertyException>();
+    for (Set<PropertyException> pes : $elementExceptions.values()) {
+      result.addAll(pes);
+    }
+    return result;
   }
 
   /**
@@ -279,9 +293,10 @@ public final class CompoundPropertyException extends PropertyException {
     },
     exc = {
       @Throw(type = IllegalStateException.class, cond = @Expression("'closed")),
+      @Throw(type = IllegalArgumentException.class, cond = @Expression("^pExc instanceof CompoundPropertyException")),
       @Throw(type = IllegalArgumentException.class, cond = @Expression("^pExc == null")),
       @Throw(type = IllegalArgumentException.class, cond = @Expression("propertyName != null && ^pExc.propertyName != propertyName")),
-      @Throw(type = IllegalArgumentException.class, cond = @Expression("origin != null && ^pExc.origin != origin")),
+      @Throw(type = IllegalArgumentException.class, cond = @Expression("^pExc.origin != origin")),
       @Throw(type = IllegalArgumentException.class, cond = @Expression("^pExc.originType != originType"))
     }
   )
@@ -290,13 +305,16 @@ public final class CompoundPropertyException extends PropertyException {
     if (isClosed()) {
       throw new IllegalStateException("cannot add exceptions to compound when closed");
     }
+    if (pExc instanceof CompoundPropertyException) {
+      throw new IllegalArgumentException("Cannot add a compound property exception. This should be a flat list.");
+    }
     if (pExc == null) {
       throw new IllegalArgumentException("Cannot add null exception.");
     }
     if ((getPropertyName() != null) && (!getPropertyName().equals(pExc.getPropertyName()))) {
       throw new IllegalArgumentException("only exceptions for property " + getPropertyName() + " are allowed");
     }
-    if ((getOrigin() != null) && (pExc.getOrigin() != getOrigin())) {
+    if (pExc.getOrigin() != getOrigin()) {
       throw new IllegalArgumentException("only exceptions for origin " + getOrigin() + " are allowed");
     }
     if ((getOrigin() == null) && (pExc.getOriginType() != getOriginType())) {
@@ -320,7 +338,7 @@ public final class CompoundPropertyException extends PropertyException {
   }
 
   private Set<PropertyException> immutablePESetCopy(Set<PropertyException> pes) {
-    return Collections.unmodifiableSet(new HashSet<PropertyException>(pes));
+    return pes == null ? null : Collections.unmodifiableSet(new HashSet<PropertyException>(pes));
   }
 
   private void makeImmutable() {
@@ -338,6 +356,7 @@ public final class CompoundPropertyException extends PropertyException {
     @Expression("for (Set s : $elementExceptions.values) {! s.contains(null)}"),
     @Expression("for (Map.Entry e : $elementExceptions.entrySet) {for (PropertyException pe : e.value) {pe.propertyName == e.key}}"),
     @Expression("for (Set e : elementExceptions.values) {for (PropertyException pe : s) {pe.origin == origin}}"),
+    @Expression("for (Set e : elementExceptions.values) {for (PropertyException pe : s) {pe.originType == originType}}"),
     @Expression("propertyName != null ? for (String s) {s != propertyName ? ! $elementExceptions.containsKey(s)}")
   })
   private Map<String, Set<PropertyException>> $elementExceptions = new HashMap<String, Set<PropertyException>>();
@@ -400,14 +419,14 @@ public final class CompoundPropertyException extends PropertyException {
    * with reference semantics.
    */
   @MethodContract(
-    post = @Expression("^pe != null && elementExceptions[pe.propertyName].contains(pe)")
+    post = @Expression("^pe != null && elementExceptions[pe.propertyName] != null && elementExceptions[pe.propertyName].contains(pe)")
   )
   public final boolean contains(PropertyException pe) {
     if (pe == null) {
       return false;
     }
     Set<PropertyException> pes = $elementExceptions.get(pe.getPropertyName());
-    return pes.contains(pe);
+    return pes != null && pes.contains(pe);
   }
 
   /**
@@ -442,8 +461,8 @@ public final class CompoundPropertyException extends PropertyException {
    */
   @MethodContract(
     post = {
-      @Expression("elementExceptions.containsKey(^propertyName)"),
-      @Expression("exists(PropertyException pe : elementExceptions[^propertyName]) {pe.hasProperties(^originType, ^propertyName, ^message, ^cause}")
+      @Expression("elementExceptions.containsKey(^propertyName) && " +
+                  "exists(PropertyException pe : elementExceptions[^propertyName]) {pe.hasProperties(^originType, ^propertyName, ^message, ^cause}")
     }
   )
   public final boolean contains(final Class<?> originType, final String propertyName, final String message, final Throwable cause) {
@@ -494,7 +513,7 @@ public final class CompoundPropertyException extends PropertyException {
   @MethodContract(
     post = {
       @Expression(
-        value = "! 'empty",
+        value = "'empty",
         description = "since we cannot change the old value of empty, we are " +
                       "forced to throw an exception if we are not empty"
       ),
@@ -505,20 +524,24 @@ public final class CompoundPropertyException extends PropertyException {
         type = CompoundPropertyException.class,
         cond = {
           @Expression("size > 1"),
-          @Expression("thrown == this")
+          @Expression("thrown == this"),
+          @Expression("closed")
         }
       ),
       @Throw(
          type = PropertyException.class,
          cond = {
            @Expression("size == 1"),
-           @Expression("thrown == anElement")
+           @Expression("thrown == anElement"),
+           @Expression("closed")
          }
        )
     }
   )
   public final void throwIfNotEmpty() throws PropertyException {
-    close();
+    if (! isClosed()) {
+      close();
+    }
     if (!isEmpty()) {
       if (getSize() > 1) {
         throw this;

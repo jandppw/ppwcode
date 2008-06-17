@@ -53,7 +53,7 @@ public class PropertyExceptionTest {
   private Set<String> messages; // not empty
   private Set<Throwable> throwables;
   private final boolean[] booleans = {true, false};
-  private Set<PropertyException> subjects;
+  public Set<PropertyException> subjects;
 
   private Set<Object> origins2;
   private Set<Class<?>> originTypes2;
@@ -73,16 +73,7 @@ public class PropertyExceptionTest {
     throwables = new HashSet<Throwable>();
     throwables.add(null);
     throwables.add(new Throwable());
-    subjects = new HashSet<PropertyException>();
-    for (boolean inOriginInitialization : booleans) {
-      for (String message : messages) {
-        for (String propertyName : propertyNames) {
-          for (Throwable t : throwables) {
-            subjects.add(new PropertyException(originMock, inOriginInitialization, propertyName, message, t));
-          }
-        }
-      }
-    }
+    subjects = createSubjects();
     origins2 = new HashSet<Object>();
     origins2.add(originMock);
     origins2.add(null);
@@ -100,6 +91,20 @@ public class PropertyExceptionTest {
     messages2.add("another message");
     throwables2 = new HashSet<Throwable>(throwables);
     throwables2.add(new Exception());
+  }
+
+  private Set<PropertyException> createSubjects() {
+    Set<PropertyException> result = new HashSet<PropertyException>();
+    for (boolean inOriginInitialization : booleans) {
+      for (String message : messages) {
+        for (String propertyName : propertyNames) {
+          for (Throwable t : throwables) {
+            result.add(new PropertyException(originMock, inOriginInitialization, propertyName, message, t));
+          }
+        }
+      }
+    }
+    return result;
   }
 
   @After

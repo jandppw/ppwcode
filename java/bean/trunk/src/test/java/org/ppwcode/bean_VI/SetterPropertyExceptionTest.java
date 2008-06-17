@@ -45,7 +45,7 @@ public class SetterPropertyExceptionTest {
   private Set<String> messages; // not empty
   private Set<Throwable> throwables;
   private final boolean[] booleans = {true, false};
-  private Set<SetterPropertyException> subjects;
+  public Set<SetterPropertyException> subjects;
 
   private Set<Object> origins2;
   private Set<Class<?>> originTypes2;
@@ -81,20 +81,7 @@ public class SetterPropertyExceptionTest {
       origin.setStubProperty(propertyValue);
       origins.add(origin);
     }
-    subjects = new HashSet<SetterPropertyException>();
-    for (boolean inOriginInitialization : booleans) {
-      for (String message : messages) {
-        for (String propertyName : propertyNames) {
-          for (Object origin : origins) {
-            for (Throwable t : throwables) {
-              for (Object vetoedValue : vetoedValues) {
-                subjects.add(new SetterPropertyException(origin, inOriginInitialization, propertyName, vetoedValue, message, t));
-              }
-            }
-          }
-        }
-      }
-    }
+    subjects = createSubjects();
     origins2 = new HashSet<Object>(origins);
     origins2.add(null);
     origins2.add(new Object());
@@ -111,6 +98,24 @@ public class SetterPropertyExceptionTest {
     messages2.add("another message");
     throwables2 = new HashSet<Throwable>(throwables);
     throwables2.add(new Exception());
+  }
+
+  private Set<SetterPropertyException> createSubjects() {
+    Set<SetterPropertyException> result = new HashSet<SetterPropertyException>();
+    for (boolean inOriginInitialization : booleans) {
+      for (String message : messages) {
+        for (String propertyName : propertyNames) {
+          for (Object origin : origins) {
+            for (Throwable t : throwables) {
+              for (Object vetoedValue : vetoedValues) {
+                result.add(new SetterPropertyException(origin, inOriginInitialization, propertyName, vetoedValue, message, t));
+              }
+            }
+          }
+        }
+      }
+    }
+    return result;
   }
 
   @After
@@ -148,6 +153,7 @@ public class SetterPropertyExceptionTest {
     assertEquals(vetoedValue, subject.getVetoedValue());
     assertEquals(message, subject.getMessage());
     assertEquals(cause, subject.getCause());
+    PropertyExceptionTest.assertTypeInvariants(subject);
     assertTypeInvariants(subject);
   }
 
@@ -185,6 +191,7 @@ public class SetterPropertyExceptionTest {
     assertEquals(vetoedValue, subject.getVetoedValue());
     assertEquals(message, subject.getMessage());
     assertEquals(cause, subject.getCause());
+    PropertyExceptionTest.assertTypeInvariants(subject);
     assertTypeInvariants(subject);
   }
 
@@ -221,6 +228,7 @@ public class SetterPropertyExceptionTest {
     assertEquals(vetoedValue, subject.getVetoedValue());
     assertEquals(message, subject.getMessage());
     assertEquals(cause, subject.getCause());
+    PropertyExceptionTest.assertTypeInvariants(subject);
     assertTypeInvariants(subject);
   }
 
