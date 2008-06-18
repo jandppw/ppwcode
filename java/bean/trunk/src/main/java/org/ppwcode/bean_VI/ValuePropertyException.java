@@ -20,16 +20,21 @@ package org.ppwcode.bean_VI;
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.CloneUtil.safeReference;
 
+import java.lang.reflect.InvocationTargetException;
+
+import org.apache.commons.beanutils.PropertyUtils;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.util.reflect_I.CloneUtil;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.Invars;
 import org.toryt.annotations_I.MethodContract;
 
 
 /**
+ * MUDO documentation
  * <p>In many cases, a property exception is needed that reports
  *   the new value that was tried to set, and the old value
  *   of the property. These values can be used to generate
@@ -58,7 +63,8 @@ import org.toryt.annotations_I.MethodContract;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision: 1124 $",
          date     = "$Date: 2008-06-14 00:35:00 +0200 (Sat, 14 Jun 2008) $")
-public class SetterPropertyException extends ValuePropertyException {
+@Invars(@Expression("propertyName != null"))
+public class ValuePropertyException extends PropertyException {
 
   /*<construction>*/
   //-------------------------------------------------------------------------
@@ -69,9 +75,6 @@ public class SetterPropertyException extends ValuePropertyException {
    * @param     propertyName
    *            The name of the property of which the setter has thrown
    *            this exception because parameter validation failed.
-   * @param     vetoedValue
-   *            The value that was tried to set on property {@code propertyName},
-   *            which is being vetoed by this exception.
    * @param     message
    *            The message that describes the exceptional circumstance.
    * @param     cause
@@ -80,29 +83,28 @@ public class SetterPropertyException extends ValuePropertyException {
    */
   @MethodContract(
     pre  = {
-      @Expression("_origin != null"),
-      @Expression("_propertyName != null"),
-      @Expression("hasProperty(_origin.class, _propertyName)"),
-      @Expression("_message == null || ! _message.equals(EMPTY)")
+      @Expression("^origin != null"),
+      @Expression("^propertyName != null"),
+      @Expression("hasProperty(^origin.class, ^propertyName)"),
+      @Expression("^message == null || ! ^message.equals(EMPTY)")
     },
     post = {
-      @Expression("origin == _origin"),
-      @Expression("originType == _origin.class"),
-      @Expression("propertyName == _propertyName"),
-      @Expression("propertyValue == safeReference(_origin[_propertyName])"),
-      @Expression("vetoedValue == safeReference(_vetoedValue)"),
-      @Expression("value == _ value"),
-      @Expression("message == _message"),
-      @Expression("cause == _cause")
+      @Expression("origin == ^origin"),
+      @Expression("originType == ^origin.class"),
+      @Expression("propertyName == ^propertyName"),
+      @Expression("propertyValue == safeReference(^origin[^propertyName])"),
+      @Expression("value == ^ value"),
+      @Expression("message == ^message"),
+      @Expression("cause == ^cause")
     }
   )
-  public SetterPropertyException(final Object origin,
+  public ValuePropertyException(final Object origin,
                                  final String propertyName,
-                                 final Object vetoedValue,
                                  final String message,
                                  final Throwable cause) {
     super(origin, propertyName, message, cause);
-    $vetoedValue = safeReference(vetoedValue);
+    assert propertyName != null;
+    $propertyValue = safePropertyValue(origin, propertyName);
   }
 
 
@@ -117,9 +119,6 @@ public class SetterPropertyException extends ValuePropertyException {
    * @param     propertyName
    *            The name of the property of which the setter has thrown
    *            this exception because parameter validation failed.
-   * @param     vetoedValue
-   *            The value that was tried to set on property {@code propertyName},
-   *            which is being vetoed by this exception.
    * @param     message
    *            The message that describes the exceptional circumstance.
    * @param     cause
@@ -130,29 +129,30 @@ public class SetterPropertyException extends ValuePropertyException {
    */
   @MethodContract(
     pre  = {
-      @Expression("_origin != null"),
-      @Expression("_propertyName != null"),
-      @Expression("hasProperty(_origin.class, _propertyName)"),
-      @Expression("_message == null || ! _message.equals(EMPTY)")
+      @Expression("^origin != null"),
+      @Expression("^propertyName != null"),
+      @Expression("hasProperty(^origin.class, ^propertyName)"),
+      @Expression("^message == null || ! ^message.equals(EMPTY)")
     },
     post = {
-      @Expression("inOriginInitialization ? origin == null : origin == _origin"),
-      @Expression("originType == _origin.class"),
-      @Expression("propertyName == _propertyName"),
-      @Expression("propertyValue == (inOriginInitialization ? null : safeReference(_origin[_propertyName]))"),
-      @Expression("vetoedValue == safeReference(_vetoedValue)"),
-      @Expression("message == _message"),
-      @Expression("cause == _cause")
+      @Expression("inOriginInitialization ? origin == null : origin == ^origin"),
+      @Expression("originType == ^origin.class"),
+      @Expression("propertyName == ^propertyName"),
+      @Expression("propertyValue == (inOriginInitialization ? null : safeReference(^origin[^propertyName]))"),
+      @Expression("message == ^message"),
+      @Expression("cause == ^cause")
     }
   )
-  public SetterPropertyException(final Object origin,
+  public ValuePropertyException(final Object origin,
                                  final boolean inOriginInitialization,
                                  final String propertyName,
-                                 final Object vetoedValue,
                                  final String message,
                                  final Throwable cause) {
     super(origin, inOriginInitialization, propertyName, message, cause);
-    $vetoedValue = safeReference(vetoedValue);
+    assert propertyName != null;
+    if (! inOriginInitialization) {
+      $propertyValue = safePropertyValue(origin, propertyName);
+    }
   }
 
 
@@ -162,9 +162,6 @@ public class SetterPropertyException extends ValuePropertyException {
    * @param     propertyName
    *            The name of the property of which the setter has thrown
    *            this exception because parameter validation failed.
-   * @param     vetoedValue
-   *            The value that was tried to set on property {@code propertyName},
-   *            which is being vetoed by this exception.
    * @param     message
    *            The message that describes the exceptional circumstance.
    * @param     cause
@@ -175,47 +172,62 @@ public class SetterPropertyException extends ValuePropertyException {
    */
   @MethodContract(
     pre  = {
-      @Expression("_originType != null"),
-      @Expression("_propertyName != null"),
-      @Expression("hasProperty(_originType, _propertyName)"),
-      @Expression("_message == null || ! _message.equals(EMPTY)")
+      @Expression("^originType != null"),
+      @Expression("^propertyName != null"),
+      @Expression("hasProperty(^originType, ^propertyName)"),
+      @Expression("^message == null || ! ^message.equals(EMPTY)")
     },
     post = {
       @Expression("origin == null"),
-      @Expression("originType == _originType"),
-      @Expression("propertyName == _propertyName"),
+      @Expression("originType == ^originType"),
+      @Expression("propertyName == ^propertyName"),
       @Expression("propertyValue == null"),
-      @Expression("vetoedValue == safeReference(_vetoedValue)"),
-      @Expression("message == _message"),
-      @Expression("cause == _cause")
+      @Expression("message == ^message"),
+      @Expression("cause == ^cause")
     }
   )
-  public SetterPropertyException(final Class<?> originType,
+  public ValuePropertyException(final Class<?> originType,
                                  final String propertyName,
                                  final Object vetoedValue,
                                  final String message,
                                  final Throwable cause) {
     super(originType, propertyName, message, cause);
-    $vetoedValue = safeReference(vetoedValue);
+    assert propertyName != null;
+  }
+
+  private static Object safePropertyValue(final Object origin, final String propertyName) {
+    try {
+      return safeReference(PropertyUtils.getSimpleProperty(origin, propertyName));
+    }
+    catch (IllegalAccessException exc) {
+      assert false : "IllegalAccessException should not happen: " + exc + " we already tested that the property exists";
+    }
+    catch (InvocationTargetException exc) {
+      assert false : "InvocationTargetException should not happen: " + exc + " we already tested that the property exists";
+    }
+    catch (NoSuchMethodException exc) {
+      assert false : "NoSuchMethodException should not happen: " + exc + " we already tested that the property exists";
+    }
+    return null; // make compiler happy
   }
 
   /*</construction>*/
 
 
 
-  /*<property name="vetoed value">*/
+  /*<property name="property value">*/
   //------------------------------------------------------------------
 
   /**
-   * The value that was tried to set on property {@link #getPropertyName()},
-   * which was vetoed by this exception.
+   * The value of property {@link #getPropertyName()} of {@link @getOrigin()}
+   * at the time this exception occurred. {@code null} is not applicable.
    */
-  @Basic
-  public final Object getVetoedValue() {
-    return CloneUtil.safeReference($vetoedValue);
+  @Basic(invars = @Expression("origin == null ? propertyValue = null"))
+  public final Object getPropertyValue() {
+    return CloneUtil.safeReference($propertyValue);
   }
 
-  private Object $vetoedValue;
+  private Object $propertyValue;
 
   /*</property>*/
 
