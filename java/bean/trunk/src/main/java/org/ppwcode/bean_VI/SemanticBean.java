@@ -21,6 +21,8 @@ import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.MethodContract;
 
 
 
@@ -44,6 +46,17 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
  *   if another semantic object has exactly the same properties, it is not necessarily so
  *   that they both represent the same real-world object. Indeed, there <em>is</em>
  *   at least 1 other person in Belgium that has &quot;Jan Dockx&quot; as his name.</p>
+ * <p>{@ink #toString()} should only be used for debugging and logging purposes. For
+ *   semantic beans, {@ink #toString()} should return a {@link String} that shows
+ *   the class name and hash code (like {@link Object#toString()} does, followed
+ *   by a comma-separated list of
+ *   <code><var>propertyName</var> = <var>propertyValue</var></code> entries.
+ *   Experience shows that this is not that hard, but that great care should be taken
+ *   that no infinite loop is introduced in the code when navigating over the
+ *   object graph. Therefore, the general rule should be that <dfn>upstream</dfn>
+ *   reference properties are listed (usually to-one associations), but
+ *   <dfn>downstream</dfn> reference properties (usually to-many associations) should
+ *   not.</p>
  * <p>{@link AbstractSemanticBean} offers hard implementations that enforce the
  *   above rules. As this interface doesn't really enforce anything through the compiler,
  *   it can be seen as a tagging interface.</p>
@@ -72,6 +85,7 @@ public interface SemanticBean {
    *
    * @see Object
    */
+  @MethodContract(post = {@Expression("this == other")})
   boolean equals(final Object other);
 
   /**
@@ -80,5 +94,13 @@ public interface SemanticBean {
    * @see Object
    */
   int hashCode();
+
+  @MethodContract(
+    post = {
+      @Expression("result.startsWith(class.name + '@' + Integer.toHexString(hashCode()) + '[')"),
+      @Expression("result.endsWith(']')")
+    }
+  )
+  String toString();
 
 }
