@@ -35,18 +35,17 @@ import org.junit.Test;
 import org.ppwcode.bean_VI.PropertyExceptionTest.OriginStub;
 
 
-public class SetterPropertyExceptionTest {
+public class ValuePropertyExceptionTest {
 
   public final static String EMPTY = "";
 
   private Set<OriginStub> origins;
   private Set<String> propertyNames; // not empty
   private Set<Object> propertyValues;
-  private Set<Object> vetoedValues;
   private Set<String> messages; // not empty
   private Set<Throwable> throwables;
   private final boolean[] booleans = {true, false};
-  public Set<SetterPropertyException> subjects;
+  public Set<ValuePropertyException> subjects;
 
   private Set<Object> origins2;
   private Set<Class<?>> originTypes2;
@@ -68,11 +67,6 @@ public class SetterPropertyExceptionTest {
     propertyValues.add(new Object());
     propertyValues.add(new String());
     propertyValues.add(new Date());
-    vetoedValues = new HashSet<Object>();
-    vetoedValues.add(null);
-    vetoedValues.add(new Object());
-    vetoedValues.add(new String());
-    vetoedValues.add(new Date());
     throwables = new HashSet<Throwable>();
     throwables.add(null);
     throwables.add(new Throwable());
@@ -101,16 +95,14 @@ public class SetterPropertyExceptionTest {
     throwables2.add(new Exception());
   }
 
-  private Set<SetterPropertyException> createSubjects() {
-    Set<SetterPropertyException> result = new HashSet<SetterPropertyException>();
+  private Set<ValuePropertyException> createSubjects() {
+    Set<ValuePropertyException> result = new HashSet<ValuePropertyException>();
     for (boolean inOriginInitialization : booleans) {
       for (String message : messages) {
         for (String propertyName : propertyNames) {
           for (Object origin : origins) {
             for (Throwable t : throwables) {
-              for (Object vetoedValue : vetoedValues) {
-                result.add(new SetterPropertyException(origin, inOriginInitialization, propertyName, vetoedValue, message, t));
-              }
+              result.add(new ValuePropertyException(origin, inOriginInitialization, propertyName, message, t));
             }
           }
         }
@@ -132,26 +124,24 @@ public class SetterPropertyExceptionTest {
     messages2 = null;
   }
 
-  public static void assertTypeInvariants(SetterPropertyException subject) {
+  public static void assertTypeInvariants(ValuePropertyException subject) {
     PropertyExceptionTest.assertTypeInvariants(subject);
     assertNotNull(subject.getPropertyName());
     assertTrue(subject.getOrigin() == null ? subject.getPropertyValue() == null : true);
   }
 
-  private void testSetterPropertyExceptionObjectStringObjectStringThrowable(final Object origin,
+  private void testValuePropertyExceptionObjectStringObjectStringThrowable(final Object origin,
                                                                       final String propertyName,
-                                                                      final Object vetoedValue,
                                                                       final String message,
                                                                       final Throwable cause)
       throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
     // execute
-    SetterPropertyException subject = new SetterPropertyException(origin, propertyName, vetoedValue, message, cause);
+    ValuePropertyException subject = new ValuePropertyException(origin, propertyName, message, cause);
     // validate
     assertEquals(origin, subject.getOrigin());
     assertEquals(origin.getClass(), subject.getOriginType());
     assertEquals(propertyName, subject.getPropertyName());
     assertEquals(PropertyUtils.getProperty(origin, propertyName), subject.getPropertyValue());
-    assertEquals(vetoedValue, subject.getVetoedValue());
     assertEquals(message, subject.getMessage());
     assertEquals(cause, subject.getCause());
     PropertyExceptionTest.assertTypeInvariants(subject);
@@ -159,37 +149,33 @@ public class SetterPropertyExceptionTest {
   }
 
   @Test
-  public void testSetterPropertyExceptionObjectStringObjectStringThrowable()
+  public void testValuePropertyExceptionObjectStringObjectStringThrowable()
       throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
     for (Object origin : origins) {
       for (String message : messages) {
         for (String propertyName : propertyNames) {
-          for (Object vetoedValue : vetoedValues) {
-            for (Throwable t : throwables) {
-              testSetterPropertyExceptionObjectStringObjectStringThrowable(origin, propertyName, vetoedValue, message, t);
-            }
+          for (Throwable t : throwables) {
+            testValuePropertyExceptionObjectStringObjectStringThrowable(origin, propertyName, message, t);
           }
         }
       }
     }
   }
 
-  private void testSetterPropertyExceptionObjectBooleanStringObjectStringThrowable(final Object origin,
+  private void testValuePropertyExceptionObjectBooleanStringObjectStringThrowable(final Object origin,
                                                                                    final boolean inOriginInitialization,
                                                                                    final String propertyName,
-                                                                                   final Object vetoedValue,
                                                                                    final String message,
                                                                                    final Throwable cause)
       throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
     // execute
-    SetterPropertyException subject = new SetterPropertyException(origin, inOriginInitialization, propertyName, vetoedValue, message, cause);
+    ValuePropertyException subject = new ValuePropertyException(origin, inOriginInitialization, propertyName, message, cause);
     // validate
     assertTrue(inOriginInitialization ? subject.getOrigin() == null : subject.getOrigin() == origin);
     assertEquals(origin.getClass(), subject.getOriginType());
     assertEquals(propertyName, subject.getPropertyName());
     assertEquals(inOriginInitialization ? null : PropertyUtils.getProperty(origin, propertyName),
                  subject.getPropertyValue());
-    assertEquals(vetoedValue, subject.getVetoedValue());
     assertEquals(message, subject.getMessage());
     assertEquals(cause, subject.getCause());
     PropertyExceptionTest.assertTypeInvariants(subject);
@@ -197,16 +183,14 @@ public class SetterPropertyExceptionTest {
   }
 
   @Test
-  public void testSetterPropertyExceptionObjectBooleanStringObjectStringThrowable()
+  public void testValuePropertyExceptionObjectBooleanStringObjectStringThrowable()
       throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
     for (boolean inOriginInitialization : booleans) {
       for (Object origin : origins) {
         for (String message : messages) {
           for (String propertyName : propertyNames) {
-            for (Object vetoedValue : vetoedValues) {
-              for (Throwable t : throwables) {
-                testSetterPropertyExceptionObjectBooleanStringObjectStringThrowable(origin, inOriginInitialization, propertyName, vetoedValue, message, t);
-              }
+            for (Throwable t : throwables) {
+              testValuePropertyExceptionObjectBooleanStringObjectStringThrowable(origin, inOriginInitialization, propertyName, message, t);
             }
           }
         }
@@ -214,19 +198,17 @@ public class SetterPropertyExceptionTest {
     }
   }
 
-  private void testSetterPropertyExceptionClassOfQStringObjectStringThrowable(final Class<?> originType,
+  private void testValuePropertyExceptionClassOfQStringObjectStringThrowable(final Class<?> originType,
                                                                               final String propertyName,
-                                                                              final Object vetoedValue,
                                                                               final String message,
                                                                               final Throwable cause) {
     // execute
-    SetterPropertyException subject = new SetterPropertyException(originType, propertyName, vetoedValue, message, cause);
+    ValuePropertyException subject = new ValuePropertyException(originType, propertyName, message, cause);
     // validate
     assertNull(subject.getOrigin());
     assertEquals(originType, subject.getOriginType());
     assertEquals(propertyName, subject.getPropertyName());
     assertNull(subject.getPropertyValue());
-    assertEquals(vetoedValue, subject.getVetoedValue());
     assertEquals(message, subject.getMessage());
     assertEquals(cause, subject.getCause());
     PropertyExceptionTest.assertTypeInvariants(subject);
@@ -234,24 +216,22 @@ public class SetterPropertyExceptionTest {
   }
 
   @Test
-  public void testSetterPropertyExceptionClassOfQStringObjectStringThrowable() {
+  public void testValuePropertyExceptionClassOfQStringObjectStringThrowable() {
     for (String message : messages) {
       for (String propertyName : propertyNames) {
-        for (Object vetoedValue : vetoedValues) {
-          for (Throwable t : throwables) {
-            testSetterPropertyExceptionClassOfQStringObjectStringThrowable(OriginStub.class, propertyName, vetoedValue, message, t);
-          }
+        for (Throwable t : throwables) {
+          testValuePropertyExceptionClassOfQStringObjectStringThrowable(OriginStub.class, propertyName, message, t);
         }
       }
     }
   }
 
-  public static void testLike(SetterPropertyException subject, PropertyException other) {
+  public static void testLike(ValuePropertyException subject, PropertyException other) {
     // execute
     boolean result = subject.like(other);
     // validate
-    ValuePropertyExceptionTest.testLike(subject, other);
-    assertTrue(result ? eqn(subject.getVetoedValue(), ((SetterPropertyException)other).getVetoedValue()) : true);
+    PropertyExceptionTest.testLike(subject, other);
+    assertTrue(result ? eqn(subject.getPropertyValue(), ((ValuePropertyException)other).getPropertyValue()) : true);
     assertTypeInvariants(subject);
   }
 
@@ -261,7 +241,7 @@ public class SetterPropertyExceptionTest {
 
   @Test
   public void testLike() {
-    for (SetterPropertyException subject : subjects) {
+    for (ValuePropertyException subject : subjects) {
       for (Object origin : origins2) {
         if (origin != null) {
           for (String propertyName : propertyNames2) {
@@ -269,25 +249,22 @@ public class SetterPropertyExceptionTest {
               for (String message : messages2) {
                 if ((message == null) || (! message.equals(""))) {
                   for (Throwable cause : throwables2) {
-                    testLike(subject, new PropertyException(origin, propertyName, message, cause));
                     testLike(subject, new ValuePropertyException(origin, propertyName, message, cause));
-                    for (Object vetoedValue : vetoedValues) {
-                      testLike(subject, new SetterPropertyException(origin, propertyName, vetoedValue, message, cause));
-                    }
+                    testLike(subject, new PropertyException(origin, propertyName, message, cause));
                   }
                 }
               }
             }
           }
         }
+        testLike(subject, null);
       }
-      testLike(subject, null);
     }
   }
 
 //  @Test
 //  public void testHasPropertiesObjectStringStringThrowable() {
-//    for (SetterPropertyException subject : subjects) {
+//    for (ValuePropertyException subject : subjects) {
 //      for (Object origin : origins2) {
 //        for (String propertyName : propertyNames2) {
 //          for (String message : messages2) {
@@ -303,7 +280,7 @@ public class SetterPropertyExceptionTest {
 //
 //  @Test
 //  public void testHasPropertiesClassOfQStringStringThrowable() {
-//    for (SetterPropertyException subject : subjects) {
+//    for (ValuePropertyException subject : subjects) {
 //      for (Class<?> originType : originTypes2) {
 //        for (String propertyName : propertyNames2) {
 //          for (String message : messages2) {
@@ -319,7 +296,7 @@ public class SetterPropertyExceptionTest {
 //
 //  @Test
 //  public void testReportsOnObjectStringStringThrowable() {
-//    for (SetterPropertyException subject : subjects) {
+//    for (ValuePropertyException subject : subjects) {
 //      for (Object origin : origins2) {
 //        for (String propertyName : propertyNames2) {
 //          for (String message : messages2) {
@@ -335,7 +312,7 @@ public class SetterPropertyExceptionTest {
 //
 //  @Test
 //  public void testReportsOnClassOfQStringStringThrowable() {
-//    for (SetterPropertyException subject : subjects) {
+//    for (ValuePropertyException subject : subjects) {
 //      for (Class<?> originType : originTypes2) {
 //        for (String propertyName : propertyNames2) {
 //          for (String message : messages2) {

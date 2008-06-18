@@ -58,6 +58,8 @@ import org.toryt.annotations_I.MethodContract;
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
+ *
+ * @since VI
  */
 @Copyright("2004 - $Date: 2008-06-14 00:35:00 +0200 (Sat, 14 Jun 2008) $, PeopleWare n.v.")
 @License(APACHE_V2)
@@ -188,7 +190,6 @@ public class ValuePropertyException extends PropertyException {
   )
   public ValuePropertyException(final Class<?> originType,
                                  final String propertyName,
-                                 final Object vetoedValue,
                                  final String message,
                                  final Throwable cause) {
     super(originType, propertyName, message, cause);
@@ -228,6 +229,28 @@ public class ValuePropertyException extends PropertyException {
   }
 
   private Object $propertyValue;
+
+  /*</property>*/
+
+
+
+  /*<section name="comparison">*/
+  //------------------------------------------------------------------
+
+  /**
+   * Compare {@code other} to this: is other of the the exact same
+   * type and does other have the exact same properties, including
+   * {@link #getPropertyValue()}.
+   *
+   * @since VI
+   */
+  @Override
+  @MethodContract(
+    post = @Expression("result ? other.propertyValue == propertyValue")
+  )
+  public boolean like(PropertyException other) {
+    return super.like(other) && eqn(((ValuePropertyException)other).getPropertyValue(), getPropertyValue());
+  }
 
   /*</property>*/
 

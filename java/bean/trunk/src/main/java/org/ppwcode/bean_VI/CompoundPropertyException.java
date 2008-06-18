@@ -419,89 +419,99 @@ public final class CompoundPropertyException extends PropertyException {
    * with reference semantics.
    */
   @MethodContract(
-    post = @Expression("^pe != null && elementExceptions[pe.propertyName] != null && elementExceptions[pe.propertyName].contains(pe)")
+    post = @Expression("^pe != null && elementExceptions[pe.propertyName] != null && " +
+                   "exists(PropertyException pe : elementExceptions[pe.propertyName]) {pe.like(_pe)}")
   )
   public final boolean contains(PropertyException pe) {
     if (pe == null) {
       return false;
     }
     Set<PropertyException> pes = $elementExceptions.get(pe.getPropertyName());
-    return pes != null && pes.contains(pe);
-  }
-
-  /**
-   * Checks whether there is a property exception with these parameters
-   * in this compounds element exceptions.
-   */
-  @MethodContract(
-    post = {
-      @Expression("elementExceptions.containsKey(^propertyName)"),
-      @Expression("exists(PropertyException pe : elementExceptions[^propertyName]) {pe.hasProperties(^origin, ^propertyName, ^message, ^cause}")
+    if (pes == null) {
+      return false;
     }
-  )
-  public final boolean contains(final Object origin, final String propertyName, final String message, final Throwable cause) {
-    Set<PropertyException> propertySet = $elementExceptions.get(propertyName);
-    if (propertySet != null) {
-      assert ! propertySet.isEmpty();
-      for (PropertyException candidate : propertySet) {
-        if (candidate.hasProperties(origin, propertyName, message, cause)) {
-          return true;
-        }
+    for (PropertyException candidate : pes) {
+      if (candidate.like(pe)) {
+        return true;
       }
     }
     return false;
   }
 
-
-  /**
-   * Checks whether there is a property exception with these parameters
-   * in this compounds element exceptions.
-   *
-   * @since IV
-   */
-  @MethodContract(
-    post = {
-      @Expression("elementExceptions.containsKey(^propertyName) && " +
-                  "exists(PropertyException pe : elementExceptions[^propertyName]) {pe.hasProperties(^originType, ^propertyName, ^message, ^cause}")
-    }
-  )
-  public final boolean contains(final Class<?> originType, final String propertyName, final String message, final Throwable cause) {
-    Set<PropertyException> propertySet = $elementExceptions.get(propertyName);
-    if (propertySet != null) {
-      assert ! propertySet.isEmpty();
-      for (PropertyException candidate : propertySet) {
-        if (candidate.hasProperties(originType, propertyName, message, cause)) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
-  /*</section>*/
-
-
-
-  /*<section name="reports on">*/
-  //------------------------------------------------------------------
-
-  @MethodContract(post = @Expression("contains(^origin, ^propertyName, ^message, ^cause)"))
-  @Override
-  public final boolean reportsOn(final Object origin, final String propertyName, final String message, final Throwable cause) {
-    return contains(origin, propertyName, message, cause);
-  }
-
-  /**
-   * @since IV
-   */
-  @MethodContract(post = @Expression("contains(^originType, ^propertyName, ^message, ^cause)"))
-  @Override
-  public final boolean reportsOn(final Class<?> originType, final String propertyName, final String message, final Throwable cause) {
-    return contains(originType, propertyName, message, cause);
-  }
-
-  /*</section>*/
-
+//  /**
+//   * Checks whether there is a property exception with these parameters
+//   * in this compounds element exceptions.
+//   */
+//  @MethodContract(
+//    post = {
+//      @Expression("elementExceptions.containsKey(^propertyName)"),
+//      @Expression("exists(PropertyException pe : elementExceptions[^propertyName]) {pe.hasProperties(^origin, ^propertyName, ^message, ^cause}")
+//    }
+//  )
+//  EXCEPTION TYPE ADDED
+//  public final boolean contains(final Class<?> exceptionType, final Object origin, final String propertyName, final String message, final Throwable cause) {
+//    Set<PropertyException> propertySet = $elementExceptions.get(propertyName);
+//    if (propertySet != null) {
+//      assert ! propertySet.isEmpty();
+//      for (PropertyException candidate : propertySet) {
+//        if (candidate.hasProperties(origin, propertyName, message, cause)) {
+//          return true;
+//        }
+//      }
+//    }
+//    return false;
+//  }
+//
+//
+//  /**
+//   * Checks whether there is a property exception with these parameters
+//   * in this compounds element exceptions.
+//   *
+//   * @since IV
+//   */
+//  @MethodContract(
+//    post = {
+//      @Expression("elementExceptions.containsKey(^propertyName) && " +
+//                  "exists(PropertyException pe : elementExceptions[^propertyName]) {pe.hasProperties(^originType, ^propertyName, ^message, ^cause}")
+//    }
+//  )
+//  public final boolean contains(final Class<?> originType, final String propertyName, final String message, final Throwable cause) {
+//    Set<PropertyException> propertySet = $elementExceptions.get(propertyName);
+//    if (propertySet != null) {
+//      assert ! propertySet.isEmpty();
+//      for (PropertyException candidate : propertySet) {
+//        if (candidate.hasProperties(originType, propertyName, message, cause)) {
+//          return true;
+//        }
+//      }
+//    }
+//    return false;
+//  }
+//
+//  /*</section>*/
+//
+//
+//
+//  /*<section name="reports on">*/
+//  //------------------------------------------------------------------
+//
+//  @MethodContract(post = @Expression("contains(^origin, ^propertyName, ^message, ^cause)"))
+//  @Override
+//  public final boolean reportsOn(final Object origin, final String propertyName, final String message, final Throwable cause) {
+//    return contains(origin, propertyName, message, cause);
+//  }
+//
+//  /**
+//   * @since IV
+//   */
+//  @MethodContract(post = @Expression("contains(^originType, ^propertyName, ^message, ^cause)"))
+//  @Override
+//  public final boolean reportsOn(final Class<?> originType, final String propertyName, final String message, final Throwable cause) {
+//    return contains(originType, propertyName, message, cause);
+//  }
+//
+//  /*</section>*/
+//
 
 
   /**

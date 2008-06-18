@@ -219,4 +219,26 @@ public class SetterPropertyException extends ValuePropertyException {
 
   /*</property>*/
 
+
+
+  /*<section name="comparison">*/
+  //------------------------------------------------------------------
+
+  /**
+   * Compare {@code other} to this: is other of the the exact same
+   * type and does other have the exact same properties, including
+   * {@link #getVetoedValue()}.
+   *
+   * @since VI
+   */
+  @Override
+  @MethodContract(
+    post = @Expression("result ? other.vetoedValue == vetoedValue")
+  )
+  public boolean like(PropertyException other) {
+    return super.like(other) && eqn(((SetterPropertyException)other).getVetoedValue(), getVetoedValue());
+  }
+
+  /*</property>*/
+
 }

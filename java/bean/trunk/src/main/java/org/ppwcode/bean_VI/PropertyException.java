@@ -19,7 +19,6 @@ package org.ppwcode.bean_VI;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.Properties.hasProperty;
-import static org.toryt.annotations_I.Scope.PROTECTED;
 
 import org.ppwcode.exception_N.SemanticException;
 import org.ppwcode.metainfo_I.Copyright;
@@ -27,8 +26,8 @@ import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
-import org.toryt.annotations_I.MethodContract;
 import org.toryt.annotations_I.Invars;
+import org.toryt.annotations_I.MethodContract;
 
 
 /**
@@ -92,16 +91,16 @@ public class PropertyException extends SemanticException {
    */
   @MethodContract(
     pre  = {
-      @Expression("^origin != null"),
-      @Expression("^propertyName != null ? hasProperty(^origin.class, ^propertyName)"),
-      @Expression("^message == null || ! ^message.equals(EMPTY)")
+      @Expression("_origin != null"),
+      @Expression("_propertyName != null ? hasProperty(_origin.class, _propertyName)"),
+      @Expression("_message == null || ! _message.equals(EMPTY)")
     },
     post = {
-      @Expression("origin == ^origin"),
-      @Expression("originType == ^origin.class"),
-      @Expression("propertyName == ^propertyName"),
-      @Expression("message == ^message"),
-      @Expression("cause == ^cause")
+      @Expression("origin == _origin"),
+      @Expression("originType == _origin.class"),
+      @Expression("propertyName == _propertyName"),
+      @Expression("message == _message"),
+      @Expression("cause == _cause")
     }
   )
   public PropertyException(final Object origin,
@@ -110,6 +109,7 @@ public class PropertyException extends SemanticException {
                            final Throwable cause) {
     super(message, cause);
     assert origin != null;
+    assert ! (origin instanceof Class);
     assert (propertyName == null) || hasProperty(origin.getClass(), propertyName);
     assert (message == null) || (! message.equals(""));
     $origin = origin;
@@ -139,16 +139,16 @@ public class PropertyException extends SemanticException {
    */
   @MethodContract(
     pre  = {
-      @Expression("^origin != null"),
-      @Expression("^propertyName != null ? hasProperty(^origin.class, ^propertyName)"),
-      @Expression("^message == null || ! ^message.equals(EMPTY)")
+      @Expression("_origin != null"),
+      @Expression("_propertyName != null ? hasProperty(_origin.class, _propertyName)"),
+      @Expression("_message == null || ! _message.equals(EMPTY)")
     },
     post = {
-      @Expression("^inOriginInitialization ? origin == null : origin == ^origin"),
-      @Expression("originType == ^origin.class"),
-      @Expression("propertyName == ^propertyName"),
-      @Expression("message == ^message"),
-      @Expression("cause == ^cause")
+      @Expression("_inOriginInitialization ? origin == null : origin == _origin"),
+      @Expression("originType == _origin.class"),
+      @Expression("propertyName == _propertyName"),
+      @Expression("message == _message"),
+      @Expression("cause == _cause")
     }
   )
   public PropertyException(final Object origin,
@@ -184,16 +184,16 @@ public class PropertyException extends SemanticException {
    */
   @MethodContract(
     pre  = {
-      @Expression("^originType != null"),
-      @Expression("^propertyName != null ? hasProperty(^originType, ^propertyName)"),
-      @Expression("^message == null || ! ^message.equals(EMPTY)")
+      @Expression("_originType != null"),
+      @Expression("_propertyName != null ? hasProperty(_originType, _propertyName)"),
+      @Expression("_message == null || ! _message.equals(EMPTY)")
     },
     post = {
       @Expression("origin == null"),
-      @Expression("originType == ^originType"),
-      @Expression("propertyName == ^propertyName"),
-      @Expression("message == ^message"),
-      @Expression("cause == ^cause")
+      @Expression("originType == _originType"),
+      @Expression("propertyName == _propertyName"),
+      @Expression("message == _message"),
+      @Expression("cause == _cause")
     }
   )
   public PropertyException(final Class<?> originType,
@@ -298,127 +298,168 @@ public class PropertyException extends SemanticException {
   //------------------------------------------------------------------
 
   /**
-   * @param     origin
-   *            The origin to compare the one of this Exception with.
-   * @param     propertyName
-   *            The  propertyName to compare the one of this Exception with.
-   * @param     message
-   *            The message to compare the one of this Exception with..
-   * @param     cause
-   *            The cause to compare the one of this Exception with.
+   * Compare {@code other} to this: is other of the the exact same
+   * type and does other have the exact same properties.
+   *
+   * This method is an alternative to {@link #equals(Object)}, which
+   * we cannot override, because we need to keep reference semantics
+   * for exceptions.
+   *
+   * This method is introduced mainly for use in contracts of methods
+   * that throw property exceptions, and in unit tests for those
+   * methods.
+   *
+   * This method must be overridden in every subclass that adds a property
+   * to include that property in the comparison.
+   *
+   * @note methods was formerly called {@code hasSameValues}, and now replaces
+   *       {@code hasSameValues}, 2 {@code contains} methods and 2 {@code reportsOn}
+   *       methods, which in practice did not fulfill their promise.
+   *
+   * @since VI
    */
   @MethodContract(
-    post = @Expression("(origin == ^origin) && (propertyName == ^propertyName) && (message == ^message) && (cause == ^cause)")
+    post = @Expression("result ? (_other != null) && (_other.class = class) && " +
+                       "(origin == _other.origin) && (originType == _other.originType) && " +
+                       "(propertyName == _other.propertyName) && (message == _other.message) && " +
+                       "(cause == _other.cause)")
   )
-  public final boolean hasProperties(final Object origin,
-                                     final String propertyName,
-                                     final String message,
-                                     final Throwable cause) {
-    return (getOrigin() == origin)
-              && ((getPropertyName() == null)
-                    ? propertyName == null
-                    : getPropertyName().equals(propertyName))
-              && ((getCause() == null)
-                    ? cause == null
-                    : getCause().equals(cause))
-              && ((getMessage() == null)
-                    ? message == null
-                    : getMessage().equals(message));
+  public boolean like(PropertyException other) {
+    return (other != null) && (other.getClass() == getClass()) &&
+           (other.getOrigin() == getOrigin()) &&
+           (other.getOriginType() == getOriginType()) &&
+           eqn(other.getPropertyName(), getPropertyName()) &&
+           eqn(other.getMessage(), getMessage()) &&
+           (other.getCause() == getCause());
   }
 
-  /**
-   * @param     originType
-   *            The type of origin to compare the one of this Exception with.
-   * @param     propertyName
-   *            The  propertyName to compare the one of this Exception with.
-   * @param     message
-   *            The message to compare the one of this Exception with..
-   * @param     cause
-   *            The cause to compare the one of this Exception with.
-   *
-   * @since IV
-   */
-  @MethodContract(
-    post = @Expression("(originType == ^originType) && (propertyName == ^propertyName) && (message == ^message) && (cause == ^cause)")
-  )
-  public final boolean hasProperties(final Class<?> originType,
-                                     final String propertyName,
-                                     final String message,
-                                     final Throwable cause) {
-    return (getOriginType() == originType)
-              && ((getPropertyName() == null)
-                    ? propertyName == null
-                    : getPropertyName().equals(propertyName))
-              && ((getCause() == null)
-                    ? cause == null
-                    : getCause().equals(cause))
-              && ((getMessage() == null)
-                    ? message == null
-                    : getMessage().equals(message));
+  protected final boolean eqn(Object o1, Object o2) {
+    return o1 == null ? o2 == null : o1.equals(o2);
   }
 
-  /*</section>*/
 
-
-
-  /*<section name="reports on">*/
-  //------------------------------------------------------------------
-
-  /**
-   * Does this exception, in some way, report about
-   * an exceptional condition concerning <code>origin</code>,
-   * <code>propertyName</code>, with <code>message</code>
-   * and <code>cause</code>.
-   *
-   * This is the non-deterministic version of
-   * {@link #hasProperties(Object, String, String, Throwable)}, which
-   * can be overwritten by subclasses.
-   * The default implementation calls
-   * {@link #hasProperties(Object, String, String, Throwable)}.
-   */
-  @MethodContract(
-    post = {
-      @Expression("true"),
-      @Expression(scope = PROTECTED,
-                  value = "hasProperties(^origin, ^propertyName, ^message, ^cause)")
-    }
-  )
-  public boolean reportsOn(final Object origin,
-                            final String propertyName,
-                            final String message,
-                            final Throwable cause) {
-    return hasProperties(origin, propertyName, message, cause);
-  }
-
-  /**
-   * Does this exception, in some way, report about
-   * an exceptional condition concerning <code>originType</code>,
-   * <code>propertyName</code>, with <code>message</code>
-   * and <code>cases</code>.
-   *
-   * This is the non-deterministic version of
-   * {@link #hasProperties(Class, String, String, Throwable)}, which
-   * can be overwritten by subclasses.
-   * The default implementation calls
-   * {@link #hasProperties(Class, String, String, Throwable)}.
-   *
-   * @since IV
-   */
-  @MethodContract(
-    post = {
-      @Expression("true"),
-      @Expression(scope = PROTECTED,
-                  value = "hasProperties(^originType, ^propertyName, ^message, ^cause)")
-    }
-  )
-  public boolean reportsOn(final Class<?> originType,
-                            final String propertyName,
-                            final String message,
-                            final Throwable cause) {
-    return hasProperties(originType, propertyName, message, cause);
-  }
-
-  /*</section>*/
+//  /**
+//   * @param     origin
+//   *            The origin to compare the one of this Exception with.
+//   * @param     propertyName
+//   *            The  propertyName to compare the one of this Exception with.
+//   * @param     message
+//   *            The message to compare the one of this Exception with..
+//   * @param     cause
+//   *            The cause to compare the one of this Exception with.
+//   */
+//  @MethodContract(
+//    post = @Expression("(origin == _origin) && (propertyName == _propertyName) && (message == _message) && (cause == _cause)")
+//  )
+//  public final boolean hasProperties(final Object origin,
+//                                     final String propertyName,
+//                                     final String message,
+//                                     final Throwable cause) {
+//    return (getOrigin() == origin)
+//              && ((getPropertyName() == null)
+//                    ? propertyName == null
+//                    : getPropertyName().equals(propertyName))
+//              && ((getCause() == null)
+//                    ? cause == null
+//                    : getCause().equals(cause))
+//              && ((getMessage() == null)
+//                    ? message == null
+//                    : getMessage().equals(message));
+//  }
+//
+//  /**
+//   * @param     originType
+//   *            The type of origin to compare the one of this Exception with.
+//   * @param     propertyName
+//   *            The  propertyName to compare the one of this Exception with.
+//   * @param     message
+//   *            The message to compare the one of this Exception with..
+//   * @param     cause
+//   *            The cause to compare the one of this Exception with.
+//   *
+//   * @since IV
+//   */
+//  @MethodContract(
+//    post = @Expression("(originType == _originType) && (propertyName == _propertyName) && (message == _message) && (cause == _cause)")
+//  )
+//  public final boolean hasProperties(final Class<?> originType,
+//                                     final String propertyName,
+//                                     final String message,
+//                                     final Throwable cause) {
+//    return (getOriginType() == originType)
+//              && ((getPropertyName() == null)
+//                    ? propertyName == null
+//                    : getPropertyName().equals(propertyName))
+//              && ((getCause() == null)
+//                    ? cause == null
+//                    : getCause().equals(cause))
+//              && ((getMessage() == null)
+//                    ? message == null
+//                    : getMessage().equals(message));
+//  }
+//
+//  /*</section>*/
+//
+//
+//
+//  /*<section name="reports on">*/
+//  //------------------------------------------------------------------
+//
+//  /**
+//   * Does this exception, in some way, report about
+//   * an exceptional condition concerning <code>origin</code>,
+//   * <code>propertyName</code>, with <code>message</code>
+//   * and <code>cause</code>.
+//   *
+//   * This is the non-deterministic version of
+//   * {@link #hasProperties(Object, String, String, Throwable)}, which
+//   * can be overwritten by subclasses.
+//   * The default implementation calls
+//   * {@link #hasProperties(Object, String, String, Throwable)}.
+//   */
+//  @MethodContract(
+//    post = {
+//      @Expression("true"),
+//      @Expression(scope = PROTECTED,
+//                  value = "hasProperties(_origin, _propertyName, _message, _cause)")
+//    }
+//  )
+//  public boolean reportsOn(final Object origin,
+//                            final String propertyName,
+//                            final String message,
+//                            final Throwable cause) {
+//    return hasProperties(origin, propertyName, message, cause);
+//  }
+//
+//  /**
+//   * Does this exception, in some way, report about
+//   * an exceptional condition concerning <code>originType</code>,
+//   * <code>propertyName</code>, with <code>message</code>
+//   * and <code>cases</code>.
+//   *
+//   * This is the non-deterministic version of
+//   * {@link #hasProperties(Class, String, String, Throwable)}, which
+//   * can be overwritten by subclasses.
+//   * The default implementation calls
+//   * {@link #hasProperties(Class, String, String, Throwable)}.
+//   *
+//   * @since IV
+//   */
+//  @MethodContract(
+//    post = {
+//      @Expression("true"),
+//      @Expression(scope = PROTECTED,
+//                  value = "hasProperties(_originType, _propertyName, _message, _cause)")
+//    }
+//  )
+//  public boolean reportsOn(final Class<?> originType,
+//                            final String propertyName,
+//                            final String message,
+//                            final Throwable cause) {
+//    return hasProperties(originType, propertyName, message, cause);
+//  }
+//
+//  /*</section>*/
 
 
 

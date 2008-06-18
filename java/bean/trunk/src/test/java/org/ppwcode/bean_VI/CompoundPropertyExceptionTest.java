@@ -286,37 +286,37 @@ public class CompoundPropertyExceptionTest {
     }
   }
 
-  @Test
-  public void testHasPropertiesObjectStringStringThrowable() {
-    for (CompoundPropertyException subject : subjects) {
-      for (Object origin : origins2) {
-        for (String propertyName : propertyNames2) {
-          for (String message : messages2) {
-            for (Throwable cause : throwables2) {
-              PropertyExceptionTest.testHasPropertiesObjectStringStringThrowable(subject, origin, propertyName, message, cause);
-              assertTypeInvariants(subject);
-            }
-          }
-        }
-      }
-    }
-  }
-
-  @Test
-  public void testHasPropertiesClassOfQStringStringThrowable() {
-    for (CompoundPropertyException subject : subjects) {
-      for (Class<?> originType : originTypes2) {
-        for (String propertyName : propertyNames2) {
-          for (String message : messages2) {
-            for (Throwable cause : throwables2) {
-              PropertyExceptionTest.testHasPropertiesClassOfQStringStringThrowable(subject, originType, propertyName, message, cause);
-              assertTypeInvariants(subject);
-            }
-          }
-        }
-      }
-    }
-  }
+//  @Test
+//  public void testHasPropertiesObjectStringStringThrowable() {
+//    for (CompoundPropertyException subject : subjects) {
+//      for (Object origin : origins2) {
+//        for (String propertyName : propertyNames2) {
+//          for (String message : messages2) {
+//            for (Throwable cause : throwables2) {
+//              PropertyExceptionTest.testHasPropertiesObjectStringStringThrowable(subject, origin, propertyName, message, cause);
+//              assertTypeInvariants(subject);
+//            }
+//          }
+//        }
+//      }
+//    }
+//  }
+//
+//  @Test
+//  public void testHasPropertiesClassOfQStringStringThrowable() {
+//    for (CompoundPropertyException subject : subjects) {
+//      for (Class<?> originType : originTypes2) {
+//        for (String propertyName : propertyNames2) {
+//          for (String message : messages2) {
+//            for (Throwable cause : throwables2) {
+//              PropertyExceptionTest.testHasPropertiesClassOfQStringStringThrowable(subject, originType, propertyName, message, cause);
+//              assertTypeInvariants(subject);
+//            }
+//          }
+//        }
+//      }
+//    }
+//  }
 
   private static void testClose(CompoundPropertyException subject) {
     boolean oldClosed = subject.isClosed();
@@ -463,9 +463,15 @@ public class CompoundPropertyExceptionTest {
     // execute
     boolean result = subject.contains(pe);
     // validate
-    boolean expected = (pe != null) &&
-                       subject.getElementExceptions().get(pe.getPropertyName()) != null &&
-                       subject.getElementExceptions().get(pe.getPropertyName()).contains(pe);
+    boolean expected = false;
+    if ((pe != null) && subject.getElementExceptions().get(pe.getPropertyName()) != null) {
+      for (PropertyException cand : subject.getElementExceptions().get(pe.getPropertyName())) {
+        if (cand.like(pe)) {
+          expected = true;
+          break;
+        }
+      }
+    }
     assertEquals(expected, result);
     PropertyExceptionTest.assertTypeInvariants(subject);
     assertTypeInvariants(subject);
@@ -487,123 +493,123 @@ public class CompoundPropertyExceptionTest {
     }
   }
 
-  public static void testContainsObjectStringStringThrowable(CompoundPropertyException subject, Object origin, String propertyName, String message, Throwable cause) {
-    // execute
-    boolean result = subject.contains(origin, propertyName, message, cause);
-    // validate
-    boolean expected = subject.getElementExceptions().containsKey(propertyName) &&
-                       existsIn(origin, propertyName, message, cause, subject.getElementExceptions().get(propertyName));
-    assertEquals(expected, result);
-    PropertyExceptionTest.assertTypeInvariants(subject);
-    assertTypeInvariants(subject);
-  }
-
-  private static boolean existsIn(Object origin, String propertyName, String message, Throwable cause, Set<PropertyException> set) {
-    for (PropertyException pe : set) {
-      if (pe.hasProperties(origin, propertyName, message, cause)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  @Test
-  public void testContainsObjectStringStringThrowable() {
-    for (CompoundPropertyException subject : subjects) {
-      for (Object origin : origins2) {
-        for (String propertyName : propertyNames2) {
-          for (String message : messages2) {
-            for (Throwable cause : throwables2) {
-              testContainsObjectStringStringThrowable(subject, origin, propertyName, message, cause);
-            }
-          }
-        }
-      }
-    }
-  }
-
-  public static void testContainsClassOfQStringStringThrowable(CompoundPropertyException subject, Class<?> originType, String propertyName, String message, Throwable cause) {
-    // execute
-    boolean result = subject.contains(originType, propertyName, message, cause);
-    // validate
-    boolean expected = subject.getElementExceptions().containsKey(propertyName) &&
-                       existsIn(originType, propertyName, message, cause, subject.getElementExceptions().get(propertyName));
-    assertEquals(expected, result);
-    PropertyExceptionTest.assertTypeInvariants(subject);
-    assertTypeInvariants(subject);
-  }
-
-  private static boolean existsIn(Class<?> originType, String propertyName, String message, Throwable cause, Set<PropertyException> set) {
-    for (PropertyException pe : set) {
-      if (pe.hasProperties(originType, propertyName, message, cause)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  @Test
-  public void testContainsClassOfQStringStringThrowable() {
-    for (CompoundPropertyException subject : subjects) {
-      for (Class<?> originType : originTypes2) {
-        for (String propertyName : propertyNames2) {
-          for (String message : messages2) {
-            for (Throwable cause : throwables2) {
-              testContainsClassOfQStringStringThrowable(subject, originType, propertyName, message, cause);
-            }
-          }
-        }
-      }
-    }
-  }
-
-  public static void testReportsOnObjectStringStringThrowable(CompoundPropertyException subject, Object origin, String propertyName, String message, Throwable cause) {
-    // execute
-    boolean result = subject.reportsOn(origin, propertyName, message, cause);
-    // validate
-    assertEquals(subject.contains(origin, propertyName, message, cause), result);
-    PropertyExceptionTest.assertTypeInvariants(subject);
-    assertTypeInvariants(subject);
-  }
-
-  @Test
-  public void testReportsOnObjectStringStringThrowable() {
-    for (CompoundPropertyException subject : subjects) {
-      for (Object origin : origins2) {
-        for (String propertyName : propertyNames2) {
-          for (String message : messages2) {
-            for (Throwable cause : throwables2) {
-              testReportsOnObjectStringStringThrowable(subject, origin, propertyName, message, cause);
-            }
-          }
-        }
-      }
-    }
-  }
-
-  public static void testReportsOnClassOfQStringStringThrowable(CompoundPropertyException subject, Class<?> originType, String propertyName, String message, Throwable cause) {
-    // execute
-    boolean result = subject.reportsOn(originType, propertyName, message, cause);
-    // validate
-    assertEquals(subject.contains(originType, propertyName, message, cause), result);
-    PropertyExceptionTest.assertTypeInvariants(subject);
-    assertTypeInvariants(subject);
-  }
-
-  @Test
-  public void testReportsOnClassOfQStringStringThrowable() {
-    for (CompoundPropertyException subject : subjects) {
-      for (Class<?> originType : originTypes2) {
-        for (String propertyName : propertyNames2) {
-          for (String message : messages2) {
-            for (Throwable cause : throwables2) {
-              testReportsOnClassOfQStringStringThrowable(subject, originType, propertyName, message, cause);
-            }
-          }
-        }
-      }
-    }
-  }
+//  public static void testContainsObjectStringStringThrowable(CompoundPropertyException subject, Object origin, String propertyName, String message, Throwable cause) {
+//    // execute
+//    boolean result = subject.contains(origin, propertyName, message, cause);
+//    // validate
+//    boolean expected = subject.getElementExceptions().containsKey(propertyName) &&
+//                       existsIn(origin, propertyName, message, cause, subject.getElementExceptions().get(propertyName));
+//    assertEquals(expected, result);
+//    PropertyExceptionTest.assertTypeInvariants(subject);
+//    assertTypeInvariants(subject);
+//  }
+//
+//  private static boolean existsIn(Object origin, String propertyName, String message, Throwable cause, Set<PropertyException> set) {
+//    for (PropertyException pe : set) {
+//      if (pe.hasProperties(origin, propertyName, message, cause)) {
+//        return true;
+//      }
+//    }
+//    return false;
+//  }
+//
+//  @Test
+//  public void testContainsObjectStringStringThrowable() {
+//    for (CompoundPropertyException subject : subjects) {
+//      for (Object origin : origins2) {
+//        for (String propertyName : propertyNames2) {
+//          for (String message : messages2) {
+//            for (Throwable cause : throwables2) {
+//              testContainsObjectStringStringThrowable(subject, origin, propertyName, message, cause);
+//            }
+//          }
+//        }
+//      }
+//    }
+//  }
+//
+//  public static void testContainsClassOfQStringStringThrowable(CompoundPropertyException subject, Class<?> originType, String propertyName, String message, Throwable cause) {
+//    // execute
+//    boolean result = subject.contains(originType, propertyName, message, cause);
+//    // validate
+//    boolean expected = subject.getElementExceptions().containsKey(propertyName) &&
+//                       existsIn(originType, propertyName, message, cause, subject.getElementExceptions().get(propertyName));
+//    assertEquals(expected, result);
+//    PropertyExceptionTest.assertTypeInvariants(subject);
+//    assertTypeInvariants(subject);
+//  }
+//
+//  private static boolean existsIn(Class<?> originType, String propertyName, String message, Throwable cause, Set<PropertyException> set) {
+//    for (PropertyException pe : set) {
+//      if (pe.hasProperties(originType, propertyName, message, cause)) {
+//        return true;
+//      }
+//    }
+//    return false;
+//  }
+//
+//  @Test
+//  public void testContainsClassOfQStringStringThrowable() {
+//    for (CompoundPropertyException subject : subjects) {
+//      for (Class<?> originType : originTypes2) {
+//        for (String propertyName : propertyNames2) {
+//          for (String message : messages2) {
+//            for (Throwable cause : throwables2) {
+//              testContainsClassOfQStringStringThrowable(subject, originType, propertyName, message, cause);
+//            }
+//          }
+//        }
+//      }
+//    }
+//  }
+//
+//  public static void testReportsOnObjectStringStringThrowable(CompoundPropertyException subject, Object origin, String propertyName, String message, Throwable cause) {
+//    // execute
+//    boolean result = subject.reportsOn(origin, propertyName, message, cause);
+//    // validate
+//    assertEquals(subject.contains(origin, propertyName, message, cause), result);
+//    PropertyExceptionTest.assertTypeInvariants(subject);
+//    assertTypeInvariants(subject);
+//  }
+//
+//  @Test
+//  public void testReportsOnObjectStringStringThrowable() {
+//    for (CompoundPropertyException subject : subjects) {
+//      for (Object origin : origins2) {
+//        for (String propertyName : propertyNames2) {
+//          for (String message : messages2) {
+//            for (Throwable cause : throwables2) {
+//              testReportsOnObjectStringStringThrowable(subject, origin, propertyName, message, cause);
+//            }
+//          }
+//        }
+//      }
+//    }
+//  }
+//
+//  public static void testReportsOnClassOfQStringStringThrowable(CompoundPropertyException subject, Class<?> originType, String propertyName, String message, Throwable cause) {
+//    // execute
+//    boolean result = subject.reportsOn(originType, propertyName, message, cause);
+//    // validate
+//    assertEquals(subject.contains(originType, propertyName, message, cause), result);
+//    PropertyExceptionTest.assertTypeInvariants(subject);
+//    assertTypeInvariants(subject);
+//  }
+//
+//  @Test
+//  public void testReportsOnClassOfQStringStringThrowable() {
+//    for (CompoundPropertyException subject : subjects) {
+//      for (Class<?> originType : originTypes2) {
+//        for (String propertyName : propertyNames2) {
+//          for (String message : messages2) {
+//            for (Throwable cause : throwables2) {
+//              testReportsOnClassOfQStringStringThrowable(subject, originType, propertyName, message, cause);
+//            }
+//          }
+//        }
+//      }
+//    }
+//  }
 
   private static void testThrowIfNotEmpty(CompoundPropertyException subject) {
     boolean oldEmpty = subject.isEmpty();

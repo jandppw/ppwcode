@@ -214,99 +214,136 @@ public class PropertyExceptionTest {
     return s1 == null ? s2 == null : s1.equals(s2);
   }
 
-  public static void testHasPropertiesObjectStringStringThrowable(PropertyException subject, Object origin, String propertyName, String message, Throwable cause) {
+  public static void testLike(PropertyException subject, PropertyException other) {
     // execute
-    boolean result = subject.hasProperties(origin, propertyName, message, cause);
+    boolean result = subject.like(other);
     // validate
-    assertEquals(((subject.getOrigin() == origin) && eqn(subject.getPropertyName(), propertyName) &&
-        eqn(subject.getMessage(), message) && (subject.getCause() == cause)), result);
+    assertTrue(result ? ((other != null) &&
+        (other.getClass() == subject.getClass()) &&
+        (subject.getOrigin() == other.getOrigin()) &&
+        (subject.getOriginType() == other.getOriginType()) &&
+        eqn(subject.getPropertyName(), other.getPropertyName()) &&
+        eqn(subject.getMessage(), other.getMessage()) &&
+        (subject.getCause() == other.getCause())) : true);
     assertTypeInvariants(subject);
   }
 
   @Test
-  public void testHasPropertiesObjectStringStringThrowable() {
+  public void testLike() {
     for (PropertyException subject : subjects) {
       for (Object origin : origins2) {
-        for (String propertyName : propertyNames2) {
-          for (String message : messages2) {
-            for (Throwable cause : throwables2) {
-              testHasPropertiesObjectStringStringThrowable(subject, origin, propertyName, message, cause);
+        if (origin != null) {
+          for (String propertyName : propertyNames2) {
+            if ((propertyName == null) || hasProperty(origin.getClass(), propertyName)) {
+              for (String message : messages2) {
+                if ((message == null) || (! message.equals(""))) {
+                  for (Throwable cause : throwables2) {
+                    testLike(subject, new PropertyException(origin, propertyName, message, cause));
+                  }
+                }
+              }
             }
           }
         }
       }
+      testLike(subject, null);
     }
   }
 
-  public static void testHasPropertiesClassOfQStringStringThrowable(PropertyException subject, Class<?> originType, String propertyName, String message, Throwable cause) {
-    // execute
-    boolean result = subject.hasProperties(originType, propertyName, message, cause);
-    // validate
-    assertEquals(((subject.getOriginType() == originType) && eqn(subject.getPropertyName(), propertyName) &&
-        eqn(subject.getMessage(), message) && (subject.getCause() == cause)), result);
-    assertTypeInvariants(subject);
-  }
 
-  @Test
-  public void testHasPropertiesClassOfQStringStringThrowable() {
-    for (PropertyException subject : subjects) {
-      for (Class<?> originType : originTypes2) {
-        for (String propertyName : propertyNames2) {
-          for (String message : messages2) {
-            for (Throwable cause : throwables2) {
-              testHasPropertiesClassOfQStringStringThrowable(subject, originType, propertyName, message, cause);
-            }
-          }
-        }
-      }
-    }
-  }
-
-  public static void testReportsOnObjectStringStringThrowable(PropertyException subject, Object origin, String propertyName, String message, Throwable cause) {
-    // execute
-    boolean result = subject.reportsOn(origin, propertyName, message, cause);
-    // validate PROTECTED
-    assertEquals(subject.hasProperties(origin, propertyName, message, cause), result);
-    assertTypeInvariants(subject);
-  }
-
-  @Test
-  public void testReportsOnObjectStringStringThrowable() {
-    for (PropertyException subject : subjects) {
-      for (Object origin : origins2) {
-        for (String propertyName : propertyNames2) {
-          for (String message : messages2) {
-            for (Throwable cause : throwables2) {
-              testReportsOnObjectStringStringThrowable(subject, origin, propertyName, message, cause);
-            }
-          }
-        }
-      }
-    }
-  }
-
-  public static void testReportsOnClassOfQStringStringThrowable(PropertyException subject, Class<?> originType, String propertyName, String message, Throwable cause) {
-    // execute
-    boolean result = subject.reportsOn(originType, propertyName, message, cause);
-    // validate PROTECTED
-    assertEquals(subject.hasProperties(originType, propertyName, message, cause), result);
-    assertTypeInvariants(subject);
-  }
-
-  @Test
-  public void testReportsOnClassOfQStringStringThrowable() {
-    for (PropertyException subject : subjects) {
-      for (Class<?> originType : originTypes2) {
-        for (String propertyName : propertyNames2) {
-          for (String message : messages2) {
-            for (Throwable cause : throwables2) {
-              testReportsOnClassOfQStringStringThrowable(subject, originType, propertyName, message, cause);
-            }
-          }
-        }
-      }
-    }
-  }
+//  public static void testHasPropertiesObjectStringStringThrowable(PropertyException subject, Object origin, String propertyName, String message, Throwable cause) {
+//    // execute
+//    boolean result = subject.hasProperties(origin, propertyName, message, cause);
+//    // validate
+//    assertEquals(((subject.getOrigin() == origin) && eqn(subject.getPropertyName(), propertyName) &&
+//        eqn(subject.getMessage(), message) && (subject.getCause() == cause)), result);
+//    assertTypeInvariants(subject);
+//  }
+//
+//  @Test
+//  public void testHasPropertiesObjectStringStringThrowable() {
+//    for (PropertyException subject : subjects) {
+//      for (Object origin : origins2) {
+//        for (String propertyName : propertyNames2) {
+//          for (String message : messages2) {
+//            for (Throwable cause : throwables2) {
+//              testHasPropertiesObjectStringStringThrowable(subject, origin, propertyName, message, cause);
+//            }
+//          }
+//        }
+//      }
+//    }
+//  }
+//
+//  public static void testHasPropertiesClassOfQStringStringThrowable(PropertyException subject, Class<?> originType, String propertyName, String message, Throwable cause) {
+//    // execute
+//    boolean result = subject.hasProperties(originType, propertyName, message, cause);
+//    // validate
+//    assertEquals(((subject.getOriginType() == originType) && eqn(subject.getPropertyName(), propertyName) &&
+//        eqn(subject.getMessage(), message) && (subject.getCause() == cause)), result);
+//    assertTypeInvariants(subject);
+//  }
+//
+//  @Test
+//  public void testHasPropertiesClassOfQStringStringThrowable() {
+//    for (PropertyException subject : subjects) {
+//      for (Class<?> originType : originTypes2) {
+//        for (String propertyName : propertyNames2) {
+//          for (String message : messages2) {
+//            for (Throwable cause : throwables2) {
+//              testHasPropertiesClassOfQStringStringThrowable(subject, originType, propertyName, message, cause);
+//            }
+//          }
+//        }
+//      }
+//    }
+//  }
+//
+//  public static void testReportsOnObjectStringStringThrowable(PropertyException subject, Object origin, String propertyName, String message, Throwable cause) {
+//    // execute
+//    boolean result = subject.reportsOn(origin, propertyName, message, cause);
+//    // validate PROTECTED
+//    assertEquals(subject.hasProperties(origin, propertyName, message, cause), result);
+//    assertTypeInvariants(subject);
+//  }
+//
+//  @Test
+//  public void testReportsOnObjectStringStringThrowable() {
+//    for (PropertyException subject : subjects) {
+//      for (Object origin : origins2) {
+//        for (String propertyName : propertyNames2) {
+//          for (String message : messages2) {
+//            for (Throwable cause : throwables2) {
+//              testReportsOnObjectStringStringThrowable(subject, origin, propertyName, message, cause);
+//            }
+//          }
+//        }
+//      }
+//    }
+//  }
+//
+//  public static void testReportsOnClassOfQStringStringThrowable(PropertyException subject, Class<?> originType, String propertyName, String message, Throwable cause) {
+//    // execute
+//    boolean result = subject.reportsOn(originType, propertyName, message, cause);
+//    // validate PROTECTED
+//    assertEquals(subject.hasProperties(originType, propertyName, message, cause), result);
+//    assertTypeInvariants(subject);
+//  }
+//
+//  @Test
+//  public void testReportsOnClassOfQStringStringThrowable() {
+//    for (PropertyException subject : subjects) {
+//      for (Class<?> originType : originTypes2) {
+//        for (String propertyName : propertyNames2) {
+//          for (String message : messages2) {
+//            for (Throwable cause : throwables2) {
+//              testReportsOnClassOfQStringStringThrowable(subject, originType, propertyName, message, cause);
+//            }
+//          }
+//        }
+//      }
+//    }
+//  }
 
 }
 
