@@ -21,6 +21,8 @@ import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.MethodContract;
 
 
 
@@ -94,14 +96,17 @@ public interface RousseauBean {
    * <p>This method is public instead of
    *   protected to make it more easy to describe to users what the business
    *   rules for this type are.</p>
-   *
-   * @result    result != null;
-   * @result    !result.isClosed();
-   * @result    result.getOrigin() == this;
-   * @result    result.getPropertyName() == null;
-   * @result    result.getMessage() == null;
-   * @result    result.getCause() == null;
    */
+  @MethodContract(
+    post = {
+      @Expression("result != null"),
+      @Expression("result.closed"),
+      @Expression("result.origin == this"),
+      @Expression("result.propertyName == null"),
+      @Expression("result.message == null"),
+      @Expression("result.cause == null"),
+    }
+  )
   CompoundPropertyException getWildExceptions();
 
   /**
