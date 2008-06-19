@@ -25,7 +25,6 @@ import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
 
 
-
 /**
  * <p>A type that formalizes how to work with JavaBeans that represent
  *   real-world objects (objects with semantic meaning, non-utility objects,
@@ -97,6 +96,7 @@ public interface SemanticBean {
 
   @MethodContract(
     post = {
+      @Expression("result != null"),
       @Expression("result.startsWith(class.name + '@' + Integer.toHexString(hashCode()) + '[')"),
       @Expression("result.endsWith(']')")
     }
