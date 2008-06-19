@@ -109,7 +109,7 @@ public abstract class AbstractSemanticBean implements SemanticBean {
    *
    * The default implementation returns the names of all properties
    * that are not of a type that is a subtype of {@link Collection},
-   * or an array.
+   * or an array, and that is not the {@link #getClass()} method.
    *
    * @mudo contract
    */
@@ -119,7 +119,8 @@ public abstract class AbstractSemanticBean implements SemanticBean {
     for (int i = 0; i < pds.length; i++) {
       Class<?> propertyType = pds[i].getReadMethod().getReturnType();
       if (! Collection.class.isAssignableFrom(propertyType) &&
-          ! propertyType.isArray()) {
+          ! propertyType.isArray() &&
+          ! pds[i].getName().equals("class")) {
         result.add(pds[i].getName());
       }
     }
