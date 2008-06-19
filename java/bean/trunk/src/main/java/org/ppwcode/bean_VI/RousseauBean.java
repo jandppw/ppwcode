@@ -62,19 +62,19 @@ import org.toryt.annotations_I.MethodContract;
  *   of the stored information. This is called <dfn>normalization</dfn>
  *   ({@link #normalize()}). Normalization keeps
  *   {@link #hasSameValues(RousseauBean)}.</p>
- * <p>Since <code>RousseauBean</code>s are semantic classes, i.e., they
- *   are intented for their instances to represent real-world objects,
- *   they should always be used <em>by reference</em>. For this reason,
- *   the contracts of {@link Object#equals(Object)} and {@link Object#hashCode()},
- *   inherited from {@link Object}, are frozen here.</p>
  * <p>Subclasses should take care to override the following methods diligently:
  *   <ul>
- *     <li>{@link #hasSameValues(RousseauBean)}, to take into account
- *         the values of properties added in the subclass;</li>
  *     <li>{@link #getWildExceptions()}, to add validation concerning
  *         properties and type invariants added in the subclass.</li>
  *   </ul>
  * </p>
+ *
+ * @note since VI, this is split into {@link SemanticBean} and this class.
+ * @note In a previous version, we had a method {@code hasSameValues(RousseaBean rb)},
+ *       meant to express the difference of having the samen values, {@link #equals(Object)}
+ *       {@code ==}, and being a representative of the same real-world object.
+ *       Yet, in practice it proved that this method was difficult to maintain in all
+ *       subtypes, and was actually never used. It is removed in this version.
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
