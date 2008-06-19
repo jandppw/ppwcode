@@ -23,6 +23,7 @@ import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
+import org.toryt.annotations_I.Throw;
 
 
 
@@ -62,12 +63,6 @@ import org.toryt.annotations_I.MethodContract;
  *   of the stored information. This is called <dfn>normalization</dfn>
  *   ({@link #normalize()}). Normalization keeps
  *   {@link #hasSameValues(RousseauBean)}.</p>
- * <p>Subclasses should take care to override the following methods diligently:
- *   <ul>
- *     <li>{@link #getWildExceptions()}, to add validation concerning
- *         properties and type invariants added in the subclass.</li>
- *   </ul>
- * </p>
  *
  * @note since VI, this is split into {@link SemanticBean} and this class.
  * @note In a previous version, we had a method {@code hasSameValues(RousseaBean rb)},
@@ -100,7 +95,7 @@ public interface RousseauBean {
   @MethodContract(
     post = {
       @Expression("result != null"),
-      @Expression("result.closed"),
+      @Expression("! result.closed"),
       @Expression("result.origin == this"),
       @Expression("result.propertyName == null"),
       @Expression("result.message == null"),
@@ -109,24 +104,25 @@ public interface RousseauBean {
   )
   CompoundPropertyException getWildExceptions();
 
-  /**
-   * @return getWildExceptions().isEmpty();
-   */
+  @MethodContract(post = @Expression("wildExceptions.empty"))
   boolean isCivilized();
 
   /**
    * This method does nothing, but will throw the wild exceptions
    * if this bean is not civilized.
-   *
-   * @post hasSameValues(new);
-   * @post ! isCivilized() ==> false;
-   *       If this bean is not civilized, nothing can make this
-   *       postcondition true, and thus an exception must be thrown.
-   * @throws CompoundPropertyException cpExc
-   *         ! isCivilized();
-   *         cpExc.hasSameValues(getWildException());
-   *         cpExc.isClosed();
    */
+  @MethodContract(
+    post = @Expression(value = "'civilized",
+                       description = "if this bean is not civilized before the call, " +
+                           "nothing can make this postcondition true, and thus an " +
+                           "exception must be thrown"),
+    exc = @Throw(type = CompoundPropertyException.class,
+                 cond = {
+                   @Expression("! 'civilized"),
+                   @Expression("thrown.like(wildExceptions)"),
+                   @Expression("throw.closed")
+                 })
+  )
   void checkCivility() throws CompoundPropertyException;
 
   /**
@@ -138,10 +134,8 @@ public interface RousseauBean {
    *   checking civilization with {@link #getWildExceptions()}.</p>
    * <p>This method can be called at any time, so it should never
    *   make unexpected changes to the state.</p>
-   *
-   * @post (foreach RousseauBean rb;
-   *          old.hasSameValues(rb) <==> (old.normalize()).hasSameValues(rb));
    */
+  @MethodContract(post = @Expression("true"))
   void normalize();
 
 }
