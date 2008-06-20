@@ -19,7 +19,6 @@ package org.ppwcode.bean_VI;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
-import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
@@ -140,24 +139,6 @@ public abstract class AbstractRousseauBean extends AbstractSemanticBean implemen
    */
   public void normalize() {
     // NOP
-  }
-
-  /**
-   * Convenience method for generating the toString of to-many associations.
-   *
-   * @mudo move somewhere else
-   */
-  @MethodContract(pre = @Expression("c != null"), post = @Expression("true"))
-  protected final static String collectionString(final Collection<?> c) {
-    assert c != null;
-    StringBuilder result = new StringBuilder("{");
-    for (Object item : c) {
-      result.append(item.getClass().getName());
-      result.append("@");
-      result.append(Integer.toHexString(item.hashCode()));
-    }
-    result.append("}");
-    return result.toString();
   }
 
 }

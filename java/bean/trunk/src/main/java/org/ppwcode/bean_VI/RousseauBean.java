@@ -78,7 +78,7 @@ import org.toryt.annotations_I.Throw;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-public interface RousseauBean {
+public interface RousseauBean extends SemanticBean {
 
   /**
    * <p>Build a set of {@link CompoundPropertyException}s that tell what is

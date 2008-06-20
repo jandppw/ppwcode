@@ -14,12 +14,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-
 package org.ppwcode.bean_VI;
 
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
@@ -33,11 +30,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class AbstractSemanticBeanTest {
+public class AbstractRousseauBeanTest {
 
-  public static class AbstractSemanticBeanSTUB extends AbstractSemanticBean {
+  public static class AbstractRousseauBeanSTUB extends AbstractRousseauBean {
 
-    public AbstractSemanticBeanSTUB(String property1, Date property2, Set<String> property3, int[] property4) {
+    public AbstractRousseauBeanSTUB(String property1, Date property2, Set<String> property3, int[] property4) {
       $property1 = property1;
       $property2 = property2;
       $property3 = property3;
@@ -87,32 +84,32 @@ public class AbstractSemanticBeanTest {
 
   }
 
-  public static class AbstractSemanticBeanNOPROPERTIES extends AbstractSemanticBean {
+  public static class AbstractRousseauBeanNOPROPERTIES extends AbstractRousseauBean {
     // NOP
   }
 
 
-  private List<AbstractSemanticBean> subjects;
+  private List<AbstractRousseauBean> subjects;
 
   @Before
   public void setUp() throws Exception {
-    subjects = new ArrayList<AbstractSemanticBean>();
-    AbstractSemanticBeanSTUB subject = new AbstractSemanticBeanSTUB(null, null, null, null);
+    subjects = new ArrayList<AbstractRousseauBean>();
+    AbstractRousseauBeanSTUB subject = new AbstractRousseauBeanSTUB(null, null, null, null);
     subjects.add(subject);
     Set<String> stringSet = new HashSet<String>();
     stringSet.add("string 1");
     stringSet.add("string 2");
     stringSet.add(null);
     int[] intArray = {5, 6, 4, 8};
-    subject = new AbstractSemanticBeanSTUB("PROPERTY 1", null, null, null);
+    subject = new AbstractRousseauBeanSTUB("PROPERTY 1", null, null, null);
     subjects.add(subject);
-    subject = new AbstractSemanticBeanSTUB(null, new Date(), null, null);
+    subject = new AbstractRousseauBeanSTUB(null, new Date(), null, null);
     subjects.add(subject);
-    subject = new AbstractSemanticBeanSTUB(null, null, stringSet, null);
+    subject = new AbstractRousseauBeanSTUB(null, null, stringSet, null);
     subjects.add(subject);
-    subject = new AbstractSemanticBeanSTUB(null, null, null, intArray);
+    subject = new AbstractRousseauBeanSTUB(null, null, null, intArray);
     subjects.add(subject);
-    subject = new AbstractSemanticBeanSTUB("PROPERTY 1", new Date(), stringSet, intArray);
+    subject = new AbstractRousseauBeanSTUB("PROPERTY 1", new Date(), stringSet, intArray);
     subjects.add(subject);
   }
 
@@ -121,104 +118,112 @@ public class AbstractSemanticBeanTest {
     subjects = null;
   }
 
-  public static void assertInvariants(SemanticBean subject) {
+  public static void assertInvariants(RousseauBean subject) {
     // no own invariants
-    SemanticBeanContract.assertInvariants(subject);
+    RousseauBeanContract.assertInvariants(subject);
   }
 
-  public static void testEquals(AbstractSemanticBean subject, Object other) {
+  public static void testEquals(AbstractRousseauBean subject, Object other) {
     // execute
     boolean result = subject.equals(other);
     // validate
-    SemanticBeanContract.contractEquals(subject, other, result);
+    RousseauBeanContract.contractEquals(subject, other, result);
     assertInvariants(subject);
   }
 
   @Test
   public void testEqualsObject() {
-    for (AbstractSemanticBean subject : subjects) {
+    for (AbstractRousseauBean subject : subjects) {
       testEquals(subject, null);
       testEquals(subject, subject);
       testEquals(subject, new Object());
-      testEquals(subject, new AbstractSemanticBeanSTUB("hfhfh", null, null, null));
+      testEquals(subject, new AbstractRousseauBeanSTUB("hfhfh", null, null, null));
     }
   }
 
-  public static void testHashCode(AbstractSemanticBean subject) {
+  public static void testHashCode(AbstractRousseauBean subject) {
     // execute
     int result = subject.hashCode();
     // validate
-    SemanticBeanContract.contractHashCode(subject, result);
+    RousseauBeanContract.contractHashCode(subject, result);
     assertInvariants(subject);
   }
 
   @Test
   public void testHashCode() {
-    for (AbstractSemanticBean subject : subjects) {
+    for (AbstractRousseauBean subject : subjects) {
       testHashCode(subject);
     }
   }
 
-  public static void testToString(AbstractSemanticBean subject) {
+  public static void testToString(AbstractRousseauBean subject) {
     // execute
     String result = subject.toString();
     // validate
-    SemanticBeanContract.contractToString(subject, result);
+    RousseauBeanContract.contractToString(subject, result);
     assertInvariants(subject);
   }
 
   @Test
   public void testToString() {
-    for (AbstractSemanticBean subject : subjects) {
+    for (AbstractRousseauBean subject : subjects) {
       testToString(subject);
     }
   }
 
   @Test
   public void testClone() {
-    for (AbstractSemanticBean subject : subjects) {
+    for (AbstractRousseauBean subject : subjects) {
       try {
         subject.clone();
         fail();
       }
       catch (CloneNotSupportedException cnsExc) {
-        // expected
         assertInvariants(subject);
       }
     }
   }
 
-  public static void testPropertyNamesForToString1(AbstractSemanticBean subject) {
-    String[] result = subject.propertyNamesForToString();
-    assertNotNull(result);
-    assertEquals(2, result.length);
-    assertEquals("property1", result[0]);
-    assertEquals("property2", result[1]);
+  public static void testPropertyNamesForToString1(AbstractRousseauBean subject) {
+    AbstractSemanticBeanTest.testPropertyNamesForToString1(subject);
     assertInvariants(subject);
   }
 
   @Test
   public void testPropertyNamesForToString1() {
-    for (AbstractSemanticBean subject : subjects) {
+    for (AbstractRousseauBean subject : subjects) {
       testPropertyNamesForToString1(subject);
     }
   }
 
-  public static void testPropertyNamesForToString2(AbstractSemanticBean subject) {
-    String[] result = subject.propertyNamesForToString();
-    assertNotNull(result);
-    assertEquals(0, result.length);
+  public static void testPropertyNamesForToString2(AbstractRousseauBean subject) {
+    AbstractSemanticBeanTest.testPropertyNamesForToString1(subject);
     assertInvariants(subject);
   }
 
   @Test
   public void testPropertyNamesForToString2() {
-    AbstractSemanticBean subject = new AbstractSemanticBeanNOPROPERTIES();
+    AbstractRousseauBean subject = new AbstractRousseauBeanNOPROPERTIES();
     testPropertyNamesForToString2(subject);
   }
 
   @Test
-  public void testCollectionString() {
+  public void testGetWildExceptions() {
+    fail("Not yet implemented");
+  }
+
+  @Test
+  public void testIsCivilized() {
+    fail("Not yet implemented");
+  }
+
+  @Test
+  public void testCheckCivility() {
+    fail("Not yet implemented");
+  }
+
+  @Test
+  public void testNormalize() {
     fail("Not yet implemented");
   }
 
