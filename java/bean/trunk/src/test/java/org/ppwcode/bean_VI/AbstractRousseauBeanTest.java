@@ -18,6 +18,7 @@ package org.ppwcode.bean_VI;
 
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
@@ -85,6 +86,26 @@ public class AbstractRousseauBeanTest {
 
   }
 
+  public static class AbstractRousseauBeanWILD extends AbstractRousseauBeanSTUB {
+
+    public AbstractRousseauBeanWILD(String property1, Date property2, Set<String> property3, int[] property4) {
+      super(property1, property2, property3, property4);
+    }
+
+    @Override
+    public CompoundPropertyException getWildExceptions() {
+      CompoundPropertyException cpe = super.getWildExceptions();
+      cpe.addElementException(new PropertyException(this, "property1", null, null));
+      cpe.addElementException(new PropertyException(this, "property1", null, null));
+      cpe.addElementException(new PropertyException(this, "property2", null, null));
+      cpe.addElementException(new PropertyException(this, "property2", null, null));
+      cpe.addElementException(new PropertyException(this, "property3", null, null));
+      cpe.addElementException(new PropertyException(this, "property3", null, null));
+      return cpe;
+    }
+
+  }
+
   public static class AbstractRousseauBeanNOPROPERTIES extends AbstractRousseauBean {
     // NOP
   }
@@ -111,6 +132,8 @@ public class AbstractRousseauBeanTest {
     subject = new AbstractRousseauBeanSTUB(null, null, null, intArray);
     subjects.add(subject);
     subject = new AbstractRousseauBeanSTUB("PROPERTY 1", new Date(), stringSet, intArray);
+    subjects.add(subject);
+    subject = new AbstractRousseauBeanWILD("PROPERTY 1", new Date(), stringSet, intArray);
     subjects.add(subject);
   }
 
@@ -214,24 +237,76 @@ public class AbstractRousseauBeanTest {
     }
   }
 
+  public static CompoundPropertyException testGetWildExceptions(AbstractRousseauBean subject) {
+    // execute
+    CompoundPropertyException result = subject.getWildExceptions();
+    // validate
+    RousseauBeanContract.contractGetWildExceptions(subject, result);
+    assertInvariants(subject);
+    return result;
+  }
+
+  private static void contractPROTECTEDGetWildExceptions(AbstractRousseauBean subject, CompoundPropertyException result) {
+    assertNull(result.getPropertyName());
+    assertTrue(result.isEmpty());
+  }
+
   @Test
   public void testGetWildExceptions() {
-    fail("Not yet implemented");
+    for (AbstractRousseauBean subject : subjects) {
+      CompoundPropertyException result = testGetWildExceptions(subject);
+      if (subject.getClass() == AbstractRousseauBeanSTUB.class) {
+        contractPROTECTEDGetWildExceptions(subject, result);
+      }
+    }
+  }
+
+  public static void testIsCivilized(AbstractRousseauBean subject) {
+    // execute
+    boolean result = subject.isCivilized();
+    // validate
+    RousseauBeanContract.contractIsCivilized(subject, result);
+    assertInvariants(subject);
   }
 
   @Test
   public void testIsCivilized() {
-    fail("Not yet implemented");
+    for (AbstractRousseauBean subject : subjects) {
+      testIsCivilized(subject);
+    }
+  }
+
+  public static void testCheckCivility(AbstractRousseauBean subject) {
+    boolean OLDcivilized = subject.isCivilized();
+    try {
+      subject.checkCivility();
+      RousseauBeanContract.contractPostCheckCivility(OLDcivilized, subject);
+    }
+    catch (CompoundPropertyException thrown) {
+      RousseauBeanContract.contractExcCheckCivility(OLDcivilized, subject, thrown);
+    }
+    assertInvariants(subject);
   }
 
   @Test
   public void testCheckCivility() {
-    fail("Not yet implemented");
+    for (AbstractRousseauBean subject : subjects) {
+      testCheckCivility(subject);
+    }
+  }
+
+  public static void testNormalize(AbstractRousseauBean subject) {
+    // execute
+    subject.normalize();
+    // validate
+    assertInvariants(subject);
   }
 
   @Test
   public void testNormalize() {
-    fail("Not yet implemented");
+    for (AbstractRousseauBean subject : subjects) {
+      testNormalize(subject);
+    }
   }
 
 }

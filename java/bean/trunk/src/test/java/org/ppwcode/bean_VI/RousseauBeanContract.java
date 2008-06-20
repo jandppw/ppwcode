@@ -17,6 +17,13 @@ limitations under the License.
 package org.ppwcode.bean_VI;
 
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+
 public class RousseauBeanContract {
 
   // interface, not actual tests, only contract
@@ -36,6 +43,34 @@ public class RousseauBeanContract {
 
   public static void contractToString(RousseauBean subject, String result) {
     SemanticBeanContract.contractToString(subject, result);
+  }
+
+  public static void contractGetWildExceptions(RousseauBean subject, CompoundPropertyException result) {
+    assertNotNull(result);
+    assertFalse(result.isClosed());
+    assertTrue(result.getOrigin() == subject);
+    assertNull(result.getPropertyName());
+    assertNull(result.getMessage());
+    assertNull(result.getMessage());
+    assertNull(result.getCause());
+  }
+
+  public static void contractIsCivilized(RousseauBean subject, boolean result) {
+    assertEquals(subject.getWildExceptions().isEmpty(), result);
+  }
+
+  public static void contractPostCheckCivility(boolean OLDCivilized, RousseauBean subject) {
+    assertTrue(OLDCivilized);
+  }
+
+  public static void contractExcCheckCivility(boolean OLDCivilized, RousseauBean subject, CompoundPropertyException thrown) {
+    assertFalse(OLDCivilized);
+    assertTrue(thrown.like(subject.getWildExceptions()));
+    assertTrue(thrown.isClosed());
+  }
+
+  public static void contractNormalize(RousseauBean subject, boolean result) {
+    // NOP
   }
 
 }

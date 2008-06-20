@@ -81,10 +81,7 @@ public abstract class AbstractRousseauBean extends AbstractSemanticBean implemen
    */
   @MethodContract(
     post = {
-      @Expression(scope = Scope.PROTECTED, value = "result.origin == this"),
       @Expression(scope = Scope.PROTECTED, value = "result.propertyName == null"),
-      @Expression(scope = Scope.PROTECTED, value = "result.message == null"),
-      @Expression(scope = Scope.PROTECTED, value = "result.cause == null"),
       @Expression(scope = Scope.PROTECTED, value = "result.elementExceptions.empty")
     }
   )
