@@ -17,6 +17,7 @@ limitations under the License.
 package org.ppwcode.bean_VI;
 
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
@@ -184,27 +185,33 @@ public class AbstractRousseauBeanTest {
     }
   }
 
-  public static void testPropertyNamesForToString1(AbstractRousseauBean subject) {
-    AbstractSemanticBeanTest.testPropertyNamesForToString1(subject);
+  public static Set<String> testPropertyNamesForToStringA(AbstractRousseauBean subject, int nrOfProperties) {
+    Set<String> result = AbstractSemanticBeanTest.testPropertyNamesForToStringA(subject, nrOfProperties);
+    assertTrue(result.contains("wildExceptions"));
+    assertTrue(result.contains("civilized"));
     assertInvariants(subject);
+    return result;
   }
 
-  @Test
-  public void testPropertyNamesForToString1() {
-    for (AbstractRousseauBean subject : subjects) {
-      testPropertyNamesForToString1(subject);
-    }
-  }
-
-  public static void testPropertyNamesForToString2(AbstractRousseauBean subject) {
-    AbstractSemanticBeanTest.testPropertyNamesForToString1(subject);
+  public static Set<String> testPropertyNamesForToStringB(AbstractRousseauBean subject, int nrOfProperties) {
+    Set<String> result = AbstractSemanticBeanTest.testPropertyNamesForToStringB(subject, nrOfProperties);
+    assertTrue(result.contains("wildExceptions"));
+    assertTrue(result.contains("civilized"));
     assertInvariants(subject);
+    return result;
   }
 
   @Test
   public void testPropertyNamesForToString2() {
     AbstractRousseauBean subject = new AbstractRousseauBeanNOPROPERTIES();
-    testPropertyNamesForToString2(subject);
+    testPropertyNamesForToStringA(subject, 2);
+  }
+
+  @Test
+  public void testPropertyNamesForToString1() {
+    for (AbstractRousseauBean subject : subjects) {
+      testPropertyNamesForToStringB(subject, 4);
+    }
   }
 
   @Test

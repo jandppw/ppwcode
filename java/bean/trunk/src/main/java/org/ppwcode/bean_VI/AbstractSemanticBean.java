@@ -21,9 +21,10 @@ import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.ppwcode.metainfo_I.Copyright;
@@ -79,12 +80,13 @@ public abstract class AbstractSemanticBean implements SemanticBean {
   }
 
   private void propertiesString(StringBuilder result) {
-    String[] propertyNames = propertyNamesForToString();
-    for (int i = 0; i < propertyNames.length; i++) {
-      result.append(propertyNames[i]);
+    Iterator<String> iter = propertyNamesForToString().iterator();
+    while (iter.hasNext()) {
+      String pname = iter.next();
+      result.append(pname);
       result.append(" = ");
       try {
-        result.append(PropertyUtils.getProperty(this, propertyNames[i]));
+        result.append(PropertyUtils.getProperty(this, pname));
       }
       // exceptions are programming errors
       catch (IllegalAccessException exc) {
@@ -96,7 +98,7 @@ public abstract class AbstractSemanticBean implements SemanticBean {
       catch (NoSuchMethodException exc) {
         assert false : "NoSuchMethodException should not happen: " + exc;
       }
-      if (i < propertyNames.length - 1) {
+      if (iter.hasNext()) {
         result.append(", ");
       }
     }
@@ -110,12 +112,13 @@ public abstract class AbstractSemanticBean implements SemanticBean {
    * The default implementation returns the names of all properties
    * that are not of a type that is a subtype of {@link Collection},
    * or an array, and that is not the {@link #getClass()} method.
+   * The order is indeterminate.
    *
    * @mudo contract
    */
-  protected String[] propertyNamesForToString() {
+  protected Set<String> propertyNamesForToString() {
     PropertyDescriptor[] pds = PropertyUtils.getPropertyDescriptors(this);
-    List<String> result = new ArrayList<String>(pds.length);
+    Set<String> result = new HashSet<String>(pds.length);
     for (int i = 0; i < pds.length; i++) {
       Class<?> propertyType = pds[i].getReadMethod().getReturnType();
       if (! Collection.class.isAssignableFrom(propertyType) &&
@@ -124,11 +127,8 @@ public abstract class AbstractSemanticBean implements SemanticBean {
         result.add(pds[i].getName());
       }
     }
-    return result.toArray(ARRAY_TYPE_STRING);
+    return result;
   }
-
-  private final static String[] ARRAY_TYPE_STRING = new String[0];
-
 
   /**
    * Convenience method for generating the toString of to-many associations.

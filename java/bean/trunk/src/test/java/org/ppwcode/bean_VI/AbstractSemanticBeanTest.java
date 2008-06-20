@@ -20,6 +20,7 @@ package org.ppwcode.bean_VI;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
@@ -188,33 +189,32 @@ public class AbstractSemanticBeanTest {
     }
   }
 
-  public static void testPropertyNamesForToString1(AbstractSemanticBean subject) {
-    String[] result = subject.propertyNamesForToString();
+  public static Set<String> testPropertyNamesForToStringA(AbstractSemanticBean subject, int nrofProperties) {
+    Set<String> result = subject.propertyNamesForToString();
     assertNotNull(result);
-    assertEquals(2, result.length);
-    assertEquals("property1", result[0]);
-    assertEquals("property2", result[1]);
+    assertEquals(nrofProperties, result.size());
     assertInvariants(subject);
+    return result;
   }
 
-  @Test
-  public void testPropertyNamesForToString1() {
-    for (AbstractSemanticBean subject : subjects) {
-      testPropertyNamesForToString1(subject);
-    }
-  }
-
-  public static void testPropertyNamesForToString2(AbstractSemanticBean subject) {
-    String[] result = subject.propertyNamesForToString();
-    assertNotNull(result);
-    assertEquals(0, result.length);
-    assertInvariants(subject);
+  public static Set<String> testPropertyNamesForToStringB(AbstractSemanticBean subject, int nrOfProperties) {
+    Set<String> result = testPropertyNamesForToStringA(subject, nrOfProperties);
+    assertTrue(result.contains("property1"));
+    assertTrue(result.contains("property2"));
+    return result;
   }
 
   @Test
   public void testPropertyNamesForToString2() {
     AbstractSemanticBean subject = new AbstractSemanticBeanNOPROPERTIES();
-    testPropertyNamesForToString2(subject);
+    testPropertyNamesForToStringA(subject, 0);
+  }
+
+  @Test
+  public void testPropertyNamesForToString1() {
+    for (AbstractSemanticBean subject : subjects) {
+      testPropertyNamesForToStringB(subject, 2);
+    }
   }
 
   @Test
