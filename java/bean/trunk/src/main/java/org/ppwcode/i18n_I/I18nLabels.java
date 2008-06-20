@@ -1,19 +1,29 @@
 /*<license>
-  Copyright 2004, PeopleWare n.v.
-  NO RIGHTS ARE GRANTED FOR THE USE OF THIS SOFTWARE, EXCEPT, IN WRITING,
-  TO SELECTED PARTIES.
+Copyright 2004 - $Date$ by PeopleWare n.v..
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 </license>*/
 
-package be.peopleware.i18n_I;
+package org.ppwcode.i18n_I;
 
 
-import java.beans.PropertyDescriptor;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+import static org.ppwcode.util.reflect_I.Properties.getPropertyType;
+import static org.ppwcode.util.resourcebundle.ResourceBundles.findKeyInTypeProperties;
 
-import org.apache.commons.beanutils.PropertyUtils;
+import org.ppwcode.metainfo_I.Copyright;
+import org.ppwcode.metainfo_I.License;
+import org.ppwcode.metainfo_I.vcs.SvnInfo;
 
 
 /**
@@ -43,23 +53,11 @@ import org.apache.commons.beanutils.PropertyUtils;
  * @idea split the support and bean label properties in different classes;
  *       move the bean property label stuff to ppw-bean
  */
-public abstract class Properties {
-
-  /*<section name="Meta Information">*/
-  //------------------------------------------------------------------
-
-  /** {@value} */
-  public static final String CVS_REVISION = "$Revision$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_DATE = "$Date$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_STATE = "$State$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_TAG = "$Name$"; //$NON-NLS-1$
-
-  /*</section>*/
-
-
+@Copyright("2004 - $Date$, PeopleWare n.v.")
+@License(APACHE_V2)
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
+public abstract class I18nLabels {
 
   /*<construction>*/
   //------------------------------------------------------------------
@@ -67,74 +65,13 @@ public abstract class Properties {
   /**
    * Cannot instantiate this class. Only use static methods.
    */
-  private Properties() {
+  private I18nLabels() {
     // NOP
   }
 
   /*</construction>*/
 
 
-
-  /**
-   * @param     basename
-   *            The base name of the resource bundle to look for.
-   * @param     keys
-   *            The keys to look for in the resource bundle.
-   * @param     strategy
-   *            The strategy to use to look for a
-   *            resource bundle properties file.
-   * @pre       key != null && ! key.equals("");
-   * @pre       strategy != null
-   * @return    ; <code>null</code> if something goes wrong
-   */
-  public static String findKeyWithBasename(final String basename,
-                                            final String[] keys,
-                                            final ResourceBundleLoadStrategy strategy) {
-    assert strategy != null
-        : "strategy != null"; //$NON-NLS-1$
-    assert keys != null && keys.length > 0
-        : "keys != null && keys.length > 0"; //$NON-NLS-1$
-    String result = null;
-    if (basename != null && !basename.equals("")) { //$NON-NLS-1$
-      ResourceBundle bundle = strategy.loadResourceBundle(basename);
-      if (bundle != null) {
-        int i = 0;
-        while (result == null && i < keys.length) {
-          result = findKeyInResourceBundle(bundle, keys[i]);
-          i++;
-        }
-      }
-    }
-    return result;
-  }
-
-  /**
-   * @param     rb
-   *            The resource bundle to look in.
-   * @param     key
-   *            The key to look for.
-   * @pre       rb != null;
-   * @pre       key != null && key.length() > 0;
-   * @return    ; <code>null</code> if the resource could not be retrieved
-   */
-  public static String findKeyInResourceBundle(final ResourceBundle rb,
-                                               final String key) {
-    assert rb != null : "rb != null;"; //$NON-NLS-1$
-    assert (key != null && key.length() > 0)
-        : "key != null && key.length() > 0"; //$NON-NLS-1$
-    String result = null;
-    try {
-      result = rb.getString(key);
-          /* throws MissingResourceException, ClassCastException */
-    }
-    catch (ClassCastException ccExc) {
-      // match is not a String, return null
-    }
-    catch (MissingResourceException mrExc) {
-      // key not found, return null
-    }
-    return result;
-  }
 
   /**
    * <p>Token used in return values to signal properties that
@@ -189,24 +126,20 @@ public abstract class Properties {
    *         (property == null)
    *          || (property.length() <= 0)
    *          || (type == null);
+   *
+   * @mudo better exception type
    */
-  public static String i18nPropertyLabel(
-      final String property,
-      final Class type,
-      final boolean shortLabel,
-      final ResourceBundleLoadStrategy strategy)
+  public static String i18nPropertyLabel(final String property, final Class<?> type, final boolean shortLabel, final ResourceBundleLoadStrategy strategy)
       throws IllegalArgumentException {
-    if ((property == null)
-          || (property.length() <= 0)
-          || (type == null)) {
-      throw new IllegalArgumentException("parameters must be effective"); //$NON-NLS-1$
+    if ((property == null) || (property.length() <= 0) || (type == null)) {
+      throw new IllegalArgumentException("parameters must be effective");
     }
     int dotPosition = property.indexOf(DOT);
     if (dotPosition >= 0) {
       String preDot = property.substring(0, dotPosition);
       String postDot = property.substring(dotPosition + 1);
       try {
-        Class preType = getPropertyType(type, preDot);
+        Class<?> preType = getPropertyType(type, preDot);
         return i18nPropertyLabel(postDot, preType, shortLabel, strategy);
       }
       catch (NoSuchMethodException nsmExc) {
@@ -214,55 +147,10 @@ public abstract class Properties {
         return null;
       }
     }
-    String result = findKeyInTypeProperties(type,
-                                            i18nPropertyLabel_keys(property, shortLabel),
-                                            strategy);
+    String result = findKeyInTypeProperties(type, i18nPropertyLabel_keys(property, shortLabel), strategy);
     return (result != null)
             ? result
             : keyNotFound(property + PROPERTY_SEPARATOR_TOKEN + type.getName());
-  }
-
-  /**
-   * Return the {@link PropertyDescriptor} for the property with
-   * name <code>propertyName</code> of type <code>type</code>.
-   *
-   * @pre (type != null) && (propertyName != null) &&
-   *        (! propertyName.equals(""));
-   * @throws NoSuchMethodException
-   *         Type <code>type</code> has no property with name
-   *         <code>propertyName</code>.
-   *
-   * @idea (jand) should have existed in commons beanutils; move to ppw-utils
-   */
-  private static PropertyDescriptor getPropertyDescriptor(final Class type,
-      final String propertyName) throws NoSuchMethodException {
-    assert (type != null) && (propertyName != null)
-             && (!propertyName.equals(""))
-             : "type and propertyName cannot be null or empty";
-    PropertyDescriptor[] pds = PropertyUtils.getPropertyDescriptors(type);
-    for (int i = 0; i < pds.length; i++) {
-      if (pds[i].getName().equals(propertyName)) {
-        return pds[i];
-      }
-    }
-    throw new NoSuchMethodException("property \"" + propertyName + "\" not found in type " + type);
-  }
-
-  /**
-   * Return the type of the property with name <code>propertyName</code>
-   * of type <code>type</code>.
-   *
-   * @pre (type != null) && (propertyName != null) &&
-   *        (! propertyName.equals(""));
-   * @throws NoSuchMethodException
-   *         Type <code>type</code> has no property with name
-   *         <code>propertyName</code>.
-   *
-   * @idea (jand) should have existed in commons beanutils; move to ppw-utils
-   */
-  private static Class getPropertyType(final Class type, final String propertyName)
-      throws NoSuchMethodException {
-    return getPropertyDescriptor(type, propertyName).getPropertyType();
   }
 
   /**
@@ -298,52 +186,6 @@ public abstract class Properties {
                              strategy);
   }
 
-  /**
-   * <p>Return a string from a properties file that has a basename that
-   *   matches <code>type</code>, or one of its supertypes.</p>
-   * <p>We look for <code>keys</code> in a properties file with the same
-   *   name as <code>type.getName()</code>, in order. If no match is
-   *   found, or no such properties file exists, we try again with
-   *   the super types, in the order they are presented by the reflection
-   *   functionality. We look in interfaces first, the superclass if
-   *   no match is found in the super interfaces. We search breath-first.</p>
-   * <p>If this entire process does not return a valid result, we return
-   *   <code>null</code>.</p>
-   *
-   * @param type
-   *        The type to use as starting point for the lookup in associated
-   *        properties files.
-   * @param keys
-   *        The keys to lookup in order.
-   * @param strategy
-   *        The strategy to use to look for a
-   *        resource bundle properties file.
-   * @throws IllegalArgumentException
-   *         (property == null)
-   *          || (property.length() <= 0)
-   *          || (type == null);
-   */
-  public static String findKeyInTypeProperties(
-      final Class type,
-      final String[] keys,
-      final ResourceBundleLoadStrategy strategy) {
-    LinkedList agenda = new LinkedList();
-    agenda.add(type);
-    String result = null;
-    while ((result == null) && (!agenda.isEmpty())) {
-      Class current = (Class)agenda.removeFirst();
-      result = findKeyWithBasename(current.getName(), keys, strategy);
-      if (result == null) {
-        agenda.addAll(Arrays.asList(current.getInterfaces()));
-        Class superClass = current.getSuperclass();
-        if (superClass != null) {
-          agenda.add(superClass);
-        }
-      }
-    }
-    return result; // null if not found
-  }
-
 
   /**
    * <p>Prefix used in property files to discriminate property
@@ -351,7 +193,7 @@ public abstract class Properties {
    *
    * <p><strong>= {@value}</strong></p>
    */
-  public static final String I18N_PROPERTY_LABEL_KEY_PREFIX = "propertyName."; //$NON-NLS-1$
+  public static final String I18N_PROPERTY_LABEL_KEY_PREFIX = "propertyName.";
 
   /**
    * <p>Prefix used in property files to discriminate short property
@@ -359,22 +201,18 @@ public abstract class Properties {
    *
    * <p><strong>= {@value}</strong></p>
    */
-  public static final String I18N_SHORT_PROPERTY_LABEL_KEY_PREFIX =
-      I18N_PROPERTY_LABEL_KEY_PREFIX + "short."; //$NON-NLS-1$
+  public static final String I18N_SHORT_PROPERTY_LABEL_KEY_PREFIX = I18N_PROPERTY_LABEL_KEY_PREFIX + "short.";
 
   /**
    * @pre property != null;
    * @pre property.length() > 0;
    */
-  private static String[] i18nPropertyLabel_keys(final String property,
-                                                 final boolean shortLabel) {
+  private static String[] i18nPropertyLabel_keys(final String property, final boolean shortLabel) {
     assert property != null;
     assert property.length() > 0;
     String key = I18N_PROPERTY_LABEL_KEY_PREFIX + property;
     String shortKey = I18N_SHORT_PROPERTY_LABEL_KEY_PREFIX + property;
-    return shortLabel
-            ? new String[] {shortKey, key}
-            : new String[] {key, shortKey};
+    return shortLabel ? new String[] {shortKey, key} : new String[] {key, shortKey};
   }
 
   /**
@@ -434,9 +272,7 @@ public abstract class Properties {
    * @throws IllegalArgumentException
    *          type == null;
    */
-  public static String i18nTypeLabel(final Class type,
-                                     final boolean plural,
-                                     final ResourceBundleLoadStrategy strategy) {
+  public static String i18nTypeLabel(final Class<?> type, final boolean plural, final ResourceBundleLoadStrategy strategy) {
     if (type == null) {
       throw new IllegalArgumentException("type must be effective"); //$NON-NLS-1$
     }

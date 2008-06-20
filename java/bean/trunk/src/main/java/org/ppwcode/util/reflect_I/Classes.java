@@ -113,7 +113,7 @@ import java.lang.reflect.Modifier;
  *
  * @idea (jand) most methods are also in ppw-bean; consolidate
  *
- * @note The methods of the class {@code Beans} of the previous version have been moved here and into {@link Properties}.
+ * @note The methods of the class {@code Beans} of the previous version have been moved here and into {@link ResourceBundles}.
  *       Furthermore, a number of methods are removed.
  *
  * @author Jan Dockx

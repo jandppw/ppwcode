@@ -121,6 +121,23 @@ public class Properties {
   }
 
   /**
+   * Return the type of the property with name <code>propertyName</code>
+   * of type <code>type</code>.
+   *
+   * @pre (type != null) && (propertyName != null) &&
+   *        (! propertyName.equals(""));
+   * @throws NoSuchMethodException
+   *         Type <code>type</code> has no property with name
+   *         <code>propertyName</code>.
+   *
+   * @idea (jand) should have existed in commons beanutils; move to ppw-utils
+   */
+  public static Class<?> getPropertyType(final Class<?> type, final String propertyName)
+      throws NoSuchMethodException {
+    return getPropertyDescriptor(type, propertyName).getPropertyType();
+  }
+
+  /**
    * Return true if {@code beanClass} has a property with name {@code propertyName}.
    *
    * @note In contrast to other methods in this class, the propertyName cannot be
