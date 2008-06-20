@@ -217,9 +217,15 @@ public class AbstractSemanticBeanTest {
     }
   }
 
+  public static void testCollectionString(AbstractSemanticBean subject) {
+    assertInvariants(subject);
+  }
+
   @Test
   public void testCollectionString() {
-    fail("Not yet implemented");
+    for (AbstractSemanticBean subject : subjects) {
+      testCollectionString(subject);
+    }
   }
 
 }

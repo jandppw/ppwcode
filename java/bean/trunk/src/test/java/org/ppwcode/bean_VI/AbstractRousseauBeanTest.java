@@ -237,6 +237,18 @@ public class AbstractRousseauBeanTest {
     }
   }
 
+  public static void testCollectionString(AbstractRousseauBean subject) {
+    AbstractSemanticBeanTest.testCollectionString(subject);
+    assertInvariants(subject);
+  }
+
+  @Test
+  public void testCollectionString() {
+    for (AbstractRousseauBean subject : subjects) {
+      testCollectionString(subject);
+    }
+  }
+
   public static CompoundPropertyException testGetWildExceptions(AbstractRousseauBean subject) {
     // execute
     CompoundPropertyException result = subject.getWildExceptions();

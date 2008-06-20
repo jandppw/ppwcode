@@ -139,10 +139,15 @@ public abstract class AbstractSemanticBean implements SemanticBean {
   protected final static String collectionString(final Collection<?> c) {
     assert c != null;
     StringBuilder result = new StringBuilder("{");
-    for (Object item : c) {
+    Iterator<?> iter = c.iterator();
+    while (iter.hasNext()) {
+      Object item = iter.next();
       result.append(item.getClass().getName());
       result.append("@");
       result.append(Integer.toHexString(item.hashCode()));
+      if (iter.hasNext()) {
+        result.append(", ");
+      }
     }
     result.append("}");
     return result.toString();
