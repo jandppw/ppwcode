@@ -1,71 +1,56 @@
 /*<license>
-  Copyright 2004, PeopleWare n.v.
-  NO RIGHTS ARE GRANTED FOR THE USE OF THIS SOFTWARE, EXCEPT, IN WRITING,
-  TO SELECTED PARTIES.
+Copyright 2004 - $Date$ by PeopleWare n.v..
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 </license>*/
 
-package be.peopleware.i18n_I;
+package org.ppwcode.i18n_I;
 
 
 import java.util.Locale;
+import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+
+import org.ppwcode.metainfo_I.Copyright;
+import org.ppwcode.metainfo_I.License;
+import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.toryt.annotations_I.Basic;
+import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.MethodContract;
 
 
 /**
  * A simple resource bundle load strategy. We use the default class
- * loader strategy with a given locale. For properties files, if there
- * is no match with the given locale * (<code>basename + &quot;_&quot;
- * + getLocale().toString() + &quot;.properties&quot;</code>) or
- * {@link #getLocale()}returns <code>null</code>, we try the system default
- * locale (<code>basename + &quot;_&quot;
- * + {@link java.util.Locale#getDefault()}.toString()
- * + &quot;.properties&quot;</code>).
- * If there is no match still, the default properties file is used
- * (<code>basename + &quot;.properties&quot;</code>).
+ * loader strategy with a given locale, or the default locale if no
+ * locale is given.
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
  */
+@Copyright("2004 - $Date$, PeopleWare n.v.")
+@License(APACHE_V2)
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public class DefaultResourceBundleLoadStrategy
     implements ResourceBundleLoadStrategy {
-
-  /* <section name="Meta Information"> */
-  //------------------------------------------------------------------
-
-  /** {@value} */
-  public static final String CVS_REVISION = "$Revision$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_DATE = "$Date$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_STATE = "$State$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_TAG = "$Name$"; //$NON-NLS-1$
-
-  /* </section> */
-
-
-
-  /* <construction> */
-  //------------------------------------------------------------------
-
-  /**
-   * @post      new.getLocale() == null;
-   */
-  public DefaultResourceBundleLoadStrategy() {
-    // NOP
-  }
-
-  /* </construction> */
-
-
 
   /* <property name="locale"> */
   //------------------------------------------------------------------
 
-  /**
-   * @basic
-   */
+  @Basic(
+    init = @Expression("null")
+  )
   public final Locale getLocale() {
     return $locale;
   }
@@ -73,8 +58,8 @@ public class DefaultResourceBundleLoadStrategy
   /**
    * @param     locale
    *            The new value for the locale.
-   * @post      new.getLocale() == locale;
    */
+  @MethodContract(post = @Expression("locale == _locale"))
   public final void setLocale(final Locale locale) {
     $locale = locale;
   }
@@ -83,25 +68,31 @@ public class DefaultResourceBundleLoadStrategy
 
   /* </property> */
 
-  private static final String EMPTY = ""; //$NON-NLS-1$
+
+
+  private static final String EMPTY = "";
 
   /**
    * <p>Load a resource bundle with the given <code>basename</code>,
-   * according to this strategy.</p>
-   * <p>For properties files, if there is no match with the given locale (
-   *  <code>basename + &quot;_&quot; + getLocale().toString()
-   *  + &quot;.properties&quot;</code>) or
-   *  {@link #getLocale()}returns <code>null</code>, we try the system default
-   *  locale (<code>basename + &quot;_&quot;
-   *  + Locale.{@link java.util.Locale#getDefault()}.toString()
-   *  + &quot;.properties&quot;</code>).</p>
-   * <p>If there is no match still, the default properties file is used (
-   * <code>basename + &quot;.properties&quot;</code>).</p>
-   * <p>The method returns <code>null</code> if no resource bundle was found.</p>
+   *   according to this strategy.</p>
+   * <p>If the {@ink #getLocale()} is not {@code null}, we try to retrieve
+   *   the {@link ResourceBundle}-tree for the resource
+   *   <code><var>basename</var> + &quot;_&quot; + {@link #getLocale()}.toString()</code>.
+   *   If the {@ink #getLocale()} is {@code null}, we try to retrieve
+   *   the {@link ResourceBundle}-tree for the resource
+   *   <code><var>basename</var> + &quot;_&quot; + {@link Locale#getDefault()}.toString()</code>.
+   *   The method returns <code>null</code> if no resource bundle was found.</p>
    */
+  @MethodContract(
+    post = {
+      @Expression("_basename == null || _basename == EMPTY ? null"),
+      @Expression("locale != null ? ResourceBundle.getBundle(_basename, locale)"),
+      @Expression("locale == null ? ResourceBundle.getBundle(_basename, Locale.default)")
+    }
+  )
   public ResourceBundle loadResourceBundle(final String basename) {
     ResourceBundle result = null;
-    if ((basename != null) && (!basename.equals(EMPTY))) { //$NON-NLS-1$
+    if ((basename != null) && (!basename.equals(EMPTY))) {
       Locale locale = null;
       if (getLocale() != null) {
         locale = getLocale();
