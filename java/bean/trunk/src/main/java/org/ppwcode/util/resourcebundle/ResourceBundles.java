@@ -41,7 +41,7 @@ import org.ppwcode.i18n_I.ResourceBundleLoadStrategy;
  * @idea split the support and bean label properties in different classes;
  *       move the bean property label stuff to ppw-bean
  */
-public abstract class ResourceBundles {
+public final class ResourceBundles {
 
   /*<construction>*/
   //------------------------------------------------------------------

@@ -59,7 +59,7 @@ import org.ppwcode.util.resourcebundle.ResourceBundles;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-public abstract class I18nLabels {
+public final class I18nLabels {
 
   /*<construction>*/
   //------------------------------------------------------------------
