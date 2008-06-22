@@ -30,9 +30,9 @@ import org.toryt.annotations_I.MethodContract;
 
 /**
  * <p>Strategy pattern to load i18n resource bundles.</p>
- * <p>The stratey to find a resource bundle in an i18n context is different in
+ * <p>The strategy to find a resource bundle in an i18n context is different in
  *   different deployments environments. E.g., the strategy is different for
- *   general Swing applications, JSTL <code>fmt</code> tags, and Struts.</p>
+ *   general Swing applications, JSTL <code>fmt</code> tags, Struts and JSF.</p>
  * <p> Classes that need to access resources based on a
  *   {@link java.util.Locale locale}, can use an instance of this strategy at
  *   runtime to have it load a resource bundle for them.</p>
