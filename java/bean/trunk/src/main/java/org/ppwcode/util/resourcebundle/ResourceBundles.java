@@ -158,4 +158,42 @@ public final class ResourceBundles {
     return result;
   }
 
+//  /**
+//   * Get the String value associated with <code>key</code> in <code>rb</code>
+//   * robustly. If anything goes wrong, return <code>null</code> silently.
+//   * In most l10n contexts, this is preferred over getting an exception.
+//   * Failures are logged at level WARN.
+//   *
+//   * @param     rb
+//   *            The resource bundle to look in.
+//   * @param     key
+//   *            The key to look for.
+//   * @pre       rb != null;
+//   * @pre       key != null && key.length() > 0;
+//   * @return    ; <code>null</code> if the resource could not be retrieved
+//   */
+//  public static String robustStringFromResourceBundle(final ResourceBundle rb,
+//                                                      final String key) {
+//    assert rb != null : "rb != null;";
+//    assert (key != null && key.length() > 0)
+//        : "key != null && key.length() > 0";
+//    String result = null;
+//    try {
+//      result = rb.getString(key);
+//          /* throws MissingResourceException, ClassCastException */
+//      LOG.debug("value for key " + key + " in resource bundle " +
+//               rb + " found: " + result);
+//    }
+//    catch (ClassCastException ccExc) {
+//      LOG.warn("value for key " + key + " in resource bundle " +
+//               rb + " is not a String; returning null", ccExc);
+//    }
+//    catch (MissingResourceException mrExc) {
+//      LOG.warn("no entry for key " + key + " in resource bundle " +
+//               rb + "; returning null", mrExc);
+//    }
+//    return result;
+//  }
+
+
 }
