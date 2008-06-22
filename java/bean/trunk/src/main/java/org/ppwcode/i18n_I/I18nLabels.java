@@ -81,7 +81,7 @@ public final class I18nLabels {
    *
    * <p><strong>= {@value}</strong></p>
    */
-  public static final String NOT_FOUND_TOKEN = "???"; //$NON-NLS-1$
+  public static final String NOT_FOUND_TOKEN = "???";
 
   /**
    * <p>Token used in return values to separate type names
@@ -89,7 +89,7 @@ public final class I18nLabels {
    *
    * <p><strong>= {@value}</strong></p>
    */
-  public static final String PROPERTY_SEPARATOR_TOKEN = "#"; //$NON-NLS-1$
+  public static final String PROPERTY_SEPARATOR_TOKEN = "#";
 
   private static final char DOT = '.';
 
@@ -236,7 +236,7 @@ public final class I18nLabels {
    *
    * <p><strong>= {@value}</strong></p>
    */
-  public static final String I18N_TYPE_LABEL_KEY = "type"; //$NON-NLS-1$
+  public static final String I18N_TYPE_LABEL_KEY = "type";
 
   /**
    * <p>Key used in property files to discriminate the
@@ -245,7 +245,7 @@ public final class I18nLabels {
    * <p><strong>= {@value}</strong></p>
    */
   public static final String I18N_PLURAL_TYPE_LABEL_KEY =
-    I18N_TYPE_LABEL_KEY + ".plural"; //$NON-NLS-1$
+    I18N_TYPE_LABEL_KEY + ".plural";
 
   private static String[] I18N_TYPE_LABEL_KEYS =
     new String[] {I18N_TYPE_LABEL_KEY};
@@ -276,7 +276,7 @@ public final class I18nLabels {
    */
   public static String i18nTypeLabel(final Class<?> type, final boolean plural, final ResourceBundleLoadStrategy strategy) {
     if (type == null) {
-      throw new IllegalArgumentException("type must be effective"); //$NON-NLS-1$
+      throw new IllegalArgumentException("type must be effective");
     }
     String result = findKeyInTypeProperties(type,
                                             (plural
@@ -290,7 +290,7 @@ public final class I18nLabels {
   //------------------------------------------------------------------
 
   private static final String EMPTY = "";
-  private static final String PREFIX = "message.";
+  private static final String PREFIX = "message";
 
   /**
    * The keys that are tried consecutively are intended for use in
@@ -343,8 +343,14 @@ public final class I18nLabels {
    *                ==> (result[1] != null)
    *                    && result[1].equals("message." + getMessage());
    */
-  private final static String[] getLocalizedMessageKeys(PropertyException pe) {
+  private final static String[] getBeanBundleKeys(PropertyException pe) {
     String[] result = null;
+    String className = pe.getClass().getName();
+    String propertyName = pe.getPropertyName();
+    String message = pe.getMessage();
+
+    className + DOT + propertyName + DOT + message;
+
     String firstKey = pe.getClass().getName() + (pe.getPropertyName() != null
                             ? DOT + pe.getPropertyName()
                             : EMPTY)
@@ -359,6 +365,19 @@ public final class I18nLabels {
     return result;
   }
 
+  private final static String[] getExceptionBundleKeys(PropertyException pe) {
+    assert pe != null;
+    String[] result = null;
+    String message = pe.getMessage();
+    if (message == null) {
+      String firstKey = PREFIX + DOT + message;
+      result = new String[] {firstKey, PREFIX};
+    }
+    else {
+      result = new String[] {PREFIX};
+    }
+    return result;
+  }
 
   /**
    * Return the a label from the
