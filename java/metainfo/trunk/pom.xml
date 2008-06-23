@@ -60,8 +60,8 @@ limitations under the License.
 
 
   <scm>
-    <connection>scm:svn:http://ppwcode.googlecode.com/svn/${ppwcode.inRepoLocation}</connection>
-    <developerConnection>scm:svn:https://ppwcode.googlecode.com/svn/${ppwcode.inRepoLocation}</developerConnection>
+    <connection>scm:svn:http://ppwcode.googlecode.com/svn/${ppwcode.inRepoLocation}/trunk</connection>
+    <developerConnection>scm:svn:https://ppwcode.googlecode.com/svn/${ppwcode.inRepoLocation}/trunk</developerConnection>
     <tag>${ppwcode.markVersion}/${ppwcode.majorSpecVersion}.${ppwcode.minorSpecVersion}.n/${ppwcode.markVersion}-${ppwcode.majorSpecVersion}.${ppwcode.minorSpecVersion}.${ppwcode.microSpecVersion}-${ppwcode.implementationVersion}</tag>
     <url>http://code.google.com/p/ppwcode/source/browse/${ppwcode.inRepoLocation}</url>
   </scm>
@@ -371,9 +371,8 @@ limitations under the License.
         </configuration>
       </plugin>
 
-<!--
       <plugin>
-        <!++  if this fails, it means you have no svn installed ++>
+        <!--  if this fails, it means you have no svn installed -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changelog-plugin</artifactId>
         <configuration>
@@ -381,6 +380,7 @@ limitations under the License.
           <range>3650</range>
         </configuration>
       </plugin>
+<!--
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
