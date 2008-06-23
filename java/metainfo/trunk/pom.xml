@@ -411,12 +411,13 @@ limitations under the License.
         <!-- MUDO configure http://maven.apache.org/plugins/maven-pmd-plugin/examples/usingRuleSets.html -->
       </plugin>
 
-<!--
-insists on using "jand" for svn:htps connection
       <plugin>
         <groupId>net.sf</groupId>
         <artifactId>stat-scm</artifactId>
+<!-- MUDO needs more config -->
       </plugin>
+<!--
+insists on using "jand" for svn:htps connection
 -->
                         <!--
     <report>maven-linkcheck-plugin</report>
