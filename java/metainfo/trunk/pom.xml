@@ -55,7 +55,7 @@ limitations under the License.
       <distribution>repo</distribution>
     </license>
   </licenses>
-  <url>http://www.ppwcode.org/projectdocs/${ppwcode.shortArtifactName}/${ppwcode.markVersion}/${pom.version}</url>
+  <url>http://www.ppwcode.org/projectdocs/java/${ppwcode.shortArtifactName}/${ppwcode.markVersion}/${pom.version}</url>
 
 
 
@@ -298,12 +298,21 @@ limitations under the License.
           <linksource>true</linksource> <!-- HTML version of each source file -->
           <links>
             <link>http://java.sun.com/j2se/1.5.0/docs/api</link>
+            <!--  add links for all ppwcode packages that are released -->
           </links>
           <!-- no overview documentation in this project yet
           <offlineLinks>
           </offlineLinks>
+          <doctitle></doctitle>
           <overview></overview>
           -->
+          <!-- windowtitle default is ok -->
+          <header>&lt;a href="${pom.url}"&gt;${pom.artifactId} ${pom.version}&lt;/a&gt;</header>
+          <!-- MUDO replace header with logo -->
+          <footer>&lt;a href="${pom.url}"&gt;${pom.artifactId} ${pom.version}&lt;/a&gt;</footer>
+          <bottom>&amp;copy; PeopleWare n.v., ${pom.inceptionYear}. Released under the
+            &lt;a href="http://www.apache.org/licenses/LICENSE-2.0.html"&gt;Apache License, version 2&lt;/a&gt;</bottom>
+          <docencoding>ISO-8859-1</docencoding>
           <tags> <!-- order defines order in which tags are shown -->
             <tag>
               <name>note</name>
