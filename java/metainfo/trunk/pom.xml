@@ -282,30 +282,29 @@ limitations under the License.
              is stored in ${basedir}/toolProperties, but not used -->
       </plugin>
 
-<!--
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <source>1.5</source> <!++ necessary to enable assertions ++>
-          <author>true</author> <!++ show author tags ++>
-          <protected>true</protected> <!++ only show public and protected stuff ++>
+          <source>1.5</source> <!-- necessary to enable assertions -->
+          <author>true</author> <!-- show author tags -->
+          <protected>true</protected> <!-- only show public and protected stuff -->
           <package>false</package>
           <private>false</private>
-          <breakiterator>true</breakiterator> <!++ use new algorithm to determine end of first sentence ++>
+          <breakiterator>true</breakiterator> <!-- use new algorithm to determine end of first sentence -->
           <stylesheet>maven</stylesheet>
-          <docfilessubdirs>true</docfilessubdirs> <!++ enable deep copy of all doc-files subdirectories ... ++>
-          <excludedocfilessubdir>CVS</excludedocfilessubdir> <!++ ... but don't copy CVS files ++>
-          <linksource>true</linksource> <!++ HTML version of each source file ++>
+          <docfilessubdirs>true</docfilessubdirs> <!-- enable deep copy of all doc-files subdirectories ... -->
+          <excludedocfilessubdir>.svn</excludedocfilessubdir> <!-- ... but don't copy CVS files -->
+          <linksource>true</linksource> <!-- HTML version of each source file -->
           <links>
             <link>http://java.sun.com/j2se/1.5.0/docs/api</link>
           </links>
-          <!++ no overview documentation in this project yet
+          <!-- no overview documentation in this project yet
           <offlineLinks>
           </offlineLinks>
           <overview></overview>
-          ++>
-          <tags> <!++ order defines order in which tags are shown ++>
+          -->
+          <tags> <!-- order defines order in which tags are shown -->
             <tag>
               <name>note</name>
               <placement>a</placement>
@@ -313,7 +312,7 @@ limitations under the License.
             </tag>
             <tag>
               <name>deprecated</name>
-              <!++ we want the standard tag here ++>
+              <!-- we want the standard tag here -->
             </tag>
             <tag>
               <name>protected</name>
@@ -321,87 +320,28 @@ limitations under the License.
               <head>Information for Subtype Implementors:</head>
             </tag>
             <tag>
-              <name>invar</name>
-              <placement>tf</placement>
-              <head>Invariants:</head>
-            </tag>
-            <tag>
-              <name>basic</name>
-              <placement>cm</placement>
-              <head>Basic inspector</head>
-            </tag>
-            <tag>
               <name>param</name>
-              <!++ we want the standard tag here ++>
-            </tag>
-            <tag>
-              <name>pre</name>
-              <placement>cm</placement>
-              <head>Preconditions:</head>
-            </tag>
-            <tag>
-              <name>post</name>
-              <placement>cm</placement>
-              <head>Postconditions:</head>
+              <!-- we want the standard tag here -->
             </tag>
             <tag>
               <name>return</name>
-              <!++ we want the standard tag here ++>
-            </tag>
-            <tag>
-              <name>result</name>
-              <placement>cm</placement>
-              <head>Result:</head>
+              <!-- we want the standard tag here -->
             </tag>
             <tag>
               <name>throws</name>
-              <!++ we want the standard tag here ++>
-            </tag>
-            <tag>
-              <name>except</name>
-              <placement>cm</placement>
-              <head>Also Throws:</head>
-            </tag>
-            <tag>
-              <name>init</name>
-              <placement>m</placement>
-              <head>Initially:</head>
-            </tag>
-            <tag>
-              <name>protected.invar</name>
-              <placement>tf</placement>
-              <head>Protected Invariants:</head>
-            </tag>
-            <tag>
-              <name>protected.post</name>
-              <placement>cm</placement>
-              <head>Protected Postconditions:</head>
-            </tag>
-            <tag>
-              <name>protected.result</name>
-              <placement>cm</placement>
-              <head>Protected Result:</head>
+              <!-- we want the standard tag here -->
             </tag>
             <tag>
               <name>see</name>
-              <!++ we want the standard tag here ++>
+              <!-- we want the standard tag here -->
             </tag>
             <tag>
               <name>author</name>
-              <!++ we want the standard tag here ++>
-            </tag>
-            <tag>
-              <name>annotation</name>
-              <placement>a</placement>
-              <head>Annotations:</head>
-            </tag>
-            <tag>
-              <name>version</name>
-              <!++ we want the standard tag here ++>
+              <!-- we want the standard tag here -->
             </tag>
             <tag>
               <name>since</name>
-              <!++ we want the standard tag here ++>
+              <!-- we want the standard tag here -->
             </tag>
             <tag>
               <name>mudo</name>
@@ -421,7 +361,6 @@ limitations under the License.
           </tags>
         </configuration>
       </plugin>
--->
 
 <!--
       <plugin>
