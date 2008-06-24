@@ -205,6 +205,42 @@ limitations under the License.
         </executions>
       </plugin>
 
+       <plugin>
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-source-plugin</artifactId>
+         <executions>
+           <execution>
+             <id>attach-sources</id>
+             <phase>verify</phase>
+             <goals>
+               <goal>jar</goal>
+             </goals>
+           </execution>
+           <execution>
+             <id>attach-test-sources</id>
+             <phase>verify</phase>
+             <goals>
+               <goal>test-jar</goal>
+             </goals>
+           </execution>
+         </executions>
+       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- MUDO add maven-remote-resources-plugin -->
+
 <!-- MUDO waiting for mail host, list
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -414,7 +450,7 @@ limitations under the License.
       <plugin>
         <groupId>net.sf</groupId>
         <artifactId>stat-scm</artifactId>
-<!-- MUDO needs more config -->
+        <!-- MUDO needs more config ?? -->
       </plugin>
 
       <plugin>
@@ -426,7 +462,7 @@ limitations under the License.
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>clirr-maven-plugin</artifactId>
-        <!-- configure with all existing artifacts -->
+        <!-- TODO configure with all existing artifacts -->
         <configuration>
           <comparisonVersion>1.0.0-20080623.145505-1</comparisonVersion>
         </configuration>
