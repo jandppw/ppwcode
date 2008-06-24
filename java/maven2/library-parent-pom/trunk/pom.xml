@@ -77,7 +77,7 @@
 
     <ppwcode.inRepoLocation>java/maven2/${ppwcode.shortArtifactName}</ppwcode.inRepoLocation>
 
-    <ppwcode.mainUrl>http://www.ppwcode.org/projectdocs/java</ppwcode.mainUrl>
+    <ppwcode.mainUrl>http://www.ppwcode.org/java/projectdocs</ppwcode.mainUrl>
     <ppwcode.mainScmUrl>ppwcode.googlecode.com/svn</ppwcode.mainScmUrl>
     <!-- do not add the kind or the protocol here; we assume svn, http for anonymous access, https for developer access -->
     <ppwcode.mainScmViewUrl>code.google.com/p/ppwcode/source/browse</ppwcode.mainScmViewUrl>
