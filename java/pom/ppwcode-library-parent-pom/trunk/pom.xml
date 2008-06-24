@@ -129,6 +129,12 @@
       <name>ppwcode Maven 2 repository</name>
       <url>http://www.ppwcode.org/java/maven2repo</url>
     </repository>
+    <repository>
+      <id>torytRepo</id>
+      <!-- This needs to be copied in all child poms, to find the parent -->
+      <name>Toryt Maven 2 repository</name>
+      <url>http://www.ppwcode.org/toryt/maven2repo</url>
+    </repository>
   </repositories>
 
 </project>
