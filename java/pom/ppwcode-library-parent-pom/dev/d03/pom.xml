@@ -1,0 +1,162 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <!--
+  $Date: 2007/11/13 13:46:02 $
+  $Revision: 1.12 $
+  $HeadURL$
+
+  Copyright 2007 - $Date: 2007/11/13 13:46:02 $ by PeopleWare n.v.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+
+  <!-- NOTE: you probably have to give Maven more memory:
+             export MAVEN_OPTS=-Xmx1024M -->
+
+  <!--
+    Projects using this pom should fill out, in a child pom:
+
+      artifactId
+      version
+      packaging
+
+      name
+      description
+      inceptionYear, possibly
+
+      ppwcode.shortArtifactName
+      ppwcode.markVersion
+      ppwcode.inRepoLocation
+
+      developers
+
+    Using our parent:
+
+      For our projects, we need to override
+        artifactId
+        version
+        packaging
+
+        name
+        description
+
+        ppwcode.shortArtifactName
+        ppwcode.markVersion
+        ppwcode.inRepoLocation
+
+      For our projects, we will not need to override
+        ppwcode.mainUrl
+        ppwcode.mainScmUrl
+        ppwcode.mainScmViewUrl
+        ppwcode.mainDistroUrl
+
+        organization
+        licenses
+
+        distribution management
+        issue management
+         mailing lists
+
+        developers
+
+
+      For our projects, we add
+        dependency management
+
+    It will also be necessary to add the ppwcode repo to the pom, to find
+    this parent (bootstrap problem).
+   -->
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.ppwcode</groupId>
+    <artifactId>ppwcode-library-parent-pom</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+
+  <properties>
+    <ppwcode.shortArtifactName>ppwcode-library-parent-pom</ppwcode.shortArtifactName>
+    <ppwcode.markVersion></ppwcode.markVersion>
+    <!-- empty mark version results in "double slash in paths", which works -->
+
+    <ppwcode.inRepoLocation>java/pom/${ppwcode.shortArtifactName}</ppwcode.inRepoLocation>
+  </properties>
+
+
+  <!-- General information -->
+  <groupId>org.ppwcode</groupId>
+  <artifactId>ppwcode-ppwcode-library-parent-pom</artifactId>
+  <!--
+    artifactId needs to be added explicitly to child pom. add:
+    <artifactId>ppwcode-${ppwcode.shortArtifactName}-${ppwcode.markVersion}</artifactId>
+  -->
+  <version>1.0.0-SNAPSHOT</version> <!-- MUDO add Svn release number as implementation version -->
+  <packaging>pom</packaging>
+
+  <name>ppwcode ppwcode library parent pom</name>
+  <description>A parent pom for ppwcode libaries.</description>
+
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.4</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.ppwcode</groupId>
+        <artifactId>ppwcode-metainfo-I</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.toryt</groupId>
+        <artifactId>Toryt-annotations-I</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-beanutils</groupId>
+        <artifactId>commons-beanutils-core</artifactId>
+        <version>1.7.0</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-logging</groupId>
+        <artifactId>commons-logging-api</artifactId>
+        <version>1.1</version> <!-- should be 1.1.1 -->
+        <scope>runtime</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <repositories>
+    <repository>
+      <id>ppwcodeRepo</id>
+      <!-- This needs to be copied in all child poms, to find the parent -->
+      <name>ppwcode Maven 2 repository</name>
+      <url>http://www.ppwcode.org/java/maven2repo</url>
+    </repository>
+    <repository>
+      <id>torytRepo</id>
+      <!-- This needs to be copied in all child poms, to find the parent -->
+      <name>Toryt Maven 2 repository</name>
+      <url>http://www.ppwcode.org/toryt/maven2repo</url>
+    </repository>
+  </repositories>
+
+</project>
