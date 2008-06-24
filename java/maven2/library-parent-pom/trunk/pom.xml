@@ -71,13 +71,13 @@
   <modelVersion>4.0.0</modelVersion>
 
   <properties>
-    <ppwcode.shortArtifactName>ppwcode-library-parent-pom</ppwcode.shortArtifactName>
+    <ppwcode.shortArtifactName>library-parent-pom</ppwcode.shortArtifactName>
     <ppwcode.markVersion></ppwcode.markVersion>
     <!-- empty mark version results in "double slash in paths", which works -->
 
-    <ppwcode.inRepoLocation>java/pom/${ppwcode.shortArtifactName}</ppwcode.inRepoLocation>
+    <ppwcode.inRepoLocation>java/maven2/${ppwcode.shortArtifactName}</ppwcode.inRepoLocation>
 
-    <ppwcode.mainUrl>http://www.ppwcode.org/projectdocs/java/</ppwcode.mainUrl>
+    <ppwcode.mainUrl>http://www.ppwcode.org/projectdocs/java</ppwcode.mainUrl>
     <ppwcode.mainScmUrl>ppwcode.googlecode.com/svn</ppwcode.mainScmUrl>
     <!-- do not add the kind or the protocol here; we assume svn, http for anonymous access, https for developer access -->
     <ppwcode.mainScmViewUrl>code.google.com/p/ppwcode/source/browse</ppwcode.mainScmViewUrl>
@@ -99,8 +99,9 @@
   <version>1.0.0-SNAPSHOT</version> <!-- MUDO add Svn release number as implementation version -->
   <packaging>pom</packaging>
 
-  <name>ppwcode ppwcode library parent pom</name>
-  <description>A parent pom for ppwcode libaries.</description>
+  <name>ppwcode library parent pom</name>
+  <description>A parent pom for collections of libaries, or single libraries.
+    This POM is intended for reuse outside the ppwcode project.</description>
 
 
 
