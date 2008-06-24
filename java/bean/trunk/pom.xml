@@ -67,49 +67,13 @@
     <dependency>
       <groupId>commons-beanutils</groupId>
       <artifactId>commons-beanutils-core</artifactId>
-        <version>1.7.0</version>
     </dependency>
      <dependency>
        <groupId>commons-logging</groupId>
        <artifactId>commons-logging-api</artifactId>
-       <version>1.1</version>
-       <scope>runtime</scope>
      </dependency>
   </dependencies>
 
-
-  <build>
-
-    <testResources>
-      <testResource>
-        <directory>src/test/resources</directory>
-      </testResource>
-      <testResource>
-        <directory>src/test/java</directory>
-        <includes>
-          <!-- add tlds to taglib jar -->
-          <include>*.tld</include>
-          <!-- add jsp-tags to taglib jar -->
-          <include>**/*.tagx</include>
-          <include>**/*.tag</include>
-          <include>**/*.usage</include>
-          <!-- copy all properties files for inclusion in jar -->
-          <include>**/*.properties</include>
-          <!-- add xml files to jar -->
-          <include>**/*.xml</include>
-          <!-- add betwixt files to jar -->
-          <include>**/*.betwixt</include>
-          <!-- add text files to jar -->
-          <include>**/*.txt</include>
-        </includes>
-      </testResource>
-    </testResources>
-
-  </build>
-<!--
-  <dependencyManagement>
-  </dependencyManagement>
--->
   <!-- More Project Information -->
   <!--
   <developers>
@@ -118,8 +82,8 @@
       <id>jandockx</id>
       <email>jandockx@gmail.org</email>
       <timezone>+1</timezone>
-      <organization>ppwcode</organization>
-      <organizationUrl>http://www.ppwcode.org/</organizationUrl>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
       <roles>
         <role>architect</role>
         <role>developer</role>
