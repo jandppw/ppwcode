@@ -345,11 +345,11 @@ public final class I18nLabels {
    */
   private final static String[] getBeanBundleKeys(PropertyException pe) {
     String[] result = null;
-    String className = pe.getClass().getName();
-    String propertyName = pe.getPropertyName();
-    String message = pe.getMessage();
+//    String className = pe.getClass().getName();
+//    String propertyName = pe.getPropertyName();
+//    String message = pe.getMessage();
 
-    className + DOT + propertyName + DOT + message;
+//    className + DOT + propertyName + DOT + message;
 
     String firstKey = pe.getClass().getName() + (pe.getPropertyName() != null
                             ? DOT + pe.getPropertyName()
@@ -397,19 +397,16 @@ public final class I18nLabels {
   public static final String getLocalizedMessage(PropertyException pe, ResourceBundleLoadStrategy rbls) {
     assert pe != null;
     assert rbls != null;
-    String[] keys = getLocalizedMessageKeys(pe);
-    String result;
-    if ((rbls == null) || (keys == null) || keys.length <= 0) {
-      result = pe.getMessage();
+    if (rbls == null) {
+      return pe.getMessage();
     }
-    else {
-      result = ResourceBundles.findKeyInTypeProperties(pe.getOriginType(), keys, rbls);
-      if (result == null) {
-        result = ResourceBundles.findKeyInTypeProperties(pe.getClass(), keys, rbls);
-      }
-      if (result == null) {
-        result = pe.getMessage();
-      }
+    String result;
+    result = ResourceBundles.findKeyInTypeProperties(pe.getOriginType(), getBeanBundleKeys(pe), rbls);
+    if (result == null) {
+      result = ResourceBundles.findKeyInTypeProperties(pe.getClass(), getExceptionBundleKeys(pe), rbls);
+    }
+    if (result == null) {
+      result = pe.getMessage();
     }
     return result;
   }
