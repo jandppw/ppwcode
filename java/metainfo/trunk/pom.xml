@@ -423,6 +423,33 @@ limitations under the License.
         <version>2.0-beta-2</version>
       </plugin>
 
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>clirr-maven-plugin</artifactId>
+        <!-- configure with all existing artifacts -->
+        <configuration>
+          <comparisonVersion>1.0.0-20080623.145505-1</comparisonVersion>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <configuration>
+          <!--
+          <effort>Min|Default|Max</effort>
+          <xmlOutput>true|false</xmlOutput>
+          <relaxed>true|false</relaxed>
+          <excludeFilterFile>findbugs-exclude.xml</excludeFilterFile>
+          <includeFilterFile>findbugs-include.xml</includeFilterFile>
+          <debug>true|false</debug>
+          <onlyAnalyze>org.codehaus.mojo.findbugs.*</onlyAnalyze>
+          <pluginList>/libs/fb-contrib/fb-contrib-2.8.0.jar</pluginList>
+          -->
+          <threshold>Low</threshold>
+          <effort>Max</effort>
+        </configuration>
+      </plugin>
                         <!--
     <report>maven-linkcheck-plugin</report>
     <+-
