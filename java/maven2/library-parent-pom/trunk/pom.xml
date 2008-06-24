@@ -91,7 +91,7 @@
 
   <!-- General information -->
   <groupId>org.ppwcode</groupId>
-  <artifactId>ppwcode-${ppwcode.shortArtifactName}</artifactId>
+  <artifactId>ppwcode-library-parent-pom</artifactId>
   <!--
     artifactId needs to be added explicitly to child pom. add:
     <artifactId>ppwcode-${ppwcode.shortArtifactName}-${ppwcode.markVersion}</artifactId>
