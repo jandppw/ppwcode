@@ -30,7 +30,8 @@
 
   <properties>
     <ppwcode.shortArtifactName>ppwcode-library-parent-pom</ppwcode.shortArtifactName>
-    <ppwcode.markVersion>I</ppwcode.markVersion>
+    <ppwcode.markVersion></ppwcode.markVersion>
+    <!-- empty mark version results in "double slash in paths", which works -->
 
     <ppwcode.inRepoLocation>java/pom/${ppwcode.shortArtifactName}</ppwcode.inRepoLocation>
   </properties>
@@ -38,7 +39,11 @@
 
   <!-- General information -->
   <groupId>org.ppwcode</groupId>
-  <artifactId>ppwcode-${ppwcode.shortArtifactName}-${ppwcode.markVersion}</artifactId>
+  <artifactId>ppwcode-${ppwcode.shortArtifactName}</artifactId>
+  <!--
+    artifactId needs to be added explicitly to child pom. add:
+    <artifactId>ppwcode-${ppwcode.shortArtifactName}-${ppwcode.markVersion}</artifactId>
+  -->
   <version>1.0.0-SNAPSHOT</version> <!-- MUDO add Svn release number as implementation version -->
   <packaging>pom</packaging>
 
@@ -433,8 +438,17 @@
         <!-- MUDO bring config file to 1.5 and use it -->
       </plugin>
 
+<!--
+  DISABLED
+  This fails in child projects with
+    svn: REPORT request failed on '/svn/!svn/bc/1252/java/metainfo/trunk/<var>CHILD ARTIFACTNAME</var>'
+    svn: '/svn/!svn/bc/1252/java/metainfo/trunk/<var>CHILD ARTIFACTNAME</var>' path not found
+  And it fails because it is wrong, of course. Why does the changelog plugin insists
+  on adding the artifactId in a child, and not in this project itself?
+  Anyway, StatSVN also has the Changelog, so it doesn't matter.
+
       <plugin>
-        <!--  if this fails, it means you have no svn installed -->
+        <!++  if this fails, it means you have no svn installed ++>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changelog-plugin</artifactId>
         <configuration>
@@ -442,6 +456,7 @@
           <range>3650</range>
         </configuration>
       </plugin>
+-->
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
