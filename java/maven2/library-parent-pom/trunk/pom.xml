@@ -211,6 +211,31 @@
       </resource>
     </resources>
 
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+      </testResource>
+      <testResource>
+        <directory>src/test/java</directory>
+        <includes>
+          <!-- add tlds to taglib jar -->
+          <include>*.tld</include>
+          <!-- add jsp-tags to taglib jar -->
+          <include>**/*.tagx</include>
+          <include>**/*.tag</include>
+          <include>**/*.usage</include>
+          <!-- copy all properties files for inclusion in jar -->
+          <include>**/*.properties</include>
+          <!-- add xml files to jar -->
+          <include>**/*.xml</include>
+          <!-- add betwixt files to jar -->
+          <include>**/*.betwixt</include>
+          <!-- add text files to jar -->
+          <include>**/*.txt</include>
+        </includes>
+      </testResource>
+    </testResources>
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
