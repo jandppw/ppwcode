@@ -2,26 +2,29 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-<!--
-$Date: 2007/11/13 13:46:02 $
-$Revision: 1.12 $
-$HeadURL$
+  <!--
+  $Date: 2007/11/13 13:46:02 $
+  $Revision: 1.12 $
+  $HeadURL$
 
-Copyright 2007 - $Date: 2007/11/13 13:46:02 $ by PeopleWare n.v.
+  Copyright 2007 - $Date: 2007/11/13 13:46:02 $ by PeopleWare n.v.
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+      http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
 
+
+  <!-- NOTE: you probably have to give Maven more memory:
+             export MAVEN_OPTS=-Xmx1024M -->
 
   <modelVersion>4.0.0</modelVersion>
 
@@ -408,6 +411,31 @@ limitations under the License.
       </plugin>
 
       <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <configuration>
+          <!--
+          <effort>Min|Default|Max</effort>
+          <xmlOutput>true|false</xmlOutput>
+          <relaxed>true|false</relaxed>
+          <excludeFilterFile>findbugs-exclude.xml</excludeFilterFile>
+          <includeFilterFile>findbugs-include.xml</includeFilterFile>
+          <debug>true|false</debug>
+          <onlyAnalyze>org.codehaus.mojo.findbugs.*</onlyAnalyze>
+          <pluginList>/libs/fb-contrib/fb-contrib-2.8.0.jar</pluginList>
+          -->
+          <threshold>Low</threshold>
+          <effort>Max</effort>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <!-- MUDO bring config file to 1.5 and use it -->
+      </plugin>
+
+      <plugin>
         <!--  if this fails, it means you have no svn installed -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changelog-plugin</artifactId>
@@ -472,64 +500,13 @@ limitations under the License.
         <artifactId>maven-dependency-plugin</artifactId>
       </plugin>
 
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-        <configuration>
-          <!--
-          <effort>Min|Default|Max</effort>
-          <xmlOutput>true|false</xmlOutput>
-          <relaxed>true|false</relaxed>
-          <excludeFilterFile>findbugs-exclude.xml</excludeFilterFile>
-          <includeFilterFile>findbugs-include.xml</includeFilterFile>
-          <debug>true|false</debug>
-          <onlyAnalyze>org.codehaus.mojo.findbugs.*</onlyAnalyze>
-          <pluginList>/libs/fb-contrib/fb-contrib-2.8.0.jar</pluginList>
-          -->
-          <threshold>Low</threshold>
-          <effort>Max</effort>
-        </configuration>
-      </plugin>
+      <!-- TODO add maven-jdiff-plugin -->
 
       <!-- IDEA maven-pdf-plugin looks interesting, but is still under development -->
       <!-- IDEA maven-uml-plugin looks interesting, but is still under development -->
-                        <!--
-    <report>maven-linkcheck-plugin</report>
-    <+-
-  This plugin is usefull when we have different version to compare, currently
-  we only have 1 version in CVS. This plugin needs to be tested when we have
-  at least 2 version in CVS.
-        <report>maven-jdiff-plugin</report>
--+>
-    <report>maven-doccheck-plugin</report>
-    <plugins>
- NullPointerException
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <configuration>
-          <excludes>**/_Contract_*.java</excludes>
-          <propertiesFile>toolProperties/checkstyle-ppw.xml</propertiesFile>
-          <suppressionsFile>toolProperties/checkstyle-suppressions.xml</suppressionsFile>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId></groupId>
-        <artifactId>maven-faq-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId></groupId>
-        <artifactId>maven-linkcheck-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId></groupId>
-        <artifactId>taglib</artifactId>
-      </plugin>
-      <plugin>
-        <groupId></groupId>
-        <artifactId>maven-xhtml-plugin</artifactId>
-      </plugin>
--->
+
+      <!-- linkcheck would be desirable, but no maven 2 plugin was found -->
+      <!-- doccheck is probably not desirable, and no maven 2 plugin was found -->
     </plugins>
 
   </reporting>
@@ -561,10 +538,10 @@ limitations under the License.
 
   <repositories>
 <!--   <repository>
-      <id>HdpRepo</id>
+      <id>ppwcodeRepo</id>
       <!++ This needs to be copied in all child poms, to find the parent ++>
-      <name>HDP Maven 2 repository</name>
-      <url>http://cvs.peopleware.be/projects/hdp/mvn2repo</url>
+      <name>ppwcode Maven 2 repository</name>
+      <url>http://www.ppwcode.org/java/maven2repo</url>
     </repository>
 -->
   </repositories>
