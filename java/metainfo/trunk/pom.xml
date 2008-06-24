@@ -416,7 +416,6 @@ limitations under the License.
           <range>3650</range>
         </configuration>
       </plugin>
-<!--
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -425,11 +424,11 @@ limitations under the License.
           <reportSet>
             <reports>
               <report>changes-report</report>
+              <!-- IDEA add issue tracker report ? -->
             </reports>
           </reportSet>
         </reportSets>
       </plugin>
--->
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -491,6 +490,9 @@ limitations under the License.
           <effort>Max</effort>
         </configuration>
       </plugin>
+
+      <!-- IDEA maven-pdf-plugin looks interesting, but is still under development -->
+      <!-- IDEA maven-uml-plugin looks interesting, but is still under development -->
                         <!--
     <report>maven-linkcheck-plugin</report>
     <+-
