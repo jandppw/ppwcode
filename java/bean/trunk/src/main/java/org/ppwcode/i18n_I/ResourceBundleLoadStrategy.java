@@ -58,7 +58,7 @@ public interface ResourceBundleLoadStrategy {
   @MethodContract(
     post = {
       @Expression("_basename == null ? result == null"),
-      @Expression("_basename == EMPTY ? result == null"),
+      @Expression("_basename == EMPTY ? result == null")
     }
   )
   ResourceBundle loadResourceBundle(final String basename);
