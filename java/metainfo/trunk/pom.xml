@@ -6,7 +6,7 @@
   $Date: 2007/11/13 13:46:02 $
   $Revision: 1.12 $
   $HeadURL$
-
+®
   Copyright 2007 - $Date: 2007/11/13 13:46:02 $ by PeopleWare n.v.
 
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,7 +26,15 @@
   <!-- NOTE: you probably have to give Maven more memory:
              export MAVEN_OPTS=-Xmx1024M -->
 
+  <!-- MUDO add version nr (spec / impl) to manifest -->
+
   <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.ppwcode</groupId>
+    <artifactId>ppwcode-ppwcode-library-parent-pom</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
 
   <properties>
     <ppwcode.shortArtifactName>metainfo</ppwcode.shortArtifactName>
@@ -36,7 +44,6 @@
   </properties>
 
   <!-- General information -->
-  <groupId>org.ppwcode</groupId>
   <artifactId>ppwcode-${ppwcode.shortArtifactName}-${ppwcode.markVersion}</artifactId>
   <packaging>jar</packaging>
   <version>1.0.0-SNAPSHOT</version> <!-- MUDO add Svn release number as implementation version -->
@@ -44,52 +51,10 @@
   <name>ppwcode metainfo</name>
   <description>Annotations for adding meta information to Java code, and transporting it into the class files and runtime.</description>
 
-
-
-  <inceptionYear>2008</inceptionYear>
-  <organization>
-    <name>ppwcode</name>
-    <url>http://www.ppwcode.org/</url>
-  </organization>
-  <licenses>
-    <license>
-      <name>Apache License, version 2</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
-  <url>http://www.ppwcode.org/projectdocs/java/${ppwcode.shortArtifactName}/${ppwcode.markVersion}/${pom.version}</url>
-
-
-
-  <scm>
-    <connection>scm:svn:http://ppwcode.googlecode.com/svn/${ppwcode.inRepoLocation}/trunk</connection>
-    <developerConnection>scm:svn:https://ppwcode.googlecode.com/svn/${ppwcode.inRepoLocation}/trunk</developerConnection>
-    <tag>${ppwcode.markVersion}/${ppwcode.majorSpecVersion}.${ppwcode.minorSpecVersion}.n/${ppwcode.markVersion}-${ppwcode.majorSpecVersion}.${ppwcode.minorSpecVersion}.${ppwcode.microSpecVersion}-${ppwcode.implementationVersion}</tag>
-    <url>http://code.google.com/p/ppwcode/source/browse/${ppwcode.inRepoLocation}</url>
-  </scm>
-
-  <distributionManagement>
-    <repository>
-      <id>ppwcodeRepo</id>
-      <name>Main ppwcode Maven 2 Repository</name>
-      <url>scpexe://cvs.peopleware.be/ppw/projects/ppwcode/public_html/java/maven2repo</url>
-      <uniqueVersion>true</uniqueVersion>
-    </repository>
-    <!-- snapshot repository == repository -->
-    <site>
-      <id>ppwcodeSite</id>
-      <name>ppwcode Project Documentation Site</name>
-      <url>scpexe://cvs.peopleware.be/ppw/projects/ppwcode/public_html/java/projectdocs/${ppwcode.shortArtifactName}/${ppwcode.markVersion}/${pom.version}</url>
-    </site>
-  </distributionManagement>
-
-
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.4</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -100,420 +65,8 @@
 -->
 
 
-  <issueManagement>
-    <system>Google Code</system>
-    <url>http://code.google.com/p/ppwcode/issues/list</url>
-  </issueManagement>
-
-
-
-  <mailingLists>
-    <mailingList>
-      <name>ppwcode Announce</name>
-      <subscribe>http://groups.google.com/group/ppwcode-announce/subscribe</subscribe>
-      <unsubscribe>http://groups.google.com/group/ppwcode-announce/subscribe</unsubscribe>
-      <post>ppwcode-announce@googlegroups.com</post>
-      <archive>http://groups.google.com/group/ppwcode-announce/topics</archive>
-    </mailingList>
-    <mailingList>
-      <name>ppwcode Developers</name>
-      <subscribe>http://groups.google.com/group/ppwcode-dev/subscribe</subscribe>
-      <unsubscribe>http://groups.google.com/group/ppwcode-dev/subscribe</unsubscribe>
-      <post>ppwcode-dev@googlegroups.com</post>
-      <archive>http://groups.google.com/group/ppwcode-dev/topics</archive>
-    </mailingList>
-    <mailingList>
-      <name>ppwcode Users</name>
-      <subscribe>http://groups.google.com/group/ppwcode-users/subscribe</subscribe>
-      <unsubscribe>http://groups.google.com/group/ppwcode-users/subscribe</unsubscribe>
-      <post>ppwcode-users@googlegroups.com</post>
-      <archive>http://groups.google.com/group/ppwcode-users/topics</archive>
-    </mailingList>
-    <mailingList>
-      <name>ppwcode Subversion commits</name>
-      <subscribe>http://groups.google.com/group/ppwcode-svn/subscribe</subscribe>
-      <unsubscribe>http://groups.google.com/group/ppwcode-svn/subscribe</unsubscribe>
-      <post>ppwcode-svn@googlegroups.com</post>
-      <archive>http://groups.google.com/group/ppwcode-svn/topics</archive>
-    </mailingList>
-  </mailingLists>
-
-
-
-  <!-- Build Settings -->
-  <build>
-
-    <!--  also compile resources! needed for test -->
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-      </resource>
-      <resource>
-        <directory>src/main/java</directory>
-        <!-- ${project.compileSourceRoots} doesn't work here, probably because that is a list or an array,
-             and not 1 directory -->
-        <includes>
-          <!-- add tlds to taglib jar -->
-          <include>*.tld</include>
-          <!-- add jsp-tags to taglib jar -->
-          <include>**/*.tagx</include>
-          <include>**/*.tag</include>
-          <include>**/*.usage</include>
-          <!-- copy all properties files for inclusion in jar -->
-          <include>**/*.properties</include>
-          <!-- add xml files to jar -->
-          <include>**/*.xml</include>
-          <!-- add betwixt files to jar -->
-          <include>**/*.betwixt</include>
-          <!-- add text files to jar -->
-          <include>**/*.txt</include>
-        </includes>
-      </resource>
-    </resources>
-
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <compilerVersion>1.5</compilerVersion>
-          <source>1.5</source>
-          <target>1.5</target>
-          <debug>true</debug>
-          <showDeprecation>true</showDeprecation>
-          <showWarnings>true</showWarnings>
-          <optimize>false</optimize>
-          <!-- to make debugging possible -->
-          <!--  MUDO should be set to true for a release with a profile -->
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <argLine>-ea</argLine>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>test-jar</goal>
-           </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-       <plugin>
-         <groupId>org.apache.maven.plugins</groupId>
-         <artifactId>maven-source-plugin</artifactId>
-         <executions>
-           <execution>
-             <id>attach-sources</id>
-             <phase>verify</phase>
-             <goals>
-               <goal>jar</goal>
-             </goals>
-           </execution>
-           <execution>
-             <id>attach-test-sources</id>
-             <phase>verify</phase>
-             <goals>
-               <goal>test-jar</goal>
-             </goals>
-           </execution>
-         </executions>
-       </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <!-- MUDO add maven-remote-resources-plugin -->
-
-<!-- MUDO waiting for mail host, list
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-changes-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>announcement-generate</goal>
-            </goals>
-            <id>announcement-generate</id>
-          </execution>
-          <execution>
-            <goals>
-              <goal>announcement-mail</goal>
-            </goals>
-            <id>announcement-mail</id>
-          </execution>
-        </executions>
-        <configuration>
-          <smtpHost>localhost</smtpHost>
-          <smtpPort implementation="java.lang.Integer">33125</smtpPort>
-          <toAddresses>
-            <toAddress implementation="java.lang.String">beedraz@googlegroups.com</toAddress>
-          </toAddresses>
-        </configuration>
-      </plugin>
--->
-
-    </plugins>
-  </build>
-
-
-
-  <!-- Reporting settings -->
-  <reporting>
-
-    <plugins>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-report-plugin</artifactId>
-        <configuration>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>taglist-maven-plugin</artifactId>
-        <configuration>
-          <multipleLineComments>true</multipleLineComments>
-          <tags>
-            <tag>MUDO</tag>
-            <tag>@mudo</tag>
-            <tag>NIY</tag>
-            <tag>@niy</tag>
-            <tag>XXX</tag>
-            <tag>TODO</tag>
-            <tag>@todo</tag>
-            <tag>IDEA</tag>
-            <tag>@idea</tag>
-          </tags>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jxr-plugin</artifactId>
-      </plugin>
-
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>jdepend-maven-plugin</artifactId>
-        <!-- jdepend-2-dot exists! -->
-        <!-- MUDO there is currently no way to provide jdepend with configuration (properties file); for the time being, it
-             is stored in ${basedir}/toolProperties, but not used -->
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <source>1.5</source> <!-- necessary to enable assertions -->
-          <author>true</author> <!-- show author tags -->
-          <protected>true</protected> <!-- only show public and protected stuff -->
-          <package>false</package>
-          <private>false</private>
-          <breakiterator>true</breakiterator> <!-- use new algorithm to determine end of first sentence -->
-          <stylesheet>maven</stylesheet>
-          <docfilessubdirs>true</docfilessubdirs> <!-- enable deep copy of all doc-files subdirectories ... -->
-          <excludedocfilessubdir>.svn</excludedocfilessubdir> <!-- ... but don't copy CVS files -->
-          <linksource>true</linksource> <!-- HTML version of each source file -->
-          <links>
-            <link>http://java.sun.com/j2se/1.5.0/docs/api</link>
-            <!--  add links for all ppwcode packages that are released -->
-          </links>
-          <!-- no overview documentation in this project yet
-          <offlineLinks>
-          </offlineLinks>
-          <doctitle></doctitle>
-          <overview></overview>
-          -->
-          <!-- windowtitle default is ok -->
-          <header>&lt;a href="${pom.url}"&gt;${pom.artifactId} ${pom.version}&lt;/a&gt;</header>
-          <!-- MUDO replace header with logo -->
-          <footer>&lt;a href="${pom.url}"&gt;${pom.artifactId} ${pom.version}&lt;/a&gt;</footer>
-          <bottom>&amp;copy; PeopleWare n.v., ${pom.inceptionYear}. Released under the
-            &lt;a href="http://www.apache.org/licenses/LICENSE-2.0.html"&gt;Apache License, version 2&lt;/a&gt;</bottom>
-          <docencoding>ISO-8859-1</docencoding>
-          <tags> <!-- order defines order in which tags are shown -->
-            <tag>
-              <name>note</name>
-              <placement>a</placement>
-              <head>Note:</head>
-            </tag>
-            <tag>
-              <name>deprecated</name>
-              <!-- we want the standard tag here -->
-            </tag>
-            <tag>
-              <name>protected</name>
-              <placement>a</placement>
-              <head>Information for Subtype Implementors:</head>
-            </tag>
-            <tag>
-              <name>param</name>
-              <!-- we want the standard tag here -->
-            </tag>
-            <tag>
-              <name>return</name>
-              <!-- we want the standard tag here -->
-            </tag>
-            <tag>
-              <name>throws</name>
-              <!-- we want the standard tag here -->
-            </tag>
-            <tag>
-              <name>see</name>
-              <!-- we want the standard tag here -->
-            </tag>
-            <tag>
-              <name>author</name>
-              <!-- we want the standard tag here -->
-            </tag>
-            <tag>
-              <name>since</name>
-              <!-- we want the standard tag here -->
-            </tag>
-            <tag>
-              <name>mudo</name>
-              <placement>a</placement>
-              <head>Must do:</head>
-            </tag>
-            <tag>
-              <name>todo</name>
-              <placement>a</placement>
-              <head>To do:</head>
-            </tag>
-            <tag>
-              <name>idea</name>
-              <placement>a</placement>
-              <head>Idea:</head>
-            </tag>
-          </tags>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-        <configuration>
-          <!--
-          <effort>Min|Default|Max</effort>
-          <xmlOutput>true|false</xmlOutput>
-          <relaxed>true|false</relaxed>
-          <excludeFilterFile>findbugs-exclude.xml</excludeFilterFile>
-          <includeFilterFile>findbugs-include.xml</includeFilterFile>
-          <debug>true|false</debug>
-          <onlyAnalyze>org.codehaus.mojo.findbugs.*</onlyAnalyze>
-          <pluginList>/libs/fb-contrib/fb-contrib-2.8.0.jar</pluginList>
-          -->
-          <threshold>Low</threshold>
-          <effort>Max</effort>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <!-- MUDO bring config file to 1.5 and use it -->
-      </plugin>
-
-      <plugin>
-        <!--  if this fails, it means you have no svn installed -->
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-changelog-plugin</artifactId>
-        <configuration>
-          <type>range</type>
-          <range>3650</range>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-changes-plugin</artifactId>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>changes-report</report>
-              <!-- IDEA add issue tracker report ? -->
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-pmd-plugin</artifactId>
-        <configuration>
-          <linkXref>true</linkXref>
-          <minimumTokens>100</minimumTokens>
-          <targetJdk>1.5</targetJdk>
-          <!--
-          <excludes>
-            <exclude>**/*MyClass.java</exclude>
-          </excludes>
-           -->
-        </configuration>
-        <!-- MUDO configure http://maven.apache.org/plugins/maven-pmd-plugin/examples/usingRuleSets.html -->
-      </plugin>
-
-      <plugin>
-        <groupId>net.sf</groupId>
-        <artifactId>stat-scm</artifactId>
-        <!-- MUDO needs more config ?? -->
-      </plugin>
-
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>javancss-maven-plugin</artifactId>
-        <version>2.0-beta-2</version>
-      </plugin>
-
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>clirr-maven-plugin</artifactId>
-        <!-- TODO configure with all existing artifacts -->
-        <configuration>
-          <comparisonVersion>1.0.0-20080623.145505-1</comparisonVersion>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-      </plugin>
-
-      <!-- TODO add maven-jdiff-plugin -->
-
-      <!-- IDEA maven-pdf-plugin looks interesting, but is still under development -->
-      <!-- IDEA maven-uml-plugin looks interesting, but is still under development -->
-
-      <!-- linkcheck would be desirable, but no maven 2 plugin was found -->
-      <!-- doccheck is probably not desirable, and no maven 2 plugin was found -->
-    </plugins>
-
-  </reporting>
-
-
-
   <!-- More Project Information -->
+  <!--
   <developers>
     <developer>
       <name>Jan Dockx</name>
@@ -534,49 +87,15 @@
   </developers>
   <contributors>
   </contributors>
-
+  -->
 
   <repositories>
-<!--   <repository>
+    <repository>
       <id>ppwcodeRepo</id>
-      <!++ This needs to be copied in all child poms, to find the parent ++>
+      <!-- This needs to be copied in all child poms, to find the parent -->
       <name>ppwcode Maven 2 repository</name>
       <url>http://www.ppwcode.org/java/maven2repo</url>
     </repository>
--->
   </repositories>
-
-
-  <pluginRepositories>
-<!--
-    <pluginRepository>
-      <id>ApacheMaven2PluginSnapshots</id>
-      <!++  needed for surefire snapshot version ++>
-      <url>http://people.apache.org/repo/m2-snapshot-repository</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </pluginRepository>
--->
-<!--
-    <pluginRepository>
-      <id>pluginSnapshots</id>
-      <url>http://snapshots.maven.codehaus.org/maven2</url>
-    </pluginRepository>
-    <pluginRepository>
-      <id>stat-scm-sourceforge</id>
-      <url>http://stat-scm.sourceforge.net/maven2</url>
-    </pluginRepository>
--->
-  </pluginRepositories>
-
-
-
-<!--
-  <ciManagement>...</ciManagement>
-  <prerequisites>...</prerequisites>
-  <distributionManagement>...</distributionManagement>
-  <profiles>...</profiles>
--->
 
 </project>
