@@ -99,7 +99,7 @@ public interface RousseauBean extends SemanticBean {
       @Expression("result.origin == this"),
       @Expression("result.propertyName == null"),
       @Expression("result.message == null"),
-      @Expression("result.cause == null"),
+      @Expression("result.cause == null")
     }
   )
   CompoundPropertyException getWildExceptions();
