@@ -45,6 +45,7 @@
 
   <!-- General information -->
   <artifactId>ppwcode-util-parent-pom</artifactId>
+  <groupId>org.ppwcode.util</groupId>
   <packaging>pom</packaging>
   <version>1.0.0-SNAPSHOT</version> <!-- MUDO add Svn release number as implementation version -->
 
