@@ -89,11 +89,12 @@
   </parent>
 
   <properties>
+    <ppwcode.libraryKind>pom</ppwcode.libraryKind>
     <ppwcode.shortArtifactName>ppwcode-library-parent-pom</ppwcode.shortArtifactName>
     <ppwcode.markVersion></ppwcode.markVersion>
     <!-- empty mark version results in "double slash in paths", which works -->
 
-    <ppwcode.inRepoLocation>java/pom/${ppwcode.shortArtifactName}</ppwcode.inRepoLocation>
+    <ppwcode.inRepoLocation>java/${ppwcode.libraryKind}/${ppwcode.shortArtifactName}</ppwcode.inRepoLocation>
   </properties>
 
 
@@ -158,7 +159,6 @@
     </repository>
     <repository>
       <id>torytRepo</id>
-      <!-- This needs to be copied in all child poms, to find the parent -->
       <name>Toryt Maven 2 repository</name>
       <url>http://www.ppwcode.org/toryt/maven2repo</url>
     </repository>
