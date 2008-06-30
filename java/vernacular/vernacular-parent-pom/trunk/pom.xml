@@ -37,20 +37,20 @@
   </parent>
 
   <properties>
-    <ppwcode.shortArtifactName>util-parent-pom</ppwcode.shortArtifactName>
+    <ppwcode.shortArtifactName>vernacular-parent-pom</ppwcode.shortArtifactName>
     <ppwcode.markVersion></ppwcode.markVersion>
 
-    <ppwcode.libraryKind>util</ppwcode.libraryKind>
+    <ppwcode.libraryKind>vernacular</ppwcode.libraryKind>
   </properties>
 
   <!-- General information -->
-  <artifactId>ppwcode-util-parent-pom</artifactId>
-  <groupId>org.ppwcode.util</groupId>
+  <artifactId>ppwcode-vernacular-parent-pom</artifactId>
+  <groupId>org.ppwcode.vernacular</groupId>
   <packaging>pom</packaging>
   <version>1.0.0-SNAPSHOT</version> <!-- MUDO add Svn release number as implementation version -->
 
-  <name>ppwcode util parent pom</name>
-  <description>Parent pom for all ppwcode libraries that contain utility code.</description>
+  <name>ppwcode vernacular parent pom</name>
+  <description>Parent pom for all ppwcode libraries that describe the ppwcode vernacular.</description>
 
   <!-- More Project Information -->
   <developers>
