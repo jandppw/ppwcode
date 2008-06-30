@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.ppwcode.util.reflect_I.Properties.hasProperty;
+import static org.ppwcode.util.reflect_I.PropertyHelpers.hasProperty;
 
 import java.util.HashSet;
 import java.util.Set;
