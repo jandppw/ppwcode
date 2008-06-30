@@ -31,24 +31,22 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.ppwcode</groupId>
-    <artifactId>ppwcode-ppwcode-library-parent-pom</artifactId>
+    <groupId>org.ppwcode.vernacular</groupId>
+    <artifactId>ppwcode-vernacular-parent-pom</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
 
   <properties>
-    <ppwcode.shortArtifactName>bean</ppwcode.shortArtifactName>
-    <ppwcode.markVersion>VI</ppwcode.markVersion>
-
-    <ppwcode.inRepoLocation>java/${ppwcode.shortArtifactName}</ppwcode.inRepoLocation>
+    <ppwcode.shortArtifactName>semantics</ppwcode.shortArtifactName>
+    <ppwcode.markVersion>I</ppwcode.markVersion>
   </properties>
 
   <!-- General information -->
-  <artifactId>ppwcode-${ppwcode.shortArtifactName}-${ppwcode.markVersion}</artifactId>
+  <artifactId>ppwcode-vernacular-${ppwcode.shortArtifactName}-${ppwcode.markVersion}</artifactId>
   <packaging>jar</packaging>
   <version>1.0.0-SNAPSHOT</version> <!-- MUDO add Svn release number as implementation version -->
 
-  <name>ppwcode bean</name>
+  <name>ppwcode semantics vernacular</name>
   <description>Framework, guidelines, support for developing the semantic layer of a business application.</description>
 
   <dependencies>
@@ -71,6 +69,10 @@
      <dependency>
        <groupId>commons-logging</groupId>
        <artifactId>commons-logging-api</artifactId>
+     </dependency>
+     <dependency>
+       <groupId>org.ppwcode.util</groupId>
+       <artifactId>ppwcode-util-reflection-I</artifactId>
      </dependency>
   </dependencies>
 
