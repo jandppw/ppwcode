@@ -143,8 +143,13 @@
         <scope>runtime</scope>
       </dependency>
       <dependency>
-        <groupId>org.ppwcode</groupId>
-        <artifactId>ppwcode-bean-VI</artifactId>
+        <groupId>org.ppwcode.util</groupId>
+        <artifactId>ppwcode-util-reflection-I</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.ppwcode.vernacular</groupId>
+        <artifactId>ppwcode-semantics-I</artifactId>
         <version>1.0.0-SNAPSHOT</version>
       </dependency>
     </dependencies>
