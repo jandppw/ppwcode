@@ -87,7 +87,7 @@ public class CloneHelpers {
       throw new CloneNotSupportedException(cloneable + " does not implement Cloneable");
     }
     try {
-      Method cm = Methods.findMethod(cloneable, CLONE_SIGNATURE); // CannotGetMethodException
+      Method cm = MethodHelpers.findMethod(cloneable, CLONE_SIGNATURE); // CannotGetMethodException
       assert cm != null;
       Object result = cm.invoke(cloneable);
         /* IllegalAccessException, IllegalArgumentException, InvocationTargetException,
