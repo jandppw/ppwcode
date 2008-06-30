@@ -45,7 +45,7 @@ public class MethodSignature {
     for (int i = 0; i < $parameterTypeNames.length; i++) {
       String parameterTypeName = $parameterTypeNames[i];
       try {
-        $parameterTypes[i] = Classes.loadForName(parameterTypeName);
+        $parameterTypes[i] = ClassHelpers.loadForName(parameterTypeName);
       }
       catch (CannotGetClassException cgcExc) {
         throw new CannotParseSignatureException(signature, cgcExc);
