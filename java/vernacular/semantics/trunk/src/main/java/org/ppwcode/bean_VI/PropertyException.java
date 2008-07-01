@@ -18,7 +18,7 @@ package org.ppwcode.bean_VI;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.util.reflect_I.Properties.hasProperty;
+import static org.ppwcode.util.reflect_I.PropertyHelpers.hasProperty;
 
 import org.ppwcode.exception_N.SemanticException;
 import org.ppwcode.metainfo_I.Copyright;

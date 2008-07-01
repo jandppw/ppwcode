@@ -18,7 +18,7 @@ package org.ppwcode.bean_VI;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.util.reflect_I.CloneUtil.safeReference;
+import static org.ppwcode.util.reflect_I.CloneHelpers.safeReference;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -26,7 +26,6 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.util.reflect_I.CloneUtil;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.Invars;
@@ -225,7 +224,7 @@ public class ValuePropertyException extends PropertyException {
    */
   @Basic(invars = @Expression("origin == null ? propertyValue = null"))
   public final Object getPropertyValue() {
-    return CloneUtil.safeReference($propertyValue);
+    return safeReference($propertyValue);
   }
 
   private Object $propertyValue;

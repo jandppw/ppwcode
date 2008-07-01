@@ -18,7 +18,7 @@ package org.ppwcode.i18n_I;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.util.reflect_I.Properties.getPropertyType;
+import static org.ppwcode.util.reflect_I.PropertyHelpers.getPropertyType;
 import static org.ppwcode.util.resourcebundle.ResourceBundles.findKeyInTypeProperties;
 
 import org.ppwcode.bean_VI.PropertyException;

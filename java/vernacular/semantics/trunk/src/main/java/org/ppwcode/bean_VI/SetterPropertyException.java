@@ -18,12 +18,11 @@ package org.ppwcode.bean_VI;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.util.reflect_I.CloneUtil.safeReference;
+import static org.ppwcode.util.reflect_I.CloneHelpers.safeReference;
 
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.util.reflect_I.CloneUtil;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
@@ -212,7 +211,7 @@ public class SetterPropertyException extends ValuePropertyException {
    */
   @Basic
   public final Object getVetoedValue() {
-    return CloneUtil.safeReference($vetoedValue);
+    return safeReference($vetoedValue);
   }
 
   private Object $vetoedValue;
