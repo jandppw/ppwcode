@@ -266,69 +266,6 @@
           <version>2.4</version>
         </plugin>
 
-        <!--  reports -->
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-report-plugin</artifactId>
-          <version>2.4.3</version>
-        </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>taglist-maven-plugin</artifactId>
-          <version>2.2</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-jxr-plugin</artifactId>
-          <version>2.1</version>
-        </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>jdepend-maven-plugin</artifactId>
-          <version>2.0-beta-1</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.4</version>
-        </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>findbugs-maven-plugin</artifactId>
-          <version>1.2</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>2.2</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-changes-plugin</artifactId>
-          <version>2.0</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-pmd-plugin</artifactId>
-          <version>2.4</version>
-        </plugin>
-        <plugin>
-          <groupId>net.sf</groupId>
-          <artifactId>stat-scm</artifactId>
-          <version>1.1.0</version>
-        </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>javancss-maven-plugin</artifactId>
-          <version>2.0-beta-2</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-dependency-plugin</artifactId>
-          <version>2.0</version>
-        </plugin>
-
       </plugins>
     </pluginManagement>
 
@@ -446,6 +383,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>2.4.3</version>
         <configuration>
         </configuration>
       </plugin>
@@ -453,6 +391,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>taglist-maven-plugin</artifactId>
+        <version>2.2</version>
         <configuration>
           <multipleLineComments>true</multipleLineComments>
           <tags>
@@ -478,6 +417,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>jdepend-maven-plugin</artifactId>
+        <version>2.0-beta-1</version>
         <!-- jdepend-2-dot exists! -->
         <!-- MUDO there is currently no way to provide jdepend with configuration (properties file); for the time being, it
              is stored in ${basedir}/toolProperties, but not used -->
@@ -486,6 +426,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.4</version>
         <configuration>
           <source>1.5</source> <!-- necessary to enable assertions -->
           <author>true</author> <!-- show author tags -->
@@ -575,6 +516,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
+        <version>1.2</version>
         <configuration>
           <!--
           <effort>Min|Default|Max</effort>
@@ -594,6 +536,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>2.2</version>
         <!-- MUDO bring config file to 1.5 and use it -->
       </plugin>
 
@@ -620,6 +563,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changes-plugin</artifactId>
+        <version>2.0</version>
         <reportSets>
           <reportSet>
             <reports>
@@ -633,6 +577,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
+        <version>2.4</version>
         <configuration>
           <linkXref>true</linkXref>
           <minimumTokens>100</minimumTokens>
@@ -649,6 +594,7 @@
       <plugin>
         <groupId>net.sf</groupId>
         <artifactId>stat-scm</artifactId>
+        <version>1.1.0</version>
         <!-- MUDO needs more config ?? -->
       </plugin>
 
@@ -656,6 +602,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>javancss-maven-plugin</artifactId>
+        <version>2.0-beta-2</version>
       </plugin>
        -->
 
@@ -664,6 +611,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.0</version>
       </plugin>
 
       <!-- TODO add maven-jdiff-plugin -->
