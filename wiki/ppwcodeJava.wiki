@@ -1,0 +1,10 @@
+#summary Toc for guidelines for ppwcode Java projects
+
+= Introduction =
+
+This page contains pointers to Java developer information, guidelines for ppwcode Java projects. Most of the guidelines of course are shared with the [VernacularJava vernaculars] we use for Java projects outside ppwcode.
+
+
+= General =
+
+  * [ppwcodeToolsJava Tools]
