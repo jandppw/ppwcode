@@ -1,0 +1,3 @@
+Options +Indexes
+IndexOptions FancyIndexing FoldersFirst ScanHTMLTitles IconsAreLinks VersionSort SuppressSize 
+
