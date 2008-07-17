@@ -1,4 +1,5 @@
 #summary The vernacular of tools used in Java projects
+#labels Phase-Vernacular
 
 = Introduction =
 
