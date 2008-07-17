@@ -1,0 +1,18 @@
+#summary Toc for guidelines for ppwcode projects
+#labels Phase-Implementation,Featured
+
+= Introduction =
+
+This page contains pointers to developer information, guidelines for ppwcode projects. Most of the guidelines of course are shared with the [Vernacular vernaculars] we use for projects outside ppwcode.
+
+
+= General =
+
+  * [ppwcodeTools Tools]
+
+
+= Technology specific =
+
+  * [ppwcodeJava Java]
+  * [ppwcodeDotNet .net]
+  * [ppwcodeSql SQL]
