@@ -1,5 +1,5 @@
 #summary Toc for information about vernaculars
-#labels Phase-Implementation
+#labels Phase-Vernacular,Featured
 
 = Introduction =
 
