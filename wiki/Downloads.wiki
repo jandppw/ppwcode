@@ -1,0 +1,6 @@
+#summary About downloads
+#labels Phase-Deploy
+
+For now, we will not use the Google Code download feature.
+
+Since all current projects are Java projects, and we use Maven 2 for all of them, we deem the Maven 2 repository sufficient. You can find it at http://www.ppwcode.org/java/maven2repo/.
