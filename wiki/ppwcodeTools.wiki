@@ -1,0 +1,19 @@
+#summary On tools used in ppwcode projects
+#labels Phase-Implementation
+
+= Introduction =
+
+In this section we discuss which tools are used in ppwcode projects. This is a general section. You should also refer to the specialized sections about tools used in [ppwcodeJavaTools ppwcode Java projects], [ppwcodeDotNetTools .net projects], and [ppwcodeSqlTools SQL projects].
+
+There are separate pages that discuss [clientProjectTools tooling used in client projects], outside ppwcode.
+
+
+= Details =
+
+== UML ==
+
+For UML drawings, we use Poseidon for [http://www.gentleware.com/uml-software-standard-edition.html UML Standard Edition, version 5.0].
+
+The reason we chose this package, which is commercial, is that we could not find a cross-plaform F/OSS UML tool that was good enough. A [http://www.gentleware.com/uml-software-community-edition.html free Community Edition] is available too, which might or might not work with our files.
+
+We do not follow the upgrade cycle of this product closely. At the time of this writing, the latest version is 6.0.2, who's files are not backward compatible to version 5.0.
