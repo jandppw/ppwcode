@@ -1,5 +1,5 @@
 #summary About downloads
-#labels Phase-Deploy
+#labels Phase-Deploy,Featured
 
 For now, we will not use the Google Code download feature.
 
