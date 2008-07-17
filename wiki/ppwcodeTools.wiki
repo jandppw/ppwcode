@@ -3,7 +3,7 @@
 
 = Introduction =
 
-In this section we discuss which tools are used in ppwcode projects. This is a general section. You should also refer to the specialized sections about tools used in [ppwcodeJavaTools ppwcode Java projects], [ppwcodeDotNetTools .net projects], and [ppwcodeSqlTools SQL projects].
+In this section we discuss which tools are used in ppwcode projects. This is a general section. You should also refer to the specialized sections about tools used in [ppwcodeToolsJava ppwcode Java projects], [ppwcodeToolsDotNet .net projects], and [ppwcodeToolsSql SQL projects].
 
 There are separate pages that discuss [VernacularTools tooling used in client projects], outside ppwcode.
 
