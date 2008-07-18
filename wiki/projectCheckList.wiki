@@ -9,6 +9,5 @@ Projects should be clean and neat, certainly before they are released. But what 
 = Subversion =
 
   * At the top level, there should be svn:ignore svn properties set for
-    * eclipse project files (`.project`, `.settings`)
+    * eclipse project files (`.project`, `.classpath`, `.settings`)
     * the Maven 2 `target` directory
-
