@@ -37,7 +37,7 @@
   </parent>
 
   <properties>
-    <ppwcode.shortArtifactName>util-parent-pom</ppwcode.shortArtifactName>
+    <ppwcode.shortArtifactName>parent-pom</ppwcode.shortArtifactName>
     <ppwcode.markVersion></ppwcode.markVersion>
 
     <ppwcode.libraryKind>util</ppwcode.libraryKind>
