@@ -9,6 +9,7 @@ This page contains pointers to developer information, guidelines for ppwcode pro
 = General =
 
   * [ppwcodeTools Tools]
+  * [projectCheckList Project Cleanness Checklist]
 
 
 = Technology specific =
