@@ -11,3 +11,9 @@ Projects should be clean and neat, certainly before they are released. But what 
   * At the top level, there should be svn:ignore svn properties set for
     * eclipse project files (`.project`, `.classpath`, `.settings`)
     * the Maven 2 `target` directory
+
+
+= Maven 2=
+
+  * Projects should have a Maven 2 POM
+  * The POM should contain all relevant developer and contributor information
