@@ -1,0 +1,14 @@
+#summary Checklist for projects
+#labels Phase-Implementation
+
+= Introduction =
+
+Projects should be clean and neat, certainly before they are released. But what does that mean, "clean and neat"? Here is a checklist (continuously growing).
+
+
+= Subversion =
+
+  * At the top level, there should be svn:ignore svn properties set for
+    * eclipse project files (`.project`, `.settings`)
+    * the Maven 2 `target` directory
+
