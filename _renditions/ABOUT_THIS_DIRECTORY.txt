@@ -1,5 +1,4 @@
 This directory gathers code from this repository in other organizational
 structures, for particular purposes.
 
-* ohloh: trunks of all subprojects for ohloh metrics.
-         See http://www.ohloh.net/projects/ppwcode.
+* allTrunks: trunks of all subprojects, read only
