@@ -56,3 +56,7 @@ td.twoColumns {
 	padding-top: 0px;
 	margin-bottom: 0.25em;
 }
+.green table td, .blue table td, .green table td > ul, .blue table td > ul {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
