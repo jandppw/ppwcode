@@ -54,13 +54,33 @@
   </properties>
 
   <!-- General information -->
-  <artifactId>ppwcode-vernacular-parent-pom</artifactId>
   <groupId>org.ppwcode.vernacular</groupId>
   <packaging>pom</packaging>
   <version>1.0.0-SNAPSHOT</version> <!-- MUDO add Svn release number as implementation version -->
 
   <name>ppwcode vernacular parent pom</name>
   <description>Parent pom for all ppwcode libraries that describe the ppwcode vernacular.</description>
+
+  <!-- MAGIC MANTRA -->
+  <!-- We cannot use the ppwcode.artifactId here, since we do not have a mark version.
+       This isn't a problem in other places, but for the artifactId, it adds a final "-"
+       that is superfluous
+  <artifactId>${ppwcode.artifactId}</artifactId>
+  -->
+  <artifactId>ppwcode-${ppwcode.libraryKind}-${ppwcode.shortArtifactName}</artifactId>
+  <url>${ppwcode.url}</url>
+  <scm>
+    <connection>${ppwcode.scm.connection}</connection>
+    <developerConnection>${ppwcode.scm.developerConnection}</developerConnection>
+    <url>${ppwcode.scm.url}</url>
+  </scm>
+  <distributionManagement>
+    <site>
+      <id>${ppwcode.distributionManagement.site.id}</id>
+      <name>${ppwcode.distributionManagement.site.name}</name>
+      <url>${ppwcode.distributionManagement.site.url}</url>
+    </site>
+  </distributionManagement>
 
   <!-- More Project Information -->
   <developers>
