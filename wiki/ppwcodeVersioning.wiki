@@ -41,7 +41,7 @@ A ppwcode has a major version that is configured in the POM's `version`.  The ve
 
 A general rule is: changes in the minor version are required for any modification made that 
 
-=Remarks=
+=Open Issues=
 
   * Do annotations affect the versioning? 
   * Do we make any assumptions on binary compatibility?  Do we really need to do that in an open source setting:  if it's not binary compatible, then recompile the source...
