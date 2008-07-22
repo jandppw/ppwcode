@@ -68,6 +68,11 @@
     this parent (bootstrap problem).
    -->
 
+  <!-- IMPORTANT NOTE: it turns out that
+       * the groupId can never be a calculated value
+       * the artifact id of a parent pom cannot be a calculated value; the artifact id of a leaf pom can -->
+
+
   <modelVersion>4.0.0</modelVersion>
 
   <!-- ARTIFACT ID, GROUP ID, VERSION, PACKAGING, NAME & DESCRIPTION: OVERWRITE IN YOUR CHILD POM (know what you are doing :-) ) -->
@@ -197,6 +202,12 @@
     <!-- the name of the upload place for the artifacts -->
     <ppwcode.distributionManagement.repo.name>Main ppwcode Maven 2 Repository</ppwcode.distributionManagement.repo.name>
 
+    <ppwcode.distributionManagement.snapshotrepo.relativePath>maven2snapshotrepo</ppwcode.distributionManagement.snapshotrepo.relativePath>
+    <!-- the id of the upload place for the artifacts -->
+    <ppwcode.distributionManagement.snapshotrepo.id>ppwcodeSnapshotRepo</ppwcode.distributionManagement.snapshotrepo.id>
+    <!-- the name of the upload place for the artifacts -->
+    <ppwcode.distributionManagement.snapshotrepo.name>ppwcode Maven 2 Snapshot Repository</ppwcode.distributionManagement.snapshotrepo.name>
+
     <!-- The root of your Subversion repository. Different projects might reside in here. Do not add the kind or the
          protocol here. We assume svn, http for anonymous access, https for developer access. This should match
          ppwcode.mainScmViewUrl. -->
@@ -225,6 +236,8 @@
     <!-- CALCULATE MAVEN 2 REPOSITORY SETTINGS -->
     <!-- Calculate the url where we will upload the artifacts of the project. -->
     <ppwcode.distributionManagement.repo.url>scpexe://${ppwcode.mainDistroUrl}/${ppwcode.distributionManagement.repo.relativePath}</ppwcode.distributionManagement.repo.url>
+    <!-- Calculate the url where we will upload the snapshot artifacts of the project. -->
+    <ppwcode.distributionManagement.snapshotrepo.url>scpexe://${ppwcode.mainDistroUrl}/${ppwcode.distributionManagement.snapshotrepo.relativePath}</ppwcode.distributionManagement.snapshotrepo.url>
 
     <!-- CALCULATE SCM SETTINGS -->
     <!-- Calculate the Subversion URL for access to the trunk of this project, read only -->
@@ -260,7 +273,11 @@
       <url>${ppwcode.distributionManagement.repo.url}</url>
       <uniqueVersion>true</uniqueVersion>
     </repository>
-    <!-- snapshot repository == repository -->
+    <snapshotRepository>
+      <id>${ppwcode.distributionManagement.snapshotrepo.id}</id>
+      <name>${ppwcode.distributionManagement.snapshotrepo.name}</name>
+      <url>${ppwcode.distributionManagement.snapshotrepo.url}</url>
+    </snapshotRepository>
     <site>
       <id>${ppwcode.distributionManagement.site.id}</id>
       <name>${ppwcode.distributionManagement.site.name}</name>
