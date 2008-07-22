@@ -73,15 +73,6 @@
        The entries here are calculated in the "calculation properties" higher. To avoid the inheritance
        trap, the definitions below need to be repeated in each (consecutive) child, as a magic mantra.
        -->
-  <!-- We cannot use the ppwcode.artifactId here, since we do not have a mark version.
-       This isn't a problem in other places, but for the artifactId, it adds a final "-"
-       that is superfluous
-  <artifactId>${ppwcode.artifactId}</artifactId>
-  -->
-  <!-- PROBLEM
-  <artifactId>ppwcode-${ppwcode.libraryKind}-${ppwcode.shortArtifactName}</artifactId>
-  -->
-
   <url>${ppwcode.url}</url>
   <scm>
     <connection>${ppwcode.scm.connection}</connection>
