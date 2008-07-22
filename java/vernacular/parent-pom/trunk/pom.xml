@@ -54,11 +54,11 @@
   </properties>
 
 
-  <!-- GROUP ID, VERSION, PACKAGING, NAME & DESCRIPTION: OVERWRITE IN YOUR CHILD POM (know what you are doing :-) ) -->
+  <!-- GROUP ID, ARTIFACT ID, VERSION, PACKAGING, NAME & DESCRIPTION: OVERWRITE IN YOUR CHILD POM (know what you are doing :-) ) -->
   <!-- for ppwcode projects, groupId and artifactId are calculated, and used in the magic mantra (see below);
        for parent poms, we cannot do this (all hell breaks loose in the children) -->
   <artifactId>ppwcode-vernacular-parent-pom</artifactId>
-  <groupId>org.ppwcode.vernacular</groupId> <!-- note: group id cannot be inherited, ever -->
+  <groupId>org.ppwcode.vernacular</groupId>
   <version>1.0.0-SNAPSHOT</version> <!-- MUDO add Svn release number as implementation version -->
   <packaging>pom</packaging>
   <name>ppwcode vernacular parent pom</name>
