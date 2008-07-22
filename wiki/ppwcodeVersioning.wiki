@@ -33,13 +33,13 @@ A general rule is: changes in the major version are required in modifications of
 
 ==Minor Version==
 
-A ppwcode has a major version that is configured in the POM's `version`.  The version number consists of a major and a minor number.  Within the same mark and major version, a different minor number means that:
+A ppwcode has a major version that is configured in the POM's `version`.  The version number consists of a major and a minor number.  Within the same mark and major version, a different minor number means:
 
   * Bug fixes in the API's contract
   * Bug fixes in the implementation
   * Implementation changes (performance, refactoring, ...)
 
-A general rule is: changes in the minor version are required for any modification made that 
+A general rule is: changes in the minor version are required for any modification that does not affect the mark or major version.
 
 =Open Issues=
 
