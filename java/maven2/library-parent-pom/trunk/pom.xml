@@ -43,7 +43,7 @@
 
       ppwcode.shortArtifactName
       ppwcode.markVersion
-      ppwcode.inRepoLocation
+      ppwcode.inScmLocation
       ppwcode.mainUrl
       ppwcode.mainScmUrl
       ppwcode.mainScmViewUrl
@@ -70,79 +70,26 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <properties>
-    <ppwcode.shortArtifactName>library-parent-pom</ppwcode.shortArtifactName>
-    <ppwcode.markVersion></ppwcode.markVersion>
-    <!-- empty mark version results in "double slash in paths", which works -->
-
-    <ppwcode.inRepoLocation>java/maven2/${ppwcode.shortArtifactName}</ppwcode.inRepoLocation>
-
-    <ppwcode.mainUrl>http://www.ppwcode.org/java/projectdocs</ppwcode.mainUrl>
-    <ppwcode.mainScmUrl>ppwcode.googlecode.com/svn</ppwcode.mainScmUrl>
-    <!-- do not add the kind or the protocol here; we assume svn, http for anonymous access, https for developer access -->
-    <ppwcode.mainScmViewUrl>code.google.com/p/ppwcode/source/browse</ppwcode.mainScmViewUrl>
-    <!-- do not add the kind or the protocol here; we assume http -->
-    <ppwcode.mainDistroUrl>cvs.peopleware.be/ppw/projects/ppwcode/public_html/java</ppwcode.mainDistroUrl>
-    <!-- do not add the kind or the protocol here; we assume scpexe to a directory, which contains a "maven2repo"
-    subdirectory and a "projectdocs" subdirectory -->
-
-  </properties>
-
-
-  <!-- General information -->
+  <!-- ARTIFACT ID, GROUP ID, VERSION, PACKAGING, NAME & DESCRIPTION: OVERWRITE IN YOUR CHILD POM (know what you are doing :-) ) -->
+  <!-- for the artifactId, see the magic mantra below -->
   <groupId>org.ppwcode</groupId>
   <artifactId>ppwcode-library-parent-pom</artifactId>
-  <!--
-    artifactId needs to be added explicitly to child pom. add:
-    <artifactId>ppwcode-${ppwcode.shortArtifactName}-${ppwcode.markVersion}</artifactId>
-  -->
   <version>1.0.0-SNAPSHOT</version> <!-- MUDO add Svn release number as implementation version -->
   <packaging>pom</packaging>
-
   <name>ppwcode library parent pom</name>
   <description>A parent pom for collections of libaries, or single libraries.
     This POM is intended for reuse outside the ppwcode project.</description>
 
-
-
+  <!-- INCEPTION YEAR: OVERWRITE IN YOUR CHILD POM (you can't be that old :-) ) -->
   <inceptionYear>2004</inceptionYear>
+
+  <!-- ORGANIZATION: OVERWRITE IN YOUR CHILD POM (do you think you got what it takes to work for us? :-) ) -->
   <organization>
     <name>PeopleWare n.v.</name>
     <url>http://www.peopleware.be/</url>
   </organization>
-  <licenses>
-    <license>
-      <name>Apache License, version 2</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
-  <url>${ppwcode.mainUrl}/${ppwcode.shortArtifactName}/${ppwcode.markVersion}/${pom.version}</url>
 
-
-
-  <scm>
-    <connection>scm:svn:http://${ppwcode.mainScmUrl}/${ppwcode.inRepoLocation}/trunk</connection>
-    <developerConnection>scm:svn:https://${ppwcode.mainScmUrl}/${ppwcode.inRepoLocation}/trunk</developerConnection>
-    <tag>${ppwcode.markVersion}/${ppwcode.majorSpecVersion}.${ppwcode.minorSpecVersion}.n/${ppwcode.markVersion}-${ppwcode.majorSpecVersion}.${ppwcode.minorSpecVersion}.${ppwcode.microSpecVersion}-${ppwcode.implementationVersion}</tag>
-    <url>http://${ppwcode.mainScmViewUrl}/${ppwcode.inRepoLocation}</url>
-  </scm>
-
-  <distributionManagement>
-    <repository>
-      <id>ppwcodeRepo</id>
-      <name>Main ppwcode Maven 2 Repository</name>
-      <url>scpexe://${ppwcode.mainDistroUrl}/maven2repo</url>
-      <uniqueVersion>true</uniqueVersion>
-    </repository>
-    <!-- snapshot repository == repository -->
-    <site>
-      <id>ppwcodeSite</id>
-      <name>ppwcode Project Documentation Site</name>
-      <url>scpexe://${ppwcode.mainDistroUrl}/projectdocs/${ppwcode.shortArtifactName}/${ppwcode.markVersion}/${pom.version}</url>
-    </site>
-  </distributionManagement>
-
+  <!-- MAILING LISTS: OVERWRITE IN YOUR CHILD POM (your chit chat is off-topic in our lists :-) ) -->
   <mailingLists>
     <mailingList>
       <name>ppwcode Announce</name>
@@ -174,10 +121,163 @@
     </mailingList>
   </mailingLists>
 
+  <!-- ISSUE MANAGEMENT: OVERWRITE IN YOUR CHILD POM (your problems aren't ours :-) ) -->
   <issueManagement>
     <system>Google Code</system>
     <url>http://code.google.com/p/ppwcode/issues/list</url>
   </issueManagement>
+
+  <!-- DEVELOPERS & CONTRIBUTORS: OVERWRITE IN YOUR CHILD POM (we don't work for you :-) ) -->
+  <developers>
+    <developer>
+      <name>Jan Dockx</name>
+      <id>jandockx</id>
+      <email>jandockx@gmail.org</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <properties>
+        <aim>jandockx@mac.com</aim>
+        <skype>callto:jandockx</skype>
+      </properties>
+    </developer>
+  </developers>
+  <contributors>
+  </contributors>
+
+  <!-- REPOSITORIES: ADD REPOSITORIES NEEDED FOR YOUR PROJECT IN THE CHILD POM -->
+  <repositories>
+<!--
+    <repository>
+      <id>ppwcodeRepo</id>
+      <!++ This needs to be copied in all child poms, to find the parent ++>
+      <name>ppwcode Maven 2 repository</name>
+      <url>http://www.ppwcode.org/java/maven2repo</url>
+    </repository>
+-->
+  </repositories>
+
+  <!-- LICENSE: OVERWRITE IF NEEDED IN YOUR CHILD POM (Apache v2 is a good license, though :-) ) -->
+  <licenses>
+    <license>
+      <name>Apache License, version 2</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+
+  <properties>
+
+    <!-- OVERWRITE THESE PROPERTIES WITH SETTINGS APPROPRIATE TO YOUR PROJECT IN YOUR CHILD POM -->
+
+    <!-- The root of your project sites for external readers. Do not add the kind or the protocol here: we assume http.
+         This should match ppwcode.mainDistroUrl. -->
+    <ppwcode.mainUrl>www.ppwcode.org/java</ppwcode.mainUrl>
+    <!-- The root of you Java http site, where we will upload the artifacts in a "ppwcode.distributionManagement.repo.relativePath" subdirectory,
+         and the project documentation sites, in a "pppwcode.distributionManagement.site.relativePath" subdirectory. Do not add the kind or protocol
+         here. We assumes scpexe. This should match ppwcode.mainUrl-->
+    <ppwcode.mainDistroUrl>cvs.peopleware.be/ppw/projects/ppwcode/public_html/java</ppwcode.mainDistroUrl>
+
+    <!-- The relative path in the Java http site where the project documentation sites will reside -->
+    <ppwcode.distributionManagement.site.relativePath>projectdocs</ppwcode.distributionManagement.site.relativePath>
+    <!-- The relative path in the Java http site where the maven 2 repositoru will reside -->
+    <!-- the id of the upload place for the documentation site -->
+    <ppwcode.distributionManagement.site.id>ppwcodeSite</ppwcode.distributionManagement.site.id>
+    <!-- the name of the upload place for the documentation site -->
+    <ppwcode.distributionManagement.site.name>ppwcode Project Documentation Site</ppwcode.distributionManagement.site.name>
+
+    <ppwcode.distributionManagement.repo.relativePath>maven2repo</ppwcode.distributionManagement.repo.relativePath>
+    <!-- the id of the upload place for the artifacts -->
+    <ppwcode.distributionManagement.repo.id>ppwcodeRepo</ppwcode.distributionManagement.repo.id>
+    <!-- the name of the upload place for the artifacts -->
+    <ppwcode.distributionManagement.repo.name>Main ppwcode Maven 2 Repository</ppwcode.distributionManagement.repo.name>
+
+    <!-- The root of your Subversion repository. Different projects might reside in here. Do not add the kind or the
+         protocol here. We assume svn, http for anonymous access, https for developer access. This should match
+         ppwcode.mainScmViewUrl. -->
+    <ppwcode.mainScmUrl>ppwcode.googlecode.com/svn</ppwcode.mainScmUrl>
+    <!-- The root where external readers can look into your Subversion repository (read-only). Different projects
+         might reside in here. Do not add the kind or the protocol here; we assume http. This should match
+         ppwcode.mainScmUrl -->
+    <ppwcode.mainScmViewUrl>code.google.com/p/ppwcode/source/browse</ppwcode.mainScmViewUrl>
+    <!-- The relative path in the Subversion repository where this project will reside. This should point to a directory
+         that has at least a "trunk" subdirectory. -->
+    <ppwcode.inScmLocation>java/maven2/library-parent-pom</ppwcode.inScmLocation>
+
+
+
+
+    <!-- CALCULATIONS -->
+
+    <!-- CALCULATE DOCUMENTATION SITE SETTINGS -->
+    <!-- The relative path in the Java http site where the project documentation site will reside -->
+    <ppwcode.inSiteLocation>${ppwcode.distributionManagement.site.relativePath}/${pom.artifactId}/${pom.version}</ppwcode.inSiteLocation>
+    <!-- Calculate the url where the documentation site for the project can be found. -->
+    <ppwcode.url>http://${ppwcode.mainUrl}/${ppwcode.inSiteLocation}</ppwcode.url>
+    <!-- Calculate the url where we will upload the documentation site of the project. -->
+    <ppwcode.distributionManagement.site.url>scpexe://${ppwcode.mainDistroUrl}/${ppwcode.inSiteLocation}</ppwcode.distributionManagement.site.url>
+
+    <!-- CALCULATE MAVEN 2 REPOSITORY SETTINGS -->
+    <!-- Calculate the url where we will upload the artifacts of the project. -->
+    <ppwcode.distributionManagement.repo.url>scpexe://${ppwcode.mainDistroUrl}/${ppwcode.distributionManagement.repo.relativePath}</ppwcode.distributionManagement.repo.url>
+
+    <!-- CALCULATE SCM SETTINGS -->
+    <!-- Calculate the Subversion URL for access to the trunk of this project, read only -->
+    <ppwcode.scm.connection>scm:svn:http://${ppwcode.mainScmUrl}/${ppwcode.inScmLocation}/trunk</ppwcode.scm.connection>
+    <!-- Calculate the Subversion URL for access to the trunk of this project, read/write only -->
+    <ppwcode.scm.developerConnection>scm:svn:https://${ppwcode.mainScmUrl}/${ppwcode.inScmLocation}/trunk</ppwcode.scm.developerConnection>
+    <!-- Calculate the URL for read-only, browser access to the Subversion repository -->
+    <ppwcode.scm.url>http://${ppwcode.mainScmViewUrl}/${ppwcode.inScmLocation}</ppwcode.scm.url>
+
+  </properties>
+
+
+
+  <!-- MAGIC MANTRA -->
+  <!-- The following entries need to be repeated, and can not sensibly be inherited.
+       The reason is, sadly, that Maven 2 has a built in, undocumented "feature" that appends the artifact id to a number of URL's and paths
+       if those URL's or paths are inherited. The reasoning behind that is he use of inheritance inside multi-module projects.
+       It seems that if you are using inheritance outside of multi-module projects, you are out of luck.
+       At least, we are :-(.
+       The entries here are calculated in the "calculation properties" at the top of the file. To avoid the inheritance
+       trap, the definitions below need to be repeated in each (consecutive) child, as a magic mantra.
+       -->
+  <!-- We cannot use the ppwcode.artifactId here, since we do not have a mark version.
+       This isn't a problem in other places, but for the artifactId, it adds a final "-"
+       that is superfluous
+  <artifactId>${ppwcode.artifactId}</artifactId>
+  <artifactId>ppwcode-${ppwcode.shortArtifactName}</artifactId>
+  -->
+  <url>${ppwcode.url}</url>
+  <scm>
+    <connection>${ppwcode.scm.connection}</connection>
+    <developerConnection>${ppwcode.scm.developerConnection}</developerConnection>
+    <url>${ppwcode.scm.url}</url>
+  </scm>
+  <distributionManagement>
+    <repository>
+      <id>${ppwcode.distributionManagement.repo.id}</id>
+      <name>${ppwcode.distributionManagement.repo.name}</name>
+      <url>${ppwcode.distributionManagement.repo.url}</url>
+      <uniqueVersion>true</uniqueVersion>
+    </repository>
+    <!-- snapshot repository == repository -->
+    <site>
+      <id>${ppwcode.distributionManagement.site.id}</id>
+      <name>${ppwcode.distributionManagement.site.name}</name>
+      <url>${ppwcode.distributionManagement.site.url}</url>
+    </site>
+  </distributionManagement>
+
+
+
+  <!-- ============================================================================================================ -->
+  <!-- ALL THINGS BELOW THIS MARK SHOULD BE CONSIDERED PART OF THE PARENT POM, AND NOT BE OVERWRITTEN IN CHILD POMS -->
 
   <!-- Build Settings -->
   <build>
@@ -685,40 +785,6 @@
 
   </reporting>
 
-
-
-  <!-- More Project Information -->
-  <developers>
-    <developer>
-      <name>Jan Dockx</name>
-      <id>jandockx</id>
-      <email>jandockx@gmail.org</email>
-      <timezone>+1</timezone>
-      <organization>PeopleWare n.v.</organization>
-      <organizationUrl>http://www.peopleware.be/</organizationUrl>
-      <roles>
-        <role>architect</role>
-        <role>developer</role>
-      </roles>
-      <properties>
-        <aim>jandockx@mac.com</aim>
-        <skype>callto:jandockx</skype>
-      </properties>
-    </developer>
-  </developers>
-  <contributors>
-  </contributors>
-
-
-  <repositories>
-<!--   <repository>
-      <id>ppwcodeRepo</id>
-      <!++ This needs to be copied in all child poms, to find the parent ++>
-      <name>ppwcode Maven 2 repository</name>
-      <url>http://www.ppwcode.org/java/maven2repo</url>
-    </repository>
--->
-  </repositories>
 
 
   <pluginRepositories>
