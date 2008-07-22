@@ -94,23 +94,49 @@
     <ppwcode.markVersion></ppwcode.markVersion>
     <!-- empty mark version results in "double slash in paths", which works -->
 
+
+    <!-- Calculations -->
+    <ppwcode.artifactId>ppwcode-${ppwcode.libraryKind}-${ppwcode.shortArtifactName}-${ppwcode.markVersion}</ppwcode.artifactId>
+    <ppwcode.inSiteLocation>projectdocs/${ppwcode.libraryKind}/${ppwcode.shortArtifactName}/${ppwcode.markVersion}/${pom.version}</ppwcode.inSiteLocation>
+    <ppwcode.url>http://${ppwcode.mainUrl}/${ppwcode.inSiteLocation}</ppwcode.url>
+    <ppwcode.distributionManagement.site.id>ppwcodeSite</ppwcode.distributionManagement.site.id>
+    <ppwcode.distributionManagement.site.name>ppwcode Project Documentation Site</ppwcode.distributionManagement.site.name>
+    <ppwcode.distributionManagement.site.url>scpexe://${ppwcode.mainDistroUrl}/${ppwcode.inSiteLocation}</ppwcode.distributionManagement.site.url>
     <ppwcode.inRepoLocation>java/${ppwcode.libraryKind}/${ppwcode.shortArtifactName}</ppwcode.inRepoLocation>
+    <ppwcode.scm.connection>scm:svn:http://${ppwcode.mainScmUrl}/${ppwcode.inRepoLocation}/trunk</ppwcode.scm.connection>
+    <ppwcode.scm.developerConnection>scm:svn:https://${ppwcode.mainScmUrl}/${ppwcode.inRepoLocation}/trunk</ppwcode.scm.developerConnection>
+    <ppwcode.scm.url>http://${ppwcode.mainScmViewUrl}/${ppwcode.inRepoLocation}</ppwcode.scm.url>
   </properties>
 
 
   <!-- General information -->
   <groupId>org.ppwcode</groupId>
-  <artifactId>ppwcode-ppwcode-library-parent-pom</artifactId>
-  <!--
-    artifactId needs to be added explicitly to child pom. add:
-    <artifactId>ppwcode-${ppwcode.shortArtifactName}-${ppwcode.markVersion}</artifactId>
-  -->
   <version>1.0.0-SNAPSHOT</version> <!-- MUDO add Svn release number as implementation version -->
   <packaging>pom</packaging>
 
   <name>ppwcode ppwcode library parent pom</name>
   <description>A parent pom for ppwcode libaries.</description>
 
+  <!-- MAGIC MANTRA -->
+  <!-- We cannot use the ppwcode.artifactId here, since we do not have a mark version.
+       This isn't a problem in other places, but for the artifactId, it adds a final "-"
+       that is superfluous
+  <artifactId>${ppwcode.artifactId}</artifactId>
+  -->
+  <artifactId>ppwcode-${ppwcode.shortArtifactName}</artifactId>
+  <url>${ppwcode.url}</url>
+  <scm>
+    <connection>${ppwcode.scm.connection}</connection>
+    <developerConnection>${ppwcode.scm.developerConnection}</developerConnection>
+    <url>${ppwcode.scm.url}</url>
+  </scm>
+  <distributionManagement>
+    <site>
+      <id>${ppwcode.distributionManagement.site.id}</id>
+      <name>${ppwcode.distributionManagement.site.name}</name>
+      <url>${ppwcode.distributionManagement.site.url}</url>
+    </site>
+  </distributionManagement>
 
   <dependencyManagement>
     <dependencies>
