@@ -6,7 +6,7 @@
   $Date: 2007/11/13 13:46:02 $
   $Revision: 1.12 $
   $HeadURL$
-®
+
   Copyright 2007 - $Date: 2007/11/13 13:46:02 $ by PeopleWare n.v.
 
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,20 +37,67 @@
   </parent>
 
   <properties>
+
+    <!-- OVERWRITE THESE PROPERTIES WITH SETTINGS APPROPRIATE TO YOUR PROJECT IN YOUR CHILD POM -->
+
+    <!-- The short artifact name. The real artifact name is calculated from the ppwcode.libraryKind,
+         this short name, and the ppwcode.markVersion -->
     <ppwcode.shortArtifactName>metainfo</ppwcode.shortArtifactName>
+    <!-- The mark version of the artifact. This part of the version becomes part of the artifactId. -->
     <ppwcode.markVersion>I</ppwcode.markVersion>
 
-    <ppwcode.inRepoLocation>java/${ppwcode.shortArtifactName}</ppwcode.inRepoLocation>
+
+    <ppwcode.libraryKind></ppwcode.libraryKind>
+    <ppwcode.inScmLocation>java/${ppwcode.shortArtifactName}</ppwcode.inScmLocation>
+
   </properties>
 
-  <!-- General information -->
+  <!-- GROUP ID, ARTIFACT ID, VERSION, PACKAGING, NAME & DESCRIPTION: OVERWRITE IN YOUR CHILD POM (know what you are doing :-) ) -->
+  <!-- for ppwcode projects, groupId and artifactId are calculated, and used in the magic mantra (see below);
+       for parent poms, we cannot do this (all hell breaks loose in the children) -->
+  <groupId>org.ppwcode</groupId>
   <artifactId>ppwcode-${ppwcode.shortArtifactName}-${ppwcode.markVersion}</artifactId>
-  <packaging>jar</packaging>
   <version>1.0.0-SNAPSHOT</version> <!-- MUDO add Svn release number as implementation version -->
-
+  <packaging>jar</packaging>
   <name>ppwcode metainfo</name>
   <description>Annotations for adding meta information to Java code, and transporting it into the class files and runtime.</description>
 
+  <!-- MAGIC MANTRA -->
+  <!-- The following entries need to be repeated, and can not sensibly be inherited.
+       The reason is, sadly, that Maven 2 has a built in, undocumented "feature" that appends the artifact id to a number of URL's and paths
+       if those URL's or paths are inherited. The reasoning behind that is he use of inheritance inside multi-module projects.
+       It seems that if you are using inheritance outside of multi-module projects, you are out of luck.
+       At least, we are :-(.  -->
+  <url>${ppwcode.url}</url>
+  <scm>
+    <connection>${ppwcode.scm.connection}</connection>
+    <developerConnection>${ppwcode.scm.developerConnection}</developerConnection>
+    <url>${ppwcode.scm.url}</url>
+  </scm>
+  <distributionManagement>
+    <site>
+      <id>${ppwcode.distributionManagement.site.id}</id>
+      <name>${ppwcode.distributionManagement.site.name}</name>
+      <url>${ppwcode.distributionManagement.site.url}</url>
+    </site>
+  </distributionManagement>
+
+  <!-- THIS NEEDS TO BE COPIED IN ALL CHILD POMS, TO FIND THE PARENT -->
+  <repositories>
+    <repository>
+      <id>ppwcodeRepo</id>
+      <name>ppwcode Maven 2 repository</name>
+      <url>http://www.ppwcode.org/java/maven2repo</url>
+    </repository>
+    <repository>
+      <id>ppwcodeSnapshotRepo</id>
+      <!-- This needs to be copied in all child poms, to find the parent -->
+      <name>ppwcode Maven 2 snapshot repository</name>
+      <url>http://www.ppwcode.org/java/maven2snapshotrepo</url>
+    </repository>
+  </repositories>
+
+  <!-- activating dependencies used in this project. Versions are choosen in the grandparent pom -->
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -58,26 +105,6 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
-<!--
-  <dependencyManagement>
-  </dependencyManagement>
--->
-
-  <reporting>
-    <plugins>
-
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>clirr-maven-plugin</artifactId>
-        <!-- TODO configure with all existing artifacts -->
-        <configuration>
-          <comparisonVersion>1.0.0-20080623.145505-1</comparisonVersion>
-        </configuration>
-      </plugin>
-
-    </plugins>
-  </reporting>
 
   <!-- More Project Information -->
   <!--
@@ -102,14 +129,5 @@
   <contributors>
   </contributors>
   -->
-
-  <repositories>
-    <repository>
-      <id>ppwcodeRepo</id>
-      <!-- This needs to be copied in all child poms, to find the parent -->
-      <name>ppwcode Maven 2 repository</name>
-      <url>http://www.ppwcode.org/java/maven2repo</url>
-    </repository>
-  </repositories>
 
 </project>
