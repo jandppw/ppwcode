@@ -144,7 +144,7 @@
     <!-- The SCM URL calculations can be inherited/ -->
 
     <!-- Calculation of the artifact id (for child poms, not used in this pom) -->
-    <ppwcode.artifactId>ppwcode-${ppwcode.libraryKind}-${ppwcode.shortArtifactname}-${ppwcode.markVersion}</ppwcode.artifactId>
+    <ppwcode.artifactId>ppwcode-${ppwcode.libraryKind}-${ppwcode.shortArtifactName}-${ppwcode.markVersion}</ppwcode.artifactId>
 
   </properties>
 
@@ -164,7 +164,7 @@
        that is superfluous
   <artifactId>${ppwcode.artifactId}</artifactId>
   -->
-  <artifactId>ppwcode-${ppwcode.shortArtifactName}</artifactId>
+  <artifactId>ppwcode-ppwcode-library-parent-pom</artifactId>
   <url>${ppwcode.url}</url>
   <scm>
     <connection>${ppwcode.scm.connection}</connection>
@@ -197,6 +197,12 @@
       <!-- This needs to be copied in all child poms, to find the parent -->
       <name>ppwcode Maven 2 repository</name>
       <url>http://www.ppwcode.org/java/maven2repo</url>
+    </repository>
+    <repository>
+      <id>ppwcodeSnapshotRepo</id>
+      <!-- This needs to be copied in all child poms, to find the parent -->
+      <name>ppwcode Maven 2 snapshot repository</name>
+      <url>http://www.ppwcode.org/java/maven2snapshotrepo</url>
     </repository>
     <repository>
       <id>torytRepo</id>
