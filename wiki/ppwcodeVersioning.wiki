@@ -7,5 +7,29 @@ Add your content here.
 
 = Details =
 
-Ppwcode packages are version according to the following rules (these rules are of course subject to change).
+Ppwcode projects are obviously versioned.  The project's version always needs to be configured in the project's POM.  The version number must adhere to the following rules (these rules are of course subject to change).
 
+==Mark Version==
+
+Each project has a mark version.  The mark version corresponds with the major number in traditional versioning schemes, which typically carry a `<major>.<minor>.<micro>` structure.  In ppwcode projects, the mark version number is part of the maven `artifactId`.  Because it is part of the Artifact ID, it is possible that a project depends on multiple versions of the same package. This may be beneficial with fast evolving software systems.
+
+The mark version is written as a roman numeral.  Examples are bean_I, persistence_III, i18n_IV.  
+
+A package must have a different mark version number if the following is true:
+
+  * Methods in the packages public API have disappeared.
+  * The contract in a method has changed:  
+
+==Major Version==
+
+A ppwcode has a major version that is configured in the POM's `version`.  Within the same mark version, a different major number means that:
+
+  * Methods are deprecated
+  * Methods are added (new contracts are added).
+
+
+==Minor Version==
+
+  * Bug fixes in the API's contract
+  * Bug fixes in the implementation
+  * Implementation changes (performance, ...)
