@@ -1,0 +1,11 @@
+#summary Versioning policy in ppwcode
+
+= Introduction =
+
+Add your content here.
+
+
+= Details =
+
+Ppwcode packages are version according to the following rules (these rules are of course subject to change).
+
