@@ -244,15 +244,9 @@
        if those URL's or paths are inherited. The reasoning behind that is he use of inheritance inside multi-module projects.
        It seems that if you are using inheritance outside of multi-module projects, you are out of luck.
        At least, we are :-(.
-       The entries here are calculated in the "calculation properties" at the top of the file. To avoid the inheritance
+       The entries here are calculated in the "calculation properties" higher. To avoid the inheritance
        trap, the definitions below need to be repeated in each (consecutive) child, as a magic mantra.
        -->
-  <!-- We cannot use the ppwcode.artifactId here, since we do not have a mark version.
-       This isn't a problem in other places, but for the artifactId, it adds a final "-"
-       that is superfluous
-  <artifactId>${ppwcode.artifactId}</artifactId>
-  <artifactId>ppwcode-${ppwcode.shortArtifactName}</artifactId>
-  -->
   <url>${ppwcode.url}</url>
   <scm>
     <connection>${ppwcode.scm.connection}</connection>
