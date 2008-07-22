@@ -68,9 +68,10 @@
     this parent (bootstrap problem).
    -->
 
-  <!-- IMPORTANT NOTE: it turns out that
-       * the groupId can never be a calculated value
-       * the artifact id of a parent pom cannot be a calculated value; the artifact id of a leaf pom can -->
+  <!--  MUDO good documentation -->
+
+  <!-- IMPORTANT NOTE: it turns out that the group id and artifact id of a parent pom cannot be a calculated
+       value; the group id and artifact id of a leaf pom can -->
 
 
   <modelVersion>4.0.0</modelVersion>
