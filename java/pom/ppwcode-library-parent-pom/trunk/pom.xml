@@ -90,6 +90,7 @@
 
   <!-- VERSION, PACKAGING, NAME & DESCRIPTION: OVERWRITE IN YOUR CHILD POM (know what you are doing :-) ) -->
   <!-- for ppwcode projects, groupId and artifactId are calculated, and used in the magic mantra (see below) -->
+  <groupId>org.ppwcode</groupId> <!-- group id cannot be calculated with inheritance -->
   <version>1.0.0-SNAPSHOT</version> <!-- MUDO add Svn release number as implementation version -->
   <packaging>pom</packaging>
   <name>ppwcode ppwcode library parent pom</name>
@@ -142,9 +143,6 @@
     <ppwcode.inScmLocation>java/${ppwcode.libraryKind}/${ppwcode.shortArtifactName}</ppwcode.inScmLocation>
     <!-- The SCM URL calculations can be inherited/ -->
 
-    <!-- Calculation of the group id -->
-    <ppwcode.groupId>org.ppwcode.${ppwcode.libraryKind}</ppwcode.groupId>
-
     <!-- Calculation of the artifact id (for child poms, not used in this pom) -->
     <ppwcode.artifactId>ppwcode-${ppwcode.libraryKind}-${ppwcode.shortArtifactname}-${ppwcode.markVersion}</ppwcode.artifactId>
 
@@ -161,7 +159,6 @@
        The entries here are calculated in the "calculation properties" higher. To avoid the inheritance
        trap, the definitions below need to be repeated in each (consecutive) child, as a magic mantra.
        -->
-  <groupId>${ppwcode.groupId}</groupId>
   <!-- We cannot use the ppwcode.artifactId here, since we do not have a mark version.
        This isn't a problem in other places, but for the artifactId, it adds a final "-"
        that is superfluous
