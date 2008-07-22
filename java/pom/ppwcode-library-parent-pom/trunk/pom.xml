@@ -126,6 +126,7 @@
 
     <!-- CALCULATIONS -->
     <ppwcode.artifactId>ppwcode-${ppwcode.libraryKind}-${ppwcode.shortArtifactName}-${ppwcode.markVersion}</ppwcode.artifactId>
+    <ppwcode.groupId>org.ppwcode.${ppwcode.libraryKind}</ppwcode.groupId>
 
     <!-- CALCULATE DOCUMENTATION SITE SETTINGS -->
 
