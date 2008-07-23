@@ -30,7 +30,7 @@
     Projects using this pom should fill out, in a child pom:
 
     The following entries should be considered part of the POM for this POM, and thus be overridden
-    in your project (it's really a bad idea by the Maven people to make a parent POM its own POM).
+    in your project (it's really a bad practice by the Maven people to make a parent POM its own POM).
 
       groupId
       artifactId
@@ -68,7 +68,7 @@
     this parent (bootstrap problem).
    -->
 
-  <!--  MUDO good documentation -->
+  <!--  TODO good documentation -->
 
   <!-- IMPORTANT NOTE: it turns out that the group id and artifact id of a parent pom cannot be a calculated
        value; the group id and artifact id of a leaf pom can -->
@@ -475,7 +475,7 @@
           <showWarnings>true</showWarnings>
           <optimize>false</optimize>
           <!-- to make debugging possible -->
-          <!--  MUDO should be set to true for a release with a profile -->
+          <!--  IDEA should be set to true for a release with a profile -->
         </configuration>
       </plugin>
 
@@ -546,7 +546,7 @@
         </executions>
       </plugin>
 
-      <!-- MUDO add maven-remote-resources-plugin -->
+      <!-- IDEA maven-remote-resources-plugin -->
 
 <!-- MUDO waiting for mail host, list
       <plugin>
@@ -656,7 +656,7 @@
           -->
           <!-- windowtitle default is ok -->
           <header>&lt;a href="${pom.url}"&gt;${pom.artifactId} ${pom.version}&lt;/a&gt;</header>
-          <!-- MUDO replace header with logo -->
+          <!-- IDEA replace header with logo -->
           <footer>&lt;a href="${pom.url}"&gt;${pom.artifactId} ${pom.version}&lt;/a&gt;</footer>
           <bottom>&amp;copy; PeopleWare n.v., ${pom.inceptionYear}. Released under the
             &lt;a href="http://www.apache.org/licenses/LICENSE-2.0.html"&gt;Apache License, version 2&lt;/a&gt;</bottom>
@@ -746,8 +746,7 @@
         <!-- MUDO bring config file to 1.5 and use it -->
       </plugin>
 
-<!--
-  DISABLED
+<!-- TODO: DISABLED remove if this cannot be resolved
   This fails in child projects with
     svn: REPORT request failed on '/svn/!svn/bc/1252/java/metainfo/trunk/<var>CHILD ARTIFACTNAME</var>'
     svn: '/svn/!svn/bc/1252/java/metainfo/trunk/<var>CHILD ARTIFACTNAME</var>' path not found
@@ -804,7 +803,7 @@
         <!-- MUDO needs more config ?? -->
       </plugin>
 
-      <!-- disabled: has problems with @SuppressWarnings
+      <!-- TODO disabled, remove if not resolved: has problems with @SuppressWarnings
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>javancss-maven-plugin</artifactId>
@@ -820,7 +819,7 @@
         <version>2.0</version>
       </plugin>
 
-      <!-- TODO add maven-jdiff-plugin -->
+      <!-- IDEA add maven-jdiff-plugin -->
 
       <!-- IDEA maven-pdf-plugin looks interesting, but is still under development -->
       <!-- IDEA maven-uml-plugin looks interesting, but is still under development -->
