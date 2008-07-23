@@ -63,5 +63,27 @@ limitations under the License.
 @License(APACHE_V2)
 public class _MyClass_ ...
 }}}
+  For XML files, use the following comment:
+{{{
+  <!--
+  $Date$
+  $Revision$
+  $HeadURL$
+
+  Copyright [inceptionYear] - $Date$ by PeopleWare n.v.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+}}}
  * The `[inceptionYear]` should be the year the particular project has started, not the ppwcode project as a whole (2008) or the original ppw-libraries project (2004)
   * A CLA should be in the possession of PeopleWare for all developers and contributors found in the POM and in the Subversion history.
