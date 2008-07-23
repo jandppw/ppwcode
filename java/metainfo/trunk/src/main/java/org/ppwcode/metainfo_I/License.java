@@ -93,7 +93,7 @@ public @interface License {
         return new InputStreamReader(result);
       }
       catch (IOException exc) {
-        throw new Exception(); // MUDO good exception
+        throw new Exception("Could not retrieve license from the URL " + $url);
       }
     }
 
