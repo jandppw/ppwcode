@@ -59,7 +59,7 @@ limitations under the License.
 }}}
   Furthermore, the following annotations are added to each class, to carry the copyright and license information into the class file:
 {{{
-@Copyright("2007 - $Date: 2008-07-02 11:36:19 +0200 (Wed, 02 Jul 2008) $, PeopleWare n.v.")
+@Copyright("2007 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
 public class _MyClass_ ...
 }}}
