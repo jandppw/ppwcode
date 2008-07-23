@@ -151,15 +151,28 @@
         <skype>callto:jandockx</skype>
       </properties>
     </developer>
+    <developer>
+      <name>Tom Mahieu</name>
+      <id>Tom.Mahieu</id>
+      <email>Tom.Mahieu@gmail.com</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
   </developers>
   <contributors>
     <contributor>
       <organization>AristA vzw</organization>
       <organizationUrl>http://www.arista.be/</organizationUrl>
+      <timezone>+1</timezone>
     </contributor>
     <contributor>
       <organization>HDP vzw</organization>
       <organizationUrl>http://www.hdp.be/</organizationUrl>
+      <timezone>+1</timezone>
     </contributor>
   </contributors>
 
@@ -485,17 +498,17 @@
           </execution>
         </executions>
         <configuration>
-        	<archive>
-        		<manifestEntries>
-        			<Implementation-Title>${pom.artifactId}</Implementation-Title>
-        			<Implementation-Version>${pom.version}</Implementation-Version>
-        			<Implementation-Vendor-Id>${pom.groupId}</Implementation-Vendor-Id>
-        			<Implementation-Vendor>${pom.organization.name}</Implementation-Vendor>
-        			<Specification-Title>${pom.artifactId}</Specification-Title>
-        			<Specification-Version>${pom.version}</Specification-Version>
-        			<Specification-Vendor>${pom.organization.name}</Specification-Vendor>
-        		</manifestEntries>
-        	</archive>
+          <archive>
+            <manifestEntries>
+              <Implementation-Title>${pom.artifactId}</Implementation-Title>
+              <Implementation-Version>${pom.version}</Implementation-Version>
+              <Implementation-Vendor-Id>${pom.groupId}</Implementation-Vendor-Id>
+              <Implementation-Vendor>${pom.organization.name}</Implementation-Vendor>
+              <Specification-Title>${pom.artifactId}</Specification-Title>
+              <Specification-Version>${pom.version}</Specification-Version>
+              <Specification-Vendor>${pom.organization.name}</Specification-Vendor>
+            </manifestEntries>
+          </archive>
         </configuration>
       </plugin>
 
