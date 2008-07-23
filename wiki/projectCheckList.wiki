@@ -117,3 +117,7 @@ public class _MyClass_ ...
  * Releases *must* be tagged in the Subversion repository.
  * Releases *must* be announced at the Announcement mailing list.
  * Releases are only available via the Maven 2 repository at http://www.ppwcode.org/java/maven2repo/
+
+
+= References on project check lists =
+http://incubator.apache.org/guides/releasemanagement.html is an interesting document on this topic. The document is being updated continuously, it seems.
