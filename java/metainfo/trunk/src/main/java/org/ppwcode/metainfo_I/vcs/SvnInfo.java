@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2007 - $Date: 2007-05-08 16:33:08 +0200 (Tue, 08 May 2007) $ by PeopleWare n.v..
+Copyright 2007 - $Date$ by PeopleWare n.v..
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -36,8 +36,8 @@ import org.ppwcode.metainfo_I.License;
  *
  * Usage pattern:
  * <pre>
- * ATSvnInfo(revision = &quot;$Revision: 857 $&quot;,
- *           date     = &quot;$Date: 2007-05-08 16:33:08 +0200 (Tue, 08 May 2007) $&quot;)
+ * ATSvnInfo(revision = &quot;$Revision$&quot;,
+ *           date     = &quot;$Date$&quot;)
  * public class ... {
  *  ...
  * }
@@ -45,22 +45,22 @@ import org.ppwcode.metainfo_I.License;
  *
  * @author    Jan Dockx
  */
-@Copyright("2007 - $Date: 2007-05-08 16:33:08 +0200 (Tue, 08 May 2007) $, PeopleWare n.v.")
+@Copyright("2007 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 857 $",
-         date     = "$Date: 2007-05-08 16:33:08 +0200 (Tue, 08 May 2007) $")
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 @Documented
 @Retention(RetentionPolicy.CLASS)
 @Target(ElementType.TYPE)
 public @interface SvnInfo {
 
   /**
-   * Source code revision. Fill out with &quot;$Revision: 857 $&quot;
+   * Source code revision. Fill out with &quot;$Revision$&quot;
    */
   String revision();
 
   /**
-   * Source code revision. Fill out with &quot;$Date: 2007-05-08 16:33:08 +0200 (Tue, 08 May 2007) $&quot;
+   * Source code revision. Fill out with &quot;$Date$&quot;
    */
   String date();
 

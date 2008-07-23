@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2007 - $Date: 2007-05-08 16:33:08 +0200 (Tue, 08 May 2007) $ by PeopleWare n.v..
+Copyright 2007 - $Date$ by PeopleWare n.v..
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -36,8 +36,8 @@ import org.ppwcode.metainfo_I.License;
  *
  * Usage pattern:
  * <pre>
- * ATCvsInfo(revision = &quot;$Revision: 857 $&quot;,
- *           date     = &quot;$Date: 2007-05-08 16:33:08 +0200 (Tue, 08 May 2007) $&quot;,
+ * ATCvsInfo(revision = &quot;$Revision$&quot;,
+ *           date     = &quot;$Date$&quot;,
  *           state    = &quot;$State$&quot;,
  *           tag      = &quot;$Name$&quot;)
  * public class ... {
@@ -47,26 +47,26 @@ import org.ppwcode.metainfo_I.License;
  *
  * @author    Jan Dockx
  */
-@Copyright("2007 - $Date: 2007-05-08 16:33:08 +0200 (Tue, 08 May 2007) $, PeopleWare n.v.")
+@Copyright("2007 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@CvsInfo(revision    = "$Revision: 857 $",
-         date        = "$Date: 2007-05-08 16:33:08 +0200 (Tue, 08 May 2007) $",
+@CvsInfo(revision    = "$Revision$",
+         date        = "$Date$",
          state       = "$State$",
          tag         = "$Name$")
-@SvnInfo(revision = "$Revision: 857 $",
-         date     = "$Date: 2007-05-08 16:33:08 +0200 (Tue, 08 May 2007) $")
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 @Documented
 @Retention(RetentionPolicy.CLASS)
 @Target(ElementType.TYPE)
 public @interface CvsInfo {
 
   /**
-   * Source code revision. Fill out with &quot;$Revision: 857 $&quot;
+   * Source code revision. Fill out with &quot;$Revision$&quot;
    */
   String revision();
 
   /**
-   * Source code revision. Fill out with &quot;$Date: 2007-05-08 16:33:08 +0200 (Tue, 08 May 2007) $&quot;
+   * Source code revision. Fill out with &quot;$Date$&quot;
    */
   String date();
 

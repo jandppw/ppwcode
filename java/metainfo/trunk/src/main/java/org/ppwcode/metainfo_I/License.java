@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2007 - $Date: 2008-03-15 18:07:05 +0100 (Sat, 15 Mar 2008) $ by PeopleWare n.v.
+Copyright 2007 - $Date$ by PeopleWare n.v.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -48,10 +48,10 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
  *
  * @author    Jan Dockx
  */
-@Copyright("2007 - $Date: 2008-03-15 18:07:05 +0100 (Sat, 15 Mar 2008) $, PeopleWare n.v.")
+@Copyright("2007 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 1082 $",
-         date     = "$Date: 2008-03-15 18:07:05 +0100 (Sat, 15 Mar 2008) $")
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 @Documented
 @Retention(RetentionPolicy.CLASS)
 @Target(ElementType.TYPE)
