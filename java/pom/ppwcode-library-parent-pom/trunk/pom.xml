@@ -97,6 +97,52 @@
   <description>A parent pom for ppwcode libaries.</description>
 
   <!-- DEVELOPERS & CONTRIBUTORS: OVERWRITE IN YOUR CHILD POM (we don't work for you :-) ) -->
+  <developers>
+    <developer>
+      <name>Jan Dockx</name>
+      <id>jandockx</id>
+      <email>jandockx@gmail.org</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <properties>
+        <aim>jandockx@mac.com</aim>
+        <skype>callto:jandockx</skype>
+      </properties>
+    </developer>
+    <developer>
+      <name>Ruben Vandeginste</name>
+      <id>ruben.vandeginste</id>
+      <email>ruben.vandeginste@gmail.com</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+  </developers>
+  <contributors>
+    <contributor>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <timezone>+1</timezone>
+    </contributor>
+    <contributor>
+      <organization>AristA vzw</organization>
+      <organizationUrl>http://www.arista.be/</organizationUrl>
+      <timezone>+1</timezone>
+    </contributor>
+    <contributor>
+      <organization>HDP vzw</organization>
+      <organizationUrl>http://www.hdp.be/</organizationUrl>
+      <timezone>+1</timezone>
+    </contributor>
+  </contributors>
 
   <properties>
 
