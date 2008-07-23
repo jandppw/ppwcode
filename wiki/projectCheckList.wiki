@@ -114,7 +114,7 @@ public class _MyClass_ ...
 = Before you release =
 
   * All `MUDO`'s *must* be resolved
-    * If a `MUDO` is not resolved, it *must* be changed to a `TODO`
+    * If a `MUDO` is not resolved, it *must* be changed to a `TODO` (and if that is possible, it means that it wasn't a `MUDO` to begin with)
   * All `TODO`'s _should_ be resolved
 
 
