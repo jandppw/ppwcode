@@ -5,14 +5,11 @@
 
   <properties>
     <title>Changes to ppwcode metainfo</title>
-    <author email="David_Van_Keer@peopleware.be">David Van Keer</author>
     <author email="Jan_Dockx@peopleware.be">Jan Dockx</author>
-    <author email="Nele_Smeets@peopleware.be">Nele Smeets</author>
-    <author email="Wim_Lambrechts@peopleware.be">Wim Lambrechts</author>
   </properties>
   <body>
 
-    <release version="VI v1.0.0/1.0" date="MUDO"
+    <release version="I v1.0" date="MUDO"
       description="first version">
     </release>
 
