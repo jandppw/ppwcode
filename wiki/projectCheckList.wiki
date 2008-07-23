@@ -80,28 +80,28 @@ limitations under the License.
 }}}
   Furthermore, the following annotations *must* be added to each class, to carry the copyright and license information into the class file:
 {{{
-@Copyright("2007 - $Date$, PeopleWare n.v.")
+@Copyright("[inceptionYear] - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
 public class _MyClass_ ...
 }}}
   For properties files, you *must* use the following comment at the top of the file (line 1):
 {{{
-# Copyright 2004 - $Date: 2007/11/13 13:46:02 $ by PeopleWare n.v.
+# Copyright [inceptionYear] - $Date$ by PeopleWare n.v.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
 #         http://www.apache.org/licenses/LICENSE-2.0
-
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# $Date: 2007/11/13 13:46:02 $
-# $Revision: 1.12 $
+# $Date$
+# $Revision$
 # $HeadURL$
 }}}
   For XML files, you *must* use the following comment:
