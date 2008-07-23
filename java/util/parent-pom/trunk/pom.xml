@@ -26,8 +26,6 @@
   <!-- NOTE: you probably have to give Maven more memory:
              export MAVEN_OPTS=-Xmx1024M -->
 
-  <!-- MUDO add version nr (spec / impl) to manifest -->
-
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
