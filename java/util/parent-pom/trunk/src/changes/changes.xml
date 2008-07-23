@@ -1,0 +1,15 @@
+<document>
+  <!-- see http://maven.apache.org/plugins/maven-changes-plugin/usage.html -->
+  <properties>
+    <title>Version history of ppwcode util parent POM</title>
+    <author email="jandockx@gmail.com">Jan Dockx</author>
+  </properties>
+  <body>
+    <release version="1.0" date="2008-07-??" description="First release">
+      <action dev="jand" type="add">
+        First version, based on Beedraz parent pom
+        (http://www.beedraz.org/projects/parent/pom/) 1.0.0, snapshot.
+      </action>
+    </release>
+  </body>
+</document>
