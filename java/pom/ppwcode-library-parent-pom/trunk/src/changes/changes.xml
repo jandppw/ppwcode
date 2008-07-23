@@ -1,7 +1,7 @@
 <document>
   <!-- see http://maven.apache.org/plugins/maven-changes-plugin/usage.html -->
   <properties>
-    <title>Version history of ppwcode Root POM</title>
+    <title>Version history of ppwcode ppwcode library parent POM</title>
     <author email="jandockx@gmail.com">Jan Dockx</author>
   </properties>
   <body>
