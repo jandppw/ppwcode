@@ -93,3 +93,4 @@ public class _MyClass_ ...
 }}}
  * The `[inceptionYear]` *must* be the year the particular project has started, not the ppwcode project as a whole (2008) or the original ppw-libraries project (2004)
   * A CLA *must* be in the possession of PeopleWare for all developers and contributors found in the POM and in the Subversion history.
+  * For Java artifacts (jar, ear, war, ...) the `LICENSE` and `NOTICE` files should be copied into `META-INF`.
