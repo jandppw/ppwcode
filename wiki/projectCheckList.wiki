@@ -25,7 +25,9 @@ Projects should be clean and neat, certainly before they are released. But what 
   * All projects should have a LICENSE.txt file in their root. A copy of this file can be found in the root of the repo or at http://www.apache.org/licenses/LICENSE-2.0.txt.
   * All projects should have a NOTICE.txt file in their root, covering attributions. An example of a notice file can be found at http://www.apache.org/licenses/example-NOTICE.txt. Sadly, this highly overlaps with the developers and contributers section of the Maven 2 POM. The following text might suffice:
 {{{
-This product is developed by PeopleWare n.v. and partners. The developers and contributors are mentioned exhaustively in the file pom.xml and at the project documentation site (Project Team).
+This product is developed by PeopleWare n.v. and partners.
+The developers and contributors are mentioned exhaustively in the file pom.xml
+and at the project documentation site (Project Team).
 }}}
   * The following notice should appear in *every text file of the project*:
 {{{
