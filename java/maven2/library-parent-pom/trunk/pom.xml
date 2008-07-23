@@ -476,6 +476,19 @@
            </goals>
           </execution>
         </executions>
+        <configuration>
+        	<archive>
+        		<manifestEntries>
+        			<Implementation-Title>${pom.artifactId}</Implementation-Title>
+        			<Implementation-Version>${pom.version}</Implementation-Version>
+        			<Implementation-Vendor-Id>${pom.groupId}</Implementation-Vendor-Id>
+        			<Implementation-Vendor>${pom.organization.name}</Implementation-Vendor>
+        			<Specification-Title>${pom.artifactId}</Specification-Title>
+        			<Specification-Version>${pom.version}</Specification-Version>
+        			<Specification-Vendor>${pom.organization.name}</Specification-Vendor>
+        		</manifestEntries>
+        	</archive>
+        </configuration>
       </plugin>
 
        <plugin>
