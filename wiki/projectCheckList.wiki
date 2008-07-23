@@ -8,28 +8,28 @@ Projects should be clean and neat, certainly before they are released. But what 
 
 = Subversion =
 
-  * At the top level, there should be svn:ignore svn properties set for
+  * At the top level, there *must* be svn:ignore svn properties set for
     * eclipse project files (`.project`, `.classpath`, `.settings`)
     * the Maven 2 `target` directory
 
 
 = Maven 2=
 
-  * Projects should have a Maven 2 POM
-  * The POM should contain all relevant developer and contributor information, which is probably a delta with its parent pom
+  * Projects _should_ have a Maven 2 POM
+  * The POM *must* contain all relevant developer and contributor information, which is probably a delta with its parent pom
 
 
 = LIcense =
 
-  * All projects are released under the Apache License v2
-  * All projects should have a LICENSE.txt file in their root. A copy of this file can be found in the root of the repo or at http://www.apache.org/licenses/LICENSE-2.0.txt.
-  * All projects should have a NOTICE.txt file in their root, covering attributions. An example of a notice file can be found at http://www.apache.org/licenses/example-NOTICE.txt. Sadly, this highly overlaps with the developers and contributers section of the Maven 2 POM. The following text might suffice:
+  * All projects *must* be released under the Apache License v2
+  * All projects *must* have a LICENSE.txt file in their root. A copy of this file can be found in the root of the repo or at http://www.apache.org/licenses/LICENSE-2.0.txt.
+  * All projects _should_ have a NOTICE.txt file in their root, covering attributions. An example of a notice file can be found at http://www.apache.org/licenses/example-NOTICE.txt. Sadly, this highly overlaps with the developers and contributers section of the Maven 2 POM. The following text might suffice:
 {{{
 This product is developed by PeopleWare n.v. and partners.
 The developers and contributors are mentioned exhaustively in the file pom.xml
 and at the project documentation site (Project Team).
 }}}
-  * The following notice should appear in *every text file of the project*:
+  * The following notice *must* appear in *every text file of the project*:
 {{{
    Copyright [inceptionYear] PeopleWare n.v.
 
@@ -45,7 +45,7 @@ and at the project documentation site (Project Team).
    See the License for the specific language governing permissions and
    limitations under the License.
 }}}
-  For Java files, we use the following mantra, at the top of the file (line 1):
+  For Java files, you *must* the following mantra, at the top of the file (line 1):
 {{{
 /*<license>
 Copyright [inceptionYear] - $Date$ by PeopleWare n.v..
@@ -63,13 +63,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 }}}
-  Furthermore, the following annotations are added to each class, to carry the copyright and license information into the class file:
+  Furthermore, the following annotations *must* be added to each class, to carry the copyright and license information into the class file:
 {{{
 @Copyright("2007 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
 public class _MyClass_ ...
 }}}
-  For XML files, use the following comment:
+  For XML files, you *must* use the following comment:
 {{{
   <!--
   $Date$
@@ -91,5 +91,5 @@ public class _MyClass_ ...
   limitations under the License.
   -->
 }}}
- * The `[inceptionYear]` should be the year the particular project has started, not the ppwcode project as a whole (2008) or the original ppw-libraries project (2004)
-  * A CLA should be in the possession of PeopleWare for all developers and contributors found in the POM and in the Subversion history.
+ * The `[inceptionYear]` *must* be the year the particular project has started, not the ppwcode project as a whole (2008) or the original ppw-libraries project (2004)
+  * A CLA *must* be in the possession of PeopleWare for all developers and contributors found in the POM and in the Subversion history.
