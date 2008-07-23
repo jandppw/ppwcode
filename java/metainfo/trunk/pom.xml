@@ -62,6 +62,59 @@
   <name>ppwcode metainfo</name>
   <description>Annotations for adding meta information to Java code, and transporting it into the class files and runtime.</description>
 
+  <!-- DEVELOPERS & CONTRIBUTORS: OVERWRITE IN YOUR CHILD POM (we don't work for you :-) ) -->
+  <developers>
+    <developer>
+      <name>Jan Dockx</name>
+      <id>jandockx</id>
+      <email>jandockx@gmail.org</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <properties>
+        <aim>jandockx@mac.com</aim>
+        <skype>callto:jandockx</skype>
+      </properties>
+    </developer>
+    <developer>
+      <name>Ruben Vandeginste</name>
+      <id>ruben.vandeginste</id>
+      <email>ruben.vandeginste@gmail.com</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+  </developers>
+  <contributors>
+    <contributor>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <timezone>+1</timezone>
+    </contributor>
+    <contributor>
+      <organization>AristA vzw</organization>
+      <organizationUrl>http://www.arista.be/</organizationUrl>
+      <timezone>+1</timezone>
+    </contributor>
+    <contributor>
+      <organization>HDP vzw</organization>
+      <organizationUrl>http://www.hdp.be/</organizationUrl>
+      <timezone>+1</timezone>
+    </contributor>
+    <contributor>
+      <organization>BioGazelle n.v.</organization>
+      <organizationUrl>http://www.biogazelle.com/</organizationUrl>
+      <timezone>+1</timezone>
+    </contributor>
+  </contributors>
+
   <!-- MAGIC MANTRA -->
   <!-- The following entries need to be repeated, and can not sensibly be inherited.
        The reason is, sadly, that Maven 2 has a built in, undocumented "feature" that appends the artifact id to a number of URL's and paths
