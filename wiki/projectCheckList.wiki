@@ -111,6 +111,10 @@ public class _MyClass_ ...
   * For Java artifacts (jar, ear, war, ...) the `LICENSE` and `NOTICE` files *must* be copied into `META-INF`.
 
 
+= Documentation =
+
+  * For Java projects, there *must* be an `overview.html`, and there _should_ be a `package.html` for each package.
+
 = Before you release =
 
   * All `MUDO`'s *must* be resolved
