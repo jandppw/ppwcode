@@ -16,4 +16,11 @@ Projects should be clean and neat, certainly before they are released. But what 
 = Maven 2=
 
   * Projects should have a Maven 2 POM
-  * The POM should contain all relevant developer and contributor information
+  * The POM should contain all relevant developer and contributor information, which is probably a delta with its parent pom
+
+
+= LIcense =
+
+  * All projects are released under the Apache License v2
+  * All projects should have a LICENSE.txt file in their root. A copy of this file can be found in the root of the repo or at http://www.apache.org/licenses/LICENSE-2.0.txt.
+  * A CLA should be in the possession of PeopleWare for all developers and contributors found in the POM and in the Subversion history.
