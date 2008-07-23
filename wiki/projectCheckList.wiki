@@ -22,8 +22,8 @@ Projects should be clean and neat, certainly before they are released. But what 
 = LIcense =
 
   * All projects *must* be released under the Apache License v2
-  * All projects *must* have a LICENSE.txt file in their root. A copy of this file can be found in the root of the repo or at http://www.apache.org/licenses/LICENSE-2.0.txt.
-  * All projects _should_ have a NOTICE.txt file in their root, covering attributions. An example of a notice file can be found at http://www.apache.org/licenses/example-NOTICE.txt. Sadly, this highly overlaps with the developers and contributers section of the Maven 2 POM. The following text might suffice:
+  * All projects *must* have a `LICENSE` file in their root. A copy of this file can be found in the root of the repo or at http://www.apache.org/licenses/LICENSE-2.0.txt.
+  * All projects _should_ have a `NOTICE` file in their root, covering attributions. An example of a notice file can be found at http://www.apache.org/licenses/example-NOTICE.txt. Sadly, this highly overlaps with the developers and contributers section of the Maven 2 POM. The following text might suffice:
 {{{
 This product is developed by PeopleWare n.v. and partners.
 The developers and contributors are mentioned exhaustively in the file pom.xml
