@@ -165,6 +165,11 @@
   </developers>
   <contributors>
     <contributor>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <timezone>+1</timezone>
+    </contributor>
+    <contributor>
       <organization>AristA vzw</organization>
       <organizationUrl>http://www.arista.be/</organizationUrl>
       <timezone>+1</timezone>
