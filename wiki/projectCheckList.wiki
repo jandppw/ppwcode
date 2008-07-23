@@ -11,7 +11,7 @@ Projects should be clean and neat, certainly before they are released. But what 
   * At the top level, there *must* be svn:ignore svn properties set for
     * eclipse project files (`.project`, `.classpath`, `.settings`)
     * the Maven 2 `target` directory
-  * All text files should have keyword substitution enabled for `$Date$`, `$Revision$` and `$HeadURL$`.
+  * All text files *must* have keyword substitution enabled for `$Date$`, `$Revision$` and `$HeadURL$`.
 
 
 = Maven 2=
@@ -92,6 +92,6 @@ public class _MyClass_ ...
   limitations under the License.
   -->
 }}}
- * The `[inceptionYear]` *must* be the year the particular project has started, not the ppwcode project as a whole (2008) or the original ppw-libraries project (2004)
+  * The `[inceptionYear]` *must* be the year the particular project has started, not the ppwcode project as a whole (2008) or the original ppw-libraries project (2004)
   * A CLA *must* be in the possession of PeopleWare for all developers and contributors found in the POM and in the Subversion history.
   * For Java artifacts (jar, ear, war, ...) the `LICENSE` and `NOTICE` files should be copied into `META-INF`.
