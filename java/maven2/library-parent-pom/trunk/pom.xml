@@ -153,6 +153,14 @@
     </developer>
   </developers>
   <contributors>
+    <contributor>
+      <organization>AristA vzw</organization>
+      <organizationUrl>http://www.arista.be/</organizationUrl>
+    </contributor>
+    <contributor>
+      <organization>HDP vzw</organization>
+      <organizationUrl>http://www.hdp.be/</organizationUrl>
+    </contributor>
   </contributors>
 
   <!-- REPOSITORIES: ADD REPOSITORIES NEEDED FOR YOUR PROJECT IN THE CHILD POM -->
