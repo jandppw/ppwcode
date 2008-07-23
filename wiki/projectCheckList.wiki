@@ -18,6 +18,7 @@ Projects should be clean and neat, certainly before they are released. But what 
 
   * Projects _should_ have a Maven 2 POM
   * The POM *must* contain all relevant developer and contributor information, which is probably a delta with its parent pom
+  * For Java artifacts (jar, ear, war, ...) the POM *must* be copied into `META-INF`.
 
 
 = LIcense =
