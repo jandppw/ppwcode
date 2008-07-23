@@ -59,6 +59,7 @@
   <packaging>jar</packaging>
   <name>ppwcode metainfo</name>
   <description>Annotations for adding meta information to Java code, and transporting it into the class files and runtime.</description>
+  <inceptionYear>2007</inceptionYear>
 
   <!-- DEVELOPERS & CONTRIBUTORS: OVERWRITE IN YOUR CHILD POM (we don't work for you :-) ) -->
   <developers>
