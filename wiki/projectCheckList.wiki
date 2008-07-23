@@ -14,11 +14,23 @@ Projects should be clean and neat, certainly before they are released. But what 
   * All text files *must* have keyword substitution enabled for `$Date$`, `$Revision$` and `$HeadURL$`.
 
 
-= Maven 2=
+= Maven 2 =
 
   * Projects _should_ have a Maven 2 POM
   * The POM *must* contain all relevant developer and contributor information, which is probably a delta with its parent pom
   * For Java artifacts (jar, ear, war, ...) the POM *must* be copied into `META-INF`.
+
+
+= Changes =
+
+  * All projects *must* keep a changes file, that documents the changes from version to version. There is no separate release notes document. The changes file is part of the Maven 2 documentation site, and is built from src/changes/changes.xml
+
+
+= Dependencies =
+ 
+  * ppwcode projects may never contain dependencies directly. The Maven 2 dependencies mechanism *must* be used for dependencies
+  * Dependencies in the Maven 2 POM *must* not be too strict. Use the `scope` attribute as intended.
+  * Dependencies in the Maven 2 POM _should_ not have a version. Versions for dependencies should be listed in the `depedencyManagement` section of a parent POM. In the case of Java ppwcode projects, this is done in the `ppwcode-ppwcode-library-parent-pom`.
 
 
 = LIcense =
