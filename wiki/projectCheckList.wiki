@@ -25,7 +25,7 @@ Projects should be clean and neat, certainly before they are released. But what 
   * All projects should have a LICENSE.txt file in their root. A copy of this file can be found in the root of the repo or at http://www.apache.org/licenses/LICENSE-2.0.txt.
   * The following notice should appear in *every text file of the project*:
 {{{
-   Copyright [inceptionYear] PeopleWare n.v.
+   Copyright_[inceptionYear]_ PeopleWare n.v.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -39,5 +39,29 @@ Projects should be clean and neat, certainly before they are released. But what 
    See the License for the specific language governing permissions and
    limitations under the License.
 }}}
- * The inceptionYear should be the year the particular project has started, not the ppwcode project as a whole (2008) or the original ppw-libraries project (2004)
+  For Java files, we use the following mantra, at the top of the file (line 1):
+{{{
+/*<license>
+Copyright _inceptionYear_ - $Date$ by PeopleWare n.v..
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</license>*/
+}}}
+  Furthermore, the following annotations are added to each class, to carry the copyright and license information into the class file:
+{{{
+@Copyright("2007 - $Date: 2008-07-02 11:36:19 +0200 (Wed, 02 Jul 2008) $, PeopleWare n.v.")
+@License(APACHE_V2)
+*public class _MyClass_ ...
+}}}
+ * The _[inceptionYear]_ should be the year the particular project has started, not the ppwcode project as a whole (2008) or the original ppw-libraries project (2004)
   * A CLA should be in the possession of PeopleWare for all developers and contributors found in the POM and in the Subversion history.
