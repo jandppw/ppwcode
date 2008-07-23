@@ -31,7 +31,7 @@ Projects should be clean and neat, certainly before they are released. But what 
  
   * ppwcode projects may never contain dependencies directly. The Maven 2 dependencies mechanism *must* be used for dependencies
   * Dependencies in the Maven 2 POM *must* not be too strict. Use the `scope` attribute as intended.
-  * Dependencies in the Maven 2 POM _should_ not have a version. Versions for dependencies should be listed in the `depedencyManagement` section of a parent POM. In the case of Java ppwcode projects, this is done in the `ppwcode-ppwcode-library-parent-pom`.
+  * Dependencies in the Maven 2 POM _should_ not have a version (there are exceptions). Versions for dependencies should be listed in the `depedencyManagement` section of a parent POM. In the case of Java ppwcode projects, this is done in the `ppwcode-ppwcode-library-parent-pom`.
 
 
 = LIcense =
