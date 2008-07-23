@@ -11,7 +11,7 @@ Projects should be clean and neat, certainly before they are released. But what 
   * At the top level, there *must* be svn:ignore svn properties set for
     * eclipse project files (`.project`, `.classpath`, `.settings`)
     * the Maven 2 `target` directory
-  * All text files should have keyword substitution enabled for $Date$, $Revision$ and $HeadURL$.
+  * All text files should have keyword substitution enabled for `$Date$`, `$Revision$` and `$HeadURL$`.
 
 
 = Maven 2=
