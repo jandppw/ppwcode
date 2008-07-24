@@ -141,7 +141,7 @@ public class _MyClass_ ...
     * If a `MUDO` is not resolved, it *must* be changed to a `TODO` (and if that is possible, it means that it wasn't a `MUDO` to begin with)
   * All `TODO`'s _should_ be resolved
   * For Java projects, the Checkstyle report (with the ppwcode settings) _should_ be empty.
-  * The project should be mentioned in the Issue labels (so that people can post issues against it). This list is edited in the Administration / Issues section of Google Code.
+  * The project *must* be listed in the Issue labels (so that people can post issues against it). This list is edited in the Administration / Issues section of Google Code.
 
 = Releases =
 
