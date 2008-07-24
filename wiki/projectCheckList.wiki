@@ -86,6 +86,8 @@ limitations under the License.
          date     = "$Date$")
 public class _MyClass_ ...
 }}}
+  It is not necessary to add the `HeadURL` keyword to Java files: a Java source file can easily be identified by the package and class name.
+
   For properties files, you *must* use the following comment at the top of the file (line 1):
 {{{
 # Copyright [inceptionYear] - $Date$ by PeopleWare n.v.
