@@ -82,6 +82,8 @@ limitations under the License.
 {{{
 @Copyright("[inceptionYear] - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
+@SvnInfo(revision = "$Revision$",
+                 date     = "$Date$")
 public class _MyClass_ ...
 }}}
   For properties files, you *must* use the following comment at the top of the file (line 1):
