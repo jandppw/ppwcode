@@ -107,10 +107,6 @@ public class _MyClass_ ...
   For XML files, you *must* use the following comment:
 {{{
   <!--
-  $Date$
-  $Revision$
-  $HeadURL$
-
   Copyright [inceptionYear] - $Date$ by PeopleWare n.v.
 
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -124,6 +120,10 @@ public class _MyClass_ ...
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
+
+  $Date$
+  $Revision$
+  $HeadURL$
   -->
 }}}
   * The `[inceptionYear]` *must* be the year the particular project has started, not the ppwcode project as a whole (2008) or the original ppw-libraries project (2004)
