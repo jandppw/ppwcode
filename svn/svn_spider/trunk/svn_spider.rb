@@ -42,9 +42,15 @@ SVN_SPIDER_REVISION = revision.split[1].strip
 #   this is kept simple on purpose
 @@log_msg =  "svn_spider [r#{SVN_SPIDER_REVISION}]\n\n"
 
+# file locations
+@@file_locations = {
+  "mime_type_registry.txt" => File.join(File.dirname(__FILE__), "mime_type_registry.txt"),
+  "config.rb" => File.join(File.dirname(__FILE__), "config.rb")
+}
+
 # initialize mime registry
 mime_type_registry = Hash.new
-File.readlines("mime_type_registry.txt").map{|l| l.split.map{|e| e.strip}}.each{|l| mime_type_registry[l[0]]=l[1]}
+File.readlines(@@file_locations["mime_type_registry.txt"]).map{|l| l.split.map{|e| e.strip}}.each{|l| mime_type_registry[l[0]]=l[1]}
 
 # load config + initialization
 @@mime_types = {}
@@ -52,7 +58,7 @@ File.readlines("mime_type_registry.txt").map{|l| l.split.map{|e| e.strip}}.each{
 @@repositories = {}
 @@credentials = {}
 @@working_directory = ""
-load "config.rb"
+load @@file_locations["config.rb"]
 @@mime_types.each_pair do |key, val|
   mime_type_registry[key] = val
 end
