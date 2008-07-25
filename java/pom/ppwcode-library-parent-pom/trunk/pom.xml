@@ -159,6 +159,9 @@
          For this pom, an empty mark version is used, which results in "double slash in paths", which works. -->
     <ppwcode.markVersion></ppwcode.markVersion>
 
+    <!-- File describing the project's license template, which must be defined in each text file in your project.
+         ppwcode libraries must all carry apache license 2.0 headers -->
+    <ppwcode.checkstyle.headerLocation>ppwcode_apache_2_0_license.regex</ppwcode.checkstyle.headerLocation>
 
     <!-- INHERITED SETTINGS -->
     <!-- The root of project sites for external readers (ppwcode.mainUrl) and the root where artifacts and
@@ -229,8 +232,7 @@
     </site>
   </distributionManagement>
 
-
-
+  
   <!-- ============================================================================================================ -->
   <!-- ALL THINGS BELOW THIS MARK SHOULD BE CONSIDERED PART OF THE PARENT POM, AND NOT BE OVERWRITTEN IN CHILD POMS -->
 
