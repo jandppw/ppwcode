@@ -21,7 +21,7 @@
      $HeadURL$
 -->
 
-  
+
   <!-- TODO what is this?
   <metadata name="com.atlas-sw.eclipse" value="I like Sydney" />
   -->
@@ -31,7 +31,7 @@
 
   <property name="severity" value="error" />
 
-  <!-- 
+  <!--
   <module name="SuppressionFilter">
     <property name="file" value="${checkstyle.suppressions.file}" />
   </module>
@@ -39,8 +39,8 @@
 
   <!-- File Header -->
   <module name="CrossLanguageRegexpHeader">
-  	<property name="headerFile" value="${checkstyle.header.file}" />
-  	<property name="multiLines" value="1, 2, 3" />
+    <property name="headerFile" value="${checkstyle.header.file}" />
+    <property name="multiLines" value="1, 2, 3" />
   </module>
 
   <module name="PackageHtml" />
@@ -349,30 +349,5 @@
       -->
 
   </module>
-
-  <!--
-  <document-info>
-    This file is part of the General PeopleWare Java Support project.
-    <authors>
-      <author>Jan Dockx</author>
-      <author>Tom Mahieu</author>
-      <author>PeopleWare n.v.</author>
-    </authors>
-    <cvs>
-      <path>$Source$</path>
-      <revision>$Revision: 33 $</revision>
-      <date>$Date: 2004-10-15 16:51:48 +0200 (Fri, 15 Oct 2004) $ (UTC)</date>
-      <state>$State$</state>
-      <release>$Name$</release>
-    </cvs>
-    <copyright xml:lang="en-US">
-      <creationdate>2004</creationdate>
-      <lastmodifieddate>$Date: 2004-10-15 16:51:48 +0200 (Fri, 15 Oct 2004) $ (UTC)</lastmodifieddate>
-      <p xml:lang="nl-BE">Dit document is auteursrechtelijk beschermd.</p>
-      <p xml:lang="en-US">This document is copyrighted by the people and
-                          entities mentioned above in the <author> tag.</p>
-    </copyright>
-  </document-info>
-  -->
 
 </module>
