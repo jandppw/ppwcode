@@ -1,3 +1,32 @@
 This product is developed by PeopleWare n.v. and partners.
-The developers and contributors are mentioned exhaustively in the source
-and at the project documentation site (Project Team).
+
+The developers and contributors of svn_spider are mentioned
+exhaustively in the source and at the project documentation site
+(Project Team).
+
+
+
+The mime-type list compiled in mime_type_registry.txt, is based on 2
+sources: the mime.types file from the mime-support package in Debian,
+and the mime_types.yml file from Mongrel.
+
+
+The mime-support package, version 3.44-1 in Debian, carries the
+following copyright notice:
+
+<---
+  This is the Debian Linux "Mime-Support" package.
+
+  This package was written by Brian White <bcwhite@pobox.com> and
+  contains public information compiled from around the 'net and many
+  people.
+
+  The "update-mime" program was written by Brian White and has been
+  placed in the public domain.
+--->
+
+
+The mime_types.yml file in Mongrel is based on the following Wiki
+page: http://wiki.rubyonrails.org/rails/pages/TheGnosticMimeTypes
+Mongrel is originally written by Zed A. Shaw and is licensed under the
+Ruby license.
