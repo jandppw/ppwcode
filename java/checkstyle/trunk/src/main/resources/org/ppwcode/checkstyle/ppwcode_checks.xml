@@ -296,7 +296,10 @@
       <property name="allowUndeclaredRTE" value="false" />
       <property name="allowThrowsTagsForSubclasses" value="true" />
       <property name="allowMissingParamTags" value="true" />
+      <property name="allowMissingThrowsTags" value="true" />
       <property name="allowMissingReturnTag" value="true" />
+      <property name="allowMissingJavadoc" value="true" />
+        <!-- either JavaDoc or a contract; sadly, there is no check for that yet -->
     </module>
     <module name="JavadocVariable">
       <property name="scope" value="private" />
