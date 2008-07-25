@@ -1,0 +1,986 @@
+%	application/x-trash
+123	application/vnd.lotus-1-2-3
+323	text/h323
+3ds	image/x-3ds
+3g2	video/x-3gpp2
+3gp	video/3gpp
+669	audio/x-mod
+7z	application/x-7z-compressed
+a	application/x-archive	application/octet-stream
+aac	audio/x-aac
+abc	text/vnd.abc
+abw	application/x-abiword
+abw.crashed	application/x-abiword
+abw.gz	application/x-abiword
+ac3	audio/ac3
+acgi	text/html
+adb	text/x-adasrc
+ads	text/x-adasrc
+afl	video/animaflex
+afm	application/x-font-afm
+ag	image/x-applix-graphics
+ai	application/illustrator application/postscript
+aif	audio/x-aiff	audio/aiff
+aifc	audio/x-aiff	audio/aiff
+aiff	audio/x-aiff	audio/aiff
+aip	text/x-audiosoft-intra
+al	application/x-perl
+alc	chemical/x-alchemy
+amr	audio/amr
+ani	application/x-navi-animation
+anim1	video/x-anim
+anim2	video/x-anim
+anim3	video/x-anim
+anim4	video/x-anim
+anim5	video/x-anim
+anim6	video/x-anim
+anim7	video/x-anim
+anim8	video/x-anim
+anim9	video/x-anim
+animj	video/x-anim
+anx	application/annodex
+aop	application/x-frontline
+aps	application/mime
+arc	application/octet-stream
+arj	application/x-arj	application/octet-stream
+art	image/x-jg
+as	application/x-applix-spreadsheet
+asax	application/x-asax
+asc	text/plain
+ascx	application/x-ascx
+asf	video/x-ms-asf
+ashx	application/x-ashx
+asix	application/x-asix
+asm	text/x-asm
+asmx	application/x-asmx
+asn	chemical/x-ncbi-asn1	chemical/x-ncbi-asn1-spec
+aso	chemical/x-ncbi-asn1-binary
+asp	application/x-asp	text/asp
+asr	video/x-ms-asf
+asx	video/x-ms-asf
+atom	application/atom+xml
+atomcat	application/atomcat+xml
+atomsrv	application/atomserv+xml
+au	audio/x-au	audio/basic
+avi	video/avi	video/x-msvideo
+avs	video/avs-video
+aw	application/x-applix-word
+awb	audio/amr-wb
+axa	audio/annodex
+axd	application/x-axd
+axs	application/olescript
+axv	video/annodex
+b	chemical/x-molconn-Z
+bak	application/x-trash
+bas	text/plain
+bat	application/x-msdos-program
+bay	image/x-dcraw
+bcpio	application/x-bcpio
+bdf	application/x-font-bdf
+bib	text/x-bibtex
+bin	application/octet-stream	application/x-stuffit
+blend	application/x-blender
+blender	application/x-blender
+bm	image/bmp
+bmp	image/bmp       image/x-ms-bmp
+bmq	image/x-dcraw
+boo	text/x-boo	application/book
+book	application/x-maker	application/book
+boz	application/x-bzip2
+brf	text/plain
+bsd	chemical/x-crossfire
+bsh	application/x-bsh
+bz	application/x-bzip
+bz2	application/x-bzip2
+c	text/x-csrc	text/plain
+c++	text/x-c++src
+c3d	chemical/x-chem3d
+cab	application/x-cab
+cac	chemical/x-cache
+cache	chemical/x-cache
+cap	application/cap
+cascii	chemical/x-cactvs-binary
+cat	application/vnd.ms-pki.seccat	application/octet-stream
+caves	application/x-gnome-stones
+cbin	chemical/x-cactvs-binary
+cbr	application/x-cbr
+cbz	application/x-cbz
+cc	text/x-c++src	text/plain
+ccad	application/clariscad
+cco	application/x-cocoa
+cda	application/x-cdf
+cdf	application/x-cdf	application/x-netcdf	application/cdf
+cdr	application/vnd.corel-draw	image/x-coreldraw
+cdt	image/x-coreldrawtemplate
+cdx	chemical/x-cdx
+cdy	application/vnd.cinderella
+cef	chemical/x-cxf
+cer	chemical/x-cerius	application/x-x509-ca-cert
+cert	application/x-x509-ca-cert
+cgi	application/x-cgi
+cgm	image/cgm
+cha	application/x-chat
+chat	application/x-chat
+chm	chemical/x-chemdraw	application/x-chm
+chrt	application/x-kchart
+cht	application/chemtool
+cif	chemical/x-cif
+class	application/x-java	application/java-vm	application/java	application/octet-stream
+clp	application/x-msclip
+cls	text/x-tex
+cmbx	application/x-cmbx
+cmdf	chemical/x-cmdf
+cml	chemical/x-cml
+cmx	image/x-cmx
+cod	application/vnd.rim.cod	image/cis-cod
+com	application/x-msdos-program	application/octet-stream	text/plain
+conf	text/plain
+config	application/x-config
+connection	application/x-gnome-db-connection
+cpa	chemical/x-compass
+cpio	application/x-cpio
+cpio.gz	application/x-cpio-compressed
+cpp	text/x-c++src	text/x-c
+cpt	image/x-corelphotopaint	application/x-cpt
+cr2	image/x-dcraw
+crd	application/x-mscardfile
+crl	application/x-pkcs7-crl	application/pkcs-crl	application/pkix-crl
+crt	application/x-x509-ca-cert
+crw	image/x-dcraw
+cs	text/x-csharp
+cs1	image/x-dcraw
+csf	chemical/x-cache-csf
+csh	application/x-csh	text/x-csh	text/x-script.csh
+csm	chemical/x-csml
+csml	chemical/x-csml
+css	text/css
+cssl	text/css
+csv	text/csv	text/x-comma-separated-values
+ctab	chemical/x-cactvs-binary
+ctx	chemical/x-ctx
+cu	application/cu-seeme
+cub	chemical/x-gaussian-cube
+cue	application/x-cue
+cur	image/x-win-bitmap
+cxf	chemical/x-cxf
+cxx	text/x-c++src	text/plain
+d	text/x-dsrc
+dat	application/x-ns-proxy-autoconfig	video/mpeg
+database	application/x-gnome-db-database
+davmount	application/davmount+xml
+dbf	application/x-dbase
+dc	application/x-dc-rom
+dc2	image/x-dcraw
+dcl	text/x-dcl
+dcm	application/dicom
+dcr	application/x-director	image/x-dcraw
+deb	application/x-debian-package	application/x-deb	application/octet-stream
+deepv	application/x-deepv
+def	text/plain
+der	application/x-x509-ca-cert
+desktop	application/x-desktop
+devhelp	application/x-devhelp
+dhh	application/david-heinemeier-hansson
+dia	application/x-dia-diagram
+dif	video/dv	video/x-dv
+diff	text/x-diff	text/x-patch
+dir	application/x-director
+disco	application/x-disco
+display	application/x-gdesklets-display
+djv	image/vnd.djvu
+djvu	image/vnd.djvu
+dl	video/dl
+dll	application/x-msdos-program	application/octet-stream
+dmg	application/x-apple-diskimage	application/octet-stream
+dms	application/x-dms	application/octet-stream
+doc	application/msword
+docbook	application/docbook+xml
+dot	application/msword
+dp	application/commonground
+drw	application/drafting
+dsl	text/x-dsl
+dtd	text/x-dtd
+dump	application/octet-stream
+dv	video/dv	video/x-dv
+dvi	application/x-dvi
+dwg	image/vnd.dwg	application/acad	image/x-dwg
+dx	chemical/x-jcamp-dx
+dxf	image/vnd.dxf	application/dxf	image/x-dwg
+dxr	application/x-director
+ear	application/x-java-archive	application/java-archive
+egon	application/x-egon
+el	text/x-emacs-lisp	text/x-script.elisp
+elc	application/x-bytecode.elisp	application/x-elc
+emb	chemical/x-embl-dl-nucleotide
+embl	chemical/x-embl-dl-nucleotide
+eml	message/rfc822
+ent	chemical/x-ncbi-asn1-ascii	chemical/x-pdb
+env	application/x-envoy
+eot	application/octet-stream
+eps	application/postscript	image/x-eps
+eps2	application/postscript
+eps3	application/postscript
+epsf	application/postscript	image/x-eps
+epsi	image/x-eps
+es	application/ecmascript	application/x-esrehber
+espi	application/postscript
+etheme	application/x-e-theme
+etx	text/x-setext
+evy	application/envoy	application/x-envoy
+exe	application/x-msdos-program	application/x-executable	application/x-ms-dos-executable	application/octet-stream
+ez	application/andrew-inset
+f	text/x-fortran
+f77	text/x-fortran
+f90	text/plain	text/x-fortran
+fb	application/x-maker
+fbdoc	application/x-maker
+fch	chemical/x-gaussian-checkpoint
+fchk	chemical/x-gaussian-checkpoint
+fdf	application/vnd.fdf
+fff	image/x-dcraw
+fif	application/fractals	image/fif
+fig	application/x-xfig	image/x-xfig
+fits	image/x-fits
+flac	audio/flac	audio/x-flac
+flc	video/x-flic
+fli	video/fli	video/x-flic	video/x-fli
+flo	image/florian
+flr	x-world/x-vrml
+flv	video/x-flv	application/flash-video
+flw	application/x-kivio
+flx	text/vnd.fmi.flexstor
+fm	application/x-maker
+fmf	video/x-atomic3d-feature
+fo	text/x-xslfo
+for	text/plain	text/x-fortran
+fpx	image/vnd.fpx	image/vnd.net-fpx
+frame	application/x-maker
+frl	application/freeloader
+frm	application/x-maker
+funk	audio/make
+g	text/plain
+g3	image/fax-g3	image/g3fax
+gal	chemical/x-gaussian-log
+gam	chemical/x-gamess-input
+gamin	chemical/x-gamess-input
+gau	chemical/x-gaussian-input
+gb	application/x-gameboy-rom
+gcd	text/x-pcs-gcd
+gcf	application/x-graphing-calculator
+gcg	chemical/x-gcg8-sequence
+gcrd	text/directory
+gen	chemical/x-genbank	application/x-genesis-rom
+gf	application/x-tex-gf
+gg	application/x-sms-rom
+gif	image/gif
+gjc	chemical/x-gaussian-input
+gjf	chemical/x-gaussian-input
+gl	video/gl	video/x-gl
+glabels	application/x-glabels
+glade	application/x-glade
+gmo	application/x-gettext-translation
+gnc	application/x-gnucash
+gnucash	application/x-gnucash
+gnumeric	application/x-gnumeric
+gpg	application/pgp-encrypted
+gpt	chemical/x-mopac-graph
+gra	application/x-graphite
+gsd	audio/x-gsm
+gsf	application/x-font	application/x-font-type1
+gsm	audio/x-gsm
+gsp	application/x-gsp
+gss	application/x-gss
+gtar	application/x-gtar
+gz	application/x-gzip	application/x-compressed
+gzip	application/x-gzip
+h	text/x-chdr	text/plain
+h++	text/x-c++hdr	text/x-chdr
+hdf	application/x-hdf
+help	application/x-helpfile
+hgl	application/vnd.hp-hpgl
+hh	text/x-c++hdr	text/plain
+hin	chemical/x-hin
+hlb	text/x-script
+hlp	application/hlp
+hp	text/x-chdr
+hpg	application/vnd.hp-hpgl
+hpgl	application/vnd.hp-hpgl
+hpp	text/x-c++hdr
+hqx	application/mac-binhex40	application/binhex
+hs	text/x-haskell
+hta	application/hta
+htc	text/x-component
+htm	text/html
+html	text/html
+htmls	text/html
+htt	text/webviewhtml
+htx	text/html
+hxx	text/x-c++hdr
+ica	application/x-ica
+icb	image/x-icb
+ice	x-conference/x-cooltalk
+ico	image/x-icon	image/x-ico
+ics	text/calendar
+icz	text/calendar
+idc	text/plain
+idl	text/x-idl
+ief	image/ief
+iefs	image/ief
+iff	image/x-iff
+iges	model/iges	application/iges
+igs	model/iges	application/iges
+iii	application/x-iphone
+il	text/x-msil
+ilbm	image/x-ilbm
+ima	application/x-ima
+imap	application/x-httpd-imap
+img	application/octet-stream
+inf	application/inf
+info	application/x-info
+inp	chemical/x-gamess-input
+ins	application/x-internet-signup	application/x-internett-signup
+ip	application/x-ip2
+iso	application/x-iso9660-image	application/x-cd-image	application/octet-stream
+isp	application/x-internet-signup
+ist	chemical/x-isostar
+istr	chemical/x-isostar
+isu	video/x-isvideo
+it	audio/x-it	audio/it
+iv	application/x-inventor
+ivr	i-world/i-vrml
+ivy	application/x-livescreen
+jad	text/vnd.sun.j2me.app-descriptor
+jam	application/x-jam	application/x-jamin	audio/x-jam
+jar	application/java-archive	application/x-jar	application/x-java-archive
+jardiff	application/x-java-archive-diff
+jav	text/plain	text/x-java-source
+java	text/x-java	text/plain	text/x-java-source
+jcm	application/x-java-commerce
+jdx	chemical/x-jcamp-dx
+jfif	image/jpeg	image/pipeg	image/pjpeg
+jfif-tbnl	image/jpeg
+jmz	application/x-jmol
+jng	image/x-jng
+jnlp	application/x-java-jnlp-file
+jp2	image/jpeg2000
+jpe	image/jpeg
+jpeg	image/jpeg
+jpg	image/jpeg
+jpr	application/x-jbuilder-project
+jps	image/x-jps
+jpx	application/x-jbuilder-project
+js	application/javascript	text/x-js	application/x-javascript	text/javascript
+jut	image/jutvision
+k	application/x-tex-pk
+k25	image/x-dcraw
+kar	audio/midi	music/x-karaoke
+karbon	application/x-karbon
+kdc	image/x-dcraw
+kdelnk	application/x-desktop
+key	application/pgp-keys
+kfo	application/x-kformula
+kil	application/x-killustrator
+kin	chemical/x-kinemage
+kino	application/x-smil
+kml	application/vnd.google-earth.kml+xml
+kmz	application/vnd.google-earth.kmz
+kon	application/x-kontour
+kpm	application/x-kpovmodeler
+kpr	application/x-kpresenter
+kpt	application/x-kpresenter
+kra	application/x-krita
+ksh	application/x-ksh	text/x-script.ksh
+ksp	application/x-kspread
+kud	application/x-kugar
+kwd	application/x-kword
+kwt	application/x-kword
+la	application/x-shared-library-la	audio/nspaudio	audio/x-nspaudio
+lam	audio/x-liveaudio
+latex	application/x-latex
+lha	application/x-lha	application/lha	application/octet-stream
+lhs	text/x-literate-haskell
+lhx	application/octet-stream
+lhz	application/x-lhz
+lin	application/bbolin
+list	text/plain
+lma	audio/nspaudio	audio/x-nspaudio
+log	text/x-log	text/plain
+lsf	video/x-la-asf
+lsp	application/x-lisp	text/x-script.lisp
+lst	text/plain
+lsx	video/x-la-asf	text/x-la-asf
+ltx	text/x-tex	application/x-latex
+lwo	image/x-lwo
+lwob	image/x-lwo
+lws	image/x-lws
+lyx	application/x-lyx
+lzh	application/x-lzh	application/x-lha	application/octet-stream
+lzo	application/x-lzop
+lzx	application/x-lzx	application/lzx	application/octet-stream
+m	text/x-objcsrc	text/x-m
+m13	application/x-msmediaview
+m14	application/x-msmediaview
+m15	audio/x-mod
+m1v	video/mpeg
+m2a	audio/mpeg
+m2v	video/mpeg
+m3g	application/m3g
+m3u	audio/mpegurl	audio/x-mpegurl
+m4a	audio/mpeg	audio/x-m4a
+maker	application/x-maker
+man	application/x-troff-man
+map	application/x-navimap
+mar	text/plain
+master	application/x-master-page
+mbd	application/mbedlet
+mc	application/x-magic-cap-package-1.0
+mcd	application/mcad	application/x-mathcad
+mcf	image/vasa	text/mcf
+mcif	chemical/x-mmcif
+mcm	chemical/x-macmolecule
+mcp	application/netmc
+md	application/x-genesis-rom
+mdb	application/msaccess	application/x-msaccess
+mdp	application/x-mdp
+mds	application/x-mds
+mdsx	application/x-mdsx
+me	application/x-troff-me	text/x-troff-me
+mergeant	application/x-mergeant
+mesh	model/mesh
+mgp	application/x-magicpoint
+mht	message/rfc822
+mhtml	message/rfc822
+mid	audio/midi	audio/mid	audio/x-mid	audio/x-midi
+midi	audio/midi	audio/x-mid	audio/x-midi
+mif	application/x-mif	application/x-frame
+mime	message/rfc822	www/mime
+mjf	audio/x-vnd.audioexplosion.mjuicemediafile
+mjpg	video/x-motion-jpeg
+mkv	application/x-matroska
+mm	application/x-freemind	text/x-troff-mm	application/base64	application/x-meme
+mmd	chemical/x-macromodel-input
+mme	application/base64
+mmf	application/vnd.smaf
+mml	text/mathml
+mmod	chemical/x-macromodel-input
+mng	video/x-mng
+moc	text/x-moc
+mod	audio/x-mod	audio/mod
+mol	chemical/x-mdl-molfile
+mol2	chemical/x-mol2
+moo	chemical/x-mopac-out
+moov	video/quicktime
+mop	chemical/x-mopac-input
+mopcrt	chemical/x-mopac-input
+mos	image/x-dcraw
+mov	video/quicktime
+movie	video/x-sgi-movie
+mp2	audio/mpeg	video/mpeg
+mp3	audio/mpeg
+mp4	video/mp4
+mpa	audio/mpeg
+mpc	chemical/x-mopac-input	application/x-project
+mpe	video/mpeg
+mpeg	video/mpeg
+mpega	audio/mpeg
+mpg	video/mpeg
+mpga	audio/mpeg
+mpp	application/vnd.ms-project
+mps	application/x-mps
+mpt	application/x-project
+mpv	video/x-matroska	application/x-project
+mpv2	video/mpeg
+mpx	application/x-project
+mrc	application/marc
+mrproject	application/x-planner
+mrw	image/x-dcraw
+ms	application/x-troff-ms	text/x-troff-ms
+msh	model/mesh
+msi	application/x-msi	application/octet-stream
+msm	application/octet-stream
+msod	image/x-msod
+msp	application/octet-stream
+msx	application/x-msx-rom
+mtm	audio/x-mod
+mv	video/x-sgi-movie
+mvb	chemical/x-mopac-vib	application/x-msmediaview
+mxu	video/vnd.mpegurl
+my	audio/make
+mzz	application/x-vnd.audioexplosion.mzz
+n	text/x-nemerle
+n64	application/x-n64-rom
+nap	image/naplps
+naplps	image/naplps
+nb	application/mathematica
+nbp	application/mathematica
+nc	application/x-netcdf
+ncm	application/vnd.nokia.configuration-message
+nef	image/x-dcraw
+nes	application/x-nes-rom
+nif	image/x-niff
+niff	image/x-niff
+nix	application/x-mix-transfer
+nsc	application/x-conference
+nsv	video/x-nsv
+nvd	application/x-navidoc
+nwc	application/x-nwc
+nws	message/rfc822
+o	application/x-object	application/octet-stream
+obj	application/x-tgif
+oda	application/oda
+odb	application/vnd.oasis.opendocument.database
+odc	application/vnd.oasis.opendocument.chart
+odf	application/vnd.oasis.opendocument.formula
+odg	application/vnd.oasis.opendocument.graphics
+odi	application/vnd.oasis.opendocument.image
+odm	application/vnd.oasis.opendocument.text-master
+odp	application/vnd.oasis.opendocument.presentation
+ods	application/vnd.oasis.opendocument.spreadsheet
+odt	application/vnd.oasis.opendocument.text
+oga	audio/ogg
+ogg	audio/ogg	application/ogg
+ogv	video/ogg
+ogx	application/ogg
+old	application/x-trash
+oleo	application/x-oleo
+omc	application/x-omc
+omcd	application/x-omcdatamaker
+omcr	application/x-omcregerator
+orf	image/x-dcraw
+otg	application/vnd.oasis.opendocument.graphics-template
+oth	application/vnd.oasis.opendocument.text-web
+otp	application/vnd.oasis.opendocument.presentation-template
+ots	application/vnd.oasis.opendocument.spreadsheet-template
+ott	application/vnd.oasis.opendocument.text-template
+oza	application/x-oz-application
+p	text/x-pascal
+p10	application/pkcs10	application/x-pkcs10
+p12	application/x-pkcs12	application/pkcs-12
+p7a	application/x-pkcs7-signature
+p7b	application/x-pkcs7-certificates
+p7c	application/pkcs7-mime	application/x-pkcs7-mime
+p7m	application/pkcs7-mime	application/x-pkcs7-mime
+p7r	application/x-pkcs7-certreqresp
+p7s	application/pkcs7-signature	application/x-pkcs7-signature
+pac	application/x-ns-proxy-autoconfig
+par2	application/x-par2
+part	application/pro_eng
+pas	text/x-pascal	text/pascal
+pat	image/x-coreldrawpattern
+patch	text/x-diff	text/x-patch
+pbm	image/x-portable-bitmap
+pcap	application/cap
+pcd	image/x-photo-cd
+pcf	application/x-font	application/x-font-pcf
+pcf.gz	application/x-font-pcf
+pcf.z	application/x-font	application/x-font-type1
+pcl	application/vnd.hp-pcl	application/x-pcl
+pct	image/x-pict
+pcx	image/pcx	image/x-pcx
+pdb	chemical/x-pdb	application/vnd.palm	application/x-palm-database	application/x-pilot
+pdf	application/pdf
+pef	image/x-dcraw
+pem	application/x-x509-ca-cert
+perl	application/x-perl
+pfa	application/x-font	application/x-font-type1
+pfb	application/x-font	application/x-font-type1
+pfunk	audio/make	audio/make.my.funk
+pfx	application/x-pkcs12
+pgm	image/x-portable-graymap	image/x-portable-greymap
+pgn	application/x-chess-pgn
+pgp	application/pgp-signature	application/pgp	application/pgp-encrypted
+php	application/x-httpd-php	application/x-php
+php3	application/x-httpd-php3	application/x-php
+php3p	application/x-httpd-php3-preprocessed
+php4	application/x-httpd-php4	application/x-php
+phps	application/x-httpd-php-source
+pht	application/x-httpd-php
+phtml	application/x-httpd-php
+pic	image/pict
+pict	image/x-pict	image/pict
+pict1	image/x-pict
+pict2	image/x-pict
+pk	application/x-tex-pk
+pkg	application/x-newton-compatible-pkg
+pko	application/vnd.ms-pki.pko	application/ynd.ms-pkipko
+pkr	application/pgp-keys
+pl	text/x-perl	application/x-perl	text/plain	text/x-script.perl
+planner	application/x-planner
+pln	application/x-planperfect
+pls	audio/x-scpls
+plx	application/x-pixclscript
+pm	text/x-perl	application/x-perl	image/x-xpixmap	text/x-script.perl-module
+pm4	application/x-pagemaker
+pm5	application/x-pagemaker
+pma	application/x-perfmon
+pmc	application/x-perfmon
+pml	application/x-perfmon
+pmr	application/x-perfmon
+pmw	application/x-perfmon
+png	image/png
+pnm	image/x-portable-anymap	application/x-portable-anymap
+po	text/x-gettext-translation
+pot	text/plain	application/vnd.ms-powerpoint	text/x-gettext-translation-template	application/mspowerpoint
+pov	model/x-pov
+ppa	application/vnd.ms-powerpoint
+ppm	image/x-portable-pixmap
+pps	application/vnd.ms-powerpoint	application/mspowerpoint
+ppt	application/vnd.ms-powerpoint	application/mspowerpoint
+ppz	application/vnd.ms-powerpoint	application/mspowerpoint
+prc	application/x-palm-database	application/x-pilot
+pre	application/x-freelance
+prf	application/pics-rules
+prj	application/x-anjuta-project
+prjx	application/x-prjx
+prt	chemical/x-ncbi-asn1-ascii	application/pro_eng
+ps	application/postscript
+ps.gz	application/x-gzpostscript
+psd	image/x-photoshop	image/x-psd	application/octet-stream
+psf	application/x-font-linux-psf
+psid	audio/prs.sid
+pto	application/x-ptoptimizer-script
+pub	application/x-mspublisher
+pvu	paleovu/x-pv
+pw	application/x-pw
+pwz	application/vnd.ms-powerpoint
+py	text/x-python	text/x-script.phyton
+pyc	application/x-python-code	application/x-python-bytecode	applicaiton/x-bytecode.python
+pyo	application/x-python-code	application/x-python-bytecode
+qcp	audio/vnd.qcelp
+qd3	x-world/x-3dmf
+qd3d	x-world/x-3dmf
+qgs	application/x-qgis
+qif	application/x-qw	image/x-quicktime
+qt	video/quicktime
+qtc	video/x-qtc
+qti	image/x-quicktime
+qtif	image/x-quicktime
+qtl	application/x-quicktimeplayer
+qtvr	video/quicktime
+ra	audio/x-pn-realaudio	audio/x-realaudio	audio/vnd.rn-realaudio	audio/x-pn-realaudio-plugin
+raf	image/x-dcraw
+ram	audio/x-pn-realaudio
+rar	application/rar	application/x-rar	application/x-rar-compressed
+ras	image/x-cmu-raster	application/x-cmu-raster	image/cmu-raster
+rast	image/cmu-raster
+rb	application/x-ruby
+rd	chemical/x-mdl-rdfile
+rdc	image/x-dcraw
+rdf	application/rdf+xml	text/rdf
+rdp	application/x-rdp
+rej	application/x-reject
+rem	application/x-remoting
+resources	application/x-resources
+resx	application/x-resourcesx
+rexx	text/x-script.rexx
+rf	image/vnd.rn-realflash
+rgb	image/x-rgb
+rhtml	application/x-httpd-eruby
+rle	image/rle
+rm	audio/x-pn-realaudio	application/vnd.rn-realmedia
+rmi	audio/mid
+rmm	audio/x-pn-realaudio
+rmp	audio/x-pn-realaudio	audio/x-pn-realaudio-plugin
+rms	application/vnd.rn-realmedia-secure
+rmvb	application/vnd.rn-realmedia-vbr
+rng	text/x-rng	application/ringing-tones	application/vnd.nokia.ringing-tone
+rnx	application/vnd.rn-realplayer
+roff	application/x-troff
+ros	chemical/x-rosdal
+rp	image/vnd.rn-realpix
+rpm	application/x-redhat-package-manager	application/x-rpm	audio/x-pn-realaudio-plugin
+rss	application/rss+xml	text/rss	text/xml
+rt	text/vnd.rn-realtext	text/richtext
+rtf	application/rtf	application/x-rtf	text/richtext
+rtx	text/richtext	application/rtf
+run	application/x-makeself
+rv	video/vnd.rn-realvideo
+rxn	chemical/x-mdl-rxnfile
+s	text/x-asm
+s3m	audio/x-s3m	audio/s3m
+sam	application/x-amipro
+saveme	application/octet-stream
+sbk	application/x-tbook
+sc	application/x-sc
+scala	text/x-scala
+scd	application/x-scribus	application/x-msschedule
+scd.gz	application/x-scribus
+scm	text/x-scheme	application/x-lotusscreencam	text/x-script.guile	text/x-script.scheme	video/x-scm
+sct	text/scriptlet
+sd	chemical/x-mdl-sdfile
+sd2	audio/x-sd2
+sda	application/vnd.stardivision.draw
+sdc	application/vnd.stardivision.calc
+sdd	application/vnd.stardivision.impress
+sdf	application/vnd.stardivision.math	chemical/x-mdl-sdfile
+sdml	text/plain
+sdp	application/sdp	application/vnd.stardivision.impress	application/x-sdp
+sdr	application/sounder
+sds	application/vnd.stardivision.chart
+sdw	application/vnd.stardivision.writer
+sea	application/sea	application/x-sea
+ser	application/java-serialized-object
+set	application/set
+setpay	application/set-payment-initiation
+setreg	application/set-registration-initiation
+sgf	application/x-go-sgf
+sgi	image/x-sgi
+sgl	application/vnd.stardivision.writer-global	application/vnd.stardivision.writer
+sgm	text/sgml	text/x-sgml
+sgml	text/sgml	text/x-sgml
+sh	application/x-sh	text/x-sh	application/x-shellscript	application/x-bsh	application/x-shar	text/x-script.sh
+shar	application/x-shar	application/x-bsh
+shp	application/x-qgis
+shtml	text/html	text/x-server-parsed-html
+shx	application/x-qgis
+siag	application/x-siag
+sid	audio/prs.sid	audio/x-psid
+sig	application/pgp-signature
+sik	application/x-trash
+silo	model/mesh
+sis	application/vnd.symbian.install
+sisx	x-epoc/x-sisx-app
+sit	application/x-stuffit	application/stuffit	application/x-sit
+sitx	application/x-stuffit
+skd	application/x-koan
+skm	application/x-koan
+skp	application/x-koan
+skr	application/pgp-keys
+skt	application/x-koan
+sl	application/x-seelogo
+sla	application/x-scribus
+sla.gz	application/x-scribus
+slk	text/spreadsheet
+smd	application/vnd.stardivision.mail
+smf	application/vnd.stardivision.math
+smi	application/smil	application/x-smil
+smil	application/smil	application/x-smil
+sml	application/smil
+sms	application/x-sms-rom
+snd	audio/basic	audio/x-adpcm
+so	application/x-sharedlib
+soap	application/x-soap-remoting
+sol	application/solids
+spc	chemical/x-galactic-spc	application/x-pkcs7-certificates	text/x-speech
+spd	application/x-font-speedo
+spl	application/futuresplash	application/x-futuresplash
+spr	application/x-sprite
+sprite	application/x-sprite
+spx	audio/ogg
+sql	text/x-sql
+src	application/x-wais-source
+srf	image/x-dcraw
+ssi	text/x-server-parsed-html
+ssm	application/x-streamingmedia	application/streamingmedia
+sst	application/vnd.ms-pki.certstore	application/vnd.ms-pkicertstore
+stc	application/vnd.sun.xml.calc.template
+std	application/vnd.sun.xml.draw.template
+step	application/step
+sti	application/vnd.sun.xml.impress.template
+stl	application/vnd.ms-pki.stl	application/sla	application/vnd.ms-pkistl	application/x-navistyle
+stm	audio/x-stm	text/html
+stp	application/step
+stw	application/vnd.sun.xml.writer.template
+sty	text/x-tex
+sun	image/x-sun-raster
+sv4cpio	application/x-sv4cpio
+sv4crc	application/x-sv4crc
+svf	image/vnd.dwg	image/x-dwg
+svg	image/svg+xml
+svgz	image/svg+xml
+svr	application/x-world	x-world/x-svr
+sw	chemical/x-swissprot
+swf	application/x-shockwave-flash
+swfl	application/x-shockwave-flash
+sxc	application/vnd.sun.xml.calc
+sxd	application/vnd.sun.xml.draw
+sxg	application/vnd.sun.xml.writer.global
+sxi	application/vnd.sun.xml.impress
+sxm	application/vnd.sun.xml.math
+sxw	application/vnd.sun.xml.writer
+sylk	text/spreadsheet
+t	application/x-troff
+talk	text/x-speech
+tar	application/x-tar
+tar.bz	application/x-bzip-compressed-tar
+tar.bz2	application/x-bzip-compressed-tar
+tar.gz	application/x-compressed-tar
+tar.lzo	application/x-lzop-compressed-tar	application/x-tzo
+tar.z	application/x-compressed-tar	application/x-tarz
+taz	application/x-gtar	application/x-compressed-tar
+tbk	application/toolbook	application/x-tbook
+tbz	application/x-bzip-compressed-tar
+tbz2	application/x-bzip-compressed-tar
+tcl	application/x-tcl	text/x-tcl	text/x-script.tcl
+tcsh	text/x-script.tcsh
+tex	text/x-tex	application/x-tex
+texi	application/x-texinfo	text/x-texinfo
+texinfo	application/x-texinfo	text/x-texinfo
+text	text/plain	application/plain
+tga	image/x-tga
+tgf	chemical/x-mdl-tgf
+tgz	application/x-gtar	application/x-compressed-tar	application/gnutar	application/x-compressed
+theme	application/x-theme
+tif	image/tiff
+tiff	image/tiff
+tk	text/x-tcl	application/x-tcl
+tm	text/texmacs	text/x-texmacs
+toc	application/x-toc
+torrent	application/x-bittorrent
+tr	application/x-troff
+trm	application/x-msterminal
+ts	text/texmacs	application/x-linguist	text/x-texmacs
+tsi	audio/tsp-audio
+tsp	application/dsptype	audio/tsplayer
+tsv	text/tab-separated-values
+ttc	application/x-font-ttf
+ttf	application/x-font-ttf
+turbot	image/florian
+txt	text/plain
+tzo	application/x-lzop-compressed-tar	application/x-tzo
+udeb	application/x-debian-package
+ui	application/x-designer
+uil	text/x-uil
+uls	text/iuls
+ult	audio/x-mod
+uni	audio/x-mod	text/uri-list
+unis	text/uri-list
+unv	application/i-deas
+uri	text/x-uri	text/uri-list
+uris	text/uri-list
+url	text/x-uri
+ustar	application/x-ustar	multipart/x-ustar
+uu	application/octet-stream	text/x-uuencode
+uue	text/x-uuencode
+val	chemical/x-ncbi-asn1-binary
+vb	text/x-vb
+vcd	application/x-cdlink
+vcf	text/x-vcard	text/directory
+vcs	text/x-vcalendar	text/calendar
+vct	text/directory
+vda	application/vda
+vdo	video/vdo
+vew	application/groupwise
+viv	video/vivo	video/vnd.vivo
+vivo	video/vivo	video/vnd.vivo
+vmd	chemical/x-vmd	application/vocaltec-media-desc
+vmf	application/vocaltec-media-file
+vms	chemical/x-vamas-iso14976
+vob	video/mpeg
+voc	audio/x-voc	audio/voc
+vor	application/vnd.stardivision.writer
+vos	video/vosaic
+vox	audio/voxware
+vqe	audio/x-twinvq-plugin
+vqf	audio/x-twinvq
+vql	audio/x-twinvq-plugin
+vrm	x-world/x-vrml
+vrml	model/vrml	x-world/x-vrml	application/x-vrml
+vrt	x-world/x-vrt
+vsd	application/vnd.visio	application/x-visio
+vst	application/x-visio
+vsw	application/x-visio
+w60	application/wordperfect6.0
+w61	application/wordperfect6.1
+w6w	application/msword
+wad	application/x-doom
+war	application/x-java-archive	application/java-archive
+wav	audio/x-wav	audio/wav
+wax	audio/x-ms-wax
+wb1	application/x-quattro-pro	application/x-quattropro	application/x-qpro
+wb2	application/x-quattro-pro	application/x-quattropro
+wb3	application/x-quattro-pro	application/x-quattropro
+wbmp	image/vnd.wap.wbmp
+wbxml	application/vnd.wap.wbxml
+wcm	application/vnd.ms-works
+wdb	application/vnd.ms-works
+web	application/vnd.xara
+wiz	application/msword
+wk	application/x-123
+wk1	application/vnd.lotus-1-2-3	application/x-123
+wk3	application/vnd.lotus-1-2-3
+wk4	application/vnd.lotus-1-2-3
+wks	application/vnd.lotus-1-2-3	application/vnd.ms-works
+wm	video/x-ms-wm
+wma	audio/x-ms-wma
+wmd	application/x-ms-wmd
+wmf	image/x-wmf	application/x-msmetafile	windows/metafile
+wml	text/vnd.wap.wml
+wmlc	application/vnd.wap.wmlc
+wmls	text/vnd.wap.wmlscript
+wmlsc	application/vnd.wap.wmlscriptc
+wmv	video/x-ms-wmv
+wmx	video/x-ms-wmx
+wmz	application/x-ms-wmz
+word	application/msword
+wp	application/wordperfect
+wp5	application/vnd.wordperfect5.1	application/wordperfect
+wp6	application/wordperfect
+wpd	application/vnd.wordperfect	application/wordperfect
+wpg	application/x-wpg
+wps	application/vnd.ms-works
+wq1	application/x-lotus
+wri	application/x-mswrite	application/mswrite
+wrl	model/vrml	x-world/x-vrml	application/x-world
+wsc	text/scriptlet	text/scriplet
+wsdl	application/x-wsdl
+wsrc	application/x-wais-source
+wtk	application/x-wintalk
+wvx	video/x-ms-wvx
+wz	application/x-wingz
+x-png	image/png
+x3f	image/x-dcraw
+xac	application/x-gnucash
+xaf	x-world/x-vrml
+xbel	application/x-xbel
+xbm	image/x-xbitmap	image/xbm
+xcf	application/x-xcf	image/x-xcf
+xcf.bz2	image/x-compressed-xcf
+xcf.gz	image/x-compressed-xcf
+xdr	video/x-amt-demorun
+xds	text/x-xds
+xgz	xgl/drawing
+xht	application/xhtml+xml
+xhtml	application/xhtml+xml
+xi	audio/x-xi
+xif	image/vnd.xiff
+xl	application/excel
+xla	application/vnd.ms-excel	application/excel
+xlb	application/vnd.ms-excel	application/excel
+xlc	application/vnd.ms-excel	application/excel
+xld	application/vnd.ms-excel	application/excel
+xlk	application/vnd.ms-excel	application/excel
+xll	application/vnd.ms-excel	application/excel
+xlm	application/vnd.ms-excel	application/excel
+xls	application/vnd.ms-excel	application/excel
+xlt	application/vnd.ms-excel	application/excel
+xlv	application/vnd.ms-excel	application/excel
+xlw	application/vnd.ms-excel	application/excel
+xm	audio/x-mod	audio/x-xm	audio/xm
+xmi	text/x-xmi
+xml	application/xml	text/xml
+xmz	xgl/movie
+xof	x-world/x-vrml
+xpi	application/x-xpinstall
+xpix	application/x-vnd.ls-xpix
+xpl	audio/x-scpls
+xpm	image/x-xpixmap	image/xpm
+xsd	application/xml
+xsl	application/xml	text/x-xsl	text/x-xslt
+xslfo	text/x-xslfo
+xslt	text/x-xslt
+xspf	application/xspf+xml
+xsr	video/x-amt-showrun
+xtel	chemical/x-xtel
+xul	application/vnd.mozilla.xul+xml
+xwd	image/x-xwindowdump	image/x-xwd
+xyz	chemical/x-xyz	chemical/x-pdb
+ymp	text/x-suse-ymp
+ymu	text/x-suse-ymu
+z	application/x-compress	application/x-compressed
+zabw	application/x-abiword
+zip	application/zip
+zmt	chemical/x-mopac-input
+zoo	application/x-zoo	application/octet-stream
+zsh	text/x-script.zsh
+~	application/x-trash
