@@ -34,6 +34,9 @@
 # using subversion library
 require "svn/repos"
 
+# subversion repo revision number
+SVN_SPIDER_REVISION = "$Rev$"
+
 # log message
 #   this is kept simple on purpose
 @@log_msg =  "svn_spider\n"
