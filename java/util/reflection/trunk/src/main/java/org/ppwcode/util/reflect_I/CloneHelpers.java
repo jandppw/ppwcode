@@ -37,10 +37,10 @@ import org.toryt.annotations_I.Throw;
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
  */
-@Copyright("2004 - $Date: 2008-03-15 18:07:05 +0100 (Sat, 15 Mar 2008) $, PeopleWare n.v.")
+@Copyright("2004 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 1082 $",
-         date     = "$Date: 2008-03-15 18:07:05 +0100 (Sat, 15 Mar 2008) $")
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public class CloneHelpers {
 
   private CloneHelpers() {
