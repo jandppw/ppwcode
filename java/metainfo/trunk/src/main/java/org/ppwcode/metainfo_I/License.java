@@ -63,11 +63,35 @@ public @interface License {
    * @note This list will be extended as necessary.
    */
   public enum Type {
+
+    /**
+     * The Apache License, version 2, released by the Apache Software Foundation
+     */
     APACHE_V2    ("http://www.apache.org/licenses/LICENSE-2.0.html"),
+
+    /**
+     * The GNU Public License, version 2, released by the Free Software Foundation
+     */
     GPL_v2       ("http://www.gnu.org/licenses/old-licenses/gpl-2.0.html"),
+
+    /**
+     * The GNU Public License, version 3, released by the Free Software Foundation
+     */
     GPL_v3       ("http://www.fsf.org/licensing/licenses/gpl.html"),
+
+    /**
+     * The Lesser GNU Public License, version 2.1, released by the Free Software Foundation
+     */
     LGPL_v2_1    ("http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html"),
+
+    /**
+     * The Lesser GNU Public License, version 3, released by the Free Software Foundation
+     */
     LGPL_v3      ("http://www.fsf.org/licensing/licenses/lgpl.html"),
+
+    /**
+     * The Mozilla Public License, vesion 1.1, released by the Mozilla Foundation
+     */
     MPL_v1_1     ("http://www.mozilla.org/MPL/MPL-1.1.html");
 
     Type(String url) {
@@ -85,11 +109,11 @@ public @interface License {
 
     private URL $url;
 
-    private static Class<?>[] contentTypes = {InputStream.class};
+    private static Class<?>[] CONTENT_TYPES = {InputStream.class};
 
     public final Reader getReader() throws Exception {
       try {
-        InputStream result = (InputStream)getUrl().getContent(contentTypes);
+        InputStream result = (InputStream)getUrl().getContent(CONTENT_TYPES);
         return new InputStreamReader(result);
       }
       catch (IOException exc) {
