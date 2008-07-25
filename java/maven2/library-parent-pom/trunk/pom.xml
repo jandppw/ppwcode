@@ -247,9 +247,16 @@
          that has at least a "trunk" subdirectory. -->
     <ppwcode.inScmLocation>java/maven2/library-parent-pom</ppwcode.inScmLocation>
 
-
-
-
+    <!-- Checkstyle configuration -->
+    <!-- The location of the checkstyle configuration in your build classpath -->
+    <ppwcode.checkstyle.configLocation>org/ppwcode/checkstyle/ppwcode_checks.xml</ppwcode.checkstyle.configLocation>
+    <!-- Suppressions file:  is project specific and MUST be defined in child POM -->
+    <ppwcode.checkstyle.suppressionsLocation></ppwcode.checkstyle.suppressionsLocation>
+    <!-- File describing the project's license template, which must be defined in each text file in your project.
+         MUST be defined in child POM -->
+    <ppwcode.checkstyle.headerLocation></ppwcode.checkstyle.headerLocation>
+    
+    
     <!-- CALCULATIONS -->
 
     <!-- CALCULATE DOCUMENTATION SITE SETTINGS -->
@@ -585,11 +592,18 @@
     		<artifactId>maven-checkstyle-plugin</artifactId>
         <version>2.2</version>
     		<dependencies>
+    		  <!-- dependency on the checkstyle resource -->
     			<dependency>
     				<groupId>org.ppwcode.checkstyle</groupId>
     				<artifactId>checkstyle</artifactId>
     				<version>1.0.0-SNAPSHOT</version>
     			</dependency>
+          <!-- dependency on the license templates -->
+          <dependency>
+            <groupId>org.ppwcode.checkstyle</groupId>
+            <artifactId>licenses</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+          </dependency>
     		</dependencies>
     	</plugin>
 
@@ -761,9 +775,9 @@
         <artifactId>maven-checkstyle-plugin</artifactId>
         <version>2.2</version>
         <configuration>
-          <configLocation>org/ppwcode/checkstyle/ppw_checks.xml</configLocation>
-          <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
-          <headerLocation>LICENSE.txt</headerLocation>
+          <configLocation>${ppwcode.checkstyle.configLocation}</configLocation>
+          <!--<suppressionsLocation>${ppwcode.checkstyle.suppressionsLocation}</suppressionsLocation>-->
+          <headerLocation>${ppwcode.checkstyle.headerLocation}</headerLocation>
         </configuration>
         <!-- MUDO bring config file to 1.5 and use it -->
       </plugin>
