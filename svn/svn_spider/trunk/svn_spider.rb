@@ -24,7 +24,7 @@
 #  - setting the correct mime-type
 #  - setting svn:keywords
 #
-# Ruben Vandeginste  23/07/2008
+# Ruben Vandeginste
 #
 
 
@@ -35,12 +35,12 @@
 require "svn/repos"
 
 # subversion repo revision number
-SVN_SPIDER_REVISION = "$Rev$"
+revision = "$Rev$"
+SVN_SPIDER_REVISION = revision.split[1].strip
 
 # log message
 #   this is kept simple on purpose
-@@log_msg =  "svn_spider\n"
-@@log_msg << "\n"
+@@log_msg =  "svn_spider [r#{SVN_SPIDER_REVISION}]\n\n"
 
 # initialize mime registry
 mime_type_registry = Hash.new
