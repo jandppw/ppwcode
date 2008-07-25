@@ -60,76 +60,10 @@ and at the project documentation site (Project Team).
    See the License for the specific language governing permissions and
    limitations under the License.
 }}}
-  For Java files, you *must* the following mantra, at the top of the file (line 1):
-{{{
-/*<license>
-Copyright [inceptionYear] - $Date$ by PeopleWare n.v..
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-</license>*/
-}}}
-  Furthermore, the following annotations *must* be added to each class, to carry the copyright and license information into the class file:
-{{{
-@Copyright("[inceptionYear] - $Date$, PeopleWare n.v.")
-@License(APACHE_V2)
-@SvnInfo(revision = "$Revision$",
-         date     = "$Date$")
-public class _MyClass_ ...
-}}}
-  It is not necessary to add the `HeadURL` keyword to Java files: a Java source file can easily be identified by the package and class name.
-
-  For properties files, you *must* use the following comment at the top of the file (line 1):
-{{{
-# Copyright [inceptionYear] - $Date$ by PeopleWare n.v.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#         http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-# $Date$
-# $Revision$
-# $HeadURL$
-}}}
-  For XML files, you *must* use the following comment:
-{{{
-  <!--
-  Copyright [inceptionYear] - $Date$ by PeopleWare n.v.
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
-
-  $Date$
-  $Revision$
-  $HeadURL$
-  -->
-}}}
+  This is applied to text files in different ways, depending on the target technology:
+    * [licenseNoticeJavaSource       Java source code]
+    * [licenseNoticeJavaProperties Java properties files]
+    * [licenseNoticeXml                   XML files]
   * The `[inceptionYear]` *must* be the year the particular project has started, not the ppwcode project as a whole (2008) or the original ppw-libraries project (2004)
   * A CLA *must* be in the possession of PeopleWare for all developers and contributors found in the POM and in the Subversion history.
   * For Java artifacts (jar, ear, war, ...) the `LICENSE` and `NOTICE` files *must* be copied into `META-INF`.
