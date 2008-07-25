@@ -124,6 +124,7 @@
     <!-- Whitespace, Braces, ... -->
     <module name="MultipleVariableDeclarations" />
     <module name="NoWhitespaceAfter">
+      <property name="tokens" value="ARRAY_INIT, BNOT, DEC, DOT, INC, UNARY_MINUS, UNARY_PLUS, TYPECAST" /> <!-- all except LNOT (!) -->
       <property name="severity" value="warning" />
     </module>
     <module name="NoWhitespaceBefore">
@@ -152,13 +153,16 @@
       <property name="severity" value="warning" />
     </module>
     <module name="OperatorWrap">
+      <property name="option" value="eol" />
       <property name="severity" value="warning" />
     </module>
+<!-- TO BE DELETED?
     <module name="OperatorWrap">
       <property name="tokens" value="ASSIGN, DIV_ASSIGN, PLUS_ASSIGN, MINUS_ASSIGN, STAR_ASSIGN, MOD_ASSIGN, SR_ASSIGN, BSR_ASSIGN, SL_ASSIGN, BXOR_ASSIGN, BOR_ASSIGN, BAND_ASSIGN" />
       <property name="option" value="eol" />
       <property name="severity" value="warning" />
     </module>
+-->
     <module name="EmptyForInitializerPad">
       <property name="severity" value="warning" />
     </module>
@@ -196,9 +200,6 @@
     </module>
     <module name="ModifiedControlVariable"/>
     <module name="ParameterAssignment"/>
-    <module name="FinalParameters">
-      <property name="severity" value="warning" />
-    </module>
     <module name="AnonInnerLength">
       <property name="max" value="20" />
       <property name="severity" value="warning" />
@@ -309,7 +310,14 @@
       <property name="checkEmptyJavadoc" value="true" />
       <property name="checkFirstSentence" value="true" />
       <property name="checkHtml" value="true" />
-      <property name="tokens" value="INTERFACE_DEF, CLASS_DEF, METHOD_DEF, CTOR_DEF" />
+      <property name="tokens" value="INTERFACE_DEF, CLASS_DEF" />
+    </module>
+    <module name="JavadocStyle">
+      <property name="scope" value="protected" />
+      <property name="checkEmptyJavadoc" value="false" />
+      <property name="checkFirstSentence" value="true" />
+      <property name="checkHtml" value="true" />
+      <property name="tokens" value="METHOD_DEF, CTOR_DEF" />
     </module>
     <module name="JavadocStyle">
       <property name="scope" value="protected" />
@@ -344,11 +352,17 @@
       MissingCtor
       RequireThis
       UnnecessaryParentheses
+      -->
+      <!-- not used because not versatile enough AND THIS IS VERY SAD
       <module name="Indentation">
         <property name="basicOffset" value="2" />
         <property name="braceAdjustment" value="0" />
         <property name="caseIndent" value="0" />
-      </module> : because not versatile enough AND THIS IS VERY SAD
+      </module>
+      -->
+      <!--
+      FinalParameters : parameters should always be final, but in practice nobody does this;
+                        there is a check that parameters are not assigned
       -->
 
   </module>
