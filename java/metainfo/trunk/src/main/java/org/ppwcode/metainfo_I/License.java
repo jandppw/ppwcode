@@ -103,13 +103,19 @@ public @interface License {
       }
     }
 
+    /**
+     * The URL where you can read the license. Not null.
+     */
     public URL getUrl() {
       return $url;
     }
 
+    /**
+     * The url of the license. Not null.
+     */
     private URL $url;
 
-    private static Class<?>[] CONTENT_TYPES = {InputStream.class};
+    private static final Class<?>[] CONTENT_TYPES = {InputStream.class};
 
     public final Reader getReader() throws Exception {
       try {
