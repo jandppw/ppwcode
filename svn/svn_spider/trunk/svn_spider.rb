@@ -36,8 +36,8 @@ require "svn/repos"
 
 # log message
 #   this is kept simple on purpose
-log_msg = "svn_spider repository fixes"
-
+@@log_msg =  "svn_spider\n"
+@@log_msg << "\n"
 
 # initialize mime registry
 mime_type_registry = Hash.new
@@ -76,8 +76,14 @@ end
   end
 
   # log message configuration
+  @@log = @@log_msg.clone
+  @@log << "working root:\n"
+  @@log << "  " << info["url"] << "\n\n"
+  @@log << "fixes:\n"
   ctx.set_log_msg_func do |items|
-    [true, log_msg]
+    puts @@log
+    raise RuntimeError
+    [true, @@log]
   end
 
   # check out a project, or update it if a working copy is found
@@ -125,8 +131,20 @@ end
         new_props.delete k if new_props[k] == old_props[k]
       end
       # update the property list in the working copy
+      if not new_props.empty? then
+        @@log << "  " << path << "\n"
+      end
       new_props.each_pair do |key, value|
         ctx.propset key, value, wc_file_path
+        # update log
+        if (old_props[key] != nil) then
+          @@log << "    -" << key << ":"
+          @@log << (" " * [(20 - key.size), 1].max)
+          @@log << old_props[key] << "\n"
+        end
+        @@log << "    +" << key << ":"
+        @@log << (" " * [(20 - key.size), 1].max)
+        @@log << value << "\n"
       end
     end
   end
