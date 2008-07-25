@@ -1,4 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
+ <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
@@ -580,6 +580,18 @@
         </configuration>
       </plugin>
 -->
+    	<plugin>
+    		<groupId>org.apache.maven.plugins</groupId>
+    		<artifactId>maven-checkstyle-plugin</artifactId>
+        <version>2.2</version>
+    		<dependencies>
+    			<dependency>
+    				<groupId>org.ppwcode.checkstyle</groupId>
+    				<artifactId>checkstyle</artifactId>
+    				<version>1.0.0-SNAPSHOT</version>
+    			</dependency>
+    		</dependencies>
+    	</plugin>
 
     </plugins>
   </build>
@@ -748,6 +760,11 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <version>2.2</version>
+        <configuration>
+          <configLocation>org/ppwcode/checkstyle/ppw_checks.xml</configLocation>
+          <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
+          <headerLocation>LICENSE.txt</headerLocation>
+        </configuration>
         <!-- MUDO bring config file to 1.5 and use it -->
       </plugin>
 
@@ -819,9 +836,9 @@
       <!-- clirr only makes sense in a particular project -->
 
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>2.0</version>
+      	<groupId>org.apache.maven.plugins</groupId>
+      	<artifactId>maven-dependency-plugin</artifactId>
+      	<version>2.0</version>
       </plugin>
 
       <!-- IDEA add maven-jdiff-plugin -->
