@@ -39,5 +39,11 @@
       <name>ppwcode Maven 2 Snapshot Repository</name>
       <url>scpexe://cvs.peopleware.be/ppw/projects/ppwcode/public_html/java/maven2snapshotrepo</url>
     </snapshotRepository>
+    <site>
+      <id>ppwcodeSite</id>
+      <name>ppwcode Project Documentation Site</name>
+      <url>scpexe://cvs.peopleware.be/ppw/projects/ppwcode/public_html/java/projectdocs/${pom.artifactId}/${pom.version}</url>
+    </site>
   </distributionManagement>
+
 </project>
