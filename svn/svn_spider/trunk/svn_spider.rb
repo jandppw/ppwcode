@@ -84,8 +84,6 @@ end
   @@log << "  " << info["url"] << "\n\n"
   @@log << "fixes:\n"
   ctx.set_log_msg_func do |items|
-    puts @@log
-    raise RuntimeError
     [true, @@log]
   end
 
