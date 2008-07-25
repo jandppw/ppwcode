@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2006 - $Date: 2008/04/03 22:19:23 $ by Jan Dockx.
+Copyright 2006 - $Date$ by Jan Dockx.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
