@@ -33,8 +33,16 @@
 
   <property name="severity" value="error" />
 
+  <!-- 
   <module name="SuppressionFilter">
     <property name="file" value="${checkstyle.suppressions.file}" />
+  </module>
+  -->
+
+  <!-- File Header -->
+  <module name="CrossLanguageRegexpHeader">
+  	<property name="headerFile" value="${checkstyle.header.file}" />
+  	<property name="multiLines" value="1, 2, 3" />
   </module>
 
   <module name="PackageHtml" />
@@ -62,17 +70,10 @@
       <property name="severity" value="warning" />
     </module>
     <module name="LineLength">
+      <property name="max" value="120" />
       <property name="ignorePattern" value="^ *\* *[^ ]+$|^\s*public static final String CVS_DATE =.*\$Date.*\$.;\s*//.*$" />
       <!-- ignore long words in Javadoc, long CVS information -->
     </module>
-
-    <!-- File Header -->
-    <module name="Header">
-      <property name="headerFile" value="${checkstyle.header.file}" />
-    </module>
-    <!--
-      RegexpHeader
-      -->
 
     <!-- Package & Import statements -->
     <module name="PackageDeclaration" />
@@ -88,7 +89,7 @@
 
     <!-- Naming -->
     <module name="PackageName">
-      <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$" />
+      <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*(_[IVXLCDM]+)?$" />
     </module>
     <module name="TypeName" />
     <module name="MethodName" />
@@ -140,6 +141,7 @@
       <property name="severity" value="warning" />
     </module>
     <module name="WhitespaceAround">
+      <property name="tokens" value="ASSIGN, BAND, BAND_ASSIGN, BOR, BOR_ASSIGN, BSR, BSR_ASSIGN, BXOR, BXOR_ASSIGN, COLON, DIV, DIV_ASSIGN, EQUAL, GE, GT, LAND, LCURLY, LE, LITERAL_ASSERT, LITERAL_CATCH, LITERAL_DO, LITERAL_ELSE, LITERAL_FINALLY, LITERAL_FOR, LITERAL_IF, LITERAL_RETURN, LITERAL_SYNCHRONIZED, LITERAL_TRY, LITERAL_WHILE, LOR, LT, MINUS, MINUS_ASSIGN, MOD, MOD_ASSIGN, NOT_EQUAL, PLUS, PLUS_ASSIGN, QUESTION, RCURLY, SL, SLIST, SL_ASSIGN, SR, SR_ASSIGN, STAR, STAR_ASSIGN, TYPE_EXTENSION_AND" />
       <property name="severity" value="warning" />
     </module>
     <module name="MethodParamPad">
@@ -208,6 +210,7 @@
     </module>
     <module name="InnerAssignment" />
     <module name="StringLiteralEquality"/>
+
     <module name="MultipleStringLiterals" />
     <module name="MagicNumber" />
     <module name="NestedIfDepth">
