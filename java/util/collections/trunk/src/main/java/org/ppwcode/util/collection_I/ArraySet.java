@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2007 - $Date: 2007-07-27 01:11:49 +0200 (Fri, 27 Jul 2007) $ by PeopleWare n.v..
+Copyright 2007 - $Date$ by PeopleWare n.v..
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -36,10 +36,10 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
  * @author Jan Dockx
  * @author PeopleWare n.v.
  */
-@Copyright("2007 - $Date: 2007-07-27 01:11:49 +0200 (Fri, 27 Jul 2007) $, PeopleWare n.v.")
+@Copyright("2007 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 1038 $",
-         date     = "$Date: 2007-07-27 01:11:49 +0200 (Fri, 27 Jul 2007) $")
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public class ArraySet<E extends Object> extends AbstractSet<E> implements Cloneable {
 
   private final static int INITIAL_SIZE = 1;

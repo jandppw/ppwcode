@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2007 - $Date: 2007-07-27 01:10:19 +0200 (Fri, 27 Jul 2007) $ by the authors mentioned below.
+Copyright 2007 - $Date$ by the authors mentioned below.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -59,10 +59,10 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
  *
  * @author Jan Dockx
  */
-@Copyright("2007 - $Date: 2007-07-27 01:10:19 +0200 (Fri, 27 Jul 2007) $, PeopleWare n.v.")
+@Copyright("2007 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 1036 $",
-         date     = "$Date: 2007-07-27 01:10:19 +0200 (Fri, 27 Jul 2007) $")
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public interface OrderedSet<E> extends Set<E>, Cloneable {
 
     /**

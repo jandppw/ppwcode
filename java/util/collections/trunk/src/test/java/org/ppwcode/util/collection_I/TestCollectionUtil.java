@@ -40,10 +40,10 @@ import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 
 
-@Copyright("2007 - $Date: 2007-05-08 16:27:52 +0200 (Tue, 08 May 2007) $, PeopleWare n.v.")
+@Copyright("2007 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 854 $",
-         date     = "$Date: 2007-05-08 16:27:52 +0200 (Tue, 08 May 2007) $")
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public class TestCollectionUtil {
 
 //  @BeforeClass
