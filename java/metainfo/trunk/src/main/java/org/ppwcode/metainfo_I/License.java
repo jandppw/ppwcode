@@ -115,6 +115,9 @@ public @interface License {
      */
     private URL $url;
 
+    /**
+     * Content types used in {@link #getReader()}
+     */
     private static final Class<?>[] CONTENT_TYPES = {InputStream.class};
 
     public final Reader getReader() throws Exception {
