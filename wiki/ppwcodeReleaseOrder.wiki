@@ -1,0 +1,44 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+At times, certainly during initial development, we need to release the entire ppwcode library structure as a whole. Since projects are interdependent, this has to be done in a certain order. The dependencies are a graph. Releases have to be done in an order that respects the graph (dependent before supplier), because dependents have to refer to the correct version of the supplier, and the dependents can only be built when that supplier version is available.
+
+The project tree does not entirely represent all dependencies. There are some interdependencies between branches (notably ppwcode-vernacular-exception is also used in ppwcode-util). Below is a list that fullfils the requirements. For global builds, the list should be followed. Furthermore, if a new version is released, the projects lower in the list might be in need of a new version too. Since however, through dependency management, most versions of ppwcode projects are described in ppwcode-ppwcode-library-parent-pom, we probably need to rebuild that too.
+
+NOTE: there should be a better way to describe this than a list
+
+= Project tree =
+
+  * checkstyle
+    * ppwcode-licensetemplates
+    * ppwcode-checkstyle
+  * maven2
+    * ppwcode-library-parent-pom
+  * ppwcode pom
+    * ppwcode-ppwcode-library-parent-pom
+  * ppwcode-metainfo
+  * util
+    * ppwcode-util-parent-pom
+    * ppwcode-util-reflection - also depends on ppwcode-vernacular-exception
+  * vernacular
+    * ppwcode-vernacular-parent-pom
+    * ppwcode-vernacular-exception
+    * ppwcode-vernacular-semantics - also depends on ppwcode-util-reflection
+    * ppwcode-vernacular-persistence
+
+
+
+= Dependency tree =
+
+  * ppwcode-licensetemplates
+  * ppwcode-checkstyle
+  * ppwcode-library-parent-pom
+  * ppwcode-ppwcode-library-parent-pom
+  * ppwcode-metainfo
+  * ppwcode-vernacular-parent-pom
+  * ppwcode-vernacular-exception
+  * ppwcode-util-parent-pom
+  * ppwcode-util-reflection
+  * ppwcode-vernacular-semantics
+  * ppwcode-vernacular-persistence
