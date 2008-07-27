@@ -11,21 +11,21 @@ NOTE: there should be a better way to describe this than a list
 = Project tree =
 
   * checkstyle
-    * ppwcode-licensetemplates
-    * ppwcode-checkstyle
+    * licensetemplates
+    * checkstyle
   * maven2
-    * ppwcode-library-parent-pom
+    * library-parent-pom
   * ppwcode pom
-    * ppwcode-ppwcode-library-parent-pom
-  * ppwcode-metainfo
+    * ppwcode-library-parent-pom
+  * metainfo
   * util
-    * ppwcode-util-parent-pom
-    * ppwcode-util-reflection - also depends on ppwcode-vernacular-exception
+    * util-parent-pom
+    * util-reflection
   * vernacular
-    * ppwcode-vernacular-parent-pom
-    * ppwcode-vernacular-exception
-    * ppwcode-vernacular-semantics - also depends on ppwcode-util-reflection
-    * ppwcode-vernacular-persistence
+    * vernacular-parent-pom
+    * vernacular-exception
+    * vernacular-semantics
+    * vernacular-persistence
 
 
 
@@ -34,6 +34,7 @@ NOTE: there should be a better way to describe this than a list
   * ppwcode-licensetemplates
   * ppwcode-checkstyle
   * ppwcode-library-parent-pom
+  * (toryt annotations - _outside of ppwcode, but we have "influence" to get a new build :-)_ )
   * ppwcode-ppwcode-library-parent-pom
   * ppwcode-metainfo
   * ppwcode-vernacular-parent-pom
