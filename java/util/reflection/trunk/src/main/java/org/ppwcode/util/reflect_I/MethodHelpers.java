@@ -303,7 +303,7 @@ public final class MethodHelpers {
       @Expression("result != null"),
       @Expression("result.declaringClass == _type"),
       @Expression("result.name == new MethodSignature(_signature).methodName"),
-      @Expression("Arrays.deepEquqls(result.parameterTypes, new MethodSignature(_signature).parameterTypes")
+      @Expression("Arrays.deepEquals(result.parameterTypes, new MethodSignature(_signature).parameterTypes")
     }
   )
   public static <_T_> Constructor<_T_> constructor(Class<_T_> type, String signature) {
