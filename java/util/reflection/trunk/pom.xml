@@ -95,6 +95,10 @@
       <artifactId>ppwcode-metainfo-I</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.ppwcode.vernacular</groupId>
+      <artifactId>ppwcode-vernacular-exception-II</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.toryt</groupId>
       <artifactId>Toryt-annotations-I</artifactId>
     </dependency>
