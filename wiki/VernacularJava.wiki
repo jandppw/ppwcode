@@ -11,3 +11,4 @@ In general, the vernacular we use on outside projects is the same as the guideli
 = Details =
 
   * [VernacularToolsJava Tools]
+  * [VernacularCodeJava Code]
