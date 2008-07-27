@@ -86,7 +86,7 @@ public final class MethodHelpers {
              cond = @Expression(value = "true", description = "No method of signature _signature found in _type"))
     }
   )
-  static Method findMethodHelper(Class<?> type, String signature) throws NoSuchMethodException {
+  static Method methodHelper(Class<?> type, String signature) throws NoSuchMethodException {
     assert preArgumentNotNull(type, "type");
     assert preArgumentNotEmpty(signature, "signature");
     Method result = null;
@@ -141,10 +141,10 @@ public final class MethodHelpers {
       @Expression("Arrays.deepEquqls(result.parameterTypes, new MethodSignature(_signature).parameterTypes")
     }
   )
-  public static Method findMethod(Class<?> type, String signature) {
+  public static Method method(Class<?> type, String signature) {
     Method result = null;
     try {
-      result = findMethodHelper(type, signature);
+      result = methodHelper(type, signature);
     }
     catch (NoSuchMethodException exc) {
       unexpectedException(exc, "method " + signature + " not found in " + type.getName());
@@ -186,9 +186,9 @@ public final class MethodHelpers {
       @Expression("Arrays.deepEquqls(result.parameterTypes, new MethodSignature(_signature).parameterTypes")
     }
   )
-  public static Method findMethod(Object o, String signature) {
+  public static Method method(Object o, String signature) {
     preArgumentNotNull(o, "o");
-    return findMethod(o.getClass(), signature);
+    return method(o.getClass(), signature);
   }
 
   /**
@@ -227,7 +227,7 @@ public final class MethodHelpers {
   )
   public static boolean hasMethod(Class<?> type, String signature) {
     try {
-      return findMethodHelper(type, signature) != null;
+      return methodHelper(type, signature) != null;
     }
     catch (NoSuchMethodException exc) {
       return false;
@@ -306,7 +306,7 @@ public final class MethodHelpers {
       @Expression("Arrays.deepEquqls(result.parameterTypes, new MethodSignature(_signature).parameterTypes")
     }
   )
-  public static <_T_> Constructor<_T_> findConstructor(Class<_T_> type, String signature) {
+  public static <_T_> Constructor<_T_> constructor(Class<_T_> type, String signature) {
     assert preArgumentNotNull(type, "type");
     assert preArgumentNotEmpty(signature, "signature");
     Constructor<_T_> result = null;
@@ -328,5 +328,7 @@ public final class MethodHelpers {
     }
     return result;
   }
+
+  // IDEA hasConstructor for consistency, but better not to introduce code we don't need
 
 }
