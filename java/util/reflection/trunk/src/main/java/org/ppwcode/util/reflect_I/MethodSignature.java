@@ -44,6 +44,7 @@ public class MethodSignature {
     $parameterTypes = new Class<?>[$parameterTypeNames.length];
     for (int i = 0; i < $parameterTypeNames.length; i++) {
       String parameterTypeName = $parameterTypeNames[i];
+// MUDO deal with [] array types
       try {
         $parameterTypes[i] = ClassHelpers.loadForName(parameterTypeName);
       }

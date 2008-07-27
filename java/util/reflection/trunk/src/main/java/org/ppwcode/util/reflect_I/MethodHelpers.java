@@ -279,6 +279,9 @@ public final class MethodHelpers {
    *   {@link Class#getMethod(String, Class...)} does), but only methods declared exactly in {@code type},
    *   like {@link Class#getDeclaredMethod(String, Class...)}, and unlike
    *   {@link Class#getMethod(String, Class...)}: inherited methods do not apply.</p>
+   * <p>Note that the name of a constructor in {@link Constructor} is the FQCN
+   *   (see {@link Constructor#getName()}), while in our signature it is intended to be
+   *   the short, simple name.</p>
    *
    * @param type
    *        The class to look for the method in.
@@ -302,7 +305,6 @@ public final class MethodHelpers {
     post = {
       @Expression("result != null"),
       @Expression("result.declaringClass == _type"),
-      @Expression("result.name == new MethodSignature(_signature).methodName"),
       @Expression("Arrays.deepEquals(result.parameterTypes, new MethodSignature(_signature).parameterTypes")
     }
   )
