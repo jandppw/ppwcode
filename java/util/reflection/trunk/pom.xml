@@ -50,6 +50,7 @@
   <packaging>jar</packaging>
   <name>ppwcode util reflection</name>
   <description>Library of utility code with respect to reflection.</description>
+  <inceptionYear>2004</inceptionYear>
 
   <!-- MAGIC MANTRA -->
   <!-- The following entries need to be repeated, and can not sensibly be inherited.
