@@ -87,7 +87,7 @@ public class CloneHelpers {
       throw new CloneNotSupportedException(cloneable + " does not implement Cloneable");
     }
     try {
-      Method cm = MethodHelpers.findMethod(cloneable, CLONE_SIGNATURE); // CannotGetMethodException
+      Method cm = MethodHelpers.methodHelper(cloneable, CLONE_SIGNATURE); // NoSuchMethodException
       assert cm != null;
       Object result = cm.invoke(cloneable);
         /* IllegalAccessException, IllegalArgumentException, InvocationTargetException,
@@ -95,7 +95,7 @@ public class CloneHelpers {
       @SuppressWarnings("unchecked") _T_ tResult = (_T_)result;
       return tResult;
     }
-    catch (final CannotGetMethodException cgmExc) {
+    catch (final NoSuchMethodException cgmExc) {
       throw new CloneNotSupportedException("could not find method " + CLONE_SIGNATURE + " for " + cloneable) {
         @Override
         public Throwable getCause() {
