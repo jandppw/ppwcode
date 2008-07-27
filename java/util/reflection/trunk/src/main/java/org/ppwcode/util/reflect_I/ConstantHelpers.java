@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2006 - $Date: 2008-04-04 00:19:52 +0200 (Fri, 04 Apr 2008) $ by Jan Dockx.
+Copyright 2006 - $Date$ by Jan Dockx.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -34,8 +34,8 @@ import org.toryt.util_I.annotations.vcs.CvsInfo;
  *
  * @todo move to ppwcode util reflection
  */
-@CvsInfo(revision = "$Revision: 315 $",
-         date     = "$Date: 2008-04-04 00:19:52 +0200 (Fri, 04 Apr 2008) $",
+@CvsInfo(revision = "$Revision$",
+         date     = "$Date$",
          state    = "$State$",
          tag      = "$Name$")
 public class ConstantHelpers {
