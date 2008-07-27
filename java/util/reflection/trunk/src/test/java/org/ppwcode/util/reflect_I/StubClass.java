@@ -16,6 +16,7 @@ limitations under the License.
 
 package org.ppwcode.util.reflect_I;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
@@ -105,6 +106,21 @@ public class StubClass {
   }
 
   @SuppressWarnings("unused")
+  public <_T_ extends Serializable> _T_ stubMethod(_T_ t, float f) {
+    return null;
+  }
+
+  @SuppressWarnings("unused")
+  public void stubMethod(Date d) {
+    // NOP
+  }
+
+  @SuppressWarnings("unused")
+  public static void stubMethod(Object[] os) {
+    // NOP
+  }
+
+  @SuppressWarnings("unused")
   public static void stubStaticMethod() {
     // NOP
   }
@@ -149,6 +165,21 @@ public class StubClass {
     return null;
   }
 
+  @SuppressWarnings("unused")
+  public static <_T_ extends Serializable> _T_ stubStaticMethod(_T_ t, float f) {
+    return null;
+  }
+
+  @SuppressWarnings("unused")
+  public static void stubStaticMethod(Date d) {
+    // NOP
+  }
+
+  @SuppressWarnings("unused")
+  public static void stubStaticMethod(Object[] os) {
+    // NOP
+  }
+
 
 
   public StubClass() {
@@ -163,11 +194,16 @@ public class StubClass {
     // NOP
   }
 
+
   public StubClass(int i) {
     // NOP
   }
 
   public StubClass(Class<StubClass> stubClass) {
+    // NOP
+  }
+
+  public StubClass(StubClass s) {
     // NOP
   }
 
@@ -179,7 +215,16 @@ public class StubClass {
     // NOP
   }
 
+
+  public <_T_ extends Serializable> StubClass(_T_ t1, Serializable t2, float f) {
+    // NOP
+  }
+
   public StubClass(Date d) throws Exception {
+    // NOP
+  }
+
+  public StubClass(Object[] os) throws Exception {
     // NOP
   }
 
