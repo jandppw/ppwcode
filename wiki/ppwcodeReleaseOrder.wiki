@@ -14,32 +14,32 @@ NOTE: there should be a better way to describe this than a list
     * licensetemplates
     * checkstyle
   * maven2
-    * library-parent-pom
+    * library parent pom
   * ppwcode pom
-    * ppwcode-library-parent-pom
+    * ppwcode library parent pom
   * metainfo
   * util
-    * util-parent-pom
-    * util-reflection
+    * parent-pom
+    * reflection
   * vernacular
-    * vernacular-parent-pom
-    * vernacular-exception
-    * vernacular-semantics
-    * vernacular-persistence
+    * parent-pom
+    * exception
+    * semantics
+    * persistence
 
 
 
 = Dependency tree =
 
-  * ppwcode-licensetemplates
-  * ppwcode-checkstyle
-  * ppwcode-library-parent-pom
+  * licensetemplates
+  * checkstyle
+  * library parent pom
   * (toryt annotations - _outside of ppwcode, but we have "influence" to get a new build :-)_ )
-  * ppwcode-ppwcode-library-parent-pom
-  * ppwcode-metainfo
-  * ppwcode-vernacular-parent-pom
-  * ppwcode-vernacular-exception
-  * ppwcode-util-parent-pom
-  * ppwcode-util-reflection
-  * ppwcode-vernacular-semantics
-  * ppwcode-vernacular-persistence
+  * ppwcode library parent pom
+  * metainfo
+  * vernacular parent pom
+  * vernacular exception
+  * util parent pom
+  * util reflection
+  * vernacular semantics
+  * vernacular persistence
