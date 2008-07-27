@@ -411,5 +411,28 @@ public class MethodHelpersTest {
     assertArrayEquals(msig.getParameterTypes(), result.getParameterTypes());
   }
 
+  @Test
+  public void demoArrayClass() throws ClassNotFoundException {
+    System.out.println(Object[].class);
+    System.out.println(Object[][].class);
+    System.out.println(int[][].class);
+    Class<?> result = Class.forName("java.lang.Object");
+    assertEquals(Object.class, result);
+    Method[] ms = StubClass.class.getDeclaredMethods();
+    for (Method method : ms) {
+      System.out.print(method.getName() + ": ");
+      for (Class<?> c : method.getParameterTypes()) {
+        System.out.print(c + ", ");
+      }
+      System.out.println();
+    }
+    result = Class.forName("[Ljava.lang.Object;"); // java.lang.Object[]
+    assertEquals(Object[].class, result);
+    result = Class.forName("[[Ljava.lang.Object;"); // java.lang.Object[][]
+    assertEquals(Object[][].class, result);
+    result = Class.forName("[[I"); // int[][]
+    assertEquals(int[][].class, result);
+  }
+
 }
 
