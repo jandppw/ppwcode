@@ -11,7 +11,7 @@ There are however a number of things that are still open. These will be mentione
 
 = Collections of utility methods =
 
-Very often we provide, or you have to write, collections of utility methods. The choice to make is often to either provide them as _static methods_ in a class that is merely used as a container for these methods, or to provide them as _dynamic methods_. The first is the traditional Java pattern (see, e.g., java.util.Math). The second approach was introduced for Struts, and we find it in e.g. Commons BeanUtils. The reason for it is that from JSP code you could not initially call static methods (through EL, you can nowadays). The class instance is used as "middleware" (_talk to the instance, 'cause the class ain't listening_). JSF is a fall back: in JSF 1.1, you cannot access static methods from the pages either.
+Very often we provide, or you have to write, collections of utility methods. The choice to make is often to either provide them as _static methods_ in a class that is merely used as a container for these methods, or to provide them as _dynamic methods_. The first is the traditional Java pattern (see, e.g., java.util.Math). The second approach was introduced for Struts, and we find it in e.g. Apache Commons BeanUtils. The reason for it is that from JSP code you could not initially call static methods (through EL, you can nowadays). The class instance is used as "middleware" (_talk to the instance, 'cause the class ain't listening_). JSF is a fall back: in JSF 1.1, you cannot access static methods from the pages either.
 
 We consider as a given, as part of the definition of a helper method, that it is stateless.
 
@@ -19,7 +19,7 @@ Using static methods gathered in a class is a misuse of the class concept.  Conc
 
 Using dynamic methods gives the possibility of dynamic binding, but this writer knows of no examples in practice for helper methods. To reuse code for helper methods, delegation is most often used. One could defend that Formatters or Converters are examples, but in practice people look at utility objects like that differently, this writer feels: helper code ends up in an object if the helper code is stateful. The negative point of using dynamic methods for helper code is that you have initialize an object before you can call the method, although helper methods are stateless. In all practical examples of dynamic helper methods known to this writer, the only reason for making them dynamic is to be able to use them in JSP code.
 
-The vernacular we apply is to always write stateless helper code in *static methods*, gathered in a class. Potentially, a second class can be added to "dynamify" the methods for use in JSP code.
+The vernacular we apply is to always write stateless helper code in *static methods*, gathered in a class. Potentially, a second class can be added to "dynamify" the methods for use in JSP code (this is the reverse of the technique used in Apache Commons code).
 
 The following rules *must* be followed for helper methods:
   * Helper methods *must* be stateless
