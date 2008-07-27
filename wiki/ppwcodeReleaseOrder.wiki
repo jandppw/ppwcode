@@ -19,10 +19,10 @@ NOTE: there should be a better way to describe this than a list
     * ppwcode library parent pom
   * metainfo
   * util
-    * parent-pom
+    * parent pom
     * reflection
   * vernacular
-    * parent-pom
+    * parent pom
     * exception
     * semantics
     * persistence
