@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2006 - $Date$ by Jan Dockx.
+Copyright 2004 - $Date$ by PeopleWare n.v..
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,121 +14,132 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-
 package org.ppwcode.util.reflect_I;
 
 
-import java.lang.reflect.Field;
+import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.pre;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.preArgumentNotEmpty;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.preArgumentNotNull;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.unexpectedException;
 
-import org.toryt.util_I.annotations.vcs.CvsInfo;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+
+import org.ppwcode.metainfo_I.Copyright;
+import org.ppwcode.metainfo_I.License;
+import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.MethodContract;
 
 
 /**
- * <p>Utility methods for reflection. Use these methods if you are
- *   interested in the result of reflection, and not in a particular
- *   reason why some reflective inspection might have failed.</p>
- *
- * @idea (jand) most methods are also in ppw-bean; consolidate
+ * <p>Utility methods for constant reflection. Use these methods if you are interested in the result of reflection,
+ *   and not in a particular reason why some reflective inspection might have failed. The ppwcode exception vernacular
+ *   is applied.</p>
  *
  * @author Jan Dockx
+ * @author PeopleWare n.v.
  *
- * @todo move to ppwcode util reflection
+ * @idea probably needed to add methods to take a FQN of a constant as a String
  */
-@CvsInfo(revision = "$Revision$",
-         date     = "$Date$",
-         state    = "$State$",
-         tag      = "$Name$")
-public class ConstantHelpers {
+@Copyright("2004 - $Date$, PeopleWare n.v.")
+@License(APACHE_V2)
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
+public final class ConstantHelpers {
 
   private ConstantHelpers() {
     // NOP
   }
 
   /**
-   * Returns the constant(public final static) with the given fully qualified
-   * name.
-   *
-   * @param     fqClassName
-   *            The fully qualified class name of the type to look in
-   *            for the constant.
-   * @param     constantName
-   *            The name of the constant whose value to return.
-   * @return    Object
-   *            The value of the field named <code>constantName</code>
-   *            in class <code>fqClassName</code>.
-   * @throws    CannotGetClassException
-   *            Could not load class <code>fqClassName</code>.
-   * @throws    CannotGetValueException
-   *            Error retrieving value.
-   */
-  public static <_ConstantValue_> _ConstantValue_ constant(final String fqClassName,
-                                                           final String constantName)
-      throws CannotGetClassException, CannotGetValueException {
-    Class<?> clazz = Classes.loadForName(fqClassName);
-    return constant(clazz, constantName);
-  }
-
-  /**
-   * Returns the constant (public final static) with the given fully qualified
-   * name. A simple exception is returned if something goes wrong. We can work
-   * only with public class variables, and we look for these in class {@code clazz}
-   * and super classes.
+   * Returns the value of the constant (public final static) {@code constantName} in class {@link type}.
+   * If that constant doesn't exist, or something else goes wrong, this is considered a programming error.
+   * We can work only with public class variables, and we look for these in type {@code type} and super types.
    *
    * @param     clazz
    *            The type to look in for the constant.
    * @param     constantName
    *            The name of the constant whose value to return.
-   * @result    clazz.getField(constantName).get(null);
-   *            The value of the field named <code>constantName</code>
-   *            in class <code>clazz</code>.
-   * @throws    CannotGetValueException
-   *            clazz == null;
-   * @throws    CannotGetValueException
-   *            constantName == null;
-   * @throws    CannotGetValueException
-   *            clazz.getField(constantName) throws NoSuchFieldException;
-   * @throws    CannotGetValueException
-   *            clazz.getField(constantName) throws SecurityException;
-   * @throws    CannotGetValueException
-   *            clazz.getField(constantName).get(null) throws IllegalAccessException;
-   * @throws    CannotGetValueException
-   *            clazz.getField(constantName).get(null) throws IllegalArgumentException;
-   *            constantName is not a static field
    */
-  public static <_ConstantValue_> _ConstantValue_ constant(final Class<?> clazz,
-                                                           final String constantName)
-      throws CannotGetValueException {
+  @MethodContract(
+    pre  = {
+      @Expression("_type != null"),
+      @Expression("isConstant(_type, _constantName)")
+    },
+    post = {
+      @Expression("_type.getField(_constantName).get(null)")
+    }
+  )
+  public static <_ConstantValue_> _ConstantValue_ constant(final Class<?> type, final String constantName) {
+    preArgumentNotNull(type);
+    pre(isConstant(type, constantName));
     try {
-      Field field = clazz.getField(constantName); // NoSuchFieldException
-                                                  // NullPointerException
-                                                  // SecurityException
+      Field field = type.getField(constantName); // NoSuchFieldException, NullPointerException, SecurityException
       @SuppressWarnings("unchecked") _ConstantValue_ result =
-          (_ConstantValue_)field.get(null); // IllegalAccessException
-                                            // IllegalArgumentException
+          (_ConstantValue_)field.get(null); // IllegalAccessException, IllegalArgumentException,
                                             // NullPointerException; cannot happen
                                             // ExceptionInInitializerError
       return result;
       // not checking for static; why should we?
     }
     catch (NullPointerException npExc) {
-      throw new CannotGetValueException(clazz, constantName, npExc);
+      unexpectedException(npExc);
     }
     catch (NoSuchFieldException nsfExc) {
-      throw new CannotGetValueException(clazz, constantName, nsfExc);
+      unexpectedException(nsfExc);
     }
     catch (SecurityException sExc) {
-      throw new CannotGetValueException(clazz, constantName, sExc);
+      unexpectedException(sExc);
     }
     catch (IllegalAccessException iaExc) {
-      throw new CannotGetValueException(clazz, constantName, iaExc);
+      unexpectedException(iaExc);
     }
     catch (IllegalArgumentException iaExc) {
-      throw new CannotGetValueException(clazz, constantName, iaExc);
+      unexpectedException(iaExc);
     }
     catch (ExceptionInInitializerError iaExc) {
-      assert false : "Should not happen";
-      return null; // make compiler happy
+      unexpectedException(iaExc);
     }
+    return null; // make compiler happy
+  }
+
+  /**
+   * Is {@code constantName} a constant in {@code type} or one of its super types?
+   * This means a variable with that name must exist that is static, final and public.
+   */
+  @MethodContract(
+    pre  = {
+      @Expression("_type != null"),
+      @Expression("_constantName != null"),
+      @Expression("_constantName != EMPTY")
+    },
+    post = {
+      @Expression("exists (Field f : type.fields) {" +
+                    "f.name == _constantName && Modifier.isFinal(f.modifiers) && Modifier.isStatic(f.modifiers)" +
+                  "}")
+    }
+  )
+  public static boolean isConstant(Class<?> type, String constantName) {
+    preArgumentNotNull(type);
+    preArgumentNotEmpty(constantName);
+    boolean result = false;
+    try {
+      Field field = type.getField(constantName); // result is public for sure
+      int fMods = field.getModifiers();
+      result = Modifier.isFinal(fMods) && Modifier.isStatic(fMods);
+    }
+    catch (NullPointerException npExc) {
+      unexpectedException(npExc, "constantName nor type or null here");
+    }
+    catch (SecurityException exc) {
+      unexpectedException(exc);
+    }
+    catch (NoSuchFieldException exc) {
+      result = false;
+    }
+    return result;
   }
 
 }

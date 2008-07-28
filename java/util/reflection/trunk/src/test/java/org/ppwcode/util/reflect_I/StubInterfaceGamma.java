@@ -23,5 +23,8 @@ public interface StubInterfaceGamma extends StubInterfaceDelta {
 
   void stubMethodEpsilon();
 
+
+  public final static String STUB_CONSTANT_GAMMA = "Another STUB constant";
+
 }
 
