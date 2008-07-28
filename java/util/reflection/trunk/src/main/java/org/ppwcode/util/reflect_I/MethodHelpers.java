@@ -427,7 +427,8 @@ public final class MethodHelpers {
    *   {@link Class#getMethod(String, Class...)}: inherited methods do not apply.</p>
    * <p>Note that the name of a constructor in {@link Constructor} is the FQCN
    *   (see {@link Constructor#getName()}), while in our signature it is intended to be
-   *   the short, simple name.</p>
+   *   the short, simple name. If no constructor is defined in {@code type}, the default default constructor
+   *   is found with the appropriate signature.</p>
    *
    * @param type
    *        The class to look for the method in.
@@ -443,24 +444,25 @@ public final class MethodHelpers {
    */
   @MethodContract(
     pre  = {
-      @Expression("_type != null"),
+      @Expression("_clazz != null"),
+      @Expression("! _clazz.isInterface()"),
       @Expression("_signature != null"),
       @Expression("_signature != EMPTY"),
-      @Expression(value = "true", description = "_signature is the signature of an existing method of _type")
+      @Expression(value = "true", description = "_signature is the signature of an existing method of _clazz")
     },
     post = {
       @Expression("result != null"),
-      @Expression("result.declaringClass == _type"),
+      @Expression("result.declaringClass == _clazz"),
       @Expression("Arrays.deepEquals(result.parameterTypes, new MethodSignature(_signature).parameterTypes")
     }
   )
-  public static <_T_> Constructor<_T_> constructor(Class<_T_> type, String signature) {
-    assert preArgumentNotNull(type, "type");
+  public static <_T_> Constructor<_T_> constructor(Class<_T_> clazz, String signature) {
+    assert preArgumentNotNull(clazz, "clazz");
     assert preArgumentNotEmpty(signature, "signature");
     Constructor<_T_> result = null;
     try {
       MethodSignature sig = new MethodSignature(signature);
-      result = type.getDeclaredConstructor(sig.getParameterTypes());
+      result = clazz.getDeclaredConstructor(sig.getParameterTypes());
     }
     catch (NullPointerException npExc) {
       unexpectedException(npExc);
@@ -472,7 +474,7 @@ public final class MethodHelpers {
       unexpectedException(sExc, "not allowed to access " + signature);
     }
     catch (NoSuchMethodException exc) {
-      unexpectedException(exc, "constructor " + signature + " not found in " + type.getName());
+      unexpectedException(exc, "constructor " + signature + " not found in " + clazz.getName());
     }
     return result;
   }

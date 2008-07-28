@@ -615,6 +615,7 @@ public class MethodHelpersTest {
     testConstructor(StubClass.class, "StubClass(long)");
     testConstructor(StubClass.class, "StubClass(boolean)");
     testConstructor(StubClass.class, "StubClass(byte)");
+    testConstructor(AlternateStubClass.class, "StubClass()");
   }
 
   //MUDO deal with [] array types
