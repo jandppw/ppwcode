@@ -190,6 +190,12 @@ public final class MethodHelpers {
     return result;
   }
 
+  /**
+   * Package accessible for testing.
+   * Look for the method with {@code signature} in {@code type}. If not found, repeat recursively in the superclasses,
+   * but only accept non-private methods. If not found, traverse through all super interfaces we encountered,
+   * recursively, to find the method.
+   */
   static Method inheritedMethodHelper(Class<?> type, String signature) throws NoSuchMethodException {
     assert preArgumentNotNull(type, "type");
     assert preArgumentNotEmpty(signature, "signature");
@@ -281,10 +287,11 @@ public final class MethodHelpers {
   /**
    * <p>Return the method of class {@code type} with signature {@code signature}.
    *   If something goes wrong, this is considered a programming error (see {@link ProgrammingErrors}).</p>
-   * <p>{@code findMethod} returns any method (not only {@code public} methods as
-   *   {@link Class#getMethod(String, Class...)} does), but only methods declared exactly in {@code type},
-   *   like {@link Class#getDeclaredMethod(String, Class...)}, and unlike
-   *   {@link Class#getMethod(String, Class...)}: inherited methods do not apply.</p>
+   * <p>We return any matching method found in {@code type}, and if not found there, any non-private
+   *   method found in a superclass, searching from this {@code type} towards {@link Object} (if {@code type}
+   *   is a class). If not found in any of the superclasses, we start searching the interfaces, of {@code type},
+   *   and later the superclasses in the order from {@code type} towards {@link Object}, recursively,
+   *   breadfirst.</p>
    *
    * @param type
    *        The class to look for the method in.
@@ -307,15 +314,16 @@ public final class MethodHelpers {
     },
     post = {
       @Expression("result != null"),
-      @Expression("result.declaringClass == _type"),
+      @Expression("result.declaringClass.isAssignableFrom(_type)"),
       @Expression("result.name == new MethodSignature(_signature).methodName"),
-      @Expression("Arrays.deepEquqls(result.parameterTypes, new MethodSignature(_signature).parameterTypes")
+      @Expression("Arrays.deepEquals(result.parameterTypes, new MethodSignature(_signature).parameterTypes"),
+      @Expression("result.declaringClass != _type ? ! isPrivate(result)")
     }
   )
   public static Method method(Class<?> type, String signature) {
     Method result = null;
     try {
-      result = methodHelper(type, signature);
+      result = inheritedMethodHelper(type, signature);
     }
     catch (NoSuchMethodException exc) {
       unexpectedException(exc, "method " + signature + " not found in " + type.getName());

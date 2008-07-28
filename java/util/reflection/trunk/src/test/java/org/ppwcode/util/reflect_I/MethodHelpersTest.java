@@ -399,6 +399,23 @@ public class MethodHelpersTest {
     testMethodClassOfQString(StubClass.class, "stubStaticMethod(byte)");
  // MUDO deal with [] array types
 //    testMethodClassOfQString(StubClass.class, "stubStaticMethod(Object[])");
+    // inherited
+    testMethodClassOfQString(StubClass.class, "toString()");
+    testMethodClassOfQString(StubClass.class, "stubMethodA()");
+    testMethodClassOfQString(StubClass.class, "stubMethodB()");
+    testMethodClassOfQString(StubClass.class, "stubMethodC()");
+    testMethodClassOfQString(StubInterfaceAlpha.class, "stubMethodAlpha()");
+    testMethodClassOfQString(StubInterfaceBeta.class, "stubMethodC()");
+    testMethodClassOfQString(StubInterfaceGamma.class, "stubMethodEpsilon()");
+    testMethodClassOfQString(AbstractSubSubStubClass.class, "stubMethodAlpha()");
+    testMethodClassOfQString(AbstractSubSubStubClass.class, "stubMethodBeta()");
+    testMethodClassOfQString(AbstractSubSubStubClass.class, "stubMethodGamma()");
+    testMethodClassOfQString(AbstractSubSubStubClass.class, "stubMethodDelta()");
+    testMethodClassOfQString(AbstractSubSubStubClass.class, "stubMethodEpsilon()");
+    testMethodClassOfQString(AbstractSubSubStubClass.class, "stubMethodC()");
+    testMethodClassOfQString(AbstractSubSubStubClass.class, "stubMethod()");
+    testMethodClassOfQString(AbstractSubSubStubClass.class, "privateStubMethodAleph()");
+    testMethodClassOfQString(SuperStubClass.class, "privateStubMethodBet()");
   }
 
   @Test(expected = AssertionError.class)
@@ -421,13 +438,19 @@ public class MethodHelpersTest {
     method(StubClass.class, "StubClass(Object, Object, float)");
   }
 
+  @Test(expected = AssertionError.class)
+  public void testMethodClassOfQString6() throws CannotParseSignatureException {
+    method(AbstractSubSubStubClass.class, "privateStubMethodBet()");
+  }
+
   public void testMethodClassOfQString(Class<?> type, String signature) throws CannotParseSignatureException {
     Method result = method(type, signature);
     assertNotNull(result);
-    assertEquals(type, result.getDeclaringClass());
+    assertTrue(result.getDeclaringClass().isAssignableFrom(type));
     MethodSignature msig = new MethodSignature(signature);
     assertEquals(msig.getMethodName(), result.getName());
     assertArrayEquals(msig.getParameterTypes(), result.getParameterTypes());
+    assertTrue(result.getDeclaringClass() != type ? ! MethodHelpers.isPrivate(result) : true);
   }
 
   @Test
