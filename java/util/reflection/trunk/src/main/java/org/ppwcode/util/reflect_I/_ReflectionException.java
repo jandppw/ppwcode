@@ -11,13 +11,13 @@ package org.ppwcode.util.reflect_I;
  *
  * @note partial copy from toryt_II_dev
  */
-public abstract class ReflectionException extends Exception {
+public abstract class _ReflectionException extends Exception {
 
   /**
    * @post new.getMessage() == null;
    * @post new.getCause() == cause;
    */
-  protected ReflectionException(Throwable cause) {
+  protected _ReflectionException(Throwable cause) {
     super(null, cause);
   }
 
@@ -25,7 +25,7 @@ public abstract class ReflectionException extends Exception {
    * @post equalsWithNull(getMessage(), message);
    * @post new.getCause() == null;
    */
-  protected ReflectionException(String message) {
+  protected _ReflectionException(String message) {
     super(message, null);
   }
 

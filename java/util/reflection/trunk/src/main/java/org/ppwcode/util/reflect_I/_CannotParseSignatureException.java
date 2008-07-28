@@ -9,14 +9,14 @@ package org.ppwcode.util.reflect_I;
  * @author Jan Dockx
  * @note partial copy from toryt_II_dev
  */
-public class CannotParseSignatureException extends ReflectionException {
+public class _CannotParseSignatureException extends _ReflectionException {
 
   /**
    * @post equalsWithNull(getSignature(), signature);
    * @post getCause() == cause;
    * @post getMessage() == null;
    */
-  public CannotParseSignatureException(String signature, Throwable cause) {
+  public _CannotParseSignatureException(String signature, Throwable cause) {
     super(cause);
     $signature = signature;
   }
@@ -26,7 +26,7 @@ public class CannotParseSignatureException extends ReflectionException {
    * @post equalsWithNull(message, getMessage());
    * @post getCause() == null;
    */
-  public CannotParseSignatureException(String signature, String message) {
+  public _CannotParseSignatureException(String signature, String message) {
     super(message);
     $signature = signature;
   }
