@@ -8,8 +8,9 @@
 
 svn_spider is run automatically at regular intervals on hypocrates, a machine owned by PeopleWare.  Commits to the repository by the script are done with a developer account specifically created for this purpose (ppw.bot@gmail.com).
 
-The configuration file used, is the following:
+The script is configured to check all trunks in the ppwcode repository.
 
+The configuration file used, is the following:
 {{{
 # working dir for code checkouts
 @@working_directory = "/home/rvdginste/spider_workdir"
