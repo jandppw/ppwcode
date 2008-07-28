@@ -36,10 +36,11 @@ import org.toryt.annotations_I.MethodContract;
 
 
 /**
- * Convenience methods for working with {@code clone()}.
- * Note that there is no type in the Java API that features {@code clone()} as a
- * public method, and we also cannot retroactively put an interface above existing
- * API classes.
+ * <p>Convenience methods for working with {@code clone()}. Note that there is no type in the Java
+ *   API that features {@code clone()} as a public method, and we also cannot retroactively put an
+ *   interface above existing API classes. Use these methods if you are interested in the result,
+ *   and not in a particular reason why something might have failed. The ppwcode exception vernacular
+ *   is applied.</p>
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
