@@ -20,7 +20,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 
-public class StubClass {
+public class StubClass extends SuperStubClass {
 
   public static class StubClassA {
 
@@ -60,6 +60,7 @@ public class StubClass {
 
 
 
+  @Override
   @SuppressWarnings("unused")
   public void stubMethod() {
     // NOP

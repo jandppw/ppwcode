@@ -87,6 +87,8 @@ public class MethodHelpersTest {
     testMethodHelper(StubClass.class, "stubStaticMethod(byte)");
  // MUDO deal with [] array types
 //    testMethodHelper(StubClass.class, "stubStaticMethod(Object[])");
+    // interface
+    testMethodHelper(SuperSuperStubInterfaceA.class, "stubMethodC()");
   }
 
   @Test(expected = NoSuchMethodException.class)
@@ -116,6 +118,145 @@ public class MethodHelpersTest {
     MethodSignature msig = new MethodSignature(signature);
     assertEquals(msig.getMethodName(), result.getName());
     assertArrayEquals(msig.getParameterTypes(), result.getParameterTypes());
+  }
+
+  @Test
+  public void testInheritedMethodHelper1() throws SecurityException, NoSuchMethodException {
+    Method result = MethodHelpers.inheritedMethodHelper(StubClass.class, "stubMethod()");
+    Method expected = StubClass.class.getDeclaredMethod("stubMethod");
+    assertEquals(expected, result);
+  }
+
+  @Test
+  public void testInheritedMethodHelper2() throws SecurityException, NoSuchMethodException {
+    Method result = MethodHelpers.inheritedMethodHelper(StubClass.class, "toString()");
+    Method expected = Object.class.getDeclaredMethod("toString");
+    assertEquals(expected, result);
+  }
+
+  @Test
+  public void testInheritedMethodHelper3() throws SecurityException, NoSuchMethodException {
+    Method result = MethodHelpers.inheritedMethodHelper(StubClass.class, "stubMethodA()");
+    Method expected = SuperStubClass.class.getDeclaredMethod("stubMethodA");
+    assertEquals(expected, result);
+  }
+
+  @Test
+  public void testInheritedMethodHelper4() throws SecurityException, NoSuchMethodException {
+    Method result = MethodHelpers.inheritedMethodHelper(StubClass.class, "stubMethodB()");
+    Method expected = SuperStubClass.class.getDeclaredMethod("stubMethodB");
+    assertEquals(expected, result);
+  }
+
+  @Test
+  public void testInheritedMethodHelper5() throws SecurityException, NoSuchMethodException {
+    Method result = MethodHelpers.inheritedMethodHelper(StubClass.class, "stubMethodC()");
+    Method expected = SuperSuperStubClass.class.getDeclaredMethod("stubMethodC");
+    assertEquals(expected, result);
+  }
+
+  @Test(expected = NoSuchMethodException.class)
+  public void testInheritedMethodHelper6() throws SecurityException, NoSuchMethodException {
+    MethodHelpers.inheritedMethodHelper(StubClass.class, "doesntExist()");
+  }
+
+  @Test(expected = NoSuchMethodException.class)
+  public void testInheritedMethodHelper7() throws SecurityException, NoSuchMethodException {
+    MethodHelpers.inheritedMethodHelper(AbstractSubSubStubClass.class, "doesntExist()");
+  }
+
+  @Test(expected = NoSuchMethodException.class)
+  public void testInheritedMethodHelper8() throws SecurityException, NoSuchMethodException {
+    MethodHelpers.inheritedMethodHelper(StubInterfaceDelta.class, "doesntExist()");
+  }
+
+  @Test
+  public void testInheritedMethodHelper9() throws SecurityException, NoSuchMethodException {
+    Method result = MethodHelpers.inheritedMethodHelper(StubInterfaceAlpha.class, "stubMethodAlpha()");
+    Method expected = StubInterfaceAlpha.class.getDeclaredMethod("stubMethodAlpha");
+    assertEquals(expected, result);
+  }
+
+  @Test
+  public void testInheritedMethodHelper10() throws SecurityException, NoSuchMethodException {
+    Method result = MethodHelpers.inheritedMethodHelper(StubInterfaceBeta.class, "stubMethodC()");
+    Method expected = SuperSuperStubInterfaceA.class.getDeclaredMethod("stubMethodC");
+    assertEquals(expected, result);
+  }
+
+  @Test
+  public void testInheritedMethodHelper11() throws SecurityException, NoSuchMethodException {
+    Method result = MethodHelpers.inheritedMethodHelper(StubInterfaceGamma.class, "stubMethodEpsilon()");
+    Method expected = StubInterfaceGamma.class.getDeclaredMethod("stubMethodEpsilon");
+    assertEquals(expected, result);
+  }
+
+  @Test
+  public void testInheritedMethodHelper12() throws SecurityException, NoSuchMethodException {
+    Method result = MethodHelpers.inheritedMethodHelper(AbstractSubSubStubClass.class, "stubMethodAlpha()");
+    Method expected = AbstractSubStubClass.class.getDeclaredMethod("stubMethodAlpha");
+    assertEquals(expected, result);
+  }
+
+  @Test
+  public void testInheritedMethodHelper13() throws SecurityException, NoSuchMethodException {
+    Method result = MethodHelpers.inheritedMethodHelper(AbstractSubSubStubClass.class, "stubMethodBeta()");
+    Method expected = StubInterfaceBeta.class.getDeclaredMethod("stubMethodBeta");
+    assertEquals(expected, result);
+  }
+
+  @Test
+  public void testInheritedMethodHelper14() throws SecurityException, NoSuchMethodException {
+    Method result = MethodHelpers.inheritedMethodHelper(AbstractSubSubStubClass.class, "stubMethodGamma()");
+    Method expected = StubInterfaceGamma.class.getDeclaredMethod("stubMethodGamma");
+    assertEquals(expected, result);
+  }
+
+  @Test
+  public void testInheritedMethodHelper15() throws SecurityException, NoSuchMethodException {
+    Method result = MethodHelpers.inheritedMethodHelper(AbstractSubSubStubClass.class, "stubMethodDelta()");
+    Method expected = StubInterfaceDelta.class.getDeclaredMethod("stubMethodDelta");
+    assertEquals(expected, result);
+  }
+
+  @Test
+  public void testInheritedMethodHelper16() throws SecurityException, NoSuchMethodException {
+    Method result = MethodHelpers.inheritedMethodHelper(AbstractSubSubStubClass.class, "stubMethodEpsilon()");
+    Method expected = StubInterfaceGamma.class.getDeclaredMethod("stubMethodEpsilon");
+    assertEquals(expected, result);
+  }
+
+  @Test
+  public void testInheritedMethodHelper17() throws SecurityException, NoSuchMethodException {
+    Method result = MethodHelpers.inheritedMethodHelper(AbstractSubSubStubClass.class, "stubMethodC()");
+    Method expected = SuperSuperStubClass.class.getDeclaredMethod("stubMethodC");
+    assertEquals(expected, result);
+  }
+
+  @Test
+  public void testInheritedMethodHelper18() throws SecurityException, NoSuchMethodException {
+    Method result = MethodHelpers.inheritedMethodHelper(AbstractSubSubStubClass.class, "stubMethod()");
+    Method expected = StubClass.class.getDeclaredMethod("stubMethod");
+    assertEquals(expected, result);
+  }
+
+  @Test
+  public void testInheritedMethodHelper19() throws SecurityException, NoSuchMethodException {
+    Method result = MethodHelpers.inheritedMethodHelper(AbstractSubSubStubClass.class, "privateStubMethodAleph()");
+    Method expected = AbstractSubSubStubClass.class.getDeclaredMethod("privateStubMethodAleph");
+    assertEquals(expected, result);
+  }
+
+  @Test
+  public void testInheritedMethodHelper20a() throws SecurityException, NoSuchMethodException {
+    Method result = MethodHelpers.inheritedMethodHelper(SuperStubClass.class, "privateStubMethodBet()");
+    Method expected = SuperStubClass.class.getDeclaredMethod("privateStubMethodBet");
+    assertEquals(expected, result);
+  }
+
+  @Test(expected = NoSuchMethodException.class)
+  public void testInheritedMethodHelper20() throws SecurityException, NoSuchMethodException {
+    MethodHelpers.inheritedMethodHelper(AbstractSubSubStubClass.class, "privateStubMethodBet()");
   }
 
   @Test
