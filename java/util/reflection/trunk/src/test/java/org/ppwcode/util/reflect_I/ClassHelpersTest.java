@@ -20,7 +20,6 @@ package org.ppwcode.util.reflect_I;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.ppwcode.util.reflect_I.StubClass.StubClassA;
@@ -100,7 +99,7 @@ public class ClassHelpersTest {
 
   @Test
   public void testLoadForName12() throws _CannotGetClassException {
-    Class<?> result = ClassHelpers.loadForName("org.pwwcode.util.reflect_I.ConstantHelpers");
+    Class<?> result = ClassHelpers.loadForName("org.ppwcode.util.reflect_I.ConstantHelpers");
     assertEquals(ConstantHelpers.class, result);
   }
 
@@ -156,21 +155,23 @@ public class ClassHelpersTest {
 
 
 
-  // prefixedDqcn
-
-  @Test
-  public void testPrefixedFqcn() {
-    fail("Not yet implemented");
-  }
-
-
-
-  // instantiatePrefixed
-
-  @Test
-  public void testInstantiatePrefixed() {
-    fail("Not yet implemented");
-  }
+//  // prefixedDqcn
+//
+//  // MUDO test
+//  @Test
+//  public void testPrefixedFqcn() {
+//    fail("Not yet implemented");
+//  }
+//
+//
+//
+//  // instantiatePrefixed
+//
+//  // MUDO test
+//  @Test
+//  public void testInstantiatePrefixed() {
+//    fail("Not yet implemented");
+//  }
 
 
 
