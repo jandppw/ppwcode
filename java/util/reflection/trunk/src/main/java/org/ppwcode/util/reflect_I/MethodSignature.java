@@ -17,23 +17,45 @@ limitations under the License.
 package org.ppwcode.util.reflect_I;
 
 
+import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+
+import org.ppwcode.metainfo_I.Copyright;
+import org.ppwcode.metainfo_I.License;
+import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.toryt.annotations_I.Basic;
+import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.Invars;
+import org.toryt.annotations_I.MethodContract;
 
 /**
  * Structured parse of a signature String, containing the {@link #getMethodName() method name},
  * the {@link #getParameterTypeNames() canonical name of the parameter types} and the
  * {@link #getParameterTypes() parameter types}.
  *
- * @invar getParameterTypes() != null;
- * @invar noNull(getParameterTypes());
- *
  * @note partial copy from toryt_II_dev
  */
+@Copyright("2004 - $Date$, PeopleWare n.v.")
+@License(APACHE_V2)
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
+@Invars({
+  @Expression("methodName != null"),
+  @Expression("methodName != EMPTY"),
+  @Expression("parameterTypes != null"),
+  @Expression("! Arrays.contains(parameterTypes, null)"),
+})
 public class MethodSignature {
 
   /**
    * @pre signature != null;
    */
+//  @MethodContract(
+//    pre  = @Expression(signature != null)
+//  )
   public MethodSignature(String signature) throws _CannotParseSignatureException {
     assert signature != null;
     int openingParenthesis = signature.indexOf("(");
@@ -72,9 +94,13 @@ public class MethodSignature {
     }
   }
 
-  /**
-   * @pre method != null;
-   */
+  @MethodContract(
+    pre  = @Expression("_method != null"),
+    post = {
+      @Expression("methodName == _method.name"),
+      @Expression("Arrays.equals(parameterTypes, method.parameterTypes")
+    }
+  )
   public MethodSignature(Method method) {
     assert method != null;
     $methodName = method.getName();
@@ -85,44 +111,86 @@ public class MethodSignature {
     }
   }
 
-  /**
-   * @basic
-   */
+  @MethodContract(
+    pre  = @Expression("_method != null"),
+    post = {
+      @Expression("methodName == _method.class.simpleName"),
+      @Expression("Arrays.equals(parameterTypes, method.parameterTypes")
+    }
+  )
+  public MethodSignature(Constructor<?> method) {
+    assert method != null;
+    $methodName = method.getClass().getSimpleName();
+    $parameterTypes = method.getParameterTypes();
+    $parameterTypeNames = new String[$parameterTypes.length];
+    for (int i = 0; i < $parameterTypes.length; i++) {
+      $parameterTypeNames[i] = $parameterTypes[i].getCanonicalName();
+    }
+  }
+
+  @Basic
   public final String getMethodName() {
     return $methodName;
   }
 
+  /**
+   * The name of the method we represent.
+   */
+  @Invars({
+    @Expression("$methodName != null"),
+    @Expression("$methodName != EMPTY")
+  })
   private final String $methodName;
 
-  /**
-   * @result result != null;
-   * @result result.length = getNumberOfParameters();
-   * @result forall(int i = 0 .. getNumberOfParameters()) {
-   *           result[i].equals(getParameterTypes()[i].getCanonicalName())
-   *         };
-   */
+  @MethodContract(
+    post = {
+      @Expression("result != null"),
+      @Expression("result.length == parameterTypes.length"),
+      @Expression("! Arrays.contains(result, null)"),
+      @Expression("! Arrays.contains(result, EMPTY)"),
+      @Expression("for (int i : 0 .. result.lenght - 1) {result[i] == parameterTypes[i].getCanonicalName}")
+    }
+  )
   public final String[] getParameterTypeNames() {
     return $parameterTypeNames;
   }
 
+  /**
+   * The names of the parameter types, in order.
+   */
+  @Invars({
+    @Expression("$parameterTypeNames != null"),
+    @Expression("$parameterTypeNames.length == $parameterTypes.length"),
+    @Expression("! Arrays.contains($parameterTypeNames, null)"),
+    @Expression("! Arrays.contains($parameterTypeNames, EMPTY)"),
+    @Expression("for (int i : 0 .. $parameterTypeNames.lenght - 1) {$parameterTypeNames[i] == $parameterTypes[i].getCanonicalName}")
+  })
   private final String[] $parameterTypeNames;
 
-  /**
-   * @basic
-   */
+  @Basic
   public Class<?>[] getParameterTypes() {
     return $parameterTypes;
   }
 
+  /**
+   * The types of the parameters of this method, in order.
+   */
+  @Invars({
+    @Expression("$parameterTypes != null"),
+    @Expression("! Arrays.contains($parameterTypes, null)")
+  })
   private final Class<?>[] $parameterTypes;
 
-  /**
-   * @return getParameterTypes().lenght;
-   */
+  @MethodContract(
+    post = @Expression("parameterTypes.length")
+  )
   public final int getNumberOfParameters() {
     return $parameterTypes.length;
   }
 
+  /**
+   * Signature of the represented method in expected format (without argument names).
+   */
   @Override
   public String toString() {
     StringBuffer result = new StringBuffer(getMethodName());
@@ -137,7 +205,15 @@ public class MethodSignature {
     return result.toString();
   }
 
+  /**
+   * Signatures are considered equal if they are of this type, the {@link #getMethodName()}
+   * is exactly the same, and the {@link #getParameterTypes()} are exactly the same, in order.
+   */
   @Override
+  @MethodContract(
+    post = @Expression("(obj != null) && (obj instanceof MethodSignature) && " +
+                       "(methodName == other.methodName) && Arrays.equals(parameterTypes, other.parameterTypes)")
+  )
   public final boolean equals(Object obj) {
     if (obj == null) {
       return false;
@@ -147,39 +223,8 @@ public class MethodSignature {
     }
     else {
       MethodSignature other = (MethodSignature)obj;
-      if (! equalsWithNull(getMethodName(), other.getMethodName())) {
-        return false;
-      }
-      else {
-        Class<?>[] thisPt = getParameterTypes();
-        Class<?>[] otherPt = other.getParameterTypes();
-        if (thisPt.length != otherPt.length) {
-          return false;
-        }
-        else {
-          for (int i = 0; i < thisPt.length; i++) {
-            if (thisPt[i] != otherPt[i]) {
-              return false;
-            }
-          }
-          return true;
-        }
-      }
-    }
-  }
-
-  private static boolean equalsWithNull(Object one, Object other) {
-    if (one == other) {
-      return true;
-    }
-    else if (one == null) {
-      assert other != null;
-      return false;
-    }
-    else {
-      assert one != null;
-      assert other != null;
-      return one.equals(other);
+      return getMethodName().equals(other.getMethodName()) &&
+             Arrays.equals(getParameterTypes(), other.getParameterTypes());
     }
   }
 
