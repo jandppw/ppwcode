@@ -40,6 +40,8 @@ import org.toryt.annotations_I.Throw;
  *       etcetera, on {@link Method#getModifiers() the modifiers} of the result.
  *
  * @author Jan Dockx
+ *
+ * @mudo this MUST be changed to include inherited methods
  */
 public final class MethodHelpers {
 
@@ -235,6 +237,48 @@ public final class MethodHelpers {
   public static boolean hasMethod(Class<?> type, String signature) {
     try {
       return methodHelper(type, signature) != null;
+    }
+    catch (NoSuchMethodException exc) {
+      return false;
+    }
+  }
+
+  /**
+   * <p>Assert whether class {@code type} has a public method with signature {@code signature}.
+   *   Only methods defined in {@code type} apply: inherited methods do not count.
+   *   If something goes wrong, this is considered a programming error (see {@link ProgrammingErrors}).</p>
+   *
+   * @param type
+   *        The class to look for the method in.
+   * @param signature
+   *        The signature of the method to look for. This is the name of the
+   *        method, with the FQCN of the arguments in parenthesis appended, comma
+   *        separated. For classes of the package {@code java.lang}, the short class
+   *        name may be used.
+   *        The return type is not a part of the signature, nor are potential
+   *        exception types the method can throw.
+   *        Example: {@code "findMethod(java.lang.Class,java.lang.String)"},
+   *        which is equivalent to {@code "findMethod ( Class, String )"}.
+   */
+  @MethodContract(
+    pre  = {
+      @Expression("_type != null"),
+      @Expression("_signature != null"),
+      @Expression("_signature != EMPTY"),
+      @Expression(value = "true", description = "_signature is a valid signature")
+    },
+    post = {
+      @Expression("exists (Method m : _type.declaredMethods) {" +
+                    "m.name == new MethodSignature(_signature).methodName && " +
+                    "Arrays.deepEquqls(m.parameterTypes, new MethodSignature(_signature).parameterTypes && " +
+                    "Modifier.isPublic(m.modifiers)" +
+                  "}")
+    }
+  )
+  public static boolean hasPublicMethod(Class<?> type, String signature) {
+    try {
+      Method m = methodHelper(type, signature);
+      return m != null && Modifier.isPublic(m.getModifiers());
     }
     catch (NoSuchMethodException exc) {
       return false;
