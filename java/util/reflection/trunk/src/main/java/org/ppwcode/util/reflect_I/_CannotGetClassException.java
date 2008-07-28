@@ -10,7 +10,7 @@ package org.ppwcode.util.reflect_I;
  *
  * @note partial copy from toryt_II_dev
  */
-public class CannotGetClassException extends AbstractFqcnException {
+public class _CannotGetClassException extends _AbstractFqcnException {
 
   /**
    * @pre fqcn != null;
@@ -18,7 +18,7 @@ public class CannotGetClassException extends AbstractFqcnException {
    * @post new.getMessage() == null;
    * @post new.getCause() == cause;
    */
-  public CannotGetClassException(String fqcn, Throwable cause) {
+  public _CannotGetClassException(String fqcn, Throwable cause) {
     super(fqcn, cause);
   }
 

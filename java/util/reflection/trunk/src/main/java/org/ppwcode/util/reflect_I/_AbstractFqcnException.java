@@ -12,7 +12,7 @@ package org.ppwcode.util.reflect_I;
  *
  * @note partial copy from toryt_II_dev
  */
-public abstract class AbstractFqcnException extends ReflectionException {
+public abstract class _AbstractFqcnException extends _ReflectionException {
 
   /**
    * @pre fqcn != null;
@@ -20,7 +20,7 @@ public abstract class AbstractFqcnException extends ReflectionException {
    * @post new.getMessage() == null;
    * @post new.getCause() == cause;
    */
-  public AbstractFqcnException(String fqcn, Throwable cause) {
+  public _AbstractFqcnException(String fqcn, Throwable cause) {
     super(cause);
     assert fqcn != null;
     $fqcn = fqcn;
