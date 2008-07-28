@@ -186,7 +186,7 @@ public final class MethodHelpers {
     catch (NullPointerException npExc) {
       unexpectedException(npExc);
     }
-    catch (CannotParseSignatureException cpsExc) {
+    catch (_CannotParseSignatureException cpsExc) {
       unexpectedException(cpsExc, signature + " is not a signature");
     }
     catch (SecurityException sExc) {
@@ -473,7 +473,7 @@ public final class MethodHelpers {
     catch (NullPointerException npExc) {
       unexpectedException(npExc);
     }
-    catch (CannotParseSignatureException cpsExc) {
+    catch (_CannotParseSignatureException cpsExc) {
       unexpectedException(cpsExc, signature + " is not a signature");
     }
     catch (SecurityException sExc) {

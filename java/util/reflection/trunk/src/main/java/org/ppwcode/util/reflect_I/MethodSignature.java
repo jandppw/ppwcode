@@ -17,12 +17,12 @@ public class MethodSignature {
   /**
    * @pre signature != null;
    */
-  public MethodSignature(String signature) throws CannotParseSignatureException {
+  public MethodSignature(String signature) throws _CannotParseSignatureException {
     assert signature != null;
     int openingParenthesis = signature.indexOf("(");
     int closingParenthesis = signature.indexOf(")");
     if ((openingParenthesis < 0) || (closingParenthesis < 0)) {
-      throw new CannotParseSignatureException(signature, "missing parentheses");
+      throw new _CannotParseSignatureException(signature, "missing parentheses");
     }
     $methodName = signature.substring(0, openingParenthesis).trim();
     String parameters = signature.substring(openingParenthesis + 1, closingParenthesis);
@@ -48,8 +48,8 @@ public class MethodSignature {
       try {
         $parameterTypes[i] = ClassHelpers.loadForName(parameterTypeName);
       }
-      catch (CannotGetClassException cgcExc) {
-        throw new CannotParseSignatureException(signature, cgcExc);
+      catch (_CannotGetClassException cgcExc) {
+        throw new _CannotParseSignatureException(signature, cgcExc);
       }
       $parameterTypeNames[i] = $parameterTypes[i].getCanonicalName();
     }

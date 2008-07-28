@@ -147,18 +147,18 @@ public class ClassHelpers {
    *           (! "int".equals(fqn)) && (! "long".equals(fqn)) &&
    *           (! "float".equals(fqn)) && (! "double".equals(fqn)) ?
    *         (result = Class.forName(fqn)) || (result == Class.forName("java.lang." + fqn);
-   * @throws CannotGetClassException
+   * @throws _CannotGetClassException
    *         fqn == null;
-   * @throws CannotGetClassException
+   * @throws _CannotGetClassException
    *         (! "boolean".equals(fqn)) && (! "byte".equals(fqn)) &&
    *           (! "char".equals(fqn)) && (! "short".equals(fqn)) &&
    *           (! "int".equals(fqn)) && (! "long".equals(fqn)) &&
    *           (! "float".equals(fqn)) && (! "double".equals(fqn)) ?
    *         Class.forName(fqn) throws && Class.forName("java.lang." + fqn) throws;
    */
-  public static Class<?> loadForName(String fqn) throws CannotGetClassException {
+  public static Class<?> loadForName(String fqn) throws _CannotGetClassException {
     if (fqn == null) {
-      throw new CannotGetClassException(fqn, new NullPointerException("fqn is null"));
+      throw new _CannotGetClassException(fqn, new NullPointerException("fqn is null"));
     }
     else if ("boolean".equals(fqn)) {
       return Boolean.TYPE;
@@ -196,7 +196,7 @@ public class ClassHelpers {
               return Class.forName("java.lang." + fqn);
             }
             catch (ClassNotFoundException cnfExc2) {
-              throw new CannotGetClassException(fqn, cnfExc2);
+              throw new _CannotGetClassException(fqn, cnfExc2);
             }
           }
           else { // let's try for member classes
@@ -219,13 +219,13 @@ public class ClassHelpers {
               }
             }
             // if we get here, we finally give up
-            throw new CannotGetClassException(fqn, null);
+            throw new _CannotGetClassException(fqn, null);
           }
         }
       }
       catch (LinkageError lErr) {
         // also catches ExceptionInInitializerError
-        throw new CannotGetClassException(fqn, lErr);
+        throw new _CannotGetClassException(fqn, lErr);
       }
     }
   }
@@ -292,12 +292,12 @@ public class ClassHelpers {
    * @param fqcn
    *        The original fully qualified class name to derive
    *        the prefixed class name from.
-   * @throws CannotCreateInstanceException
+   * @throws _CannotCreateInstanceException
    */
   public static Object instantiatePrefixed(ClassLoader cl,
                                            final String prefix,
                                            final String fqcn)
-  throws CannotCreateInstanceException {
+  throws _CannotCreateInstanceException {
     try {
       String prefixedFqcn = prefixedFqcn(prefix, fqcn);
       try {
@@ -305,14 +305,14 @@ public class ClassHelpers {
         return result;
       }
       catch (ClassNotFoundException cnfExc) {
-        throw new CannotCreateInstanceException(prefixedFqcn, cnfExc);
+        throw new _CannotCreateInstanceException(prefixedFqcn, cnfExc);
       }
       catch (IOException ioExc) {
-        throw new CannotCreateInstanceException(prefixedFqcn, ioExc);
+        throw new _CannotCreateInstanceException(prefixedFqcn, ioExc);
       }
     }
     catch (NullPointerException npExc) {
-      throw new CannotCreateInstanceException(prefix + "/" + fqcn, npExc);
+      throw new _CannotCreateInstanceException(prefix + "/" + fqcn, npExc);
     }
   }
 
