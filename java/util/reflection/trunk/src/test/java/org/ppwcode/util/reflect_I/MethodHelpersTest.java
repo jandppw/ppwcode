@@ -23,12 +23,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.ppwcode.util.reflect_I.MethodHelpers.constructor;
 import static org.ppwcode.util.reflect_I.MethodHelpers.hasMethod;
+import static org.ppwcode.util.reflect_I.MethodHelpers.hasPublicMethod;
 import static org.ppwcode.util.reflect_I.MethodHelpers.method;
 import static org.ppwcode.util.reflect_I.MethodHelpers.methodHelper;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 
@@ -353,7 +356,7 @@ public class MethodHelpersTest {
 //    assertEquals(exists(o.getClass().getDeclaredMethods(), signature), result);
 //  }
 
-  private Object exists(Method[] declaredMethods, String signature) throws CannotParseSignatureException {
+  private boolean exists(Method[] declaredMethods, String signature) throws CannotParseSignatureException {
     MethodSignature msig = new MethodSignature(signature);
     for (Method method : declaredMethods) {
       if (method.getName().equals(msig.getMethodName()) &&
@@ -362,6 +365,63 @@ public class MethodHelpersTest {
       }
     }
     return false;
+  }
+
+  @Test
+  public void testHasPublicMethodClassOfQString() throws CannotParseSignatureException, SecurityException {
+    // dynamic method
+    testHasPublicMethodClassOfQString(StubClass.class, "stubMethod()");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubMethodWithReturn()");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubMethodWithException()");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubMethod(Object)");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubMethod(String)");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubMethod(int)");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubMethod(Class)");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubMethod(int, boolean, Object, String)");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubMethod(int,boolean,    Object,String)");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubMethod(Object, float)");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubMethod(java.io.Serializable, float)");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubMethod(java.util.Date)");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubMethod(long)");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubMethod(boolean)");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubMethod(byte)");
+ // MUDO deal with [] array types
+//    testHasPublicMethodClassOfQString(StubClass.class, "stubMethod(Object[])");
+    // static methods
+    testHasPublicMethodClassOfQString(StubClass.class, "stubStaticMethod()");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubStaticMethodWithReturn()");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubStaticMethodWithException()");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubStaticMethod(Object)");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubStaticMethod(String)");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubStaticMethod(int)");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubStaticMethod(Class)");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubStaticMethod(int, boolean, Object, String)");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubStaticMethod(int,boolean,    Object,String)");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubStaticMethod(Object, float)");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubStaticMethod(java.io.Serializable, float)");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubStaticMethod(java.util.Date)");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubStaticMethod(long)");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubStaticMethod(boolean)");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubStaticMethod(byte)");
+ // MUDO deal with [] array types
+//    testHasPublicMethodClassOfQString(StubClass.class, "stubStaticMethod(Object[])");
+    // methods that don't exist
+    testHasPublicMethodClassOfQString(StubClass.class, "methodDoesntExist()");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubMethod(org.ppwcode.util.reflect_I.StubClass)");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubStaticMethod(org.ppwcode.util.reflect_I.StubClass)");
+    testHasPublicMethodClassOfQString(StubClass.class, "StubClass(Object, Object, float)");
+  }
+
+  public void testHasPublicMethodClassOfQString(Class<?> type, String signature) throws CannotParseSignatureException, SecurityException {
+    boolean result = hasPublicMethod(type, signature);
+    boolean exists = exists(type.getDeclaredMethods(), signature);
+    if (exists) {
+      Method m = method(type, signature);
+      assertEquals(Modifier.isPublic(m.getModifiers()), result);
+    }
+    else {
+      Assert.assertFalse(result);
+    }
   }
 
   @Test
