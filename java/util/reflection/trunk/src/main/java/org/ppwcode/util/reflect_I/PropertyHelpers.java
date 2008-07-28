@@ -346,43 +346,4 @@ public class PropertyHelpers {
     return mutator;
   }
 
-  /**
-   * Returns the constant (public final static) with the given fully qualified
-   * name.
-   *
-   * @param     fqClassName
-   *            The fully qualified class name of the type to look in
-   *            for the constant.
-   * @param     constantName
-   *            The name of the constant whose value to return.
-   */
-  @MethodContract(
-    post = @Expression("Class.forName(fqClassName).getField(constantName).get(null)"),
-    exc  = {
-      @Throw(type = LinkageError.class, cond = @Expression(value = "true")),
-      @Throw(type = ClassNotFoundException.class, cond = @Expression(value = "true", description = "Could not find fqClassName")),
-      @Throw(type = NoSuchFieldException.class,
-             cond = @Expression(value = "true", description = "Could not find a field name constantName in class fqClassName")),
-      @Throw(type = NullPointerException.class, cond = @Expression(value = "true")),
-      @Throw(type = SecurityException.class,
-             cond = @Expression(value = "true", description = "Not allowed to read the value of the field named constantName in class fqClassName")),
-      @Throw(type = IllegalAccessException.class,
-             cond = @Expression(value = "true", description = "The field named constantName in class fqClassName is not public.")),
-      @Throw(type = IllegalArgumentException.class, cond = @Expression(value = "true"))
-    }
-  )
-  public static Object constant(final String fqClassName, final String constantName)
-      throws LinkageError, ClassNotFoundException, NoSuchFieldException, NullPointerException,
-             SecurityException, IllegalAccessException, IllegalArgumentException {
-    Class<?> clazz = Class.forName(fqClassName); // LinkageError,
-                                                 // ClassNotFoundException
-    Field field = clazz.getField(constantName); // NoSuchFieldException
-                                                // NullPointerException
-                                                // SecurityException
-    return field.get(null); // IllegalAccessException
-                            // IllegalArgumentException
-                            // NullPointerException
-                            // ExceptionInInitializerError
-  }
-
 }
