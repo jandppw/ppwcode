@@ -197,15 +197,10 @@ public class MethodSignatureTest {
   }
 
   private void testMethodSignatureString(String sig, String methodName, Class<?>[] pTypes) {
-    try {
-      MethodSignature subject = new MethodSignature(sig);
-      assertEquals(methodName, subject.getMethodName());
-      assertArrayEquals(pTypes, subject.getParameterTypes());
-      validateInvariants(subject);
-    }
-    catch (_CannotParseSignatureException exc) {
-      fail();
-    }
+    MethodSignature subject = new MethodSignature(sig);
+    assertEquals(methodName, subject.getMethodName());
+    assertArrayEquals(pTypes, subject.getParameterTypes());
+    validateInvariants(subject);
   }
 
   private void testMethodSignatureStringProblem(String sig) {
@@ -213,7 +208,7 @@ public class MethodSignatureTest {
       new MethodSignature(sig);
       fail();
     }
-    catch (_CannotParseSignatureException exc) {
+    catch (AssertionError exc) {
       // NOP, normal
     }
   }
