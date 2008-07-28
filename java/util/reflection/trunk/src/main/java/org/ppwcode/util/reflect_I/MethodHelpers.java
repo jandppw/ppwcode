@@ -18,6 +18,7 @@ package org.ppwcode.util.reflect_I;
 
 
 import static java.lang.reflect.Modifier.isAbstract;
+import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.pre;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.preArgumentNotEmpty;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.preArgumentNotNull;
@@ -29,6 +30,9 @@ import java.lang.reflect.Modifier;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import org.ppwcode.metainfo_I.Copyright;
+import org.ppwcode.metainfo_I.License;
+import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.vernacular.exception_II.ProgrammingErrors;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
@@ -55,6 +59,10 @@ import org.toryt.annotations_I.Throw;
  *
  * @mudo this MUST be changed to work with array types
  */
+@Copyright("2004 - $Date$, PeopleWare n.v.")
+@License(APACHE_V2)
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public final class MethodHelpers {
 
   private MethodHelpers() {
