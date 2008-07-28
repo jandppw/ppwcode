@@ -17,10 +17,11 @@ limitations under the License.
 package org.ppwcode.util.reflect_I;
 
 
-import static java.lang.reflect.Modifier.isPublic;
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.MethodHelpers.hasPublicMethod;
-import static org.ppwcode.util.reflect_I.MethodHelpers.methodHelper;
+import static org.ppwcode.util.reflect_I.MethodHelpers.isPublic;
+import static org.ppwcode.util.reflect_I.MethodHelpers.method;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.pre;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.preArgumentNotNull;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.unexpectedException;
 
@@ -32,7 +33,6 @@ import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
-import org.toryt.annotations_I.Throw;
 
 
 /**
@@ -61,58 +61,44 @@ public final class CloneHelpers {
    * If {@code object} is {@link Cloneable}, {@code object} must have a public {@code clone()} method.
    */
   @MethodContract(
-    pre  = @Expression("cloneable instanceof Cloneable ? hasMethod(cloneable, 'clone()') && " +
-                       "Modifier.isPublic(method(cloneable, 'clone()').modifiers)"),
-    post = @Expression("object instanceof Cloneable ? cloneable.clone() : cloneable")
+    pre  = {
+      @Expression("_object != null"),
+      @Expression("_object instanceof Cloneable ? isKloneable(_object.class)")
+    },
+    post = @Expression("_object instanceof Cloneable ? _object.clone() : _object")
   )
   public static <_T_> _T_ safeReference(_T_ object) {
-    try {
-      return object == null ? null : (object instanceof Cloneable ? clone(object) : object);
-    }
-    catch (CloneNotSupportedException exc) {
-      unexpectedException(exc);
-      return null; // keep compiler happy
-    }
+    return object == null ? null : (object instanceof Cloneable ? klone(object) : object);
   }
 
   /**
-   * Clone {@code cloneable} if it implements {@link Cloneable}
-   * and features a public {@code clone()} method. If {@code cloneable}
-   * does not implement {@link Cloneable} or does not feature a public
-   * {@code clone()} method, a {@link CloneNotSupportedException} is thrown.
+   * Clone {@code kloneable} if it implements {@link Cloneable} and features a public {@code clone()} method.
+   * If {@code kloneable} does not implement {@link Cloneable} or does not feature a public
+   * {@code clone()} method, this is considered a programming error.
+   *
+   * The method is called {@code klone} with a &quot;k&quot; to avoid naming conflicts in using classes, where
+   * we would want to work with a static import {@code import static org.ppwcode.util.reflect_I.CloneHelpers.clone;}.
+   * This conflicts with the inherited {@link Object#clone()} method.
    */
   @MethodContract(
-    pre  = @Expression("_cloneable != null"),
-    post = @Expression("cloneable.clone()"),
-    exc  = {
-      @Throw(type = CloneNotSupportedException.class, cond = @Expression("! cloneable instanceof Cloneable")),
-      @Throw(type = CloneNotSupportedException.class,
-             cond = @Expression("! hasMethod(cloneable, 'clone()') && " +
-                                "Modifier.isPublic(method(cloneable, 'clone()').modifiers)"))
-    }
+    pre  = {
+      @Expression("_kloneable != null"),
+      @Expression("isKloneable(_kloneable.class)")
+    },
+    post = @Expression("_kloneable.clone()")
   )
-  public static <_T_> _T_ clone(_T_ cloneable) throws CloneNotSupportedException {
-    preArgumentNotNull(cloneable, "cloneable");
-    if (! (cloneable instanceof Cloneable)) {
-      throw new CloneNotSupportedException(cloneable + " does not implement Cloneable");
-    }
+  public static <_T_> _T_ klone(_T_ kloneable) {
+    preArgumentNotNull(kloneable, "kloneable");
+    pre(isKloneable(kloneable.getClass()));
+    Method cm = method(kloneable.getClass(), CLONE_SIGNATURE);
+    assert cm != null;
+    assert isPublic(cm);
     try {
-      Method cm = methodHelper(cloneable.getClass(), CLONE_SIGNATURE); // NoSuchMethodException
-      assert cm != null;
-      if (! isPublic(cm.getModifiers())) {
-        throw new CloneNotSupportedException("Method " + CLONE_SIGNATURE + " of " + cloneable + " is not public");
-      }
-      Object result = cm.invoke(cloneable);
+      Object result = cm.invoke(kloneable);
         /* IllegalAccessException, IllegalArgumentException, InvocationTargetException,
          * NullPointerException, ExceptionInInitializerError */
       @SuppressWarnings("unchecked") _T_ tResult = (_T_)result;
       return tResult;
-    }
-    catch (final NoSuchMethodException cgmExc) {
-      CloneNotSupportedException cnsExc =
-          new CloneNotSupportedException("Could not find method " + CLONE_SIGNATURE + " for " + cloneable);
-      cnsExc.initCause(cgmExc);
-      throw cnsExc;
     }
     catch (final IllegalAccessException exc) {
       unexpectedException(exc, "we only invoke public methods");
@@ -135,7 +121,7 @@ public final class CloneHelpers {
   @MethodContract(
     post = @Expression("Cloneable.class.isAssignableFrom(type) && hasPublicMethod(type, CLONE_SIGNATURE)")
   )
-  public static boolean isCloneable(Class<?> type) {
+  public static boolean isKloneable(Class<?> type) {
     return Cloneable.class.isAssignableFrom(type) && hasPublicMethod(type, CLONE_SIGNATURE);
   }
 
