@@ -55,6 +55,7 @@ import org.toryt.annotations_I.Throw;
  * @author PeopleWare n.v.
  *
  * @mudo this MUST be changed to work with array types
+ * @idea probably needed to add methods to take a FQN of a constant as a String, for use of static methods
  */
 @Copyright("2004 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
