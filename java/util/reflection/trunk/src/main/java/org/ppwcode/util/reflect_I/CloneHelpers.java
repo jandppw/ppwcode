@@ -19,6 +19,7 @@ package org.ppwcode.util.reflect_I;
 
 import static java.lang.reflect.Modifier.isPublic;
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+import static org.ppwcode.util.reflect_I.MethodHelpers.hasPublicMethod;
 import static org.ppwcode.util.reflect_I.MethodHelpers.methodHelper;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.preArgumentNotNull;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.unexpectedException;
@@ -129,6 +130,13 @@ public final class CloneHelpers {
       unexpectedException(exc, "invoked clone, which cannot throw exceptions");
     }
     return null; // keep compiler happy
+  }
+
+  @MethodContract(
+    post = @Expression("Cloneable.class.isAssignableFrom(type) && hasPublicMethod(type, CLONE_SIGNATURE)")
+  )
+  public static boolean isCloneable(Class<?> type) {
+    return Cloneable.class.isAssignableFrom(type) && hasPublicMethod(type, CLONE_SIGNATURE);
   }
 
 }
