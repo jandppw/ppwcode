@@ -18,6 +18,9 @@ package org.ppwcode.util.reflect_I;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.pre;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.preArgumentNotEmpty;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.unexpectedException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -53,16 +56,20 @@ public class MethodSignature {
   /**
    * @pre signature != null;
    */
-//  @MethodContract(
-//    pre  = @Expression(signature != null)
-//  )
-  public MethodSignature(String signature) throws _CannotParseSignatureException {
-    assert signature != null;
+  @MethodContract(
+    pre  = {
+      @Expression("_signature != null"),
+      @Expression("_signature != EMPTY"),
+      @Expression(value = "true", description = "_signature is a well-formed method signature")
+    },
+    post = @Expression(value = "true",
+                       description = "the method name and types of the resulting object match the given _signature")
+  )
+  public MethodSignature(String signature) {
+    preArgumentNotEmpty(signature, "signature");
     int openingParenthesis = signature.indexOf("(");
     int closingParenthesis = signature.indexOf(")");
-    if ((openingParenthesis < 0) || (closingParenthesis < 0)) {
-      throw new _CannotParseSignatureException(signature, "missing parentheses");
-    }
+    pre((openingParenthesis >= 0) && (closingParenthesis >= 0), "\"" + signature + "\": missing parentheses");
     $methodName = signature.substring(0, openingParenthesis).trim();
     String parameters = signature.substring(openingParenthesis + 1, closingParenthesis);
     assert parameters != null;
@@ -88,7 +95,7 @@ public class MethodSignature {
         $parameterTypes[i] = ClassHelpers.loadForName(parameterTypeName);
       }
       catch (_CannotGetClassException cgcExc) {
-        throw new _CannotParseSignatureException(signature, cgcExc);
+        unexpectedException(cgcExc, "\"" + signature + "\": class " + parameterTypeName + " cannot be loaded");
       }
       $parameterTypeNames[i] = $parameterTypes[i].getCanonicalName();
     }

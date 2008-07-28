@@ -149,7 +149,7 @@ public class MethodHelpersTest {
   }
 
   @Test
-  public void testMethodHelper1() throws _CannotParseSignatureException, NoSuchMethodException {
+  public void testMethodHelper1() throws NoSuchMethodException {
     // dynamic method
     testMethodHelper(StubClass.class, "stubMethod()");
     testMethodHelper(StubClass.class, "stubMethodWithReturn()");
@@ -191,26 +191,26 @@ public class MethodHelpersTest {
   }
 
   @Test(expected = NoSuchMethodException.class)
-  public void testMethodHelper2() throws _CannotParseSignatureException, NoSuchMethodException {
+  public void testMethodHelper2() throws NoSuchMethodException {
     methodHelper(StubClass.class, "methodDoesntExist()");
   }
 
   @Test(expected = NoSuchMethodException.class)
-  public void testMethodHelper3() throws _CannotParseSignatureException, NoSuchMethodException {
+  public void testMethodHelper3() throws NoSuchMethodException {
     methodHelper(StubClass.class, "stubMethod(org.ppwcode.util.reflect_I.StubClass)");
   }
 
   @Test(expected = NoSuchMethodException.class)
-  public void testMethodHelper4() throws _CannotParseSignatureException, NoSuchMethodException {
+  public void testMethodHelper4() throws NoSuchMethodException {
     methodHelper(StubClass.class, "stubStaticMethod(org.ppwcode.util.reflect_I.StubClass)");
   }
 
   @Test(expected = NoSuchMethodException.class)
-  public void testMethodHelper5() throws _CannotParseSignatureException, NoSuchMethodException {
+  public void testMethodHelper5() throws NoSuchMethodException {
     methodHelper(StubClass.class, "StubClass(Object, Object, float)");
   }
 
-  public void testMethodHelper(Class<?> type, String signature) throws _CannotParseSignatureException, NoSuchMethodException {
+  public void testMethodHelper(Class<?> type, String signature) throws NoSuchMethodException {
     Method result = methodHelper(type, signature);
     assertNotNull(result);
     assertEquals(type, result.getDeclaringClass());
@@ -359,7 +359,7 @@ public class MethodHelpersTest {
   }
 
   @Test
-  public void testMethodClassOfQString1() throws _CannotParseSignatureException {
+  public void testMethodClassOfQString1() {
     // dynamic method
     testMethodClassOfQString(StubClass.class, "stubMethod()");
     testMethodClassOfQString(StubClass.class, "stubMethodWithReturn()");
@@ -416,31 +416,31 @@ public class MethodHelpersTest {
   }
 
   @Test(expected = AssertionError.class)
-  public void testMethodClassOfQString2() throws _CannotParseSignatureException {
+  public void testMethodClassOfQString2() {
     method(StubClass.class, "methodDoesntExist()");
   }
 
   @Test(expected = AssertionError.class)
-  public void testMethodClassOfQString3() throws _CannotParseSignatureException {
+  public void testMethodClassOfQString3() {
     method(StubClass.class, "stubMethod(org.ppwcode.util.reflect_I.StubClass)");
   }
 
   @Test(expected = AssertionError.class)
-  public void testMethodClassOfQString4() throws _CannotParseSignatureException {
+  public void testMethodClassOfQString4() {
     method(StubClass.class, "stubStaticMethod(org.ppwcode.util.reflect_I.StubClass)");
   }
 
   @Test(expected = AssertionError.class)
-  public void testMethodClassOfQString5() throws _CannotParseSignatureException {
+  public void testMethodClassOfQString5() {
     method(StubClass.class, "StubClass(Object, Object, float)");
   }
 
   @Test(expected = AssertionError.class)
-  public void testMethodClassOfQString6() throws _CannotParseSignatureException {
+  public void testMethodClassOfQString6() {
     method(AbstractSubSubStubClass.class, "privateStubMethodBet()");
   }
 
-  public void testMethodClassOfQString(Class<?> type, String signature) throws _CannotParseSignatureException {
+  public void testMethodClassOfQString(Class<?> type, String signature) {
     Method result = method(type, signature);
     assertNotNull(result);
     assertTrue(result.getDeclaringClass().isAssignableFrom(type));
@@ -451,7 +451,7 @@ public class MethodHelpersTest {
   }
 
   @Test
-  public void testHasMethodClassOfQString() throws _CannotParseSignatureException, SecurityException {
+  public void testHasMethodClassOfQString() throws SecurityException {
     // dynamic method
     testHasMethodClassOfQString(StubClass.class, "stubMethod()");
     testHasMethodClassOfQString(StubClass.class, "stubMethodWithReturn()");
@@ -525,7 +525,7 @@ public class MethodHelpersTest {
   }
 
   @Test
-  public void testHasPublicMethodClassOfQString() throws _CannotParseSignatureException, SecurityException {
+  public void testHasPublicMethodClassOfQString() throws SecurityException {
     // dynamic method
     testHasPublicMethodClassOfQString(StubClass.class, "stubMethod()");
     testHasPublicMethodClassOfQString(StubClass.class, "stubMethodWithReturn()");
@@ -599,7 +599,7 @@ public class MethodHelpersTest {
   }
 
   @Test
-  public void testConstructor1() throws _CannotParseSignatureException {
+  public void testConstructor1() {
     testConstructor(StubClass.class, "StubClass()");
     testConstructor(StubClass.class, "StubClass(Object)");
     testConstructor(StubClass.class, "StubClass(String)");
@@ -625,11 +625,11 @@ public class MethodHelpersTest {
 //  }
 
   @Test(expected = AssertionError.class)
-  public void testConstructor13() throws _CannotParseSignatureException {
+  public void testConstructor13() {
     testConstructor(StubClass.class, "StubClass(org.ppwcode.util.reflect.StubClass, org.ppwcode.util.reflect.StubClass)");
   }
 
-  public <_T_> void testConstructor(Class<_T_> type, String signature) throws _CannotParseSignatureException {
+  public <_T_> void testConstructor(Class<_T_> type, String signature) {
     Constructor<_T_> result = constructor(type, signature);
     assertNotNull(result);
     assertEquals(type, result.getDeclaringClass());
