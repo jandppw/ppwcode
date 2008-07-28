@@ -496,11 +496,36 @@ public class MethodHelpersTest {
     testHasMethodClassOfQString(StubClass.class, "stubMethod(org.ppwcode.util.reflect_I.StubClass)");
     testHasMethodClassOfQString(StubClass.class, "stubStaticMethod(org.ppwcode.util.reflect_I.StubClass)");
     testHasMethodClassOfQString(StubClass.class, "StubClass(Object, Object, float)");
+    // inherited
+    testHasMethodClassOfQString(StubClass.class, "toString()");
+    testHasMethodClassOfQString(StubClass.class, "stubMethodA()");
+    testHasMethodClassOfQString(StubClass.class, "stubMethodB()");
+    testHasMethodClassOfQString(StubClass.class, "stubMethodC()");
+    testHasMethodClassOfQString(StubInterfaceAlpha.class, "stubMethodAlpha()");
+    testHasMethodClassOfQString(StubInterfaceBeta.class, "stubMethodC()");
+    testHasMethodClassOfQString(StubInterfaceGamma.class, "stubMethodEpsilon()");
+    testHasMethodClassOfQString(AbstractSubSubStubClass.class, "stubMethodAlpha()");
+    testHasMethodClassOfQString(AbstractSubSubStubClass.class, "stubMethodBeta()");
+    testHasMethodClassOfQString(AbstractSubSubStubClass.class, "stubMethodGamma()");
+    testHasMethodClassOfQString(AbstractSubSubStubClass.class, "stubMethodDelta()");
+    testHasMethodClassOfQString(AbstractSubSubStubClass.class, "stubMethodEpsilon()");
+    testHasMethodClassOfQString(AbstractSubSubStubClass.class, "stubMethodC()");
+    testHasMethodClassOfQString(AbstractSubSubStubClass.class, "stubMethod()");
+    testHasMethodClassOfQString(AbstractSubSubStubClass.class, "privateStubMethodAleph()");
+    testHasMethodClassOfQString(SuperStubClass.class, "privateStubMethodBet()");
+    testHasMethodClassOfQString(AbstractSubSubStubClass.class, "privateStubMethodBet()");
+
   }
 
-  public void testHasMethodClassOfQString(Class<?> type, String signature) throws CannotParseSignatureException, SecurityException {
+  public void testHasMethodClassOfQString(Class<?> type, String signature) {
     boolean result = hasMethod(type, signature);
-    assertEquals(exists(type.getDeclaredMethods(), signature), result);
+    try {
+      MethodHelpers.inheritedMethodHelper(type, signature);
+      assertTrue(result);
+    }
+    catch (NoSuchMethodException exc) {
+      assertFalse(result);
+    }
   }
 
   private boolean exists(Method[] declaredMethods, String signature) throws CannotParseSignatureException {

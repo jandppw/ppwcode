@@ -359,15 +359,17 @@ public final class MethodHelpers {
       @Expression(value = "true", description = "_signature is a valid signature")
     },
     post = {
-      @Expression("exists (Method m : _type.declaredMethods) {" +
+      @Expression("exists (Method m) {" +
                     "m.name == new MethodSignature(_signature).methodName && " +
-                    "Arrays.deepEquqls(m.parameterTypes, new MethodSignature(_signature).parameterTypes" +
+                    "Arrays.deepEquals(m.parameterTypes, new MethodSignature(_signature).parameterTypes && " +
+                    "m.declaringClass.isAssignableFrom(_type) && " +
+                    "(m.declaringClass != _type ? ! isPrivate(m))" +
                   "}")
     }
   )
   public static boolean hasMethod(Class<?> type, String signature) {
     try {
-      return methodHelper(type, signature) != null;
+      return inheritedMethodHelper(type, signature) != null;
     }
     catch (NoSuchMethodException exc) {
       return false;
