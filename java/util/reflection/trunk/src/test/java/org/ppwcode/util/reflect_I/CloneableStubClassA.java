@@ -34,5 +34,16 @@ public class CloneableStubClassA implements Cloneable {
     return result;
   }
 
+  public final static String STUB_PUBLIC_CONSTANT = "stub public constant";
+
+  @SuppressWarnings("unused")
+  private final static int STUB_PRIVATE_CONSTANT = 789;
+
+  final static double STUB_PACKAGE_CONSTANT = 0.12345;
+
+  protected final static Object STUB_PROTECTED_CONSTANT = new Object();
+
+  public static Object STUB_NON_FINAL_CONSTANT = new Object();
+
 }
 

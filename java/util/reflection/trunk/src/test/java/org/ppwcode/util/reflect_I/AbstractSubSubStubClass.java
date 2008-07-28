@@ -25,5 +25,7 @@ public abstract class AbstractSubSubStubClass extends AbstractSubStubClass
     // NOP
   }
 
+  public final static String STUB_CONSTANT = "A STUB constant";
+
 }
 
