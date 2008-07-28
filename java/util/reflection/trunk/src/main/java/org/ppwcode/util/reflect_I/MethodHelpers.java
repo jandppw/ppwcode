@@ -51,10 +51,6 @@ import org.toryt.annotations_I.Throw;
  *   what the accessibility of a given method is, you can use the boolean inspectors provided
  *   here.</p>
  *
- *
- * @note To find out what the accessibility of returned methods is, use {@link Modifier#isPublic(int)},
- *       etcetera, on {@link Method#getModifiers() the modifiers} of the result.
- *
  * @author Jan Dockx
  * @author PeopleWare n.v.
  *
