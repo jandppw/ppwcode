@@ -50,7 +50,7 @@ import org.toryt.annotations_I.MethodContract;
   @Expression("methodName != null"),
   @Expression("methodName != EMPTY"),
   @Expression("parameterTypes != null"),
-  @Expression("! Arrays.contains(parameterTypes, null)"),
+  @Expression("! Arrays.contains(parameterTypes, null)")
 })
 public class MethodSignature {
 
