@@ -39,7 +39,8 @@ import org.toryt.annotations_I.MethodContract;
  * the {@link #getParameterTypeNames() canonical name of the parameter types} and the
  * {@link #getParameterTypes() parameter types}.
  *
- * @note partial copy from toryt_II_dev
+ * @author    Jan Dockx
+ * @author    PeopleWare n.v.
  */
 @Copyright("2004 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
