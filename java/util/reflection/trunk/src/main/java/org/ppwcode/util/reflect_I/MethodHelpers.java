@@ -56,6 +56,7 @@ import org.toryt.annotations_I.Throw;
  *       etcetera, on {@link Method#getModifiers() the modifiers} of the result.
  *
  * @author Jan Dockx
+ * @author PeopleWare n.v.
  *
  * @mudo this MUST be changed to work with array types
  */
