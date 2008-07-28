@@ -3,11 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <!--
-  $Date$
-  $Revision$
-  $HeadURL$
-®
-  Copyright 2007 - $Date$ by PeopleWare n.v.
+  Copyright 2004 - $Date$ by PeopleWare n.v.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -20,6 +16,10 @@
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
+
+  $Date$
+  $Revision$
+  $HeadURL$
   -->
 
 
@@ -51,6 +51,86 @@
   <name>ppwcode util reflection</name>
   <description>Library of utility code with respect to reflection.</description>
   <inceptionYear>2004</inceptionYear>
+
+  <!-- DEVELOPERS & CONTRIBUTORS: OVERWRITE IN YOUR CHILD POM (we don't work for you :-) ) -->
+  <developers>
+    <developer>
+      <name>Jan Dockx</name>
+      <id>jandockx</id>
+      <email>jandockx@gmail.org</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <properties>
+        <aim>jandockx@mac.com</aim>
+        <skype>callto:jandockx</skype>
+      </properties>
+    </developer>
+    <developer>
+      <name>David Van Keer</name>
+      <id>dvankeer</id>
+      <email>David_Van_Keer@peopleware.be</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Nele Smeets</name>
+      <id>nsmeets</id>
+      <email>Nele_Smeets@peopleware.be</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+    <!-- TODO most code comes from ppw-bean; other developers? -->
+  </developers>
+  <contributors>
+    <contributor>
+      <name>Dirk Couck</name>
+      <email>Dirk_Couck@peopleware.be</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>project manager</role>
+      </roles>
+    </contributor>
+    <contributor>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <timezone>+1</timezone>
+    </contributor>
+    <contributor>
+      <organization>AristA vzw</organization>
+      <organizationUrl>http://www.arista.be/</organizationUrl>
+      <timezone>+1</timezone>
+    </contributor>
+    <contributor>
+      <organization>HDP vzw</organization>
+      <organizationUrl>http://www.hdp.be/</organizationUrl>
+      <timezone>+1</timezone>
+    </contributor>
+    <contributor>
+      <organization>Ismar n.v.</organization>
+      <organizationUrl>http://www.ismar.be/</organizationUrl>
+      <timezone>+1</timezone>
+    </contributor>
+    <contributor>
+      <organization>FVB</organization>
+      <organizationUrl>http://www.fvb.be/</organizationUrl>
+      <timezone>+1</timezone>
+    </contributor>
+  </contributors>
 
   <!-- MAGIC MANTRA -->
   <!-- The following entries need to be repeated, and can not sensibly be inherited.
@@ -113,11 +193,5 @@
       <artifactId>commons-beanutils-core</artifactId>
     </dependency>
   </dependencies>
-
-  <!-- More Project Information -->
-  <developers>
-  </developers>
-  <contributors>
-  </contributors>
 
 </project>
