@@ -17,7 +17,6 @@ limitations under the License.
 package org.ppwcode.util.reflect_I;
 
 
-import static java.util.Arrays.deepEquals;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -31,9 +30,7 @@ import static org.ppwcode.util.reflect_I.MethodHelpers.methodHelper;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 
@@ -514,7 +511,6 @@ public class MethodHelpersTest {
     testHasMethodClassOfQString(AbstractSubSubStubClass.class, "privateStubMethodAleph()");
     testHasMethodClassOfQString(SuperStubClass.class, "privateStubMethodBet()");
     testHasMethodClassOfQString(AbstractSubSubStubClass.class, "privateStubMethodBet()");
-
   }
 
   public void testHasMethodClassOfQString(Class<?> type, String signature) {
@@ -526,17 +522,6 @@ public class MethodHelpersTest {
     catch (NoSuchMethodException exc) {
       assertFalse(result);
     }
-  }
-
-  private boolean exists(Method[] declaredMethods, String signature) throws CannotParseSignatureException {
-    MethodSignature msig = new MethodSignature(signature);
-    for (Method method : declaredMethods) {
-      if (method.getName().equals(msig.getMethodName()) &&
-          deepEquals(method.getParameterTypes(), msig.getParameterTypes())) {
-        return true;
-      }
-    }
-    return false;
   }
 
   @Test
@@ -582,17 +567,34 @@ public class MethodHelpersTest {
     testHasPublicMethodClassOfQString(StubClass.class, "stubMethod(org.ppwcode.util.reflect_I.StubClass)");
     testHasPublicMethodClassOfQString(StubClass.class, "stubStaticMethod(org.ppwcode.util.reflect_I.StubClass)");
     testHasPublicMethodClassOfQString(StubClass.class, "StubClass(Object, Object, float)");
+    // inherited
+    testHasPublicMethodClassOfQString(StubClass.class, "toString()");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubMethodA()");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubMethodB()");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubMethodC()");
+    testHasPublicMethodClassOfQString(StubInterfaceAlpha.class, "stubMethodAlpha()");
+    testHasPublicMethodClassOfQString(StubInterfaceBeta.class, "stubMethodC()");
+    testHasPublicMethodClassOfQString(StubInterfaceGamma.class, "stubMethodEpsilon()");
+    testHasPublicMethodClassOfQString(AbstractSubSubStubClass.class, "stubMethodAlpha()");
+    testHasPublicMethodClassOfQString(AbstractSubSubStubClass.class, "stubMethodBeta()");
+    testHasPublicMethodClassOfQString(AbstractSubSubStubClass.class, "stubMethodGamma()");
+    testHasPublicMethodClassOfQString(AbstractSubSubStubClass.class, "stubMethodDelta()");
+    testHasPublicMethodClassOfQString(AbstractSubSubStubClass.class, "stubMethodEpsilon()");
+    testHasPublicMethodClassOfQString(AbstractSubSubStubClass.class, "stubMethodC()");
+    testHasPublicMethodClassOfQString(AbstractSubSubStubClass.class, "stubMethod()");
+    testHasPublicMethodClassOfQString(AbstractSubSubStubClass.class, "privateStubMethodAleph()");
+    testHasPublicMethodClassOfQString(SuperStubClass.class, "privateStubMethodBet()");
+    testHasPublicMethodClassOfQString(AbstractSubSubStubClass.class, "privateStubMethodBet()");
   }
 
-  public void testHasPublicMethodClassOfQString(Class<?> type, String signature) throws CannotParseSignatureException, SecurityException {
+  public void testHasPublicMethodClassOfQString(Class<?> type, String signature) {
     boolean result = hasPublicMethod(type, signature);
-    boolean exists = exists(type.getDeclaredMethods(), signature);
-    if (exists) {
-      Method m = method(type, signature);
-      assertEquals(Modifier.isPublic(m.getModifiers()), result);
+    try {
+      Method m = MethodHelpers.inheritedMethodHelper(type, signature);
+      assertEquals(MethodHelpers.isPublic(m), result);
     }
-    else {
-      Assert.assertFalse(result);
+    catch (NoSuchMethodException exc) {
+      assertFalse(result);
     }
   }
 
