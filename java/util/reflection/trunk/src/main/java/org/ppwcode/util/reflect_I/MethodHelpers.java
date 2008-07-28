@@ -401,17 +401,17 @@ public final class MethodHelpers {
       @Expression(value = "true", description = "_signature is a valid signature")
     },
     post = {
-      @Expression("exists (Method m : _type.declaredMethods) {" +
-                    "m.name == new MethodSignature(_signature).methodName && " +
-                    "Arrays.deepEquqls(m.parameterTypes, new MethodSignature(_signature).parameterTypes && " +
-                    "Modifier.isPublic(m.modifiers)" +
-                  "}")
+            @Expression("exists (Method m) {" +
+                        "m.name == new MethodSignature(_signature).methodName && " +
+                        "Arrays.deepEquals(m.parameterTypes, new MethodSignature(_signature).parameterTypes && " +
+                        "m.declaringClass.isAssignableFrom(_type) && " +
+                        "isPublic(m))" +
+                      "}")
     }
   )
   public static boolean hasPublicMethod(Class<?> type, String signature) {
     try {
-      Method m = methodHelper(type, signature);
-      return m != null && Modifier.isPublic(m.getModifiers());
+      return isPublic(inheritedMethodHelper(type, signature));
     }
     catch (NoSuchMethodException exc) {
       return false;
