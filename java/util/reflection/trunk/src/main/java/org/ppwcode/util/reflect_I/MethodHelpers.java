@@ -17,6 +17,9 @@ limitations under the License.
 package org.ppwcode.util.reflect_I;
 
 
+import static java.lang.reflect.Modifier.isAbstract;
+import static java.lang.reflect.Modifier.isPrivate;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.pre;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.preArgumentNotEmpty;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.preArgumentNotNull;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.unexpectedException;
@@ -24,6 +27,8 @@ import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.unexpectedEx
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import org.ppwcode.vernacular.exception_II.ProgrammingErrors;
 import org.toryt.annotations_I.Expression;
@@ -112,6 +117,94 @@ public final class MethodHelpers {
       unexpectedException(sExc, "not allowed to access " + signature);
     }
     // NoSuchMethodException falls through
+    return result;
+  }
+
+  static Method inheritedMethodHelper(Class<?> type, String signature) throws NoSuchMethodException {
+    assert preArgumentNotNull(type, "type");
+    assert preArgumentNotEmpty(signature, "signature");
+    Method result = null;
+    if (! type.isInterface()) {
+      try {
+        result = inheritedMethodClassHierarchyHelper(type, signature, true);
+      }
+      catch (NoSuchMethodException exc) {
+        /* could not find method in class hierarchy; so at least, type is an abstract class or an interface, and
+         * the method is abstract, if it exists at all; lets search, breath first in the interfaces hierarchy
+         */
+        if (! isAbstract(type.getModifiers())) {
+          throw new NoSuchMethodException("method with signature " + signature + " does not exist in type hierarchy");
+        }
+        result = inheritedMethodInterfaceHierarchyHelper(type, signature);
+      }
+    }
+    else {
+      // it's an interface, go immediately to Start. You will not receive EUR8000.
+      result = inheritedMethodInterfaceHierarchyHelper(type, signature);
+    }
+    return result;
+  }
+
+  private static Method inheritedMethodInterfaceHierarchyHelper(Class<?> type, String signature) throws NoSuchMethodException {
+    assert preArgumentNotNull(type, "type");
+    assert preArgumentNotEmpty(signature, "signature");
+    Method result = null;
+    Queue<Class<?>> interfaceStack = new LinkedList<Class<?>>();
+    interfaceStack.add(type);
+    while (! interfaceStack.isEmpty()) {
+      Class<?> superInterface = interfaceStack.poll();
+      if (superInterface.isInterface()) {
+        try {
+          result = methodHelper(superInterface, signature);
+          // found one; in interfaces, this is surely public; this is it
+          return result;
+        }
+        catch (NoSuchMethodException exc) {
+          // try next interface, but first add super interfaces of super interface to the stack
+          pushSuperTypes(superInterface, interfaceStack);
+        }
+      }
+      else {
+        // it's a class; don't look for the method here, but include its super types
+        pushSuperTypes(superInterface, interfaceStack);
+      }
+    }
+    throw new NoSuchMethodException("method with signature " + signature + " does not exist in type hierarchy");
+  }
+
+  private static void pushSuperTypes(Class<?> type, Queue<Class<?>> interfaceStack) {
+    Class<?> superClass = type.getSuperclass();
+    if (superClass != null) {
+      interfaceStack.add(superClass);
+    }
+    Class<?>[] superInterfaces = type.getInterfaces();
+    for (Class<?> superInterface : superInterfaces) {
+      interfaceStack.add(superInterface);
+    }
+  }
+
+  private static Method inheritedMethodClassHierarchyHelper(Class<?> type, String signature, boolean allowPrivate) throws NoSuchMethodException {
+    assert preArgumentNotNull(type, "type");
+    assert preArgumentNotEmpty(signature, "signature");
+    assert pre(! type.isInterface());
+    Method result = null;
+    try {
+      result = methodHelper(type, signature);
+      if ((! allowPrivate) && isPrivate(result.getModifiers())) {
+        // it makes no sense to seek higher in the hierarchy, since methods cannot be made more strict in subtypes
+        throw new NoSuchMethodException("method with signature " + signature + " is private in " + type);
+      }
+    }
+    catch (NoSuchMethodException nsmExc) {
+      if (type == Object.class) {
+        // we cannot go higher, try in interfaces
+        throw new NoSuchMethodException("no method with signature " + signature + " found in class hierarchy");
+      }
+      else {
+        result = inheritedMethodClassHierarchyHelper(type.getSuperclass(), signature, false);
+        // only allow private in first class of hierarchy
+      }
+    }
     return result;
   }
 
