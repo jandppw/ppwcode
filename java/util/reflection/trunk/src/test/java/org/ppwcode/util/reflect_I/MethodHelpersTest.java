@@ -29,24 +29,22 @@ import static org.ppwcode.util.reflect_I.MethodHelpers.methodHelper;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 
 public class MethodHelpersTest {
 
-  private StubClass stub;
+//  private StubClass stub;
 
-  @Before
-  public void setUp() throws Exception {
-    stub = new StubClass();
-  }
-
-  @After
-  public void tearDown() throws Exception {
-    stub = null;
-  }
+//  @Before
+//  public void setUp() throws Exception {
+//    stub = new StubClass();
+//  }
+//
+//  @After
+//  public void tearDown() throws Exception {
+//    stub = null;
+//  }
 
   @Test
   public void testMethodHelper1() throws CannotParseSignatureException, NoSuchMethodException {
@@ -63,6 +61,9 @@ public class MethodHelpersTest {
     testMethodHelper(StubClass.class, "stubMethod(Object, float)");
     testMethodHelper(StubClass.class, "stubMethod(java.io.Serializable, float)");
     testMethodHelper(StubClass.class, "stubMethod(java.util.Date)");
+    testMethodHelper(StubClass.class, "stubMethod(long)");
+    testMethodHelper(StubClass.class, "stubMethod(boolean)");
+    testMethodHelper(StubClass.class, "stubMethod(byte)");
  // MUDO deal with [] array types
 //    testMethodHelper(StubClass.class, "stubMethod(Object[])");
     // static methods
@@ -78,6 +79,9 @@ public class MethodHelpersTest {
     testMethodHelper(StubClass.class, "stubStaticMethod(Object, float)");
     testMethodHelper(StubClass.class, "stubStaticMethod(java.io.Serializable, float)");
     testMethodHelper(StubClass.class, "stubStaticMethod(java.util.Date)");
+    testMethodHelper(StubClass.class, "stubStaticMethod(long)");
+    testMethodHelper(StubClass.class, "stubStaticMethod(boolean)");
+    testMethodHelper(StubClass.class, "stubStaticMethod(byte)");
  // MUDO deal with [] array types
 //    testMethodHelper(StubClass.class, "stubStaticMethod(Object[])");
   }
@@ -126,6 +130,9 @@ public class MethodHelpersTest {
     testMethodClassOfQString(StubClass.class, "stubMethod(Object, float)");
     testMethodClassOfQString(StubClass.class, "stubMethod(java.io.Serializable, float)");
     testMethodClassOfQString(StubClass.class, "stubMethod(java.util.Date)");
+    testMethodClassOfQString(StubClass.class, "stubMethod(long)");
+    testMethodClassOfQString(StubClass.class, "stubMethod(boolean)");
+    testMethodClassOfQString(StubClass.class, "stubMethod(byte)");
  // MUDO deal with [] array types
 //    testMethodClassOfQString(StubClass.class, "stubMethod(Object[])");
     // static methods
@@ -141,6 +148,9 @@ public class MethodHelpersTest {
     testMethodClassOfQString(StubClass.class, "stubStaticMethod(Object, float)");
     testMethodClassOfQString(StubClass.class, "stubStaticMethod(java.io.Serializable, float)");
     testMethodClassOfQString(StubClass.class, "stubStaticMethod(java.util.Date)");
+    testMethodClassOfQString(StubClass.class, "stubStaticMethod(long)");
+    testMethodClassOfQString(StubClass.class, "stubStaticMethod(boolean)");
+    testMethodClassOfQString(StubClass.class, "stubStaticMethod(byte)");
  // MUDO deal with [] array types
 //    testMethodClassOfQString(StubClass.class, "stubStaticMethod(Object[])");
   }
@@ -174,68 +184,74 @@ public class MethodHelpersTest {
     assertArrayEquals(msig.getParameterTypes(), result.getParameterTypes());
   }
 
-  @Test
-  public void testMethodObjectString1() throws CannotParseSignatureException {
-    // dynamic method
-    testMethodObjectString(stub, "stubMethod()");
-    testMethodObjectString(stub, "stubMethodWithReturn()");
-    testMethodObjectString(stub, "stubMethodWithException()");
-    testMethodObjectString(stub, "stubMethod(Object)");
-    testMethodObjectString(stub, "stubMethod(String)");
-    testMethodObjectString(stub, "stubMethod(int)");
-    testMethodObjectString(stub, "stubMethod(Class)");
-    testMethodObjectString(stub, "stubMethod(int, boolean, Object, String)");
-    testMethodObjectString(stub, "stubMethod(int,boolean,    Object,String)");
-    testMethodObjectString(stub, "stubMethod(Object, float)");
-    testMethodObjectString(stub, "stubMethod(java.io.Serializable, float)");
-    testMethodObjectString(stub, "stubMethod(java.util.Date)");
- // MUDO deal with [] array types
-//    testMethodObjectString(stub, "stubMethod(Object[])");
-    // static methods
-    testMethodObjectString(stub, "stubStaticMethod()");
-    testMethodObjectString(stub, "stubStaticMethodWithReturn()");
-    testMethodObjectString(stub, "stubStaticMethodWithException()");
-    testMethodObjectString(stub, "stubStaticMethod(Object)");
-    testMethodObjectString(stub, "stubStaticMethod(String)");
-    testMethodObjectString(stub, "stubStaticMethod(int)");
-    testMethodObjectString(stub, "stubStaticMethod(Class)");
-    testMethodObjectString(stub, "stubStaticMethod(int, boolean, Object, String)");
-    testMethodObjectString(stub, "stubStaticMethod(int,boolean,    Object,String)");
-    testMethodObjectString(stub, "stubStaticMethod(Object, float)");
-    testMethodObjectString(stub, "stubStaticMethod(java.io.Serializable, float)");
-    testMethodObjectString(stub, "stubStaticMethod(java.util.Date)");
- // MUDO deal with [] array types
-//    testMethodObjectString(stub, "stubStaticMethod(Object[])");
-  }
-
-  @Test(expected = AssertionError.class)
-  public void testMethodObjectString2() throws CannotParseSignatureException {
-    method(stub, "methodDoesntExist()");
-  }
-
-  @Test(expected = AssertionError.class)
-  public void testMethodObjectString3() throws CannotParseSignatureException {
-    method(stub, "stubMethod(org.ppwcode.util.reflect_I.StubClass)");
-  }
-
-  @Test(expected = AssertionError.class)
-  public void testMethodObjectString4() throws CannotParseSignatureException {
-    method(stub, "stubStaticMethod(org.ppwcode.util.reflect_I.StubClass)");
-  }
-
-  @Test(expected = AssertionError.class)
-  public void testMethodObjectString5() throws CannotParseSignatureException {
-    method(stub, "StubClass(Object, Object, float)");
-  }
-
-  public void testMethodObjectString(Object o, String signature) throws CannotParseSignatureException {
-    Method result = method(o, signature);
-    assertNotNull(result);
-    assertEquals(o.getClass(), result.getDeclaringClass());
-    MethodSignature msig = new MethodSignature(signature);
-    assertEquals(msig.getMethodName(), result.getName());
-    assertArrayEquals(msig.getParameterTypes(), result.getParameterTypes());
-  }
+//  @Test
+//  public void testMethodObjectString1() throws CannotParseSignatureException {
+//    // dynamic method
+//    testMethodObjectString(stub, "stubMethod()");
+//    testMethodObjectString(stub, "stubMethodWithReturn()");
+//    testMethodObjectString(stub, "stubMethodWithException()");
+//    testMethodObjectString(stub, "stubMethod(Object)");
+//    testMethodObjectString(stub, "stubMethod(String)");
+//    testMethodObjectString(stub, "stubMethod(int)");
+//    testMethodObjectString(stub, "stubMethod(Class)");
+//    testMethodObjectString(stub, "stubMethod(int, boolean, Object, String)");
+//    testMethodObjectString(stub, "stubMethod(int,boolean,    Object,String)");
+//    testMethodObjectString(stub, "stubMethod(Object, float)");
+//    testMethodObjectString(stub, "stubMethod(java.io.Serializable, float)");
+//    testMethodObjectString(stub, "stubMethod(java.util.Date)");
+//    testMethodObjectString(stub, "stubMethod(long)");
+//    testMethodObjectString(stub, "stubMethod(boolean)");
+//    testMethodObjectString(stub, "stubMethod(byte)");
+// // MUDO deal with [] array types
+////    testMethodObjectString(stub, "stubMethod(Object[])");
+//    // static methods
+//    testMethodObjectString(stub, "stubStaticMethod()");
+//    testMethodObjectString(stub, "stubStaticMethodWithReturn()");
+//    testMethodObjectString(stub, "stubStaticMethodWithException()");
+//    testMethodObjectString(stub, "stubStaticMethod(Object)");
+//    testMethodObjectString(stub, "stubStaticMethod(String)");
+//    testMethodObjectString(stub, "stubStaticMethod(int)");
+//    testMethodObjectString(stub, "stubStaticMethod(Class)");
+//    testMethodObjectString(stub, "stubStaticMethod(int, boolean, Object, String)");
+//    testMethodObjectString(stub, "stubStaticMethod(int,boolean,    Object,String)");
+//    testMethodObjectString(stub, "stubStaticMethod(Object, float)");
+//    testMethodObjectString(stub, "stubStaticMethod(java.io.Serializable, float)");
+//    testMethodObjectString(stub, "stubStaticMethod(java.util.Date)");
+//    testMethodObjectString(stub, "stubStaticMethod(long)");
+//    testMethodObjectString(stub, "stubStaticMethod(boolean)");
+//    testMethodObjectString(stub, "stubStaticMethod(byte)");
+// // MUDO deal with [] array types
+////    testMethodObjectString(stub, "stubStaticMethod(Object[])");
+//  }
+//
+//  @Test(expected = AssertionError.class)
+//  public void testMethodObjectString2() throws CannotParseSignatureException {
+//    method(stub, "methodDoesntExist()");
+//  }
+//
+//  @Test(expected = AssertionError.class)
+//  public void testMethodObjectString3() throws CannotParseSignatureException {
+//    method(stub, "stubMethod(org.ppwcode.util.reflect_I.StubClass)");
+//  }
+//
+//  @Test(expected = AssertionError.class)
+//  public void testMethodObjectString4() throws CannotParseSignatureException {
+//    method(stub, "stubStaticMethod(org.ppwcode.util.reflect_I.StubClass)");
+//  }
+//
+//  @Test(expected = AssertionError.class)
+//  public void testMethodObjectString5() throws CannotParseSignatureException {
+//    method(stub, "StubClass(Object, Object, float)");
+//  }
+//
+//  public void testMethodObjectString(Object o, String signature) throws CannotParseSignatureException {
+//    Method result = method(o, signature);
+//    assertNotNull(result);
+//    assertEquals(o.getClass(), result.getDeclaringClass());
+//    MethodSignature msig = new MethodSignature(signature);
+//    assertEquals(msig.getMethodName(), result.getName());
+//    assertArrayEquals(msig.getParameterTypes(), result.getParameterTypes());
+//  }
 
   @Test
   public void testHasMethodClassOfQString() throws CannotParseSignatureException, SecurityException {
@@ -252,6 +268,9 @@ public class MethodHelpersTest {
     testHasMethodClassOfQString(StubClass.class, "stubMethod(Object, float)");
     testHasMethodClassOfQString(StubClass.class, "stubMethod(java.io.Serializable, float)");
     testHasMethodClassOfQString(StubClass.class, "stubMethod(java.util.Date)");
+    testHasMethodClassOfQString(StubClass.class, "stubMethod(long)");
+    testHasMethodClassOfQString(StubClass.class, "stubMethod(boolean)");
+    testHasMethodClassOfQString(StubClass.class, "stubMethod(byte)");
  // MUDO deal with [] array types
 //    testHasMethodClassOfQString(StubClass.class, "stubMethod(Object[])");
     // static methods
@@ -267,6 +286,9 @@ public class MethodHelpersTest {
     testHasMethodClassOfQString(StubClass.class, "stubStaticMethod(Object, float)");
     testHasMethodClassOfQString(StubClass.class, "stubStaticMethod(java.io.Serializable, float)");
     testHasMethodClassOfQString(StubClass.class, "stubStaticMethod(java.util.Date)");
+    testHasMethodClassOfQString(StubClass.class, "stubStaticMethod(long)");
+    testHasMethodClassOfQString(StubClass.class, "stubStaticMethod(boolean)");
+    testHasMethodClassOfQString(StubClass.class, "stubStaticMethod(byte)");
  // MUDO deal with [] array types
 //    testHasMethodClassOfQString(StubClass.class, "stubStaticMethod(Object[])");
     // methods that don't exist
@@ -281,49 +303,55 @@ public class MethodHelpersTest {
     assertEquals(exists(type.getDeclaredMethods(), signature), result);
   }
 
-  @Test
-  public void testHasMethodObjectString() throws CannotParseSignatureException, SecurityException {
-    // dynamic method
-    testHasMethodObjectString(stub, "stubMethod()");
-    testHasMethodObjectString(stub, "stubMethodWithReturn()");
-    testHasMethodObjectString(stub, "stubMethodWithException()");
-    testHasMethodObjectString(stub, "stubMethod(Object)");
-    testHasMethodObjectString(stub, "stubMethod(String)");
-    testHasMethodObjectString(stub, "stubMethod(int)");
-    testHasMethodObjectString(stub, "stubMethod(Class)");
-    testHasMethodObjectString(stub, "stubMethod(int, boolean, Object, String)");
-    testHasMethodObjectString(stub, "stubMethod(int,boolean,    Object,String)");
-    testHasMethodObjectString(stub, "stubMethod(Object, float)");
-    testHasMethodObjectString(stub, "stubMethod(java.io.Serializable, float)");
-    testHasMethodObjectString(stub, "stubMethod(java.util.Date)");
- // MUDO deal with [] array types
-//    testHasMethodObjectString(stub, "stubMethod(Object[])");
-    // static methods
-    testHasMethodObjectString(stub, "stubStaticMethod()");
-    testHasMethodObjectString(stub, "stubStaticMethodWithReturn()");
-    testHasMethodObjectString(stub, "stubStaticMethodWithException()");
-    testHasMethodObjectString(stub, "stubStaticMethod(Object)");
-    testHasMethodObjectString(stub, "stubStaticMethod(String)");
-    testHasMethodObjectString(stub, "stubStaticMethod(int)");
-    testHasMethodObjectString(stub, "stubStaticMethod(Class)");
-    testHasMethodObjectString(stub, "stubStaticMethod(int, boolean, Object, String)");
-    testHasMethodObjectString(stub, "stubStaticMethod(int,boolean,    Object,String)");
-    testHasMethodObjectString(stub, "stubStaticMethod(Object, float)");
-    testHasMethodObjectString(stub, "stubStaticMethod(java.io.Serializable, float)");
-    testHasMethodObjectString(stub, "stubStaticMethod(java.util.Date)");
- // MUDO deal with [] array types
-//    testHasMethodObjectString(stub, "stubStaticMethod(Object[])");
-    // methods that don't exist
-    testHasMethodObjectString(stub, "methodDoesntExist()");
-    testHasMethodObjectString(stub, "stubMethod(org.ppwcode.util.reflect_I.StubClass)");
-    testHasMethodObjectString(stub, "stubStaticMethod(org.ppwcode.util.reflect_I.StubClass)");
-    testHasMethodObjectString(stub, "StubClass(Object, Object, float)");
-  }
-
-  public void testHasMethodObjectString(Object o, String signature) throws CannotParseSignatureException, SecurityException {
-    boolean result = hasMethod(o, signature);
-    assertEquals(exists(o.getClass().getDeclaredMethods(), signature), result);
-  }
+//  @Test
+//  public void testHasMethodObjectString() throws CannotParseSignatureException, SecurityException {
+//    // dynamic method
+//    testHasMethodObjectString(stub, "stubMethod()");
+//    testHasMethodObjectString(stub, "stubMethodWithReturn()");
+//    testHasMethodObjectString(stub, "stubMethodWithException()");
+//    testHasMethodObjectString(stub, "stubMethod(Object)");
+//    testHasMethodObjectString(stub, "stubMethod(String)");
+//    testHasMethodObjectString(stub, "stubMethod(int)");
+//    testHasMethodObjectString(stub, "stubMethod(Class)");
+//    testHasMethodObjectString(stub, "stubMethod(int, boolean, Object, String)");
+//    testHasMethodObjectString(stub, "stubMethod(int,boolean,    Object,String)");
+//    testHasMethodObjectString(stub, "stubMethod(Object, float)");
+//    testHasMethodObjectString(stub, "stubMethod(java.io.Serializable, float)");
+//    testHasMethodObjectString(stub, "stubMethod(java.util.Date)");
+//    testHasMethodObjectString(stub, "stubMethod(long)");
+//    testHasMethodObjectString(stub, "stubMethod(boolean)");
+//    testHasMethodObjectString(stub, "stubMethod(byte)");
+// // MUDO deal with [] array types
+////    testHasMethodObjectString(stub, "stubMethod(Object[])");
+//    // static methods
+//    testHasMethodObjectString(stub, "stubStaticMethod()");
+//    testHasMethodObjectString(stub, "stubStaticMethodWithReturn()");
+//    testHasMethodObjectString(stub, "stubStaticMethodWithException()");
+//    testHasMethodObjectString(stub, "stubStaticMethod(Object)");
+//    testHasMethodObjectString(stub, "stubStaticMethod(String)");
+//    testHasMethodObjectString(stub, "stubStaticMethod(int)");
+//    testHasMethodObjectString(stub, "stubStaticMethod(Class)");
+//    testHasMethodObjectString(stub, "stubStaticMethod(int, boolean, Object, String)");
+//    testHasMethodObjectString(stub, "stubStaticMethod(int,boolean,    Object,String)");
+//    testHasMethodObjectString(stub, "stubStaticMethod(Object, float)");
+//    testHasMethodObjectString(stub, "stubStaticMethod(java.io.Serializable, float)");
+//    testHasMethodObjectString(stub, "stubStaticMethod(java.util.Date)");
+//    testHasMethodObjectString(stub, "stubStaticMethod(long)");
+//    testHasMethodObjectString(stub, "stubStaticMethod(boolean)");
+//    testHasMethodObjectString(stub, "stubStaticMethod(byte)");
+// // MUDO deal with [] array types
+////    testHasMethodObjectString(stub, "stubStaticMethod(Object[])");
+//    // methods that don't exist
+//    testHasMethodObjectString(stub, "methodDoesntExist()");
+//    testHasMethodObjectString(stub, "stubMethod(org.ppwcode.util.reflect_I.StubClass)");
+//    testHasMethodObjectString(stub, "stubStaticMethod(org.ppwcode.util.reflect_I.StubClass)");
+//    testHasMethodObjectString(stub, "StubClass(Object, Object, float)");
+//  }
+//
+//  public void testHasMethodObjectString(Object o, String signature) throws CannotParseSignatureException, SecurityException {
+//    boolean result = hasMethod(o, signature);
+//    assertEquals(exists(o.getClass().getDeclaredMethods(), signature), result);
+//  }
 
   private Object exists(Method[] declaredMethods, String signature) throws CannotParseSignatureException {
     MethodSignature msig = new MethodSignature(signature);
@@ -339,57 +367,20 @@ public class MethodHelpersTest {
   @Test
   public void testConstructor1() throws CannotParseSignatureException {
     testConstructor(StubClass.class, "StubClass()");
-  }
-
-  @Test
-  public void testConstructor2() throws CannotParseSignatureException {
     testConstructor(StubClass.class, "StubClass(Object)");
-  }
-
-  @Test
-  public void testConstructor3() throws CannotParseSignatureException {
     testConstructor(StubClass.class, "StubClass(String)");
-  }
-
-  @Test
-  public void testConstructor4() throws CannotParseSignatureException {
     testConstructor(StubClass.class, "StubClass(int)");
-  }
-
-  @Test
-  public void testConstructor5() throws CannotParseSignatureException {
     testConstructor(StubClass.class, "StubClass(Class)");
-  }
-
-  @Test
-  public void testConstructor6() throws CannotParseSignatureException {
     testConstructor(StubClass.class, "StubClass(org.ppwcode.util.reflect_I.StubClass)");
-  }
-
-  @Test
-  public void testConstructor7() throws CannotParseSignatureException {
     testConstructor(StubClass.class, "StubClass(int, boolean, Object, String)");
-  }
-
-  @Test
-  public void testConstructor8() throws CannotParseSignatureException {
     testConstructor(StubClass.class, "StubClass(int,boolean,    Object, " +
         "     String)");
-  }
-
-  @Test
-  public void testConstructor9() throws CannotParseSignatureException {
     testConstructor(StubClass.class, "StubClass(Object, Object, float)");
-  }
-
-  @Test
-  public void testConstructor10() throws CannotParseSignatureException {
     testConstructor(StubClass.class, "StubClass(java.io.Serializable, java.io.Serializable, float)");
-  }
-
-  @Test
-  public void testConstructor11() throws CannotParseSignatureException {
     testConstructor(StubClass.class, "StubClass(java.util.Date)");
+    testConstructor(StubClass.class, "StubClass(long)");
+    testConstructor(StubClass.class, "StubClass(boolean)");
+    testConstructor(StubClass.class, "StubClass(byte)");
   }
 
   //MUDO deal with [] array types

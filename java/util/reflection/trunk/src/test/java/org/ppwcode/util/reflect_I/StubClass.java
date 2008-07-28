@@ -121,6 +121,21 @@ public class StubClass {
   }
 
   @SuppressWarnings("unused")
+  void stubMethod(long l) {
+    // NOP
+  }
+
+  @SuppressWarnings("unused")
+  protected void stubMethod(boolean b) {
+    // NOP
+  }
+
+  @SuppressWarnings("unused")
+  private void stubMethod(byte b) {
+    // NOP
+  }
+
+  @SuppressWarnings("unused")
   public static void stubStaticMethod() {
     // NOP
   }
@@ -180,6 +195,21 @@ public class StubClass {
     // NOP
   }
 
+  @SuppressWarnings("unused")
+  void stubStaticMethod(long l) {
+    // NOP
+  }
+
+  @SuppressWarnings("unused")
+  protected void stubStaticMethod(boolean b) {
+    // NOP
+  }
+
+  @SuppressWarnings("unused")
+  private void stubStaticMethod(byte b) {
+    // NOP
+  }
+
 
 
   public StubClass() {
@@ -225,6 +255,19 @@ public class StubClass {
   }
 
   public StubClass(Object[] os) throws Exception {
+    // NOP
+  }
+
+  StubClass(long l) throws Exception {
+    // NOP
+  }
+
+  protected StubClass(boolean b) throws Exception {
+    // NOP
+  }
+
+  @SuppressWarnings("unused")
+  private StubClass(byte b) throws Exception {
     // NOP
   }
 
