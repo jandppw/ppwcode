@@ -23,7 +23,9 @@ import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.unexpectedEx
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
+import org.ppwcode.vernacular.exception_II.ProgrammingErrors;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
 import org.toryt.annotations_I.Throw;
@@ -34,9 +36,10 @@ import org.toryt.annotations_I.Throw;
  *   interested in the result of reflection, and not in a particular reason why some reflective
  *   inspection might have failed. The ppwcode exception vernacular is applied.</p>
  *
- * @author Jan Dockx
+ * @note To find out what the accessibility of returned methods is, use {@link Modifier#isPublic(int)},
+ *       etcetera, on {@link Method#getModifiers() the modifiers} of the result.
  *
- * @note partial copy from toryt_II_dev
+ * @author Jan Dockx
  */
 public final class MethodHelpers {
 
@@ -67,6 +70,9 @@ public final class MethodHelpers {
    * @note this method is introduced because there is one exception we need in other methods in this class,
    *       which we cannot eat here: {@link NoSuchMethodException}. See {@link #hasMethod(Class, String)}
    *       and {@link #hasMethod(Object, String)}. The method is only package accessible.
+   *
+   * @todo This method was first private, now package accessible (see {@link CloneHelpers}). Probably
+   *       this method has to become public, with an object and a class variant.
    */
   @MethodContract(
     pre  = {
@@ -152,44 +158,45 @@ public final class MethodHelpers {
     return result;
   }
 
-  /**
-   * <p>Return the method of the class of {@code o} with signature {@code signature}.
-   *   If something goes wrong, this is considered a programming error (see {@link ProgrammingErrors}).</p>
-   * <p>{@code findMethod} returns any method (not only {@code public} methods as
-   *   {@link Class#getMethod(String, Class...)} does), but only methods declared exactly in the class of
-   *   {@code o}, like {@link Class#getDeclaredMethod(String, Class...)}, and unlike
-   *   {@link Class#getMethod(String, Class...)}: inherited methods do not apply.</p>
-   *
-   * @param o
-   *        The object whose class to look for the method in.
-   * @param signature
-   *        The signature of the method to look for. This is the name of the
-   *        method, with the FQCN of the arguments in parenthesis appended, comma
-   *        separated. For classes of the package {@code java.lang}, the short class
-   *        name may be used.
-   *        The return type is not a part of the signature, nor are potential
-   *        exception types the method can throw.
-   *        Example: {@code "findMethod(java.lang.Class,java.lang.String)"},
-   *        which is equivalent to {@code "findMethod ( Class, String )"}.
-   */
-  @MethodContract(
-    pre  = {
-      @Expression("_o != null"),
-      @Expression("_signature != null"),
-      @Expression("_signature != EMPTY"),
-      @Expression(value = "true", description = "_signature is the signature of an existing method of _o")
-    },
-    post = {
-      @Expression("result != null"),
-      @Expression("result.declaringClass == _o.class"),
-      @Expression("result.name == new MethodSignature(_signature).methodName"),
-      @Expression("Arrays.deepEquqls(result.parameterTypes, new MethodSignature(_signature).parameterTypes")
-    }
-  )
-  public static Method method(Object o, String signature) {
-    preArgumentNotNull(o, "o");
-    return method(o.getClass(), signature);
-  }
+//  anybody can do o.getClass(); this is stupid in a lib
+//  /**
+//   * <p>Return the method of the class of {@code o} with signature {@code signature}.
+//   *   If something goes wrong, this is considered a programming error (see {@link ProgrammingErrors}).</p>
+//   * <p>{@code findMethod} returns any method (not only {@code public} methods as
+//   *   {@link Class#getMethod(String, Class...)} does), but only methods declared exactly in the class of
+//   *   {@code o}, like {@link Class#getDeclaredMethod(String, Class...)}, and unlike
+//   *   {@link Class#getMethod(String, Class...)}: inherited methods do not apply.</p>
+//   *
+//   * @param o
+//   *        The object whose class to look for the method in.
+//   * @param signature
+//   *        The signature of the method to look for. This is the name of the
+//   *        method, with the FQCN of the arguments in parenthesis appended, comma
+//   *        separated. For classes of the package {@code java.lang}, the short class
+//   *        name may be used.
+//   *        The return type is not a part of the signature, nor are potential
+//   *        exception types the method can throw.
+//   *        Example: {@code "findMethod(java.lang.Class,java.lang.String)"},
+//   *        which is equivalent to {@code "findMethod ( Class, String )"}.
+//   */
+//  @MethodContract(
+//    pre  = {
+//      @Expression("_o != null"),
+//      @Expression("_signature != null"),
+//      @Expression("_signature != EMPTY"),
+//      @Expression(value = "true", description = "_signature is the signature of an existing method of _o")
+//    },
+//    post = {
+//      @Expression("result != null"),
+//      @Expression("result.declaringClass == _o.class"),
+//      @Expression("result.name == new MethodSignature(_signature).methodName"),
+//      @Expression("Arrays.deepEquqls(result.parameterTypes, new MethodSignature(_signature).parameterTypes")
+//    }
+//  )
+//  public static Method method(Object o, String signature) {
+//    preArgumentNotNull(o, "o");
+//    return method(o.getClass(), signature);
+//  }
 
   /**
    * <p>Assert whether class {@code type} has a method with signature {@code signature}.
@@ -234,43 +241,44 @@ public final class MethodHelpers {
     }
   }
 
-  /**
-   * <p>Assert whether the class of {@code o} has a method with signature {@code signature}.
-   *   If something goes wrong, this is considered a programming error (see {@link ProgrammingErrors}).</p>
-   * <p>{@code hasMethod} returns {@code true} on the existence of any method (not only {@code public} methods
-   *   as {@link Class#getMethod(String, Class...)} does), but only methods declared exactly in the class of
-   *   {@code _o}, like {@link Class#getDeclaredMethod(String, Class...)}, and unlike
-   *   {@link Class#getMethod(String, Class...)}: inherited methods do not apply.</p>
-   *
-   * @param o
-   *        The class to look for the method in.
-   * @param signature
-   *        The signature of the method to look for. This is the name of the
-   *        method, with the FQCN of the arguments in parenthesis appended, comma
-   *        separated. For classes of the package {@code java.lang}, the short class
-   *        name may be used.
-   *        The return type is not a part of the signature, nor are potential
-   *        exception types the method can throw.
-   *        Example: {@code "findMethod(java.lang.Class,java.lang.String)"},
-   *        which is equivalent to {@code "findMethod ( Class, String )"}.
-   */
-  @MethodContract(
-    pre  = {
-      @Expression("_o != null"),
-      @Expression("_signature != null"),
-      @Expression("_signature != EMPTY"),
-      @Expression(value = "true", description = "_signature is a valid signature")
-    },
-    post = {
-      @Expression("exists (Method m : _o.class.getDeclaredMethods()) {" +
-                    "m.name == new MethodSignature(_signature).methodName && " +
-                    "Arrays.deepEquqls(m.parameterTypes, new MethodSignature(_signature).parameterTypes" +
-                  "}")
-    }
-  )
-  public static boolean hasMethod(Object o, String signature) {
-    return o != null && hasMethod(o.getClass(), signature);
-  }
+//  anybody can do o.getClass(); this is stupid in an API
+//  /**
+//   * <p>Assert whether the class of {@code o} has a method with signature {@code signature}.
+//   *   If something goes wrong, this is considered a programming error (see {@link ProgrammingErrors}).</p>
+//   * <p>{@code hasMethod} returns {@code true} on the existence of any method (not only {@code public} methods
+//   *   as {@link Class#getMethod(String, Class...)} does), but only methods declared exactly in the class of
+//   *   {@code _o}, like {@link Class#getDeclaredMethod(String, Class...)}, and unlike
+//   *   {@link Class#getMethod(String, Class...)}: inherited methods do not apply.</p>
+//   *
+//   * @param o
+//   *        The class to look for the method in.
+//   * @param signature
+//   *        The signature of the method to look for. This is the name of the
+//   *        method, with the FQCN of the arguments in parenthesis appended, comma
+//   *        separated. For classes of the package {@code java.lang}, the short class
+//   *        name may be used.
+//   *        The return type is not a part of the signature, nor are potential
+//   *        exception types the method can throw.
+//   *        Example: {@code "findMethod(java.lang.Class,java.lang.String)"},
+//   *        which is equivalent to {@code "findMethod ( Class, String )"}.
+//   */
+//  @MethodContract(
+//    pre  = {
+//      @Expression("_o != null"),
+//      @Expression("_signature != null"),
+//      @Expression("_signature != EMPTY"),
+//      @Expression(value = "true", description = "_signature is a valid signature")
+//    },
+//    post = {
+//      @Expression("exists (Method m : _o.class.getDeclaredMethods()) {" +
+//                    "m.name == new MethodSignature(_signature).methodName && " +
+//                    "Arrays.deepEquqls(m.parameterTypes, new MethodSignature(_signature).parameterTypes" +
+//                  "}")
+//    }
+//  )
+//  public static boolean hasMethod(Object o, String signature) {
+//    return o != null && hasMethod(o.getClass(), signature);
+//  }
 
   /**
    * <p>Return the constructor of class {@code type} with signature {@code signature}.
@@ -314,7 +322,7 @@ public final class MethodHelpers {
     Constructor<_T_> result = null;
     try {
       MethodSignature sig = new MethodSignature(signature);
-      result = type.getConstructor(sig.getParameterTypes());
+      result = type.getDeclaredConstructor(sig.getParameterTypes());
     }
     catch (NullPointerException npExc) {
       unexpectedException(npExc);
