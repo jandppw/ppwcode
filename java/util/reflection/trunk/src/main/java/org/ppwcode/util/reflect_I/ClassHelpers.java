@@ -24,9 +24,9 @@ import java.lang.reflect.Modifier;
 
 
 /**
- * <p>Utility methods for reflection. Use these methods if you are
- *   interested in the result of reflection, and not in a particular
- *   reason why some reflective inspection might have failed.</p>
+ * <p>Utility methods for type reflection . Use these methods if you are interested in the result of reflection,
+ *   and not in a particular reason why some reflective inspection might have failed. The ppwcode exception
+ *   vernacular is applied.</p>
  *
  * <h3 id="onNestedClasses">On nested classes</h3>
  * <p><dfn>Nested types</dfn> are either <dfn>member types</dfn> of
@@ -111,14 +111,8 @@ import java.lang.reflect.Modifier;
  *   </tr>
  * </table>
  *
- * @idea (jand) most methods are also in ppw-bean; consolidate
- *
- * @note The methods of the class {@code Beans} of the previous version have been moved here and into {@link ResourceBundles}.
- *       Furthermore, a number of methods are removed.
- *
  * @author Jan Dockx
- *
- * @note partial copy from toryt_II_dev
+ * @author PeopleWare n.v.
  */
 public class ClassHelpers {
 
