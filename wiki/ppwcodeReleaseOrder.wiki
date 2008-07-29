@@ -34,9 +34,9 @@ NOTE: there should be a better way to describe this than a list
   * licensetemplates
   * checkstyle
   * library parent pom
-  * (toryt annotations - _outside of ppwcode, but we have "influence" to get a new build :-)_ )
   * ppwcode library parent pom
   * metainfo
+  * (toryt annotations - _outside of ppwcode, but we have "influence" to get a new build :-)_ )
   * vernacular parent pom
   * vernacular exception
   * util parent pom
