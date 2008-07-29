@@ -24,9 +24,9 @@
   <tr>
     <td valign="top" class="blue twoColumns">
       <div class="title">svn_spider</div>
-      <p>Subversion supports attaching metadata to files through the use of properties.  These properties
-      are versioned in the same way that files are versioned.  There are a number of predefined <i>special</i>
-      properties that guide Subversion in the way it should treat a file.  Some examples are the following:</p>
+      <p>Subversion supports attaching metadata to files through the use of properties.  Properties
+      are versioned in the same way that files are versioned.  A number of predefined <i>special</i>
+      properties guide Subversion in the way it should treat a file.  Some examples are the following:</p>
       <ul>
         <li><b>svn:eol-style</b> This property indicates whether Subversion should enforce a certain
         type of end-of-line encoding (such as, CRLF, LF, CR, or native to the client platform) when
@@ -37,26 +37,53 @@
         substitution should be applied in the file.</li>
       </ul>
       <p>Attaching metadata to a file in the repository has to be done manually: a subversion command needs
-      to be issued for every property of a file that needs to be configured.  This means that setting correct
+      to be issued for every property of every file that needs to be configured.  This means that setting correct
       metadata on an existing codebase is a very labor intensive and error-prone process.  Moreover, when
       adding new files to the repository, one should remember to set the correct metadata on the file.
       </p>
-      <p>It seems obvious that this process should be made more simple to be effective.  An important
-      observation here is that, typically, the same types of files will need the same metadata.  So, one would
-      need a mechanism to indicate that the metadata of a certain type of files needs to be configured with a
+      <p>It seems obvious that this process should be somehow automated to be effective.  An important
+      observation here is that, typically, the same types of files will need the same metadata.  So, only a
+      mechanism is needed to indicate that the metadata of a certain type of files needs to be configured with a
       given set of properties.  Subversion actually implements such a mechanism.  Sadly, Subversion only supports
-      this in a client-side configuration.  This means that every developer would need to use the same configuration
-      at all times to guarantee that new files are always initialized with the correct metadata.
+      this as a client-side configuration option.  This means that every developer would need to use the same configuration
+      (for this particular option) at all times to ensure that new files are consistently initialized with correct metadata.
       </p>
       <p>We believe that the latter mechanism is still error-prone and, for this reason, we decided to develop a
-      script that will check all files in the repository and correct metadata when needed.  Meet
-      <b>svn_spider</b>: a Ruby script that visits every file (using the
-      Subversion api) in a given set of repositories to correct metadata when needed.
+      script that visits all files in a given repository and corrects or adds metadata when needed.  Meet
+      <b>svn_spider</b>!
       </p>
     </td>
     <td width="50%" colspan="3" valign="top" class="green">
-      <div class="title"></div>
-      <p>MUDO text </p>
+      <div class="title">Using svn_spider</div>
+      <p>svn_spider is a Ruby script that visits every file (using the Subversion api) in a given set of Subversion repositories
+      to correct and add metadata as needed.  Both Ruby and the Subversion Ruby bindings are required dependencies of
+      the svn_spider script.  A sample configuration file is included with the svn_spider download.
+      </p>
+      <ul>
+        <li>Dependencies
+        <ul>
+          <li><a href="http://www.ruby-lang.org">Ruby</a></li>
+          <li><a href="http://subversion.tigris.org">Subversion</a> bindings for Ruby</li>
+        </ul>
+        </li>
+        <li>svn_spider (currently snapshot release)
+        <ul>
+          <li><a href="svn/files/svn_spider-r1824.zip">zip file (r1824)</a></li>
+          <li><a href="svn/files/svn_spider-r1824.tgz">tgz file (r1824)</a></li>
+        </ul>
+        </li>
+        <li>Subversion repository
+          <ul>
+            <li><a href="http://code.google.com/p/ppwcode/source/list"><span class="ppwcode">ppw<span class="ppwcode_code">code</span></span></a>
+            at <a href="http://code.google.com/p/ppwcode/">Google Code</a>.</li>
+          </ul>
+        </li>
+        <li>Configuration
+          <ul>
+            <li><a href="http://code.google.com/p/ppwcode/wiki/SvnSpider">example configuration</a></li>
+          </ul>
+        </li>
+      </ul>
     </td>
   </tr>
   <tr>
