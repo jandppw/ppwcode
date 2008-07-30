@@ -18,9 +18,13 @@ package org.ppwcode.util.reflect_I;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.preArgumentNotEmpty;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.preArgumentNotNull;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.unexpectedException;
 
 import java.beans.Beans;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.HashMap;
@@ -31,14 +35,19 @@ import java.util.Set;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.ppwcode.vernacular.exception_II.ProgrammingErrors;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.Invars;
+import org.toryt.annotations_I.MethodContract;
 
 
 /**
- * <p>Utility methods for type reflection . Use these methods if you are interested in the result of reflection,
+ * <p>Utility methods for type reflection. Use these methods if you are interested in the result of reflection,
  *   and not in a particular reason why some reflective inspection might have failed. The ppwcode exception
  *   vernacular is applied.</p>
+ * <p>In general, this code works with {@link Class#getCanonicalName()} <dfn>canonical names</dfn>}, i.e., the
+ *   names of types as they are used in source code, whereas methods in {@link Class} generally work with
+ *   {@link Class#getName() <dfn>binary names</dfn>}.</p>
  *
  * <h3 id="onNestedClasses">On nested classes</h3>
  * <p>On close inspection, the terminology on <dfn>nested classes</dfn> turns out to be
@@ -149,6 +158,11 @@ import org.toryt.annotations_I.Invars;
  *     </ul>
  *   </li>
  * </ul>
+ * <p>Note that {@link Class} has methods to decided whether a type is a
+ *   {@link Class#isMemberClass() <dfn>member class</dfn>}, a {@link Class#isLocalClass() <dfn>local class</dfn>}
+ *   or an {@link Class#isAnonymousClass() <dfn>anonymous class</dfn>}, but not whether it is an <dfn>inner type<dfn>
+ *   or a <dfn>static nested type</dfn>, or a <dfn>top level type</dfn> or <dfn>nested type</dfn>. Methods to test
+ *   that are provide here.</p>
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
@@ -219,41 +233,175 @@ public class ClassHelpers {
   public final static Map<String, Class<?>> PRIMITIVE_TYPES_MAP = Collections.unmodifiableMap(PRIMITIVE_TYPES_MAP_INTERNAL);
 
   /**
+   * The idiom for finding out whether a method {@code m} is public or not,
+   * using the standard Java API, is
+   * {@link Modifier#isPublic(int) Modifier.isPublic(}{@link Method#getModifiers() m.getModifiers()}{@code )}.
+   * This shortens that a bit to {@code MethodHelpers.isPublic(m)}.
+   */
+  @MethodContract(
+    pre  = @Expression("_m != null"),
+    post = @Expression("Modifier.isPublic(_m.getModifiers())")
+  )
+  public static boolean isPublic(Method method) {
+    assert ProgrammingErrors.preArgumentNotNull(method, "method");
+    return Modifier.isPublic(method.getModifiers());
+  }
+
+  /**
+   * The idiom for finding out whether a type {@code t} is protected or not,
+   * using the standard Java API, is
+   * {@link Modifier#isProtected(int) Modifier.isProtected(}{@link Class#getModifiers() t.getModifiers()}{@code )}.
+   * This shortens that a bit to {@code ClassHelpers.isProtected(t)}.
+   */
+  @MethodContract(
+    pre  = @Expression("_t != null"),
+    post = @Expression("Modifier.isProtected(_t.getModifiers())")
+  )
+  public static boolean isProtected(Class<?> t) {
+    assert preArgumentNotNull(t, "t");
+    return Modifier.isProtected(t.getModifiers());
+  }
+
+  /**
+   * The idiom for finding out whether a type {@code t} is private or not,
+   * using the standard Java API, is
+   * {@link Modifier#isPrivate(int) Modifier.isPrivate(}{@link Class#getModifiers() t.getModifiers()}{@code )}.
+   * This shortens that a bit to {@code ClassHelpers.isPrivate(t)}.
+   */
+  @MethodContract(
+    pre  = @Expression("_t != null"),
+    post = @Expression("Modifier.isPrivate(_t.getModifiers())")
+  )
+  public static boolean isPrivate(Class<?> t) {
+    assert preArgumentNotNull(t, "t");
+    return Modifier.isPrivate(t.getModifiers());
+  }
+
+  /**
+   * The idiom for finding out whether a type {@code t} is package accessible or not,
+   * using the standard Java API, is difficult, since there is no modifier for package accessibility.
+   * We need to check there there is no accessibility modifier present.
+   * This shortens that a bit to {@code ClassHelpers.isPackageAccessible(t)}.
+   */
+  @MethodContract(
+    pre  = @Expression("_t != null"),
+    post = @Expression("! Modifier.isPublic(_t.getModifiers()) && " +
+                       "! Modifier.isProtected(_t.getModifiers()) && " +
+                       "! Modifier.isPrivate(_t.getModifiers())")
+  )
+  public static boolean isPackageAccessible(Class<?> t) {
+    assert preArgumentNotNull(t, "t");
+    int tModifiers = t.getModifiers();
+    return ! Modifier.isPublic(tModifiers) && ! Modifier.isProtected(tModifiers) && ! Modifier.isPrivate(tModifiers);
+  }
+
+  /**
+   * The idiom for finding out whether a type {@code t} is static (top level types always are) or not,
+   * using the standard Java API, is
+   * {@link Modifier#isStatic(int) Modifier.isStatic(}{@link Class#getModifiers() t.getModifiers()}{@code )} for nested
+   * types.
+   * This shortens that a bit to {@code ClassHelpers.isStatic(t)}.
+   */
+  @MethodContract(
+    pre  = @Expression("_t != null"),
+    post = @Expression("isTopLevelClass(_t) || Modifier.isPrivate(_t.getModifiers())")
+  )
+  public static boolean isStatic(Class<?> t) {
+    assert preArgumentNotNull(t, "t");
+    return isTopLevelType(t) || Modifier.isStatic(t.getModifiers());
+  }
+
+  /**
+   * The idiom for finding out whether a type {@code t} is abstract (interfaces always are) or not,
+   * using the standard Java API, is
+   * {@link Modifier#isAbstract(int) Modifier.isAbstract(}{@link Class#getModifiers() t.getModifiers()}{@code )}
+   * for non-interface types.
+   * This shortens that a bit to {@code ClassHelpers.isAbstract(t)}.
+   */
+  @MethodContract(
+    pre  = @Expression("_t != null"),
+    post = @Expression("Modifier.isInterface(_t.getModifiers()) || Modifier.isPrivate(_t.getModifiers())")
+  )
+  public static boolean isAbstract(Class<?> t) {
+    assert preArgumentNotNull(t, "t");
+    return t.isInterface() || Modifier.isAbstract(t.getModifiers());
+  }
+
+  /**
+   * The idiom for finding out whether a type {@code t} is final (interfaces never are) or not,
+   * using the standard Java API, is
+   * {@link Modifier#isFinal(int) Modifier.isFinal(}{@link Class#getModifiers() t.getModifiers()}{@code )}.
+   * This shortens that a bit to {@code ClassHelpers.isFinal(t)}.
+   */
+  @MethodContract(
+    pre  = @Expression("_t != null"),
+    post = @Expression("Modifier.isFinal(_t.getModifiers())")
+  )
+  public static boolean isFinal(Class<?> t) {
+    assert preArgumentNotNull(t, "t");
+    return Modifier.isFinal(t.getModifiers());
+  }
+
+  /**
+   * <p>Is {@code type} an <dfn>inner class</dfn> or not?</p>
+   * <p>The type {@link Class} has methods to find out whether the class is an
+   *   {@link Class#isAnonymousClass() <dfn>anonymous class</dfn>} or not,
+   *   is a {@link Class#isLocalClass() <dfn>local class</dfn>} or not, and
+   *   whether it is a {@link Class#isMemberClass() <dfn>member class</dfn>}
+   *   or not. It lacks however methods to know whether the class is an
+   *   <dfn>inner class</dfn> or not.</p>
+   * <p>For a discussion, see <a href="#onNestedClasses">On nested classes</a>
+   *   above.</p>
+   *
+   * @pre type != null;
+   * @return type.isLocalClass() || type.isAnonymousClass() ||
+   *         (type.isMemberClass() && (! Modifier.isStatic(type.getModifiers())));
+   */
+  public static boolean isInnerType(Class<?> type) {
+    assert type != null;
+    return type.isLocalClass() || type.isAnonymousClass() || (type.isMemberClass() && (! Modifier.isStatic(type.getModifiers())));
+  }
+
+  /**
+   * <p>Is {@code type} a top level class or not?</p>
+   * <p>The type {@link Class} has methods to find out whether the class is an
+   *   {@link Class#isAnonymousClass() <dfn>anonymous class</dfn>} or not,
+   *   is a {@link Class#isLocalClass() <dfn>local class</dfn>} or not, and
+   *   whether it is a {@link Class#isMemberClass() <dfn>member class</dfn>}
+   *   or not. It lacks however methods to know whether the class is a
+   *   <dfn>top level class</dfn> or a nested class.</p>
+   * <p>For a discussion, see <a href="#onNestedClasses">On nested classes</a>
+   *   above.</p>
+   *
+   * @pre type != null;
+   * @return getEnclosingClass() == null;
+   */
+  public static boolean isTopLevelType(Class<?> type) {
+    assert type != null;
+    return type.getEnclosingClass() == null;
+  }
+
+  /**
    * <p>{@link Class#forName(String)} with a simpler exception model.</p>
    * <p>This method also works for primitive types, and has an embedded &quot;import&quot; for the package
    *   {@code java.lang}.</p>
    * <p>This method handles member types with the dot notation (where {@link Class#forName(String)} requires
    *   <dfn>binary</dfn> &quot;$&quot; separation for member types).</p>
    *
-   * @result result != null
-   * @result "boolean".equals(fqn) ?? result == Boolean.TYPE;
-   * @result "byte".equals(fqn) ?? result == Byte.TYPE;
-   * @result "char".equals(fqn) ?? result == Character.TYPE;
-   * @result "short".equals(fqn) ?? result == Short.TYPE;
-   * @result "int".equals(fqn) ?? result == Integer.TYPE;
-   * @result "long".equals(fqn) ?? result == Long.TYPE;
-   * @result "float".equals(fqn) ?? result == Float.TYPE;
-   * @result "double".equals(fqn) ?? result == Double.TYPE;
-   * @result (! "boolean".equals(fqn)) && (! "byte".equals(fqn)) &&
-   *           (! "char".equals(fqn)) && (! "short".equals(fqn)) &&
-   *           (! "int".equals(fqn)) && (! "long".equals(fqn)) &&
-   *           (! "float".equals(fqn)) && (! "double".equals(fqn)) ?
-   *         (result = Class.forName(fqn)) || (result == Class.forName("java.lang." + fqn);
-   * @throws _CannotGetClassException
-   *         fqn == null;
-   * @throws _CannotGetClassException
-   *         (! "boolean".equals(fqn)) && (! "byte".equals(fqn)) &&
-   *           (! "char".equals(fqn)) && (! "short".equals(fqn)) &&
-   *           (! "int".equals(fqn)) && (! "long".equals(fqn)) &&
-   *           (! "float".equals(fqn)) && (! "double".equals(fqn)) ?
-   *         Class.forName(fqn) throws && Class.forName("java.lang." + fqn) throws;
-   *
    * @mudo This method should also support array type with the &quot;[]&quot; notation.
    */
-  public static Class<?> loadForName(String fqn) throws _CannotGetClassException {
-    if (fqn == null) {
-      throw new _CannotGetClassException(fqn, new NullPointerException("fqn is null"));
+  @MethodContract(
+    pre  = {
+      @Expression("fqn != null && fqn != EMPTY"),
+      @Expression(value = "true", description = "type with canonical name fqn exists in the classpath")
+    },
+    post = {
+      @Expression("result != null"),
+      @Expression("result.canonicalName == fqn")
     }
+  )
+  public static Class<?> loadForName(String fqn) {
+    preArgumentNotEmpty(fqn, "fqn");
     Class<?> primitiveType = PRIMITIVE_TYPES_MAP.get(fqn);
     if (primitiveType != null) {
       return primitiveType;
@@ -269,7 +417,9 @@ public class ClassHelpers {
             return Class.forName("java.lang." + fqn);
           }
           catch (ClassNotFoundException cnfExc2) {
-            throw new _CannotGetClassException(fqn, cnfExc2);
+            unexpectedException(cnfExc2, "Since the name of the type we look for (\"" + fqn + "\") does not contain " +
+                "a dot, and was not found in the unnamed packagewe, we assumed the class you intend to load should be " +
+                "sought in java.lang, but we didn't find it their either.");
           }
         }
         else { // let's try for member classes
@@ -292,14 +442,14 @@ public class ClassHelpers {
             }
           }
           // if we get here, we finally give up
-          throw new _CannotGetClassException(fqn, null);
+          throw new AssertionError("cannot find type with canonical name \"" + fqn + "\"");
         }
       }
     }
     catch (LinkageError lErr) {
-      // also catches ExceptionInInitializerError
-      throw new _CannotGetClassException(fqn, lErr);
+      unexpectedException(lErr);
     }
+    return null; // make compiler happy
   }
 
   /**
@@ -386,47 +536,6 @@ public class ClassHelpers {
     catch (NullPointerException npExc) {
       throw new _CannotCreateInstanceException(prefix + "/" + fqcn, npExc);
     }
-  }
-
-  /**
-   * <p>Is {@code type} an <dfn>inner class</dfn> or not?</p>
-   * <p>The type {@link Class} has methods to find out whether the class is an
-   *   {@link Class#isAnonymousClass() <dfn>anonymous class</dfn>} or not,
-   *   is a {@link Class#isLocalClass() <dfn>local class</dfn>} or not, and
-   *   whether it is a {@link Class#isMemberClass() <dfn>member class</dfn>}
-   *   or not. It lacks however methods to know whether the class is an
-   *   <dfn>inner class</dfn> or not.</p>
-   * <p>For a discussion, see <a href="#onNestedClasses">On nested classes</a>
-   *   above.</p>
-   *
-   * @pre type != null;
-   * @return type.isLocalClass() || type.isAnonymousClass() ||
-   *         (type.isMemberClass() && (! Modifier.isStatic(type.getModifiers())));
-   */
-  public static boolean isInnerClass(Class<?> type) {
-    assert type != null;
-    return type.isLocalClass() ||
-    type.isAnonymousClass() ||
-    (type.isMemberClass() && (! Modifier.isStatic(type.getModifiers())));
-  }
-
-  /**
-   * <p>Is {@code type} a top level class or not?</p>
-   * <p>The type {@link Class} has methods to find out whether the class is an
-   *   {@link Class#isAnonymousClass() <dfn>anonymous class</dfn>} or not,
-   *   is a {@link Class#isLocalClass() <dfn>local class</dfn>} or not, and
-   *   whether it is a {@link Class#isMemberClass() <dfn>member class</dfn>}
-   *   or not. It lacks however methods to know whether the class is a
-   *   <dfn>top level class</dfn> or a nested class.</p>
-   * <p>For a discussion, see <a href="#onNestedClasses">On nested classes</a>
-   *   above.</p>
-   *
-   * @pre type != null;
-   * @return getEnclosingClass() == null;
-   */
-  public static boolean isTopLevelClass(Class<?> type) {
-    assert type != null;
-    return type.getEnclosingClass() == null;
   }
 
   /**
