@@ -262,72 +262,72 @@ public class TypeHelpersTest {
   // loadForName
 
   @Test
-  public void testLoadForName1() {
+  public void testType1() {
     Class<?> result = type("boolean");
     assertEquals(Boolean.TYPE, result);
   }
 
   @Test
-  public void testLoadForName2() {
+  public void testType2() {
     Class<?> result = type("byte");
     assertEquals(Byte.TYPE, result);
   }
 
   @Test
-  public void testLoadForName3() {
+  public void testType3() {
     Class<?> result = type("char");
     assertEquals(Character.TYPE, result);
   }
 
   @Test
-  public void testLoadForName4() {
+  public void testType4() {
     Class<?> result = type("short");
     assertEquals(Short.TYPE, result);
   }
 
   @Test
-  public void testLoadForName5() {
+  public void testType5() {
     Class<?> result = type("int");
     assertEquals(Integer.TYPE, result);
   }
 
   @Test
-  public void testLoadForName6() {
+  public void testType6() {
     Class<?> result = type("long");
     assertEquals(Long.TYPE, result);
   }
 
   @Test
-  public void testLoadForName7() {
+  public void testType7() {
     Class<?> result = type("float");
     assertEquals(Float.TYPE, result);
   }
 
   @Test
-  public void testLoadForName8() {
+  public void testType8() {
     Class<?> result = type("double");
     assertEquals(Double.TYPE, result);
   }
 
   @Test(expected = AssertionError.class)
-  public void testLoadForName9() {
+  public void testType9() {
     type("hjgks");
   }
 
   @Test
-  public void testLoadForName10() {
+  public void testType10() {
     Class<?> result = type("java.lang.String");
     assertEquals(String.class, result);
   }
 
   @Test
-  public void testLoadForName11() {
+  public void testType11() {
     Class<?> result = type("String");
     assertEquals(String.class, result);
   }
 
   @Test
-  public void testLoadForName12() {
+  public void testType12() {
     Class<?> result = type("org.ppwcode.util.reflect_I.ConstantHelpers");
     assertEquals(ConstantHelpers.class, result);
   }
@@ -336,7 +336,7 @@ public class TypeHelpersTest {
    * extra space
    */
   @Test(expected = AssertionError.class)
-  public void testLoadForName13() {
+  public void testType13() {
     type("org.ppwcode.util.reflect_I.ConstantHelpers ");
   }
 
@@ -344,46 +344,46 @@ public class TypeHelpersTest {
    * extra space
    */
   @Test(expected = AssertionError.class)
-  public void testLoadForName14() {
+  public void testType14() {
     type("org.ppwcode.util.reflect_I. ConstantHelpers");
   }
 
   @Test(expected = AssertionError.class)
-  public void testLoadForName15() {
+  public void testType15() {
     type("org.ppwcode.util.reflect_I.Deflection");
   }
 
   @Test(expected = AssertionError.class)
-  public void testLoadForName16() {
+  public void testType16() {
     type("org.ppwcode.util.reflect_I.String");
   }
 
   @Test
-  public void testLoadForName17() {
+  public void testType17() {
     Class<?> result = type("org.ppwcode.util.reflect_I.ConstantHelpersTest");
     assertEquals(ConstantHelpersTest.class, result);
   }
 
   @Test
-  public void testLoadForName18() {
+  public void testType18() {
     Class<?> result = type("org.ppwcode.util.reflect_I.StubClass.StubClassA");
     assertEquals(StubClassA.class, result);
   }
 
   @Test
-  public void testLoadForName19() {
+  public void testType19() {
     Class<?> result = type("org.ppwcode.util.reflect_I.StubClass.StubClassB");
     assertEquals(StubClassB.class, result);
   }
 
   @Test
-  public void testLoadForName20() {
+  public void testType20() {
     Class<?> result = type("org.ppwcode.util.reflect_I.StubClass.StubClassInnerA");
     assertEquals(StubClassInnerA.class, result);
   }
 
   @Test
-  public void testLoadForName21() {
+  public void testType21() {
     Class<?> result = type("org.ppwcode.util.reflect_I.StubClass.StubClassInnerA.StubClassInnerAInner");
     assertEquals(StubClassInnerA.StubClassInnerAInner.class, result);
   }
