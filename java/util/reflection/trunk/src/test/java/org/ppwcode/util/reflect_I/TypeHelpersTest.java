@@ -140,6 +140,125 @@ public class TypeHelpersTest {
     assertEquals(PRIMITIVE_TYPES, new HashSet<Class<?>>(PRIMITIVE_TYPES_MAP.values()));
   }
 
+
+  // isInnerClass(Class)
+
+  @Test
+  public void testIsInnerClass1() {
+    assertFalse(TypeHelpers.isInnerType(ConstantHelpers.class));
+  }
+
+  @Test
+  public void testIsInnerClass2() {
+    assertFalse(TypeHelpers.isInnerType(ConstantHelpers.class));
+  }
+
+  @Test
+  public void testIsInnerClass3() {
+    assertFalse(TypeHelpers.isInnerType(StubClassA.class));
+  }
+
+  @Test
+  public void testIsInnerClass4() {
+    assertFalse(TypeHelpers.isInnerType(StubClassB.class));
+  }
+
+  @Test
+  public void testIsInnerClass5() {
+    assertTrue(TypeHelpers.isInnerType(StubClassInnerA.class));
+  }
+
+  @Test
+  public void testIsInnerClass6() {
+    assertTrue(TypeHelpers.isInnerType(StubClassInnerB.class));
+  }
+
+  @Test
+  public void testIsInnerClass7() {
+    class StubClassLocalA {
+      // NOP
+    }
+    assertTrue(TypeHelpers.isInnerType(StubClassLocalA.class));
+  }
+
+  @Test
+  public void testIsInnerClass8() {
+    class StubClassLocalA {
+      // NOP
+    }
+    class StubClassLocalB extends StubClassLocalA {
+      // NOP
+    }
+    assertTrue(TypeHelpers.isInnerType(StubClassLocalB.class));
+  }
+
+  @Test
+  public void testIsInnerClass9() {
+    // anonymous class
+    assertTrue(TypeHelpers.isInnerType((new StubClassA("", 0, 0) { /* NOP */ }).getClass()));
+  }
+
+
+
+  // isTopLevelClass(Class)
+
+  @Test
+  public void testIsTopLevelClass1() {
+    assertTrue(TypeHelpers.isTopLevelType(ConstantHelpersTest.class));
+  }
+
+  @Test
+  public void testIsTopLevelClass2() {
+    assertTrue(TypeHelpers.isTopLevelType(ConstantHelpers.class));
+  }
+
+  @Test
+  public void testIsTopLevelClass3() {
+    assertFalse(TypeHelpers.isTopLevelType(StubClassA.class));
+  }
+
+  @Test
+  public void testIsTopLevelClass4() {
+    assertFalse(TypeHelpers.isTopLevelType(StubClassB.class));
+  }
+
+  @Test
+  public void testIsTopLevelClass5() {
+    assertFalse(TypeHelpers.isTopLevelType(StubClassInnerA.class));
+  }
+
+  @Test
+  public void testIsTopLevelClass6() {
+    assertFalse(TypeHelpers.isTopLevelType(StubClassInnerB.class));
+  }
+
+  @Test
+  public void testIsTopLevelClass7() {
+    class StubClassLocalA {
+      // NOP
+    }
+    assertFalse(TypeHelpers.isTopLevelType(StubClassLocalA.class));
+  }
+
+  @Test
+  public void testIsTopLevelClass8() {
+    class StubClassLocalA {
+      // NOP
+    }
+    class StubClassLocalB extends StubClassLocalA {
+      // NOP
+    }
+    assertFalse(TypeHelpers.isTopLevelType(StubClassLocalB.class));
+  }
+
+  @Test
+  public void testIsTopLevelClass9() {
+    // anonymous class
+    assertFalse(TypeHelpers.isTopLevelType((new StubClassA("", 0, 0) { /* NOP */ }).getClass()));
+  }
+
+
+
   // loadForName
 
   @Test
@@ -284,122 +403,6 @@ public class TypeHelpersTest {
 //  }
 
 
-
-  // isInnerClass(Class)
-
-  @Test
-  public void testIsInnerClass1() {
-    assertFalse(TypeHelpers.isInnerType(ConstantHelpers.class));
-  }
-
-  @Test
-  public void testIsInnerClass2() {
-    assertFalse(TypeHelpers.isInnerType(ConstantHelpers.class));
-  }
-
-  @Test
-  public void testIsInnerClass3() {
-    assertFalse(TypeHelpers.isInnerType(StubClassA.class));
-  }
-
-  @Test
-  public void testIsInnerClass4() {
-    assertFalse(TypeHelpers.isInnerType(StubClassB.class));
-  }
-
-  @Test
-  public void testIsInnerClass5() {
-    assertTrue(TypeHelpers.isInnerType(StubClassInnerA.class));
-  }
-
-  @Test
-  public void testIsInnerClass6() {
-    assertTrue(TypeHelpers.isInnerType(StubClassInnerB.class));
-  }
-
-  @Test
-  public void testIsInnerClass7() {
-    class StubClassLocalA {
-      // NOP
-    }
-    assertTrue(TypeHelpers.isInnerType(StubClassLocalA.class));
-  }
-
-  @Test
-  public void testIsInnerClass8() {
-    class StubClassLocalA {
-      // NOP
-    }
-    class StubClassLocalB extends StubClassLocalA {
-      // NOP
-    }
-    assertTrue(TypeHelpers.isInnerType(StubClassLocalB.class));
-  }
-
-  @Test
-  public void testIsInnerClass9() {
-    // anonymous class
-    assertTrue(TypeHelpers.isInnerType((new StubClassA("", 0, 0) { /* NOP */ }).getClass()));
-  }
-
-
-
-  // isTopLevelClass(Class)
-
-  @Test
-  public void testIsTopLevelClass1() {
-    assertTrue(TypeHelpers.isTopLevelType(ConstantHelpersTest.class));
-  }
-
-  @Test
-  public void testIsTopLevelClass2() {
-    assertTrue(TypeHelpers.isTopLevelType(ConstantHelpers.class));
-  }
-
-  @Test
-  public void testIsTopLevelClass3() {
-    assertFalse(TypeHelpers.isTopLevelType(StubClassA.class));
-  }
-
-  @Test
-  public void testIsTopLevelClass4() {
-    assertFalse(TypeHelpers.isTopLevelType(StubClassB.class));
-  }
-
-  @Test
-  public void testIsTopLevelClass5() {
-    assertFalse(TypeHelpers.isTopLevelType(StubClassInnerA.class));
-  }
-
-  @Test
-  public void testIsTopLevelClass6() {
-    assertFalse(TypeHelpers.isTopLevelType(StubClassInnerB.class));
-  }
-
-  @Test
-  public void testIsTopLevelClass7() {
-    class StubClassLocalA {
-      // NOP
-    }
-    assertFalse(TypeHelpers.isTopLevelType(StubClassLocalA.class));
-  }
-
-  @Test
-  public void testIsTopLevelClass8() {
-    class StubClassLocalA {
-      // NOP
-    }
-    class StubClassLocalB extends StubClassLocalA {
-      // NOP
-    }
-    assertFalse(TypeHelpers.isTopLevelType(StubClassLocalB.class));
-  }
-
-  @Test
-  public void testIsTopLevelClass9() {
-    // anonymous class
-    assertFalse(TypeHelpers.isTopLevelType((new StubClassA("", 0, 0) { /* NOP */ }).getClass()));
-  }
 
 
 
