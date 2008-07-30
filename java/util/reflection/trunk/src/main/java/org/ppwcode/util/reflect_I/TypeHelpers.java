@@ -17,7 +17,6 @@ limitations under the License.
 package org.ppwcode.util.reflect_I;
 
 
-import static java.lang.Character.isLowerCase;
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.preArgumentNotEmpty;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.preArgumentNotNull;
@@ -464,101 +463,6 @@ public class TypeHelpers {
   }
 
   /**
-   * <p>The package name split from the fully quantified type name {@code fqtn}, without loading
-   *   the type.</p>
-   * <p>Returns the front part of {@code fqtn}, up until the first dot-separated part that does not
-   *   start with a lower case letter. This builds on the pattern that package names should be all
-   *   lower case, and type names should start with a capital (leaving room for type names that start
-   *   with diacritical marks, as sometimes is used).</p>
-   * <p>The result can be empty for types in the default package, and primitive types.</p>
-   */
-  @MethodContract(
-    pre  = @Expression(value = "true", description = "fqtn is a well-formed Java fully qualified type name"),
-    post = {
-      @Expression("fqtn.startsWith(result)"),
-      @Expression("for (String part : result.split(DOT_PATTERN)) {" +
-                    "part == EMPTY || isLowerCase(part.charAt(0))" +
-                  "}"),
-      @Expression("result != EMPTY ? fqtn.charAt(result.length) == DOT"),
-      @Expression("result != EMPTY ? ! isLowerCase(fqtn.charAt(result.length + 1))")
-    }
-  )
-  public static String packageName(String fqtn) {
-    if (PRIMITIVE_TYPES_BY_NAME.containsKey(fqtn)) {
-      // fqtn is the canonical name of a primitive type
-      return EMPTY;
-    }
-    String[] parts = fqtn.split(DOT_PATTERN);
-    StringBuilder result = new StringBuilder();
-    for (int i = 0; i < parts.length; i++) {
-      if (isLowerCase(parts[i].charAt(0))) {
-        if (i > 0) {
-          result.append(DOT);
-        }
-        result.append(parts[i]);
-      }
-      else {
-        // found the start of the type's simple name (their might be nested classes following)
-        // we're done
-        return result.toString();
-      }
-    }
-    // we never get here, normally
-    assert false : "we should never reacht this point";
-    return null; // make compiler hapy
-  }
-
-
-
-  /**
-   * Return a fully qualified type name that is in the same package
-   * as <code>fqtn</code>, and has as type name <code>prefix + <var>ClassName</var></code>.
-   *
-   * @param prefix
-   *        The prefix to add before the type name.
-   * @param fqtn
-   *        The fully qualified type name to start from.
-   * @throws NullPointerException
-   *         (prefix == null) || (fqtn == null);
-   */
-  public static String prefixedFqcn(final String prefix,
-                                    final String fqtn)
-  throws NullPointerException {
-    String[] parts = fqtn.split(DOT_PATTERN);
-    String prefixedName = prefix + parts[parts.length - 1];
-    String result = EMPTY;
-    for (int i =0; i < parts.length - 1; i++) {
-      result = result + parts[i] + TypeHelpers.DOT;
-    }
-    result = result + prefixedName;
-    return result;
-  }
-
-  public final static String DOT_PATTERN = "\\.";
-
-  public final static String EMPTY = "";
-
-  public final static String DOT = ".";
-
-  /**
-   * Load the class with name
-   * <code>prefixedFqcn(prefix, fqtn)</code>.
-   *
-   * @param prefix
-   *        The prefix to add before the type name.
-   * @param fqtn
-   *        The original fully qualified type name to derive
-   *        the prefixed type name from.
-   * @throws ClassNotFoundException
-   *         true;
-   */
-  public static Class<?> loadPrefixedClass(final String prefix,
-                                           final String fqtn)
-      throws ClassNotFoundException {
-    return Class.forName(prefixedFqcn(prefix, fqtn));
-  }
-
-  /**
    * Instantiate an object of a type
    * <code>prefixedFqcn(prefix, fqtn)</code>.
    *
@@ -572,27 +476,27 @@ public class TypeHelpers {
    *        The original fully qualified type name to derive
    *        the prefixed type name from.
    * @throws _CannotCreateInstanceException
+   *
+   * @mudo this method needs to be moved; split into just an exception vernacular "instantiate" method; we probably no longer need this than
    */
-  public static Object instantiatePrefixed(ClassLoader cl,
-                                           final String prefix,
-                                           final String fqtn)
-  throws _CannotCreateInstanceException {
+  public static Object instantiatePrefixed(ClassLoader cl, final String prefix, final String fqtn) {
+    preArgumentNotNull(cl, "cl");
+    preArgumentNotNull(prefix, "prefix");
+    preArgumentNotEmpty(fqtn, "fqtn");
+    TypeName n = new TypeName(fqtn);
+    TypeName prefixedN = new TypeName(n.getPackageName(), n.getEnclosingTypeNames(), prefix + n.getSimpleName());
+    String prefixedFqcn = prefixedN.toString();
+    Object result = null;
     try {
-      String prefixedFqcn = prefixedFqcn(prefix, fqtn);
-      try {
-        Object result = Beans.instantiate(cl, prefixedFqcn);
-        return result;
-      }
-      catch (ClassNotFoundException cnfExc) {
-        throw new _CannotCreateInstanceException(prefixedFqcn, cnfExc);
-      }
-      catch (IOException ioExc) {
-        throw new _CannotCreateInstanceException(prefixedFqcn, ioExc);
-      }
+      result = Beans.instantiate(cl, prefixedFqcn);
     }
-    catch (NullPointerException npExc) {
-      throw new _CannotCreateInstanceException(prefix + "/" + fqtn, npExc);
+    catch (ClassNotFoundException cnfExc) {
+      unexpectedException(cnfExc, "class \"" + prefixedFqcn + "\" not found in classpath");
     }
+    catch (IOException ioExc) {
+      unexpectedException(ioExc);
+    }
+    return result;
   }
 
   /**
