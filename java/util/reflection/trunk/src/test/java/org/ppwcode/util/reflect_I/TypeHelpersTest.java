@@ -143,122 +143,122 @@ public class TypeHelpersTest {
   // loadForName
 
   @Test
-  public void testLoadForName1() throws _CannotGetClassException {
+  public void testLoadForName1() {
     Class<?> result = TypeHelpers.loadForName("boolean");
     assertEquals(Boolean.TYPE, result);
   }
 
   @Test
-  public void testLoadForName2() throws _CannotGetClassException {
+  public void testLoadForName2() {
     Class<?> result = TypeHelpers.loadForName("byte");
     assertEquals(Byte.TYPE, result);
   }
 
   @Test
-  public void testLoadForName3() throws _CannotGetClassException {
+  public void testLoadForName3() {
     Class<?> result = TypeHelpers.loadForName("char");
     assertEquals(Character.TYPE, result);
   }
 
   @Test
-  public void testLoadForName4() throws _CannotGetClassException {
+  public void testLoadForName4() {
     Class<?> result = TypeHelpers.loadForName("short");
     assertEquals(Short.TYPE, result);
   }
 
   @Test
-  public void testLoadForName5() throws _CannotGetClassException {
+  public void testLoadForName5() {
     Class<?> result = TypeHelpers.loadForName("int");
     assertEquals(Integer.TYPE, result);
   }
 
   @Test
-  public void testLoadForName6() throws _CannotGetClassException {
+  public void testLoadForName6() {
     Class<?> result = TypeHelpers.loadForName("long");
     assertEquals(Long.TYPE, result);
   }
 
   @Test
-  public void testLoadForName7() throws _CannotGetClassException {
+  public void testLoadForName7() {
     Class<?> result = TypeHelpers.loadForName("float");
     assertEquals(Float.TYPE, result);
   }
 
   @Test
-  public void testLoadForName8() throws _CannotGetClassException {
+  public void testLoadForName8() {
     Class<?> result = TypeHelpers.loadForName("double");
     assertEquals(Double.TYPE, result);
   }
 
   @Test(expected = _CannotGetClassException.class)
-  public void testLoadForName9() throws _CannotGetClassException {
+  public void testLoadForName9() {
     TypeHelpers.loadForName("hjgks");
   }
 
   @Test
-  public void testLoadForName10() throws _CannotGetClassException {
+  public void testLoadForName10() {
     Class<?> result = TypeHelpers.loadForName("java.lang.String");
     assertEquals(String.class, result);
   }
 
   @Test
-  public void testLoadForName11() throws _CannotGetClassException {
+  public void testLoadForName11() {
     Class<?> result = TypeHelpers.loadForName("String");
     assertEquals(String.class, result);
   }
 
   @Test
-  public void testLoadForName12() throws _CannotGetClassException {
+  public void testLoadForName12() {
     Class<?> result = TypeHelpers.loadForName("org.ppwcode.util.reflect_I.ConstantHelpers");
     assertEquals(ConstantHelpers.class, result);
   }
 
   @Test(expected = _CannotGetClassException.class)
-  public void testLoadForName13() throws _CannotGetClassException {
+  public void testLoadForName13() {
     TypeHelpers.loadForName("org.ppwcode.util.reflect_I.Constants ");
   }
 
   @Test(expected = _CannotGetClassException.class)
-  public void testLoadForName14() throws _CannotGetClassException {
+  public void testLoadForName14() {
     TypeHelpers.loadForName("org.ppwcode.util.reflect_I. Constants");
   }
 
   @Test(expected = _CannotGetClassException.class)
-  public void testLoadForName15() throws _CannotGetClassException {
+  public void testLoadForName15() {
     TypeHelpers.loadForName("org.ppwcode.util.reflect_I.Deflection");
   }
 
   @Test(expected = _CannotGetClassException.class)
-  public void testLoadForName16() throws _CannotGetClassException {
+  public void testLoadForName16() {
     TypeHelpers.loadForName("org.ppwcode.util.reflect_I.String");
   }
 
   @Test
-  public void testLoadForName17() throws _CannotGetClassException {
+  public void testLoadForName17() {
     Class<?> result = TypeHelpers.loadForName("org.ppwcode.util.reflect_I.ConstantHelpersTest");
     assertEquals(ConstantHelpersTest.class, result);
   }
 
   @Test
-  public void testLoadForName18() throws _CannotGetClassException {
+  public void testLoadForName18() {
     Class<?> result = TypeHelpers.loadForName("org.ppwcode.util.reflect_I.StubClass.StubClassA");
     assertEquals(StubClassA.class, result);
   }
 
   @Test
-  public void testLoadForName19() throws _CannotGetClassException {
+  public void testLoadForName19() {
     Class<?> result = TypeHelpers.loadForName("org.ppwcode.util.reflect_I.StubClass.StubClassB");
     assertEquals(StubClassB.class, result);
   }
 
   @Test
-  public void testLoadForName20() throws _CannotGetClassException {
+  public void testLoadForName20() {
     Class<?> result = TypeHelpers.loadForName("org.ppwcode.util.reflect_I.StubClass.StubClassInnerA");
     assertEquals(StubClassInnerA.class, result);
   }
 
   @Test
-  public void testLoadForName21() throws _CannotGetClassException {
+  public void testLoadForName21() {
     Class<?> result = TypeHelpers.loadForName("org.ppwcode.util.reflect_I.StubClass.StubClassInnerA.StubClassInnerAInner");
     assertEquals(StubClassInnerA.StubClassInnerAInner.class, result);
   }
