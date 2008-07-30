@@ -32,6 +32,17 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
 import org.junit.Test;
+import org.ppwcode.util.reflect_I.teststubs.AbstractSubStubClass;
+import org.ppwcode.util.reflect_I.teststubs.AbstractSubSubStubClass;
+import org.ppwcode.util.reflect_I.teststubs.AlternateStubClass;
+import org.ppwcode.util.reflect_I.teststubs.StubClass;
+import org.ppwcode.util.reflect_I.teststubs.StubInterfaceAlpha;
+import org.ppwcode.util.reflect_I.teststubs.StubInterfaceBeta;
+import org.ppwcode.util.reflect_I.teststubs.StubInterfaceDelta;
+import org.ppwcode.util.reflect_I.teststubs.StubInterfaceGamma;
+import org.ppwcode.util.reflect_I.teststubs.SuperStubClass;
+import org.ppwcode.util.reflect_I.teststubs.SuperSuperStubClass;
+import org.ppwcode.util.reflect_I.teststubs.SuperSuperStubInterfaceA;
 
 
 public class MethodHelpersTest {
@@ -197,12 +208,12 @@ public class MethodHelpersTest {
 
   @Test(expected = NoSuchMethodException.class)
   public void testMethodHelper3() throws NoSuchMethodException {
-    methodHelper(StubClass.class, "stubMethod(org.ppwcode.util.reflect_I.StubClass)");
+    methodHelper(StubClass.class, "stubMethod(org.ppwcode.util.reflect_I.teststubs.StubClass)");
   }
 
   @Test(expected = NoSuchMethodException.class)
   public void testMethodHelper4() throws NoSuchMethodException {
-    methodHelper(StubClass.class, "stubStaticMethod(org.ppwcode.util.reflect_I.StubClass)");
+    methodHelper(StubClass.class, "stubStaticMethod(org.ppwcode.util.reflect_I.teststubs.StubClass)");
   }
 
   @Test(expected = NoSuchMethodException.class)
@@ -422,12 +433,12 @@ public class MethodHelpersTest {
 
   @Test(expected = AssertionError.class)
   public void testMethodClassOfQString3() {
-    method(StubClass.class, "stubMethod(org.ppwcode.util.reflect_I.StubClass)");
+    method(StubClass.class, "stubMethod(org.ppwcode.util.reflect_I.teststubs.StubClass)");
   }
 
   @Test(expected = AssertionError.class)
   public void testMethodClassOfQString4() {
-    method(StubClass.class, "stubStaticMethod(org.ppwcode.util.reflect_I.StubClass)");
+    method(StubClass.class, "stubStaticMethod(org.ppwcode.util.reflect_I.teststubs.StubClass)");
   }
 
   @Test(expected = AssertionError.class)
@@ -490,8 +501,8 @@ public class MethodHelpersTest {
 //    testHasMethodClassOfQString(StubClass.class, "stubStaticMethod(Object[])");
     // methods that don't exist
     testHasMethodClassOfQString(StubClass.class, "methodDoesntExist()");
-    testHasMethodClassOfQString(StubClass.class, "stubMethod(org.ppwcode.util.reflect_I.StubClass)");
-    testHasMethodClassOfQString(StubClass.class, "stubStaticMethod(org.ppwcode.util.reflect_I.StubClass)");
+    testHasMethodClassOfQString(StubClass.class, "stubMethod(org.ppwcode.util.reflect_I.teststubs.StubClass)");
+    testHasMethodClassOfQString(StubClass.class, "stubStaticMethod(org.ppwcode.util.reflect_I.teststubs.StubClass)");
     testHasMethodClassOfQString(StubClass.class, "StubClass(Object, Object, float)");
     // inherited
     testHasMethodClassOfQString(StubClass.class, "toString()");
@@ -564,8 +575,8 @@ public class MethodHelpersTest {
 //    testHasPublicMethodClassOfQString(StubClass.class, "stubStaticMethod(Object[])");
     // methods that don't exist
     testHasPublicMethodClassOfQString(StubClass.class, "methodDoesntExist()");
-    testHasPublicMethodClassOfQString(StubClass.class, "stubMethod(org.ppwcode.util.reflect_I.StubClass)");
-    testHasPublicMethodClassOfQString(StubClass.class, "stubStaticMethod(org.ppwcode.util.reflect_I.StubClass)");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubMethod(org.ppwcode.util.reflect_I.teststubs.StubClass)");
+    testHasPublicMethodClassOfQString(StubClass.class, "stubStaticMethod(org.ppwcode.util.reflect_I.teststubs.StubClass)");
     testHasPublicMethodClassOfQString(StubClass.class, "StubClass(Object, Object, float)");
     // inherited
     testHasPublicMethodClassOfQString(StubClass.class, "toString()");
@@ -605,7 +616,7 @@ public class MethodHelpersTest {
     testConstructor(StubClass.class, "StubClass(String)");
     testConstructor(StubClass.class, "StubClass(int)");
     testConstructor(StubClass.class, "StubClass(Class)");
-    testConstructor(StubClass.class, "StubClass(org.ppwcode.util.reflect_I.StubClass)");
+    testConstructor(StubClass.class, "StubClass(org.ppwcode.util.reflect_I.teststubs.StubClass)");
     testConstructor(StubClass.class, "StubClass(int, boolean, Object, String)");
     testConstructor(StubClass.class, "StubClass(int,boolean,    Object, " +
         "     String)");

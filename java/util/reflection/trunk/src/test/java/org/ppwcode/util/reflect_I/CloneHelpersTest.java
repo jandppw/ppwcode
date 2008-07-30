@@ -27,6 +27,9 @@ import static org.ppwcode.util.reflect_I.CloneHelpers.safeReference;
 import java.util.Date;
 
 import org.junit.Test;
+import org.ppwcode.util.reflect_I.teststubs.CloneableStubClassA;
+import org.ppwcode.util.reflect_I.teststubs.CloneableStubClassB;
+import org.ppwcode.util.reflect_I.teststubs.StubClass;
 
 
 public class CloneHelpersTest {

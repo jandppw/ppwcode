@@ -14,32 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.util.reflect_I;
+package org.ppwcode.util.reflect_I.teststubs;
 
 
-public class SuperStubClass extends SuperSuperStubClass implements SuperSuperStubInterfaceA, SuperSuperStubInterfaceB {
+public class CloneableStubClassB extends CloneableStubClassA {
 
-  @Override
-  @SuppressWarnings("unused")
-  public void stubMethod() {
-    // NOP
-  }
-
-  @SuppressWarnings("unused")
-  public void stubMethodA() {
-    // NOP
-  }
-
-  @Override
-  @SuppressWarnings("unused")
-  public void stubMethodB() {
-    // NOP
-  }
-
-  @SuppressWarnings("unused")
-  private void privateStubMethodBet() {
-    // NOP
-  }
+  // explicitly no constructor defined, so there is a default default constructor
 
 }
 

@@ -42,10 +42,15 @@ import java.util.HashSet;
 import java.util.LinkedList;
 
 import org.junit.Test;
-import org.ppwcode.util.reflect_I.StubClass.StubClassA;
-import org.ppwcode.util.reflect_I.StubClass.StubClassB;
-import org.ppwcode.util.reflect_I.StubClass.StubClassInnerA;
-import org.ppwcode.util.reflect_I.StubClass.StubClassInnerB;
+import org.ppwcode.util.reflect_I.teststubs.AbstractSubStubClass;
+import org.ppwcode.util.reflect_I.teststubs.AlternateStubClass;
+import org.ppwcode.util.reflect_I.teststubs.CloneableStubClassA;
+import org.ppwcode.util.reflect_I.teststubs.StubClass;
+import org.ppwcode.util.reflect_I.teststubs.StubInterfaceAlpha;
+import org.ppwcode.util.reflect_I.teststubs.StubClass.StubClassA;
+import org.ppwcode.util.reflect_I.teststubs.StubClass.StubClassB;
+import org.ppwcode.util.reflect_I.teststubs.StubClass.StubClassInnerA;
+import org.ppwcode.util.reflect_I.teststubs.StubClass.StubClassInnerB;
 
 
 public class TypeHelpersTest {
@@ -523,7 +528,7 @@ public class TypeHelpersTest {
 
   @Test
   public void testType18() {
-    String fqtn = "org.ppwcode.util.reflect_I.StubClass.StubClassA";
+    String fqtn = "org.ppwcode.util.reflect_I.teststubs.StubClass.StubClassA";
     Class<?> result = type(fqtn);
     assertEquals(StubClassA.class, result);
     testType(fqtn, result);
@@ -531,7 +536,7 @@ public class TypeHelpersTest {
 
   @Test
   public void testType19() {
-    String fqtn = "org.ppwcode.util.reflect_I.StubClass.StubClassB";
+    String fqtn = "org.ppwcode.util.reflect_I.teststubs.StubClass.StubClassB";
     Class<?> result = type(fqtn);
     assertEquals(StubClassB.class, result);
     testType(fqtn, result);
@@ -539,7 +544,7 @@ public class TypeHelpersTest {
 
   @Test
   public void testType20() {
-    String fqtn = "org.ppwcode.util.reflect_I.StubClass.StubClassInnerA";
+    String fqtn = "org.ppwcode.util.reflect_I.teststubs.StubClass.StubClassInnerA";
     Class<?> result = type(fqtn);
     assertEquals(StubClassInnerA.class, result);
     testType(fqtn, result);
@@ -547,7 +552,7 @@ public class TypeHelpersTest {
 
   @Test
   public void testType21() {
-    String fqtn = "org.ppwcode.util.reflect_I.StubClass.StubClassInnerA.StubClassInnerAInner";
+    String fqtn = "org.ppwcode.util.reflect_I.teststubs.StubClass.StubClassInnerA.StubClassInnerAInner";
     Class<?> result = type(fqtn);
     assertEquals(StubClassInnerA.StubClassInnerAInner.class, result);
     testType(fqtn, result);

@@ -14,12 +14,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.util.reflect_I;
+package org.ppwcode.util.reflect_I.teststubs;
 
 
-public interface SuperSuperStubInterfaceA {
+public interface StubInterfaceGamma extends StubInterfaceDelta {
 
-  void stubMethodC();
+  void stubMethodGamma();
+
+  void stubMethodEpsilon();
+
+
+  public final static String STUB_CONSTANT_GAMMA = "Another STUB constant";
 
 }
 
