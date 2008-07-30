@@ -17,12 +17,10 @@ limitations under the License.
 package org.ppwcode.util.reflect_I;
 
 
-import static java.lang.Character.isLowerCase;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.ppwcode.util.reflect_I.TypeHelpers.PRIMITIVE_TYPES;
 import static org.ppwcode.util.reflect_I.TypeHelpers.PRIMITIVE_TYPES_BY_NAME;
 import static org.ppwcode.util.reflect_I.TypeHelpers.PRIMITIVE_TYPE_BINARY_NAMES;
@@ -36,14 +34,12 @@ import static org.ppwcode.util.reflect_I.TypeHelpers.isProtected;
 import static org.ppwcode.util.reflect_I.TypeHelpers.isPublic;
 import static org.ppwcode.util.reflect_I.TypeHelpers.isStatic;
 import static org.ppwcode.util.reflect_I.TypeHelpers.isTopLevelType;
-import static org.ppwcode.util.reflect_I.TypeHelpers.packageName;
 import static org.ppwcode.util.reflect_I.TypeHelpers.type;
 
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 
 import org.junit.Test;
 import org.ppwcode.util.reflect_I.StubClass.StubClassA;
@@ -165,7 +161,7 @@ public class TypeHelpersTest {
 
 
 
-  public final static List<Class<?>> TYPE_SUBJECTS = new LinkedList<Class<?>>();
+  public final static LinkedList<Class<?>> TYPE_SUBJECTS = new LinkedList<Class<?>>();
   {
     TYPE_SUBJECTS.addAll(PRIMITIVE_TYPES);
     TYPE_SUBJECTS.add(String.class);
@@ -562,57 +558,6 @@ public class TypeHelpersTest {
       }
     }
     assertEquals(expected, result.getCanonicalName());
-  }
-
-
-
-
-  // packageName
-
-  @Test
-  public void testPackageName() {
-    for (Class<?> type : TYPE_SUBJECTS) {
-      String fqtn = type.getCanonicalName();
-      if (fqtn != null) {
-        System.out.println(fqtn);
-        String result = packageName(fqtn);
-        assertTrue(fqtn.startsWith(result));
-        for (String part : result.split(TypeHelpers.DOT_PATTERN)) {
-          assertTrue(part.equals("") || isLowerCase(part.charAt(0)));
-        }
-        assertTrue((! result.equals("")) ? fqtn.charAt(result.length()) == '.' : true);
-        assertTrue((! result.equals("")) ? ! isLowerCase(fqtn.charAt(result.length() + 1)) : true);
-      }
-    }
-  }
-
-
-  // prefixedFqcn
-
-  // MUDO test
-  @Test
-  public void testPrefixedFqcn() {
-    fail("Not yet implemented");
-  }
-
-
-
-  // instantiatePrefixedClass
-
-  // MUDO test
-  @Test
-  public void testInstantiatePrefixedClass() {
-    fail("Not yet implemented");
-  }
-
-
-
-  // instantiatePrefixed
-
-  // MUDO test
-  @Test
-  public void testInstantiatePrefixed() {
-    fail("Not yet implemented");
   }
 
 
