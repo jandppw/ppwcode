@@ -93,7 +93,7 @@ public class MethodSignature {
       String parameterTypeName = $parameterTypeNames[i];
 // MUDO deal with [] array types
       try {
-        $parameterTypes[i] = ClassHelpers.loadForName(parameterTypeName);
+        $parameterTypes[i] = TypeHelpers.loadForName(parameterTypeName);
       }
       catch (_CannotGetClassException cgcExc) {
         unexpectedException(cgcExc, "\"" + signature + "\": class " + parameterTypeName + " cannot be loaded");
