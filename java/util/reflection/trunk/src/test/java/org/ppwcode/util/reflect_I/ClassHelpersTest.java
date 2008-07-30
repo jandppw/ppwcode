@@ -27,7 +27,6 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.ppwcode.util.reflect_I.StubClass.StubClassA;
 import org.ppwcode.util.reflect_I.StubClass.StubClassB;
@@ -37,33 +36,94 @@ import org.ppwcode.util.reflect_I.StubClass.StubClassInnerB;
 
 public class ClassHelpersTest {
 
+// following in comments: demo methods (which are not really tests)
+
 //  @Test
 //  public void demoPrimitiveTypeName() {
 //    System.out.println("Boolean.TYPE.getSimpleName(): " + Boolean.TYPE.getSimpleName());
 //  }
 
-  @Test
-  public void demoArrayClass() throws ClassNotFoundException {
-    System.out.println(Object[].class);
-    System.out.println(Object[][].class);
-    System.out.println(int[][].class);
-    Class<?> result = Class.forName("java.lang.Object");
-    assertEquals(Object.class, result);
-    Method[] ms = StubClass.class.getDeclaredMethods();
-    for (Method method : ms) {
-      System.out.print(method.getName() + ": ");
-      for (Class<?> c : method.getParameterTypes()) {
-        System.out.print(c + ", ");
-      }
-      System.out.println();
-    }
-    result = Class.forName("[Ljava.lang.Object;"); // java.lang.Object[]
-    assertEquals(Object[].class, result);
-    result = Class.forName("[[Ljava.lang.Object;"); // java.lang.Object[][]
-    assertEquals(Object[][].class, result);
-    result = Class.forName("[[I"); // int[][]
-    assertEquals(int[][].class, result);
-  }
+//  @Test
+//  public void demoClassDetails() {
+//    // primitive types
+//    for (Class<?> pt : ClassHelpers.PRIMITIVE_TYPES) {
+//      demoClassDetails(pt);
+//    }
+//    // classes
+//    demoClassDetails(Object.class);
+//    demoClassDetails(StubClass.class);
+//    demoClassDetails(StubClass.StubClassA.class);
+//    demoClassDetails(StubClass.StubClassB.class);
+//    demoClassDetails(StubClass.StubClassInnerA.class);
+//    demoClassDetails(StubClass.StubClassInnerB.class);
+//    // arrays
+//    Object array;
+//    // primitive types
+//    demoClassDetails(boolean[].class);
+//    demoClassDetails(byte[].class);
+//    demoClassDetails(char[].class);
+//    demoClassDetails(short[].class);
+//    demoClassDetails(int[].class);
+//    demoClassDetails(long[].class);
+//    demoClassDetails(float[].class);
+//    demoClassDetails(double[].class);
+//    // classes
+//    demoClassDetails(Object[].class);
+//    demoClassDetails(StubClass[].class);
+//    demoClassDetails(StubClass.StubClassA[].class);
+//    demoClassDetails(StubClass.StubClassB[].class);
+//    demoClassDetails(StubClass.StubClassInnerA[].class);
+//    demoClassDetails(StubClass.StubClassInnerB[].class);
+//    demoClassDetails(Object[][].class);
+//    demoClassDetails(Object[][][].class);
+//    demoClassDetails(Object[].class);
+//  }
+//
+//  public void demoClassDetails(Class<?> clazz) {
+//    System.out.println("is primitive? : " + clazz.isPrimitive());
+//    System.out.println("is member class? : " + clazz.isMemberClass());
+//    System.out.println("is local class? : " + clazz.isLocalClass());
+//    System.out.println("is anonymous class? : " + clazz.isAnonymousClass());
+//    System.out.println();
+//
+//    System.out.println("package : " + clazz.getPackage());
+//    System.out.println();
+//
+//    System.out.println("name : " + clazz.getName());
+//    System.out.println("canonical name: " + clazz.getCanonicalName());
+//    System.out.println("simple name :" + clazz.getSimpleName());
+//    System.out.println("toString :" + clazz.toString());
+//    System.out.println();
+//
+//    System.out.println("is array? : " + clazz.isArray());
+//    System.out.println("component type: " + clazz.getComponentType());
+//    System.out.println();
+//
+//    System.out.println();
+//  }
+
+//  @Test
+//  public void demoArrayClass() throws ClassNotFoundException {
+//    System.out.println(Object[].class);
+//    System.out.println(Object[][].class);
+//    System.out.println(int[][].class);
+//    Class<?> result = Class.forName("java.lang.Object");
+//    assertEquals(Object.class, result);
+//    Method[] ms = StubClass.class.getDeclaredMethods();
+//    for (Method method : ms) {
+//      System.out.print(method.getName() + ": ");
+//      for (Class<?> c : method.getParameterTypes()) {
+//        System.out.print(c + ", ");
+//      }
+//      System.out.println();
+//    }
+//    result = Class.forName("[Ljava.lang.Object;"); // java.lang.Object[]
+//    assertEquals(Object[].class, result);
+//    result = Class.forName("[[Ljava.lang.Object;"); // java.lang.Object[][]
+//    assertEquals(Object[][].class, result);
+//    result = Class.forName("[[I"); // int[][]
+//    assertEquals(int[][].class, result);
+//  }
 
   @Test
   public void testPRIMITIVE_TYPES() {
@@ -229,32 +289,32 @@ public class ClassHelpersTest {
 
   @Test
   public void testIsInnerClass1() {
-    assertFalse(ClassHelpers.isInnerClass(ConstantHelpers.class));
+    assertFalse(ClassHelpers.isInnerType(ConstantHelpers.class));
   }
 
   @Test
   public void testIsInnerClass2() {
-    assertFalse(ClassHelpers.isInnerClass(ConstantHelpers.class));
+    assertFalse(ClassHelpers.isInnerType(ConstantHelpers.class));
   }
 
   @Test
   public void testIsInnerClass3() {
-    assertFalse(ClassHelpers.isInnerClass(StubClassA.class));
+    assertFalse(ClassHelpers.isInnerType(StubClassA.class));
   }
 
   @Test
   public void testIsInnerClass4() {
-    assertFalse(ClassHelpers.isInnerClass(StubClassB.class));
+    assertFalse(ClassHelpers.isInnerType(StubClassB.class));
   }
 
   @Test
   public void testIsInnerClass5() {
-    assertTrue(ClassHelpers.isInnerClass(StubClassInnerA.class));
+    assertTrue(ClassHelpers.isInnerType(StubClassInnerA.class));
   }
 
   @Test
   public void testIsInnerClass6() {
-    assertTrue(ClassHelpers.isInnerClass(StubClassInnerB.class));
+    assertTrue(ClassHelpers.isInnerType(StubClassInnerB.class));
   }
 
   @Test
@@ -262,7 +322,7 @@ public class ClassHelpersTest {
     class StubClassLocalA {
       // NOP
     }
-    assertTrue(ClassHelpers.isInnerClass(StubClassLocalA.class));
+    assertTrue(ClassHelpers.isInnerType(StubClassLocalA.class));
   }
 
   @Test
@@ -273,13 +333,13 @@ public class ClassHelpersTest {
     class StubClassLocalB extends StubClassLocalA {
       // NOP
     }
-    assertTrue(ClassHelpers.isInnerClass(StubClassLocalB.class));
+    assertTrue(ClassHelpers.isInnerType(StubClassLocalB.class));
   }
 
   @Test
   public void testIsInnerClass9() {
     // anonymous class
-    assertTrue(ClassHelpers.isInnerClass((new StubClassA("", 0, 0) { /* NOP */ }).getClass()));
+    assertTrue(ClassHelpers.isInnerType((new StubClassA("", 0, 0) { /* NOP */ }).getClass()));
   }
 
 
@@ -288,32 +348,32 @@ public class ClassHelpersTest {
 
   @Test
   public void testIsTopLevelClass1() {
-    assertTrue(ClassHelpers.isTopLevelClass(ConstantHelpersTest.class));
+    assertTrue(ClassHelpers.isTopLevelType(ConstantHelpersTest.class));
   }
 
   @Test
   public void testIsTopLevelClass2() {
-    assertTrue(ClassHelpers.isTopLevelClass(ConstantHelpers.class));
+    assertTrue(ClassHelpers.isTopLevelType(ConstantHelpers.class));
   }
 
   @Test
   public void testIsTopLevelClass3() {
-    assertFalse(ClassHelpers.isTopLevelClass(StubClassA.class));
+    assertFalse(ClassHelpers.isTopLevelType(StubClassA.class));
   }
 
   @Test
   public void testIsTopLevelClass4() {
-    assertFalse(ClassHelpers.isTopLevelClass(StubClassB.class));
+    assertFalse(ClassHelpers.isTopLevelType(StubClassB.class));
   }
 
   @Test
   public void testIsTopLevelClass5() {
-    assertFalse(ClassHelpers.isTopLevelClass(StubClassInnerA.class));
+    assertFalse(ClassHelpers.isTopLevelType(StubClassInnerA.class));
   }
 
   @Test
   public void testIsTopLevelClass6() {
-    assertFalse(ClassHelpers.isTopLevelClass(StubClassInnerB.class));
+    assertFalse(ClassHelpers.isTopLevelType(StubClassInnerB.class));
   }
 
   @Test
@@ -321,7 +381,7 @@ public class ClassHelpersTest {
     class StubClassLocalA {
       // NOP
     }
-    assertFalse(ClassHelpers.isTopLevelClass(StubClassLocalA.class));
+    assertFalse(ClassHelpers.isTopLevelType(StubClassLocalA.class));
   }
 
   @Test
@@ -332,13 +392,13 @@ public class ClassHelpersTest {
     class StubClassLocalB extends StubClassLocalA {
       // NOP
     }
-    assertFalse(ClassHelpers.isTopLevelClass(StubClassLocalB.class));
+    assertFalse(ClassHelpers.isTopLevelType(StubClassLocalB.class));
   }
 
   @Test
   public void testIsTopLevelClass9() {
     // anonymous class
-    assertFalse(ClassHelpers.isTopLevelClass((new StubClassA("", 0, 0) { /* NOP */ }).getClass()));
+    assertFalse(ClassHelpers.isTopLevelType((new StubClassA("", 0, 0) { /* NOP */ }).getClass()));
   }
 
 
