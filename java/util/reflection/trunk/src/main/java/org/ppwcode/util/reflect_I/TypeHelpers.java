@@ -400,7 +400,7 @@ public class TypeHelpers {
       @Expression("result.canonicalName == fqn")
     }
   )
-  public static Class<?> loadForName(String fqn) {
+  public static Class<?> type(String fqn) {
     preArgumentNotEmpty(fqn, "fqn");
     Class<?> primitiveType = PRIMITIVE_TYPES_MAP.get(fqn);
     if (primitiveType != null) {
