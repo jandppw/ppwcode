@@ -28,7 +28,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -178,23 +177,32 @@ public class TypeHelpers {
   }
 
   /**
-   * All Java primitive types.
+   * A map of the binary names of all primitive types.
    */
   @Invars(
-    @Expression("PRIMITIVE_TYPES == " +
+    @Expression("PRIMITIVE_TYPES.values == " +
       "Set{Boolean.TYPE, Byte.TYPE, Character.TYPE, Short.TYPE, Integer.TYPE, Long.TYPE, Float.TYPE, Double.TYPE}")
   )
-  private final static Set<Class<?>> PRIMITIVE_TYPES_INTERNAL = new HashSet<Class<?>>(8);
+  private final static Map<Class<?>, String> PRIMITIVE_TYPE_BINARY_NAMES_PRIVATE = new HashMap<Class<?>, String>(8);
   static {
-    PRIMITIVE_TYPES_INTERNAL.add(Boolean.TYPE);
-    PRIMITIVE_TYPES_INTERNAL.add(Byte.TYPE);
-    PRIMITIVE_TYPES_INTERNAL.add(Character.TYPE);
-    PRIMITIVE_TYPES_INTERNAL.add(Short.TYPE);
-    PRIMITIVE_TYPES_INTERNAL.add(Integer.TYPE);
-    PRIMITIVE_TYPES_INTERNAL.add(Long.TYPE);
-    PRIMITIVE_TYPES_INTERNAL.add(Float.TYPE);
-    PRIMITIVE_TYPES_INTERNAL.add(Double.TYPE);
+    PRIMITIVE_TYPE_BINARY_NAMES_PRIVATE.put(Boolean.TYPE, "Z");
+    PRIMITIVE_TYPE_BINARY_NAMES_PRIVATE.put(Byte.TYPE, "B");
+    PRIMITIVE_TYPE_BINARY_NAMES_PRIVATE.put(Character.TYPE, "C");
+    PRIMITIVE_TYPE_BINARY_NAMES_PRIVATE.put(Double.TYPE, "D");
+    PRIMITIVE_TYPE_BINARY_NAMES_PRIVATE.put(Float.TYPE, "F");
+    PRIMITIVE_TYPE_BINARY_NAMES_PRIVATE.put(Integer.TYPE, "I");
+    PRIMITIVE_TYPE_BINARY_NAMES_PRIVATE.put(Long.TYPE, "J");
+    PRIMITIVE_TYPE_BINARY_NAMES_PRIVATE.put(Short.TYPE, "S");
   }
+
+  /**
+   * A map of the binary names of all primitive types.
+   */
+  @Invars(
+    @Expression("PRIMITIVE_TYPE_BINARY_NAMES.keySet == PRIMITIVE_TYPES")
+  )
+  public final static Map<Class<?>, String> PRIMITIVE_TYPE_BINARY_NAMES =
+      Collections.unmodifiableMap(PRIMITIVE_TYPE_BINARY_NAMES_PRIVATE);
 
   /**
    * All Java primitive types.
@@ -203,21 +211,21 @@ public class TypeHelpers {
     @Expression("PRIMITIVE_TYPES == " +
       "Set{Boolean.TYPE, Byte.TYPE, Character.TYPE, Short.TYPE, Integer.TYPE, Long.TYPE, Float.TYPE, Double.TYPE}")
   )
-  public final static Set<Class<?>> PRIMITIVE_TYPES = Collections.unmodifiableSet(PRIMITIVE_TYPES_INTERNAL);
+  public final static Set<Class<?>> PRIMITIVE_TYPES = Collections.unmodifiableSet(PRIMITIVE_TYPE_BINARY_NAMES_PRIVATE.keySet());
 
   /**
    * A map of all primitive types, with their simple name as key.
    */
   @Invars({
-    @Expression("for (Class<?> primitiveType : PRIMITIVE_TYPES_MAP_INTERNAL) {" +
-                  "PRIMITIVE_TYPES_MAP_INTERNAL[primitiveType.simpleName] == primitiveType" +
+    @Expression("for (Class<?> primitiveType : PRIMITIVE_TYPES_BY_NAME_INTERNAL) {" +
+                  "PRIMITIVE_TYPES_BY_NAME_INTERNAL[primitiveType.simpleName] == primitiveType" +
                  "}"),
-    @Expression("PRIMITIVE_TYPES_MAP_INTERNAL.values == PRIMITIVE_TYPES")
+    @Expression("PRIMITIVE_TYPES_BY_NAME_INTERNAL.values == PRIMITIVE_TYPES")
   })
-  private final static Map<String, Class<?>> PRIMITIVE_TYPES_MAP_INTERNAL = new HashMap<String, Class<?>>(8);
+  private final static Map<String, Class<?>> PRIMITIVE_TYPES_BY_NAME_INTERNAL = new HashMap<String, Class<?>>(8);
   static {
     for (Class<?> primitiveType : PRIMITIVE_TYPES) {
-      PRIMITIVE_TYPES_MAP_INTERNAL.put(primitiveType.getSimpleName(), primitiveType);
+      PRIMITIVE_TYPES_BY_NAME_INTERNAL.put(primitiveType.getSimpleName(), primitiveType);
     }
   }
 
@@ -226,25 +234,25 @@ public class TypeHelpers {
    */
   @Invars({
     @Expression("for (Class<?> primitiveType : PRIMITIVE_TYPES) {" +
-                  "PRIMITIVE_TYPES_MAP[primitiveType.simpleName] == primitiveType" +
+                  "PRIMITIVE_TYPES_BY_NAME[primitiveType.simpleName] == primitiveType" +
                  "}"),
     @Expression("PRIMITIVE_TYPES.values == PRIMITIVE_TYPES")
   })
-  public final static Map<String, Class<?>> PRIMITIVE_TYPES_MAP = Collections.unmodifiableMap(PRIMITIVE_TYPES_MAP_INTERNAL);
+  public final static Map<String, Class<?>> PRIMITIVE_TYPES_BY_NAME = Collections.unmodifiableMap(PRIMITIVE_TYPES_BY_NAME_INTERNAL);
 
   /**
-   * The idiom for finding out whether a method {@code m} is public or not,
+   * The idiom for finding out whether a type {@code t} is public or not,
    * using the standard Java API, is
-   * {@link Modifier#isPublic(int) Modifier.isPublic(}{@link Method#getModifiers() m.getModifiers()}{@code )}.
-   * This shortens that a bit to {@code MethodHelpers.isPublic(m)}.
+   * {@link Modifier#isPublic(int) Modifier.isPublic(}{@link Method#getModifiers() t.getModifiers()}{@code )}.
+   * This shortens that a bit to {@code MethodHelpers.isPublic(t)}.
    */
   @MethodContract(
-    pre  = @Expression("_m != null"),
-    post = @Expression("Modifier.isPublic(_m.getModifiers())")
+    pre  = @Expression("_t != null"),
+    post = @Expression("Modifier.isPublic(_t.getModifiers())")
   )
-  public static boolean isPublic(Method method) {
-    assert ProgrammingErrors.preArgumentNotNull(method, "method");
-    return Modifier.isPublic(method.getModifiers());
+  public static boolean isPublic(Class<?> t) {
+    assert ProgrammingErrors.preArgumentNotNull(t, "method");
+    return Modifier.isPublic(t.getModifiers());
   }
 
   /**
@@ -402,7 +410,7 @@ public class TypeHelpers {
   )
   public static Class<?> type(String fqn) {
     preArgumentNotEmpty(fqn, "fqn");
-    Class<?> primitiveType = PRIMITIVE_TYPES_MAP.get(fqn);
+    Class<?> primitiveType = PRIMITIVE_TYPES_BY_NAME.get(fqn);
     if (primitiveType != null) {
       return primitiveType;
     }
@@ -545,24 +553,47 @@ public class TypeHelpers {
    * @pre componentType != null;
    * @return Class.forName(componentType.getName() + "[]");
    */
-  public static <_ArrayBase_> Class<_ArrayBase_[]> arrayClassForName(Class<_ArrayBase_> componentType) {
-    assert componentType != null;
-    String arrayFqcn = "[L" + componentType.getName() + ";";
+  @MethodContract(
+    pre  = @Expression("_componentType != null"),
+    post = {
+      @Expression("result != null"),
+      @Expression("result.isArray()"),
+      @Expression("result.componentType == _componentType"),
+    }
+  )
+  public static <_ArrayComponentType_> Class<_ArrayComponentType_[]> arrayType(Class<_ArrayComponentType_> componentType) {
+    preArgumentNotNull(componentType, "componentType");
+    int dimensions = 1;
+    Class<?> ultimateComponentType = componentType;
+    while (ultimateComponentType.isArray()) {
+      dimensions++;
+      ultimateComponentType = ultimateComponentType.getComponentType();
+    }
+    // base name
+    String arrayFqcn = PRIMITIVE_TYPE_BINARY_NAMES.get(ultimateComponentType);
+    if (arrayFqcn == null) {
+      // object type
+      arrayFqcn = "L" + ultimateComponentType.getName() + ";";
+    }
+    // add dimensions
+    for (int i = 0; i < dimensions; i++) {
+      arrayFqcn = "[" + arrayFqcn;
+    }
     try {
-      @SuppressWarnings("unchecked") Class<_ArrayBase_[]> result =
-          (Class<_ArrayBase_[]>)Class.forName(arrayFqcn);
+      @SuppressWarnings("unchecked")
+      Class<_ArrayComponentType_[]> result = (Class<_ArrayComponentType_[]>)Class.forName(arrayFqcn);
       return result;
     }
     /* exceptions cannot happen, since componentType was already
        laoded before this call */
     catch (ExceptionInInitializerError eiiErr) {
-      assert false : "cannot happen";
+      unexpectedException(eiiErr, "componentType was already loaded before this call");
     }
     catch (LinkageError lErr) {
-      assert false : "cannot happen";
+      unexpectedException(lErr, "componentType was already loaded before this call");
     }
     catch (ClassNotFoundException cnfExc) {
-      assert false : "cannot happen";
+      unexpectedException(cnfExc, "componentType was already loaded before this call");
     }
     return null;
   }
