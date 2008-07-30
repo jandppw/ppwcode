@@ -91,7 +91,7 @@ public class MethodSignature {
     for (int i = 0; i < $parameterTypeNames.length; i++) {
       String parameterTypeName = $parameterTypeNames[i];
 // MUDO deal with [] array types
-      $parameterTypes[i] = TypeHelpers.loadForName(parameterTypeName);
+      $parameterTypes[i] = TypeHelpers.type(parameterTypeName);
       $parameterTypeNames[i] = $parameterTypes[i].getCanonicalName();
     }
   }
