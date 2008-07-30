@@ -74,6 +74,7 @@ public final class CloneHelpers {
 
   /**
    * Clone {@code kloneable} if it implements {@link Cloneable} and features a public {@code clone()} method.
+   * In contrast to the standard {@code clone()} method (in most cases) this method is type safe.
    * If {@code kloneable} does not implement {@link Cloneable} or does not feature a public
    * {@code clone()} method, this is considered a programming error.
    *
