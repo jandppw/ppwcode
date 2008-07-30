@@ -17,6 +17,7 @@ limitations under the License.
 package org.ppwcode.util.reflect_I;
 
 
+import static java.lang.Character.isLowerCase;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -35,6 +36,7 @@ import static org.ppwcode.util.reflect_I.TypeHelpers.isProtected;
 import static org.ppwcode.util.reflect_I.TypeHelpers.isPublic;
 import static org.ppwcode.util.reflect_I.TypeHelpers.isStatic;
 import static org.ppwcode.util.reflect_I.TypeHelpers.isTopLevelType;
+import static org.ppwcode.util.reflect_I.TypeHelpers.packageName;
 import static org.ppwcode.util.reflect_I.TypeHelpers.type;
 
 import java.lang.reflect.Modifier;
@@ -393,66 +395,66 @@ public class TypeHelpersTest {
 
   @Test
   public void testType1() {
-    String fqn = "boolean";
-    Class<?> result = type(fqn);
+    String fqtn = "boolean";
+    Class<?> result = type(fqtn);
     assertEquals(Boolean.TYPE, result);
-    testType(fqn, result);
+    testType(fqtn, result);
   }
 
   @Test
   public void testType2() {
-    String fqn = "byte";
-    Class<?> result = type(fqn);
+    String fqtn = "byte";
+    Class<?> result = type(fqtn);
     assertEquals(Byte.TYPE, result);
-    testType(fqn, result);
+    testType(fqtn, result);
   }
 
   @Test
   public void testType3() {
-    String fqn = "char";
-    Class<?> result = type(fqn);
+    String fqtn = "char";
+    Class<?> result = type(fqtn);
     assertEquals(Character.TYPE, result);
-    testType(fqn, result);
+    testType(fqtn, result);
   }
 
   @Test
   public void testType4() {
-    String fqn = "short";
-    Class<?> result = type(fqn);
+    String fqtn = "short";
+    Class<?> result = type(fqtn);
     assertEquals(Short.TYPE, result);
-    testType(fqn, result);
+    testType(fqtn, result);
   }
 
   @Test
   public void testType5() {
-    String fqn = "int";
-    Class<?> result = type(fqn);
+    String fqtn = "int";
+    Class<?> result = type(fqtn);
     assertEquals(Integer.TYPE, result);
-    testType(fqn, result);
+    testType(fqtn, result);
   }
 
   @Test
   public void testType6() {
-    String fqn = "long";
-    Class<?> result = type(fqn);
+    String fqtn = "long";
+    Class<?> result = type(fqtn);
     assertEquals(Long.TYPE, result);
-    testType(fqn, result);
+    testType(fqtn, result);
   }
 
   @Test
   public void testType7() {
-    String fqn = "float";
-    Class<?> result = type(fqn);
+    String fqtn = "float";
+    Class<?> result = type(fqtn);
     assertEquals(Float.TYPE, result);
-    testType(fqn, result);
+    testType(fqtn, result);
   }
 
   @Test
   public void testType8() {
-    String fqn = "double";
-    Class<?> result = type(fqn);
+    String fqtn = "double";
+    Class<?> result = type(fqtn);
     assertEquals(Double.TYPE, result);
-    testType(fqn, result);
+    testType(fqtn, result);
   }
 
   @Test(expected = AssertionError.class)
@@ -462,26 +464,26 @@ public class TypeHelpersTest {
 
   @Test
   public void testType10() {
-    String fqn = "java.lang.String";
-    Class<?> result = type(fqn);
+    String fqtn = "java.lang.String";
+    Class<?> result = type(fqtn);
     assertEquals(String.class, result);
-    testType(fqn, result);
+    testType(fqtn, result);
   }
 
   @Test
   public void testType11() {
-    String fqn = "String";
-    Class<?> result = type(fqn);
+    String fqtn = "String";
+    Class<?> result = type(fqtn);
     assertEquals(String.class, result);
-    testType(fqn, result);
+    testType(fqtn, result);
   }
 
   @Test
   public void testType12() {
-    String fqn = "org.ppwcode.util.reflect_I.ConstantHelpers";
-    Class<?> result = type(fqn);
+    String fqtn = "org.ppwcode.util.reflect_I.ConstantHelpers";
+    Class<?> result = type(fqtn);
     assertEquals(ConstantHelpers.class, result);
-    testType(fqn, result);
+    testType(fqtn, result);
   }
 
   /**
@@ -512,47 +514,47 @@ public class TypeHelpersTest {
 
   @Test
   public void testType17() {
-    String fqn = "org.ppwcode.util.reflect_I.ConstantHelpersTest";
-    Class<?> result = type(fqn);
+    String fqtn = "org.ppwcode.util.reflect_I.ConstantHelpersTest";
+    Class<?> result = type(fqtn);
     assertEquals(ConstantHelpersTest.class, result);
-    testType(fqn, result);
+    testType(fqtn, result);
   }
 
   @Test
   public void testType18() {
-    String fqn = "org.ppwcode.util.reflect_I.StubClass.StubClassA";
-    Class<?> result = type(fqn);
+    String fqtn = "org.ppwcode.util.reflect_I.StubClass.StubClassA";
+    Class<?> result = type(fqtn);
     assertEquals(StubClassA.class, result);
-    testType(fqn, result);
+    testType(fqtn, result);
   }
 
   @Test
   public void testType19() {
-    String fqn = "org.ppwcode.util.reflect_I.StubClass.StubClassB";
-    Class<?> result = type(fqn);
+    String fqtn = "org.ppwcode.util.reflect_I.StubClass.StubClassB";
+    Class<?> result = type(fqtn);
     assertEquals(StubClassB.class, result);
-    testType(fqn, result);
+    testType(fqtn, result);
   }
 
   @Test
   public void testType20() {
-    String fqn = "org.ppwcode.util.reflect_I.StubClass.StubClassInnerA";
-    Class<?> result = type(fqn);
+    String fqtn = "org.ppwcode.util.reflect_I.StubClass.StubClassInnerA";
+    Class<?> result = type(fqtn);
     assertEquals(StubClassInnerA.class, result);
-    testType(fqn, result);
+    testType(fqtn, result);
   }
 
   @Test
   public void testType21() {
-    String fqn = "org.ppwcode.util.reflect_I.StubClass.StubClassInnerA.StubClassInnerAInner";
-    Class<?> result = type(fqn);
+    String fqtn = "org.ppwcode.util.reflect_I.StubClass.StubClassInnerA.StubClassInnerAInner";
+    Class<?> result = type(fqtn);
     assertEquals(StubClassInnerA.StubClassInnerAInner.class, result);
-    testType(fqn, result);
+    testType(fqtn, result);
   }
 
-  public void testType(String fqn, Class<?> result) {
+  public void testType(String fqtn, Class<?> result) {
     assertNotNull(result);
-    String expected = fqn;
+    String expected = fqtn;
     Package p = result.getPackage();
     if (p != null) {
       if (p.getName().equals("java.lang") && (! expected.startsWith("java.lang."))) {
@@ -562,6 +564,27 @@ public class TypeHelpersTest {
     assertEquals(expected, result.getCanonicalName());
   }
 
+
+
+
+  // packageName
+
+  @Test
+  public void testPackageName() {
+    for (Class<?> type : TYPE_SUBJECTS) {
+      String fqtn = type.getCanonicalName();
+      if (fqtn != null) {
+        System.out.println(fqtn);
+        String result = packageName(fqtn);
+        assertTrue(fqtn.startsWith(result));
+        for (String part : result.split(TypeHelpers.DOT_PATTERN)) {
+          assertTrue(part.equals("") || isLowerCase(part.charAt(0)));
+        }
+        assertTrue((! result.equals("")) ? fqtn.charAt(result.length()) == '.' : true);
+        assertTrue((! result.equals("")) ? ! isLowerCase(fqtn.charAt(result.length() + 1)) : true);
+      }
+    }
+  }
 
 
   // prefixedFqcn
