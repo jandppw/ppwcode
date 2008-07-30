@@ -312,7 +312,7 @@ public class TypeHelpers {
    */
   @MethodContract(
     pre  = @Expression("_t != null"),
-    post = @Expression("isTopLevelClass(_t) || Modifier.isPrivate(_t.getModifiers())")
+    post = @Expression("isTopLevelClass(_t) || Modifier.isStatic(_t.getModifiers())")
   )
   public static boolean isStatic(Class<?> t) {
     assert preArgumentNotNull(t, "t");
@@ -328,7 +328,7 @@ public class TypeHelpers {
    */
   @MethodContract(
     pre  = @Expression("_t != null"),
-    post = @Expression("Modifier.isInterface(_t.getModifiers()) || Modifier.isPrivate(_t.getModifiers())")
+    post = @Expression("Modifier.isInterface(_t.getModifiers()) || Modifier.isAbstract(_t.getModifiers())")
   )
   public static boolean isAbstract(Class<?> t) {
     assert preArgumentNotNull(t, "t");
@@ -360,14 +360,15 @@ public class TypeHelpers {
    *   <dfn>inner class</dfn> or not.</p>
    * <p>For a discussion, see <a href="#onNestedClasses">On nested classes</a>
    *   above.</p>
-   *
-   * @pre type != null;
-   * @return type.isLocalClass() || type.isAnonymousClass() ||
-   *         (type.isMemberClass() && (! Modifier.isStatic(type.getModifiers())));
    */
-  public static boolean isInnerType(Class<?> type) {
-    assert type != null;
-    return type.isLocalClass() || type.isAnonymousClass() || (type.isMemberClass() && (! Modifier.isStatic(type.getModifiers())));
+  @MethodContract(
+    pre  = @Expression("_t != null"),
+    post = @Expression("_t.isLocalClass() || _t.isAnonymousClass() || " +
+                       "(_t.isMemberClass() && (! isStatic(_t)))")
+  )
+  public static boolean isInnerType(Class<?> t) {
+    assert t != null;
+    return t.isLocalClass() || t.isAnonymousClass() || (t.isMemberClass() && (! Modifier.isStatic(t.getModifiers())));
   }
 
   /**
@@ -380,10 +381,11 @@ public class TypeHelpers {
    *   <dfn>top level class</dfn> or a nested class.</p>
    * <p>For a discussion, see <a href="#onNestedClasses">On nested classes</a>
    *   above.</p>
-   *
-   * @pre type != null;
-   * @return getEnclosingClass() == null;
    */
+  @MethodContract(
+    pre  = @Expression("_t != null"),
+    post = @Expression("_t.enclosingClass == null")
+  )
   public static boolean isTopLevelType(Class<?> type) {
     assert type != null;
     return type.getEnclosingClass() == null;
