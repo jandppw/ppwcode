@@ -511,7 +511,7 @@ public class TypeHelpers {
     post = {
       @Expression("result != null"),
       @Expression("result.isArray()"),
-      @Expression("result.componentType == _componentType"),
+      @Expression("result.componentType == _componentType")
     }
   )
   public static <_ArrayComponentType_> Class<_ArrayComponentType_[]> arrayType(Class<_ArrayComponentType_> componentType) {

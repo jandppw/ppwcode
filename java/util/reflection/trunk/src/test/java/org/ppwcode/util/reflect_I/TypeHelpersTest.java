@@ -159,23 +159,28 @@ public class TypeHelpersTest {
     assertEquals(PRIMITIVE_TYPES, new HashSet<Class<?>>(PRIMITIVE_TYPES_BY_NAME.values()));
   }
 
+  public final static LinkedList<Class<?>> NON_LOCAL_TYPE_SUBJECTS = new LinkedList<Class<?>>();
+  static {
+    NON_LOCAL_TYPE_SUBJECTS.addAll(PRIMITIVE_TYPES);
+    NON_LOCAL_TYPE_SUBJECTS.add(String.class);
+    NON_LOCAL_TYPE_SUBJECTS.add(ConstantHelpers.class);
+    NON_LOCAL_TYPE_SUBJECTS.add(ConstantHelpersTest.class);
+    NON_LOCAL_TYPE_SUBJECTS.add(StubClass.class);
+    NON_LOCAL_TYPE_SUBJECTS.add(AlternateStubClass.class);
+    NON_LOCAL_TYPE_SUBJECTS.add(StubClassA.class);
+    NON_LOCAL_TYPE_SUBJECTS.add(StubClassB.class);
+    NON_LOCAL_TYPE_SUBJECTS.add(StubClassInnerA.class);
+    NON_LOCAL_TYPE_SUBJECTS.add(StubClassInnerA.StubClassInnerAInner.class);
+    NON_LOCAL_TYPE_SUBJECTS.add(AbstractSubStubClass.class);
+    NON_LOCAL_TYPE_SUBJECTS.add(StubInterfaceAlpha.class);
+    NON_LOCAL_TYPE_SUBJECTS.add(CloneableStubClassA.class);
+  }
 
 
   public final static LinkedList<Class<?>> TYPE_SUBJECTS = new LinkedList<Class<?>>();
-  {
+  static {
     TYPE_SUBJECTS.addAll(PRIMITIVE_TYPES);
-    TYPE_SUBJECTS.add(String.class);
-    TYPE_SUBJECTS.add(ConstantHelpers.class);
-    TYPE_SUBJECTS.add(ConstantHelpersTest.class);
-    TYPE_SUBJECTS.add(StubClass.class);
-    TYPE_SUBJECTS.add(AlternateStubClass.class);
-    TYPE_SUBJECTS.add(StubClassA.class);
-    TYPE_SUBJECTS.add(StubClassB.class);
-    TYPE_SUBJECTS.add(StubClassInnerA.class);
-    TYPE_SUBJECTS.add(StubClassInnerA.StubClassInnerAInner.class);
-    TYPE_SUBJECTS.add(AbstractSubStubClass.class);
-    TYPE_SUBJECTS.add(StubInterfaceAlpha.class);
-    TYPE_SUBJECTS.add(CloneableStubClassA.class);
+    TYPE_SUBJECTS.addAll(NON_LOCAL_TYPE_SUBJECTS);
     class LocalClass {
       // NOP
     }

@@ -118,7 +118,7 @@ public final class TypeName {
   )
   public TypeName(String fqtn) {
     preArgumentNotEmpty(fqtn, "fqtn");
-    String packageName = null;
+    String packageName = EMPTY;
     String simpleName = null;
     $enclosing = new LinkedList<TypeName>();
     if (TypeHelpers.PRIMITIVE_TYPES_BY_NAME.containsKey(fqtn)) {
@@ -149,7 +149,7 @@ public final class TypeName {
           }
           else {
             // enclosing type
-            $enclosing.addFirst(new TypeName(packageName, klone($enclosing), parts[i]));
+            $enclosing.addLast(new TypeName(packageName, klone($enclosing), parts[i]));
           }
         }
       }
@@ -157,7 +157,7 @@ public final class TypeName {
     catch (StringIndexOutOfBoundsException exc) {
       unexpectedException(exc);
     }
-    $packageName = packageName.toString();
+    $packageName = packageName;
     $simpleName = simpleName;
   }
 
@@ -167,7 +167,7 @@ public final class TypeName {
       @Expression(value = "true", description = "_packageName is a well-formed package name"),
       @Expression("_simpleName != null"),
       @Expression("_simpleName != EMPTY"),
-      @Expression(value = "true", description = "_simpleName is a well-formed type name"),
+      @Expression(value = "true", description = "_simpleName is a well-formed type name")
     },
     post = {
       @Expression("packageName == _packageName"),
@@ -184,19 +184,19 @@ public final class TypeName {
   @MethodContract(
     pre  = @Expression("_type != null"),
     post = {
-      @Expression("packageName == _type.package.name"),
+      @Expression("packageName == _type.package != null ? _type.package.name : EMPTY"),
       // ENCLOSING TYPES
       @Expression("simpleName == _type.simpleName")
     }
   )
   public TypeName(Class<?> type) {
     preArgumentNotNull(type);
-    $packageName = type.getPackage().getName();
+    $packageName = type.getPackage() != null ? type.getPackage().getName() : EMPTY;
     $simpleName = type.getSimpleName();
     $enclosing = new LinkedList<TypeName>();
     Class<?> enclosing = type.getEnclosingClass();
     while (enclosing != null) {
-      $enclosing.addLast(new TypeName(enclosing));
+      $enclosing.addFirst(new TypeName(enclosing));
       enclosing = enclosing.getEnclosingClass();
     }
   }
