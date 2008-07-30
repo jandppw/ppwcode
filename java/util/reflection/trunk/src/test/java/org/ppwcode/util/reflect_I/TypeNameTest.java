@@ -23,8 +23,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.ppwcode.util.reflect_I.TypeHelpersTest.TYPE_SUBJECTS;
+import static org.ppwcode.util.reflect_I.TypeHelpersTest.NON_LOCAL_TYPE_SUBJECTS;
 import static org.ppwcode.util.reflect_I.TypeName.DOT_PATTERN;
+import static org.ppwcode.util.reflect_I.TypeName.EMPTY;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -36,7 +37,7 @@ public class TypeNameTest {
 
   public final static LinkedList<TypeName> EXISTING_SUBJECTS = new LinkedList<TypeName>();
   static {
-    for (Class<?> c : TYPE_SUBJECTS) {
+    for (Class<?> c : NON_LOCAL_TYPE_SUBJECTS) {
       EXISTING_SUBJECTS.add(new TypeName(c));
     }
   }
@@ -68,6 +69,9 @@ public class TypeNameTest {
     for (TypeName enclosing : tn.getEnclosingTypeNames()) {
       assertEquals(tn.getPackageName(), enclosing.getPackageName());
     }
+//    System.out.println(tn);
+//    System.out.println(tn.getEnclosingTypeNames());
+//    System.out.println();
     enclosingRegression(tn.getEnclosingTypeNames());
     assertNotNull(tn.getSimpleName());
     assertFalse(tn.getSimpleName().equals(""));
@@ -76,8 +80,12 @@ public class TypeNameTest {
   private void enclosingRegression(List<TypeName> enclosingTypeNames) {
     for (int i = enclosingTypeNames.size() - 1; i >= 0; i--) {
       TypeName current = enclosingTypeNames.get(i);
-      if (i > 1) {
-        List<TypeName> previous = enclosingTypeNames.subList(0, i - 1);
+      if (i > 0) {
+        List<TypeName> previous = enclosingTypeNames.subList(0, i);
+//        System.out.println(current);
+//        System.out.println(current.getEnclosingTypeNames());
+//        System.out.println(previous);
+//        System.out.println();
         assertEquals(previous, current.getEnclosingTypeNames());
         enclosingRegression(current.getEnclosingTypeNames());
       }
@@ -97,7 +105,7 @@ public class TypeNameTest {
 
   @Test
   public void testTypeNameString1() {
-    for (Class<?> type : TYPE_SUBJECTS) {
+    for (Class<?> type : NON_LOCAL_TYPE_SUBJECTS) {
       testTypeNameString(type.getCanonicalName());
     }
     for (String s : NON_EXISTING_FQTNS) {
@@ -119,7 +127,6 @@ public class TypeNameTest {
     validateTypeInvariants(subject);
   }
 
-  // we cannot test this, because the JUnit assert throw assertion errors too
   @Test
   public void testTypeNameString2() {
     testTypeNameString2("this.is.not....a.GoodThing");
@@ -155,9 +162,9 @@ public class TypeNameTest {
 
   @Test
   public void testTypeNameClassOfQ() {
-    for (Class<?> c : TYPE_SUBJECTS) {
+    for (Class<?> c : NON_LOCAL_TYPE_SUBJECTS) {
       TypeName subject = new TypeName(c);
-      assertEquals(c.getPackage().getName(), subject.getPackageName());
+      assertEquals(c.getPackage() != null ? c.getPackage().getName() : EMPTY, subject.getPackageName());
       // MUDO test enclosing types
       assertEquals(c.getSimpleName(), subject.getSimpleName());
       validateTypeInvariants(subject);
@@ -190,7 +197,7 @@ public class TypeNameTest {
 
   @Test
   public void testToString1() {
-    for (Class<?> c : TYPE_SUBJECTS) {
+    for (Class<?> c : NON_LOCAL_TYPE_SUBJECTS) {
       TypeName tn = new TypeName(c);
       String result = tn.toString();
       assertEquals(c.getCanonicalName(), result);
@@ -208,7 +215,7 @@ public class TypeNameTest {
 
   @Test
   public void testGetType1() {
-    for (Class<?> c : TYPE_SUBJECTS) {
+    for (Class<?> c : NON_LOCAL_TYPE_SUBJECTS) {
       TypeName tn = new TypeName(c);
       Class<?> result = tn.getType();
       assertEquals(c, result);
