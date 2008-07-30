@@ -171,9 +171,9 @@ import org.toryt.annotations_I.MethodContract;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-public class ClassHelpers {
+public class TypeHelpers {
 
-  private ClassHelpers() {
+  private TypeHelpers() {
     // NOP
   }
 
@@ -251,7 +251,7 @@ public class ClassHelpers {
    * The idiom for finding out whether a type {@code t} is protected or not,
    * using the standard Java API, is
    * {@link Modifier#isProtected(int) Modifier.isProtected(}{@link Class#getModifiers() t.getModifiers()}{@code )}.
-   * This shortens that a bit to {@code ClassHelpers.isProtected(t)}.
+   * This shortens that a bit to {@code TypeHelpers.isProtected(t)}.
    */
   @MethodContract(
     pre  = @Expression("_t != null"),
@@ -266,7 +266,7 @@ public class ClassHelpers {
    * The idiom for finding out whether a type {@code t} is private or not,
    * using the standard Java API, is
    * {@link Modifier#isPrivate(int) Modifier.isPrivate(}{@link Class#getModifiers() t.getModifiers()}{@code )}.
-   * This shortens that a bit to {@code ClassHelpers.isPrivate(t)}.
+   * This shortens that a bit to {@code TypeHelpers.isPrivate(t)}.
    */
   @MethodContract(
     pre  = @Expression("_t != null"),
@@ -281,7 +281,7 @@ public class ClassHelpers {
    * The idiom for finding out whether a type {@code t} is package accessible or not,
    * using the standard Java API, is difficult, since there is no modifier for package accessibility.
    * We need to check there there is no accessibility modifier present.
-   * This shortens that a bit to {@code ClassHelpers.isPackageAccessible(t)}.
+   * This shortens that a bit to {@code TypeHelpers.isPackageAccessible(t)}.
    */
   @MethodContract(
     pre  = @Expression("_t != null"),
@@ -300,7 +300,7 @@ public class ClassHelpers {
    * using the standard Java API, is
    * {@link Modifier#isStatic(int) Modifier.isStatic(}{@link Class#getModifiers() t.getModifiers()}{@code )} for nested
    * types.
-   * This shortens that a bit to {@code ClassHelpers.isStatic(t)}.
+   * This shortens that a bit to {@code TypeHelpers.isStatic(t)}.
    */
   @MethodContract(
     pre  = @Expression("_t != null"),
@@ -316,7 +316,7 @@ public class ClassHelpers {
    * using the standard Java API, is
    * {@link Modifier#isAbstract(int) Modifier.isAbstract(}{@link Class#getModifiers() t.getModifiers()}{@code )}
    * for non-interface types.
-   * This shortens that a bit to {@code ClassHelpers.isAbstract(t)}.
+   * This shortens that a bit to {@code TypeHelpers.isAbstract(t)}.
    */
   @MethodContract(
     pre  = @Expression("_t != null"),
@@ -331,7 +331,7 @@ public class ClassHelpers {
    * The idiom for finding out whether a type {@code t} is final (interfaces never are) or not,
    * using the standard Java API, is
    * {@link Modifier#isFinal(int) Modifier.isFinal(}{@link Class#getModifiers() t.getModifiers()}{@code )}.
-   * This shortens that a bit to {@code ClassHelpers.isFinal(t)}.
+   * This shortens that a bit to {@code TypeHelpers.isFinal(t)}.
    */
   @MethodContract(
     pre  = @Expression("_t != null"),
@@ -467,11 +467,11 @@ public class ClassHelpers {
   public static String prefixedFqcn(final String prefix,
                                     final String fqcn)
   throws NullPointerException {
-    String[] parts = fqcn.split(ClassHelpers.PREFIXED_FQCN_PATTERN);
+    String[] parts = fqcn.split(TypeHelpers.PREFIXED_FQCN_PATTERN);
     String prefixedName = prefix + parts[parts.length - 1];
-    String result = ClassHelpers.EMPTY;
+    String result = TypeHelpers.EMPTY;
     for (int i =0; i < parts.length - 1; i++) {
-      result = result + parts[i] + ClassHelpers.DOT;
+      result = result + parts[i] + TypeHelpers.DOT;
     }
     result = result + prefixedName;
     return result;

@@ -20,8 +20,8 @@ package org.ppwcode.util.reflect_I;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.ppwcode.util.reflect_I.ClassHelpers.PRIMITIVE_TYPES;
-import static org.ppwcode.util.reflect_I.ClassHelpers.PRIMITIVE_TYPES_MAP;
+import static org.ppwcode.util.reflect_I.TypeHelpers.PRIMITIVE_TYPES;
+import static org.ppwcode.util.reflect_I.TypeHelpers.PRIMITIVE_TYPES_MAP;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -34,7 +34,7 @@ import org.ppwcode.util.reflect_I.StubClass.StubClassInnerA;
 import org.ppwcode.util.reflect_I.StubClass.StubClassInnerB;
 
 
-public class ClassHelpersTest {
+public class TypeHelpersTest {
 
 // following in comments: demo methods (which are not really tests)
 
@@ -46,7 +46,7 @@ public class ClassHelpersTest {
 //  @Test
 //  public void demoClassDetails() {
 //    // primitive types
-//    for (Class<?> pt : ClassHelpers.PRIMITIVE_TYPES) {
+//    for (Class<?> pt : TypeHelpers.PRIMITIVE_TYPES) {
 //      demoClassDetails(pt);
 //    }
 //    // classes
@@ -144,122 +144,122 @@ public class ClassHelpersTest {
 
   @Test
   public void testLoadForName1() throws _CannotGetClassException {
-    Class<?> result = ClassHelpers.loadForName("boolean");
+    Class<?> result = TypeHelpers.loadForName("boolean");
     assertEquals(Boolean.TYPE, result);
   }
 
   @Test
   public void testLoadForName2() throws _CannotGetClassException {
-    Class<?> result = ClassHelpers.loadForName("byte");
+    Class<?> result = TypeHelpers.loadForName("byte");
     assertEquals(Byte.TYPE, result);
   }
 
   @Test
   public void testLoadForName3() throws _CannotGetClassException {
-    Class<?> result = ClassHelpers.loadForName("char");
+    Class<?> result = TypeHelpers.loadForName("char");
     assertEquals(Character.TYPE, result);
   }
 
   @Test
   public void testLoadForName4() throws _CannotGetClassException {
-    Class<?> result = ClassHelpers.loadForName("short");
+    Class<?> result = TypeHelpers.loadForName("short");
     assertEquals(Short.TYPE, result);
   }
 
   @Test
   public void testLoadForName5() throws _CannotGetClassException {
-    Class<?> result = ClassHelpers.loadForName("int");
+    Class<?> result = TypeHelpers.loadForName("int");
     assertEquals(Integer.TYPE, result);
   }
 
   @Test
   public void testLoadForName6() throws _CannotGetClassException {
-    Class<?> result = ClassHelpers.loadForName("long");
+    Class<?> result = TypeHelpers.loadForName("long");
     assertEquals(Long.TYPE, result);
   }
 
   @Test
   public void testLoadForName7() throws _CannotGetClassException {
-    Class<?> result = ClassHelpers.loadForName("float");
+    Class<?> result = TypeHelpers.loadForName("float");
     assertEquals(Float.TYPE, result);
   }
 
   @Test
   public void testLoadForName8() throws _CannotGetClassException {
-    Class<?> result = ClassHelpers.loadForName("double");
+    Class<?> result = TypeHelpers.loadForName("double");
     assertEquals(Double.TYPE, result);
   }
 
   @Test(expected = _CannotGetClassException.class)
   public void testLoadForName9() throws _CannotGetClassException {
-    ClassHelpers.loadForName("hjgks");
+    TypeHelpers.loadForName("hjgks");
   }
 
   @Test
   public void testLoadForName10() throws _CannotGetClassException {
-    Class<?> result = ClassHelpers.loadForName("java.lang.String");
+    Class<?> result = TypeHelpers.loadForName("java.lang.String");
     assertEquals(String.class, result);
   }
 
   @Test
   public void testLoadForName11() throws _CannotGetClassException {
-    Class<?> result = ClassHelpers.loadForName("String");
+    Class<?> result = TypeHelpers.loadForName("String");
     assertEquals(String.class, result);
   }
 
   @Test
   public void testLoadForName12() throws _CannotGetClassException {
-    Class<?> result = ClassHelpers.loadForName("org.ppwcode.util.reflect_I.ConstantHelpers");
+    Class<?> result = TypeHelpers.loadForName("org.ppwcode.util.reflect_I.ConstantHelpers");
     assertEquals(ConstantHelpers.class, result);
   }
 
   @Test(expected = _CannotGetClassException.class)
   public void testLoadForName13() throws _CannotGetClassException {
-    ClassHelpers.loadForName("org.ppwcode.util.reflect_I.Constants ");
+    TypeHelpers.loadForName("org.ppwcode.util.reflect_I.Constants ");
   }
 
   @Test(expected = _CannotGetClassException.class)
   public void testLoadForName14() throws _CannotGetClassException {
-    ClassHelpers.loadForName("org.ppwcode.util.reflect_I. Constants");
+    TypeHelpers.loadForName("org.ppwcode.util.reflect_I. Constants");
   }
 
   @Test(expected = _CannotGetClassException.class)
   public void testLoadForName15() throws _CannotGetClassException {
-    ClassHelpers.loadForName("org.ppwcode.util.reflect_I.Deflection");
+    TypeHelpers.loadForName("org.ppwcode.util.reflect_I.Deflection");
   }
 
   @Test(expected = _CannotGetClassException.class)
   public void testLoadForName16() throws _CannotGetClassException {
-    ClassHelpers.loadForName("org.ppwcode.util.reflect_I.String");
+    TypeHelpers.loadForName("org.ppwcode.util.reflect_I.String");
   }
 
   @Test
   public void testLoadForName17() throws _CannotGetClassException {
-    Class<?> result = ClassHelpers.loadForName("org.ppwcode.util.reflect_I.ConstantHelpersTest");
+    Class<?> result = TypeHelpers.loadForName("org.ppwcode.util.reflect_I.ConstantHelpersTest");
     assertEquals(ConstantHelpersTest.class, result);
   }
 
   @Test
   public void testLoadForName18() throws _CannotGetClassException {
-    Class<?> result = ClassHelpers.loadForName("org.ppwcode.util.reflect_I.StubClass.StubClassA");
+    Class<?> result = TypeHelpers.loadForName("org.ppwcode.util.reflect_I.StubClass.StubClassA");
     assertEquals(StubClassA.class, result);
   }
 
   @Test
   public void testLoadForName19() throws _CannotGetClassException {
-    Class<?> result = ClassHelpers.loadForName("org.ppwcode.util.reflect_I.StubClass.StubClassB");
+    Class<?> result = TypeHelpers.loadForName("org.ppwcode.util.reflect_I.StubClass.StubClassB");
     assertEquals(StubClassB.class, result);
   }
 
   @Test
   public void testLoadForName20() throws _CannotGetClassException {
-    Class<?> result = ClassHelpers.loadForName("org.ppwcode.util.reflect_I.StubClass.StubClassInnerA");
+    Class<?> result = TypeHelpers.loadForName("org.ppwcode.util.reflect_I.StubClass.StubClassInnerA");
     assertEquals(StubClassInnerA.class, result);
   }
 
   @Test
   public void testLoadForName21() throws _CannotGetClassException {
-    Class<?> result = ClassHelpers.loadForName("org.ppwcode.util.reflect_I.StubClass.StubClassInnerA.StubClassInnerAInner");
+    Class<?> result = TypeHelpers.loadForName("org.ppwcode.util.reflect_I.StubClass.StubClassInnerA.StubClassInnerAInner");
     assertEquals(StubClassInnerA.StubClassInnerAInner.class, result);
   }
 
@@ -289,32 +289,32 @@ public class ClassHelpersTest {
 
   @Test
   public void testIsInnerClass1() {
-    assertFalse(ClassHelpers.isInnerType(ConstantHelpers.class));
+    assertFalse(TypeHelpers.isInnerType(ConstantHelpers.class));
   }
 
   @Test
   public void testIsInnerClass2() {
-    assertFalse(ClassHelpers.isInnerType(ConstantHelpers.class));
+    assertFalse(TypeHelpers.isInnerType(ConstantHelpers.class));
   }
 
   @Test
   public void testIsInnerClass3() {
-    assertFalse(ClassHelpers.isInnerType(StubClassA.class));
+    assertFalse(TypeHelpers.isInnerType(StubClassA.class));
   }
 
   @Test
   public void testIsInnerClass4() {
-    assertFalse(ClassHelpers.isInnerType(StubClassB.class));
+    assertFalse(TypeHelpers.isInnerType(StubClassB.class));
   }
 
   @Test
   public void testIsInnerClass5() {
-    assertTrue(ClassHelpers.isInnerType(StubClassInnerA.class));
+    assertTrue(TypeHelpers.isInnerType(StubClassInnerA.class));
   }
 
   @Test
   public void testIsInnerClass6() {
-    assertTrue(ClassHelpers.isInnerType(StubClassInnerB.class));
+    assertTrue(TypeHelpers.isInnerType(StubClassInnerB.class));
   }
 
   @Test
@@ -322,7 +322,7 @@ public class ClassHelpersTest {
     class StubClassLocalA {
       // NOP
     }
-    assertTrue(ClassHelpers.isInnerType(StubClassLocalA.class));
+    assertTrue(TypeHelpers.isInnerType(StubClassLocalA.class));
   }
 
   @Test
@@ -333,13 +333,13 @@ public class ClassHelpersTest {
     class StubClassLocalB extends StubClassLocalA {
       // NOP
     }
-    assertTrue(ClassHelpers.isInnerType(StubClassLocalB.class));
+    assertTrue(TypeHelpers.isInnerType(StubClassLocalB.class));
   }
 
   @Test
   public void testIsInnerClass9() {
     // anonymous class
-    assertTrue(ClassHelpers.isInnerType((new StubClassA("", 0, 0) { /* NOP */ }).getClass()));
+    assertTrue(TypeHelpers.isInnerType((new StubClassA("", 0, 0) { /* NOP */ }).getClass()));
   }
 
 
@@ -348,32 +348,32 @@ public class ClassHelpersTest {
 
   @Test
   public void testIsTopLevelClass1() {
-    assertTrue(ClassHelpers.isTopLevelType(ConstantHelpersTest.class));
+    assertTrue(TypeHelpers.isTopLevelType(ConstantHelpersTest.class));
   }
 
   @Test
   public void testIsTopLevelClass2() {
-    assertTrue(ClassHelpers.isTopLevelType(ConstantHelpers.class));
+    assertTrue(TypeHelpers.isTopLevelType(ConstantHelpers.class));
   }
 
   @Test
   public void testIsTopLevelClass3() {
-    assertFalse(ClassHelpers.isTopLevelType(StubClassA.class));
+    assertFalse(TypeHelpers.isTopLevelType(StubClassA.class));
   }
 
   @Test
   public void testIsTopLevelClass4() {
-    assertFalse(ClassHelpers.isTopLevelType(StubClassB.class));
+    assertFalse(TypeHelpers.isTopLevelType(StubClassB.class));
   }
 
   @Test
   public void testIsTopLevelClass5() {
-    assertFalse(ClassHelpers.isTopLevelType(StubClassInnerA.class));
+    assertFalse(TypeHelpers.isTopLevelType(StubClassInnerA.class));
   }
 
   @Test
   public void testIsTopLevelClass6() {
-    assertFalse(ClassHelpers.isTopLevelType(StubClassInnerB.class));
+    assertFalse(TypeHelpers.isTopLevelType(StubClassInnerB.class));
   }
 
   @Test
@@ -381,7 +381,7 @@ public class ClassHelpersTest {
     class StubClassLocalA {
       // NOP
     }
-    assertFalse(ClassHelpers.isTopLevelType(StubClassLocalA.class));
+    assertFalse(TypeHelpers.isTopLevelType(StubClassLocalA.class));
   }
 
   @Test
@@ -392,13 +392,13 @@ public class ClassHelpersTest {
     class StubClassLocalB extends StubClassLocalA {
       // NOP
     }
-    assertFalse(ClassHelpers.isTopLevelType(StubClassLocalB.class));
+    assertFalse(TypeHelpers.isTopLevelType(StubClassLocalB.class));
   }
 
   @Test
   public void testIsTopLevelClass9() {
     // anonymous class
-    assertFalse(ClassHelpers.isTopLevelType((new StubClassA("", 0, 0) { /* NOP */ }).getClass()));
+    assertFalse(TypeHelpers.isTopLevelType((new StubClassA("", 0, 0) { /* NOP */ }).getClass()));
   }
 
 
@@ -407,7 +407,7 @@ public class ClassHelpersTest {
 
   @Test
   public void testArrayClassForName() {
-    Class<ConstantHelpers[]> result = ClassHelpers.arrayClassForName(ConstantHelpers.class);
+    Class<ConstantHelpers[]> result = TypeHelpers.arrayClassForName(ConstantHelpers.class);
     assertEquals(ConstantHelpers[].class, result);
   }
 
