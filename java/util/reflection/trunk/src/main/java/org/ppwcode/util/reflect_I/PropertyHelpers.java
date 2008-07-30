@@ -42,7 +42,7 @@ import org.toryt.annotations_I.Throw;
  * <a href="http://commons.apache.org/beanutils/" target="extern">Apache Jakarta Commons BeanUtils</a>,
  * and not a replacement.
  *
- * @note The methods of the class {@code Beans} of the previous version have been moved here and into {@link ClassHelpers}.
+ * @note The methods of the class {@code Beans} of the previous version have been moved here and into {@link TypeHelpers}.
  *       Furthermore, a number of methods are removed, notably:
  * <dl>
  *   <dt>{@code PropertyDescriptor getPropertyDescriptor(final Class beanClass, final String propertyName)}</dt>
