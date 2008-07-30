@@ -14,12 +14,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.util.reflect_I;
+package org.ppwcode.util.reflect_I.teststubs;
 
 
-public class CloneableStubClassB extends CloneableStubClassA {
+public interface SuperSuperStubInterfaceB {
 
-  // explicitly no constructor defined, so there is a default default constructor
+  void stubMethod();
+
+  void stubMethodA();
 
 }
 

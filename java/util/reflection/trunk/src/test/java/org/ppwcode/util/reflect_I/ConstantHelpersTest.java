@@ -20,11 +20,15 @@ package org.ppwcode.util.reflect_I;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.ppwcode.util.reflect_I.CloneableStubClassA.STUB_PUBLIC_CONSTANT;
 import static org.ppwcode.util.reflect_I.ConstantHelpers.constant;
 import static org.ppwcode.util.reflect_I.ConstantHelpers.isConstant;
+import static org.ppwcode.util.reflect_I.teststubs.CloneableStubClassA.STUB_PUBLIC_CONSTANT;
 
 import org.junit.Test;
+import org.ppwcode.util.reflect_I.teststubs.AbstractSubSubStubClass;
+import org.ppwcode.util.reflect_I.teststubs.CloneableStubClassA;
+import org.ppwcode.util.reflect_I.teststubs.CloneableStubClassB;
+import org.ppwcode.util.reflect_I.teststubs.StubInterfaceGamma;
 
 
 public class ConstantHelpersTest {

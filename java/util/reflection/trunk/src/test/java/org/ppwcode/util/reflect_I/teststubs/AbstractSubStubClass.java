@@ -14,12 +14,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.util.reflect_I;
+package org.ppwcode.util.reflect_I.teststubs;
 
 
-public class AlternateStubClass extends SuperStubClass {
 
-  // explicitly no constructor defined, so there is a default default constructor
+public abstract class AbstractSubStubClass extends StubClass implements StubInterfaceAlpha, StubInterfaceBeta {
+
+  public void stubMethodAlpha() {
+    // NOP
+  }
 
 }
 

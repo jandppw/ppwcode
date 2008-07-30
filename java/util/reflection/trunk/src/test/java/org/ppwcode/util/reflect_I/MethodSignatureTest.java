@@ -36,6 +36,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.ppwcode.util.reflect_I.teststubs.AlternateStubClass;
+import org.ppwcode.util.reflect_I.teststubs.StubClass;
 
 
 public class MethodSignatureTest {
