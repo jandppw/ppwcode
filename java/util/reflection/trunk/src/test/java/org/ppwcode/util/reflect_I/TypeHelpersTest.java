@@ -26,12 +26,22 @@ import static org.ppwcode.util.reflect_I.TypeHelpers.PRIMITIVE_TYPES;
 import static org.ppwcode.util.reflect_I.TypeHelpers.PRIMITIVE_TYPES_BY_NAME;
 import static org.ppwcode.util.reflect_I.TypeHelpers.PRIMITIVE_TYPE_BINARY_NAMES;
 import static org.ppwcode.util.reflect_I.TypeHelpers.arrayType;
+import static org.ppwcode.util.reflect_I.TypeHelpers.isAbstract;
+import static org.ppwcode.util.reflect_I.TypeHelpers.isFinal;
 import static org.ppwcode.util.reflect_I.TypeHelpers.isInnerType;
+import static org.ppwcode.util.reflect_I.TypeHelpers.isPackageAccessible;
+import static org.ppwcode.util.reflect_I.TypeHelpers.isPrivate;
+import static org.ppwcode.util.reflect_I.TypeHelpers.isProtected;
+import static org.ppwcode.util.reflect_I.TypeHelpers.isPublic;
+import static org.ppwcode.util.reflect_I.TypeHelpers.isStatic;
 import static org.ppwcode.util.reflect_I.TypeHelpers.isTopLevelType;
 import static org.ppwcode.util.reflect_I.TypeHelpers.type;
 
+import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.junit.Test;
 import org.ppwcode.util.reflect_I.StubClass.StubClassA;
@@ -152,72 +162,95 @@ public class TypeHelpersTest {
   }
 
 
-  // isPublic
 
-  // MUDO test
+  public final static List<Class<?>> TYPE_SUBJECTS = new LinkedList<Class<?>>();
+  {
+    TYPE_SUBJECTS.addAll(PRIMITIVE_TYPES);
+    TYPE_SUBJECTS.add(String.class);
+    TYPE_SUBJECTS.add(ConstantHelpers.class);
+    TYPE_SUBJECTS.add(ConstantHelpersTest.class);
+    TYPE_SUBJECTS.add(StubClass.class);
+    TYPE_SUBJECTS.add(AlternateStubClass.class);
+    TYPE_SUBJECTS.add(StubClassA.class);
+    TYPE_SUBJECTS.add(StubClassB.class);
+    TYPE_SUBJECTS.add(StubClassInnerA.class);
+    TYPE_SUBJECTS.add(StubClassInnerA.StubClassInnerAInner.class);
+    TYPE_SUBJECTS.add(AbstractSubStubClass.class);
+    TYPE_SUBJECTS.add(StubInterfaceAlpha.class);
+    TYPE_SUBJECTS.add(CloneableStubClassA.class);
+    class LocalClass {
+      // NOP
+    }
+    TYPE_SUBJECTS.add(LocalClass.class);
+    TYPE_SUBJECTS.add((new StubClassA("", 0, 0) { /* NOP */ }).getClass());
+  }
+
+
+
+  // is...
+
   @Test
   public void testIsPublic() {
-    fail("Not yet implemented");
+    for (Class<?> type : TYPE_SUBJECTS) {
+      boolean result = isPublic(type);
+      boolean expected = Modifier.isPublic(type.getModifiers());
+      assertEquals(expected, result);
+    }
   }
 
-
-
-  // isProtected
-
-  // MUDO test
   @Test
   public void testIsProtected() {
-    fail("Not yet implemented");
+    for (Class<?> type : TYPE_SUBJECTS) {
+      boolean result = isProtected(type);
+      boolean expected = Modifier.isProtected(type.getModifiers());
+      assertEquals(expected, result);
+    }
   }
 
-
-
-  // isPrivate
-
-  // MUDO test
   @Test
   public void testIsPrivate() {
-    fail("Not yet implemented");
+    for (Class<?> type : TYPE_SUBJECTS) {
+      boolean result = isPrivate(type);
+      boolean expected = Modifier.isPrivate(type.getModifiers());
+      assertEquals(expected, result);
+    }
   }
 
-
-
-  // isPackageAccessible
-
-  // MUDO test
   @Test
   public void testIsPackageAccessible() {
-    fail("Not yet implemented");
+    for (Class<?> type : TYPE_SUBJECTS) {
+      boolean result = isPackageAccessible(type);
+      int tMods = type.getModifiers();
+      boolean expected = (! Modifier.isPublic(tMods)) && (! Modifier.isProtected(tMods)) && (! Modifier.isPrivate(tMods));
+      assertEquals(expected, result);
+    }
   }
 
-
-
-  // isStatic
-
-  // MUDO test
   @Test
   public void testIsStatic() {
-    fail("Not yet implemented");
+    for (Class<?> type : TYPE_SUBJECTS) {
+      boolean result = isStatic(type);
+      boolean expected = isTopLevelType(type) || Modifier.isStatic(type.getModifiers());
+      assertEquals(expected, result);
+    }
   }
 
-
-
-  // isAbstract
-
-  // MUDO test
   @Test
   public void testIsAbstract() {
-    fail("Not yet implemented");
+    for (Class<?> type : TYPE_SUBJECTS) {
+      boolean result = isAbstract(type);
+      boolean expected = Modifier.isInterface(type.getModifiers()) || Modifier.isAbstract(type.getModifiers());
+      assertEquals(expected, result);
+    }
   }
 
-
-
-  // isFinal
-
-  // MUDO test
   @Test
   public void testIsFinal() {
-    fail("Not yet implemented");
+    for (Class<?> type : TYPE_SUBJECTS) {
+      boolean result = isFinal(type);
+      boolean expected = Modifier.isFinal(type.getModifiers());
+      assertEquals(expected, result);
+    }
   }
 
 
@@ -226,36 +259,45 @@ public class TypeHelpersTest {
 
   @Test
   public void testIsInnerType() {
+    for (Class<?> type : TYPE_SUBJECTS) {
+      boolean result = TypeHelpers.isInnerType(type);
+      boolean expected = type.isLocalClass() || type.isAnonymousClass() || (type.isMemberClass() && (! isStatic(type)));
+      assertEquals(expected, result);
+    }
+  }
+
+  @Test
+  public void testIsInnerType1() {
     assertFalse(isInnerType(ConstantHelpers.class));
   }
 
   @Test
-  public void testIsInnerClass2() {
+  public void testIsInnerType2() {
     assertFalse(isInnerType(ConstantHelpers.class));
   }
 
   @Test
-  public void testIsInnerClass3() {
+  public void testIsInnerType3() {
     assertFalse(isInnerType(StubClassA.class));
   }
 
   @Test
-  public void testIsInnerClass4() {
+  public void testIsInnerType4() {
     assertFalse(isInnerType(StubClassB.class));
   }
 
   @Test
-  public void testIsInnerClass5() {
+  public void testIsInnerType5() {
     assertTrue(isInnerType(StubClassInnerA.class));
   }
 
   @Test
-  public void testIsInnerClass6() {
+  public void testIsInnerType6() {
     assertTrue(isInnerType(StubClassInnerB.class));
   }
 
   @Test
-  public void testIsInnerClass7() {
+  public void testIsInnerType7() {
     class StubClassLocalA {
       // NOP
     }
@@ -263,7 +305,7 @@ public class TypeHelpersTest {
   }
 
   @Test
-  public void testIsInnerClass8() {
+  public void testIsInnerType8() {
     class StubClassLocalA {
       // NOP
     }
@@ -274,7 +316,7 @@ public class TypeHelpersTest {
   }
 
   @Test
-  public void testIsInnerClass9() {
+  public void testIsInnerType9() {
     // anonymous class
     assertTrue(isInnerType((new StubClassA("", 0, 0) { /* NOP */ }).getClass()));
   }
@@ -285,6 +327,15 @@ public class TypeHelpersTest {
 
   @Test
   public void testIsTopLevelType() {
+    for (Class<?> type : TYPE_SUBJECTS) {
+      boolean result = isTopLevelType(type);
+      boolean expected = (type.getEnclosingClass() == null);
+      assertEquals(expected, result);
+    }
+  }
+
+  @Test
+  public void testIsTopLevelType1() {
     assertTrue(isTopLevelType(ConstantHelpersTest.class));
   }
 
@@ -337,8 +388,6 @@ public class TypeHelpersTest {
     // anonymous class
     assertFalse(isTopLevelType((new StubClassA("", 0, 0) { /* NOP */ }).getClass()));
   }
-
-
 
   // type
 
@@ -548,35 +597,35 @@ public class TypeHelpersTest {
   // arrayClassForName()
 
   @Test
-  public void testArrayClassForName1() {
+  public void testArrayType1() {
     Class<ConstantHelpers[]> result = arrayType(ConstantHelpers.class);
     assertEquals(ConstantHelpers[].class, result);
-    testArrayClassForName1(ConstantHelpers.class, result);
+    testArrayType1(ConstantHelpers.class, result);
   }
 
   @Test
-  public void testArrayClassForName2() {
+  public void testArrayType2() {
     Class<String[]> result = arrayType(String.class);
     assertEquals(String[].class, result);
-    testArrayClassForName1(String.class, result);
+    testArrayType1(String.class, result);
   }
 
   @Test
-  public void testArrayClassForName3() {
+  public void testArrayType3() {
     Class<String[][]> result = arrayType(String[].class);
     assertEquals(String[][].class, result);
-    testArrayClassForName1(String[].class, result);
+    testArrayType1(String[].class, result);
   }
 
   @Test
-  public void testArrayClassForName4() {
+  public void testArrayType4() {
     for (Class<?> pt : PRIMITIVE_TYPES) {
       Class<?> result = arrayType(pt);
-      testArrayClassForName1(pt, result);
+      testArrayType1(pt, result);
     }
   }
 
-  public void testArrayClassForName1(Class<?> componentType, Class<?> result) {
+  public void testArrayType1(Class<?> componentType, Class<?> result) {
     assertNotNull(result);
     assertTrue(result.isArray());
     assertEquals(componentType, result.getComponentType());
