@@ -51,7 +51,10 @@ import org.toryt.annotations_I.MethodContract;
   @Expression("parameterTypes != null"),
   @Expression("! Arrays.contains(parameterTypes, null)")
 })
-public class MethodSignature {
+public final class MethodSignature {
+
+  /*<construction>*/
+  //-------------------------------------------------------------------------
 
   /**
    * @pre signature != null;
@@ -130,6 +133,13 @@ public class MethodSignature {
     }
   }
 
+  /*/<construction>*/
+
+
+
+  /*<property name="method name">*/
+  //-------------------------------------------------------------------------
+
   @Basic
   public final String getMethodName() {
     return $methodName;
@@ -143,6 +153,13 @@ public class MethodSignature {
     @Expression("$methodName != EMPTY")
   })
   private final String $methodName;
+
+  /*/<property>*/
+
+
+
+  /*<property name="parameter type names">*/
+  //-------------------------------------------------------------------------
 
   @MethodContract(
     post = {
@@ -169,6 +186,13 @@ public class MethodSignature {
   })
   private final String[] $parameterTypeNames;
 
+  /*/<property>*/
+
+
+
+  /*<property name="parameter types">*/
+  //-------------------------------------------------------------------------
+
   @Basic
   public Class<?>[] getParameterTypes() {
     return $parameterTypes;
@@ -183,12 +207,22 @@ public class MethodSignature {
   })
   private final Class<?>[] $parameterTypes;
 
+  /*/<property>*/
+
+
+
+  /*<property name="number of parameters">*/
+  //-------------------------------------------------------------------------
+
   @MethodContract(
     post = @Expression("parameterTypes.length")
   )
   public final int getNumberOfParameters() {
     return $parameterTypes.length;
   }
+
+  /*/<property>*/
+
 
   /**
    * Signature of the represented method in expected format (without argument names).
