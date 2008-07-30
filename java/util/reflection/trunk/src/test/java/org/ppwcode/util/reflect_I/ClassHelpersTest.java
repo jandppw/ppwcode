@@ -20,7 +20,14 @@ package org.ppwcode.util.reflect_I;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.ppwcode.util.reflect_I.ClassHelpers.PRIMITIVE_TYPES;
+import static org.ppwcode.util.reflect_I.ClassHelpers.PRIMITIVE_TYPES_MAP;
 
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.HashSet;
+
+import org.junit.Assert;
 import org.junit.Test;
 import org.ppwcode.util.reflect_I.StubClass.StubClassA;
 import org.ppwcode.util.reflect_I.StubClass.StubClassB;
@@ -29,6 +36,49 @@ import org.ppwcode.util.reflect_I.StubClass.StubClassInnerB;
 
 
 public class ClassHelpersTest {
+
+//  @Test
+//  public void demoPrimitiveTypeName() {
+//    System.out.println("Boolean.TYPE.getSimpleName(): " + Boolean.TYPE.getSimpleName());
+//  }
+
+  @Test
+  public void demoArrayClass() throws ClassNotFoundException {
+    System.out.println(Object[].class);
+    System.out.println(Object[][].class);
+    System.out.println(int[][].class);
+    Class<?> result = Class.forName("java.lang.Object");
+    assertEquals(Object.class, result);
+    Method[] ms = StubClass.class.getDeclaredMethods();
+    for (Method method : ms) {
+      System.out.print(method.getName() + ": ");
+      for (Class<?> c : method.getParameterTypes()) {
+        System.out.print(c + ", ");
+      }
+      System.out.println();
+    }
+    result = Class.forName("[Ljava.lang.Object;"); // java.lang.Object[]
+    assertEquals(Object[].class, result);
+    result = Class.forName("[[Ljava.lang.Object;"); // java.lang.Object[][]
+    assertEquals(Object[][].class, result);
+    result = Class.forName("[[I"); // int[][]
+    assertEquals(int[][].class, result);
+  }
+
+  @Test
+  public void testPRIMITIVE_TYPES() {
+    Class<?>[] expected = {Boolean.TYPE, Byte.TYPE, Character.TYPE, Short.TYPE,
+                           Integer.TYPE, Long.TYPE, Float.TYPE, Double.TYPE};
+    assertEquals(new HashSet<Class<?>>(Arrays.asList(expected)), PRIMITIVE_TYPES);
+  }
+
+  @Test
+  public void testPRIMITIVE_TYPES_MAP() {
+    for (Class<?> pt : PRIMITIVE_TYPES) {
+      PRIMITIVE_TYPES_MAP.get(pt.getSimpleName()).equals(pt);
+    }
+    assertEquals(PRIMITIVE_TYPES, new HashSet<Class<?>>(PRIMITIVE_TYPES_MAP.values()));
+  }
 
   // loadForName
 

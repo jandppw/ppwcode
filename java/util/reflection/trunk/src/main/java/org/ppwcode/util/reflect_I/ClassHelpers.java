@@ -22,10 +22,17 @@ import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import java.beans.Beans;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.Invars;
 
 
 /**
@@ -34,7 +41,13 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
  *   vernacular is applied.</p>
  *
  * <h3 id="onNestedClasses">On nested classes</h3>
- * <p><dfn>Nested types</dfn> are either <dfn>member types</dfn> of
+ * <p>On close inspection, the terminology on <dfn>nested classes</dfn> turns out to be
+ *   somewhat contrived. Terms used are <dfn>top level types</dfn>, <dfn>nested types</dfn>, <dfn>member types</dfn>,
+ *   <dfn>local classes</dfn>, <dfn>anonymous classes</dfn>, <dfn>inner classes</dfn>
+ *   and <dfn>static classes</dfn>. These terms don't however relate as, at least we, would expect.</p>
+ * <h4>According to the Java Language Specification</h4>
+ * <p>According to the <cite><a href="http://java.sun.com/docs/books/jls/third_edition/html/">Java Language Specification</a></cite>,
+ *   <dfn>Nested types</dfn> are either <dfn>member types</dfn> of
  *   an enclosing class, or <dfn>local classes</dfn> or <dfn>anonymous
  *   classes</dfn>, i.e., classes defined inside an enclosing method or
  *   code block, resp. with or without a name. Types defined inside an
@@ -46,6 +59,7 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
  *   defined, which can be referenced from within the inner class. <dfn>static
  *   classes</dfn> are either member classes that are defined to be static or
  *   <dfn>top level classes</dfn>.</p>
+ * <p>These definitions come from the following sources:</p>
  * <blockquote>
  *   <p>A nested class is any class whose declaration occurs within the body of
  *     another class or interface. A top level class is a class that is not a
@@ -84,6 +98,7 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
  *     (§8.1.1, §8.5.2).</p>
  *   <cite><a href="http://java.sun.com/docs/books/jls/third_edition/html/expressions.html">Java Language Specification, Chapter 15</a></cite>
  * </blockquote>
+ * <p>The following table is a synopsis of the relation of the terms concerning top level and nested types:</p>
  * <table>
  *   <tr>
  *     <td></td>
@@ -115,7 +130,25 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
  *     <td align="center">-</td>
  *   </tr>
  * </table>
- *
+ * <h4>In the context of this class</h4>
+ * <p>In the context of the code in this class, <dfn>types in a code block</dfn> are considered irrelevant:
+ *   whether or not the type is a local type or an anonyouns class, there is no practical need to
+ *   load the types in outside code in the type of programs this libary addresses.</p>
+ * <p>So, for all practical purposes, we can speak in this class about:</p>
+ * <ul>
+ *   <li><dfn>top level types</dfn></li>,
+ *   <li><dfn>nested types</dfn in general
+ *     <ul>
+ *       <li><dfn>inner types</dfn>, <dfn>non-static nested types</dfn> or <dfn>dynamic nested types</dfn>
+ *         (nested classes of which the instances have an outer instance)</li>
+ *       <li><dfn>static nested types</dfn> (nested classes of which the instances do not have an outer
+ *         instance), and finally</li>
+ *       <li><dfn>enclosing types</dfn>, i.e., the types in which nested types are nested, and the
+ *         <dfn>immediately enclosing type</dfn>, i.e., the type in which a nested type is nested directly,
+ *         without further enclosing types inbetween.</li>
+ *     </ul>
+ *   </li>
+ * </ul>
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
@@ -131,11 +164,66 @@ public class ClassHelpers {
   }
 
   /**
-   * {@link Class#forName(String)} that has a simpler exception model, also
-   * works for primitive types, and has an embedded &quot;import&quot; for
-   * the package {@code java.lang}. This method also handles member types
-   * with the dotnotation (where {@link Class#forName(String)} requires
-   * &quot;$&quot; separation for member types).
+   * All Java primitive types.
+   */
+  @Invars(
+    @Expression("PRIMITIVE_TYPES == " +
+      "Set{Boolean.TYPE, Byte.TYPE, Character.TYPE, Short.TYPE, Integer.TYPE, Long.TYPE, Float.TYPE, Double.TYPE}")
+  )
+  private final static Set<Class<?>> PRIMITIVE_TYPES_INTERNAL = new HashSet<Class<?>>(8);
+  static {
+    PRIMITIVE_TYPES_INTERNAL.add(Boolean.TYPE);
+    PRIMITIVE_TYPES_INTERNAL.add(Byte.TYPE);
+    PRIMITIVE_TYPES_INTERNAL.add(Character.TYPE);
+    PRIMITIVE_TYPES_INTERNAL.add(Short.TYPE);
+    PRIMITIVE_TYPES_INTERNAL.add(Integer.TYPE);
+    PRIMITIVE_TYPES_INTERNAL.add(Long.TYPE);
+    PRIMITIVE_TYPES_INTERNAL.add(Float.TYPE);
+    PRIMITIVE_TYPES_INTERNAL.add(Double.TYPE);
+  }
+
+  /**
+   * All Java primitive types.
+   */
+  @Invars(
+    @Expression("PRIMITIVE_TYPES == " +
+      "Set{Boolean.TYPE, Byte.TYPE, Character.TYPE, Short.TYPE, Integer.TYPE, Long.TYPE, Float.TYPE, Double.TYPE}")
+  )
+  public final static Set<Class<?>> PRIMITIVE_TYPES = Collections.unmodifiableSet(PRIMITIVE_TYPES_INTERNAL);
+
+  /**
+   * A map of all primitive types, with their simple name as key.
+   */
+  @Invars({
+    @Expression("for (Class<?> primitiveType : PRIMITIVE_TYPES_MAP_INTERNAL) {" +
+                  "PRIMITIVE_TYPES_MAP_INTERNAL[primitiveType.simpleName] == primitiveType" +
+                 "}"),
+    @Expression("PRIMITIVE_TYPES_MAP_INTERNAL.values == PRIMITIVE_TYPES")
+  })
+  private final static Map<String, Class<?>> PRIMITIVE_TYPES_MAP_INTERNAL = new HashMap<String, Class<?>>(8);
+  static {
+    for (Class<?> primitiveType : PRIMITIVE_TYPES) {
+      PRIMITIVE_TYPES_MAP_INTERNAL.put(primitiveType.getSimpleName(), primitiveType);
+    }
+  }
+
+  /**
+   * A map of all primitive types, with their simple name as key.
+   */
+  @Invars({
+    @Expression("for (Class<?> primitiveType : PRIMITIVE_TYPES) {" +
+                  "PRIMITIVE_TYPES_MAP[primitiveType.simpleName] == primitiveType" +
+                 "}"),
+    @Expression("PRIMITIVE_TYPES.values == PRIMITIVE_TYPES")
+  })
+  public final static Map<String, Class<?>> PRIMITIVE_TYPES_MAP = Collections.unmodifiableMap(PRIMITIVE_TYPES_MAP_INTERNAL);
+
+  /**
+   * <p>{@link Class#forName(String)} with a simpler exception model.</p>
+   * <p>This method also works for primitive types, and has an embedded &quot;import&quot; for the package
+   *   {@code java.lang}.</p>
+   * <p>This method handles member types with the dot notation (where {@link Class#forName(String)} requires
+   *   <dfn>binary</dfn> &quot;$&quot; separation for member types).</p>
    *
    * @result result != null
    * @result "boolean".equals(fqn) ?? result == Boolean.TYPE;
@@ -159,78 +247,58 @@ public class ClassHelpers {
    *           (! "int".equals(fqn)) && (! "long".equals(fqn)) &&
    *           (! "float".equals(fqn)) && (! "double".equals(fqn)) ?
    *         Class.forName(fqn) throws && Class.forName("java.lang." + fqn) throws;
+   *
+   * @mudo This method should also support array type with the &quot;[]&quot; notation.
    */
   public static Class<?> loadForName(String fqn) throws _CannotGetClassException {
     if (fqn == null) {
       throw new _CannotGetClassException(fqn, new NullPointerException("fqn is null"));
     }
-    else if ("boolean".equals(fqn)) {
-      return Boolean.TYPE;
+    Class<?> primitiveType = PRIMITIVE_TYPES_MAP.get(fqn);
+    if (primitiveType != null) {
+      return primitiveType;
     }
-    else if ("byte".equals(fqn)) {
-      return Byte.TYPE;
-    }
-    else if ("char".equals(fqn)) {
-      return Character.TYPE;
-    }
-    else if ("short".equals(fqn)) {
-      return Short.TYPE;
-    }
-    else if ("int".equals(fqn)) {
-     return Integer.TYPE;
-    }
-    else if ("long".equals(fqn)) {
-      return Long.TYPE;
-    }
-    else if ("float".equals(fqn)) {
-      return Float.TYPE;
-    }
-    else if ("double".equals(fqn)) {
-      return Double.TYPE;
-    }
-    else {
+    try {
       try {
-        try {
-          return Class.forName(fqn);
+        return Class.forName(fqn);
+      }
+      catch (ClassNotFoundException cnfExc) {
+        if (! fqn.contains(".")) {
+          // there are no member classes in java.lang, are there?
+          try {
+            return Class.forName("java.lang." + fqn);
+          }
+          catch (ClassNotFoundException cnfExc2) {
+            throw new _CannotGetClassException(fqn, cnfExc2);
+          }
         }
-        catch (ClassNotFoundException cnfExc) {
-          if (! fqn.contains(".")) {
-            // there are no member classes in java.lang, are there?
+        else { // let's try for member classes
+          // from right to left, replace "." with "$"
+          String[] names = fqn.split("\\."); // regex
+          for (int i = names.length - 2; i >= 0; i--) {
+            StringBuffer build = new StringBuffer();
+            for (int j = 0; j < names.length; j++) {
+              build.append(names[j]);
+              if (j < names.length - 1) {
+                build.append((j < i) ? "." : "$");
+              }
+            }
+            String tryThis = build.toString();
             try {
-              return Class.forName("java.lang." + fqn);
+              return Class.forName(tryThis);
             }
             catch (ClassNotFoundException cnfExc2) {
-              throw new _CannotGetClassException(fqn, cnfExc2);
+              // NOP; try with i--
             }
           }
-          else { // let's try for member classes
-            // from right to left, replace "." with "$"
-            String[] names = fqn.split("\\."); // regex
-            for (int i = names.length - 2; i >= 0; i--) {
-              StringBuffer build = new StringBuffer();
-              for (int j = 0; j < names.length; j++) {
-                build.append(names[j]);
-                if (j < names.length - 1) {
-                  build.append((j < i) ? "." : "$");
-                }
-              }
-              String tryThis = build.toString();
-              try {
-                return Class.forName(tryThis);
-              }
-              catch (ClassNotFoundException cnfExc2) {
-                // NOP; try with i--
-              }
-            }
-            // if we get here, we finally give up
-            throw new _CannotGetClassException(fqn, null);
-          }
+          // if we get here, we finally give up
+          throw new _CannotGetClassException(fqn, null);
         }
       }
-      catch (LinkageError lErr) {
-        // also catches ExceptionInInitializerError
-        throw new _CannotGetClassException(fqn, lErr);
-      }
+    }
+    catch (LinkageError lErr) {
+      // also catches ExceptionInInitializerError
+      throw new _CannotGetClassException(fqn, lErr);
     }
   }
 
