@@ -20,7 +20,6 @@ package org.ppwcode.util.reflect_I;
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.pre;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.preArgumentNotEmpty;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.unexpectedException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -92,12 +91,7 @@ public class MethodSignature {
     for (int i = 0; i < $parameterTypeNames.length; i++) {
       String parameterTypeName = $parameterTypeNames[i];
 // MUDO deal with [] array types
-      try {
-        $parameterTypes[i] = TypeHelpers.loadForName(parameterTypeName);
-      }
-      catch (_CannotGetClassException cgcExc) {
-        unexpectedException(cgcExc, "\"" + signature + "\": class " + parameterTypeName + " cannot be loaded");
-      }
+      $parameterTypes[i] = TypeHelpers.loadForName(parameterTypeName);
       $parameterTypeNames[i] = $parameterTypes[i].getCanonicalName();
     }
   }
