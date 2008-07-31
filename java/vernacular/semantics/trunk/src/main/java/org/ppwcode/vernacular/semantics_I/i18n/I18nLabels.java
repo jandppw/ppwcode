@@ -24,6 +24,7 @@ import static org.ppwcode.util.resourcebundle.ResourceBundles.findKeyInTypePrope
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.ppwcode.util.resourcebundle.ResourceBundleLoadStrategy;
 import org.ppwcode.util.resourcebundle.ResourceBundles;
 import org.ppwcode.vernacular.semantics_I.exception.PropertyException;
 
