@@ -15,7 +15,7 @@ limitations under the License.
 </license>*/
 
 
-package org.ppwcode.vernacular.semantics_I.exception;
+package org.ppwcode.vernacular.semantics_I.bean;
 
 
 import static org.junit.Assert.assertEquals;
@@ -32,6 +32,8 @@ import java.util.Set;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.ppwcode.vernacular.semantics_I.bean.AbstractSemanticBean;
+import org.ppwcode.vernacular.semantics_I.bean.SemanticBean;
 
 
 public class AbstractSemanticBeanTest {
