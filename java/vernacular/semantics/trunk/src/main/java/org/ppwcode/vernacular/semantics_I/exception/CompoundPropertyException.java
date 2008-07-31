@@ -92,16 +92,16 @@ public final class CompoundPropertyException extends PropertyException {
    */
   @MethodContract(
     pre  = {
-      @Expression("^origin != null"),
-      @Expression("^propertyName != null ? hasProperty(^origin.class, ^propertyName)"),
-      @Expression("^message == null || ! ^message.equals(EMPTY)")
+      @Expression("_origin != null"),
+      @Expression("_propertyName != null ? hasProperty(_origin.class, _propertyName)"),
+      @Expression("_message == null || ! _message.equals(EMPTY)")
     },
     post = {
-      @Expression("origin == ^origin"),
-      @Expression("originType == ^origin.class"),
-      @Expression("propertyName == ^propertyName"),
+      @Expression("origin == _origin"),
+      @Expression("originType == _origin.class"),
+      @Expression("propertyName == _propertyName"),
       @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
-      @Expression("cause == ^cause")
+      @Expression("cause == _cause")
     }
   )
   public CompoundPropertyException(final Object origin, final String propertyName, final String message, final Throwable cause) {
@@ -129,16 +129,16 @@ public final class CompoundPropertyException extends PropertyException {
    */
   @MethodContract(
     pre  = {
-      @Expression("^origin != null"),
-      @Expression("^propertyName != null ? hasProperty(^origin.class, ^propertyName)"),
-      @Expression("^message == null || ! ^message.equals(EMPTY)")
+      @Expression("_origin != null"),
+      @Expression("_propertyName != null ? hasProperty(_origin.class, _propertyName)"),
+      @Expression("_message == null || ! _message.equals(EMPTY)")
     },
     post = {
-      @Expression("inOriginInitialization ? origin == null : origin == ^origin"),
-      @Expression("originType == ^origin.class"),
-      @Expression("propertyName == ^propertyName"),
+      @Expression("inOriginInitialization ? origin == null : origin == _origin"),
+      @Expression("originType == _origin.class"),
+      @Expression("propertyName == _propertyName"),
       @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
-      @Expression("cause == ^cause")
+      @Expression("cause == _cause")
     }
   )
   public CompoundPropertyException(final Object origin,
@@ -165,16 +165,16 @@ public final class CompoundPropertyException extends PropertyException {
    */
   @MethodContract(
     pre  = {
-      @Expression("^originType != null"),
-      @Expression("^propertyName != null ? hasProperty(^origin.class, ^propertyName)"),
-      @Expression("^message == null || ! ^message.equals(EMPTY)")
+      @Expression("_originType != null"),
+      @Expression("_propertyName != null ? hasProperty(_origin.class, _propertyName)"),
+      @Expression("_message == null || ! _message.equals(EMPTY)")
     },
     post = {
       @Expression("origin == null"),
-      @Expression("originType == ^originType"),
-      @Expression("propertyName == ^propertyName"),
+      @Expression("originType == _originType"),
+      @Expression("propertyName == _propertyName"),
       @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
-      @Expression("cause == ^cause")
+      @Expression("cause == _cause")
     }
   )
   public CompoundPropertyException(final Class<?> originType, final String propertyName, final String message, final Throwable cause) {
@@ -285,19 +285,19 @@ public final class CompoundPropertyException extends PropertyException {
    */
   @MethodContract(
     post = {
-      @Expression("elementExceptions.containsKey(^pExc.propertyName)"),
-      @Expression("elementExceptions[^pExc.propertyName].contains(^pExc)"),
+      @Expression("elementExceptions.containsKey(_pExc.propertyName)"),
+      @Expression("elementExceptions[_pExc.propertyName].contains(_pExc)"),
       @Expression(value = "! 'closed",
                   description = "since we cannot make true something in the old state, an exception " +
                                 "has to be thrown when the exception is closed in the old state")
     },
     exc = {
       @Throw(type = IllegalStateException.class, cond = @Expression("'closed")),
-      @Throw(type = IllegalArgumentException.class, cond = @Expression("^pExc instanceof CompoundPropertyException")),
-      @Throw(type = IllegalArgumentException.class, cond = @Expression("^pExc == null")),
-      @Throw(type = IllegalArgumentException.class, cond = @Expression("propertyName != null && ^pExc.propertyName != propertyName")),
-      @Throw(type = IllegalArgumentException.class, cond = @Expression("^pExc.origin != origin")),
-      @Throw(type = IllegalArgumentException.class, cond = @Expression("^pExc.originType != originType"))
+      @Throw(type = IllegalArgumentException.class, cond = @Expression("_pExc instanceof CompoundPropertyException")),
+      @Throw(type = IllegalArgumentException.class, cond = @Expression("_pExc == null")),
+      @Throw(type = IllegalArgumentException.class, cond = @Expression("propertyName != null && _pExc.propertyName != propertyName")),
+      @Throw(type = IllegalArgumentException.class, cond = @Expression("_pExc.origin != origin")),
+      @Throw(type = IllegalArgumentException.class, cond = @Expression("_pExc.originType != originType"))
     }
   )
   public void addElementException(final PropertyException pExc)
@@ -419,7 +419,7 @@ public final class CompoundPropertyException extends PropertyException {
    * with reference semantics.
    */
   @MethodContract(
-    post = @Expression("^pe != null && elementExceptions[pe.propertyName] != null && " +
+    post = @Expression("_pe != null && elementExceptions[pe.propertyName] != null && " +
                    "exists(PropertyException pe : elementExceptions[pe.propertyName]) {pe.like(_pe)}")
   )
   public final boolean contains(PropertyException pe) {
@@ -444,8 +444,8 @@ public final class CompoundPropertyException extends PropertyException {
 //   */
 //  @MethodContract(
 //    post = {
-//      @Expression("elementExceptions.containsKey(^propertyName)"),
-//      @Expression("exists(PropertyException pe : elementExceptions[^propertyName]) {pe.hasProperties(^origin, ^propertyName, ^message, ^cause}")
+//      @Expression("elementExceptions.containsKey(_propertyName)"),
+//      @Expression("exists(PropertyException pe : elementExceptions[_propertyName]) {pe.hasProperties(_origin, _propertyName, _message, _cause}")
 //    }
 //  )
 //  EXCEPTION TYPE ADDED
@@ -471,8 +471,8 @@ public final class CompoundPropertyException extends PropertyException {
 //   */
 //  @MethodContract(
 //    post = {
-//      @Expression("elementExceptions.containsKey(^propertyName) && " +
-//                  "exists(PropertyException pe : elementExceptions[^propertyName]) {pe.hasProperties(^originType, ^propertyName, ^message, ^cause}")
+//      @Expression("elementExceptions.containsKey(_propertyName) && " +
+//                  "exists(PropertyException pe : elementExceptions[_propertyName]) {pe.hasProperties(_originType, _propertyName, _message, _cause}")
 //    }
 //  )
 //  public final boolean contains(final Class<?> originType, final String propertyName, final String message, final Throwable cause) {
@@ -495,7 +495,7 @@ public final class CompoundPropertyException extends PropertyException {
 //  /*<section name="reports on">*/
 //  //------------------------------------------------------------------
 //
-//  @MethodContract(post = @Expression("contains(^origin, ^propertyName, ^message, ^cause)"))
+//  @MethodContract(post = @Expression("contains(_origin, _propertyName, _message, _cause)"))
 //  @Override
 //  public final boolean reportsOn(final Object origin, final String propertyName, final String message, final Throwable cause) {
 //    return contains(origin, propertyName, message, cause);
@@ -504,7 +504,7 @@ public final class CompoundPropertyException extends PropertyException {
 //  /**
 //   * @since IV
 //   */
-//  @MethodContract(post = @Expression("contains(^originType, ^propertyName, ^message, ^cause)"))
+//  @MethodContract(post = @Expression("contains(_originType, _propertyName, _message, _cause)"))
 //  @Override
 //  public final boolean reportsOn(final Class<?> originType, final String propertyName, final String message, final Throwable cause) {
 //    return contains(originType, propertyName, message, cause);
