@@ -84,19 +84,19 @@ public class ValuePropertyException extends PropertyException {
    */
   @MethodContract(
     pre  = {
-      @Expression("^origin != null"),
-      @Expression("^propertyName != null"),
-      @Expression("hasProperty(^origin.class, ^propertyName)"),
-      @Expression("^message == null || ! ^message.equals(EMPTY)")
+      @Expression("_origin != null"),
+      @Expression("_propertyName != null"),
+      @Expression("hasProperty(_origin.class, _propertyName)"),
+      @Expression("_message == null || ! _message.equals(EMPTY)")
     },
     post = {
-      @Expression("origin == ^origin"),
-      @Expression("originType == ^origin.class"),
-      @Expression("propertyName == ^propertyName"),
-      @Expression("propertyValue == safeReference(^origin[^propertyName])"),
-      @Expression("value == ^ value"),
+      @Expression("origin == _origin"),
+      @Expression("originType == _origin.class"),
+      @Expression("propertyName == _propertyName"),
+      @Expression("propertyValue == safeReference(_origin[_propertyName])"),
+      @Expression("value == _ value"),
       @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
-      @Expression("cause == ^cause")
+      @Expression("cause == _cause")
     }
   )
   public ValuePropertyException(final Object origin,
@@ -130,18 +130,18 @@ public class ValuePropertyException extends PropertyException {
    */
   @MethodContract(
     pre  = {
-      @Expression("^origin != null"),
-      @Expression("^propertyName != null"),
-      @Expression("hasProperty(^origin.class, ^propertyName)"),
-      @Expression("^message == null || ! ^message.equals(EMPTY)")
+      @Expression("_origin != null"),
+      @Expression("_propertyName != null"),
+      @Expression("hasProperty(_origin.class, _propertyName)"),
+      @Expression("_message == null || ! _message.equals(EMPTY)")
     },
     post = {
-      @Expression("inOriginInitialization ? origin == null : origin == ^origin"),
-      @Expression("originType == ^origin.class"),
-      @Expression("propertyName == ^propertyName"),
-      @Expression("propertyValue == (inOriginInitialization ? null : safeReference(^origin[^propertyName]))"),
+      @Expression("inOriginInitialization ? origin == null : origin == _origin"),
+      @Expression("originType == _origin.class"),
+      @Expression("propertyName == _propertyName"),
+      @Expression("propertyValue == (inOriginInitialization ? null : safeReference(_origin[_propertyName]))"),
       @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
-      @Expression("cause == ^cause")
+      @Expression("cause == _cause")
     }
   )
   public ValuePropertyException(final Object origin,
@@ -173,18 +173,18 @@ public class ValuePropertyException extends PropertyException {
    */
   @MethodContract(
     pre  = {
-      @Expression("^originType != null"),
-      @Expression("^propertyName != null"),
-      @Expression("hasProperty(^originType, ^propertyName)"),
-      @Expression("^message == null || ! ^message.equals(EMPTY)")
+      @Expression("_originType != null"),
+      @Expression("_propertyName != null"),
+      @Expression("hasProperty(_originType, _propertyName)"),
+      @Expression("_message == null || ! _message.equals(EMPTY)")
     },
     post = {
       @Expression("origin == null"),
-      @Expression("originType == ^originType"),
-      @Expression("propertyName == ^propertyName"),
+      @Expression("originType == _originType"),
+      @Expression("propertyName == _propertyName"),
       @Expression("propertyValue == null"),
       @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
-      @Expression("cause == ^cause")
+      @Expression("cause == _cause")
     }
   )
   public ValuePropertyException(final Class<?> originType,
