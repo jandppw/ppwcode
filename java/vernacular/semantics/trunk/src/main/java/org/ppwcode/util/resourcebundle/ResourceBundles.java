@@ -21,7 +21,7 @@ import java.util.LinkedList;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import org.ppwcode.i18n_I.ResourceBundleLoadStrategy;
+import org.ppwcode.vernacular.semantics_I.i18n.ResourceBundleLoadStrategy;
 
 
 /**

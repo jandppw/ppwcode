@@ -14,18 +14,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.i18n_I;
+package org.ppwcode.vernacular.semantics_I.i18n;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.PropertyHelpers.getPropertyType;
 import static org.ppwcode.util.resourcebundle.ResourceBundles.findKeyInTypeProperties;
 
-import org.ppwcode.bean_VI.PropertyException;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.util.resourcebundle.ResourceBundles;
+import org.ppwcode.vernacular.semantics_I.exception.PropertyException;
 
 
 /**

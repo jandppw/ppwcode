@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.i18n_I;
+package org.ppwcode.vernacular.semantics_I.i18n;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
