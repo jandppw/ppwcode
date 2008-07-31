@@ -99,7 +99,7 @@ public interface RousseauBean extends SemanticBean {
       @Expression("! result.closed"),
       @Expression("result.origin == this"),
       @Expression("result.propertyName == null"),
-      @Expression("result.message == null"),
+      @Expression("result.message == InternalException.DEFAULT_MESSAGE_KEY"),
       @Expression("result.cause == null")
     }
   )
