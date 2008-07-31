@@ -100,7 +100,7 @@ public final class CompoundPropertyException extends PropertyException {
       @Expression("origin == ^origin"),
       @Expression("originType == ^origin.class"),
       @Expression("propertyName == ^propertyName"),
-      @Expression("message == ^message"),
+      @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
       @Expression("cause == ^cause")
     }
   )
@@ -137,7 +137,7 @@ public final class CompoundPropertyException extends PropertyException {
       @Expression("inOriginInitialization ? origin == null : origin == ^origin"),
       @Expression("originType == ^origin.class"),
       @Expression("propertyName == ^propertyName"),
-      @Expression("message == ^message"),
+      @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
       @Expression("cause == ^cause")
     }
   )
@@ -173,7 +173,7 @@ public final class CompoundPropertyException extends PropertyException {
       @Expression("origin == null"),
       @Expression("originType == ^originType"),
       @Expression("propertyName == ^propertyName"),
-      @Expression("message == ^message"),
+      @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
       @Expression("cause == ^cause")
     }
   )
