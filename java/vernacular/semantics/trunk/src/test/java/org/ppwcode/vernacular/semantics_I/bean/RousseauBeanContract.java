@@ -22,6 +22,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.ppwcode.vernacular.exception_II.InternalException.DEFAULT_MESSAGE_KEY;
 
 import org.ppwcode.vernacular.semantics_I.exception.CompoundPropertyException;
 
@@ -50,10 +51,9 @@ public class RousseauBeanContract {
   public static void contractGetWildExceptions(RousseauBean subject, CompoundPropertyException result) {
     assertNotNull(result);
     assertFalse(result.isClosed());
-    assertTrue(result.getOrigin() == subject);
+    assertEquals(subject, result.getOrigin());
     assertNull(result.getPropertyName());
-    assertNull(result.getMessage());
-    assertNull(result.getMessage());
+    assertEquals(DEFAULT_MESSAGE_KEY, result.getMessage());
     assertNull(result.getCause());
   }
 
