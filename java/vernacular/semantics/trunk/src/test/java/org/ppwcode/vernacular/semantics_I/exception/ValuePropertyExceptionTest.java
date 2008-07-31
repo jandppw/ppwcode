@@ -22,6 +22,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.ppwcode.util.reflect_I.PropertyHelpers.hasProperty;
+import static org.ppwcode.vernacular.exception_II.InternalException.DEFAULT_MESSAGE_KEY;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
@@ -142,7 +143,7 @@ public class ValuePropertyExceptionTest {
     assertEquals(origin.getClass(), subject.getOriginType());
     assertEquals(propertyName, subject.getPropertyName());
     assertEquals(PropertyUtils.getProperty(origin, propertyName), subject.getPropertyValue());
-    assertEquals(message, subject.getMessage());
+    assertEquals(message == null ? DEFAULT_MESSAGE_KEY : message, subject.getMessage());
     assertEquals(cause, subject.getCause());
     PropertyExceptionTest.assertTypeInvariants(subject);
     assertTypeInvariants(subject);
@@ -176,7 +177,7 @@ public class ValuePropertyExceptionTest {
     assertEquals(propertyName, subject.getPropertyName());
     assertEquals(inOriginInitialization ? null : PropertyUtils.getProperty(origin, propertyName),
                  subject.getPropertyValue());
-    assertEquals(message, subject.getMessage());
+    assertEquals(message == null ? DEFAULT_MESSAGE_KEY : message, subject.getMessage());
     assertEquals(cause, subject.getCause());
     PropertyExceptionTest.assertTypeInvariants(subject);
     assertTypeInvariants(subject);
@@ -209,7 +210,7 @@ public class ValuePropertyExceptionTest {
     assertEquals(originType, subject.getOriginType());
     assertEquals(propertyName, subject.getPropertyName());
     assertNull(subject.getPropertyValue());
-    assertEquals(message, subject.getMessage());
+    assertEquals(message == null ? DEFAULT_MESSAGE_KEY : message, subject.getMessage());
     assertEquals(cause, subject.getCause());
     PropertyExceptionTest.assertTypeInvariants(subject);
     assertTypeInvariants(subject);

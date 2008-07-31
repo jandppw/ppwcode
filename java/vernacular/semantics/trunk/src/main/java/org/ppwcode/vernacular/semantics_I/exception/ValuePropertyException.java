@@ -95,7 +95,7 @@ public class ValuePropertyException extends PropertyException {
       @Expression("propertyName == ^propertyName"),
       @Expression("propertyValue == safeReference(^origin[^propertyName])"),
       @Expression("value == ^ value"),
-      @Expression("message == ^message"),
+      @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
       @Expression("cause == ^cause")
     }
   )
@@ -140,7 +140,7 @@ public class ValuePropertyException extends PropertyException {
       @Expression("originType == ^origin.class"),
       @Expression("propertyName == ^propertyName"),
       @Expression("propertyValue == (inOriginInitialization ? null : safeReference(^origin[^propertyName]))"),
-      @Expression("message == ^message"),
+      @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
       @Expression("cause == ^cause")
     }
   )
@@ -183,7 +183,7 @@ public class ValuePropertyException extends PropertyException {
       @Expression("originType == ^originType"),
       @Expression("propertyName == ^propertyName"),
       @Expression("propertyValue == null"),
-      @Expression("message == ^message"),
+      @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
       @Expression("cause == ^cause")
     }
   )
