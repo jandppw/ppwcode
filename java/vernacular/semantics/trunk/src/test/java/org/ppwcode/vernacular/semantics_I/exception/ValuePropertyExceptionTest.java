@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.bean_VI;
+package org.ppwcode.vernacular.semantics_I.exception;
 
 
 import static org.junit.Assert.assertEquals;
@@ -32,7 +32,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.ppwcode.bean_VI.PropertyExceptionTest.OriginStub;
+import org.ppwcode.vernacular.semantics_I.exception.PropertyExceptionTest.OriginStub;
 
 
 public class ValuePropertyExceptionTest {

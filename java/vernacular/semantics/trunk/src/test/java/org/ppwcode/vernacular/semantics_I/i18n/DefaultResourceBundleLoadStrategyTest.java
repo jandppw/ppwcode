@@ -4,7 +4,7 @@
   TO SELECTED PARTIES.
 </license>*/
 
-package org.ppwcode.i18n_I;
+package org.ppwcode.vernacular.semantics_I.i18n;
 
 
 import static org.junit.Assert.assertEquals;
