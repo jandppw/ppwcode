@@ -99,7 +99,7 @@ public class PropertyException extends SemanticException {
       @Expression("origin == _origin"),
       @Expression("originType == _origin.class"),
       @Expression("propertyName == _propertyName"),
-      @Expression("message == _message"),
+      @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
       @Expression("cause == _cause")
     }
   )
@@ -147,7 +147,7 @@ public class PropertyException extends SemanticException {
       @Expression("_inOriginInitialization ? origin == null : origin == _origin"),
       @Expression("originType == _origin.class"),
       @Expression("propertyName == _propertyName"),
-      @Expression("message == _message"),
+      @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
       @Expression("cause == _cause")
     }
   )
@@ -192,7 +192,7 @@ public class PropertyException extends SemanticException {
       @Expression("origin == null"),
       @Expression("originType == _originType"),
       @Expression("propertyName == _propertyName"),
-      @Expression("message == _message"),
+      @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
       @Expression("cause == _cause")
     }
   )
