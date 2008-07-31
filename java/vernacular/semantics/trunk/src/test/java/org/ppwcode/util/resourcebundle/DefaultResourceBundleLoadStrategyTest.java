@@ -136,6 +136,7 @@ public class DefaultResourceBundleLoadStrategyTest {
   @Test
   public void testLoadResourceBundleExisting() {
     for (DefaultResourceBundleLoadStrategy drbls : subjects) {
+      System.out.println(drbls); // MUDO this is a true bug
       testLoadResourceBundle(drbls, "org.ppwcode.i18n_I.DefaultResourceBundleLoadStrategy", true);
     }
   }
