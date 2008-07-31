@@ -4,7 +4,7 @@
   TO SELECTED PARTIES.
 </license>*/
 
-package org.ppwcode.vernacular.semantics_I.i18n;
+package org.ppwcode.util.resourcebundle;
 
 
 import static org.junit.Assert.assertEquals;
@@ -21,6 +21,7 @@ import java.util.Set;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.ppwcode.util.resourcebundle.DefaultResourceBundleLoadStrategy;
 
 
 public class DefaultResourceBundleLoadStrategyTest {
