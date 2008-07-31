@@ -14,11 +14,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.vernacular.semantics_I.exception;
+package org.ppwcode.vernacular.semantics_I.bean;
 
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
@@ -30,6 +30,8 @@ import java.util.Set;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.ppwcode.vernacular.semantics_I.exception.CompoundPropertyException;
+import org.ppwcode.vernacular.semantics_I.exception.PropertyException;
 
 
 public class AbstractRousseauBeanTest {
