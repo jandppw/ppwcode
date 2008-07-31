@@ -268,6 +268,7 @@ public class AbstractRousseauBeanTest {
   @Test
   public void testGetWildExceptions() {
     for (AbstractRousseauBean subject : subjects) {
+      System.out.println(subject);
       CompoundPropertyException result = testGetWildExceptions(subject);
       if (subject.getClass() == AbstractRousseauBeanSTUB.class) {
         contractPROTECTEDGetWildExceptions(subject, result);
