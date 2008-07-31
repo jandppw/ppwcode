@@ -91,7 +91,7 @@ public class SetterPropertyException extends ValuePropertyException {
       @Expression("propertyValue == safeReference(_origin[_propertyName])"),
       @Expression("vetoedValue == safeReference(_vetoedValue)"),
       @Expression("value == _ value"),
-      @Expression("message == _message"),
+      @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
       @Expression("cause == _cause")
     }
   )
@@ -140,7 +140,7 @@ public class SetterPropertyException extends ValuePropertyException {
       @Expression("propertyName == _propertyName"),
       @Expression("propertyValue == (inOriginInitialization ? null : safeReference(_origin[_propertyName]))"),
       @Expression("vetoedValue == safeReference(_vetoedValue)"),
-      @Expression("message == _message"),
+      @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
       @Expression("cause == _cause")
     }
   )
@@ -185,7 +185,7 @@ public class SetterPropertyException extends ValuePropertyException {
       @Expression("propertyName == _propertyName"),
       @Expression("propertyValue == null"),
       @Expression("vetoedValue == safeReference(_vetoedValue)"),
-      @Expression("message == _message"),
+      @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
       @Expression("cause == _cause")
     }
   )
