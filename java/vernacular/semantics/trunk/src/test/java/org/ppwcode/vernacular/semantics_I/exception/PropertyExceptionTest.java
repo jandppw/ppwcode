@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.bean_VI;
+package org.ppwcode.vernacular.semantics_I.exception;
 
 
 import static org.junit.Assert.assertEquals;
