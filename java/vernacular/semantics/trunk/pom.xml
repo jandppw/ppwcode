@@ -3,23 +3,23 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <!--
-  $Date$
-  $Revision$
-  $HeadURL$
+    Copyright 2004 - $Date$ by PeopleWare n.v.
 
-  Copyright 2007 - $Date$ by PeopleWare n.v.
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
 
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
 
-      http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
 
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
+    $Date$
+    $Revision$
+    $HeadURL$
   -->
 
 
@@ -52,6 +52,119 @@
   <packaging>jar</packaging>
   <name>ppwcode semantics vernacular</name>
   <description>Framework, guidelines, support for developing the semantic layer of a business application.</description>
+  <inceptionYear>2004</inceptionYear>
+
+  <!-- DEVELOPERS & CONTRIBUTORS -->
+  <developers>
+    <developer>
+      <name>Jan Dockx</name>
+      <id>jandockx</id>
+      <email>jandockx@gmail.com</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <properties>
+        <aim>jandockx@mac.com</aim>
+        <skype>callto:jandockx</skype>
+      </properties>
+    </developer>
+    <developer>
+      <name>Ruben Vandeginste</name>
+      <id>ruben.vandeginste</id>
+      <email>ruben.vandeginste@gmail.com</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Tom Mahieu</name>
+      <id>tom.mahieu</id>
+      <email>tom.mahieu@gmail.com</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Nele Smeets</name>
+      <id>nsmeets</id>
+      <email>Nele_Smeets@peopleware.be</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Wim Lambrechts</name>
+      <id>nsmeets</id>
+      <email>Wim_Lambrechts@peopleware.be</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>David Van Keer</name>
+      <id>dvankeer</id>
+      <email>David_Van_Keer@peopleware.be</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+  </developers>
+  <contributors>
+    <contributor>
+      <name>Dirk Couck</name>
+      <email>Dirk_Couck@peopleware.be</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>project manager</role>
+      </roles>
+    </contributor>
+    <contributor>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <timezone>+1</timezone>
+    </contributor>
+    <contributor>
+      <organization>AristA vzw</organization>
+      <organizationUrl>http://www.arista.be/</organizationUrl>
+      <timezone>+1</timezone>
+    </contributor>
+    <contributor>
+      <organization>HDP vzw</organization>
+      <organizationUrl>http://www.hdp.be/</organizationUrl>
+      <timezone>+1</timezone>
+    </contributor>
+    <contributor>
+      <organization>Ismar n.v.</organization>
+      <organizationUrl>http://www.ismar.be/</organizationUrl>
+      <timezone>+1</timezone>
+    </contributor>
+    <contributor>
+      <organization>FVB</organization>
+      <organizationUrl>http://www.fvb.be/</organizationUrl>
+      <timezone>+1</timezone>
+    </contributor>
+  </contributors>
 
   <!-- MAGIC MANTRA -->
   <!-- The following entries need to be repeated, and can not sensibly be inherited.
