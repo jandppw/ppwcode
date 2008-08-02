@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.vernacular.semantics_I.exception;
+package org.ppwcode.vernacular.semantics_VI.exception;
 
 
 import static org.junit.Assert.assertEquals;
@@ -31,7 +31,7 @@ import java.util.Set;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.ppwcode.vernacular.semantics_I.exception.PropertyExceptionTest.OriginStub;
+import org.ppwcode.vernacular.semantics_VI.exception.PropertyExceptionTest.OriginStub;
 
 
 public class CompoundPropertyExceptionTest {
