@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.vernacular.semantics_I.i18n;
+package org.ppwcode.vernacular.semantics_VI.i18n;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
@@ -26,7 +26,7 @@ import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.util.resourcebundle.ResourceBundleLoadStrategy;
 import org.ppwcode.util.resourcebundle.ResourceBundles;
-import org.ppwcode.vernacular.semantics_I.exception.PropertyException;
+import org.ppwcode.vernacular.semantics_VI.exception.PropertyException;
 
 
 /**
