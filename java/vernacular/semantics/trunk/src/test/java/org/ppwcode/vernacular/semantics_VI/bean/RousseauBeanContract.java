@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.vernacular.semantics_I.bean;
+package org.ppwcode.vernacular.semantics_VI.bean;
 
 
 import static org.junit.Assert.assertEquals;
@@ -24,7 +24,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.ppwcode.vernacular.exception_II.InternalException.DEFAULT_MESSAGE_KEY;
 
-import org.ppwcode.vernacular.semantics_I.exception.CompoundPropertyException;
+import org.ppwcode.vernacular.semantics_VI.exception.CompoundPropertyException;
 
 
 public class RousseauBeanContract {
