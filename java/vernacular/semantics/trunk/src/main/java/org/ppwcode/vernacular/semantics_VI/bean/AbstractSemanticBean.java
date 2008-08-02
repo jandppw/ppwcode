@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.vernacular.semantics_I.bean;
+package org.ppwcode.vernacular.semantics_VI.bean;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
