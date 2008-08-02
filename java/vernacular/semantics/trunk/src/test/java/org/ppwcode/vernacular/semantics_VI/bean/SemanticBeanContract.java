@@ -14,14 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.vernacular.semantics_I.bean;
+package org.ppwcode.vernacular.semantics_VI.bean;
 
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
-import org.ppwcode.vernacular.semantics_I.bean.SemanticBean;
 
 
 public class SemanticBeanContract {
