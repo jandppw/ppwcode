@@ -61,6 +61,7 @@
   <packaging>pom</packaging>
   <name>ppwcode vernacular parent pom</name>
   <description>Parent pom for all ppwcode libraries that describe the ppwcode vernacular.</description>
+  <inceptionYear>2008</inceptionYear>
 
   <!-- DEVELOPERS & CONTRIBUTORS: OVERWRITE IN YOUR CHILD POM (we don't work for you :-) ) -->
   <developers>
