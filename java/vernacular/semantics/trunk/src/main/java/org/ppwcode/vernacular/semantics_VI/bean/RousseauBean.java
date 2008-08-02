@@ -14,14 +14,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.vernacular.semantics_I.bean;
+package org.ppwcode.vernacular.semantics_VI.bean;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.vernacular.semantics_I.exception.CompoundPropertyException;
+import org.ppwcode.vernacular.semantics_VI.exception.CompoundPropertyException;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
 import org.toryt.annotations_I.Throw;
