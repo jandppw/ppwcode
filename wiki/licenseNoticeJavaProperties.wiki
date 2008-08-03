@@ -1,4 +1,5 @@
 #summary Applying the Apache License v2 to Java properties files
+#labels Phase-Implementation
 
 = Introduction =
 
