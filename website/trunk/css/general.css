@@ -74,13 +74,6 @@ td.twoColumns {
 	text-align: center;
 	margin-top: 0em;
 }
-.footer table {
-	width: 100%;
-}
-.footer table, .footer table tr, .footer table tr td {
-	text-align: center;
-	margin-top: 0em;
-}
 .footer a:link, .footer a:hover, .footer a:active, .footer a:visited {
 	text-decoration: none;
 }
