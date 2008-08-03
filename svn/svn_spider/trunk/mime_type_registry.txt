@@ -55,7 +55,7 @@ asm	text/x-asm
 asmx	application/x-asmx
 asn	chemical/x-ncbi-asn1	chemical/x-ncbi-asn1-spec
 aso	chemical/x-ncbi-asn1-binary
-asp	application/x-asp	text/asp
+asp	text/asp	application/x-asp
 asr	video/x-ms-asf
 asx	video/x-ms-asf
 atom	application/atom+xml
@@ -78,7 +78,7 @@ bay	image/x-dcraw
 bcpio	application/x-bcpio
 bdf	application/x-font-bdf
 bib	text/x-bibtex
-bin	application/octet-stream	application/x-stuffit
+bin	application/x-stuffit	application/octet-stream
 blend	application/x-blender
 blender	application/x-blender
 bm	image/bmp
@@ -133,7 +133,7 @@ cmdf	chemical/x-cmdf
 cml	chemical/x-cml
 cmx	image/x-cmx
 cod	application/vnd.rim.cod	image/cis-cod
-com	application/x-msdos-program	application/octet-stream	text/plain
+com	application/x-msdos-program	application/octet-stream
 conf	text/plain
 config	application/x-config
 connection	application/x-gnome-db-connection
@@ -150,7 +150,7 @@ crw	image/x-dcraw
 cs	text/x-csharp
 cs1	image/x-dcraw
 csf	chemical/x-cache-csf
-csh	application/x-csh	text/x-csh	text/x-script.csh
+csh	text/x-csh	application/x-csh	text/x-script.csh
 csm	chemical/x-csml
 csml	chemical/x-csml
 css	text/css
@@ -201,16 +201,16 @@ drw	application/drafting
 dsl	text/x-dsl
 dtd	text/x-dtd
 dump	application/octet-stream
-dv	video/dv	video/x-dv
+dv	video/x-dv	video/dv
 dvi	application/x-dvi
-dwg	image/vnd.dwg	application/acad	image/x-dwg
+dwg	image/x-dwg	image/vnd.dwg	application/acad
 dx	chemical/x-jcamp-dx
-dxf	image/vnd.dxf	application/dxf	image/x-dwg
+dxf	image/x-dwg	image/vnd.dxf	application/dxf
 dxr	application/x-director
 ear	application/x-java-archive	application/java-archive
 egon	application/x-egon
 el	text/x-emacs-lisp	text/x-script.elisp
-elc	application/x-bytecode.elisp	application/x-elc
+elc	application/x-elc	application/x-bytecode.elisp
 emb	chemical/x-embl-dl-nucleotide
 embl	chemical/x-embl-dl-nucleotide
 eml	message/rfc822
@@ -231,7 +231,7 @@ exe	application/x-msdos-program	application/x-executable	application/x-ms-dos-ex
 ez	application/andrew-inset
 f	text/x-fortran
 f77	text/x-fortran
-f90	text/plain	text/x-fortran
+f90	text/x-fortran
 fb	application/x-maker
 fbdoc	application/x-maker
 fch	chemical/x-gaussian-checkpoint
@@ -239,7 +239,7 @@ fchk	chemical/x-gaussian-checkpoint
 fdf	application/vnd.fdf
 fff	image/x-dcraw
 fif	application/fractals	image/fif
-fig	application/x-xfig	image/x-xfig
+fig	image/x-xfig	application/x-xfig
 fits	image/x-fits
 flac	audio/flac	audio/x-flac
 flc	video/x-flic
@@ -252,7 +252,7 @@ flx	text/vnd.fmi.flexstor
 fm	application/x-maker
 fmf	video/x-atomic3d-feature
 fo	text/x-xslfo
-for	text/plain	text/x-fortran
+for	text/x-fortran
 fpx	image/vnd.fpx	image/vnd.net-fpx
 frame	application/x-maker
 frl	application/freeloader
@@ -275,7 +275,7 @@ gg	application/x-sms-rom
 gif	image/gif
 gjc	chemical/x-gaussian-input
 gjf	chemical/x-gaussian-input
-gl	video/gl	video/x-gl
+gl	video/x-gl	video/gl
 glabels	application/x-glabels
 glade	application/x-glade
 gmo	application/x-gettext-translation
@@ -293,7 +293,7 @@ gss	application/x-gss
 gtar	application/x-gtar
 gz	application/x-gzip	application/x-compressed
 gzip	application/x-gzip
-h	text/x-chdr	text/plain
+h	text/x-chdr
 h++	text/x-c++hdr	text/x-chdr
 hdf	application/x-hdf
 help	application/x-helpfile
@@ -306,7 +306,7 @@ hp	text/x-chdr
 hpg	application/vnd.hp-hpgl
 hpgl	application/vnd.hp-hpgl
 hpp	text/x-c++hdr
-hqx	application/mac-binhex40	application/binhex
+hqx	application/binhex
 hs	text/x-haskell
 hta	application/hta
 htc	text/x-component
@@ -327,8 +327,8 @@ idl	text/x-idl
 ief	image/ief
 iefs	image/ief
 iff	image/x-iff
-iges	model/iges	application/iges
-igs	model/iges	application/iges
+iges	application/iges
+igs	application/iges
 iii	application/x-iphone
 il	text/x-msil
 ilbm	image/x-ilbm
@@ -338,23 +338,23 @@ img	application/octet-stream
 inf	application/inf
 info	application/x-info
 inp	chemical/x-gamess-input
-ins	application/x-internet-signup	application/x-internett-signup
+ins	application/x-internet-signup
 ip	application/x-ip2
 iso	application/x-iso9660-image	application/x-cd-image	application/octet-stream
 isp	application/x-internet-signup
 ist	chemical/x-isostar
 istr	chemical/x-isostar
 isu	video/x-isvideo
-it	audio/x-it	audio/it
+it	audio/x-it
 iv	application/x-inventor
 ivr	i-world/i-vrml
 ivy	application/x-livescreen
 jad	text/vnd.sun.j2me.app-descriptor
 jam	application/x-jam	application/x-jamin	audio/x-jam
-jar	application/java-archive	application/x-jar	application/x-java-archive
+jar	application/x-java-archive	application/java-archive	application/x-jar
 jardiff	application/x-java-archive-diff
-jav	text/plain	text/x-java-source
-java	text/x-java	text/plain	text/x-java-source
+jav	text/x-java-source
+java	text/x-java-source
 jcm	application/x-java-commerce
 jdx	chemical/x-jcamp-dx
 jfif	image/jpeg	image/pipeg	image/pjpeg
@@ -369,11 +369,11 @@ jpg	image/jpeg
 jpr	application/x-jbuilder-project
 jps	image/x-jps
 jpx	application/x-jbuilder-project
-js	application/javascript	text/x-js	application/x-javascript	text/javascript
+js	text/x-js	text/javascript	application/x-javascript	application/javascript
 jut	image/jutvision
 k	application/x-tex-pk
 k25	image/x-dcraw
-kar	audio/midi	music/x-karaoke
+kar	music/x-karaoke	audio/midi
 karbon	application/x-karbon
 kdc	image/x-dcraw
 kdelnk	application/x-desktop
@@ -389,14 +389,14 @@ kpm	application/x-kpovmodeler
 kpr	application/x-kpresenter
 kpt	application/x-kpresenter
 kra	application/x-krita
-ksh	application/x-ksh	text/x-script.ksh
+ksh	text/x-ksh	text/x-script.ksh
 ksp	application/x-kspread
 kud	application/x-kugar
 kwd	application/x-kword
 kwt	application/x-kword
 la	application/x-shared-library-la	audio/nspaudio	audio/x-nspaudio
 lam	audio/x-liveaudio
-latex	application/x-latex
+latex	text/x-latex
 lha	application/x-lha	application/lha	application/octet-stream
 lhs	text/x-literate-haskell
 lhx	application/octet-stream
@@ -565,7 +565,7 @@ p7s	application/pkcs7-signature	application/x-pkcs7-signature
 pac	application/x-ns-proxy-autoconfig
 par2	application/x-par2
 part	application/pro_eng
-pas	text/x-pascal	text/pascal
+pas	text/x-pascal
 pat	image/x-coreldrawpattern
 patch	text/x-diff	text/x-patch
 pbm	image/x-portable-bitmap
@@ -620,7 +620,7 @@ pmw	application/x-perfmon
 png	image/png
 pnm	image/x-portable-anymap	application/x-portable-anymap
 po	text/x-gettext-translation
-pot	text/plain	application/vnd.ms-powerpoint	text/x-gettext-translation-template	application/mspowerpoint
+pot	text/x-gettext-translation-template	text/plain	application/vnd.ms-powerpoint	application/mspowerpoint
 pov	model/x-pov
 ppa	application/vnd.ms-powerpoint
 ppm	image/x-portable-pixmap
@@ -660,7 +660,7 @@ qtvr	video/quicktime
 ra	audio/x-pn-realaudio	audio/x-realaudio	audio/vnd.rn-realaudio	audio/x-pn-realaudio-plugin
 raf	image/x-dcraw
 ram	audio/x-pn-realaudio
-rar	application/rar	application/x-rar	application/x-rar-compressed
+rar	application/x-rar	application/rar	application/x-rar-compressed
 ras	image/x-cmu-raster	application/x-cmu-raster	image/cmu-raster
 rast	image/cmu-raster
 rb	application/x-ruby
@@ -726,9 +726,9 @@ setreg	application/set-registration-initiation
 sgf	application/x-go-sgf
 sgi	image/x-sgi
 sgl	application/vnd.stardivision.writer-global	application/vnd.stardivision.writer
-sgm	text/sgml	text/x-sgml
-sgml	text/sgml	text/x-sgml
-sh	application/x-sh	text/x-sh	application/x-shellscript	application/x-bsh	application/x-shar	text/x-script.sh
+sgm	text/x-sgml	text/sgml
+sgml	text/x-sgml	text/sgml
+sh	text/x-sh	application/x-sh	application/x-shellscript	text/x-script.sh
 shar	application/x-shar	application/x-bsh
 shp	application/x-qgis
 shtml	text/html	text/x-server-parsed-html
@@ -875,7 +875,7 @@ vqe	audio/x-twinvq-plugin
 vqf	audio/x-twinvq
 vql	audio/x-twinvq-plugin
 vrm	x-world/x-vrml
-vrml	model/vrml	x-world/x-vrml	application/x-vrml
+vrml	application/x-vrml	model/vrml	x-world/x-vrml
 vrt	x-world/x-vrt
 vsd	application/vnd.visio	application/x-visio
 vst	application/x-visio
@@ -922,7 +922,7 @@ wps	application/vnd.ms-works
 wq1	application/x-lotus
 wri	application/x-mswrite	application/mswrite
 wrl	model/vrml	x-world/x-vrml	application/x-world
-wsc	text/scriptlet	text/scriplet
+wsc	text/scriptlet
 wsdl	application/x-wsdl
 wsrc	application/x-wais-source
 wtk	application/x-wintalk
@@ -958,7 +958,7 @@ xlv	application/vnd.ms-excel	application/excel
 xlw	application/vnd.ms-excel	application/excel
 xm	audio/x-mod	audio/x-xm	audio/xm
 xmi	text/x-xmi
-xml	application/xml	text/xml
+xml	text/xml	application/xml
 xmz	xgl/movie
 xof	x-world/x-vrml
 xpi	application/x-xpinstall
@@ -966,7 +966,7 @@ xpix	application/x-vnd.ls-xpix
 xpl	audio/x-scpls
 xpm	image/x-xpixmap	image/xpm
 xsd	application/xml
-xsl	application/xml	text/x-xsl	text/x-xslt
+xsl	text/x-xslt	application/xml	text/x-xsl
 xslfo	text/x-xslfo
 xslt	text/x-xslt
 xspf	application/xspf+xml
