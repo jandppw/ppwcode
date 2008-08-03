@@ -1,4 +1,5 @@
 #summary Versioning policy in ppwcode
+#labels Phase-Vernacular
 
 = Introduction =
 
