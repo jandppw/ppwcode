@@ -1,5 +1,5 @@
 #summary Developer guidelines regarding issue tracking
-#labels Phase-Requirements
+#labels Phase-Implementation
 
 = Introduction =
 
