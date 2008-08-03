@@ -68,12 +68,27 @@ td.twoColumns {
 .footer {
 	font-size: 90%;
 	color: #CCCCCC;
-	text-align: right;
 	margin-top: 1em;
 }
 .footer p {
-	text-align: right;
+	text-align: center;
 	margin-top: 0em;
+}
+.footer table {
+	width: 100%;
+}
+.footer table, .footer table tr, .footer table tr td {
+	text-align: center;
+	margin-top: 0em;
+}
+.footer a:link, .footer a:hover, .footer a:active, .footer a:visited {
+	text-decoration: none;
+}
+.footer a:link, .footer a:active, .footer a:visited {
+	color: #CCCCCC;
+}
+.footer a:hover, {
+	color: #000000;
 }
 .intro div.title {
 	font-size: 300%;
