@@ -35,6 +35,7 @@ See <a href="NOTICE">NOTICE</a> for attribution.</p>
   <tr>
     <td rowspan="2">$HeadURL$</td>
   </tr>
+  <tr>
     <td>$Date$</td>
     <td>$Revision$</td>
   </tr>
