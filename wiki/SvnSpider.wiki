@@ -1,4 +1,5 @@
 #summary svn_spider configuration for this project
+#labels Phase-Implementation
 = Introduction =
 
 *svn_spider* is the script used for maintaining the metadata in our subversion repository.
