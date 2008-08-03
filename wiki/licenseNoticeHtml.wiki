@@ -33,7 +33,7 @@ Furthermore, you *must* add a footer, with the anchors adapted to refer correctl
     See <a href="NOTICE">NOTICE</a> for attribution.</p>
   <table>
     <tr>
-      <td rowspan="2">$HeadURL$</td>
+      <td colspan="2">$HeadURL$</td>
     </tr>
     <tr>
       <td>$Date$</td>
