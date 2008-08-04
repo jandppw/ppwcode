@@ -31,6 +31,9 @@ Special subtrees are available in the svn repository with names starting with "`
 
 Tags and branches _an sich_ or not a feature of Subversion as they where a feature from CVS. But with the features that do exist in Subversion, notably the "_zeitliche_ copy" ([http://www.kfs.org/~jonathan/witt/t64311en.html see Wittgenstein, Tractatus Logico Philosophicus, 6.4.3.1.1] :-P) make this, and more, possible in a more transparant way.
 
+
+== The conventional way ==
+
 The "conventional" way to do tags and branches with Subversion, is to create, under your project root, a `trunk` directoryt, for the, uhm, trunk of development, a `branches` directory for the branches, and a `tags` directory for, you guessed it, the tags:
   * myProjectSvn/
     * trunk/
@@ -94,5 +97,8 @@ The "conventional" way to do tags and branches with Subversion, is to create, un
 Or something like that, probably even much more complex. Note in any case that version numbers do have dots in them, and the `-`-symbol, and start with a number, things that were impossible with CVS.
 
 We contend that working with the tags and branches directory is left-over of the CVS days, and that we can do much better. Convention over configuration, sure, but in practice the "`trunk` - `branches` - `tags`" convention is not very well supported in tools anyway (yes, with the exception of TortoiseSVN).
+
+
+== Nested version tags ==
 
 Now, the first thing that we observe is a hierarchical structure in the version numbers. Whatever your criteria for dot-versions are, you are using a dotted scheme, aren't you? We too. With CVS, the tags and branches name space is flat, and there is nothing you can do about that. With Subversion however, "tags" and "branches" are merely directories, normally a copy-in-time of the trunk. And directory names are relatively free format. So, with this new technology, there is no need to limit ourself to an endless flat list. Instead, we can represent the dot-version hierarchy as a ... hierarchy. This is much easier for developers and users to navigate and understand, and we do not need idiotic prefixes.
