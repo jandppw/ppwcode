@@ -174,9 +174,7 @@ When we look at the reason for branching, we find essentially 2 reasons:
   * to evolve the code of an old version, while the trunk already has moved on (maintenance release, bugfix, backporting new features into a backward compatible release, ...)
   * to do extended experiments, try dangerous things, in a sandbox, without interfering with or interference from other developers
 
-Again, these 2 reasons are of a different nature.
-
-=== Evolution of an old version (patch branches) ===
+Again, these 2 reasons are of a different nature. Here we will talk about *Evolution of an old version (patch branches)*
 
 What happens in practice is that you released, and tagged a version, moved on, and that after some weeks or months, you get a bug report, an enhancement request, or find another reason to do a minor upgrade, on the old code. For a number of reasons you don't want to force your users to use the latest version, but you want to do minimal changes on the old version. Now, with Subversion, if you have a directory that is the copy-in-time of that release, which is since unchanged and should stay unchanged, _it is a breeze to create a new copy of that directory now that you need it_, to work on. And, by the way, for this development, this is really a "trunk".
 
@@ -254,8 +252,7 @@ For our example, where there were retroactive fixes at some points, but not all,
       * ...
       * d1254
 
+== Experiment branches and development tags ==
 
-
-== Development tags ==
-
-Normally, you would want to tag your trunk when it is stable during development too, e.g., when you make a snapshot build. This is definitely another "kind" of tag, with another finality and another audience. It would make sense to gather them together.
+How about branches the developer makes, to not interfere with or be interfered by other developers?
+And, how about development tags? Normally, you would want to tag your trunk when it is stable during development too, e.g., when you make a snapshot build. This is definitely another "kind" of tag, with another finality and another audience than the dot-version tags. It would make sense to gather them together, these tags, and branches, separate from the others.
