@@ -333,3 +333,5 @@ Well, given the previous, this is actually simple: these kinds of tags always ha
       * aDevelopmentBranch/
 
 Note that there is no more `tags`-directory.
+
+Finally, we are left with the development branches.
