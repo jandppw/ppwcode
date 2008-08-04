@@ -30,3 +30,36 @@ Special subtrees are available in the svn repository with names starting with '_
 = Tags and Branches =
 
 Tags and branches _an sich_ or not a feature of Subversion as they where a feature from CVS. But with the features that do exist in Subversion, notably the "_zeitliche_ copy" ([http://www.kfs.org/~jonathan/witt/t64311en.html see Wittgenstein, Tractatus Logico Philosophicus, 6.4.3.1.1] :-P) make this, and more, possible in a more transparant way.
+
+The "conventional" way to do tags and branches with Subversion, is to create, under your project root, a `trunk` directoryt, for the, uhm, trunk of development, a `branches` directory for the branches, and a `tags` directory for, you guessed it, the tags:
+  * myProjectSvn/
+    * trunk
+    * branches
+      * aBranch
+      * anotherBranch
+      * aDevelopmentBranch
+      * 1.0.0PatchBranch
+      * 2.0.0PatchBranch
+      * 2.1.0PatchBranch
+      * 2.2.0PatchBranch
+      * 3.0.0PatchBranch
+    * tags
+      * 1.0.0
+      * 1.0.1
+      * 1.0.2
+      * 1.1.0
+      * 1.1.1
+      * 1.1.2
+      * 1.2.0
+      * 2.0.0
+      * 2.0.1
+      * 2.1.0
+      * 2.1.1
+      * 2.1.2
+      * 2.1.3
+      * 2.1.4
+      * 2.1.5
+      * 2.1.0
+      * 2.2.0
+      * 2.2.1
+      * 3.0.0
