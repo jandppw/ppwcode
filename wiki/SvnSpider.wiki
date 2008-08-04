@@ -2,16 +2,31 @@
 #labels Phase-Implementation
 = Introduction =
 
-*svn_spider* is the script used for maintaining the metadata in our subversion repository.
+*svn_spider* is the script used for maintaining the metadata in our
+subversion repository.  The script can be used to keep track of
+several subversion repositories and set properties on repository files
+according to a set of given rules. (e.g., html-files have mime-type
+'text/html', and should have keyword substitution for $Rev$ and
+$Date$)
 
 
 = Details =
 
-svn_spider is run automatically at regular intervals on hypocrates, a machine owned by PeopleWare.  Commits to the repository by the script are done with a developer account specifically created for this purpose (ppw.bot@gmail.com).
+svn_spider is run automatically at regular intervals on
+hypocrates.peopleware.be, a machine owned by PeopleWare.  This is done
+with a crontab entry from the "rvdginste" account.  Cron runs the
+svn_spider script on the following location:
+/home/rvdginste/svn_spider/svn_spider.rb.
 
-The script is configured to check all trunks in the ppwcode repository.
+Fixes by svn_spider in the repository are committed with a developer
+account created specifically for this purpose (ppw.bot@gmail.com).
 
-The configuration file used, is the following:
+The script is currently configured to check all trunks in the ppwcode
+repository.  
+
+The configuration file currently in use, is located at
+/home/rvdginste/svn_spider/config.rb.  The following is a snapshot of
+this file, which can serve as an example:
 {{{
 # working dir for code checkouts
 @@working_directory = "/home/rvdginste/spider_workdir"
@@ -101,6 +116,11 @@ The configuration file used, is the following:
   /\.html$/ => {
     Svn::Core::PROP_EOL_STYLE => "native",
     Svn::Core::PROP_KEYWORDS  => "Date"
+  },
+  # NOTICE
+  /NOTICE$/ => {
+    Svn::Core::PROP_EOL_STYLE => "native",
+    Svn::Core::PROP_KEYWORDS  => "Date Rev URL"
   }
 }
 }}}
