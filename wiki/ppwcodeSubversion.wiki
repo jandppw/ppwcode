@@ -14,7 +14,7 @@ Therefor, we use deep structures to nest projects in a context of related projec
 
 == Nominal structure ==
 
-On the first level, we discern between different targets. For libraries, these targets are the technologies (Java, .net, ...). Then, within such a target directory, further structuring depends on the vernaculars of those targets. On this level you also find the general projects 'licenses', 'logo', 'website' and 'wiki' (which must be here to work with Google Code).
+On the first level, we discern between different targets. For libraries, these targets are the technologies (Java, .net, ...). Then, within such a target directory, further structuring depends on the vernaculars of those targets. On this level you also find the general projects `licenses`, `logo`, `website` and `wiki` (which must be here to work with Google Code).
 
 == Special subtrees ==
 
