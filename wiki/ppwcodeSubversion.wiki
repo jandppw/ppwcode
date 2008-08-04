@@ -24,3 +24,9 @@ Special subtrees are available in the svn repository with names starting with '_
   * `_tmp`: just what it says: a home for temporary storage; please clean up after yourself
   * `_sandbox`: where new projects live, before they are mature enough to know there way in the main structure
   * `_renditions`: where the above directories are intended mainly for developers and contributors, this one is for everybody; it contains different "renditions" of this repository, different ways of presenting it, for different audiences or tools
+
+
+
+= Tags and Branches =
+
+Tags and branches _an sich_ or not a feature of Subversion as they where a feature from CVS. But with the features that do exist in Subversion, notably the "_zeitliche_ copy" ([http://www.kfs.org/~jonathan/witt/t64311en.html see Wittgenstein, Tractatus Logico Philosophicus, 6.4.3.1.1] :-P) make this, and more, possible in a more transparant way.
