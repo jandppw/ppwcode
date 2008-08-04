@@ -44,6 +44,25 @@ The "conventional" way to do tags and branches with Subversion, is to create, un
       * 2.2.0PatchBranch/
       * 3.0.0PatchBranch/
     * tags/
+      * d1
+      * d2
+      * d3
+      * d4
+      * d4bis
+      * d5
+      * d6
+      * ...
+      * d1254
+      * 1.0.0-alpha-1/
+      * 1.0.0-alpha-2/
+      * 1.0.0-alpha-3/
+      * 1.0.0-alpha-4/
+      * 1.0.0-alpha-5/
+      * 1.0.0-beta-1/
+      * 1.0.0-beta-2/
+      * 1.0.0-rc-1/
+      * 1.0.0-rc-2/
+      * 1.0.0/
       * 1.0.0/
       * 1.0.1/
       * 1.0.2/
