@@ -11,7 +11,7 @@ For more information about the vernaculars, see http://www.ppwcode.org/vernacula
 = General =
 
   * [VernacularTools Tools]
-
+  * [VernacularSubversion Subversion]
 
 = Technology specific =
 
