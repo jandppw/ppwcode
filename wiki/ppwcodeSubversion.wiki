@@ -439,6 +439,8 @@ Thus, we reach or final proposal, in the following tree for our example.
       * 3.0.n/
         * 3.0.0/
 
+Note that, like development tags, you might also delete development branches when they are no longer needed.
+
 
 == Finally: relax ==
 
