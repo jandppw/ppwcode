@@ -102,3 +102,22 @@ We contend that working with the tags and branches directory is left-over of the
 == Nested version tags ==
 
 Now, the first thing that we observe is a hierarchical structure in the version numbers. Whatever your criteria for dot-versions are, you are using a dotted scheme, aren't you? We too. With CVS, the tags and branches name space is flat, and there is nothing you can do about that. With Subversion however, "tags" and "branches" are merely directories, normally a copy-in-time of the trunk. And directory names are relatively free format. So, with this new technology, there is no need to limit ourself to an endless flat list. Instead, we can represent the dot-version hierarchy as a ... hierarchy. This is much easier for developers and users to navigate and understand, and we do not need idiotic prefixes.
+
+== Development tags ==
+
+Normally, you would want to tag your trunk when it is stable during development too, e.g., when you make a snapshot build. This is definitely another "kind" of tag, with another finality and another audience. It would make sense to gather them together.
+
+
+== Branches and branch root tags ==
+
+Let's turn to branches. With CVS, it was in practice quite important to create a branch at the time your trunk is at the branch point. It was possible, but quite difficult, to create a branch retro-actively. Not so with Subversion. Furthermore, it was also quite important, when branching, to also create a tag at the branch point, i.e., the "root" of the branch (to be able to make sensible diffs when you want to merge a branch into the trunk later on). Not so with Subversion, for the simple reason that a tag is the same as a branch: a copy-in-time of a directory, that knows of itself when it was copied.
+
+When we look at the reason for branching, we find essentially 2 reasons:
+  * to evolve the code of an old version, while the trunk already has moved on (maintenance release, bugfix, backporting new features into a backward compatible release, ...)
+  * to do extended experiments, try dangerous things, in a sandbox, without interfering with or interference from other developers
+
+Again, these 2 reasons are of a different nature.
+
+=== Evolution of an old version ===
+
+What happens in practice is that you released, and tagged a version, moved on, and that after some weeks or months, you get a bug report, an enhancement request, or find another reason to do a minor upgrade, on the old code. For a number of reasons you don't want to force your users to use the latest version, but you want to do minimal changes on the old version. Now, with Subversion, if you have a directory that is the copy-in-time of that release, which is since unchanged and should stay unchanged, _it is a breeze to create a new copy of that directory now that you need it_, to work on. And, by the way, for this development, this is really a "trunk".
