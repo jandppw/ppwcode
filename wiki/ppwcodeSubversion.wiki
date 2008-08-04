@@ -82,3 +82,7 @@ The "conventional" way to do tags and branches with Subversion, is to create, un
       * 2.2.0/
       * 2.2.1/
       * 3.0.0/
+
+Or something like that, probably even much more complex. Note in any case that version numbers do have dots in them, and the `-`-symbol, and start with a number, things that were impossible with CVS.
+
+We contend that working with the tags and branches directory is left-over of the CVS days, and that we can do much better. Convention over configuration, sure, but in practice the "`trunk` - `branches` - `tags`" convention is not very well supported in tools anyway (yes, with the exception of TortoiseSVN).
