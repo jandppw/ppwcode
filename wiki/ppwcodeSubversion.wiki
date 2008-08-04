@@ -18,7 +18,7 @@ On the first level, we discern between different targets. For libraries, these t
 
 == Special subtrees ==
 
-Special subtrees are available in the svn repository with names starting with '_'.
+Special subtrees are available in the svn repository with names starting with "`_`".
 
   * `_purgatory`: here old versions of projects of ours reside (which were imported at the start of ppwcode from the old CVS repository) for reactivation; this directory will normally go away after a while
   * `_tmp`: just what it says: a home for temporary storage; please clean up after yourself
