@@ -54,11 +54,11 @@ public final class ConstantHelpers {
   }
 
   /**
-   * Returns the value of the constant (public final static) {@code constantName} in class {@link type}.
+   * Returns the value of the constant (public final static) {@code constantName} in class {@code type}.
    * If that constant doesn't exist, or something else goes wrong, this is considered a programming error.
    * We can work only with public class variables, and we look for these in type {@code type} and super types.
    *
-   * @param     clazz
+   * @param     type
    *            The type to look in for the constant.
    * @param     constantName
    *            The name of the constant whose value to return.
