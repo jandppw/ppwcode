@@ -22,6 +22,14 @@ import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.unexpectedEx
 
 public class CloneableStubClassA implements Cloneable {
 
+  public CloneableStubClassA() {
+    // NOP
+  }
+
+  public CloneableStubClassA(StubClass sc) {
+    $stubProperty = sc;
+  }
+
   @Override
   public final CloneableStubClassA clone() {
     CloneableStubClassA result = null;
@@ -44,6 +52,16 @@ public class CloneableStubClassA implements Cloneable {
   protected final static Object STUB_PROTECTED_CONSTANT = new Object();
 
   public static Object STUB_NON_FINAL_CONSTANT = new Object();
+
+  public final StubClass getStubProperty() {
+    return $stubProperty;
+  }
+
+  public final void setStubProperty(StubClass stubProperty) {
+    $stubProperty = stubProperty;
+  }
+
+  private StubClass $stubProperty; // initializing with a StubClass instance creates an infinite loop
 
 }
 
