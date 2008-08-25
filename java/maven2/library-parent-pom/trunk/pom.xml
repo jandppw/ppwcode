@@ -217,18 +217,19 @@
 
     <!-- The relative path in the Java http site where the project documentation sites will reside -->
     <ppwcode.distributionManagement.site.relativePath>projectdocs</ppwcode.distributionManagement.site.relativePath>
-    <!-- The relative path in the Java http site where the maven 2 repositoru will reside -->
     <!-- the id of the upload place for the documentation site -->
     <ppwcode.distributionManagement.site.id>ppwcodeSite</ppwcode.distributionManagement.site.id>
     <!-- the name of the upload place for the documentation site -->
     <ppwcode.distributionManagement.site.name>ppwcode Project Documentation Site</ppwcode.distributionManagement.site.name>
 
+    <!-- The relative path in the Java http site where the maven 2 repository will reside -->
     <ppwcode.distributionManagement.repo.relativePath>maven2repo</ppwcode.distributionManagement.repo.relativePath>
     <!-- the id of the upload place for the artifacts -->
     <ppwcode.distributionManagement.repo.id>ppwcodeRepo</ppwcode.distributionManagement.repo.id>
     <!-- the name of the upload place for the artifacts -->
     <ppwcode.distributionManagement.repo.name>Main ppwcode Maven 2 Repository</ppwcode.distributionManagement.repo.name>
 
+    <!-- The relative path in the Java http site where the maven 2 snapshot repository will reside -->
     <ppwcode.distributionManagement.snapshotrepo.relativePath>maven2snapshotrepo</ppwcode.distributionManagement.snapshotrepo.relativePath>
     <!-- the id of the upload place for the artifacts -->
     <ppwcode.distributionManagement.snapshotrepo.id>ppwcodeSnapshotRepo</ppwcode.distributionManagement.snapshotrepo.id>
