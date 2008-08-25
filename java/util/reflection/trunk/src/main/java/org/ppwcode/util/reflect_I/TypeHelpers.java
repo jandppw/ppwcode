@@ -410,56 +410,65 @@ public class TypeHelpers {
       @Expression("result.canonicalName == _fqtn")
     }
   )
-  public static Class<?> type(String fqtn) {
+  public static <_Class_> Class<_Class_> type(String fqtn) {
     preArgumentNotEmpty(fqtn, "fqtn");
-    Class<?> primitiveType = PRIMITIVE_TYPES_BY_NAME.get(fqtn);
-    if (primitiveType != null) {
-      return primitiveType;
-    }
-    try {
+    Class<?> result = PRIMITIVE_TYPES_BY_NAME.get(fqtn);
+    if (result == null) {
       try {
-        return Class.forName(fqtn);
-      }
-      catch (ClassNotFoundException cnfExc) {
-        if (! fqtn.contains(".")) {
-          // there are no member classes in java.lang, are there?
-          try {
-            return Class.forName("java.lang." + fqtn);
-          }
-          catch (ClassNotFoundException cnfExc2) {
-            unexpectedException(cnfExc2, "Since the name of the type we look for (\"" + fqtn + "\") does not contain " +
-                "a dot, and was not found in the unnamed packagewe, we assumed the class you intend to load should be " +
-                "sought in java.lang, but we didn't find it their either.");
-          }
+        try {
+          result = Class.forName(fqtn);
         }
-        else { // let's try for member classes
-          // from right to left, replace "." with "$"
-          String[] names = fqtn.split("\\."); // regex
-          for (int i = names.length - 2; i >= 0; i--) {
-            StringBuffer build = new StringBuffer();
-            for (int j = 0; j < names.length; j++) {
-              build.append(names[j]);
-              if (j < names.length - 1) {
-                build.append((j < i) ? "." : "$");
-              }
-            }
-            String tryThis = build.toString();
+        catch (ClassNotFoundException cnfExc) {
+          if (! fqtn.contains(".")) {
+            // there are no member classes in java.lang, are there?
             try {
-              return Class.forName(tryThis);
+              result = Class.forName("java.lang." + fqtn);
             }
             catch (ClassNotFoundException cnfExc2) {
-              // NOP; try with i--
+              unexpectedException(cnfExc2, "Since the name of the type we look for (\"" + fqtn + "\") does not contain " +
+                  "a dot, and was not found in the unnamed packagewe, we assumed the class you intend to load should be " +
+                  "sought in java.lang, but we didn't find it their either.");
             }
           }
-          // if we get here, we finally give up
-          throw new AssertionError("cannot find type with canonical name \"" + fqtn + "\"");
+          else { // let's try for member classes
+            // from right to left, replace "." with "$"
+            String[] names = fqtn.split("\\."); // regex
+            for (int i = names.length - 2; i >= 0; i--) {
+              StringBuffer build = new StringBuffer();
+              for (int j = 0; j < names.length; j++) {
+                build.append(names[j]);
+                if (j < names.length - 1) {
+                  build.append((j < i) ? "." : "$");
+                }
+              }
+              String tryThis = build.toString();
+              try {
+                result = Class.forName(tryThis);
+                break;
+              }
+              catch (ClassNotFoundException cnfExc2) {
+                // NOP; try with i--
+              }
+            }
+            if (result == null) { // if we get here without a result, we finally give up
+              throw new AssertionError("cannot find type with canonical name \"" + fqtn + "\"");
+            }
+          }
         }
       }
+      catch (LinkageError lErr) {
+        unexpectedException(lErr);
+      }
     }
-    catch (LinkageError lErr) {
-      unexpectedException(lErr);
+    try {
+      @SuppressWarnings("unchecked")
+      Class<_Class_> typedResult = (Class<_Class_>)result;
+      return typedResult;
     }
-    return null; // make compiler happy
+    catch (ClassCastException ccExc) {
+      unexpectedException(ccExc, "returned class is not of expected type");
+      return null; // keep compiler happy
+    }
   }
 
   /**
@@ -475,7 +484,6 @@ public class TypeHelpers {
    * @param fqtn
    *        The original fully qualified type name to derive
    *        the prefixed type name from.
-   * @throws _CannotCreateInstanceException
    *
    * @mudo this method needs to be moved; split into just an exception vernacular "instantiate" method; we probably no longer need this than
    */
