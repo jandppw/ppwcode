@@ -58,8 +58,13 @@ public class StubClass extends SuperStubClass {
   }
 
 
+  public StubClass() {
+    $stubProperty = new CloneableStubClassA();
+  }
 
-
+  public StubClass(CloneableStubClassA cscA) {
+    $stubProperty = cscA;
+  }
 
   @Override
   @SuppressWarnings("unused")
@@ -214,10 +219,6 @@ public class StubClass extends SuperStubClass {
 
 
 
-  public StubClass() {
-    // NOP
-  }
-
   public StubClass(Object o) {
     // NOP
   }
@@ -272,6 +273,234 @@ public class StubClass extends SuperStubClass {
   private StubClass(byte b) throws Exception {
     // NOP
   }
+
+
+
+  public final CloneableStubClassA getStubProperty() {
+    return $stubProperty.clone();
+  }
+
+  public final void setStubProperty(CloneableStubClassA stubProperty) {
+    $stubProperty = stubProperty.clone();
+  }
+
+  private CloneableStubClassA $stubProperty;
+
+
+
+  public CloneableStubClassA stubPropertyField = new CloneableStubClassA();
+
+
+
+  public final CloneableStubClassA getStubRoProperty() {
+    return $stubRoProperty.clone();
+  }
+
+  private CloneableStubClassA $stubRoProperty = new CloneableStubClassA();
+
+
+
+  public final CloneableStubClassA getStubRoPrivateProperty() {
+    return $stubRoPrivateProperty.clone();
+  }
+
+  @SuppressWarnings("unused")
+  private final void setStubRoPrivateProperty(CloneableStubClassA stubRoPrivateProperty) {
+    $stubRoPrivateProperty = stubRoPrivateProperty.clone();
+  }
+
+  private CloneableStubClassA $stubRoPrivateProperty = new CloneableStubClassA();
+
+
+
+  public final CloneableStubClassA getStubRoPackageProperty() {
+    return $stubRoPackageProperty.clone();
+  }
+
+  final void setStubRoPackageProperty(CloneableStubClassA stubRoPackageProperty) {
+    $stubRoPackageProperty = stubRoPackageProperty.clone();
+  }
+
+  private CloneableStubClassA $stubRoPackageProperty = new CloneableStubClassA();
+
+
+
+
+  public final CloneableStubClassA getStubRoProtectedProperty() {
+    return $stubRoProtectedProperty.clone();
+  }
+
+  protected final void setStubRoProtectedProperty(CloneableStubClassA stubRoProtectedProperty) {
+    $stubRoProtectedProperty = stubRoProtectedProperty.clone();
+  }
+
+  private CloneableStubClassA $stubRoProtectedProperty = new CloneableStubClassA();
+
+
+
+  public final void setStubWoProperty(CloneableStubClassA stubWoProperty) {
+    $stubWoProperty = stubWoProperty.clone();
+  }
+
+  @SuppressWarnings("unused")
+  private CloneableStubClassA $stubWoProperty = new CloneableStubClassA();
+
+
+
+  @SuppressWarnings("unused")
+  private final CloneableStubClassA getStubWoPrivateProperty() {
+    return $stubWoPrivateProperty.clone();
+  }
+
+  public final void setStubWoPrivateProperty(CloneableStubClassA stubWoPrivateProperty) {
+    $stubWoPrivateProperty = stubWoPrivateProperty.clone();
+  }
+
+  private CloneableStubClassA $stubWoPrivateProperty = new CloneableStubClassA();
+
+
+
+  final CloneableStubClassA getStubWoPackageProperty() {
+    return $stubWoPackageProperty.clone();
+  }
+
+  public final void setStubWoPackageProperty(CloneableStubClassA stubWoPackageProperty) {
+    $stubWoPackageProperty = stubWoPackageProperty.clone();
+  }
+
+  private CloneableStubClassA $stubWoPackageProperty = new CloneableStubClassA();
+
+
+
+  protected final CloneableStubClassA getStubWoProtectedProperty() {
+    return $stubWoProtectedProperty.clone();
+  }
+
+  public final void setStubWoProtectedProperty(CloneableStubClassA stubWoProtectedProperty) {
+    $stubWoProtectedProperty = stubWoProtectedProperty.clone();
+  }
+
+  private CloneableStubClassA $stubWoProtectedProperty = new CloneableStubClassA();
+
+
+
+  public final int getStubPropertyInt() {
+    return $stubPropertyInt;
+  }
+
+  public final void setStubPropertyInt(int stubPropertyInt) {
+    $stubPropertyInt = stubPropertyInt;
+  }
+
+  private int $stubPropertyInt = 7;
+
+
+
+  public final long getStubPropertyLong() {
+    return $stubPropertyLong;
+  }
+
+  public final void setStubPropertyLong(long stubPropertyLong) {
+    $stubPropertyLong = stubPropertyLong;
+  }
+
+  private long $stubPropertyLong = 7L;
+
+
+
+  public final char getStubPropertyChar() {
+    return $stubPropertyChar;
+  }
+
+  public final void setStubPropertyChar(char stubPropertyChar) {
+    $stubPropertyChar = stubPropertyChar;
+  }
+
+  private char $stubPropertyChar = 'c';
+
+
+
+  public final short getStubPropertyShort() {
+    return $stubPropertyShort;
+  }
+
+  public final void setStubPropertyShort(short stubPropertyShort) {
+    $stubPropertyShort = stubPropertyShort;
+  }
+
+  private short $stubPropertyShort = 7;
+
+
+
+  public final byte getStubPropertyByte() {
+    return $stubPropertyByte;
+  }
+
+  public final void setStubPropertyByte(byte stubPropertyByte) {
+    $stubPropertyByte = stubPropertyByte;
+  }
+
+  private byte $stubPropertyByte = 7;
+
+
+
+  public final boolean getStubPropertyBoolean() {
+    return $stubPropertyBoolean;
+  }
+
+  public final void setStubPropertyBoolean(boolean stubPropertyBoolean) {
+    $stubPropertyBoolean = stubPropertyBoolean;
+  }
+
+  private boolean $stubPropertyBoolean = true;
+
+
+
+  public final float getStubPropertyFloat() {
+    return $stubPropertyFloat;
+  }
+
+  public final void setStubPropertyFloat(float stubPropertyFloat) {
+    $stubPropertyFloat = stubPropertyFloat;
+  }
+
+  private float $stubPropertyFloat = 7.7F;
+
+
+
+  public final double getStubPropertyDouble() {
+    return $stubPropertyDouble;
+  }
+
+  public final void setStubPropertyDouble(double stubPropertyDouble) {
+    $stubPropertyDouble = stubPropertyDouble;
+  }
+
+  private double $stubPropertyDouble = 7.7D;
+
+
+
+  public final String getStubPropertyString() {
+    return $stubPropertyString;
+  }
+
+  public final void setStubPropertyString(String stubPropertyString) {
+    $stubPropertyString = stubPropertyString;
+  }
+
+  private String $stubPropertyString = "String property stub";
+
+
+
+  public final Date getStubPropertyDate() {
+    return $stubPropertyDate;
+  }
+
+  public final void setStubPropertyDate(Date stubPropertyDate) {
+    $stubPropertyDate = stubPropertyDate;
+  }
+
+  private Date $stubPropertyDate = new Date();
 
 }
 
