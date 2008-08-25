@@ -433,7 +433,7 @@ public final class MethodHelpers {
    *   the short, simple name. If no constructor is defined in {@code type}, the default default constructor
    *   is found with the appropriate signature.</p>
    *
-   * @param type
+   * @param clazz
    *        The class to look for the method in.
    * @param signature
    *        The signature of the method to look for. This is the name of the
