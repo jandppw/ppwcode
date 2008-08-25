@@ -183,7 +183,7 @@
     <!-- The relative path in the Java http site where the project documentation site will reside.
          For ppwcode libraries, we separate the artifact Id in the shortArtifactName and the markVersion,
          overriding the definition in the parent pom -->
-    <ppwcode.inSiteLocation>projectdocs/${ppwcode.libraryKind}/${ppwcode.shortArtifactName}/${ppwcode.markVersion}/${pom.version}</ppwcode.inSiteLocation>
+    <ppwcode.inSiteLocation>${ppwcode.distributionManagement.site.relativePath}/${ppwcode.libraryKind}/${ppwcode.shortArtifactName}/${ppwcode.markVersion}/${pom.version}</ppwcode.inSiteLocation>
     <!-- The project URL calculation can be inherited, as wel as the upload URL and other site distribution management
          settings. -->
 
