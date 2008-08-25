@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2004 - $Date: 2008-07-31 01:17:04 +0200 (Thu, 31 Jul 2008) $ by PeopleWare n.v..
+Copyright 2004 - $Date$ by PeopleWare n.v..
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -34,10 +34,10 @@ import org.ppwcode.vernacular.exception_II.ProgrammingErrors;
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
  */
-@Copyright("2004 - $Date: 2008-07-31 01:17:04 +0200 (Thu, 31 Jul 2008) $, PeopleWare n.v.")
+@Copyright("2004 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 1978 $",
-         date     = "$Date: 2008-07-31 01:17:04 +0200 (Thu, 31 Jul 2008) $")
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public class InstanceHelpers {
 
   private InstanceHelpers() {
