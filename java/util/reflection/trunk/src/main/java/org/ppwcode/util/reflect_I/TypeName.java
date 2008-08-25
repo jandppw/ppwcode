@@ -38,7 +38,7 @@ import org.toryt.annotations_I.MethodContract;
 
 /**
  * <p>Structured parse of a type name, containing the {@link #getPackageName() package name}, the
- *   {@link #getSimpleName simple type name}, and the possible inbetween {@link #getEnclosingTypes
+ *   {@link #getSimpleName simple type name}, and the possible in between {@link #getEnclosingTypeNames()
  *   enclosing types}. The classes encountered are not loaded: this is a pure String operation..</p>
  * <p>This code works with {@link Class#getCanonicalName()} <dfn>canonical names</dfn>}, i.e., the
  *   names of types as they are used in source code, whereas methods in {@link Class} generally work with
