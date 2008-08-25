@@ -18,7 +18,7 @@ package org.ppwcode.vernacular.semantics_VI.i18n;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.util.reflect_I.PropertyHelpers.getPropertyType;
+import static org.ppwcode.util.reflect_I.PropertyHelpers.propertyType;
 import static org.ppwcode.util.resourcebundle.ResourceBundles.findKeyInTypeProperties;
 
 import org.ppwcode.metainfo_I.Copyright;
@@ -141,14 +141,8 @@ public final class I18nLabels {
     if (dotPosition >= 0) {
       String preDot = property.substring(0, dotPosition);
       String postDot = property.substring(dotPosition + 1);
-      try {
-        Class<?> preType = getPropertyType(type, preDot);
-        return i18nPropertyLabel(postDot, preType, shortLabel, strategy);
-      }
-      catch (NoSuchMethodException nsmExc) {
-        // MUDO (jand) log warning
-        return null;
-      }
+      Class<?> preType = propertyType(type, preDot);
+      return i18nPropertyLabel(postDot, preType, shortLabel, strategy);
     }
     String result = findKeyInTypeProperties(type, i18nPropertyLabel_keys(property, shortLabel), strategy);
     return (result != null)
