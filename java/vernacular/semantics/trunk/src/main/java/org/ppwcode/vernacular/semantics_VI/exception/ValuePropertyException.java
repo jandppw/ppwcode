@@ -219,7 +219,7 @@ public class ValuePropertyException extends PropertyException {
   //------------------------------------------------------------------
 
   /**
-   * The value of property {@link #getPropertyName()} of {@link @getOrigin()}
+   * The value of property {@link #getPropertyName()} of {@link #getOrigin()}
    * at the time this exception occurred. {@code null} is not applicable.
    */
   @Basic(invars = @Expression("origin == null ? propertyValue = null"))
