@@ -18,19 +18,6 @@ Which criterion to use, in what order, depends a lot on your particular circumst
 [ppwcodeSubversion] explains the criteria used in ppwcode. But this is, by nature, a technical project family. Most of the uses of this vernacular happen in a business context, and not in a technical context. In a business context, we can highly advise to have your Subversion directory structure follow the organizational structure of your enterprise as the first grouping criterion, and not, e.g., the technologies used in a particular project. Technologies are secondary in this context, and not few projects or sub-families of related projects have subprojects in different technologies. It does not make much sense to have those parts in far of branches of the Subversion tree.
 
 
-== Nominal structure ==
-
-On the first level, we discern between different targets. For libraries, these targets are the technologies (Java, .net, ...). Then, within such a target directory, further structuring depends on the vernaculars of those targets. On this level you also find the general projects `licenses`, `logo`, `website` and `wiki` (which must be here to work with Google Code).
-
-== Special subtrees ==
-
-Special subtrees are available in the svn repository with names starting with "`_`".
-
-  * `_purgatory`: here old versions of projects of ours reside (which were imported at the start of ppwcode from the old CVS repository) for reactivation; this directory will normally go away after a while
-  * `_tmp`: just what it says: a home for temporary storage; please clean up after yourself
-  * `_sandbox`: where new projects live, before they are mature enough to know there way in the main structure
-  * `_renditions`: where the above directories are intended mainly for developers and contributors, this one is for everybody; it contains different "renditions" of this repository, different ways of presenting it, for different audiences or tools
-
 
 
 = Tags and Branches =
