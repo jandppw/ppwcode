@@ -187,7 +187,9 @@ Now, if you store your dot-version tags in a hierachy, it is also clear where th
 
 If your intention is to create a new micro version, you will always want to start from the latest micro version for that minor version. Copy that directory to a `trunk` directory under that minor version, and work there. Or, maybe you did that last time, and there already is a trunk. But in that case, that is exactly where you should continue working. If you started that minor-version-trunk at version n.m.k, you released n.m.k+1, and maybe also, n.m.k+2, and so on. In any case, there is no deeper nesting, so work for all releases later than k for minor version n.m has been done on this trunk, so the trunk, if it exists, is at the latest micro version.
 
-If your intention is to create a new minor version, exactly the same applies, except that you might want to merge changes from the last minor trunk into the major trunk before starting. But let's be frank: new minor versions after the facts are something that rarely happens, if ever. New minor versions most often have new features, and are normally developed in the linear flow of things, in the trunk, like new major versions.
+If your intention is to create a new minor version, exactly the same applies, except that you might want to merge changes from the last minor trunk into the major trunk before starting. But let's be frank: new minor versions after the facts are something that rarely happens, if ever. New minor versions most often have new features, and are normally developed in the linear flow of things, in the trunk, like new major versions. A new minor version after the facts is almost always a backport of new features developed and added earlier in a new major version, on the main trunk.
+
+_NOTE: the previous paragraph is not very clear. Proposals?_
 
 For our example, where there were retroactive fixes at some points, but not all, this leads to the following structure:
 
