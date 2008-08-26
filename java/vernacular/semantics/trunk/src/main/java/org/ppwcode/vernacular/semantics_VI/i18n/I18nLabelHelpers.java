@@ -60,7 +60,7 @@ import org.ppwcode.vernacular.semantics_VI.exception.PropertyException;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-public final class I18nLabels {
+public final class I18nLabelHelpers {
 
   /*<construction>*/
   //------------------------------------------------------------------
@@ -68,7 +68,7 @@ public final class I18nLabels {
   /**
    * Cannot instantiate this class. Only use static methods.
    */
-  private I18nLabels() {
+  private I18nLabelHelpers() {
     // NOP
   }
 
