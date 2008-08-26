@@ -110,7 +110,7 @@ Note also that in these developments, you often do not yet know what the next ve
 
 Now, the first thing that we observe is a hierarchical structure in the version numbers. Whatever your criteria for dot-versions are, you are using a dotted scheme, aren't you? We too. With CVS, the tags and branches name space is flat, and there is nothing you can do about that. With Subversion however, "tags" and "branches" are merely directories, normally a copy-in-time of the trunk. And directory names are relatively free format. So, with this new technology, there is no need to limit ourself to an endless flat list. Instead, we can represent the dot-version hierarchy as a ... hierarchy. This is much easier for developers and users to navigate and understand, and we do not need idiotic prefixes.
 
-And, since next to the trunk and a `dev` directory, we only have version tags, there is no need to store the dot-version tags in a separate directory. With the above example, the tree would look like this (the rest of the original tree will dissolve in a moment):
+And, since next to the trunk (and a `dev` directory, as we will see later), we only have version tags on the top level of our project, there is no need to store the dot-version tags in a separate directory. With the above example, the tree would look like this (the rest of the original tree will dissolve in a moment):
 
   * myProjectSvn/
     * trunk/
