@@ -28,6 +28,8 @@ Tags and branches _an sich_ or not a feature of Subversion as they where a featu
 == The conventional way ==
 
 The "conventional" way to do tags and branches with Subversion, is to create, under your project root, a `trunk` directoryt, for the, uhm, trunk of development, a `branches` directory for the branches, and a `tags` directory for, you guessed it, the tags:
+
+{{{
   * myProjectSvn/
     * trunk/
     * branches/
@@ -84,6 +86,7 @@ The "conventional" way to do tags and branches with Subversion, is to create, un
       * 2.1.0PatchBranchRoot/
       * 2.2.0PatchBranchRoot/
       * 3.0.0PatchBranchRoot/
+}}}
 
 Or something like that, probably even much more complex. Note in any case that version numbers do have dots in them, and the `-`-symbol, and start with a number, things that were impossible with CVS.
 
