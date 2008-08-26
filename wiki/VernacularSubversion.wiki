@@ -1,4 +1,4 @@
-#summary Usage of Subversion by the ppwcode project
+#summary Our vernacular for the usage of Subversion
 #labels Phase-Vernacular
 
 = Introduction =
