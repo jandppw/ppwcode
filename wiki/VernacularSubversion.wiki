@@ -8,7 +8,7 @@ Subversion is a beautiful tool. You can do al kinds of things with it. But, we n
 
 = Subprojects =
 
-While it was already possible in CVS to use deep directory structures, for a number of reasons it was practical to have different projects as peer on the top level of a repository. Subversion however much more resembles an ordinary file system, where directory structures are really that.
+While it was already possible in CVS to use deep directory structures, for a number of reasons it was practical to have different projects as peers on the top level of a repository. Subversion however much more resembles an ordinary file system, where directory structures are really that.
 
 Therefor, we use deep structures to nest projects in a context of related projects.
 
