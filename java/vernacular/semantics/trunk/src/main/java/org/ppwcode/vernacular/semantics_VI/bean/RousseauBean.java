@@ -62,8 +62,8 @@ import org.toryt.annotations_I.Throw;
  *   to change their properties from a <dfn>wild</dfn> state to a
  *   <dfn>civilized</dfn> state, without actually changing the semantics
  *   of the stored information. This is called <dfn>normalization</dfn>
- *   ({@link #normalize()}). Normalization keeps
- *   {@link #hasSameValues(RousseauBean)}.</p>
+ *   ({@link #normalize()}). Normalization keeps doesn't change the nominal
+ *   state of a {@code RousseauBean)}.</p>
  *
  * @note since VI, this is split into {@link SemanticBean} and this class.
  * @note In a previous version, we had a method {@code hasSameValues(RousseaBean rb)},
@@ -130,7 +130,7 @@ public interface RousseauBean extends SemanticBean {
    * <p>Change the value of properties or the internal state of this
    *   object without changing its semantics, with the intent of
    *   making the instance more <dfn>civilized</dfn>. This method
-   *   should respect the result of {@link #hasSameValues(RousseauBean)}.
+   *   should never change the nominal state of this bean.
    * <p>This method is typically called immediately prior to
    *   checking civilization with {@link #getWildExceptions()}.</p>
    * <p>This method can be called at any time, so it should never
