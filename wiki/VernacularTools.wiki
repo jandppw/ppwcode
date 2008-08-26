@@ -1,5 +1,5 @@
 #summary The vernacular of tools used in projects
-#labels Phase-Implementation
+#labels Phase-Vernacular
 
 = Introduction =
 
