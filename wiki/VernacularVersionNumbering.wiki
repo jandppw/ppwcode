@@ -15,7 +15,7 @@ In general, most people follow a dotted, nested notation, like `n.m.k` for versi
 In the vernacular, we try to define such semantics. They differ however given the type of artifact.
 
   * [VernacularVersionNumberingGeneral General] (apply to *pom*, *resource artifacts*), ...)
-  * Java library
+  * [VernacularVersionNumberingLibrary Library]
   * Application
     * EJB jar, service, webservice application, back-end application
     * web application
