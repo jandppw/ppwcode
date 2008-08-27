@@ -1,0 +1,38 @@
+#summary The general version numbering scheme vernacular
+
+= Introduction =
+
+This page describes the general version numbering vernacular. This vernacular is to be applied if there is no more specialized version numbering vernacular that applies.
+
+
+= Details =
+
+In general, we follow the wel known, 3-number, dotted, nested notation  `n.m.k` for version numbering.
+
+  * `n` is called the *major version number*
+  * `m' is called the *minor version number*
+  * `k` is called the *micro version number*
+
+This schema *must* be applied to
+
+  * pom's
+  * resource artifacts
+  * documentation artifacts
+
+
+
+== Micro version number ==
+
+The micro version number is reserved for *bugfixes*. If version `n.m.k` does not work, has an error of some sort, version `n.m.k+1` should have fixed the error and do work.
+
+
+== Minor version number ==
+
+Minor version numbers are reserved for evolution of the artifact. Certainly working agile, a first release does not have all the bells and whistles you would like the product to have. It is important to release early. It does paint the general intention and applicability of the product, and promises enhancements.
+
+Newer minor versions of the product will add more "features", whatever that might mean in your technology, however without "breaking compatibility", whatever that might mean in your technology. This means that, in all possible circumstances, if a user replaces a version `n.m.k` with a version `n.m+1.k`, his product will continue working without any change. Possibly, the user now will gain some or all of the new features automatically, possibly he now has the possibility to start using the new features.
+
+
+== Major version number ==
+
+Major version number changes signal incompatibility. This may occur either because we want to add new features, but it turns out to be impossible to have a user replace an older version with the new version and have his product to continue working without any change, at least in one possible circumstance.
