@@ -26,48 +26,6 @@
   <!-- NOTE: you probably have to give Maven more memory:
              export MAVEN_OPTS=-Xmx1024M -->
 
-  <!--
-    Projects using this pom should fill out, in a child pom:
-
-    The following entries should be considered part of the POM for this POM, and thus be overridden
-    in your project (it's really a bad practice by the Maven people to make a parent POM its own POM).
-
-      groupId
-      artifactId
-      version
-      packaging
-
-      name
-      description
-      inceptionYear, possibly
-
-      ppwcode.shortArtifactName
-      ppwcode.markVersion
-      ppwcode.inScmLocation
-      ppwcode.mainUrl
-      ppwcode.mainScmUrl
-      ppwcode.mainScmViewUrl
-      ppwcode.mainDistroUrl
-
-      organization
-      licenses
-
-      distribution management (you probably cannot reuse our setup :-))
-      issue management
-      mailing lists
-
-      developers
-
-    The following entries are not filled out, and should be filled out for your project.
-
-      dependency management
-
-    There is complete reuse for build settings (Java 5) and report settings.
-
-    It will also be necessary to add the ppwcode repo to the pom, to find
-    this parent (bootstrap problem).
-   -->
-
   <!--  TODO good documentation -->
 
   <!-- IMPORTANT NOTE: it turns out that the group id and artifact id of a parent pom cannot be a calculated
@@ -588,25 +546,6 @@
         </configuration>
       </plugin>
 -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.2</version>
-        <dependencies>
-          <!-- dependency on the checkstyle resource -->
-          <dependency>
-            <groupId>org.ppwcode.checkstyle</groupId>
-            <artifactId>checkstyle</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-          </dependency>
-          <!-- dependency on the license templates -->
-          <dependency>
-            <groupId>org.ppwcode.checkstyle</groupId>
-            <artifactId>licenses</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-          </dependency>
-        </dependencies>
-      </plugin>
 
     </plugins>
   </build>
@@ -775,6 +714,42 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <version>2.2</version>
+        <!-- The checkstyle definition file and license header template to use is defined
+             by the paths defined below. These files are to be resources in the classpath
+             of the CheckStyle execution. The easiest way to do this is to provide one or more
+             artifacts that contain these files, which are then to be defined as dependencies
+             for this plugin. This must be done in the build / plugins section (yes, that is weird),
+             in a child POM, since we do not want to force a particular style here.
+             Dependent projects or project families might want to use a checkstyle definition from
+             the ppwcode checkstyle artifact, and a license header pattern from the licenses artifact.
+             Such a dependency definition would look like this:
+
+              <build>
+                <plugins>
+                  <plugin>
+                    <!++ the artifacts in which to look for the checkstyle definition and license headers ++>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>2.2</version>
+                    <dependencies>
+                      <dependency>
+                        <!++ dependency on the checkstyle resource ++>
+                        <groupId>org.ppwcode.checkstyle</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>1.0.0-SNAPSHOT</version>
+                      </dependency>
+                      <dependency>
+                        <!++ dependency on the license templates ++>
+                        <groupId>org.ppwcode.checkstyle</groupId>
+                        <artifactId>licenses</artifactId>
+                        <version>1.0.0-SNAPSHOT</version>
+                      </dependency>
+                    </dependencies>
+                  </plugin>
+                </plugins>
+              </build>
+
+              -->
         <configuration>
           <configLocation>${ppwcode.checkstyle.configLocation}</configLocation>
           <!--<suppressionsLocation>${ppwcode.checkstyle.suppressionsLocation}</suppressionsLocation>-->
