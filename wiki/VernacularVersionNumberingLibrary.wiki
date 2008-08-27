@@ -1,4 +1,9 @@
 #summary Versioning policy in ppwcode
+#labels Phase-Vernacular
+
+
+_NOTE: this page needs work_
+
 
 = Introduction =
 
