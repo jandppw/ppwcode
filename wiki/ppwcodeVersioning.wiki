@@ -6,4 +6,4 @@ ppwcode projects follow the [VernacularVersionNumbering version numbering vernac
 
   * for pom projects, see VernacularVersionNumberingGeneral
   * for resource artifcats, VernacularVersionNumberingGeneral
-  * for libraries, see VernacularVersionNumberingLibraries
+  * for libraries, see VernacularVersionNumberingLibrary
