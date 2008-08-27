@@ -16,3 +16,7 @@ In the vernacular, we try to define such semantics. They differ however given th
 
   * [VernacularVersionNumberingGeneral General] (apply to *pom*, *resource artifacts*), ...)
   * Java library
+  * Application
+    * EJB jar, service, webservice application, back-end application
+    * web application
+    * desktop application
