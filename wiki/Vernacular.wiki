@@ -12,6 +12,7 @@ For more information about the vernaculars, see http://www.ppwcode.org/vernacula
 
   * [VernacularTools Tools]
   * [VernacularSubversion Subversion]
+  * [VernacularVersionNumbering Version Numbering]
 
 = Technology specific =
 
