@@ -1,4 +1,5 @@
 #summary The general version numbering scheme vernacular
+#labels Phase-Vernacular
 
 = Introduction =
 
