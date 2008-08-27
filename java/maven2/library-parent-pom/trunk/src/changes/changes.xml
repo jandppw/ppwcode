@@ -21,14 +21,20 @@
   -->
 
   <!-- see http://maven.apache.org/plugins/maven-changes-plugin/usage.html -->
+  <!-- action type  There are four valid values: add , fix , remove , update . -->
 
   <properties>
-    <title>Version history of ppwcode library parent POM</title>
-    <author email="jandockx@gmail.com">Jan Dockx</author>
+    <title>Version history of AristA parent POM</title>
+    <author email="jandockx@hdp.be">Jan Dockx</author>
   </properties>
   <body>
+    <release version="1.0.1" date="2008-08-27" description="Fix: removed duplicate entry">
+      <action dev="jandockx" type="fix">
+        Removed duplicate entry in plugin management for surefire.
+      </action>
+    </release>
     <release version="1.0.0" date="2008-08-27" description="First release">
-      <action dev="jand" type="add">
+      <action dev="jandockx" type="add">
         First version, long ago based on Beedraz parent pom
         (http://www.beedraz.org/projects/parent/pom/) 1.0.0, snapshot.
       </action>
