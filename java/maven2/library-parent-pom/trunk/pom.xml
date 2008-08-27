@@ -38,7 +38,7 @@
   <!-- for the artifactId, see the magic mantra below -->
   <groupId>org.ppwcode</groupId>
   <artifactId>ppwcode-library-parent-pom</artifactId>
-  <version>1.0.0-SNAPSHOT</version> <!-- MUDO add Svn release number as implementation version -->
+  <version>1.0.0</version>
   <packaging>pom</packaging>
   <name>ppwcode library parent pom</name>
   <description>A parent pom for collections of libaries, or single libraries.
