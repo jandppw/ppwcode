@@ -72,7 +72,7 @@ _Alpha_ versions are considered teaser versions, versions to show the user or cl
 
 _Beta_ versions are used in the final stretch toward a release. Evolutions in consecutive beta versions are bugfixes, never new features. The reason why we want to introduce beta version numbers, is to keep the semantics of a "`n.m.0`" release as "stable".
 
-When we get ready for a new release that is not a bugfix itself, you always should build a beta version first, and give it to the user to test. Because evolutions in the beta versions are bugfixes of a new major or minor versions, there is no need for a micro version in a beta release version number. In fact, the micro version number is replaced by the beta version number. So, the form of a beta release version number is `n.m.beta-k`.
+When we get ready for a new release that is not a bugfix itself, you always should build a beta version first, and give it to the user to test. Because evolutions in the beta versions are bugfixes of a new major or minor versions, there is no need for a micro version in a beta release version number. In fact, the micro version number is replaced by the beta version number. So, the form of a beta release version number is `n.m beta-k`. *Please really use the word _beta_, and not just the letter _b_, as this has proven to be confusing in some circumstances* (sometimes, also letters are used as meaningful version numbering parts, e.g., in the JDK). If it is possible to use the lower case Greek letter beta, please do. An eszet (ß) as an approximation for a lower case beta is not a good idea.
 
 
 
