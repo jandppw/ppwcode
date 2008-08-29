@@ -30,7 +30,6 @@ import javax.faces.el.ValueBinding;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.ppwcode.vernacular.value_III.AbstractPropertyEditorConverter;
 import org.ppwcode.vernacular.value_III.DisplayLocaleBasedEnumerationValueEditor;
 
 
