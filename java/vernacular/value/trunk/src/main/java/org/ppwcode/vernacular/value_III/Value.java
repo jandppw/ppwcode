@@ -83,7 +83,7 @@ public abstract class Value implements Serializable {
    * This method should be overwritten by actual value types with extra conditions that actually do compare internal
    * values. The following idiom can be used:
    * <pre>
-   *     ATMethodContract(post = ATExpression(&quot;<var>local conditions</var>&quot))
+   *     &#x40;MethodContract(post = &#x40;Expression(&quot;<var>local conditions</var>&quot))
    *     public boolean equals(Object other) {
    *       return super.equals(other) &amp;&amp; <var>local conditions</var>;
    *     }
