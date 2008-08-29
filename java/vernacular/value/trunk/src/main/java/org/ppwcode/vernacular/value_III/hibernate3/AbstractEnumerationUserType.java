@@ -17,6 +17,7 @@ limitations under the License.
 package org.ppwcode.vernacular.value_III.hibernate3;
 
 
+import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -137,9 +138,7 @@ public class AbstractEnumerationUserType implements UserType {
    * @throws  SQLException
    *          resultSet.wasNull();
    */
-  public final Object nullSafeGet(final ResultSet resultSet,
-                                  final String[] names,
-                                  final Object owner)
+  public final Object nullSafeGet(final ResultSet resultSet, final String[] names, final Object owner)
           throws HibernateException, SQLException {
     Object result = null;
     String tag = (String)Hibernate.STRING.nullSafeGet(resultSet, names[0]);
@@ -170,9 +169,7 @@ public class AbstractEnumerationUserType implements UserType {
    *          value != null
    *          && statement.setString(index, getEnumerationValueEditor().getAsText());
    */
-  public final void nullSafeSet(final PreparedStatement statement,
-                                final Object value,
-                                final int index)
+  public final void nullSafeSet(final PreparedStatement statement, final Object value, final int index)
       throws HibernateException, SQLException {
     // make sure the received value is of the right type
     if ((value != null)
@@ -192,6 +189,40 @@ public class AbstractEnumerationUserType implements UserType {
       statement.setString(index,
                           getEnumerationValueEditor().getAsText());
     }
+  }
+
+  public Object assemble(Serializable cached, Object owner) throws HibernateException {
+    // make sure the received value is of the right type
+    if ((cached != null)
+        && !returnedClass().getName().equals(cached.getClass().getName())) {
+      throw new HibernateException("\"" + ((cached == null) ? "null" : cached.toString())
+                                   + "\" is not a " + returnedClass().getName());
+    }
+    return cached;
+  }
+
+  public Serializable disassemble(Object value) throws HibernateException {
+    // make sure the received value is of the right type
+    if ((value != null)
+        && !returnedClass().getName().equals(value.getClass().getName())) {
+      throw new HibernateException("\"" + ((value == null) ? "null" : value.toString())
+                                   + "\" is not a " + returnedClass().getName());
+    }
+    return (Serializable)value; // enumeration values are Serializable
+  }
+
+  public int hashCode(Object x) throws HibernateException {
+    return x.hashCode();
+  }
+
+  public Object replace(Object original, Object target, Object owner) throws HibernateException {
+    // make sure the received value is of the right type
+    if ((original != null)
+        && !returnedClass().getName().equals(original.getClass().getName())) {
+      throw new HibernateException("\"" + ((original == null) ? "null" : original.toString())
+                                   + "\" is not a " + returnedClass().getName());
+    }
+    return original; // super method doc says this is what to do for immutable types, which we are (enum)
   }
 
 }
