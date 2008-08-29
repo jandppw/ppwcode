@@ -70,10 +70,8 @@ public abstract class Values {
    *
    * @idea (jand) move to ppw-util or toryt
    */
-  public static boolean equalsWithNull(final Object one, final Object other) {
-    return (one == null)
-              ? (other == null)
-              : one.equals(other);
+  public static boolean eqn(final Object one, final Object other) {
+    return (one == null) ? (other == null) : one.equals(other);
   }
 
 
@@ -86,7 +84,7 @@ public abstract class Values {
    *        to make <code>result</code> <code>true</code>.
    * @param result
    *        The result to make <code>true</code>.
-   * @return ! p ==> ! result;
+   * @return ! p ? ! result;
    */
   public static boolean assertAtLeast(final boolean p, final boolean result) {
     return p || (!result);
