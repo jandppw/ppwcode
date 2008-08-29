@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.vernacular.value_III.hibernate;
+package org.ppwcode.vernacular.value_III.hibernate2;
 
 
 import java.sql.PreparedStatement;
