@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.vernacular.value_III;
+package org.ppwcode.vernacular.value_III.jsf;
 
 
 import java.beans.PropertyEditor;
@@ -30,6 +30,8 @@ import javax.faces.el.ValueBinding;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.ppwcode.vernacular.value_III.AbstractPropertyEditorConverter;
+import org.ppwcode.vernacular.value_III.DisplayLocaleBasedEnumerationValueEditor;
 
 
 /**
