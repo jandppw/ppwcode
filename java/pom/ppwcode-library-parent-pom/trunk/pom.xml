@@ -332,6 +332,11 @@
         <artifactId>hibernate</artifactId>
         <version>3.2.6.ga</version>
       </dependency>
+      <dependency>
+        <groupId>servletapi</groupId>
+        <artifactId>servletapi</artifactId>
+        <version>2.4</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
