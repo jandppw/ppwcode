@@ -22,7 +22,7 @@ import java.util.Map;
 
 /**
  * <p>This class defines general modi operandi for type-safe enumeration
- *  value types. Values of an enumeration type are immutable. Values
+ *  value types. ValueHelpers of an enumeration type are immutable. ValueHelpers
  *  of an enumeration type implemented according to this pattern are
  *  not intended to be calculated with. We are interested merely in
  *  their existence. This is not an algebra.</p>
