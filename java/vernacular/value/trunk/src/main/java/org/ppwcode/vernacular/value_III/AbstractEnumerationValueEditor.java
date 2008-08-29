@@ -1,9 +1,20 @@
 /*<license>
-  Copyright 2004, PeopleWare n.v.
-  NO RIGHTS ARE GRANTED FOR THE USE OF THIS SOFTWARE, EXCEPT, IN WRITING,
-  TO SELECTED PARTIES.
+Copyright 2004 - $Date$ by PeopleWare n.v..
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 </license>*/
-package be.peopleware.value_II;
+
+package org.ppwcode.vernacular.value_III;
 
 
 import java.beans.PropertyEditorSupport;
@@ -54,8 +65,8 @@ public abstract class AbstractEnumerationValueEditor
    *
    * @return    Class.forName(expectedEnumerationValueTypeClassName());
    */
-  public Class getEnumerationValueType() {
-    Class result = null;
+  public Class<?> getEnumerationValueType() {
+    Class<?> result = null;
     try {
       result = Class.forName(getExpectedEnumerationValueTypeClassName());
     }
@@ -87,6 +98,7 @@ public abstract class AbstractEnumerationValueEditor
   * @see     PropertyEditorSupport
   * @return  (String[])getValuesMap().keySet().toArray();
   */
+  @Override
   public final String[] getTags() {
     return (String[])getValuesMap().keySet().toArray();
   }
@@ -108,7 +120,7 @@ public abstract class AbstractEnumerationValueEditor
    *
    * @basic
    */
-  public abstract Map getValuesMap();
+  public abstract Map<String, ?> getValuesMap();
 
   /*</property>*/
 
@@ -123,11 +135,11 @@ public abstract class AbstractEnumerationValueEditor
    * based on information in the {@link #getValuesMap()}
    * and uses the method {@link #getLabel()}.
    */
-  public final Map getLabelsMap() {
-    Map result = new HashMap();
+  public final Map<String, String> getLabelsMap() {
+    Map<String, String> result = new HashMap<String, String>();
     /* we are going to use this object itself to generate the labels
        let's store the value for a while */
-    Iterator iter = getValuesMap().values().iterator();
+    Iterator<?> iter = getValuesMap().values().iterator();
     Object originalValue = getValue();
     while (iter.hasNext()) {
       setValue(iter.next());
@@ -153,6 +165,7 @@ public abstract class AbstractEnumerationValueEditor
    *                ? " "
    *                : getValue().toString();
    */
+  @Override
   public final String getAsText() {
     String result = (getValue() == null)
                        ? NBSP
@@ -170,6 +183,7 @@ public abstract class AbstractEnumerationValueEditor
    *                && !text.equals(" ")
    *                && getValuesMap().get(text) == null;
    */
+  @Override
   public final void setAsText(final String text)
       throws IllegalArgumentException {
     if ((text == null) || text.equals(EMPTY) || text.equals(NBSP)) { //$NON-NLS-1$
