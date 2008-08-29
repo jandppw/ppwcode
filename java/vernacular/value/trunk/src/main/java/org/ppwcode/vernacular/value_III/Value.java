@@ -17,60 +17,53 @@ limitations under the License.
 package org.ppwcode.vernacular.value_III;
 
 
+import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+
 import java.io.Serializable;
+
+import org.ppwcode.metainfo_I.Copyright;
+import org.ppwcode.metainfo_I.License;
+import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.Invars;
+import org.toryt.annotations_I.MethodContract;
 
 
 /**
- * <p>
- * A super type for all classes that emulate <em>algebras</em>, i.e.,
- * value types.
- * </p>
- * <p>
- * Value types should override {@link #equals(Object)} and
- * {@link #hashCode()}, so that different objects that represent
- * the same value are considered equal. Value types should override
- * {@link #toString()} to return a textual representation of
- * the value they represent, that does not mention object identity.
- * </p>
- * <p>
- * Value types should be serializable, and thus always should
- * have a public default constructor.
- * </p>
- * <p>
- * Value types should come with a {@link java.beans.PropertyEditor}
- * that supports at least a textual interface.
- * </p>
+ * <p>A super type for all classes that emulate <em>algebras</em>, i.e., value types.</p>
+ * <p>Value types <strong>must</strong> override {@link #equals(Object)} and {@link #hashCode()}, so that
+ *   different objects that represent the same value are considered equal. Value types <strong>must</strong>
+ *   override {@link #toString()} to return a textual representation of the value they represent, that does
+ *   not mention object identity. Value types <strong>must</strong> be {@link Serializable}, and thus always
+ *   should have a public default constructor.</p>
+ * <p>According to this vernacular, value types <em>should</em> come with a {@link java.beans.PropertyEditor}
+ *   that supports at least a textual interface. Supporting classes in this library offer support for Hibernate
+ *   {@ink org.hibernate.usertype.UserType} classes, JSF {@link javax.faces.convert.Converter} classes,
+ *   and the likes for other technologies, that are based on JavaBeans {@link java.beans.PropertyEditor}
+ *   classes. JavaBeans {@link java.beans.PropertyEditor} classes are used as the basis for all these
+ *   conversions, because they are the oldest conversion technology, and part of the basic Java API.</p>
  *
  * @author Jan Dockx
  * @author PeopleWare n.v.
- *
- * @invar     (forall MutableValue mv1, mv2; ;
- *              mv1.equals(mv2) ==> mv1.hashCode() == mv2.hashCode());
- *
- * @todo (jand): Check serializability for entire hierarchy
  */
+@Copyright("2004 - $Date$, PeopleWare n.v.")
+@License(APACHE_V2)
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
+@Invars(@Expression(value = "for (MutableValue mv1) {for (MutableValue mv2) {" +
+                              "mv1.equals(mv2) ? mv1.hashCode() == mv2.hashCode()}" +
+                            "}",
+                    note = "just a formalisation of contract described in English in java.lang.Object"))
 public abstract class Value implements Serializable {
-
-  /*<section name="Meta Information">*/
-  //------------------------------------------------------------------
-
-  /** {@value} */
-  public static final String CVS_REVISION = "$Revision$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_DATE = "$Date$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_STATE = "$State$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_TAG = "$Name$"; //$NON-NLS-1$
-
-  /*</section>*/
 
   /**
    * The empty string.
    *
    * <strong>= &quot;&quot;</strong>
    */
-  public static final String EMPTY = ""; //$NON-NLS-1$
+  public static final String EMPTY = "";
+
+
 
   /*<construction>*/
   //------------------------------------------------------------------
@@ -87,38 +80,30 @@ public abstract class Value implements Serializable {
 
 
   /**
-   * This method should be overwritten with extra conditions that
-   * actually do compare internal values. The following idiom
-   * can be used:
+   * This method should be overwritten by actual value types with extra conditions that actually do compare internal
+   * values. The following idiom can be used:
    * <pre>
-   *     /&#x2A;*
-   *      * &#x40;result <var>local conditions</var>;
-   *      &#x2A;/
+   *     ATMethodContract(post = ATExpression(&quot;<var>local conditions</var>&quot))
    *     public boolean equals(Object other) {
-   *       return super.equals(other)
-   *              &amp;&amp; <var>local conditions</var>;
+   *       return super.equals(other) &amp;&amp; <var>local conditions</var>;
    *     }
    * </pre>
-   * Remember that the {@link #hashCode()} must be consistent with
-   * <code>equals</code>.
-   *
-   * @result    result ==> (other != null) && (other.getClass() == getClass());
+   * Remember that the {@link #hashCode()} must be consistent with <code>equals</code>.
    */
+  @MethodContract(post = @Expression("result ? ((other != null) && (other.class == this.class))"))
   @Override
   public boolean equals(final Object other) {
     return (other != null) && (other.getClass() == getClass());
   }
 
   /**
-   * This method is made abstract to enforce subtypes to override
-   * this method.
+   * This method is made abstract to enforce subtypes to override this method.
    */
   @Override
   public abstract int hashCode();
 
   /**
-   * This method is made abstract to enforce subtypes to override
-   * this method.
+   * This method is made abstract to enforce subtypes to override this method.
    */
   @Override
   public abstract String toString();
