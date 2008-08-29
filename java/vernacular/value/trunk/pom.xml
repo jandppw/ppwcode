@@ -199,6 +199,7 @@
       <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
+    <!--
     <dependency>
       <groupId>commons-beanutils</groupId>
       <artifactId>commons-beanutils-core</artifactId>
@@ -211,10 +212,24 @@
        <groupId>org.ppwcode.util</groupId>
        <artifactId>ppwcode-util-reflection-I</artifactId>
      </dependency>
-     <dependency>
-       <groupId>org.ppwcode.vernacular</groupId>
-       <artifactId>ppwcode-vernacular-exception-II</artifactId>
-     </dependency>
+     -->
+    <dependency>
+      <groupId>org.ppwcode.vernacular</groupId>
+      <artifactId>ppwcode-vernacular-exception-II</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>hibernate</groupId>
+      <artifactId>hibernate</artifactId>
+      <version>2.1.8</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <!-- hibernate 3 -->
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate</artifactId>
+    </dependency>
+
   </dependencies>
 
 </project>
