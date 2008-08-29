@@ -25,7 +25,7 @@ import javax.servlet.ServletContextListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.ppwcode.vernacular.value_III.Values;
+import org.ppwcode.vernacular.value_III.ValueHelpers;
 
 
 /**
@@ -64,7 +64,7 @@ public class RegisterPropertyEditors implements ServletContextListener {
   public void contextInitialized(final ServletContextEvent event) {
     LOG.debug("registering ppw-value library in PropertyEditorManager "
               + "PropertyEditor lookup path");
-    Values.registerPropertyEditors();
+    ValueHelpers.registerPropertyEditors();
     if (LOG.isDebugEnabled()) {
       LOG.debug("PropertyEditorManager PropertyEditor lookup path: "
                 + PropertyEditorManager.getEditorSearchPath());
