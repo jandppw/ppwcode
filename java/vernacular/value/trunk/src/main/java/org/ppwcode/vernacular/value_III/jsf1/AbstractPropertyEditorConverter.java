@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.vernacular.value_III.jsf;
+package org.ppwcode.vernacular.value_III.jsf1;
 
 
 import java.beans.PropertyEditor;
