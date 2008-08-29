@@ -1,7 +1,0 @@
-*.log
-target
-javadoc*
-.classpath
-.project
-.settings
-.wtpmodules
