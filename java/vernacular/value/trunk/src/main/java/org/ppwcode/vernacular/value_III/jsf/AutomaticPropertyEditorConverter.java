@@ -89,15 +89,15 @@ public class AutomaticPropertyEditorConverter extends AbstractPropertyEditorConv
    *         No {@link PropertyEditor} found for the type of the value binding
    *         of <code>component</code>
    */
-  protected PropertyEditor getPropertyEditor(final FacesContext context,
-      final UIComponent component) throws ConverterException {
+  @Override
+  protected PropertyEditor getPropertyEditor(final FacesContext context, final UIComponent component) throws ConverterException {
     assert component != null;
     assert context != null;
     if ($propertyEditor == null) {
       LOG.debug("no PropertyEditor in cache; retrieving fresh one");
       try {
         // try to find target type
-        Class targetType = component.getValueBinding("value").getType(context);
+        Class<?> targetType = component.getValueBinding("value").getType(context);
           /* throws EvaluationException < PropertyNotFoundException
              throws NullPointerException, not  for component == null, context == null
              or "value" == null, but because their might not be a value binding */
