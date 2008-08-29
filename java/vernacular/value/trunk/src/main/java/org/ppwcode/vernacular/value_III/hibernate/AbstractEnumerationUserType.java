@@ -22,6 +22,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 
+import net.sf.hibernate.Hibernate;
+import net.sf.hibernate.HibernateException;
+import net.sf.hibernate.UserType;
+
 import org.ppwcode.vernacular.value_III.EnumerationValue;
 import org.ppwcode.vernacular.value_III.EnumerationValueEditor;
 
@@ -92,7 +96,7 @@ public class AbstractEnumerationUserType implements UserType {
   /**
    * @return getEnumerationValueEditor().getEnumerationValue();
    */
-  public final Class returnedClass() {
+  public final Class<?> returnedClass() {
     return getEnumerationValueEditor().getEnumerationValueType();
   }
 
