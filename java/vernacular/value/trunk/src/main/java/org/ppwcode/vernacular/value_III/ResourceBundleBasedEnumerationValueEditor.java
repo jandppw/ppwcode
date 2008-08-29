@@ -19,9 +19,9 @@ package org.ppwcode.vernacular.value_III;
 
 import java.util.ResourceBundle;
 
-import be.peopleware.i18n_I.DefaultResourceBundleLoadStrategy;
-import be.peopleware.i18n_I.Properties;
-import be.peopleware.i18n_I.ResourceBundleLoadStrategy;
+import org.ppwcode.util.resourcebundle.DefaultResourceBundleLoadStrategy;
+import org.ppwcode.util.resourcebundle.ResourceBundleLoadStrategy;
+import org.ppwcode.util.resourcebundle.ResourceBundles;
 
 
 /**
@@ -80,10 +80,9 @@ public abstract class ResourceBundleBasedEnumerationValueEditor
    * is returned.
    */
   public final String getLabel() {
-    String result =
-          Properties.findKeyWithBasename(getResourceBundleBasename(),
-                                         new String[] {getLabelKey()},
-                                         getResourceBundleLoadStrategy());
+    String result = ResourceBundles.findKeyWithBasename(getResourceBundleBasename(),
+                                                        new String[] {getLabelKey()},
+                                                        getResourceBundleLoadStrategy());
     if (result == null) {
       result = LABEL_NOT_FOUND_TOKEN + getAsText() + LABEL_NOT_FOUND_TOKEN;
     }
