@@ -17,73 +17,59 @@ limitations under the License.
 package org.ppwcode.vernacular.value_III;
 
 
+import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+import static org.ppwcode.util.reflect_I.TypeHelpers.type;
+
+import java.beans.PropertyEditor;
 import java.beans.PropertyEditorSupport;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.ppwcode.metainfo_I.Copyright;
+import org.ppwcode.metainfo_I.License;
+import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.toryt.annotations_I.Basic;
+import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.MethodContract;
+import org.toryt.annotations_I.Throw;
+
 
 /**
- * <p>Implementations of a number of methods of
- *   {@link EnumerationValueEditor}.</p>
- *
- * <p>This implementation depends on the fact that the enumeration type
- *  implements <code>toString()</code> to return the tag for that value,
- *  as requested by {@link EnumerationValue}.</p>
+ * <p>Implementations of a number of methods of {@link EnumerationValueEditor}.</p>
+ * <p>This implementation depends on the fact that the enumeration type implements
+ *   <code>toString()</code> to return the tag for that value, as requested by {@link EnumerationValue}.</p>
+ * <p>There are no generics in this class, since we inherit from {@link PropertyEditor}, which is pre-Java 5 and not
+ *   retrofitted in the JDK, and since this class is only ment for legacy use of old ppw-value libraries-based
+ *   values.</p>
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
  */
-public abstract class AbstractEnumerationValueEditor
-    extends PropertyEditorSupport
+@Copyright("2004 - $Date$, PeopleWare n.v.")
+@License(APACHE_V2)
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
+public abstract class AbstractEnumerationValueEditor extends PropertyEditorSupport
     implements EnumerationValueEditor, Serializable {
-
-  /*<section name="Meta Information">*/
-  //------------------------------------------------------------------
-
-  /** {@value} */
-  public static final String CVS_REVISION = "$Revision$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_DATE = "$Date$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_STATE = "$State$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_TAG = "$Name$"; //$NON-NLS-1$
-
-  /*</section>*/
-
-
 
   /**
    * The enumeration type this is an editor for.
-   * <p><strong>protected</strong></p>
-   * <p>This default implementation assumes that we follow the property
-   *   editor naming scheme, and that
-   *   <code>getClass()toString().equals(getEnumerationValue().getClass()
-   *         .toString() + "Editor")</code>.</p>
    *
-   * @return    Class.forName(expectedEnumerationValueTypeClassName());
+   * @protected
+   * <p>This default implementation assumes that we follow the property editor naming scheme, and that
+   *   <code>getClass().toString().equals(getEnumerationValue().getClass().toString() + "Editor")</code>.</p>
    */
+  @MethodContract(post = @Expression("type(getExpectedEnumerationValueTypeClassName())"))
   public Class<?> getEnumerationValueType() {
-    Class<?> result = null;
-    try {
-      result = Class.forName(getExpectedEnumerationValueTypeClassName());
-    }
-    catch (ClassNotFoundException cnfExc) {
-      assert false : getExpectedEnumerationValueTypeClassName()
-                         + " should exist"; //$NON-NLS-1$
-    }
-    return result;
+    return type(getExpectedEnumerationValueTypeClassName());
   }
 
-  /**
-   * @return    getClass().toString().substring(0, getClass().toString()
-   *                .lastIndexOf("Editor"));
-   */
+  @MethodContract(post = @Expression("class.toString().substring(0, class.toString().lastIndexOf('Editor'))"))
   public final String getExpectedEnumerationValueTypeClassName() {
     String me = getClass().getName();
-    return me.substring(0, me.lastIndexOf("Editor")); //$NON-NLS-1$
+    return me.substring(0, me.lastIndexOf("Editor"));
   }
 
 
@@ -96,9 +82,9 @@ public abstract class AbstractEnumerationValueEditor
   * this method should return an array of the tag values.
   *
   * @see     PropertyEditorSupport
-  * @return  (String[])getValuesMap().keySet().toArray();
   */
   @Override
+  @MethodContract(post = @Expression("valuesMap.keySet().toArray()"))
   public final String[] getTags() {
     return (String[])getValuesMap().keySet().toArray();
   }
@@ -117,9 +103,8 @@ public abstract class AbstractEnumerationValueEditor
    * @protected
    * It would be wise for the implementation of this method to return
    * a statically constructed Map.
-   *
-   * @basic
    */
+  @Basic
   public abstract Map<String, ?> getValuesMap();
 
   /*</property>*/
@@ -131,8 +116,7 @@ public abstract class AbstractEnumerationValueEditor
 
   /**
    * @protected
-   * This implementation builds the labels map
-   * based on information in the {@link #getValuesMap()}
+   * This implementation builds the labels map based on information in the {@link #getValuesMap()}
    * and uses the method {@link #getLabel()}.
    */
   public final Map<String, String> getLabelsMap() {
@@ -153,39 +137,30 @@ public abstract class AbstractEnumerationValueEditor
   /*</property>*/
 
 
-  private static final String EMPTY = ""; //$NON-NLS-1$
-  private static final String NBSP = " "; //$NON-NLS-1$
+  private static final String EMPTY = "";
+  private static final String NBSP = " ";
 
 
   /*<property name="asText">*/
   //------------------------------------------------------------------
 
-  /**
-   * @result    getValue() == null)
-   *                ? " "
-   *                : getValue().toString();
-   */
   @Override
+  @MethodContract(post = @Expression("value == null ? SPACE : value.toString()"))
   public final String getAsText() {
-    String result = (getValue() == null)
-                       ? NBSP
-                       : getValue().toString();
+    String result = (getValue() == null) ? NBSP : getValue().toString();
     return result;
   }
 
-  /**
-   * @post      ((text == null) || (text.equals("") || (text.equals(" "))
-   *                ? new.getValue() == null
-   *                : new.getValue() = getValuesMap().get(text);
-   * @throws    IllegalArgumentException
-   *            (text != null)
-   *                && !text.equals("")
-   *                && !text.equals(" ")
-   *                && getValuesMap().get(text) == null;
-   */
   @Override
-  public final void setAsText(final String text)
-      throws IllegalArgumentException {
+  @MethodContract(
+    post = @Expression("(_text == null || _text == EMPTY || _text == SPACE) ? " +
+                         "value == null : " +
+                         "value == valuesMap.get(_text)"),
+    exc  = @Throw(type = IllegalArgumentException.class,
+                  cond = @Expression("_text != null && _text != EMPTY && _text != space && " +
+                                     "valuesMap.get(_text) == null"))
+  )
+  public final void setAsText(final String text) throws IllegalArgumentException {
     if ((text == null) || text.equals(EMPTY) || text.equals(NBSP)) { //$NON-NLS-1$
       setValue(null);
     }
