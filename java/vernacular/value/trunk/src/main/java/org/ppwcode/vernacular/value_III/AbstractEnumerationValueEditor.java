@@ -59,7 +59,7 @@ public abstract class AbstractEnumerationValueEditor extends PropertyEditorSuppo
    *
    * @protected
    * <p>This default implementation assumes that we follow the property editor naming scheme, and that
-   *   <code>getClass().toString().equals(getEnumerationValue().getClass().toString() + "Editor")</code>.</p>
+   *   <code>getClass().toString().equals(getEnumerationValueType().getClass().toString() + "Editor")</code>.</p>
    */
   @MethodContract(post = @Expression("type(getExpectedEnumerationValueTypeClassName())"))
   public Class<?> getEnumerationValueType() {
