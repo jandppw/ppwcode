@@ -23,24 +23,14 @@ import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.Invars;
+import org.toryt.annotations_I.MethodContract;
+import org.toryt.annotations_I.Throw;
 
 
 /**
  * <p>This class defines the general modus operandi for immutable value types.</p>
  * <p>When a immutable value type is used for a bean property, the following idiom is often used:</p>
  * <pre>
- *     /&#x2A;*
- *      * &#x40;param <var>propertyName</var>
- *      *        <var>property description</var>
- *      &#x2A;/
- *     &#x40;MethodContract(post = &#x40;Expression(&quot;(<var>_propertyName</var> == null) ? &quot; +
- *                                           &quot;new.<var>propertyName</var> == null : &quot; +
- *                                           &quot;new.<var>propertyName</var>.equals(<var>_propertyName</var>)&quot;))
- *     public <var>BeanType</var>(&hellip , <var>ImmutableValueType</var> <var>propertyName</var>, &hellip;) {
- *       &hellip;
- *       $<var>propertyName</var> = <var>propertyName</var>;
- *       &hellip;
- *     }
  *
  *     &hellip;
  *
@@ -60,6 +50,9 @@ import org.toryt.annotations_I.Invars;
  *     private <var>ImmutableValueType</var> $<var>propertyName</var>;
  *
  *     /&#x2A;&lt;/property&gt;&#x2A;/
+ *
+ *     &hellip;
+ *
  * </pre>
  * <p>Potentially with the addition of validation and type invariants. Note that values are not cloned or copied when
  *   they are set or returned.</p>
@@ -93,5 +86,16 @@ public abstract class ImmutableValue extends Value {
   }
 
   /*</construction>*/
+
+  /**
+   * Final override of clone() method, to make it impossible for subclasses to make the method public.
+   */
+  @MethodContract(post = @Expression("false"),
+                  exc  = @Throw(type = CloneNotSupportedException.class,
+                                cond = @Expression("true")))
+  @Override
+  protected final Object clone() throws CloneNotSupportedException {
+    throw new CloneNotSupportedException("ImmutableValue instances should never implement a clone method");
+  }
 
 }

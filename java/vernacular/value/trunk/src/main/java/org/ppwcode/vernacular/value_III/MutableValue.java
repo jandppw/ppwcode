@@ -16,75 +16,59 @@ limitations under the License.
 
 package org.ppwcode.vernacular.value_III;
 
+import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+
+import org.ppwcode.metainfo_I.Copyright;
+import org.ppwcode.metainfo_I.License;
+import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.ppwcode.vernacular.exception_II.ProgrammingErrors;
+import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.MethodContract;
+
 
 /**
- * <p>
- * This class defines general modi operandi for mutable value types.
- * When a mutable value type is used for a bean property, the following
- * idiom is often used:
- * </p>
+ * <p>This class defines the general modus operandi for mutable value types.</p>
+ * <p>When a mutable value type is used for a bean property, the following idiom is often used:</p>
  * <pre>
+ *
+ *     &hellip;
+ *
  *     /*&lt;property name=&quot;<var>propertyName</var>&quot;&gt;&#x2A;/
  *     //------------------------------------------------------------------
  *
- *     /&#x2A;*
- *      * &#x40;basic
- *      &#x2A;/
- *     public <var>MutableValueType</var> get<var>PropertyName</var>() {
- *       return (<var>MutableValueType</var>)$<var>propertyName</var>.clone();
+ *     &#x40;Basic
+ *     public <var>ImmutableValueType</var> get<var>PropertyName</var>() {
+ *       return (<var>ImmutableValueType</var>)$<var>propertyName</var>.clone();
  *     }
  *
- *     /&#x2A;*
- *      * &#x40;param <var>propertyName</var>
- *      *        The new value for <var>propertyName</var>
- *      * &#x40;post  (<var>propertyName</var> == null)
- *      *          ? new.get<var>PropertyName</var>() == null
- *      *          : <var>propertyName</var>.equals(new.get<var>PropertyName</var>());
- *      &#x2A;/
- *     public void set<var>PropertyName</var>(final <var>MutableValueType</var> <var>propertyName</var>) {
- *       $<var>propertyName</var> = (<var>MutableValueType</var>)<var>propertyName</var>.clone()
+ *     &#x40;MethodContract(post = &#x40;Expression(&quot;<var>propertyName</var> = <var>_propertyName</var>&quot;))
+ *     public void set<var>PropertyName</var>(<var>ImmutableValueType</var> <var>propertyName</var>) {
+ *       $<var>propertyName</var> = (<var>ImmutableValueType</var>)<var>propertyName</var>.clone();
  *     }
  *
- *     private <var>MutableValueType</var> $<var>propertyName</var>;
+ *     private <var>ImmutableValueType</var> $<var>propertyName</var>;
  *
  *     /&#x2A;&lt;/property&gt;&#x2A;/
+ *
+ *     &hellip;
+ *
  * </pre>
- * <p>
- * Potentially with the addition of validation and type invariants.
- * </p>
- * <p>
- * Note the use of {@link #clone()} to emulate value semantics.
- * For this reason, mutable value types should implement {@link Cloneable}.
- * Since the properties of the value are mutable, it is enough to have a
- * default constructor that sets default values internally. Since we
- * demand of subtypes that they implement {@link java.io.Serializable},
- * a default constructor is mandatory.
- * </p>
- * <p>
- * Like with any value type, {@link #equals(Object)} and {@link #hashCode()}
- * should be overridden appropriately.
- * </p>
+ * <p>Potentially with the addition of validation and type invariants. Note that values are cloned (or copied) when
+ *   they are set or returned to protect encapsulation.</p>
+ * <p>For this reason, mutable value types <strong>must</strong> implement {@link Cloneable}. Since the properties of
+ *   the value are mutable, it is enough to have a default constructor that sets default values internally. Since we
+ *   demand of subtypes that they implement {@link java.io.Serializable}, a default constructor is mandatory.</p>
+ * <p>Like with any value type, {@link #equals(Object)} and {@link #hashCode()} <strong>must</strong> be overridden
+ *   appropriately.</p>
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
  */
+@Copyright("2004 - $Date$, PeopleWare n.v.")
+@License(APACHE_V2)
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public abstract class MutableValue extends Value implements Cloneable {
-
-  /*<section name="Meta Information">*/
-  //------------------------------------------------------------------
-
-  /** {@value} */
-  public static final String CVS_REVISION = "$Revision$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_DATE = "$Date$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_STATE = "$State$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_TAG = "$Name$"; //$NON-NLS-1$
-
-  /*</section>*/
-
-
 
   /*<construction>*/
   //------------------------------------------------------------------
@@ -97,29 +81,33 @@ public abstract class MutableValue extends Value implements Cloneable {
   }
 
   /**
-   * This method should be overwritten with deep copy statements
-   * if needed locally. The following idiom can be used:
+   * <p>This method <strong>must</strong> be overwritten with the correct return type.
+   *   If needed locally, the override implementation should feature deep copy statements.
+   *   The following idiom can be used:</p>
    * <pre>
    *     public Object clone() {
    *       <var>MutableValueType</var> clone = super.clone();
    *       clone.$<var>propertyName1</var> = (<var>PropertyType</var>)$<var>propertyName1</var>.clone();
    *       &hellip;
-   *       clone.$<var>propertyNamen</var> = (<var>PropertyType</var>)$<var>propertyNamen</var>.clone();
+   *       clone.$<var>propertyNameN</var> = (<var>PropertyType</var>)$<var>propertyNameN</var>.clone();
    *       return clone;
    *     }
    * </pre>
-   *
-   * @result    result != this;
-   * @result    result.equals(this);
    */
+  @MethodContract(
+    post = {
+      @Expression("result != this"),
+      @Expression("result.equals(this)")
+    }
+  )
   @Override
-  public Object clone() {
-    Object result = null;
+  public MutableValue clone() {
+    MutableValue result = null;
     try {
-      result = super.clone();
+      result = (MutableValue)super.clone();
     }
     catch (CloneNotSupportedException cnsExc) {
-      assert false : "impossible, since we do implement Cloneable"; //$NON-NLS-1$
+      ProgrammingErrors.unexpectedException(cnsExc, "we do implement Cloneable");
     }
     return result;
   }
