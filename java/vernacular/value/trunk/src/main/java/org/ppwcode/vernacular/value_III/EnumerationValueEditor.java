@@ -72,7 +72,7 @@ public interface EnumerationValueEditor extends PropertyEditor {
 
   /**
    * <p>The type we are an editor for. If the editor follows the normal naming scheme,
-   *   <code>getClass().toString().equals(getEnumerationValue().getClass().toString() + "Editor")</code>.</p>
+   *   <code>getClass().toString().equals(getEnumerationValueType().getClass().toString() + "Editor")</code>.</p>
    * <p>This is not mandatory, but enables the automatic finding of the editor by IDE's and other tools.
    *   Thus, this naming scheme is highly recommended.</p>
    */
