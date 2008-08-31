@@ -54,19 +54,6 @@ import org.toryt.annotations_I.Throw;
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
- *
- * @invar     getEnumerationValue() != null;
- * @invar     (getAsText() != null)
- *                <==> getEnumerationValue().isInstance(getValue());
- * @invar     (getAsText() != null)
- *                ==> Arrays().asList(getTags()).contains(getAsText());
- * @invar     getLabelsMap() != null;
- * @invar     ! getLabelsMap().keySet().contains(null);
- * @invar     (foreach Object k; getLabelsMap().keySet().contains(k);
- *                k instanceof String);
- * @invar     ! getLabelsMap().values().contains(null);
- * @invar     (foreach Object l; getLabelsMap().values().contains(l);
- *                l instanceof String);
  */
 @Copyright("2004 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
