@@ -17,37 +17,33 @@ limitations under the License.
 package org.ppwcode.vernacular.value_III;
 
 
+import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+
 import java.io.Serializable;
 import java.util.Locale;
 
+import org.ppwcode.metainfo_I.Copyright;
+import org.ppwcode.metainfo_I.License;
+import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.toryt.annotations_I.Basic;
+import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.MethodContract;
+
 
 /**
- * <p>For i18n, the features provided by {@link Locale}
- *   are used. The returned label is either in the
- *   requested language, if the {@link #getDisplayLocale()}
- *   is set, or in the language of the {@link #getValue()}
- *   displayed locale itself, if the {@link #getDisplayLocale()}
- *   is not set.</p>
+ * <p>For i18n, the features provided by {@link Locale} are used. The returned label is either in the
+ *   requested language, if the {@link #getDisplayLocale()} is set, or in the language of the
+ *   {@link #getValue()} displayed locale itself, if the {@link #getDisplayLocale()} is not set.</p>
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
  */
+@Copyright("2004 - $Date$, PeopleWare n.v.")
+@License(APACHE_V2)
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public abstract class DisplayLocaleBasedEnumerationValueEditor
     extends AbstractEnumerationValueEditor implements Serializable {
-
-  /*<section name="Meta Information">*/
-  //------------------------------------------------------------------
-
-  /** {@value} */
-  public static final String CVS_REVISION = "$Revision$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_DATE = "$Date$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_STATE = "$State$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_TAG = "$Name$"; //$NON-NLS-1$
-
-  /*</section>*/
 
 
 
@@ -57,16 +53,13 @@ public abstract class DisplayLocaleBasedEnumerationValueEditor
   /**
    * This locale is used to determine the i18n {@link #getLabel() label}
    * for a {@link Locale}. It can be <code>null</code>.
-   *
-   * @basic
    */
+  @Basic
   public final Locale getDisplayLocale() {
     return $displayLocale;
   }
 
-  /**
-   * @post      new.getDisplayLocale() == displayLocale;
-   */
+  @MethodContract(post = @Expression("displayLocal == _displayLocale"))
   public final void setDisplayLocale(final Locale displayLocale) {
     $displayLocale = displayLocale;
   }
