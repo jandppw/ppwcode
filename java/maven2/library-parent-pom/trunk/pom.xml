@@ -849,6 +849,8 @@
 
       <!-- linkcheck would be desirable, but no maven 2 plugin was found -->
       <!-- doccheck is probably not desirable, and no maven 2 plugin was found -->
+
+      <!-- EMMA might be interesting http://mojo.codehaus.org/emma-maven-plugin/howto.html -->
     </plugins>
 
   </reporting>
