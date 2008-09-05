@@ -38,7 +38,7 @@
   <!-- for the artifactId, see the magic mantra below -->
   <groupId>org.ppwcode</groupId>
   <artifactId>ppwcode-library-parent-pom</artifactId>
-  <version>1.0.1</version>
+  <version>1.1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>ppwcode library parent pom</name>
   <description>A parent pom for collections of libaries, or single libraries.
@@ -826,7 +826,23 @@
         <version>2.0</version>
       </plugin>
 
-      <!-- IDEA add maven-jdiff-plugin -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>l10n-maven-plugin</artifactId>
+        <version>1.0-alpha-1</version>
+        <!--
+        <version>1.0-SNAPSHOT</version>
+        <configuration>
+          <locales>
+            <locale>en</locale>
+            <locale>nl</locale>
+            <locale>fr</locale>
+          </locales>
+        </configuration>
+        -->
+      </plugin>
+
+      <!-- IDEA add maven-jdiff-plugin (compares Javadoc of different versions) -->
 
       <!-- IDEA maven-pdf-plugin looks interesting, but is still under development -->
       <!-- IDEA maven-uml-plugin looks interesting, but is still under development -->
