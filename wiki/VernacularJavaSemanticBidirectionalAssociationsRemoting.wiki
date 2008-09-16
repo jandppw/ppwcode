@@ -25,13 +25,13 @@ public class Enterprise {
   @MethodContract(pre  = {@Expression("_c != null"),
                           @Expression("_c.enterprise == this")},
                   post = @Expression("contracts.contains(_c)"))
-  final void addContract(SecondLineContract c) {
+  final void addContract(Contract c) {
     ProgrammingErrors.preArgumentNotNull(c, "c");
     $contracts.add(c);
   }
 
   @MethodContract(post = @Expression("! contracts.contains(_c)"))
-  final void removeContract(SecondLineContract c) {
+  final void removeContract(Contract c) {
     $contracts.remove(c);
   }
 
@@ -39,21 +39,21 @@ public class Enterprise {
          invars = {@Expression("contracts != null"),
                    @Expression("! contracts.contains(null)"),
                    @Expression("for (Contract c : contracts) { c.enterprise == this }")})
-  final public Set<SecondLineContract> getContracts() {
-    return new HashSet<SecondLineContract>($contracts);
+  final public Set<Contract> getContracts() {
+    return new HashSet<Contract>($contracts);
   }
 
   @Invars({@Expression("$contracts != null"),
            @Expression("! $contracts.contains(null)"),
            @Expression("for (Contract c : $contracts) { c.enterprise == this }")})
-  private Set<SecondLineContract> $contracts = new HashSet<SecondLineContract>();
+  private Set<Contract> $contracts = new HashSet<Contract>();
 
   /*</property>*/
 
 }
 }}}
 {{{
-public class SecondLineContract {
+public class Contract {
 
   /*<property name="Enterprise">
   -------------------------------------------------------------------------*/
