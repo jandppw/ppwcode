@@ -1,6 +1,8 @@
 #summary How to deal with bidirectional associations with persistence and serialization
 #labels Phase-Vernacular
 
+
+
 = Introduction =
 
 The context of this discussion is how to deal with bidirectional relationships in a 2-faces context, with persistence on one side, and use of the semantic objects outside of the persistence context on the other side.
@@ -9,4 +11,81 @@ The problem is the same in the context of EJB2, HIbernate, JPA, or any other per
 
 There is no good solution to date that we can think of. In this text, we take down different possible approaches, and discuss their benefits and negative points. Finally, we choose one approach, which does not solve the problem completely, as our vernacular.
 
+
+= The example =
+
+We will use an example in this text to make things more clear. We will consider a bidirectional one-to-many relation between enterprises and contracts (one enterprise has 0-n contracts, a contract has 0-1 enterprise). Although a civilized contract cannot exist without an enterprise, it can exist in RAM as a non-civil contract. This is necessary for a number of reasons, amongst others, because we need a contract object a priori during creation, to set an enterprise on (creation is a slow, user interactive proces). A normal Java implementation would be:
+
+{{{
+public class Enterprise {
+
+  /*<property name="contracts">
+  -------------------------------------------------------------------------*/
+
+  @MethodContract(pre  = {@Expression("_c != null"),
+                          @Expression("_c.enterprise == this")},
+                  post = @Expression("contracts.contains(_c)"))
+  final void addContract(SecondLineContract c) {
+    ProgrammingErrors.preArgumentNotNull(c, "c");
+    $contracts.add(c);
+  }
+
+  @MethodContract(post = @Expression("! contracts.contains(_c)"))
+  final void removeContract(SecondLineContract c) {
+    $contracts.remove(c);
+  }
+
+  @Basic(init   = @Expression("contracts.isEmpty()"),
+         invars = {@Expression("contracts != null"),
+                   @Expression("! contracts.contains(null)"),
+                   @Expression("for (Contract c : contracts) { c.enterprise == this }")})
+  final public Set<SecondLineContract> getContracts() {
+    return new HashSet<SecondLineContract>($contracts);
+  }
+
+  @Invars({@Expression("$contracts != null"),
+           @Expression("! $contracts.contains(null)"),
+           @Expression("for (Contract c : $contracts) { c.enterprise == this }")})
+  private Set<SecondLineContract> $contracts = new HashSet<SecondLineContract>();
+
+  /*</property>*/
+
+}
+}}}
+{{{
+public class SecondLineContract {
+
+  /*<property name="Enterprise">
+  -------------------------------------------------------------------------*/
+
+  @Basic(init   = @Expression("enterprise == null"),
+         invars = @Expression("enterprise != null ? enterprise.contracts.contains(this)"))
+  public final Enterprise getEnterprise() {
+    return $enterprise;
+  }
+
+  @MethodContract(post = {@Expression("enterprise == _enterprise"),
+                          @Expression("'enterprise != null ? ! 'enterprise.contracts.contains(this)"),
+                          @Expression("_enterprise != null ? _enterprise.contracts.contains(this)")})
+  public final void setEnterprise(Enterprise enterprise) {
+    if ($enterprise != enterprise) {
+      if ($enterprise != null) {
+        $enterprise.removeContract(this);
+      }
+      $enterprise = enterprise;
+      if ($enterprise != null) {
+        $enterprise.addContract(this);
+      }
+    }
+  }
+
+  private Enterprise $enterprise;
+
+  /*</property>*/
+
+}
+}}}
+
 = The need for bidirectional associations =
+
+Bidirectional associations are, in general needed for our semantics. One possible solution of the problem, is to not work with bidirectional associations
