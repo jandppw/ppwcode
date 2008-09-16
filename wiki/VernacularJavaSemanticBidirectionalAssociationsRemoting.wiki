@@ -212,5 +212,5 @@ With this being a singleton in each context (JPA on the backend server, somethin
 
 Actually, we can use this solution without making Enterprise dirty with this code. But such code would in any case appear in the Contracts class for validation reasons.
 
-for this code is not a good idea, for several reasons.
-First of all, it introduces a circular dependency between the DAO and the semantic classes, which is known bad practice. The semantic classes (Enterprise, Contract) can, in no context whatsoever, be used without the DAO. Secondly, every context would need a good implementation of the DAO.
+We are not happy with this code, for several reasons.
+First of all, it introduces a circular dependency between the DAO and the semantic classes, which is known bad practice. The semantic classes (Enterprise, Contract) can, in no context whatsoever, be used without the DAO. Secondly, every context would need a good implementation of the DAO. Third, the contracts we get returned in this way are related to an Entrprise object, but that would often be a _different_ Enterprise object than now (i.e., when we are using it detached from a JPA context that resolves this for us; writing some resolver like that for remote use ourselfs would be very difficult.
