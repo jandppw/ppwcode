@@ -130,6 +130,36 @@ for (Contract c1 : contracts) {for (Contract c2: contracts) {c1 != c2 ?? noOverl
 }}}
 This invariant would be enforced by adding validation code to `Contract.setEnterprise(Enterprise)`:
 {{{
+  @MethodContract(post = {@Expression("enterprise == _enterprise"),
+                          @Expression("'enterprise != null ? ! 'enterprise.contracts.contains(this)"),
+                          @Expression("_enterprise != null ? _enterprise.contracts.contains(this)")})
+  public final void setEnterprise(Enterprise enterprise) {
+    if ($enterprise != enterprise) {
+      if (enterprise != null) {
+        if (hasOverlap(enterprise.getContracts()) {
+          throw new ContractOverlapException(this, enterprise);
+        }
+      }
+      if ($enterprise != null) {
+        $enterprise.removeContract(this);
+      }
+      $enterprise = enterprise;
+      if ($enterprise != null) {
+        $enterprise.addContract(this);
+      }
+    }
+  }
+
+  private boolean hasOverlap(Set<Contract> contracts) {
+    for (Contract c : contracts) {
+      if (this.overlaps(c) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  ...
 }}}
 
 In the version with a unidirectional association, there is no way we can express this invariant in an encapsulated way.
