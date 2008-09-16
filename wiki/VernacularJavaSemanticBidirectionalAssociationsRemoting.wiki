@@ -183,4 +183,34 @@ for (Contract c1) {for (Contract c2) {c1.enterprise = this && c2.enterprise == t
 
 This is correct in the contract paradigm. The problem is that we have no way to implement this in a rational way. From the side of the enterprise, it is not possible in any way, as before. But now it is not even possible from the side of the Contract, _because we have no Java-programmatic way to get the set of contracts of a given enterprise_. There is not even a set of all contracts, we could filter for the contracts of the given enterprise.
 
-We could program some sort of "set of all contracts" outside the classes Enterprise and Contract, but this is proven bad design, without any encapsulation, exposing the problem to users of our code.
+Using the method `EnterpriseDao.contractsFor(Enterprise)` is a possibility. Since in this case the validation code is in Contract, a contract instance needs a way to get at the correct EnterpriseDao. But since a contract does have a reference to the related Enterprise, we could possibly store the reference to the EnterpriseDao in each enterprise instance. An enterprise would then have an additional method `getEnterpriseDao()`. But in that case, we could also implement the `getContracts()` method (which is the only public method for the contracts relationship in Enterprise) as:
+{{{
+  public Set<Contract> getContracts() {
+    return getEnterpriseDao().contractsFor(this);
+  }
+}}}
+There is a caveat here, though. In, e.g., a JPA context, `myContract.setEnterprise(myEnterprise)` would *not* result in `myEnterprise.getContracts().contains(myContract)`! At least not until the current JPA transaction would be committed! _OR WOULD IT: IF WE ARE ATTACHED, JPA TAKES CARE OF THIS???_
+
+The remaining problem is how to make each Enterprise instance aware of the related Dao? With the above pattern, we would need to inject the DAO in each entity in some way (but we surely do not want the enterprise dao instance to be persisted itself, or even serialized, so it is not a real property!). This problem is probably even harder in other contexts. Imagine the enterprise being serialized, send over the wire, and deserialized. There, it needs some enterprise DAO too, but surely another implementation is needed there than the JPA implementation we used on the server.
+
+Perhaps the solution lies here in a DAO manager:
+
+{{{
+  public interface DaoManager {
+    
+    Dao daoFor(Class<?> persistentBeanType);
+ 
+  }
+}}}
+
+With this being a singleton in each context (JPA on the backend server, something else on the web tier, and possibly even a JavaScript version in the browser), no injection in the classes is needed.
+{{{
+  public Set<Contract> getContracts() {
+    return ((EnterpriseDao)DaoManager.getInstance().daoFor(Enterprise.class)).contractsFor(this);
+  }
+}}}
+
+Actually, we can use this solution without making Enterprise dirty with this code. But such code would in any case appear in the Contracts class for validation reasons.
+
+for this code is not a good idea, for several reasons.
+First of all, it introduces a circular dependency between the DAO and the semantic classes, which is known bad practice. The semantic classes (Enterprise, Contract) can, in no context whatsoever, be used without the DAO. Secondly, every context would need a good implementation of the DAO.
