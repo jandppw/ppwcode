@@ -214,3 +214,14 @@ Actually, we can use this solution without making Enterprise dirty with this cod
 
 We are not happy with this code, for several reasons.
 First of all, it introduces a circular dependency between the DAO and the semantic classes, which is known bad practice. The semantic classes (Enterprise, Contract) can, in no context whatsoever, be used without the DAO. Secondly, every context would need a good implementation of the DAO. Third, the contracts we get returned in this way are related to an Entrprise object, but that would often be a _different_ Enterprise object than now (i.e., when we are using it detached from a JPA context that resolves this for us; writing some resolver like that for remote use ourselfs would be very difficult.
+
+
+= Remote we do want unidirectionality =
+
+For remote work, we actually do not want bidirectionality, for several reasons:
+  * We don not always want to carry all to-many relationships over the wire. Please let us get those to-many instances we want, don't force them upon us.
+  * If you push all to-many instances over the wire for all to-many relationships always, you will, with each call, almost get the entire database over the wire. Normally, almost all objects in a business system are related to each other.
+  * Validation: we have validation in our bidirectional version of `Contract.setEnterprise(Enterprise)`. Frankly, for reasons of performance, we do not want that type of validation to occur locally. Semantically, it would be okay, but it will be repeated on the server anyway. This would mean 2 database hits and a lot of network traffic for no good reason.
+  * ...
+
+We seem to have 2 different needs for Enterprises and Contracts: a bidirectional version on the server, and a, more controllable unidirectional version remotely.
