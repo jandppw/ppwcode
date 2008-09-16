@@ -93,8 +93,33 @@ public class Contract {
 Bidirectional associations are, in general needed for our semantics. One possible solution of the problem, is to not work with bidirectional associations, but replace them with unidirectional relations, as follows:
 
 {{{
+public class Enterprise {
+
+  // NOP
+
+}
 }}}
 {{{
+public class Contract {
+
+  /*<property name="Enterprise">
+  -------------------------------------------------------------------------*/
+
+  @Basic(init = @Expression("enterprise == null"))
+  public final Enterprise getEnterprise() {
+    return $enterprise;
+  }
+
+  @MethodContract(post = @Expression("enterprise == _enterprise"))
+  public final void setEnterprise(Enterprise enterprise) {
+    $enterprise = enterprise;
+  }
+
+  private Enterprise $enterprise;
+
+  /*</property>*/
+
+}
 }}}
 
 This might work, but now we have lost a lot, which can not easily be replaced. A lot of the semantics of enterprises and contracts is in their structure, but an equal amount of semantics is expressed in extra invariants, which result in _validation code_. In our vernacular, this validation code turns up in the setter (in this case `Contract.setEnterprise(Enterprise)` and in the `Contract.wildExceptions` and `Enterprise.wildExceptions` methods, which test civility.
@@ -103,3 +128,15 @@ Whenever an invariant expresses limitations on the set of contracts for an enter
 {{{
 for (Contract c1 : contracts) {for (Contract c2: contracts) {c1 != c2 ?? noOverlap(c1, c2)}}
 }}}
+This invariant would be enforced by adding validation code to `Contract.setEnterprise(Enterprise)`:
+{{{
+}}}
+
+In the version with a unidirectional association, there is no way we can express this invariant in an encapsulated way.
+
+We could add an invariant instead on Enterprise of the form:
+{{{
+for (Contract c1) {for (Contract c2) {c1.enterprise = this && c2.enterprise == this && c1 != c2 ?? noOverlap(c1, c2)}}
+}}}
+
+This is correct in the contract paradigm. The problem is that we have no way to implement this in a rational way. 
