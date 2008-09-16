@@ -1,0 +1,12 @@
+#summary How to deal with bidirectional associations with persistence and serialization
+#labels Phase-Vernacular
+
+= Introduction =
+
+The context of this discussion is how to deal with bidirectional relationships in a 2-faces context, with persistence on one side, and use of the semantic objects outside of the persistence context on the other side.
+
+The problem is the same in the context of EJB2, HIbernate, JPA, or any other persistence technology (and EJB3 / JPA does not solve it). The problem is the same in the context of any use of the semantic objects out side the persistence context. In particular, when the semantic objects are transported from one system to another, via serialization, XML or other marshalling, JSON conversion, with RMI, web services, dwr, or any other technology.
+
+There is no good solution to date that we can think of. In this text, we take down different possible approaches, and discuss their benefits and negative points. Finally, we choose one approach, which does not solve the problem completely, as our vernacular.
+
+= The need for bidirectional associations =
