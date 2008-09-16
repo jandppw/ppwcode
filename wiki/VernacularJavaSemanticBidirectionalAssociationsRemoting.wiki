@@ -87,8 +87,7 @@ public class Contract {
 }}}
 
 
-
-= The need for bidirectional associations =
+= Idea 1: only use unidirectional associations =
 
 Bidirectional associations are, in general needed for our semantics. One possible solution of the problem, is to not work with bidirectional associations, but replace them with unidirectional relations, as follows:
 
@@ -121,6 +120,17 @@ public class Contract {
 
 }
 }}}
+
+To get the contracts for a given enterprise, we would then rely on business logic, in a separate class, something of the form:
+{{{
+  public interface EnterpriseDao {
+
+    Set<Contract> contractsFor(Enterprise enterprise);
+
+  }
+}}}
+
+The implementation depends on the use of the code. In a context where civilized enterprises and contracts are persisted to a RDBMS, this method could be implemented using SQL from the database, or using a named query when Hibernate or JPA are choosen.
 
 This might work, but now we have lost a lot, which can not easily be replaced. A lot of the semantics of enterprises and contracts is in their structure, but an equal amount of semantics is expressed in extra invariants, which result in _validation code_. In our vernacular, this validation code turns up in the setter (in this case `Contract.setEnterprise(Enterprise)` and in the `Contract.wildExceptions` and `Enterprise.wildExceptions` methods, which test civility.
 
