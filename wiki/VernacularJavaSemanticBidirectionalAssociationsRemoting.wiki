@@ -86,6 +86,20 @@ public class Contract {
 }
 }}}
 
+
+
 = The need for bidirectional associations =
 
-Bidirectional associations are, in general needed for our semantics. One possible solution of the problem, is to not work with bidirectional associations
+Bidirectional associations are, in general needed for our semantics. One possible solution of the problem, is to not work with bidirectional associations, but replace them with unidirectional relations, as follows:
+
+{{{
+}}}
+{{{
+}}}
+
+This might work, but now we have lost a lot, which can not easily be replaced. A lot of the semantics of enterprises and contracts is in their structure, but an equal amount of semantics is expressed in extra invariants, which result in _validation code_. In our vernacular, this validation code turns up in the setter (in this case `Contract.setEnterprise(Enterprise)` and in the `Contract.wildExceptions` and `Enterprise.wildExceptions` methods, which test civility.
+
+Whenever an invariant expresses limitations on the set of contracts for an enterprise, we are in trouble. Imagine, e.g., a business rule that says that contracts, which have a start and an end date, for a given enterprise, may not overlap. In the original code, this invariant would be expressed in Enterprise, and be of the form:
+{{{
+for (Contract c1 : contracts) {for (Contract c2: contracts) {c1 != c2 ?? noOverlap(c1, c2)}}
+}}}
