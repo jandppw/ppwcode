@@ -162,6 +162,8 @@ This invariant would be enforced by adding validation code to `Contract.setEnter
   ...
 }}}
 
+Furthermore, the contract period can probably be changed, and thus we need validation code in these setters to (to make sure a contract period of a contract of a given enterprise is not changed incorrectly to overlap with another contract of that given enterprise, after the relationship is set up). (Note that here an invariant from class Enterprise is enforced in another class, Contract, which is less then desirable).
+
 In the version with a unidirectional association, there is no way we can express this invariant in an encapsulated way.
 
 We could add an invariant instead on Enterprise of the form:
@@ -169,4 +171,6 @@ We could add an invariant instead on Enterprise of the form:
 for (Contract c1) {for (Contract c2) {c1.enterprise = this && c2.enterprise == this && c1 != c2 ?? noOverlap(c1, c2)}}
 }}}
 
-This is correct in the contract paradigm. The problem is that we have no way to implement this in a rational way. 
+This is correct in the contract paradigm. The problem is that we have no way to implement this in a rational way. From the side of the enterprise, it is not possible in any way, as before. But now it is not even possible from the side of the Contract, _because we have no Java-programmatic way to get the set of contracts of a given enterprise_. There is not even a set of all contracts, we could filter for the contracts of the given enterprise.
+
+We could program some sort of "set of all contracts" outside the classes Enterprise and Contract, but this is proven bad design, without any encapsulation, exposing the problem to users of our code.
