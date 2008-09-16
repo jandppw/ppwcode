@@ -133,7 +133,7 @@ This invariant would be enforced by adding validation code to `Contract.setEnter
   @MethodContract(post = {@Expression("enterprise == _enterprise"),
                           @Expression("'enterprise != null ? ! 'enterprise.contracts.contains(this)"),
                           @Expression("_enterprise != null ? _enterprise.contracts.contains(this)")})
-  public final void setEnterprise(Enterprise enterprise) {
+  public final void setEnterprise(Enterprise enterprise) throws ContractOverlapException {
     if ($enterprise != enterprise) {
       if (enterprise != null) {
         if (hasOverlap(enterprise.getContracts()) {
