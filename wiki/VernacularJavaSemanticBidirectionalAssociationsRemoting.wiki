@@ -1,5 +1,5 @@
 #summary How to deal with bidirectional associations with persistence and serialization
-#labels Phase-Vernacular
+#labels Phase-Vernacular,NeedsWork
 
 
 
