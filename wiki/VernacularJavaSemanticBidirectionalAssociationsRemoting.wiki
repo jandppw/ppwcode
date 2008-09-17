@@ -1,7 +1,7 @@
 #summary How to deal with bidirectional associations with persistence and serialization
-#labels Phase-Vernacular,NeedsWork
+#labels Phase-Vernacular,NeedsWork,Deprecated
 
-
+*This page was used as a first approach, in an discussion. The conclusion is different, and this page is not a correct rendering of what we will do. A later version might be written, or not.*
 
 = Introduction =
 
