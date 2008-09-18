@@ -6,7 +6,6 @@
 
 package org.ppwcode.vernacular.value_III;
 
-import static org.junit.Assert.fail;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.unexpectedException;
 import static org.ppwcode.vernacular.value_III._Contract_.contractFor;
 
