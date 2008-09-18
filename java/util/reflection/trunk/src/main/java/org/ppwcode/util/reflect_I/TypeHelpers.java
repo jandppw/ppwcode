@@ -402,6 +402,7 @@ public class TypeHelpers {
    *   <dfn>binary</dfn> &quot;$&quot; separation for member types).</p>
    *
    * @mudo This method should also support array type with the &quot;[]&quot; notation.
+   * @mudo We need a method like this, that does it best, but doesn't fail if such a class does not exist
    */
   @MethodContract(
     pre  = {
@@ -491,7 +492,6 @@ public class TypeHelpers {
    * @mudo this method needs to be moved; split into just an exception vernacular "instantiate" method; we probably no longer need this than
    */
   public static Object instantiatePrefixed(ClassLoader cl, final String prefix, final String fqtn) {
-    preArgumentNotNull(cl, "cl");
     preArgumentNotNull(prefix, "prefix");
     preArgumentNotEmpty(fqtn, "fqtn");
     TypeName n = new TypeName(fqtn);
