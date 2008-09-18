@@ -18,6 +18,7 @@ package org.ppwcode.vernacular.value_III;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+import static org.ppwcode.util.reflect_I.ConstantHelpers.constant;
 import static org.ppwcode.util.reflect_I.TypeHelpers.type;
 
 import java.beans.PropertyEditor;
@@ -26,13 +27,14 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
+import org.toryt.annotations_I.Scope;
 import org.toryt.annotations_I.Throw;
 
 
@@ -86,7 +88,8 @@ public abstract class AbstractEnumerationValueEditor extends PropertyEditorSuppo
   @Override
   @MethodContract(post = @Expression("valuesMap.keySet().toArray()"))
   public final String[] getTags() {
-    return (String[])getValuesMap().keySet().toArray();
+    Set<String> tags = getValuesMap().keySet();
+    return tags.toArray(new String[tags.size()]);
   }
 
   /*</property>*/
@@ -104,8 +107,11 @@ public abstract class AbstractEnumerationValueEditor extends PropertyEditorSuppo
    * It would be wise for the implementation of this method to return
    * a statically constructed Map.
    */
-  @Basic
-  public abstract Map<String, ?> getValuesMap();
+  @MethodContract(post = @Expression(scope = Scope.PROTECTED,
+                                     value = "constant(getEnumerationValueType(), 'VALUES')"))
+  public Map<String, ?> getValuesMap() {
+    return constant(getEnumerationValueType(), "VALUES");
+  }
 
   /*</property>*/
 
@@ -138,37 +144,45 @@ public abstract class AbstractEnumerationValueEditor extends PropertyEditorSuppo
 
 
   private static final String EMPTY = "";
-  private static final String NBSP = " ";
 
 
   /*<property name="asText">*/
   //------------------------------------------------------------------
 
+  /**
+   * @note In the previous version, we had code that returned one SPACE when the value
+   *       is null. This is strange. We suppose this was introduced at some time, but the
+   *       documentation nor the VCS history gives any explanation. This was like since the
+   *       first version committed (r137). The name (SPACE) suggests that the reason was
+   *       something in HTML in the first version which was used in Struts.
+   *       The {@link PropertyEditor#getAsText()} documentation itself is vague about what
+   *       to do with a null value. When it turns out in use later that we cannot return
+   *       null in {@code getAsText} for some reason, it would be better to return a meaningful
+   *       {@code NULL} String or something than a space probably.
+   */
   @Override
-  @MethodContract(post = @Expression("value == null ? SPACE : value.toString()"))
+  @MethodContract(post = @Expression("value == null ? null : value.toString()"))
   public final String getAsText() {
-    String result = (getValue() == null) ? NBSP : getValue().toString();
+    String result = (getValue() == null) ? null : getValue().toString();
     return result;
   }
 
   @Override
   @MethodContract(
-    post = @Expression("(_text == null || _text == EMPTY || _text == SPACE) ? " +
+    post = @Expression("(_text == null || _text == EMPTY) ? " +
                          "value == null : " +
                          "value == valuesMap.get(_text)"),
     exc  = @Throw(type = IllegalArgumentException.class,
-                  cond = @Expression("_text != null && _text != EMPTY && _text != space && " +
-                                     "valuesMap.get(_text) == null"))
+                  cond = @Expression("_text != null && _text != EMPTY && valuesMap.get(_text) == null"))
   )
   public final void setAsText(final String text) throws IllegalArgumentException {
-    if ((text == null) || text.equals(EMPTY) || text.equals(NBSP)) { //$NON-NLS-1$
+    if ((text == null) || text.equals(EMPTY)) {
       setValue(null);
     }
     else {
       Object result = getValuesMap().get(text);
       if (result == null) {
-        throw new IllegalArgumentException("\"" + text //$NON-NLS-1$
-                                           + "\" was not recognized as a tag"); //$NON-NLS-1$
+        throw new IllegalArgumentException("\"" + text + "\" was not recognized as a tag");
       }
       setValue(result);
     }

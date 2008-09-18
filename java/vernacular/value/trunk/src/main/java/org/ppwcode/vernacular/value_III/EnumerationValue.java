@@ -68,7 +68,7 @@ import org.toryt.annotations_I.MethodContract;
  *    *
  *    * <strong>= {&#x40;value}</strong>
  *    &#x2A;/
- *   public static final String <var>VALUE_1</var>_STRING = &quot;<var>DISCRIMINATING_STRING_1</var>&quot;
+ *   public static final String <var>VALUE_1</var>_STRING = &quot;<var>DISCRIMINATING_STRING_1</var>&quot;;
  *
  *   &hellip;
  *
@@ -94,10 +94,10 @@ import org.toryt.annotations_I.MethodContract;
  *   public static final <var>EnumerationValueName</var> <var>VALUE_DEFAULT</var> =
  *       new <var>EnumerationValueName</var>(<var>VALUE_DEFAULT</var>_STRING);
  *
- *   public static final java.util.Map VALUES&lt;String, <var>EnumerationValueName</var>&gt; = generateValues();
+ *   public static final Map&lt;String, <var>EnumerationValueName</var>&gt; VALUES = generateValues();
  *
- *   private static java.util.Map&lt;String, <var>EnumerationValueName</var>&gt; generateValues() {
- *     java.util.Map&lt;String, <var>EnumerationValueName</var>&gt; result = new java.util.HashMap&lt;String, <var>EnumerationValueName</var>&gt;();
+ *   private static Map&lt;String, <var>EnumerationValueName</var>&gt; generateValues() {
+ *     Map&lt;String, <var>EnumerationValueName</var>&gt; result = new HashMap&lt;String, <var>EnumerationValueName</var>&gt;();
  *     result.put(<var>VALUE_1</var>.toString(), <var>VALUE_1</var>);
  *     result.put(<var>VALUE_DEFAULT</var>.toString(), <var>VALUE_DEFAULT</var>);
  *     return java.util.Collections.unmodifiableMap(result);
