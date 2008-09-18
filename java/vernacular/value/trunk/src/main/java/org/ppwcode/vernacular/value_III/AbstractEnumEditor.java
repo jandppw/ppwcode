@@ -20,6 +20,7 @@ package org.ppwcode.vernacular.value_III;
 import static java.lang.Enum.valueOf;
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.TypeHelpers.type;
+import static org.ppwcode.vernacular.value_III.EnumHelpers.valuesMap;
 
 import java.beans.PropertyEditorSupport;
 import java.io.Serializable;
@@ -55,13 +56,13 @@ public abstract class AbstractEnumEditor<_Enum_ extends Enum<_Enum_>> extends Pr
    * <p>This default implementation assumes that we follow the property editor naming scheme, and that
    *   <code>getClass().toString().equals(getEnumType().getDeclaredClass().toString() + "Editor")</code>.</p>
    */
-  @MethodContract(post = @Expression("type(getExpectedEnumerationValueTypeClassName())"))
+  @MethodContract(post = @Expression("type(getExpectedEnumTypeClassName())"))
   public Class<_Enum_> getEnumType() {
-    return type(getExpectedEnumerationValueTypeClassName());
+    return type(getExpectedEnumTypeClassName());
   }
 
-  @MethodContract(post = @Expression("declaredClass.toString().substring(0, class.toString().lastIndexOf('Editor'))"))
-  public final String getExpectedEnumerationValueTypeClassName() {
+  @MethodContract(post = @Expression("declaredClass.getName().substring(0, class.getName().lastIndexOf('Editor'))"))
+  public final String getExpectedEnumTypeClassName() {
     String me = getClass().getName();
     return me.substring(0, me.lastIndexOf("Editor"));
   }
@@ -94,9 +95,9 @@ public abstract class AbstractEnumEditor<_Enum_ extends Enum<_Enum_>> extends Pr
    * A map that contains all the tags, associated with the instance
    * the tag represents.
    */
-  @Basic
+  @MethodContract(post = @Expression("valuesMap(getEnumType())"))
   public final Map<String, _Enum_> getValuesMap() {
-    return EnumHelpers.valuesMap(getEnumType());
+    return valuesMap(getEnumType());
   }
 
   /*</property>*/
@@ -110,6 +111,8 @@ public abstract class AbstractEnumEditor<_Enum_ extends Enum<_Enum_>> extends Pr
    * @protected
    * This implementation builds the labels map based on information in the {@link #getValuesMap()}
    * and uses the method {@link #getLabel()}.
+   *
+   * @mudo contracts and test
    */
   public final Map<String, String> getLabelsMap() {
     Map<String, String> result = new HashMap<String, String>();
@@ -134,6 +137,7 @@ public abstract class AbstractEnumEditor<_Enum_ extends Enum<_Enum_>> extends Pr
   //------------------------------------------------------------------
 
   @Override
+  @Basic(init = @Expression("null"))
   public final _Enum_ getValue() {
     @SuppressWarnings("unchecked") _Enum_ result = (_Enum_)super.getValue();
     return result;
@@ -147,7 +151,7 @@ public abstract class AbstractEnumEditor<_Enum_ extends Enum<_Enum_>> extends Pr
   //------------------------------------------------------------------
 
   @Override
-  @MethodContract(post = @Expression("value == null ? null : value.toString()"))
+  @MethodContract(post = @Expression("value == null ? null : value.name()"))
   public final String getAsText() {
     String result = (getValue() == null) ? null : getValue().name();
     return result;
@@ -155,12 +159,11 @@ public abstract class AbstractEnumEditor<_Enum_ extends Enum<_Enum_>> extends Pr
 
   @Override
   @MethodContract(
-    post = @Expression("(_text == null || _text == EMPTY || _text == SPACE) ? " +
+    post = @Expression("(_text == null || _text == EMPTY) ? " +
                          "value == null : " +
                          "value == valuesMap.get(_text)"),
     exc  = @Throw(type = IllegalArgumentException.class,
-                  cond = @Expression("_text != null && _text != EMPTY && _text != space && " +
-                                     "valuesMap.get(_text) == null"))
+                  cond = @Expression("_text != null && _text != EMPTY && valuesMap.get(_text) == null"))
   )
   public final void setAsText(final String text) throws IllegalArgumentException {
     try {

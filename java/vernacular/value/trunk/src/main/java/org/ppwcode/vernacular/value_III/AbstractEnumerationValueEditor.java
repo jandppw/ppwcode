@@ -124,6 +124,8 @@ public abstract class AbstractEnumerationValueEditor extends PropertyEditorSuppo
    * @protected
    * This implementation builds the labels map based on information in the {@link #getValuesMap()}
    * and uses the method {@link #getLabel()}.
+   *
+   * @mudo contracts and test
    */
   public final Map<String, String> getLabelsMap() {
     Map<String, String> result = new HashMap<String, String>();
