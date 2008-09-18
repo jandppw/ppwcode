@@ -565,12 +565,11 @@ public class TypeHelpers {
   @MethodContract(pre  = {@Expression("_type != null"),
                           @Expression("! _type.isArray()")},
                   post = @Expression("result == _type.interfaces U (_type.superClass == null ? {} : {_type.superClass})"))
-  public static <_Type_> Set<Class<? super _Type_>> directSuperTypes(Class<?> type) {
+  public static <_Type_> Set<Class<? super _Type_>> directSuperTypes(Class<_Type_> type) {
     preArgumentNotNull(type, "type");
     pre(! type.isArray());
     HashSet<Class<? super _Type_>> result = new HashSet<Class<? super _Type_>>();
-    @SuppressWarnings("unchecked")
-    Class<? super _Type_> superClass = (Class<? super _Type_>)type.getSuperclass(); // null with primitive types and Object, Object with arrays, interface
+    Class<? super _Type_> superClass = type.getSuperclass(); // null with primitive types and Object, Object with arrays, interface
     if (superClass != null) {
       result.add(superClass);
     }
@@ -586,14 +585,14 @@ public class TypeHelpers {
   @MethodContract(pre  = {@Expression("_type != null"),
                           @Expression("! _type.isArray()")},
                   post = @Expression("result == directSuperTypes(_type) U union(Class<?> superType : directSuperType(_type)) {superTypes(superType)}"))
-  public static <_Type_> Set<Class<? super _Type_>> superTypes(Class<? super _Type_> type) {
+  public static <_Type_> Set<Class<? super _Type_>> superTypes(Class<_Type_> type) {
     preArgumentNotNull(type, "type");
     pre(! type.isArray());
     LinkedList<Class<? super _Type_>> result = new LinkedList<Class<? super _Type_>>();
     result.add(type);
     for (int i = 0; i < result.size(); i++) {
-      Class<?> t = result.get(i);
-      Set<Class<? super _Type_>> tSupers = directSuperTypes(t);
+      Class<? super _Type_> t = result.get(i);
+      Set<? extends Class<? super _Type_>> tSupers = directSuperTypes(t);
       for (Class<? super _Type_> tSuper : tSupers) {
         if (! result.contains(tSuper)) {
           result.add(tSuper);
