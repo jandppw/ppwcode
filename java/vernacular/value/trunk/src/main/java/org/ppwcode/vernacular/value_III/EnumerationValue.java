@@ -138,6 +138,8 @@ import org.toryt.annotations_I.MethodContract;
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
+ *
+ * @note Contract in test code not worked out, because this is legacy.
  */
 @Copyright("2004 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
