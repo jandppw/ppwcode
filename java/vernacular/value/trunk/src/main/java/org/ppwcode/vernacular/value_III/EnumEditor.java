@@ -36,7 +36,7 @@ import org.toryt.annotations_I.Throw;
  * <p>An interface that adds support for i18n for {@link Enum} types ({@code enum}).</p>
  * <p>Property editors for enumeration type implement the {@link #getAsText()} and {@link #setAsText(String)} and
  *   {@link #getTags()} methods. These methods process strings used by programmers in some circumstances as the
- *   representation of the enumeration type values. The tags are the <def>programmatic String representation</def>
+ *   representation of the enumeration type values. The tags are the <dfn>programmatic String representation</dfn>
  *   of values of the enumeration type. All possible tags are returned by {@link #getTags()}.</p>
  * <p>These programmatic representations of the enumeration type values however are not what we show to end users.
  *   Combo boxes, pop-up menu's radio buttons, and HTML select tags should show an i18n label, but internally should
@@ -57,8 +57,8 @@ import org.toryt.annotations_I.Throw;
 @SvnInfo(revision = "$Revision: 2511 $",
          date     = "$Date: 2008-08-31 16:12:37 +0200 (Sun, 31 Aug 2008) $")
 @Invars({
-  @Expression("enumerationValue != null"),
-  @Expression("asText != null ?? enumerationValueType.isInstance(value)"),
+  @Expression("enumType != null"),
+  @Expression("asText != null ?? enumType.isInstance(value)"),
   @Expression("asText != null ? tags.contains(asText)"),
   @Expression("labelsMap != null"),
   @Expression("! labelsMap.keySet().contains(null)"),
@@ -83,7 +83,7 @@ public interface EnumEditor<_Enum_ extends Enum<_Enum_>> extends PropertyEditor 
   String[] getTags();
 
   @MethodContract(
-    post = @Expression(value = "asText == _tag", description = "getValue() is changed so that getAsText() will return _tag"),
+    post = @Expression(value = "asText == (_tag == EMPTY ? null : _tag)", description = "getValue() is changed so that getAsText() will return _tag"),
     exc  = @Throw(type = IllegalArgumentException.class,
                   cond = @Expression("! tags.contains(tag)"))
 
