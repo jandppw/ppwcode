@@ -18,6 +18,7 @@ package org.ppwcode.vernacular.value_III.hibernate3;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+import static org.ppwcode.util.reflect_I.TypeHelpers.type;
 
 import java.beans.PropertyEditor;
 import java.io.Serializable;
@@ -34,6 +35,7 @@ import org.hibernate.usertype.UserType;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.ppwcode.vernacular.value_III.MutableValue;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.Invars;
@@ -73,13 +75,15 @@ public abstract class AbstractPropertyEditorUserType implements UserType {
     if (enumClassName == null) {
        throw new MappingException("enumClassName parameter not specified");
     }
-
     try {
-          this.clazz = Class.forName(enumClassName);
-      } catch (java.lang.ClassNotFoundException e) {
-       throw new MappingException("enumClass " + enumClassName + " not found", e);
-      }
+      $valueType = type(enumClassName);
+    }
+    catch (AssertionError aErr) {  // MUDO booo! type really needs to throw exception
+       throw new MappingException("enumClass " + enumClassName + " not found", aErr);
+    }
  }
+
+  private Class<?> $valueType;
 
   /**
    * @post new.getPreopertyEditor() == editor;
@@ -112,8 +116,8 @@ public abstract class AbstractPropertyEditorUserType implements UserType {
   /**
    * @return getEnumerationValueEditor().getEnumerationValue();
    */
-  public final Class<?> returnedClass() {
-    return getPropertyEditor().getEnumerationValueType();
+  public Class<?> returnedClass() {
+    return $valueType;
   }
 
   @MethodContract(post = @Expression("(_x == null) ? (_y == null) : _x.equals(_y)"))
@@ -131,7 +135,7 @@ public abstract class AbstractPropertyEditorUserType implements UserType {
    *         EnumerationValue implements ImmutableValue
    */
   public final boolean isMutable() {
-    return false; ??????
+    return MutableValue.class.isAssignableFrom(returnedClass());
   }
 
   /**
