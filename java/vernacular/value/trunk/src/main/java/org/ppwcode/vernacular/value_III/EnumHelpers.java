@@ -64,7 +64,11 @@ public final class EnumHelpers {
       return initValuesMap(enumType);
     }
     else {
-      @SuppressWarnings("unchecked") Map<String, _Enum_> result = (HashMap<String, _Enum_>)values;
+      Map<String, _Enum_> result = new HashMap<String, _Enum_>();
+      for (Map.Entry<String, ? extends Enum<?>> e : values.entrySet()) {
+        @SuppressWarnings("unchecked") _Enum_ value = (_Enum_)e.getValue();
+        result.put(e.getKey(), value);
+      }
       return result;
     }
   }
