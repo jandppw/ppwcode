@@ -623,7 +623,7 @@ public class TypeHelpersTest {
 
   @Test
   public void testDirectSuperTypes() {
-    Set<Class<?>> result = directSuperTypes(AbstractSubSubStubClass.class);
+    Set<Class<? super AbstractSubSubStubClass>> result = directSuperTypes(AbstractSubSubStubClass.class);
     assertNotNull(result);
     assertEquals(3, result.size());
     assertTrue(result.contains(AbstractSubStubClass.class));
@@ -633,13 +633,13 @@ public class TypeHelpersTest {
 
   @Test
   public void testSuperTypes() {
-    Class<?> subject = AbstractSubSubStubClass.class;
-    Set<Class<?>> result = superTypes(subject);
+    Class<AbstractSubSubStubClass> subject = AbstractSubSubStubClass.class;
+    Set<Class<? super AbstractSubSubStubClass>> result = superTypes(subject);
 
-    Set<Class<?>> expected = new HashSet<Class<?>>();
-    Set<Class<?>> directs = directSuperTypes(subject);
+    Set<Class<? super AbstractSubSubStubClass>> expected = new HashSet<Class<? super AbstractSubSubStubClass>>();
+    Set<Class<? super AbstractSubSubStubClass>> directs = directSuperTypes(subject);
     expected.addAll(directs);
-    for (Class<?> direct : directs) {
+    for (Class<? super AbstractSubSubStubClass> direct : directs) {
       expected.addAll(superTypes(direct));
     }
     assertNotNull(result);

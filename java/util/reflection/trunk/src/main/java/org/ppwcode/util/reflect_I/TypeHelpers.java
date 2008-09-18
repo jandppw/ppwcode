@@ -565,16 +565,18 @@ public class TypeHelpers {
   @MethodContract(pre  = {@Expression("_type != null"),
                           @Expression("! _type.isArray()")},
                   post = @Expression("result == _type.interfaces U (_type.superClass == null ? {} : {_type.superClass})"))
-  public static Set<Class<?>> directSuperTypes(Class<?> type) {
+  public static <_Type_> Set<Class<? super _Type_>> directSuperTypes(Class<?> type) {
     preArgumentNotNull(type, "type");
     pre(! type.isArray());
-    HashSet<Class<?>> result = new HashSet<Class<?>>();
-    Class<?> superClass = type.getSuperclass(); // null with primitive types and Object, Object with arrays, interface
+    HashSet<Class<? super _Type_>> result = new HashSet<Class<? super _Type_>>();
+    @SuppressWarnings("unchecked")
+    Class<? super _Type_> superClass = (Class<? super _Type_>)type.getSuperclass(); // null with primitive types and Object, Object with arrays, interface
     if (superClass != null) {
       result.add(superClass);
     }
-    Class<?>[] superInterfaces = type.getInterfaces();
-    for (Class<?> i : superInterfaces) {
+    @SuppressWarnings("unchecked")
+    Class<? super _Type_>[] superInterfaces = type.getInterfaces();
+    for (Class<? super _Type_> i : superInterfaces) {
       result.add(i);
     }
     return result;
@@ -584,21 +586,21 @@ public class TypeHelpers {
   @MethodContract(pre  = {@Expression("_type != null"),
                           @Expression("! _type.isArray()")},
                   post = @Expression("result == directSuperTypes(_type) U union(Class<?> superType : directSuperType(_type)) {superTypes(superType)}"))
-  public static Set<Class<?>> superTypes(Class<?> type) {
+  public static <_Type_> Set<Class<? super _Type_>> superTypes(Class<? super _Type_> type) {
     preArgumentNotNull(type, "type");
     pre(! type.isArray());
-    LinkedList<Class<?>> result = new LinkedList<Class<?>>();
+    LinkedList<Class<? super _Type_>> result = new LinkedList<Class<? super _Type_>>();
     result.add(type);
     for (int i = 0; i < result.size(); i++) {
       Class<?> t = result.get(i);
-      Set<Class<?>> tSupers = directSuperTypes(t);
-      for (Class<?> tSuper : tSupers) {
+      Set<Class<? super _Type_>> tSupers = directSuperTypes(t);
+      for (Class<? super _Type_> tSuper : tSupers) {
         if (! result.contains(tSuper)) {
           result.add(tSuper);
         }
       }
     }
-    return new HashSet<Class<?>>(result.subList(1, result.size()));
+    return new HashSet<Class<? super _Type_>>(result.subList(1, result.size()));
   }
 
 
