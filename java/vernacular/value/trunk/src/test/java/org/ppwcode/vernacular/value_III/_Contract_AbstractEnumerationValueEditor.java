@@ -27,6 +27,7 @@ import static org.ppwcode.util.reflect_I.TypeHelpers.type;
 import java.util.Map;
 
 import org.ppwcode.util.reflect_I.ConstantHelpers;
+import org.ppwcode.util.test.contract._Contract_;
 
 
 @SuppressWarnings("unchecked")

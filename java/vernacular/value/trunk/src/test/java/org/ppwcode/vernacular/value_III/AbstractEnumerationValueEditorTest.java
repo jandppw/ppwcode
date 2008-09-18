@@ -6,14 +6,15 @@
 
 package org.ppwcode.vernacular.value_III;
 
+import static org.ppwcode.util.test.contract._Contract_.contractFor;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.unexpectedException;
-import static org.ppwcode.vernacular.value_III._Contract_.contractFor;
 
 import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.ppwcode.util.test.contract.NoSuchContractException;
 
 
 

@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.vernacular.value_III;
+package org.ppwcode.util.test.contract;
 
 
 import static org.ppwcode.util.reflect_I.InstanceHelpers.newInstance;
