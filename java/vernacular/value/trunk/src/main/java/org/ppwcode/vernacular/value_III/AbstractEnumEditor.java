@@ -26,6 +26,7 @@ import java.beans.PropertyEditorSupport;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
@@ -48,6 +49,8 @@ import org.toryt.annotations_I.Throw;
          date     = "$Date: 2008-08-31 16:24:23 +0200 (Sun, 31 Aug 2008) $")
 public abstract class AbstractEnumEditor<_Enum_ extends Enum<_Enum_>> extends PropertyEditorSupport
     implements EnumEditor<_Enum_>, Serializable {
+
+  private static final String EMPTY = "";
 
   /**
    * The enumeration type this is an editor for.
@@ -81,7 +84,8 @@ public abstract class AbstractEnumEditor<_Enum_ extends Enum<_Enum_>> extends Pr
   @Override
   @MethodContract(post = @Expression("valuesMap.keySet().toArray()"))
   public final String[] getTags() {
-    return (String[])getValuesMap().keySet().toArray();
+    Set<String> tags = getValuesMap().keySet();
+    return tags.toArray(new String[tags.size()]);
   }
 
   /*</property>*/
@@ -166,13 +170,18 @@ public abstract class AbstractEnumEditor<_Enum_ extends Enum<_Enum_>> extends Pr
                   cond = @Expression("_text != null && _text != EMPTY && valuesMap.get(_text) == null"))
   )
   public final void setAsText(final String text) throws IllegalArgumentException {
-    try {
-      _Enum_ value = valueOf(getEnumType(), text);
-      // NullPointerException, IllegalArgumentException passes through
-      setValue(value);
+    if ((text == null) || EMPTY.equals(text)) {
+      setValue(null);
     }
-    catch (NullPointerException npExc) {
-      throw new IllegalArgumentException("the enum type nor the text argument can be null");
+    else {
+      try {
+        _Enum_ value = valueOf(getEnumType(), text);
+        // NullPointerException, IllegalArgumentException passes through
+        setValue(value);
+      }
+      catch (NullPointerException npExc) {
+        throw new IllegalArgumentException("the enum type cannot be null");
+      }
     }
   }
 

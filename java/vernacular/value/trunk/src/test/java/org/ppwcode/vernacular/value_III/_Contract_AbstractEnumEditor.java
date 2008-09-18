@@ -31,7 +31,7 @@ import org.ppwcode.util.test.contract.Contract;
 
 
 @SuppressWarnings("unchecked")
-public class _Contract_AbstractEnumEditor extends Contract<AbstractEnumEditor> {
+public class _Contract_AbstractEnumEditor<_Enum_ extends Enum<_Enum_>> extends Contract<AbstractEnumEditor> {
 
   public _Contract_AbstractEnumEditor() {
     super(AbstractEnumEditor.class);
@@ -42,7 +42,7 @@ public class _Contract_AbstractEnumEditor extends Contract<AbstractEnumEditor> {
     super.assertInvariants(ee);
   }
 
-  public void assertGetLabel(AbstractEnumEditor ee, String result) {
+  public void assertGetLabel(AbstractEnumEditor<_Enum_> ee, String result) {
     _Contract_EnumEditor eeC = (_Contract_EnumEditor)getDirectSuperContracts().get(EnumEditor.class);
     eeC.assertGetLabel(ee, result);
   }
@@ -50,35 +50,35 @@ public class _Contract_AbstractEnumEditor extends Contract<AbstractEnumEditor> {
 
 
 
-  public void assertGetEnumType(AbstractEnumEditor ee, Class<?> result) {
+  public void assertGetEnumType(AbstractEnumEditor<_Enum_> ee, Class<?> result) {
     assertEquals(type(ee.getExpectedEnumTypeClassName()), result);
   }
 
-  public void assertGetExpectedEnumTypeClassName(AbstractEnumEditor ee, String result) {
+  public void assertGetExpectedEnumTypeClassName(AbstractEnumEditor<_Enum_> ee, String result) {
     assertEquals(ee.getClass().getName().substring(0, ee.getClass().getName().lastIndexOf("Editor")), result);
   }
 
-  public void assertGetTags(AbstractEnumEditor ee, String[] result) {
+  public void assertGetTags(AbstractEnumEditor<_Enum_> ee, String[] result) {
     _Contract_EnumEditor eeC = (_Contract_EnumEditor)getDirectSuperContracts().get(EnumEditor.class);
     eeC.assertGetTags(ee, result);
     assertArrayEquals(ee.getValuesMap().keySet().toArray(), result);
   }
 
-  public void assertGetValuesMap(AbstractEnumEditor ee, Map<String, ?> result) {
+  public void assertGetValuesMap(AbstractEnumEditor<_Enum_> ee, Map<String, ?> result) {
     assertEquals(EnumHelpers.valuesMap(ee.getEnumType()), result);
   }
 
-  public void assertGetAsText(AbstractEnumEditor ee, String result) {
+  public void assertGetAsText(AbstractEnumEditor<_Enum_> ee, String result) {
     assertEquals(ee.getValue() == null ? null : ee.getValue().name(), result);
   }
 
-  public void assertSetAsText_String_Nominal(AbstractEnumEditor ee, String tag) {
+  public void assertSetAsText_String_Nominal(AbstractEnumEditor<_Enum_> ee, String tag) {
     _Contract_EnumEditor eeC = (_Contract_EnumEditor)getDirectSuperContracts().get(EnumEditor.class);
     eeC.assertSetAsText_String_Nominal(ee, tag);
     assertEquals(tag == null || tag.equals("") ? null : ee.getValuesMap().get(tag), ee.getValue());
   }
 
-  public void assertSetAsText_String_Exception(AbstractEnumEditor ee, String tag, IllegalArgumentException exc, Object oldValue) {
+  public void assertSetAsText_String_Exception(AbstractEnumEditor<_Enum_> ee, String tag, IllegalArgumentException exc, Object oldValue) {
     _Contract_EnumEditor eeC = (_Contract_EnumEditor)getDirectSuperContracts().get(EnumEditor.class);
     eeC.assertSetAsText_String_Exception(ee, tag, exc);
     assertNotNull(tag);

@@ -62,11 +62,13 @@ public abstract class Contract<_Subject_> {
     return result;
   }
 
+  public final static String CONTRACT_CLASS_NAME_PREFIX = "_Contract_";
+
   @SuppressWarnings("unchecked")
   public static <_Subject_> Contract<_Subject_> contractFor(Class<_Subject_> type) throws NoSuchContractException {
     preArgumentNotNull(type, "c");
     TypeName typeTn = new TypeName(type);
-    TypeName contractTn = new TypeName(typeTn.getPackageName(), typeTn.getEnclosingTypeNames(), "Contract" + typeTn.getSimpleName());
+    TypeName contractTn = new TypeName(typeTn.getPackageName(), typeTn.getEnclosingTypeNames(), CONTRACT_CLASS_NAME_PREFIX + typeTn.getSimpleName());
     Class<?> contractT = null;
     try {
       contractT = contractTn.getType();
