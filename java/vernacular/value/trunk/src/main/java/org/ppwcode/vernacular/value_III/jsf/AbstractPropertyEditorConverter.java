@@ -17,6 +17,8 @@ limitations under the License.
 package org.ppwcode.vernacular.value_III.jsf;
 
 
+import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+
 import java.beans.PropertyEditor;
 
 import javax.faces.component.UIComponent;
@@ -26,13 +28,18 @@ import javax.faces.convert.ConverterException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.ppwcode.metainfo_I.Copyright;
+import org.ppwcode.metainfo_I.License;
+import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.Invars;
 
 
 /**
  * <p>Support for converters based on {@link PropertyEditor PropertyEditors}.
  *   Derive from this class and implement {@link #getPropertyEditor(FacesContext, UIComponent)}.
- *   Then add an entry in <kbd>faces-config.xml</kbd> to map the target types
- *   to the correct converter class descendant.</p>
+ *   Then add an entry in <kbd>faces-config.xml</kbd> to map the target types to the correct converter class
+ *   descendant.</p>
  * <p>Often, there are 2 String representations of value objects:</p>
  * <ul>
  *   <li>a programmatic representation, e.g., to be used as values in a HTML
@@ -40,11 +47,10 @@ import org.apache.commons.logging.LogFactory;
  *   <li>a label, or display name, to be presented to end users.</li>
  * </ul>
  * <p>When {@link #isLabelRepresentation()} is <code>true</code>, this convertor's
- *   {@link #getAsString(FacesContext, UIComponent, Object)} method returns the
- *   label. If {@link #isLabelRepresentation()} is <code>false</code>
- *   (the default), the {@link #getAsString(FacesContext, UIComponent, Object)}
- *   method returns the programmatic representation. This only works if the
- *   property editor found for the type of the value to be converted</p>
+ *   {@link #getAsString(FacesContext, UIComponent, Object)} method returns the label. If
+ *   {@link #isLabelRepresentation()} is <code>false</code> (the default), the
+ *   {@link #getAsString(FacesContext, UIComponent, Object)} method returns the programmatic representation.
+ *   This only works if the property editor found for the type of the value to be converted</p>
  * <p><strong>Note that the {@link #getAsObject(FacesContext, UIComponent, String)}
  *   method only works when {@link #isLabelRepresentation()} is <code>false</code>:
  *   it is often impossible to convert a human-readable label to an
@@ -53,34 +59,21 @@ import org.apache.commons.logging.LogFactory;
  * @author Wim Lambrechts
  * @author Jan Dockx
  * @author PeopleWare n.v.
- *
- * @invar getPropertyEditor() != null;
  */
-
+@Copyright("2004 - $Date$, PeopleWare n.v.")
+@License(APACHE_V2)
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
+@Invars(@Expression("propertyEditor != null"))
 public abstract class AbstractPropertyEditorConverter implements Converter {
 
-  /*<section name="Meta Information">*/
-  //------------------------------------------------------------------
-  /** {@value} */
-  public static final String CVS_REVISION = "$Revision$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_DATE = "$Date$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_STATE = "$State$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_TAG = "$Name$"; //$NON-NLS-1$
-  /*</section>*/
-
-
-  private static final Log LOG =
-    LogFactory.getLog(AbstractPropertyEditorConverter.class);
+  private static final Log LOG = LogFactory.getLog(AbstractPropertyEditorConverter.class);
 
   /**
    * Default constructor.
    */
   protected AbstractPropertyEditorConverter() {
-    LOG.debug("creation of new ...PropertyEditorConverter ("
-              + getClass().getName() + ")");
+    LOG.debug("creation of new ...PropertyEditorConverter (" + getClass().getName() + ")");
   }
 
 
