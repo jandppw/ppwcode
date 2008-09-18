@@ -16,6 +16,8 @@ limitations under the License.
 
 package org.ppwcode.vernacular.value_III;
 
+import org.ppwcode.util.test.contract._Contract_;
+
 
 @SuppressWarnings("unchecked")
 public class _Contract_ImmutableValue extends _Contract_<ImmutableValue> {

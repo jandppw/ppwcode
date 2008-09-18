@@ -23,6 +23,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import org.ppwcode.util.test.contract._Contract_;
+
 
 @SuppressWarnings("unchecked")
 public class _Contract_EnumEditor extends _Contract_<EnumEditor> {
