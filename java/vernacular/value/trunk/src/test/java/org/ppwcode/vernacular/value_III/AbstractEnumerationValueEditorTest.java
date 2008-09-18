@@ -15,7 +15,6 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.ppwcode.vernacular.exception_II.ProgrammingErrors;
 
 
 
@@ -107,10 +106,16 @@ public class AbstractEnumerationValueEditorTest {
         CONTRACT.assertSetAsText_String_Nominal(subject, tag);
         CONTRACT.assertInvariants(subject);
       }
+      subject.setAsText(null);
+      CONTRACT.assertSetAsText_String_Nominal(subject, null);
+      CONTRACT.assertInvariants(subject);
+      subject.setAsText("");
+      CONTRACT.assertSetAsText_String_Nominal(subject, "");
+      CONTRACT.assertInvariants(subject);
     }
   }
 
-  public final static String[] WRONG_TAGS = new String[] {null, "", " ", "DOESNTEXIST"};
+  public final static String[] WRONG_TAGS = new String[] {" ", "DOESNTEXIST"};
 
   @Test
   public void testSetAsTextString_Exception() {
@@ -119,7 +124,7 @@ public class AbstractEnumerationValueEditorTest {
         Object oldValue = subject.getValue();
         try {
           subject.setAsText(tag);
-          fail();
+          org.junit.Assert.fail("subject: " + subject + "; tag: " + tag);
         }
         catch (IllegalArgumentException exc) {
           CONTRACT.assertSetAsText_String_Exception(subject, tag, exc, oldValue);

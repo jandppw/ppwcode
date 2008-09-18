@@ -68,7 +68,7 @@ public abstract class AbstractEnumerationValueEditor extends PropertyEditorSuppo
     return type(getExpectedEnumerationValueTypeClassName());
   }
 
-  @MethodContract(post = @Expression("class.toString().substring(0, class.toString().lastIndexOf('Editor'))"))
+  @MethodContract(post = @Expression("class.getName().substring(0, class.getName().lastIndexOf('Editor'))"))
   public final String getExpectedEnumerationValueTypeClassName() {
     String me = getClass().getName();
     return me.substring(0, me.lastIndexOf("Editor"));
@@ -167,6 +167,12 @@ public abstract class AbstractEnumerationValueEditor extends PropertyEditorSuppo
     return result;
   }
 
+  /**
+   * @note We also presume, but {@link PropertyEditor#setAsText(String)} is unclear,
+   *       that {@code setAstText(null)} should result in a {@code null} value.
+   *       To the letter, {@code null} is not a valid tag, and this we would throw
+   *       an {@link IllegalArgumentException}. The same applies to the empty string.
+   */
   @Override
   @MethodContract(
     post = @Expression("(_text == null || _text == EMPTY) ? " +

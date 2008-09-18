@@ -45,7 +45,7 @@ public class _Contract_AbstractEnumerationValueEditor extends _Contract_<Abstrac
   }
 
   public void assertGetExpectedEnumerationValueTypeClassName(AbstractEnumerationValueEditor eve, String result) {
-    assertEquals(eve.getClass().toString().substring(0, eve.getClass().toString().lastIndexOf("Editor")), result);
+    assertEquals(eve.getClass().getName().substring(0, eve.getClass().getName().lastIndexOf("Editor")), result);
   }
 
   public void assertGetTags(AbstractEnumerationValueEditor eve, String[] result) {
