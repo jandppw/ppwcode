@@ -1,0 +1,81 @@
+/*<license>
+  Copyright 2008, PeopleWare n.v.
+  NO RIGHTS ARE GRANTED FOR THE USE OF THIS SOFTWARE, EXCEPT, IN WRITING,
+  TO SELECTED PARTIES.
+</license>*/
+
+package org.ppwcode.vernacular.value_III;
+
+
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.ppwcode.util.reflect_I.TypeHelpers.type;
+
+import java.util.Map;
+
+import org.ppwcode.util.reflect_I.ConstantHelpers;
+
+
+
+@SuppressWarnings("unchecked")
+public class _Contract_AbstractEnumerationValueEditor extends _Contract_<AbstractEnumerationValueEditor> {
+
+  public _Contract_AbstractEnumerationValueEditor() {
+    super(AbstractEnumerationValueEditor.class);
+  }
+
+  @Override
+  public void assertInvariants(AbstractEnumerationValueEditor eve) {
+    super.assertInvariants(eve);
+  }
+
+  public void assertGetLabel(AbstractEnumerationValueEditor eve, String result) {
+    _Contract_EnumerationValueEditor eveC = (_Contract_EnumerationValueEditor)getDirectSuperContracts().get(EnumerationValueEditor.class);
+    eveC.assertGetLabel(eve, result);
+  }
+
+
+
+
+  public void assertGetEnumerationValueType(AbstractEnumerationValueEditor eve, Class<?> result) {
+    assertEquals(type(eve.getExpectedEnumerationValueTypeClassName()), result);
+  }
+
+  public void assertGetExpectedEnumerationValueTypeClassName(AbstractEnumerationValueEditor eve, String result) {
+    assertEquals(eve.getClass().toString().substring(0, eve.getClass().toString().lastIndexOf("Editor")), result);
+  }
+
+  public void assertGetTags(AbstractEnumerationValueEditor eve, String[] result) {
+    _Contract_EnumerationValueEditor eveC = (_Contract_EnumerationValueEditor)getDirectSuperContracts().get(EnumerationValueEditor.class);
+    eveC.assertGetTags(eve, result);
+    assertArrayEquals(eve.getValuesMap().keySet().toArray(), result);
+  }
+
+  public void assertGetValuesMap(AbstractEnumerationValueEditor eve, Map<String, ?> result) {
+    assertEquals(ConstantHelpers.constant(eve.getEnumerationValueType(), "VALUES"), result);
+  }
+
+  public void assertGetAsText(AbstractEnumerationValueEditor eve, String result) {
+    assertEquals(eve.getValue() == null ? null : eve.getValue().toString(), result);
+  }
+
+  public void assertSetAsText_String_Nominal(AbstractEnumerationValueEditor eve, String tag) {
+    _Contract_EnumerationValueEditor eveC = (_Contract_EnumerationValueEditor)getDirectSuperContracts().get(EnumerationValueEditor.class);
+    eveC.assertSetAsText_String_Nominal(eve, tag);
+    assertEquals(tag == null || tag.equals("") ? null : eve.getValuesMap().get(tag), eve.getValue());
+  }
+
+  public void assertSetAsText_String_Exception(AbstractEnumerationValueEditor eve, String tag, IllegalArgumentException exc, Object oldValue) {
+    _Contract_EnumerationValueEditor eveC = (_Contract_EnumerationValueEditor)getDirectSuperContracts().get(EnumerationValueEditor.class);
+    eveC.assertSetAsText_String_Exception(eve, tag, exc);
+    assertNotNull(tag);
+    assertFalse("".equals(tag));
+    assertNull(eve.getValuesMap().get(tag));
+    assertEquals(oldValue, eve.getValue());
+  }
+
+}
+

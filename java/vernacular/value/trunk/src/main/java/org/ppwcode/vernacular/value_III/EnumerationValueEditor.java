@@ -36,7 +36,7 @@ import org.toryt.annotations_I.Throw;
  * <p>An interface that adds support for i18n for <em>legacy enumeration</em> types.</p>
  * <p>Property editors for enumeration type implement the {@link #getAsText()} and {@link #setAsText(String)} and
  *   {@link #getTags()} methods. These methods process strings used by programmers in some circumstances as the
- *   representation of the enumeration type values. The tags are the <def>programmatic String representation</def>
+ *   representation of the enumeration type values. The tags are the <dfn>programmatic String representation</dfn>
  *   of values of the enumeration type. All possible tags are returned by {@link #getTags()}.</p>
  * <p>These programmatic representations of the enumeration type values however are not what we show to end users.
  *   Combo boxes, pop-up menu's radio buttons, and HTML select tags should show an i18n label, but internally should
