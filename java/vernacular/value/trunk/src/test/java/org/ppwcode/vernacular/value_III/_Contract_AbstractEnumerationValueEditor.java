@@ -27,11 +27,11 @@ import static org.ppwcode.util.reflect_I.TypeHelpers.type;
 import java.util.Map;
 
 import org.ppwcode.util.reflect_I.ConstantHelpers;
-import org.ppwcode.util.test.contract._Contract_;
+import org.ppwcode.util.test.contract.Contract;
 
 
 @SuppressWarnings("unchecked")
-public class _Contract_AbstractEnumerationValueEditor extends _Contract_<AbstractEnumerationValueEditor> {
+public class _Contract_AbstractEnumerationValueEditor extends Contract<AbstractEnumerationValueEditor> {
 
   public _Contract_AbstractEnumerationValueEditor() {
     super(AbstractEnumerationValueEditor.class);

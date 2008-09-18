@@ -20,11 +20,11 @@ package org.ppwcode.vernacular.value_III;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 
-import org.ppwcode.util.test.contract._Contract_;
+import org.ppwcode.util.test.contract.Contract;
 
 
 @SuppressWarnings("unchecked")
-public class _Contract_MutableValue extends _Contract_<MutableValue> {
+public class _Contract_MutableValue extends Contract<MutableValue> {
 
   public _Contract_MutableValue() {
     super(MutableValue.class);
