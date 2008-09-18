@@ -19,11 +19,11 @@ package org.ppwcode.vernacular.value_III;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import org.ppwcode.util.test.contract._Contract_;
+import org.ppwcode.util.test.contract.Contract;
 
 
 @SuppressWarnings("unchecked")
-public class _Contract_Value extends _Contract_<Value> {
+public class _Contract_Value extends Contract<Value> {
 
   public _Contract_Value() {
     super(Value.class);

@@ -23,11 +23,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import org.ppwcode.util.test.contract._Contract_;
+import org.ppwcode.util.test.contract.Contract;
 
 
 @SuppressWarnings("unchecked")
-public class _Contract_EnumEditor extends _Contract_<EnumEditor> {
+public class _Contract_EnumEditor extends Contract<EnumEditor> {
 
   public _Contract_EnumEditor() {
     super(EnumEditor.class);

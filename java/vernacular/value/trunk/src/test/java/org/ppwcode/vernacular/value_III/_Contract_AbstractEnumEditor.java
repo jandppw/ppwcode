@@ -26,12 +26,12 @@ import static org.ppwcode.util.reflect_I.TypeHelpers.type;
 
 import java.util.Map;
 
-import org.ppwcode.util.test.contract._Contract_;
+import org.ppwcode.util.test.contract.Contract;
 
 
 
 @SuppressWarnings("unchecked")
-public class _Contract_AbstractEnumEditor extends _Contract_<AbstractEnumEditor> {
+public class _Contract_AbstractEnumEditor extends Contract<AbstractEnumEditor> {
 
   public _Contract_AbstractEnumEditor() {
     super(AbstractEnumEditor.class);

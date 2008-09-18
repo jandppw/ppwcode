@@ -6,7 +6,7 @@
 
 package org.ppwcode.vernacular.value_III;
 
-import static org.ppwcode.util.test.contract._Contract_.contractFor;
+import static org.ppwcode.util.test.contract.Contract.contractFor;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.unexpectedException;
 
 import java.util.Map;
