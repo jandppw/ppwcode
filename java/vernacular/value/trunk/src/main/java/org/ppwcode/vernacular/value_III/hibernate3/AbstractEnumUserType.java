@@ -26,12 +26,11 @@ import java.sql.Types;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.usertype.UserType;
-import org.ppwcode.vernacular.value_III.EnumerationValue;
 import org.ppwcode.vernacular.value_III.EnumerationValueEditor;
 
 /**
  * DO!!!!! is ver much like http://www.hibernate.org/272.html Java 5 EnumUserType
- * 
+ *
  *  <typedef name="suit" class='EnumUserType'>
       <param name="enumClassName">com.company.project.Suit</param>
   </typedef>
