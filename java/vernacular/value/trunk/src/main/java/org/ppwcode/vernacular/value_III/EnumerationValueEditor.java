@@ -86,7 +86,7 @@ public interface EnumerationValueEditor extends PropertyEditor {
   String[] getTags();
 
   @MethodContract(
-    post = @Expression(value = "asText == _tag", description = "getValue() is changed so that getAsText() will return _tag"),
+    post = @Expression(value = "asText == (_tag == EMPTY ? null : _tag)", description = "getValue() is changed so that getAsText() will return _tag"),
     exc  = @Throw(type = IllegalArgumentException.class,
                   cond = @Expression("! tags.contains(tag)"))
 

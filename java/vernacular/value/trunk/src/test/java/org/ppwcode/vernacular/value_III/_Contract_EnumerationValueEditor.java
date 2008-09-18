@@ -52,7 +52,7 @@ public class _Contract_EnumerationValueEditor extends _Contract_<EnumerationValu
   }
 
   public void assertSetAsText_String_Nominal(EnumerationValueEditor eve, String tag) {
-    assertEquals(tag, eve.getAsText());
+    assertEquals("".equals(tag) ? null : tag, eve.getAsText());
   }
 
   public void assertSetAsText_String_Exception(EnumerationValueEditor eve, String tag, IllegalArgumentException exc) {
