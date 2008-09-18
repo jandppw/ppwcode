@@ -50,8 +50,8 @@ import org.toryt.annotations_I.MethodContract;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-@Invars(@Expression(value = "for (MutableValue mv1) {for (MutableValue mv2) {" +
-                              "mv1.equals(mv2) ? mv1.hashCode() == mv2.hashCode()}" +
+@Invars(@Expression(value = "for (Value v1) {for (Value v2) {" +
+                              "v1.equals(mv2) ? v1.hashCode() == v2.hashCode()}" +
                             "}",
                     note = "just a formalisation of contract described in English in java.lang.Object"))
 public abstract class Value implements Serializable {

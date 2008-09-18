@@ -60,7 +60,7 @@ import org.toryt.annotations_I.Throw;
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
 @Invars({
-  @Expression("enumerationValue != null"),
+  @Expression("enumerationValueType != null"),
   @Expression("asText != null ?? enumerationValueType.isInstance(value)"),
   @Expression("asText != null ? tags.contains(asText)"),
   @Expression("labelsMap != null"),
