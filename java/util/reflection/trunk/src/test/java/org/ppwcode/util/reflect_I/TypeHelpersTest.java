@@ -25,6 +25,7 @@ import static org.ppwcode.util.reflect_I.TypeHelpers.PRIMITIVE_TYPES;
 import static org.ppwcode.util.reflect_I.TypeHelpers.PRIMITIVE_TYPES_BY_NAME;
 import static org.ppwcode.util.reflect_I.TypeHelpers.PRIMITIVE_TYPE_BINARY_NAMES;
 import static org.ppwcode.util.reflect_I.TypeHelpers.arrayType;
+import static org.ppwcode.util.reflect_I.TypeHelpers.directSuperTypes;
 import static org.ppwcode.util.reflect_I.TypeHelpers.isAbstract;
 import static org.ppwcode.util.reflect_I.TypeHelpers.isFinal;
 import static org.ppwcode.util.reflect_I.TypeHelpers.isInnerType;
@@ -34,19 +35,30 @@ import static org.ppwcode.util.reflect_I.TypeHelpers.isProtected;
 import static org.ppwcode.util.reflect_I.TypeHelpers.isPublic;
 import static org.ppwcode.util.reflect_I.TypeHelpers.isStatic;
 import static org.ppwcode.util.reflect_I.TypeHelpers.isTopLevelType;
+import static org.ppwcode.util.reflect_I.TypeHelpers.superTypes;
 import static org.ppwcode.util.reflect_I.TypeHelpers.type;
 
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 
 import org.junit.Test;
 import org.ppwcode.util.reflect_I.teststubs.AbstractSubStubClass;
+import org.ppwcode.util.reflect_I.teststubs.AbstractSubSubStubClass;
 import org.ppwcode.util.reflect_I.teststubs.AlternateStubClass;
 import org.ppwcode.util.reflect_I.teststubs.CloneableStubClassA;
 import org.ppwcode.util.reflect_I.teststubs.StubClass;
 import org.ppwcode.util.reflect_I.teststubs.StubInterfaceAlpha;
+import org.ppwcode.util.reflect_I.teststubs.StubInterfaceBeta;
+import org.ppwcode.util.reflect_I.teststubs.StubInterfaceDelta;
+import org.ppwcode.util.reflect_I.teststubs.StubInterfaceGamma;
+import org.ppwcode.util.reflect_I.teststubs.SuperStubClass;
+import org.ppwcode.util.reflect_I.teststubs.SuperSuperStubClass;
+import org.ppwcode.util.reflect_I.teststubs.SuperSuperStubInterfaceA;
+import org.ppwcode.util.reflect_I.teststubs.SuperSuperStubInterfaceB;
+import org.ppwcode.util.reflect_I.teststubs.SuperSuperSuperStubInterface;
 import org.ppwcode.util.reflect_I.teststubs.StubClass.StubClassA;
 import org.ppwcode.util.reflect_I.teststubs.StubClass.StubClassB;
 import org.ppwcode.util.reflect_I.teststubs.StubClass.StubClassInnerA;
@@ -607,6 +619,45 @@ public class TypeHelpersTest {
     assertNotNull(result);
     assertTrue(result.isArray());
     assertEquals(componentType, result.getComponentType());
+  }
+
+  @Test
+  public void testDirectSuperTypes() {
+    Set<Class<?>> result = directSuperTypes(AbstractSubSubStubClass.class);
+    assertNotNull(result);
+    assertEquals(3, result.size());
+    assertTrue(result.contains(AbstractSubStubClass.class));
+    assertTrue(result.contains(StubInterfaceDelta.class));
+    assertTrue(result.contains(StubInterfaceGamma.class));
+  }
+
+  @Test
+  public void testSuperTypes() {
+    Class<?> subject = AbstractSubSubStubClass.class;
+    Set<Class<?>> result = superTypes(subject);
+
+    Set<Class<?>> expected = new HashSet<Class<?>>();
+    Set<Class<?>> directs = directSuperTypes(subject);
+    expected.addAll(directs);
+    for (Class<?> direct : directs) {
+      expected.addAll(superTypes(direct));
+    }
+    assertNotNull(result);
+    assertEquals(expected, result);
+
+    assertEquals(12, result.size());
+    assertTrue(result.contains(AbstractSubStubClass.class));
+    assertTrue(result.contains(StubClass.class));
+    assertTrue(result.contains(SuperStubClass.class));
+    assertTrue(result.contains(SuperSuperStubClass.class));
+    assertTrue(result.contains(Object.class));
+    assertTrue(result.contains(SuperSuperSuperStubInterface.class));
+    assertTrue(result.contains(SuperSuperStubInterfaceA.class));
+    assertTrue(result.contains(SuperSuperStubInterfaceB.class));
+    assertTrue(result.contains(StubInterfaceAlpha.class));
+    assertTrue(result.contains(StubInterfaceBeta.class));
+    assertTrue(result.contains(StubInterfaceDelta.class));
+    assertTrue(result.contains(StubInterfaceGamma.class));
   }
 
 }
