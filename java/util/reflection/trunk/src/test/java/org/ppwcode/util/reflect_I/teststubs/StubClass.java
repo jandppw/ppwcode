@@ -184,12 +184,12 @@ public class StubClass extends SuperStubClass {
 
   @SuppressWarnings("unused")
   public static <_T_> _T_ stubStaticMethod(_T_ t, float f) {
-    return null;
+    return t;
   }
 
   @SuppressWarnings("unused")
   public static <_T_ extends Serializable> _T_ stubStaticMethod(_T_ t, float f) {
-    return null;
+    return t;
   }
 
   @SuppressWarnings("unused")
