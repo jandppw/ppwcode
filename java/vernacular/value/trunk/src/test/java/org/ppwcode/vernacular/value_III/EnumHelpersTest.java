@@ -18,12 +18,9 @@ package org.ppwcode.vernacular.value_III;
 
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import java.util.Map;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.ppwcode.vernacular.value_III.stubs.StubEnum;
 
