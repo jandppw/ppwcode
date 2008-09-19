@@ -14,18 +14,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.vernacular.value_III;
+package org.ppwcode.vernacular.value_III.stubs;
+
+import org.ppwcode.vernacular.value_III.AbstractEnumEditor;
 
 
-public enum StubEnum {
+public class StubEnumEditor extends AbstractEnumEditor<StubEnum> {
 
-  ENUM_VALUE_1,
-  ENUM_VALUE_2,
-  ENUM_VALUE_3 {
-    @Override
-    public String toString() {
-      return "enum value 3";
-    }
+  public static final String LABEL_DECORATION = "++LABEL++";
+
+  public String getLabel() {
+    return LABEL_DECORATION + getAsText() + LABEL_DECORATION;
   }
 
 }

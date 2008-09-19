@@ -14,16 +14,21 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.vernacular.value_III;
+package org.ppwcode.vernacular.value_III.stubs;
+
+import org.ppwcode.vernacular.value_III.MutableValue;
 
 
-public class StubEnumEditor extends AbstractEnumEditor<StubEnum> {
+public class StubMutableValue extends MutableValue {
 
-  public static final String LABEL_DECORATION = "++LABEL++";
+  @Override
+  public int hashCode() {
+    return 0;
+  }
 
-  public String getLabel() {
-    return LABEL_DECORATION + getAsText() + LABEL_DECORATION;
+  @Override
+  public String toString() {
+    return null;
   }
 
 }
-

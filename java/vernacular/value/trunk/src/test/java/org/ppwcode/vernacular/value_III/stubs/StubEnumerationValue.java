@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.vernacular.value_III;
+package org.ppwcode.vernacular.value_III.stubs;
 
 
 import static java.util.Collections.unmodifiableMap;
@@ -22,6 +22,7 @@ import static java.util.Collections.unmodifiableMap;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.ppwcode.vernacular.value_III.EnumerationValue;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
 

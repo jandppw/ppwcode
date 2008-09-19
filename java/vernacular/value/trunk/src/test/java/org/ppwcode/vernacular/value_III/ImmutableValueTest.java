@@ -24,6 +24,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.ppwcode.util.test.contract.NoSuchContractException;
+import org.ppwcode.vernacular.value_III.stubs.StubImmutableValue;
+import org.ppwcode.vernacular.value_III.stubs.StubValue;
 
 
 public class ImmutableValueTest {

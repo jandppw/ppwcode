@@ -14,7 +14,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.vernacular.value_III;
+package org.ppwcode.vernacular.value_III.stubs;
+
+import org.ppwcode.vernacular.value_III.Value;
 
 
 public class StubValue extends Value {
