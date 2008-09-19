@@ -19,6 +19,7 @@ package org.ppwcode.vernacular.value_III;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.MethodHelpers.method;
+import static org.ppwcode.util.reflect_I.MethodHelpers.invoke;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.unexpectedException;
 
 import java.lang.reflect.InvocationTargetException;
@@ -86,37 +87,5 @@ public final class EnumHelpers {
 
   private static final Map<Class<? extends Enum<?>>, Map<String, ? extends Enum<?>>> ENUM_VALUES =
       new HashMap<Class<? extends Enum<?>>, Map<String, ? extends Enum<?>>>();
-
-
-  public static <_Result_> _Result_ invoke(Class<?> clazz, String signature, Object... arguments) {
-    Method m = method(clazz, signature);
-    assert isStatic(m);
-    Object result = null;
-    try {
-      result = m.invoke(null, arguments);
-    }
-    catch (IllegalArgumentException exc) {
-      unexpectedException(exc);
-    }
-    catch (IllegalAccessException exc) {
-      unexpectedException(exc);
-    }
-    catch (InvocationTargetException exc) {
-      unexpectedException(exc);
-    }
-    catch (ExceptionInInitializerError err) {
-      unexpectedException(err);
-    }
-    catch (NullPointerException exc) {
-      unexpectedException(exc, signature + " is a static method");
-    }
-    @SuppressWarnings("unchecked")
-    _Result_ typedResult = (_Result_)result;
-    return typedResult;
-  }
-
-  private static boolean isStatic(Method m) {
-    return Modifier.isStatic(m.getModifiers());
-  }
 
 }
