@@ -16,26 +16,17 @@ limitations under the License.
 
 package org.ppwcode.vernacular.value_III;
 
-import org.ppwcode.util.test.contract.Contract;
 
+public class StubImmutableValue extends ImmutableValue {
 
-@SuppressWarnings("unchecked")
-public class _Contract_ImmutableValue extends Contract<ImmutableValue> {
-
-  public _Contract_ImmutableValue() {
-    super(ImmutableValue.class);
+  @Override
+  public int hashCode() {
+    return 0;
   }
 
   @Override
-  public void assertInvariants(ImmutableValue v) {
-    super.assertInvariants(v);
-    org.junit.Assert.assertTrue(!Cloneable.class.isAssignableFrom(v.getClass()));
-  }
-
-  public void assertEqualsObject(ImmutableValue v, Object other, boolean result) {
-    _Contract_Value cValue = (_Contract_Value)getDirectSuperContracts().get(Value.class);
-    cValue.assertEqualsObject(v, other, result);
+  public String toString() {
+    return null;
   }
 
 }
-
