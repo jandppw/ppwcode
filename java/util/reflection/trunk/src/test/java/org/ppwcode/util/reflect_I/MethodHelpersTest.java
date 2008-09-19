@@ -160,6 +160,62 @@ public class MethodHelpersTest {
   }
 
   @Test
+  public void testIsStatic1() {
+    Method method = method(StubClass.class, "stubMethod()");
+    boolean result = MethodHelpers.isStatic(method);
+    assertFalse(result);
+  }
+
+  @Test
+  public void testIsStatic2() {
+    Method method = method(StubClass.class, "stubMethod(long)");
+    boolean result = MethodHelpers.isStatic(method);
+    assertFalse(result);
+  }
+
+  @Test
+  public void testIsStatic3() {
+    Method method = method(StubClass.class, "stubMethod(boolean)");
+    boolean result = MethodHelpers.isStatic(method);
+    assertFalse(result);
+  }
+
+  @Test
+  public void testIsStatic4() {
+    Method method = method(StubClass.class, "stubMethod(byte)");
+    boolean result = MethodHelpers.isStatic(method);
+    assertFalse(result);
+  }
+
+  @Test
+  public void testIsStatic5() {
+    Method method = method(StubClass.class, "stubStaticMethod()");
+    boolean result = MethodHelpers.isStatic(method);
+    assertTrue(result);
+  }
+
+  @Test
+  public void testIsStatic6() {
+    Method method = method(StubClass.class, "stubStaticMethodWithReturn()");
+    boolean result = MethodHelpers.isStatic(method);
+    assertTrue(result);
+  }
+
+  @Test
+  public void testIsStatic7() {
+    Method method = method(StubClass.class, "stubStaticMethodWithException()");
+    boolean result = MethodHelpers.isStatic(method);
+    assertTrue(result);
+  }
+
+  @Test
+  public void testIsStatic8() {
+    Method method = method(StubClass.class, "stubStaticMethod(Object)");
+    boolean result = MethodHelpers.isStatic(method);
+    assertTrue(result);
+  }
+
+  @Test
   public void testMethodHelper1() throws NoSuchMethodException {
     // dynamic method
     testMethodHelper(StubClass.class, "stubMethod()");
