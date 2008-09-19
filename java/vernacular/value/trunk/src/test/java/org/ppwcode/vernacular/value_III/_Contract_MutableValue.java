@@ -35,6 +35,11 @@ public class _Contract_MutableValue extends Contract<MutableValue> {
     super.assertInvariants(mv);
   }
 
+  public void assertEqualsObject(MutableValue v, Object other, boolean result) {
+    _Contract_Value cValue = (_Contract_Value)getDirectSuperContracts().get(Value.class);
+    cValue.assertEqualsObject(v, other, result);
+  }
+
   public void assertClone(MutableValue mv, MutableValue result) {
     assertNotSame(mv, result);
     assertEquals(mv, result);
