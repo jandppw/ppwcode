@@ -77,9 +77,9 @@ public final class MethodHelpers {
     pre  = @Expression("_m != null"),
     post = @Expression("Modifier.isPublic(_m.getModifiers())")
   )
-  public static boolean isPublic(Method method) {
-    assert ProgrammingErrors.preArgumentNotNull(method, "method");
-    return Modifier.isPublic(method.getModifiers());
+  public static boolean isPublic(Method m) {
+    assert preArgumentNotNull(m, "m");
+    return Modifier.isPublic(m.getModifiers());
   }
 
   /**
@@ -92,9 +92,9 @@ public final class MethodHelpers {
     pre  = @Expression("_m != null"),
     post = @Expression("Modifier.isProtected(_m.getModifiers())")
   )
-  public static boolean isProtected(Method method) {
-    assert ProgrammingErrors.preArgumentNotNull(method, "method");
-    return Modifier.isProtected(method.getModifiers());
+  public static boolean isProtected(Method m) {
+    assert preArgumentNotNull(m, "m");
+    return Modifier.isProtected(m.getModifiers());
   }
 
   /**
@@ -107,9 +107,9 @@ public final class MethodHelpers {
     pre  = @Expression("_m != null"),
     post = @Expression("Modifier.isPrivate(_m.getModifiers())")
   )
-  public static boolean isPrivate(Method method) {
-    assert ProgrammingErrors.preArgumentNotNull(method, "method");
-    return Modifier.isPrivate(method.getModifiers());
+  public static boolean isPrivate(Method m) {
+    assert preArgumentNotNull(m, "m");
+    return Modifier.isPrivate(m.getModifiers());
   }
 
   /**
@@ -124,10 +124,25 @@ public final class MethodHelpers {
                        "! Modifier.isProtected(_m.getModifiers()) && " +
                        "! Modifier.isPrivate(_m.getModifiers())")
   )
-  public static boolean isPackageAccessible(Method method) {
-    assert ProgrammingErrors.preArgumentNotNull(method, "method");
-    int mModifiers = method.getModifiers();
+  public static boolean isPackageAccessible(Method m) {
+    assert preArgumentNotNull(m, "m");
+    int mModifiers = m.getModifiers();
     return ! Modifier.isPublic(mModifiers) && ! Modifier.isProtected(mModifiers) && ! Modifier.isPrivate(mModifiers);
+  }
+
+  /**
+   * The idiom for finding out whether a method {@code m} is private or not,
+   * using the standard Java API, is
+   * {@link Modifier#isStatic(int) Modifier.isStatic(}{@code m.}{@link Method#getModifiers() getModifiers()}{@code )}.
+   * This shortens that a bit to {@code MethodHelpers.isStatic(m)}.
+   */
+  @MethodContract(
+    pre  = @Expression("_m != null"),
+    post = @Expression("Modifier.isStatic(_m.getModifiers())")
+  )
+  public static boolean isStatic(Method m) {
+    assert preArgumentNotNull(m, "m");
+    return Modifier.isStatic(m.getModifiers());
   }
 
   /**
