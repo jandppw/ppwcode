@@ -715,13 +715,13 @@ public class MethodHelpersTest {
 
   @Test
   public void testInvokeClassQStringObject_2() {
-    int result = MethodHelpers.invoke(StubClass.class, "stubStaticMethodWithReturn()");
+    int result = MethodHelpers.<Integer>invoke(StubClass.class, "stubStaticMethodWithReturn()");
     assertEquals(0, result);
   }
 
   @Test
   public void testInvokeClassQStringObject_3() {
-    int result = MethodHelpers.invoke(StubClass.class, "stubStaticMethodWithException()");
+    int result = MethodHelpers.<Integer>invoke(StubClass.class, "stubStaticMethodWithException()");
     assertEquals(0, result);
   }
 
