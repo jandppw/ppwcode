@@ -38,7 +38,7 @@
   <!-- for the artifactId, see the magic mantra below -->
   <groupId>org.ppwcode</groupId>
   <artifactId>ppwcode-library-parent-pom</artifactId>
-  <version>1.1.0-SNAPSHOT</version>
+  <version>1.2.0</version>
   <packaging>pom</packaging>
   <name>ppwcode library parent pom</name>
   <description>A parent pom for collections of libaries, or single libraries.
@@ -423,6 +423,11 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.4.3</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-ejb-plugin</artifactId>
+          <version>2.1</version>
         </plugin>
 
       </plugins>
