@@ -21,6 +21,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.ppwcode.util.reflect_I.MethodHelpers.constructor;
 import static org.ppwcode.util.reflect_I.MethodHelpers.hasMethod;
@@ -28,8 +29,10 @@ import static org.ppwcode.util.reflect_I.MethodHelpers.hasPublicMethod;
 import static org.ppwcode.util.reflect_I.MethodHelpers.method;
 import static org.ppwcode.util.reflect_I.MethodHelpers.methodHelper;
 
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.Date;
 
 import org.junit.Test;
 import org.ppwcode.util.reflect_I.teststubs.AbstractSubStubClass;
@@ -702,6 +705,45 @@ public class MethodHelpersTest {
     assertEquals(type, result.getDeclaringClass());
     MethodSignature msig = new MethodSignature(signature);
     assertArrayEquals(msig.getParameterTypes(), result.getParameterTypes());
+  }
+
+  @Test
+  public void testInvokeClassQStringObject_1() {
+    Object result = MethodHelpers.invoke(StubClass.class, "stubStaticMethod()");
+    assertNull(result);
+  }
+
+  @Test
+  public void testInvokeClassQStringObject_2() {
+    int result = MethodHelpers.invoke(StubClass.class, "stubStaticMethodWithReturn()");
+    assertEquals(0, result);
+  }
+
+  @Test
+  public void testInvokeClassQStringObject_3() {
+    int result = MethodHelpers.invoke(StubClass.class, "stubStaticMethodWithException()");
+    assertEquals(0, result);
+  }
+
+  @Test
+  public void testInvokeClassQStringObject_4() {
+    Object arg = new Object();
+    Object result = MethodHelpers.invoke(StubClass.class, "stubStaticMethod(Object, float)", arg, new Float(3.14));
+    assertEquals(arg, result);
+  }
+
+  @Test
+  public void testInvokeClassQStringObject_5() {
+    Date arg = new Date();
+    Serializable result = MethodHelpers.invoke(StubClass.class, "stubStaticMethod(java.io.Serializable, float)", arg, new Float(3.14));
+    assertEquals(arg, result);
+  }
+
+  @Test
+  public void testInvokeClassQStringObject_6() {
+    Date arg = new Date();
+    Date result = MethodHelpers.invoke(StubClass.class, "stubStaticMethod(java.io.Serializable, float)", arg, new Float(3.14));
+    assertEquals(arg, result);
   }
 
 }
