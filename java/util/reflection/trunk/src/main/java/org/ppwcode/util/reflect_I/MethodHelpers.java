@@ -25,6 +25,7 @@ import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.preArgumentN
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.unexpectedException;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.LinkedList;
@@ -495,5 +496,41 @@ public final class MethodHelpers {
   }
 
   // IDEA hasConstructor for consistency, but better not to introduce code we don't need
+
+  /**
+   * Get the result of the static method of class {@code clazz} with signature {@code signature}
+   * and arguments {@code arguments}: {@code clazz.signature(arguments...)}.
+   */
+  @MethodContract(
+    pre  = {@Expression("hasMethod(clazz, signature)"),
+            @Expression("isStatic(method(clazz, signature))")},
+    post = @Expression("method(clazz, signature).invoke(null, arguments)")
+  )
+  public static <_Result_> _Result_ invoke(Class<?> clazz, String signature, Object... arguments) {
+    Method m = method(clazz, signature);
+    assert isStatic(m);
+    Object result = null;
+    try {
+      result = m.invoke(null, arguments);
+    }
+    catch (IllegalArgumentException exc) {
+      unexpectedException(exc);
+    }
+    catch (IllegalAccessException exc) {
+      unexpectedException(exc);
+    }
+    catch (InvocationTargetException exc) {
+      unexpectedException(exc);
+    }
+    catch (ExceptionInInitializerError err) {
+      unexpectedException(err);
+    }
+    catch (NullPointerException exc) {
+      unexpectedException(exc, signature + " is a static method");
+    }
+    @SuppressWarnings("unchecked")
+    _Result_ typedResult = (_Result_)result;
+    return typedResult;
+  }
 
 }
