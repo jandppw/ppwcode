@@ -14,19 +14,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.vernacular.value_III;
+package org.ppwcode.vernacular.value_III.stubs;
+
+import org.ppwcode.vernacular.value_III.AbstractEnumerationValueEditor;
 
 
-public class StubMutableValue extends MutableValue {
+public class StubEnumerationValueEditor extends AbstractEnumerationValueEditor {
 
-  @Override
-  public int hashCode() {
-    return 0;
-  }
+  public static final String LABEL_DECORATION = "++LABEL++";
 
-  @Override
-  public String toString() {
-    return null;
+  public String getLabel() {
+    return LABEL_DECORATION + getAsText() + LABEL_DECORATION;
   }
 
 }
+

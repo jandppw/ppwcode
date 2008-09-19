@@ -14,19 +14,19 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.vernacular.value_III;
+package org.ppwcode.vernacular.value_III.stubs;
 
 
-public class StubImmutableValue extends ImmutableValue {
+public enum StubEnum {
 
-  @Override
-  public int hashCode() {
-    return 0;
-  }
-
-  @Override
-  public String toString() {
-    return null;
+  ENUM_VALUE_1,
+  ENUM_VALUE_2,
+  ENUM_VALUE_3 {
+    @Override
+    public String toString() {
+      return "enum value 3";
+    }
   }
 
 }
+
