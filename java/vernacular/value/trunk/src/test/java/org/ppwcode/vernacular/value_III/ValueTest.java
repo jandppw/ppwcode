@@ -17,6 +17,7 @@ limitations under the License.
 package org.ppwcode.vernacular.value_III;
 
 
+import static org.junit.Assert.assertEquals;
 import static org.ppwcode.util.test.contract.Contract.contractFor;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.unexpectedException;
 
@@ -79,6 +80,32 @@ public class ValueTest {
   public void testEqualsObject4() {
     Object other = $subject;
     testEquals_Object(other);
+  }
+
+  @Test
+  public void testEmptyString1() {
+    testEmpty("");
+  }
+
+  @Test
+  public void testEmptyString2() {
+    testEmpty(null);
+  }
+
+  @Test
+  public void testEmptyString3() {
+    testEmpty(" ");
+  }
+
+  @Test
+  public void testEmptyString4() {
+    testEmpty("Just a string");
+  }
+
+  private void testEmpty(String s) {
+    boolean expected = s == null || s.equals("");
+    boolean result = ValueHelpers.empty(s);
+    assertEquals(expected, result);
   }
 
   private void testEquals_Object(Object other) {
