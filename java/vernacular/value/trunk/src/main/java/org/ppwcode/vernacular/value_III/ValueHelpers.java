@@ -71,6 +71,10 @@ public abstract class ValueHelpers {
    */
   public final static String EMPTY = "";
 
+  /**
+   *
+   * @idea (jand) move to ppwcode-util?
+   */
   @MethodContract(post = @Expression("s == null || s == EMPTY"))
   public static boolean empty(String s) {
     return s == null || EMPTY.equals(s);
