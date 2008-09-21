@@ -41,7 +41,7 @@ import org.toryt.annotations_I.Throw;
 /**
  * <p>Implementations of a number of methods of {@link EnumerationValueEditor}.</p>
  * <p>This implementation depends on the fact that the enumeration type implements
- *   <code>toString()</code> to return the tag for that value, as requested by {@link EnumerationValue}.</p>
+ *   <code>toString()</code> to return the tag for that value, as requested by {@code EnumerationValue}.</p>
  * <p>There are no generics in this class, since we inherit from {@link PropertyEditor}, which is pre-Java 5 and not
  *   retrofitted in the JDK, and since this class is only ment for legacy use of old ppw-value libraries-based
  *   values.</p>

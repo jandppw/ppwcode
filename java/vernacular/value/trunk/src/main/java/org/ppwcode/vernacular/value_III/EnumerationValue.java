@@ -140,6 +140,8 @@ import org.toryt.annotations_I.MethodContract;
  * @author    PeopleWare n.v.
  *
  * @note Contract in test code not worked out, because this is legacy.
+ *
+ * @deprecated Use Java 5 {@code enum} types instead
  */
 @Copyright("2004 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
@@ -153,6 +155,7 @@ import org.toryt.annotations_I.MethodContract;
   @Expression("VALUES.values().contains(this)"),
   @Expression("this.equals(VALUES.get(toString()))")
 })
+@Deprecated
 public abstract class EnumerationValue extends ImmutableValue {
 
   /*<construction>*/
