@@ -19,7 +19,6 @@ package org.ppwcode.vernacular.value_III;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
-import java.beans.PropertyEditor;
 import java.util.Map;
 
 import org.ppwcode.metainfo_I.Copyright;
@@ -64,20 +63,10 @@ import org.toryt.annotations_I.Throw;
   @Expression("! labelsMap.keySet().contains(null)"),
   @Expression("! labelsMap.values().contains(null)")
 })
-public interface EnumEditor<_Enum_ extends Enum<_Enum_>> extends PropertyEditor {
-
-
-  /**
-   * <p>The type we are an editor for. If the editor follows the normal naming scheme,
-   *   <code>getClass().toString().equals(getEnumType().getDeclaringClass().toString() + "Editor")</code>.</p>
-   * <p>This is not mandatory, but enables the automatic finding of the editor by IDE's and other tools.
-   *   Thus, this naming scheme is highly recommended.</p>
-   */
-  @Basic
-  Class<_Enum_> getEnumType();
+public interface EnumEditor<_Enum_ extends Enum<_Enum_>> extends ValueEditor<_Enum_> {
 
   /**
-   * The programmatic String representations of values of {@link #getEnumType()}.
+   * The programmatic String representations of values of {@link #getValueType()}.
    */
   @MethodContract(post = @Expression("labelsMap.keySet().toArray()"))
   String[] getTags();

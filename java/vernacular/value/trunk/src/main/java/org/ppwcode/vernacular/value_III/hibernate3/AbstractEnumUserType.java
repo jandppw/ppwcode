@@ -100,7 +100,7 @@ public class AbstractEnumUserType implements UserType {
    * @return getEnumerationValueEditor().getEnumerationValue();
    */
   public final Class<?> returnedClass() {
-    return getEnumerationValueEditor().getEnumerationValueType();
+    return getEnumerationValueEditor().getValueType();
   }
 
   /**

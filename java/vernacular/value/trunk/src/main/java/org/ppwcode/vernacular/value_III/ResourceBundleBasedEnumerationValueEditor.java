@@ -109,7 +109,7 @@ public abstract class ResourceBundleBasedEnumerationValueEditor extends Abstract
 
   @MethodContract(post = @Expression("enumerationValueType.name"))
   public final String getResourceBundleBasename() {
-    return getEnumerationValueType().getName();
+    return getValueType().getName();
   }
 
   /*</property>*/
