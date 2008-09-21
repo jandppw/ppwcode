@@ -19,7 +19,10 @@ import org.ppwcode.vernacular.value_III.stubs.StubEnumerationValue;
 import org.ppwcode.vernacular.value_III.stubs.StubEnumerationValueEditor;
 
 
-
+/**
+ * @deprecated
+ */
+@Deprecated
 public class AbstractEnumerationValueEditorTest {
 
   public static _Contract_AbstractEnumerationValueEditor CONTRACT;
