@@ -42,6 +42,8 @@ import org.toryt.annotations_I.Invars;
 import org.toryt.annotations_I.MethodContract;
 
 /**
+ * MUDO UNFINISHED
+ *
  * Support class for Hibernate mapping for values that have a {@link PropertyEditor}.
  * Instance of the value type are mapped to a VARCHAR, that contains the
  * {@link PropertyEditor#getAsText() tag} for the type value, as defined by the property editor.

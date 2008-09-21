@@ -17,6 +17,8 @@ limitations under the License.
 package org.ppwcode.vernacular.value_III.hibernate3;
 
 
+import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+
 import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,20 +28,30 @@ import java.sql.Types;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.usertype.UserType;
+import org.ppwcode.metainfo_I.Copyright;
+import org.ppwcode.metainfo_I.License;
+import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.vernacular.value_III.EnumerationValueEditor;
+import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.Invars;
 
 /**
- * DO!!!!! is ver much like http://www.hibernate.org/272.html Java 5 EnumUserType
+ * MUDO UNFINISHED!!!!! is ver much like http://www.hibernate.org/272.html Java 5 EnumUserType
  *
  *  <typedef name="suit" class='EnumUserType'>
       <param name="enumClassName">com.company.project.Suit</param>
   </typedef>
  *
- * @invar getEnumerationValueEditor() != null;
- *
  * @author    Jan Dockx
  * @author    Peopleware n.v.
+ *
+ * @idea currently no unit tests
  */
+@Copyright("2004 - $Date: 2008-09-22 00:19:50 +0200 (Mon, 22 Sep 2008) $, PeopleWare n.v.")
+@License(APACHE_V2)
+@SvnInfo(revision = "$Revision: 2595 $",
+         date     = "$Date: 2008-09-22 00:19:50 +0200 (Mon, 22 Sep 2008) $")
+@Invars(@Expression("enumerationValueEditor() != null"))
 public class AbstractEnumUserType implements UserType {
 
   /*<section name="Meta Information">*/
