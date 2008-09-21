@@ -66,6 +66,16 @@ public abstract class ValueHelpers {
     return (one == null) ? (other == null) : one.equals(other);
   }
 
+  /**
+   * The empty String.
+   */
+  public final static String EMPTY = "";
+
+  @MethodContract(post = @Expression("s == null || s == EMPTY"))
+  public static boolean empty(String s) {
+    return s == null || EMPTY.equals(s);
+  }
+
 // remove; possibly interesting in Toryt?
 //  /**
 //   * Assert that <code>p</code> is needed at least to make
