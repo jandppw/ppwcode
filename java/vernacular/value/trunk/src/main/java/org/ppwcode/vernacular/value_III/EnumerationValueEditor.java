@@ -60,27 +60,16 @@ import org.toryt.annotations_I.Throw;
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
 @Invars({
-  @Expression("enumerationValueType != null"),
-  @Expression("asText != null ?? enumerationValueType.isInstance(value)"),
   @Expression("asText != null ? tags.contains(asText)"),
   @Expression("labelsMap != null"),
   @Expression("! labelsMap.keySet().contains(null)"),
   @Expression("! labelsMap.values().contains(null)")
 })
-public interface EnumerationValueEditor extends PropertyEditor {
+public interface EnumerationValueEditor extends ValueEditor<Object> {
 
 
   /**
-   * <p>The type we are an editor for. If the editor follows the normal naming scheme,
-   *   <code>getClass().toString().equals(getEnumerationValueType().getClass().toString() + "Editor")</code>.</p>
-   * <p>This is not mandatory, but enables the automatic finding of the editor by IDE's and other tools.
-   *   Thus, this naming scheme is highly recommended.</p>
-   */
-  @Basic
-  Class<?> getEnumerationValueType();
-
-  /**
-   * The programmatic String representations of values of {@link #getEnumerationValueType()}.
+   * The programmatic String representations of values of {@link #getValueType()}.
    */
   @MethodContract(post = @Expression("labelsMap.keySet().toArray()"))
   String[] getTags();

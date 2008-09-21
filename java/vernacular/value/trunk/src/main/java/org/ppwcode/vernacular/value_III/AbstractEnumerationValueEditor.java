@@ -19,7 +19,6 @@ package org.ppwcode.vernacular.value_III;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.ConstantHelpers.constant;
-import static org.ppwcode.util.reflect_I.TypeHelpers.type;
 
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorSupport;
@@ -53,28 +52,8 @@ import org.toryt.annotations_I.Throw;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-public abstract class AbstractEnumerationValueEditor extends PropertyEditorSupport
+public abstract class AbstractEnumerationValueEditor extends AbstractValueEditor<Object>
     implements EnumerationValueEditor, Serializable {
-
-  /**
-   * The enumeration type this is an editor for.
-   *
-   * @protected
-   * <p>This default implementation assumes that we follow the property editor naming scheme, and that
-   *   <code>getClass().toString().equals(getEnumerationValueType().getClass().toString() + "Editor")</code>.</p>
-   */
-  @MethodContract(post = @Expression("type(getExpectedEnumerationValueTypeClassName())"))
-  public Class<?> getEnumerationValueType() {
-    return type(getExpectedEnumerationValueTypeClassName());
-  }
-
-  @MethodContract(post = @Expression("class.getName().substring(0, class.getName().lastIndexOf('Editor'))"))
-  public final String getExpectedEnumerationValueTypeClassName() {
-    String me = getClass().getName();
-    return me.substring(0, me.lastIndexOf("Editor"));
-  }
-
-
 
   /*<property name="tags">*/
   //------------------------------------------------------------------
@@ -110,7 +89,7 @@ public abstract class AbstractEnumerationValueEditor extends PropertyEditorSuppo
   @MethodContract(post = @Expression(scope = Scope.PROTECTED,
                                      value = "constant(getEnumerationValueType(), 'VALUES')"))
   public Map<String, ?> getValuesMap() {
-    return constant(getEnumerationValueType(), "VALUES");
+    return constant(getValueType(), "VALUES");
   }
 
   /*</property>*/

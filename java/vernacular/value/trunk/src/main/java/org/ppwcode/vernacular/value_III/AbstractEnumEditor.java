@@ -19,7 +19,6 @@ package org.ppwcode.vernacular.value_III;
 
 import static java.lang.Enum.valueOf;
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.util.reflect_I.TypeHelpers.type;
 import static org.ppwcode.vernacular.value_III.EnumHelpers.valuesMap;
 
 import java.beans.PropertyEditorSupport;
@@ -47,30 +46,10 @@ import org.toryt.annotations_I.Throw;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision: 2512 $",
          date     = "$Date: 2008-08-31 16:24:23 +0200 (Sun, 31 Aug 2008) $")
-public abstract class AbstractEnumEditor<_Enum_ extends Enum<_Enum_>> extends PropertyEditorSupport
+public abstract class AbstractEnumEditor<_Enum_ extends Enum<_Enum_>> extends AbstractValueEditor<_Enum_>
     implements EnumEditor<_Enum_>, Serializable {
 
   private static final String EMPTY = "";
-
-  /**
-   * The enumeration type this is an editor for.
-   *
-   * @protected
-   * <p>This default implementation assumes that we follow the property editor naming scheme, and that
-   *   <code>getClass().toString().equals(getEnumType().getDeclaredClass().toString() + "Editor")</code>.</p>
-   */
-  @MethodContract(post = @Expression("type(getExpectedEnumTypeClassName())"))
-  public Class<_Enum_> getEnumType() {
-    return type(getExpectedEnumTypeClassName());
-  }
-
-  @MethodContract(post = @Expression("declaredClass.getName().substring(0, class.getName().lastIndexOf('Editor'))"))
-  public final String getExpectedEnumTypeClassName() {
-    String me = getClass().getName();
-    return me.substring(0, me.lastIndexOf("Editor"));
-  }
-
-
 
   /*<property name="tags">*/
   //------------------------------------------------------------------
@@ -101,7 +80,7 @@ public abstract class AbstractEnumEditor<_Enum_ extends Enum<_Enum_>> extends Pr
    */
   @MethodContract(post = @Expression("valuesMap(getEnumType())"))
   public final Map<String, _Enum_> getValuesMap() {
-    return valuesMap(getEnumType());
+    return valuesMap(getValueType());
   }
 
   /*</property>*/
@@ -175,7 +154,7 @@ public abstract class AbstractEnumEditor<_Enum_ extends Enum<_Enum_>> extends Pr
     }
     else {
       try {
-        _Enum_ value = valueOf(getEnumType(), text);
+        _Enum_ value = valueOf(getValueType(), text);
         // NullPointerException, IllegalArgumentException passes through
         setValue(value);
       }
