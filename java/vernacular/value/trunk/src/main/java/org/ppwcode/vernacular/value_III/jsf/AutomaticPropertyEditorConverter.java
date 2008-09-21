@@ -17,6 +17,8 @@ limitations under the License.
 package org.ppwcode.vernacular.value_III.jsf;
 
 
+import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;
 import java.util.Locale;
@@ -30,6 +32,9 @@ import javax.faces.el.ValueBinding;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.ppwcode.metainfo_I.Copyright;
+import org.ppwcode.metainfo_I.License;
+import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.vernacular.value_III.DisplayLocaleBasedEnumerationValueEditor;
 
 
@@ -52,23 +57,16 @@ import org.ppwcode.vernacular.value_III.DisplayLocaleBasedEnumerationValueEditor
  *
  * @author Jan Dockx
  * @author PeopleWare n.v.
+ *
+ * @mudo contract and init tests
  */
+@Copyright("2004 - $Date$, PeopleWare n.v.")
+@License(APACHE_V2)
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public class AutomaticPropertyEditorConverter extends AbstractPropertyEditorConverter {
 
-  /*<section name="Meta Information">*/
-  //------------------------------------------------------------------
-  /** {@value} */
-  public static final String CVS_REVISION = "$Revision$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_DATE = "$Date$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_STATE = "$State$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_TAG = "$Name$"; //$NON-NLS-1$
-  /*</section>*/
-
-  private static final Log LOG =
-    LogFactory.getLog(AutomaticPropertyEditorConverter.class);
+  private static final Log LOG = LogFactory.getLog(AutomaticPropertyEditorConverter.class);
 
 
   /**

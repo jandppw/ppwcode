@@ -59,6 +59,8 @@ import org.toryt.annotations_I.Invars;
  * @author Wim Lambrechts
  * @author Jan Dockx
  * @author PeopleWare n.v.
+ *
+ * @mudo contract and unit tests
  */
 @Copyright("2004 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
