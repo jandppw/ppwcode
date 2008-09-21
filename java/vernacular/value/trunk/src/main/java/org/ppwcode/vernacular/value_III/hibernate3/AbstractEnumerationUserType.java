@@ -17,6 +17,8 @@ limitations under the License.
 package org.ppwcode.vernacular.value_III.hibernate3;
 
 
+import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+
 import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,8 +28,13 @@ import java.sql.Types;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.usertype.UserType;
+import org.ppwcode.metainfo_I.Copyright;
+import org.ppwcode.metainfo_I.License;
+import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.vernacular.value_III.EnumerationValue;
 import org.ppwcode.vernacular.value_III.EnumerationValueEditor;
+import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.Invars;
 
 /**
  * Support class for Hibernate mapping for
@@ -44,26 +51,17 @@ import org.ppwcode.vernacular.value_III.EnumerationValueEditor;
  *    Based on <a href="http://www.hibernate.org/172.html">work by
  *    <em>Christian</em> and <em>sethladd</em></a>.
  *
- * @invar getEnumerationValueEditor() != null;
- *
  * @author    Jan Dockx
  * @author    Peopleware n.v.
+ *
+ * @idea currently no unit tests; but used in practice a lot in the previous version for hibernate 2
  */
+@Copyright("2004 - $Date: 2008-09-22 00:19:50 +0200 (Mon, 22 Sep 2008) $, PeopleWare n.v.")
+@License(APACHE_V2)
+@SvnInfo(revision = "$Revision: 2595 $",
+         date     = "$Date: 2008-09-22 00:19:50 +0200 (Mon, 22 Sep 2008) $")
+@Invars(@Expression("enumerationValueEditor() != null"))
 public class AbstractEnumerationUserType implements UserType {
-
-  /*<section name="Meta Information">*/
-  //  ------------------------------------------------------------------
-
-  /** {@value} */
-  public static final String CVS_REVISION = "$Revision: 2464 $"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_DATE = "$Date: 2008-08-29 21:48:16 +0200 (Fri, 29 Aug 2008) $"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_STATE = "$State$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_TAG = "$Name$"; //$NON-NLS-1$
-
-  /*</section>*/
 
   /**
    * @post new.getEnumerationValueEditor() == editor;
