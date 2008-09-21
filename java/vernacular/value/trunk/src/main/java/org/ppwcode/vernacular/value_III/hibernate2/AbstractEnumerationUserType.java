@@ -31,21 +31,20 @@ import net.sf.hibernate.UserType;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.vernacular.value_III.EnumerationValue;
 import org.ppwcode.vernacular.value_III.EnumerationValueEditor;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.Invars;
 
 /**
  * Support class for Hibernate mapping for
- * {@link EnumerationValue} subtypes.
- * Instance of {@link EnumerationValue} subtypes are mapped
+ * {@code EnumerationValue} subtypes.
+ * Instance of {@code EnumerationValue} subtypes are mapped
  * to a VARCHAR, that contains the
  * {@link EnumerationValueEditor#getAsText() tag} for the enumeration
  * type value, as defined by the property editor. According to the
- * contract of {@link EnumerationValue} and
+ * contract of {@code EnumerationValue} and
  * {@link EnumerationValueEditor}, this is equal to
- * {@link EnumerationValue#toString()}.
+ * {@code EnumerationValue.toString()}.
  *
  * @annotation
  *    Based on <a href="http://www.hibernate.org/172.html">work by

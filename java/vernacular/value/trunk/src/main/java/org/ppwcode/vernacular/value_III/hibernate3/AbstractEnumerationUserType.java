@@ -31,7 +31,6 @@ import org.hibernate.usertype.UserType;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-//import org.ppwcode.vernacular.value_III.EnumerationValue;
 import org.ppwcode.vernacular.value_III.EnumerationValueEditor;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.Invars;
