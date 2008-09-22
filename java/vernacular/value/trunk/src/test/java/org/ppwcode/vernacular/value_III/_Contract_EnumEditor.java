@@ -36,9 +36,6 @@ public class _Contract_EnumEditor extends Contract<EnumEditor> {
   @Override
   public void assertInvariants(EnumEditor ee) {
     super.assertInvariants(ee);
-    assertNotNull(ee.getEnumType());
-    assertTrue(ee.getAsText() != null ? ee.getEnumType().isInstance(ee.getValue()) : true);
-    assertTrue(ee.getEnumType().isInstance(ee.getValue()) ? ee.getAsText() != null : true);
     assertTrue(ee.getAsText() != null ? contains(ee.getTags(), ee.getAsText()) : true);
     assertNotNull(ee.getLabelsMap());
     assertFalse(ee.getLabelsMap().keySet().contains(null));

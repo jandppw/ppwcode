@@ -22,7 +22,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.ppwcode.util.reflect_I.TypeHelpers.type;
 
 import java.util.Map;
 
@@ -50,12 +49,16 @@ public class _Contract_AbstractEnumEditor<_Enum_ extends Enum<_Enum_>> extends C
 
 
 
-  public void assertGetEnumType(AbstractEnumEditor<_Enum_> ee, Class<?> result) {
-    assertEquals(type(ee.getExpectedEnumTypeClassName()), result);
+  public void assertGetValueType(AbstractEnumEditor ee, Class<?> result) {
+//  _Contract_EnumerationValueEditor eveC = (_Contract_EnumerationValueEditor)getDirectSuperContracts().get(EnumerationValueEditor.class);
+    _Contract_AbstractValueEditor aveC = (_Contract_AbstractValueEditor)getDirectSuperContracts().get(AbstractValueEditor.class);
+    aveC.assertGetValueType(ee, result);
   }
 
-  public void assertGetExpectedEnumTypeClassName(AbstractEnumEditor<_Enum_> ee, String result) {
-    assertEquals(ee.getClass().getName().substring(0, ee.getClass().getName().lastIndexOf("Editor")), result);
+  public void assertGetExpectedValueTypeClassName(AbstractEnumEditor ee, String result) {
+//  _Contract_EnumerationValueEditor eveC = (_Contract_EnumerationValueEditor)getDirectSuperContracts().get(EnumerationValueEditor.class);
+    _Contract_AbstractValueEditor aveC = (_Contract_AbstractValueEditor)getDirectSuperContracts().get(AbstractValueEditor.class);
+    aveC.assertGetExpectedValueTypeClassName(ee, result);
   }
 
   public void assertGetTags(AbstractEnumEditor<_Enum_> ee, String[] result) {
@@ -65,7 +68,7 @@ public class _Contract_AbstractEnumEditor<_Enum_ extends Enum<_Enum_>> extends C
   }
 
   public void assertGetValuesMap(AbstractEnumEditor<_Enum_> ee, Map<String, ?> result) {
-    assertEquals(EnumHelpers.valuesMap(ee.getEnumType()), result);
+    assertEquals(EnumHelpers.valuesMap(ee.getValueType()), result);
   }
 
   public void assertGetAsText(AbstractEnumEditor<_Enum_> ee, String result) {

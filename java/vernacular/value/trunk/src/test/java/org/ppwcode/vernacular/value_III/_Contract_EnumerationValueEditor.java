@@ -36,9 +36,6 @@ public class _Contract_EnumerationValueEditor extends Contract<EnumerationValueE
   @Override
   public void assertInvariants(EnumerationValueEditor eve) {
     super.assertInvariants(eve);
-    assertNotNull(eve.getEnumerationValueType());
-    assertTrue(eve.getAsText() != null ? eve.getEnumerationValueType().isInstance(eve.getValue()) : true);
-    assertTrue(eve.getEnumerationValueType().isInstance(eve.getValue()) ? eve.getAsText() != null : true);
     assertTrue(eve.getAsText() != null ? contains(eve.getTags(), eve.getAsText()) : true);
     assertNotNull(eve.getLabelsMap());
     assertFalse(eve.getLabelsMap().keySet().contains(null));

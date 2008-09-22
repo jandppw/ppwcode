@@ -69,8 +69,8 @@ public class AbstractEnumerationValueEditorTest {
   @Test
   public void testGetEnumerationValueType() {
     for (AbstractEnumerationValueEditor subject : $subjects) {
-      Class<?> result = subject.getEnumerationValueType();
-      CONTRACT.assertGetEnumerationValueType(subject, result);
+      Class<?> result = subject.getValueType();
+      CONTRACT.assertGetValueType(subject, result);
       CONTRACT.assertInvariants(subject);
     }
   }
@@ -78,8 +78,8 @@ public class AbstractEnumerationValueEditorTest {
   @Test
   public void testGetExpectedEnumerationValueTypeClassName() {
     for (AbstractEnumerationValueEditor subject : $subjects) {
-      String result = subject.getExpectedEnumerationValueTypeClassName();
-      CONTRACT.assertGetExpectedEnumerationValueTypeClassName(subject, result);
+      String result = subject.getExpectedValueTypeClassName();
+      CONTRACT.assertGetExpectedValueTypeClassName(subject, result);
       CONTRACT.assertInvariants(subject);
     }
   }
