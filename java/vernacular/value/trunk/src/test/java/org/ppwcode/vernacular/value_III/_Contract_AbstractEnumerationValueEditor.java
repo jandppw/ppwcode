@@ -22,7 +22,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.ppwcode.util.reflect_I.TypeHelpers.type;
 
 import java.util.Map;
 
@@ -50,12 +49,16 @@ public class _Contract_AbstractEnumerationValueEditor extends Contract<AbstractE
 
 
 
-  public void assertGetEnumerationValueType(AbstractEnumerationValueEditor eve, Class<?> result) {
-    assertEquals(type(eve.getExpectedEnumerationValueTypeClassName()), result);
+  public void assertGetValueType(AbstractEnumerationValueEditor eve, Class<?> result) {
+//    _Contract_EnumerationValueEditor eveC = (_Contract_EnumerationValueEditor)getDirectSuperContracts().get(EnumerationValueEditor.class);
+    _Contract_AbstractValueEditor aveC = (_Contract_AbstractValueEditor)getDirectSuperContracts().get(AbstractValueEditor.class);
+    aveC.assertGetValueType(eve, result);
   }
 
-  public void assertGetExpectedEnumerationValueTypeClassName(AbstractEnumerationValueEditor eve, String result) {
-    assertEquals(eve.getClass().getName().substring(0, eve.getClass().getName().lastIndexOf("Editor")), result);
+  public void assertGetExpectedValueTypeClassName(AbstractEnumerationValueEditor eve, String result) {
+//    _Contract_EnumerationValueEditor eveC = (_Contract_EnumerationValueEditor)getDirectSuperContracts().get(EnumerationValueEditor.class);
+    _Contract_AbstractValueEditor aveC = (_Contract_AbstractValueEditor)getDirectSuperContracts().get(AbstractValueEditor.class);
+    aveC.assertGetExpectedValueTypeClassName(eve, result);
   }
 
   public void assertGetTags(AbstractEnumerationValueEditor eve, String[] result) {
@@ -65,7 +68,7 @@ public class _Contract_AbstractEnumerationValueEditor extends Contract<AbstractE
   }
 
   public void assertGetValuesMap(AbstractEnumerationValueEditor eve, Map<String, ?> result) {
-    assertEquals(ConstantHelpers.constant(eve.getEnumerationValueType(), "VALUES"), result);
+    assertEquals(ConstantHelpers.constant(eve.getValueType(), "VALUES"), result);
   }
 
   public void assertGetAsText(AbstractEnumerationValueEditor eve, String result) {

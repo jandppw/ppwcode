@@ -66,10 +66,10 @@ public class AbstractEnumEditorTest {
   }
 
   @Test
-  public void testGetEnumType() {
+  public void testGetValueType() {
     for (AbstractEnumEditor<StubEnum> subject : $subjects) {
-      Class<?> result = subject.getEnumType();
-      CONTRACT.assertGetEnumType(subject, result);
+      Class<?> result = subject.getValueType();
+      CONTRACT.assertGetValueType(subject, result);
       CONTRACT.assertInvariants(subject);
     }
   }
@@ -77,8 +77,8 @@ public class AbstractEnumEditorTest {
   @Test
   public void testGetExpectedEnumTypeClassName() {
     for (AbstractEnumEditor<StubEnum> subject : $subjects) {
-      String result = subject.getExpectedEnumTypeClassName();
-      CONTRACT.assertGetExpectedEnumTypeClassName(subject, result);
+      String result = subject.getExpectedValueTypeClassName();
+      CONTRACT.assertGetExpectedValueTypeClassName(subject, result);
       CONTRACT.assertInvariants(subject);
     }
   }
