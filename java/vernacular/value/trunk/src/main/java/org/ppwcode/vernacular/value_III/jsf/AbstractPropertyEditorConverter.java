@@ -61,6 +61,7 @@ import org.toryt.annotations_I.Invars;
  * @author PeopleWare n.v.
  *
  * @mudo contract and unit tests
+ * @mudo UNFINISHED
  */
 @Copyright("2004 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)

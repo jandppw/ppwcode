@@ -37,6 +37,8 @@ import org.toryt.annotations_I.MethodContract;
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
+ *
+ * @mudo UNFINISHED
  */
 @Copyright("2004 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
