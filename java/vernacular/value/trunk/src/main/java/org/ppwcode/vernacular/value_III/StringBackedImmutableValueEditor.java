@@ -40,6 +40,8 @@ import org.toryt.annotations_I.Throw;
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
+ *
+ * @mudo UNFINISHED
  */
 @Copyright("2004 - $Date: 2008-09-22 00:31:18 +0200 (Mon, 22 Sep 2008) $, PeopleWare n.v.")
 @License(APACHE_V2)

@@ -54,6 +54,7 @@ import org.toryt.annotations_I.Invars;
  * @author    Peopleware n.v.
  *
  * @idea currently no unit tests; but used in practice a lot in the previous version for hibernate 2
+ * @mudo UNFINISHED
  */
 @Copyright("2004 - $Date: 2008-09-22 00:19:50 +0200 (Mon, 22 Sep 2008) $, PeopleWare n.v.")
 @License(APACHE_V2)
