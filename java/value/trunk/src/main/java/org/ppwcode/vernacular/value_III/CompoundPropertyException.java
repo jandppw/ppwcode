@@ -34,14 +34,14 @@ public class CompoundPropertyException extends PropertyException {
   }
 
   public void addElementException(PropertyException propertyException) {
-    // MUDO Auto-generated method stub
-
+    $addedOne = true;
   }
 
-  public void throwIfNotEmpty() {
-    // MUDO Auto-generated method stub
-
+  public void throwIfNotEmpty() throws CompoundPropertyException {
+    throw this;
   }
+
+  boolean $addedOne;
 
 }
 
