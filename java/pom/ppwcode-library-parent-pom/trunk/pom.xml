@@ -215,7 +215,7 @@
       <dependency>
         <groupId>org.ppwcode</groupId>
         <artifactId>ppwcode-metainfo-I</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0</version>
         <scope>compile</scope>
       </dependency>
       <dependency>
