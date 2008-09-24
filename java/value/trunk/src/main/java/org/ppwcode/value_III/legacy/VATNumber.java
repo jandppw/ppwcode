@@ -17,11 +17,18 @@ limitations under the License.
 package org.ppwcode.value_III.legacy;
 
 
+import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+
 import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.ppwcode.metainfo_I.Copyright;
+import org.ppwcode.metainfo_I.License;
+import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.ppwcode.vernacular.value_III.CompoundPropertyException;
 import org.ppwcode.vernacular.value_III.ImmutableValue;
+import org.ppwcode.vernacular.value_III.PropertyException;
 
 
 /**
@@ -37,19 +44,11 @@ import org.ppwcode.vernacular.value_III.ImmutableValue;
  * @invar  Pattern.matches(RIGHT_PATTERN, getRightNumber());
  * @invar  checkVATNumber(getLeftNumber(), getMiddleNumber(), getRightNumber());
  */
+@Copyright("2004 - $Date$, PeopleWare n.v.")
+@License(APACHE_V2)
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public final class VATNumber extends ImmutableValue {
-
-  /*<section name="Meta Information">*/
-  //------------------------------------------------------------------
-  /** {@value} */
-  public static final String CVS_REVISION = "$Revision$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_DATE = "$Date$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_STATE = "$State$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_TAG = "$Name$"; //$NON-NLS-1$
-  /*</section>*/
 
   private static final Log LOG = LogFactory.getLog(VATNumber.class);
 

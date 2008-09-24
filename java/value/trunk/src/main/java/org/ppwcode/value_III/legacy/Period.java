@@ -191,7 +191,7 @@ public class Period extends MutableValue implements Comparable {
    *              ? result.getEndDate() == null
    *              : result.getEndDate().equals(getEndDate());
    */
-  public Object clone() {
+  public Period clone() {
     Period result = new Period();
     try {
       result.setStartDate(getStartDate());

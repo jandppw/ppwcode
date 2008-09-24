@@ -32,7 +32,10 @@ import org.ppwcode.vernacular.value_III.ResourceBundleBasedEnumerationValueEdito
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
+ *
+ * @deprecated
  */
+@Deprecated
 public final class GenderEditor extends ResourceBundleBasedEnumerationValueEditor {
 
   /*<section name="Meta Information">*/

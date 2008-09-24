@@ -41,7 +41,10 @@ import org.ppwcode.vernacular.value_III.EnumerationValue;
  *                o.getClass() == Country.class);
  * @invar     VALUES.values().contains(this);
  * @invar     this.equals(VALUES.get(toString()));
+ *
+ * @deprecated
  */
+@Deprecated
 public final class Country extends EnumerationValue {
 
   /*<section name="Meta Information">*/

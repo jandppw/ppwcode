@@ -189,7 +189,7 @@ public class DayPeriod extends MutableValue implements Comparable {
    *          sameDay(getStartDate(), result.getStartDate()) &&
    *          sameDay(getEndDate(), result.getEndDate()) &&
    */
-  public Object clone() {
+  public DayPeriod clone() {
     DayPeriod result = (DayPeriod)super.clone();
     result.$startDate = getStartDate();
     result.$endDate = getEndDate();

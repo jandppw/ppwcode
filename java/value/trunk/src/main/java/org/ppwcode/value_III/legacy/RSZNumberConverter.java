@@ -22,6 +22,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 
+import org.ppwcode.vernacular.value_III.PropertyException;
+
 
 /**
  * Converter for {@link RSZNumber}. The {@link #getAsObject(FacesContext, UIComponent, String)}

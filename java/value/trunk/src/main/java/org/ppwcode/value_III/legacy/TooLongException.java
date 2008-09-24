@@ -16,6 +16,8 @@ limitations under the License.
 
 package org.ppwcode.value_III.legacy;
 
+import org.ppwcode.vernacular.value_III.PropertyException;
+
 
 
 
