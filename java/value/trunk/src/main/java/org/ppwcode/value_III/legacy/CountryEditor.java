@@ -34,7 +34,10 @@ import org.ppwcode.vernacular.value_III.DisplayLocaleBasedEnumerationValueEditor
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
+ *
+ * @deprecated
  */
+@Deprecated
 public class CountryEditor
     extends DisplayLocaleBasedEnumerationValueEditor implements Serializable {
 

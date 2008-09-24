@@ -22,7 +22,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.regex.Pattern;
 
+import org.ppwcode.vernacular.value_III.CompoundPropertyException;
 import org.ppwcode.vernacular.value_III.ImmutableValue;
+import org.ppwcode.vernacular.value_III.PropertyException;
 
 
 /**

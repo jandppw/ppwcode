@@ -40,7 +40,10 @@ import org.ppwcode.vernacular.value_III.EnumerationValue;
  *                o.getClass() == Gender.class);
  * @invar     VALUES.values().contains(this);
  * @invar     this.equals(VALUES.get(toString()));
+ *
+ * @deprecated
  */
+@Deprecated
 public final class Gender extends EnumerationValue {
 
   /*<section name="Meta Information">*/
