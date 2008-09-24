@@ -19,13 +19,15 @@ package org.ppwcode.value_III.legacy;
 
 import junit.framework.TestCase;
 
+import org.ppwcode.vernacular.value_III.PropertyException;
+
 
 
 public class TestEnterpriseNumber extends TestCase {
 
-  public static void main(String[] args) {
-    junit.swingui.TestRunner.run(TestEnterpriseNumber.class);
-  }
+//  public static void main(String[] args) {
+//    junit.swingui.TestRunner.run(TestEnterpriseNumber.class);
+//  }
 
   public void testEnterpriseNumber_String_String_String_valid1() {
     String left = "0123"; String middle = "456"; String right = "749";
