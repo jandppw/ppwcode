@@ -19,8 +19,6 @@ package org.ppwcode.value_III.legacy;
 
 import java.io.Serializable;
 
-import be.peopleware.bean_V.Delegate;
-
 
 /**
  * A Class to represent VARCHAR() objects with constrained checking.
@@ -34,7 +32,7 @@ import be.peopleware.bean_V.Delegate;
  * @invar     getConstrainedString().length() <= getMaxLength()
  * @invar     getConstrainedString() <> null
  */
-public class ConstrainedString extends Delegate implements Serializable {
+public class ConstrainedString /*extends Delegate*/ implements Serializable {
 
   /*<section name="Meta Information">*/
   //------------------------------------------------------------------
@@ -74,7 +72,7 @@ public class ConstrainedString extends Delegate implements Serializable {
   public ConstrainedString(final Object delegatingBean,
                            final String propertyName,
                            final int maxLength) {
-    super(delegatingBean, propertyName);
+    super(/*delegatingBean, propertyName*/);
     assert maxLength > 0 : "maxLength > 0";  //$NON-NLS-1$
     $maxLength = maxLength;
   }
@@ -103,7 +101,7 @@ public class ConstrainedString extends Delegate implements Serializable {
                            final String propertyName,
                            final int maxLength,
                            final String stringValue) {
-    super(delegatingBean, propertyName);
+    super(/*delegatingBean, propertyName*/);
     assert maxLength > 0 : "maxLength > 0";  //$NON-NLS-1$
     assert stringValue != null;
     assert stringValue.length() <= maxLength;
@@ -143,6 +141,16 @@ public class ConstrainedString extends Delegate implements Serializable {
     $string = result;
   }
 
+  private String getPropertyName() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  private Object getDelegatingBean() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
   /**
    * @basic
    */
@@ -179,20 +187,20 @@ public class ConstrainedString extends Delegate implements Serializable {
 
 
 
-  /**
-   * @param     other
-   *            Object to compare with
-   * @return    (other != null) && (other instanceof ConstrainedString)
-   *            && (getString().equals(((ConstrainedString)other).getString()))
-   *            && (getMaxLength()
-   *                == ((ConstrainedString)other).getMaxLength());
-   * @post      result ? hashCode() == other.hashCode() : true;
-   */
-  public boolean hasSameValue(final Object other) {
-    return super.hasSameValues(other)
-           && (getString().equals(((ConstrainedString)other).getString()))
-           && (getMaxLength() == ((ConstrainedString)other).getMaxLength());
-  }
+//  /**
+//   * @param     other
+//   *            Object to compare with
+//   * @return    (other != null) && (other instanceof ConstrainedString)
+//   *            && (getString().equals(((ConstrainedString)other).getString()))
+//   *            && (getMaxLength()
+//   *                == ((ConstrainedString)other).getMaxLength());
+//   * @post      result ? hashCode() == other.hashCode() : true;
+//   */
+//  public boolean hasSameValue(final Object other) {
+//    return super.hasSameValues(other)
+//           && (getString().equals(((ConstrainedString)other).getString()))
+//           && (getMaxLength() == ((ConstrainedString)other).getMaxLength());
+//  }
 
   /**
    * Returns a string representation of the object.
