@@ -38,7 +38,9 @@ public class CompoundPropertyException extends PropertyException {
   }
 
   public void throwIfNotEmpty() throws CompoundPropertyException {
-    throw this;
+    if ($addedOne) {
+      throw this;
+    }
   }
 
   boolean $addedOne;
