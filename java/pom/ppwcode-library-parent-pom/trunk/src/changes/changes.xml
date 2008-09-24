@@ -27,6 +27,16 @@
     <author email="jandockx@gmail.com">Jan Dockx</author>
   </properties>
   <body>
+    <release version="1.2.0" date="2008-09-24" description="Metafinfo version upgrade">
+      <action dev="jand" type="add">
+        added dependency management for ppwcode value
+      </action>
+    </release>
+    <release version="1.2.0" date="2008-09-24" description="Metafinfo version upgrade">
+      <action dev="jand" type="fix">
+        wrong version of ppwcode value vernacular
+      </action>
+    </release>
     <release version="1.1.0" date="2008-09-24" description="Metafinfo version upgrade">
       <action dev="jand" type="update">
         ppwcode metainfo now I 1.0 instead of snapshot.
