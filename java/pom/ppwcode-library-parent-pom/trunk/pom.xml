@@ -26,60 +26,6 @@
   <!-- NOTE: you probably have to give Maven more memory:
              export MAVEN_OPTS=-Xmx1024M -->
 
-  <!--
-    Projects using this pom should fill out, in a child pom:
-
-      artifactId
-      version
-      packaging
-
-      name
-      description
-      inceptionYear, possibly
-
-      ppwcode.shortArtifactName
-      ppwcode.markVersion
-      ppwcode.inScmLocation
-
-      developers
-
-    Using our parent:
-
-      For our projects, we need to override
-        artifactId
-        version
-        packaging
-
-        name
-        description
-
-        ppwcode.shortArtifactName
-        ppwcode.markVersion
-        ppwcode.inScmLocation
-
-      For our projects, we will not need to override
-        ppwcode.mainUrl
-        ppwcode.mainScmUrl
-        ppwcode.mainScmViewUrl
-        ppwcode.mainDistroUrl
-
-        organization
-        licenses
-
-        distribution management
-        issue management
-         mailing lists
-
-        developers
-
-
-      For our projects, we add
-        dependency management
-
-    It will also be necessary to add the ppwcode repo to the pom, to find
-    this parent (bootstrap problem).
-   -->
-
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -91,7 +37,7 @@
   <!-- VERSION, PACKAGING, NAME & DESCRIPTION: OVERWRITE IN YOUR CHILD POM (know what you are doing :-) ) -->
   <!-- for ppwcode projects, groupId and artifactId are calculated, and used in the magic mantra (see below) -->
   <groupId>org.ppwcode</groupId> <!-- group id cannot be calculated with inheritance -->
-  <version>1.0.0-SNAPSHOT</version> <!-- MUDO add Svn release number as implementation version -->
+  <version>1.0.0</version>
   <packaging>pom</packaging>
   <name>ppwcode ppwcode library parent pom</name>
   <description>A parent pom for ppwcode libaries.</description>
@@ -111,7 +57,7 @@
         <role>developer</role>
       </roles>
       <properties>
-        <aim>jandockx@mac.com</aim>
+        <aim>jandockx@gmail.com</aim>
         <skype>callto:jandockx</skype>
       </properties>
     </developer>
@@ -290,6 +236,11 @@
       <dependency>
         <groupId>org.ppwcode.vernacular</groupId>
         <artifactId>ppwcode-vernacular-persistence-III</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.ppwcode.vernacular</groupId>
+        <artifactId>ppwcode-vernacular-value-III</artifactId>
         <version>1.0.0-SNAPSHOT</version>
       </dependency>
       <dependency>
