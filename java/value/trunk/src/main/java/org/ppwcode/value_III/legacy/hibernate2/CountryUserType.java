@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.value_III.legacy;
+package org.ppwcode.value_III.legacy.hibernate2;
 
 
 import org.ppwcode.value_III.legacy.Country;
@@ -28,8 +28,10 @@ import org.ppwcode.vernacular.value_III.hibernate2.AbstractEnumerationUserType;
  *
  * @author    Jan Dockx
  * @author    Peopleware n.v.
+ *
+ * @deprecated
  */
-
+@Deprecated
 public final class CountryUserType extends AbstractEnumerationUserType {
 
   /*<section name="Meta Information">*/
