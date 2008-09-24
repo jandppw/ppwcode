@@ -27,6 +27,11 @@
     <author email="jandockx@gmail.com">Jan Dockx</author>
   </properties>
   <body>
+    <release version="1.1.0" date="2008-09-24" description="Metafinfo version upgrade">
+      <action dev="jand" type="update">
+        ppwcode metainfo now I 1.0 instead of snapshot.
+      </action>
+    </release>
     <release version="1.0.1" date="2008-09-24" description="Parent pom fix">
       <action dev="jand" type="fix">
         Parent pom should be latest version.
