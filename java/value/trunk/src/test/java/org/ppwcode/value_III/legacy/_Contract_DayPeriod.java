@@ -1,21 +1,25 @@
-package be.peopleware.value_II;
+/*<license>
+Copyright 2004 - $Date$ by PeopleWare n.v..
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</license>*/
+
+package org.ppwcode.value_III.legacy;
 
 
 import java.util.Date;
 import java.util.Map;
-
-import org.toryt.Cases;
-import org.toryt.Condition;
-import org.toryt.ExceptionCondition;
-import org.toryt.TorytException;
-import org.toryt.hard.ClassContract;
-import org.toryt.hard.ConstructorContract;
-import org.toryt.hard.MutatorContract;
-import org.toryt.support.straightlist.EmptyStraightList;
-import org.toryt.support.straightlist.LazyCombinationStraightList;
-import org.toryt.support.straightlist.LazyMappingStraightList;
-import org.toryt.support.straightlist.NullFirstStraightList;
-import org.toryt.support.straightlist.StraightList;
+import java.util.concurrent.locks.Condition;
 
 
 /**
