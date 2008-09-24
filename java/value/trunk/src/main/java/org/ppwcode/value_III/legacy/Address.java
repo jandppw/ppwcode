@@ -36,7 +36,10 @@ import org.ppwcode.vernacular.value_III.MutableValue;
  * @invar     getCity().length() <= CITY_MAX_LENGTH;
  * @invar     getState() != null;
  * @invar     getState().length() <= STATE_MAX_LENGTH;
+ *
+ * @deprecated
  */
+@Deprecated
 public class Address extends MutableValue implements Serializable {
 
   /* <section name="Meta Information"> */
@@ -326,8 +329,8 @@ public class Address extends MutableValue implements Serializable {
   /**
    * @see       java.lang.Object#clone()
    */
-  public final Object clone() {
-    Object result = super.clone();
+  public final Address clone() {
+    Address result = (Address)super.clone();
     try {
       ((Address)result).setStreetAddress(getStreetAddress());
       ((Address)result).setPostalCode(getPostalCode());
