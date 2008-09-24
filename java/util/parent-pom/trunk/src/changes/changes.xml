@@ -27,10 +27,9 @@
     <author email="jandockx@gmail.com">Jan Dockx</author>
   </properties>
   <body>
-    <release version="1.0" date="2008-07-??" description="First release">
+    <release version="1.0.0" date="2008-09-24" description="First release">
       <action dev="jand" type="add">
-        First version, based on Beedraz parent pom
-        (http://www.beedraz.org/projects/parent/pom/) 1.0.0, snapshot.
+        First version.
       </action>
     </release>
   </body>
