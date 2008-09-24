@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.value_III.legacy;
+package org.ppwcode.value_III.legacy.hibernate2;
 
 
 import java.sql.PreparedStatement;
@@ -26,6 +26,7 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.UserType;
 
 import org.ppwcode.value_III.legacy.EnterpriseNumber;
+import org.ppwcode.vernacular.value_III.PropertyException;
 
 
 /**
