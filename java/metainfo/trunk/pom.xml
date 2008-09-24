@@ -158,28 +158,4 @@
     </dependency>
   </dependencies>
 
-  <!-- More Project Information -->
-  <!--
-  <developers>
-    <developer>
-      <name>Jan Dockx</name>
-      <id>jandockx</id>
-      <email>jandockx@gmail.org</email>
-      <timezone>+1</timezone>
-      <organization>ppwcode</organization>
-      <organizationUrl>http://www.ppwcode.org/</organizationUrl>
-      <roles>
-        <role>architect</role>
-        <role>developer</role>
-      </roles>
-      <properties>
-        <aim>jandockx@mac.com</aim>
-        <skype>callto:jandockx</skype>
-      </properties>
-    </developer>
-  </developers>
-  <contributors>
-  </contributors>
-  -->
-
 </project>
