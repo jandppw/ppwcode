@@ -31,7 +31,7 @@ import org.hibernate.usertype.UserType;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.vernacular.value_III.EnumerationValueEditor;
+import org.ppwcode.vernacular.value_III.EnumEditor;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.Invars;
 
@@ -53,26 +53,12 @@ import org.toryt.annotations_I.Invars;
 @SvnInfo(revision = "$Revision: 2595 $",
          date     = "$Date: 2008-09-22 00:19:50 +0200 (Mon, 22 Sep 2008) $")
 @Invars(@Expression("enumerationValueEditor() != null"))
-public class AbstractEnumUserType implements UserType {
-
-  /*<section name="Meta Information">*/
-  //  ------------------------------------------------------------------
-
-  /** {@value} */
-  public static final String CVS_REVISION = "$Revision: 2464 $"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_DATE = "$Date: 2008-08-29 21:48:16 +0200 (Fri, 29 Aug 2008) $"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_STATE = "$State$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_TAG = "$Name$"; //$NON-NLS-1$
-
-  /*</section>*/
+public class AbstractEnumUserType<_Enum_ extends Enum<_Enum_>> implements UserType {
 
   /**
-   * @post new.getEnumerationValueEditor() == editor;
+   * @post new.getEnumEditor() == editor;
    */
-  protected AbstractEnumUserType(final EnumerationValueEditor editor) {
+  protected AbstractEnumUserType(final EnumEditor<_Enum_> editor) {
     $editor = editor;
   }
 
@@ -82,11 +68,11 @@ public class AbstractEnumUserType implements UserType {
    *
    * @basic
    */
-  public final EnumerationValueEditor getEnumerationValueEditor() {
+  public final EnumEditor<_Enum_> getEnumEditor() {
     return $editor;
   }
 
-  private EnumerationValueEditor $editor;
+  private EnumEditor<_Enum_> $editor;
 
   private static final int[] SQL_TYPES = {Types.VARCHAR};
 
@@ -98,10 +84,10 @@ public class AbstractEnumUserType implements UserType {
   }
 
   /**
-   * @return getEnumerationValueEditor().getEnumerationValue();
+   * @return getEnumEditor().getEnum();
    */
   public final Class<?> returnedClass() {
-    return getEnumerationValueEditor().getValueType();
+    return getEnumEditor().getValueType();
   }
 
   /**
@@ -120,7 +106,7 @@ public class AbstractEnumUserType implements UserType {
 
   /**
    * @return false;
-   *         EnumerationValue implements ImmutableValue
+   *         Enum implements ImmutableValue
    */
   public final boolean isMutable() {
     return false;
@@ -147,8 +133,8 @@ public class AbstractEnumUserType implements UserType {
     Object result = null;
     String tag = (String)Hibernate.STRING.nullSafeGet(resultSet, names[0]);
     if (!(resultSet.wasNull())) {
-      getEnumerationValueEditor().setAsText(tag);
-      result = getEnumerationValueEditor().getValue();
+      getEnumEditor().setAsText(tag);
+      result = getEnumEditor().getValue();
     }
     return result;
   }
@@ -171,7 +157,7 @@ public class AbstractEnumUserType implements UserType {
    *          && statement.setNull(index, Types.VARCHAR) throws a SQLException;
    * @throws  SQLException
    *          value != null
-   *          && statement.setString(index, getEnumerationValueEditor().getAsText());
+   *          && statement.setString(index, getEnumEditor().getAsText());
    */
   public final void nullSafeSet(final PreparedStatement statement, final Object value, final int index)
       throws HibernateException, SQLException {
@@ -189,9 +175,9 @@ public class AbstractEnumUserType implements UserType {
       statement.setNull(index, Types.VARCHAR);
     }
     else {
-      getEnumerationValueEditor().setValue(value);
+      getEnumEditor().setValue(value);
       statement.setString(index,
-                          getEnumerationValueEditor().getAsText());
+                          getEnumEditor().getAsText());
     }
   }
 
