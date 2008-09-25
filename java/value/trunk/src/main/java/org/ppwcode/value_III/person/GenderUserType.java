@@ -18,14 +18,13 @@ package org.ppwcode.value_III.person;
 
 
 import org.hibernate.usertype.UserType;
-import org.ppwcode.vernacular.value_III.EnumerationValueEditor;
 import org.ppwcode.vernacular.value_III.hibernate3.AbstractEnumUserType;
 
 
 /**
  * A Hibernate 3 {@link UserType} for {@link Gender}.
  */
-public class GenderUserType extends AbstractEnumUserType {
+public class GenderUserType extends AbstractEnumUserType<Gender> {
 
   public GenderUserType() {
     super(new GenderEditor());
