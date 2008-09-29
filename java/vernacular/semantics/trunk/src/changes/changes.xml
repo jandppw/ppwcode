@@ -31,8 +31,7 @@
   </properties>
   <body>
 
-    <release version="VI v1.0.0/1.0" date="MUDO"
-      description="big cleanup">
+    <release version="VI v1.0.0/1.0" date="MUDO" description="big cleanup">
       <action dev="jand" type="update">
         Moved project from PeopleWare to ppwcode. Packages thus have new names.
       </action>
@@ -68,6 +67,10 @@
       <action dev="jand" type="add">
         SetterPropertyException, for almost all semantic exceptions with simple property setters
         and constructors.
+      </action>
+      <action dev="jand" type="update">
+        RousseauBean methods are now non-JavaBean-property methods: wildExceptions() instead of
+        getWildExceptions(); civilized() instead of isCivilized().
       </action>
     </release>
 
