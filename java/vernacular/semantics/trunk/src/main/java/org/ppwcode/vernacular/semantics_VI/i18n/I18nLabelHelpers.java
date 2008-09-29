@@ -19,13 +19,13 @@ package org.ppwcode.vernacular.semantics_VI.i18n;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.PropertyHelpers.propertyType;
-import static org.ppwcode.util.resourcebundle.ResourceBundles.findKeyInTypeProperties;
+import static org.ppwcode.vernacular.resourcebundle_II.ResourceBundles.findKeyInTypeProperties;
 
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.util.resourcebundle.ResourceBundleLoadStrategy;
-import org.ppwcode.util.resourcebundle.ResourceBundles;
+import org.ppwcode.vernacular.resourcebundle_II.ResourceBundleLoadStrategy;
+import org.ppwcode.vernacular.resourcebundle_II.ResourceBundles;
 import org.ppwcode.vernacular.semantics_VI.exception.PropertyException;
 
 
