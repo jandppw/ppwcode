@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.util.resourcebundle;
+package org.ppwcode.vernacular.resourcebundle;
 
 
 import static org.junit.Assert.assertEquals;
@@ -31,7 +31,7 @@ import java.util.Set;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.ppwcode.util.resourcebundle.DefaultResourceBundleLoadStrategy;
+import org.ppwcode.vernacular.resourcebundle_II.DefaultResourceBundleLoadStrategy;
 
 
 public class DefaultResourceBundleLoadStrategyTest {
