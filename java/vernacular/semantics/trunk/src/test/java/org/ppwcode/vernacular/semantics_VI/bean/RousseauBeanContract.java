@@ -58,7 +58,7 @@ public class RousseauBeanContract {
   }
 
   public static void contractIsCivilized(RousseauBean subject, boolean result) {
-    assertEquals(subject.getWildExceptions().isEmpty(), result);
+    assertEquals(subject.wildExceptions().isEmpty(), result);
   }
 
   public static void contractPostCheckCivility(boolean OLDCivilized, RousseauBean subject) {
@@ -67,7 +67,7 @@ public class RousseauBeanContract {
 
   public static void contractExcCheckCivility(boolean OLDCivilized, RousseauBean subject, CompoundPropertyException thrown) {
     assertFalse(OLDCivilized);
-    assertTrue(thrown.like(subject.getWildExceptions()));
+    assertTrue(thrown.like(subject.wildExceptions()));
     assertTrue(thrown.isClosed());
   }
 

@@ -36,7 +36,7 @@ import org.toryt.annotations_I.Scope;
 
 /**
  * <p>A partial implementation of the interface {@link RousseauBean}.</p>
- * <p>Subclasses should take care to override {@link #getWildExceptions()} diligently,
+ * <p>Subclasses should take care to override {@link #wildExceptions()} diligently,
  *   to add validation concerning properties and civility invariants added in the subclass.</p>
  *
  * @author    nsmeets
@@ -87,15 +87,15 @@ public abstract class AbstractRousseauBean extends AbstractSemanticBean implemen
       @Expression(scope = Scope.PROTECTED, value = "result.elementExceptions.empty")
     }
   )
-  public CompoundPropertyException getWildExceptions() {
+  public CompoundPropertyException wildExceptions() {
     return new CompoundPropertyException(this, null, null, null);
   }
 
   /**
    * {@inheritDoc}
    */
-  public final boolean isCivilized() {
-    return getWildExceptions().isEmpty();
+  public final boolean civilized() {
+    return wildExceptions().isEmpty();
   }
 
   /**
@@ -104,7 +104,7 @@ public abstract class AbstractRousseauBean extends AbstractSemanticBean implemen
    * This method logs progress on the debug level.
    */
   public final void checkCivility() throws CompoundPropertyException {
-    CompoundPropertyException cpe = getWildExceptions();
+    CompoundPropertyException cpe = wildExceptions();
     if (!cpe.isEmpty()) {
       if (LOG.isDebugEnabled()) { // this if does only logging
         LOG.debug("the wild exceptions were not empty; we will throw the CompoundPropertyException");
