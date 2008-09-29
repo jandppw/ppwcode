@@ -14,14 +14,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.util.resourcebundle;
+package org.ppwcode.vernacular.resourcebundle;
 
 
 import static org.junit.Assert.assertTrue;
 
 import java.util.ResourceBundle;
 
-import org.ppwcode.util.resourcebundle.ResourceBundleLoadStrategy;
+import org.ppwcode.vernacular.resourcebundle_II.ResourceBundleLoadStrategy;
 
 
 public class ResourceBundleLoadStrategyContract {
