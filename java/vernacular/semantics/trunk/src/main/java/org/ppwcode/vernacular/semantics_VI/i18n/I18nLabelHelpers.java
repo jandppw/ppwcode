@@ -30,9 +30,8 @@ import org.ppwcode.vernacular.semantics_VI.exception.PropertyException;
 
 
 /**
- * <p>Support methods to work with properties files.
- *   There are general methods here, and some methods specific to a
- *   properties file strategy for i18n of bean type labels and bean property
+ * <p>Support methods to work with properties files. There are general methods here, and some
+ *   methods specific to a properties file strategy for i18n of bean type labels and bean property
  *   labels, and general bean related text.</p>
  * <p>In general, we look for the i18n strings in a properties file that has
  *   the same fully qualified name as the bean class whose labels we are
@@ -50,6 +49,8 @@ import org.ppwcode.vernacular.semantics_VI.exception.PropertyException;
  *   of the JavaBean.</p>
  * <p>The other public methods are support methods to retrieve properties
  *   file entries.</p>
+ *
+ * @note Since the previous version, the order of the arguments of some methods have changed.
  *
  * @author Jan Dockx
  * @todo (jand): test code

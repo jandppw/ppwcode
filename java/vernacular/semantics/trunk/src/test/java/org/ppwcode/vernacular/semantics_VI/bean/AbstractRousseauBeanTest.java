@@ -17,6 +17,7 @@ limitations under the License.
 package org.ppwcode.vernacular.semantics_VI.bean;
 
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -95,8 +96,8 @@ public class AbstractRousseauBeanTest {
     }
 
     @Override
-    public CompoundPropertyException getWildExceptions() {
-      CompoundPropertyException cpe = super.getWildExceptions();
+    public CompoundPropertyException wildExceptions() {
+      CompoundPropertyException cpe = super.wildExceptions();
       cpe.addElementException(new PropertyException(this, "property1", null, null));
       cpe.addElementException(new PropertyException(this, "property1", null, null));
       cpe.addElementException(new PropertyException(this, "property2", null, null));
@@ -212,16 +213,16 @@ public class AbstractRousseauBeanTest {
 
   public static Set<String> testPropertyNamesForToStringA(AbstractRousseauBean subject, int nrOfProperties) {
     Set<String> result = AbstractSemanticBeanTest.testPropertyNamesForToStringA(subject, nrOfProperties);
-    assertTrue(result.contains("wildExceptions"));
-    assertTrue(result.contains("civilized"));
+    assertFalse(result.contains("wildExceptions"));
+    assertFalse(result.contains("civilized"));
     assertInvariants(subject);
     return result;
   }
 
   public static Set<String> testPropertyNamesForToStringB(AbstractRousseauBean subject, int nrOfProperties) {
     Set<String> result = AbstractSemanticBeanTest.testPropertyNamesForToStringB(subject, nrOfProperties);
-    assertTrue(result.contains("wildExceptions"));
-    assertTrue(result.contains("civilized"));
+    assertFalse(result.contains("wildExceptions"));
+    assertFalse(result.contains("civilized"));
     assertInvariants(subject);
     return result;
   }
@@ -229,13 +230,13 @@ public class AbstractRousseauBeanTest {
   @Test
   public void testPropertyNamesForToString2() {
     AbstractRousseauBean subject = new AbstractRousseauBeanNOPROPERTIES();
-    testPropertyNamesForToStringA(subject, 2);
+    testPropertyNamesForToStringA(subject, 0);
   }
 
   @Test
   public void testPropertyNamesForToString1() {
     for (AbstractRousseauBean subject : subjects) {
-      testPropertyNamesForToStringB(subject, 4);
+      testPropertyNamesForToStringB(subject, 2);
     }
   }
 
@@ -253,7 +254,7 @@ public class AbstractRousseauBeanTest {
 
   public static CompoundPropertyException testGetWildExceptions(AbstractRousseauBean subject) {
     // execute
-    CompoundPropertyException result = subject.getWildExceptions();
+    CompoundPropertyException result = subject.wildExceptions();
     // validate
     RousseauBeanContract.contractGetWildExceptions(subject, result);
     assertInvariants(subject);
@@ -277,7 +278,7 @@ public class AbstractRousseauBeanTest {
 
   public static void testIsCivilized(AbstractRousseauBean subject) {
     // execute
-    boolean result = subject.isCivilized();
+    boolean result = subject.civilized();
     // validate
     RousseauBeanContract.contractIsCivilized(subject, result);
     assertInvariants(subject);
@@ -291,7 +292,7 @@ public class AbstractRousseauBeanTest {
   }
 
   public static void testCheckCivility(AbstractRousseauBean subject) {
-    boolean OLDcivilized = subject.isCivilized();
+    boolean OLDcivilized = subject.civilized();
     try {
       subject.checkCivility();
       RousseauBeanContract.contractPostCheckCivility(OLDcivilized, subject);

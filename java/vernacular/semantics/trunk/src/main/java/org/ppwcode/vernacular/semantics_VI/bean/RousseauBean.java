@@ -56,8 +56,8 @@ import org.toryt.annotations_I.Throw;
  *   constructor. Typically, this is at least not possible with
  *   associations, if the association is mandatory.</p>
  * <p>The extra rules that should apply in a <dfn>civilized</dfn> state
- *   can be checked by calling {@link #getWildExceptions()}.
- *   {@link #isCivilized()} gives a simple boolean answer about the state
+ *   can be checked by calling {@link #wildExceptions()}.
+ *   {@link #civilized()} gives a simple boolean answer about the state
  *   of the Rousseau bean. It is possible that certain subtypes are able
  *   to change their properties from a <dfn>wild</dfn> state to a
  *   <dfn>civilized</dfn> state, without actually changing the semantics
@@ -103,10 +103,10 @@ public interface RousseauBean extends SemanticBean {
       @Expression("result.cause == null")
     }
   )
-  CompoundPropertyException getWildExceptions();
+  CompoundPropertyException wildExceptions();
 
   @MethodContract(post = @Expression("wildExceptions.empty"))
-  boolean isCivilized();
+  boolean civilized();
 
   /**
    * This method does nothing, but will throw the wild exceptions
@@ -132,7 +132,7 @@ public interface RousseauBean extends SemanticBean {
    *   making the instance more <dfn>civilized</dfn>. This method
    *   should never change the nominal state of this bean.
    * <p>This method is typically called immediately prior to
-   *   checking civilization with {@link #getWildExceptions()}.</p>
+   *   checking civilization with {@link #wildExceptions()}.</p>
    * <p>This method can be called at any time, so it should never
    *   make unexpected changes to the state.</p>
    */
