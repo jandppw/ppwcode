@@ -28,7 +28,7 @@ import org.toryt.annotations_I.MethodContract;
 
 
 /**
- * Exception thrown if a applicable {@link ResourceBundles} cannot be found.
+ * Exception thrown if a applicable {@link ResourceBundle} cannot be found.
  *
  * @author Jan Dockx
  * @author PeopleWare n.v.
