@@ -21,9 +21,9 @@ import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.TypeHelpers.directSuperTypes;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.preArgumentNotNull;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
@@ -93,13 +93,13 @@ public final class ResourceBundleHelpers {
     assert preArgumentNotNull(keys, "keys");
     assert preArgumentNotNull(valueType, "valueType");
     assert preArgumentNotNull(rbls, "rbls");
-    LinkedList<Class<?>> agenda = new LinkedList<Class<?>>();
+    List<Class<?>> agenda = new ArrayList<Class<?>>();
     agenda.add(type);
     _T_ result = null;
-    ListIterator<Class<?>> iter = agenda.listIterator();
+    int i = 0;
     List<ResourceBundle> rbs = new LinkedList<ResourceBundle>();
-    while (result == null && iter.hasNext()) {
-      Class<?> current = iter.next();
+    while (result == null && i < agenda.size()) {
+      Class<?> current = agenda.get(i);
       assert current != null;
       try {
         ResourceBundle rb = typeResourceBundle(current, rbls);
@@ -115,6 +115,7 @@ public final class ResourceBundleHelpers {
         // try the super types
         agenda.addAll(directSuperTypes(current)); // concurrent modification
       }
+      i++;
     }
     throw new KeyNotFoundException(rbs.toArray(new ResourceBundle[rbs.size()]), keys);
   }

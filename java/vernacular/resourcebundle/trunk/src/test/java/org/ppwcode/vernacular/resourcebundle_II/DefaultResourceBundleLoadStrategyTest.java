@@ -180,7 +180,8 @@ public class DefaultResourceBundleLoadStrategyTest {
     }
   }
 
-  public final static String EXISTING_BASE_NAME = DefaultResourceBundleLoadStrategy.class.getCanonicalName();
+  public final static Class<?> EXISTING_TYPE = DefaultResourceBundleLoadStrategy.class;
+  public final static String EXISTING_BASE_NAME = EXISTING_TYPE.getCanonicalName();
 
 }
 

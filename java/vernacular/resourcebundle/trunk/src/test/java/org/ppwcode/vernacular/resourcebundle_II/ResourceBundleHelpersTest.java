@@ -10,37 +10,79 @@ import static java.util.ResourceBundle.getBundle;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.ppwcode.vernacular.resourcebundle_II.DefaultResourceBundleLoadStrategyTest.EXISTING_BASE_NAME;
+import static org.ppwcode.vernacular.resourcebundle_II.DefaultResourceBundleLoadStrategyTest.EXISTING_TYPE;
+import static org.ppwcode.vernacular.resourcebundle_II.ResourceBundleHelpers.typeResourceBundle;
 import static org.ppwcode.vernacular.resourcebundle_II.ResourceBundleHelpers.value;
 
 import java.util.Locale;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-
-import com.sun.org.apache.xerces.internal.impl.dv.dtd.NOTATIONDatatypeValidator;
 
 
 
 public class ResourceBundleHelpersTest {
 
-  @Before
-  public void setUp() throws Exception {
+  public static class StubResourceBundleLoadStrategy implements ResourceBundleLoadStrategy {
+
+    public ResourceBundle loadResourceBundle(String basename) throws ResourceBundleNotFoundException {
+      try {
+        return ResourceBundle.getBundle(basename, EXISTING_LOCALE);
+      }
+      catch (MissingResourceException mrExc) {
+        throw new ResourceBundleNotFoundException(basename, mrExc);
+      }
+    }
+
   }
 
-  @After
-  public void tearDown() throws Exception {
+  public static interface StubDefaultResourceBundleLoadStrategyChildInterface {
+    // NOP
+  }
+
+  public static class StubDefaultResourceBundleLoadStrategyChild extends DefaultResourceBundleLoadStrategy
+      implements StubDefaultResourceBundleLoadStrategyChildInterface {
+    // NOP
+  }
+
+  public final static ResourceBundleLoadStrategy STUB_RESOURCE_BUNDLE_LOAD_STRATEGY =
+      new StubResourceBundleLoadStrategy();
+
+  @Test
+  public void testTypeResourceBundle1() throws ResourceBundleNotFoundException {
+    ResourceBundle result = typeResourceBundle(EXISTING_TYPE, STUB_RESOURCE_BUNDLE_LOAD_STRATEGY);
+    assertEquals(EXISTING_LOCALE, result.getLocale());
+    ResourceBundle expected = ResourceBundle.getBundle(EXISTING_BASE_NAME, EXISTING_LOCALE);
+    assertEquals(expected, result);
+  }
+
+  @Test(expected = ResourceBundleNotFoundException.class)
+  public void testTypeResourceBundle2() throws ResourceBundleNotFoundException {
+    typeResourceBundle(NON_EXISTING_TYPE, STUB_RESOURCE_BUNDLE_LOAD_STRATEGY);
   }
 
   @Test
-  public void testTypeResourceBundle() {
-    fail("Not yet implemented");
+  public void testValueClassOfQStringArrayClassOf_T_ResourceBundleLoadStrategy1() throws WrongValueTypeException, KeyNotFoundException {
+    String result = value(StubDefaultResourceBundleLoadStrategyChild.class, EXISTING_KEYS, String.class, STUB_RESOURCE_BUNDLE_LOAD_STRATEGY);
+    assertEquals(EXISTING_KEY_VALUE, result);
+  }
+
+  @Test(expected = KeyNotFoundException.class)
+  public void testValueClassOfQStringArrayClassOf_T_ResourceBundleLoadStrategy2() throws WrongValueTypeException, KeyNotFoundException {
+    value(StubDefaultResourceBundleLoadStrategyChild.class, NON_EXISTING_KEYS, String.class, STUB_RESOURCE_BUNDLE_LOAD_STRATEGY);
+  }
+
+  @Test(expected = WrongValueTypeException.class)
+  public void testValueClassOfQStringArrayClassOf_T_ResourceBundleLoadStrategy3() throws WrongValueTypeException, KeyNotFoundException {
+    @SuppressWarnings("unused")
+    Integer result = value(StubDefaultResourceBundleLoadStrategyChild.class, EXISTING_KEYS, Integer.class, STUB_RESOURCE_BUNDLE_LOAD_STRATEGY);
   }
 
   @Test
-  public void testValueClassOfQStringArrayClassOf_T_ResourceBundleLoadStrategy() {
-    fail("Not yet implemented");
+  public void testValueClassOfQStringArrayClassOf_T_ResourceBundleLoadStrategy4() throws WrongValueTypeException, KeyNotFoundException {
+    String result = value(StubDefaultResourceBundleLoadStrategyChild.class, SOLO_ENTRY_KEYS, String.class, STUB_RESOURCE_BUNDLE_LOAD_STRATEGY);
+    assertEquals(SOLO_ENTRY_KEY_VALUE, result);
   }
 
   @Test
@@ -142,6 +184,10 @@ public class ResourceBundleHelpersTest {
   public final static String[] EXISTING_KEYS_B = new String[] {"entry1", "entry2", EXISTING_KEY};
   public final static String[] EXISTING_KEYS_C = new String[] {EXISTING_KEY};
   public final static String[] NO_KEYS = new String[] {};
+  public final static Class<?> NON_EXISTING_TYPE = ResourceBundleNotFoundException.class;
+  public final static String SOLO_ENTRY_KEY = "soloEntry";
+  public final static String SOLO_ENTRY_KEY_VALUE = "soloEntry";
+  public final static String[] SOLO_ENTRY_KEYS = new String[] {"entry1", "entry2", SOLO_ENTRY_KEY, "entry3"};
 
 }
 
