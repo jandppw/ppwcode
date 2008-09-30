@@ -50,7 +50,7 @@ import java.util.ResourceBundle;
  * @idea split the support and bean label properties in different classes;
  *       move the bean property label stuff to ppw-bean
  */
-public final class ResourceBundles {
+public final class ResourceBundleHelpers {
 
   /*<construction>*/
   //------------------------------------------------------------------
@@ -58,7 +58,7 @@ public final class ResourceBundles {
   /**
    * Cannot instantiate this class. Only use static methods.
    */
-  private ResourceBundles() {
+  private ResourceBundleHelpers() {
     // NOP
   }
 
