@@ -26,16 +26,16 @@ import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
+import org.toryt.annotations_I.Throw;
 
 
 /**
  * <p>Strategy pattern to load i18n resource bundles.</p>
  * <p>The strategy to find a resource bundle in an i18n context is different in
  *   different deployments environments. E.g., the strategy is different for
- *   general Swing applications, JSTL <code>fmt</code> tags, Struts and JSF.</p>
- * <p> Classes that need to access resources based on a
- *   {@link java.util.Locale locale}, can use an instance of this strategy at
- *   runtime to have it load a resource bundle for them.</p>
+ *   general Swing applications, JSTL <code>fmt</code> tags, Struts, JSF, etcetera.</p>
+ * <p>Classes that need to access resources based on a {@link java.util.Locale locale}, can use
+ *   an instance of this strategy at runtime to have it load a resource bundle for them.</p>
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
@@ -47,20 +47,19 @@ import org.toryt.annotations_I.MethodContract;
 public interface ResourceBundleLoadStrategy {
 
   /**
-   * Try to load the resource bundle with name <code>basename</code>,
-   * according to the strategy implemented in this type. If no matching
-   * resource bundle can be found with this strategy, <code>null</code>
-   * is returned.
+   * Try to load the resource bundle with name <code>basename</code>, according to the strategy
+   * implemented in this type. If no matching resource bundle can be found with this strategy,
+   * an exception is thrown.
    *
    * @param basename
    *        The basename of the resource bundle that should be loaded.
    */
   @MethodContract(
-    post = {
-      @Expression("_basename == null ? result == null"),
-      @Expression("_basename == EMPTY ? result == null")
-    }
+    post = @Expression("result != null"),
+    exc = @Throw(type = ResourceBundleNotFoundException.class,
+                 cond = @Expression(value = "_basename == null || _basename == EMPTY || true",
+                                    description = "No resource bundle with basename was found with this strategy"))
   )
-  ResourceBundle loadResourceBundle(final String basename);
+  ResourceBundle loadResourceBundle(final String basename) throws ResourceBundleNotFoundException;
 
 }

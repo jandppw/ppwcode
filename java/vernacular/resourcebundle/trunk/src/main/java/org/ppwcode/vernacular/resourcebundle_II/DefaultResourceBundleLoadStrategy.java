@@ -28,6 +28,7 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
+import org.toryt.annotations_I.Throw;
 
 
 /**
@@ -42,8 +43,7 @@ import org.toryt.annotations_I.MethodContract;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-public class DefaultResourceBundleLoadStrategy
-    implements ResourceBundleLoadStrategy {
+public class DefaultResourceBundleLoadStrategy implements ResourceBundleLoadStrategy {
 
   /* <property name="locale"> */
   //------------------------------------------------------------------
@@ -85,29 +85,36 @@ public class DefaultResourceBundleLoadStrategy
    */
   @MethodContract(
     post = {
-      @Expression("_basename == null || _basename == EMPTY ? null"),
+      @Expression("result != null"),
       @Expression("locale != null ? ResourceBundle.getBundle(_basename, locale)"),
       @Expression("locale == null ? ResourceBundle.getBundle(_basename, Locale.default)")
-    }
+    },
+    exc = @Throw(type = ResourceBundleNotFoundException.class,
+                 cond = @Expression("_basename == null || _basename == EMPTY || " +
+                          "(locale != null && " +
+                          "ResourceBundle.getBundle(basename, locale) throws MissingResourceException) || " +
+                          "(locale == null && " +
+                          "ResourceBundle.getBundle(basename, Locale.default) throws MissingResourceException)"))
   )
-  public ResourceBundle loadResourceBundle(final String basename) {
+  public ResourceBundle loadResourceBundle(final String basename) throws ResourceBundleNotFoundException {
     ResourceBundle result = null;
-    if ((basename != null) && (!basename.equals(EMPTY))) {
-      Locale locale = null;
-      if (getLocale() != null) {
-        locale = getLocale();
-      }
-      else {
-        locale = Locale.getDefault();
-      }
-      try {
-        result = ResourceBundle.getBundle(basename, locale);
-        // throws MissingResourceException
-      }
-      catch (MissingResourceException mrExc) {
-        // NOP we will return null
-      }
+    if ((basename == null) || (basename.equals(EMPTY))) {
+      throw new ResourceBundleNotFoundException(basename);
     }
+    Locale locale = null;
+    if (getLocale() != null) {
+      locale = getLocale();
+    }
+    else {
+      locale = Locale.getDefault();
+    }
+    try {
+      result = ResourceBundle.getBundle(basename, locale); // throws MissingResourceException
+    }
+    catch (MissingResourceException mrExc) {
+      throw new ResourceBundleNotFoundException(basename, mrExc);
+    }
+    assert result != null;
     return result;
   }
 
