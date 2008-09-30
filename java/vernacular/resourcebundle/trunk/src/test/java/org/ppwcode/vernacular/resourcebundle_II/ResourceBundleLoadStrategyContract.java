@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.vernacular.resourcebundle;
+package org.ppwcode.vernacular.resourcebundle_II;
 
 
 import static org.junit.Assert.assertTrue;
