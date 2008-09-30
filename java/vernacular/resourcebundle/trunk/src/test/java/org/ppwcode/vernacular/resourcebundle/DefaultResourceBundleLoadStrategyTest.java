@@ -32,6 +32,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.ppwcode.vernacular.resourcebundle_II.DefaultResourceBundleLoadStrategy;
+import org.ppwcode.vernacular.resourcebundle_II.ResourceBundleNotFoundException;
 
 
 public class DefaultResourceBundleLoadStrategyTest {
@@ -111,7 +112,7 @@ public class DefaultResourceBundleLoadStrategyTest {
 
   public final static String EMPTY = "";
 
-  public static void testLoadResourceBundle(DefaultResourceBundleLoadStrategy subject, String basename, boolean shouldExist) {
+  public static void testLoadResourceBundle(DefaultResourceBundleLoadStrategy subject, String basename, boolean shouldExist) throws ResourceBundleNotFoundException {
     // execute
     ResourceBundle result = subject.loadResourceBundle(basename);
     // validate
@@ -144,7 +145,7 @@ public class DefaultResourceBundleLoadStrategyTest {
   }
 
   @Test
-  public void testLoadResourceBundleExisting() {
+  public void testLoadResourceBundleExisting() throws ResourceBundleNotFoundException {
     for (DefaultResourceBundleLoadStrategy drbls : subjects) {
       System.out.println(drbls); // MUDO this is a true bug
       testLoadResourceBundle(drbls, "org.ppwcode.i18n_I.DefaultResourceBundleLoadStrategy", true);
@@ -152,7 +153,7 @@ public class DefaultResourceBundleLoadStrategyTest {
   }
 
   @Test
-  public void testLoadResourceBundleNonExisting() {
+  public void testLoadResourceBundleNonExisting() throws ResourceBundleNotFoundException {
     for (DefaultResourceBundleLoadStrategy drbls : subjects) {
       testLoadResourceBundle(drbls, "somethingelse.that.does.net.exist", false);
     }
