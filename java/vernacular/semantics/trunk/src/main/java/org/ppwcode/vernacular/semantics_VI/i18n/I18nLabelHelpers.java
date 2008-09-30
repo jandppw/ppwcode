@@ -19,13 +19,15 @@ package org.ppwcode.vernacular.semantics_VI.i18n;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.PropertyHelpers.propertyType;
-import static org.ppwcode.vernacular.resourcebundle_II.ResourceBundles.findKeyInTypeProperties;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.unexpectedException;
+import static org.ppwcode.vernacular.resourcebundle_II.ResourceBundleHelpers.value;
 
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.ppwcode.vernacular.resourcebundle_II.KeyNotFoundException;
 import org.ppwcode.vernacular.resourcebundle_II.ResourceBundleLoadStrategy;
-import org.ppwcode.vernacular.resourcebundle_II.ResourceBundles;
+import org.ppwcode.vernacular.resourcebundle_II.WrongValueTypeException;
 import org.ppwcode.vernacular.semantics_VI.exception.PropertyException;
 
 
@@ -145,7 +147,16 @@ public final class I18nLabelHelpers {
       Class<?> preType = propertyType(type, preDot);
       return i18nPropertyLabel(postDot, preType, shortLabel, strategy);
     }
-    String result = findKeyInTypeProperties(type, i18nPropertyLabel_keys(property, shortLabel), strategy);
+    String result = null;
+    try {
+      result = value(type, i18nPropertyLabel_keys(property, shortLabel), String.class, strategy);
+    }
+    catch (KeyNotFoundException exc) {
+      return null;
+    }
+    catch (WrongValueTypeException exc) {
+      unexpectedException(exc);
+    }
     return (result != null)
             ? result
             : keyNotFound(property + PROPERTY_SEPARATOR_TOKEN + type.getName());
@@ -274,11 +285,16 @@ public final class I18nLabelHelpers {
     if (type == null) {
       throw new IllegalArgumentException("type must be effective");
     }
-    String result = findKeyInTypeProperties(type,
-                                            (plural
-                                              ? I18N_PLURAL_TYPE_LABEL_KEYS
-                                              : I18N_TYPE_LABEL_KEYS),
-                                            strategy);
+    String result;
+    try {
+      result = value(type, (plural ? I18N_PLURAL_TYPE_LABEL_KEYS : I18N_TYPE_LABEL_KEYS), String.class, strategy);
+    }
+    catch (WrongValueTypeException exc) {
+      return null;
+    }
+    catch (KeyNotFoundException exc) {
+      return null;
+    }
     return (result != null) ? result : keyNotFound(type.getName());
   }
 
@@ -396,13 +412,22 @@ public final class I18nLabelHelpers {
     if (rbls == null) {
       return pe.getMessage();
     }
-    String result;
-    result = ResourceBundles.findKeyInTypeProperties(pe.getOriginType(), getBeanBundleKeys(pe), rbls);
-    if (result == null) {
-      result = ResourceBundles.findKeyInTypeProperties(pe.getClass(), getExceptionBundleKeys(pe), rbls);
+    String result = null;
+    try {
+      try {
+        result = value(pe.getOriginType(), getBeanBundleKeys(pe), String.class, rbls);
+      }
+      catch (KeyNotFoundException exc) {
+        try {
+          result = value(pe.getClass(), getExceptionBundleKeys(pe), String.class, rbls);
+        }
+        catch (KeyNotFoundException exc1) {
+          result = pe.getMessage();
+        }
+      }
     }
-    if (result == null) {
-      result = pe.getMessage();
+    catch (WrongValueTypeException exc) {
+      unexpectedException(exc);
     }
     return result;
   }
