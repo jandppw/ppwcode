@@ -18,6 +18,8 @@ package org.ppwcode.vernacular.resourcebundle_II;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
+import java.util.ResourceBundle;
+
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
