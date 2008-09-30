@@ -37,22 +37,6 @@ import org.toryt.annotations_I.MethodContract;
          date     = "$Date: 2008-09-29 18:21:16 +0200 (Mon, 29 Sep 2008) $")
 public abstract class ResourceBundleException extends Exception {
 
-//  @MethodContract(post = {
-//    @Expression("message == null"),
-//    @Expression("cause == null")
-//  })
-//  public ResourceBundleException() {
-//    super();
-//  }
-//
-//  @MethodContract(post = {
-//    @Expression("message == _message"),
-//    @Expression("cause == null")
-//  })
-//  public ResourceBundleException(String message) {
-//    super(message);
-//  }
-
   @MethodContract(post = {
     @Expression("message == null"),
     @Expression("cause == _cause")
@@ -60,14 +44,6 @@ public abstract class ResourceBundleException extends Exception {
   protected ResourceBundleException(Throwable cause) {
     super(cause);
   }
-
-//  @MethodContract(post = {
-//    @Expression("message == _message"),
-//    @Expression("cause == _cause")
-//  })
-//  public ResourceBundleException(String message, Throwable cause) {
-//    super(message, cause);
-//  }
 
 }
 
