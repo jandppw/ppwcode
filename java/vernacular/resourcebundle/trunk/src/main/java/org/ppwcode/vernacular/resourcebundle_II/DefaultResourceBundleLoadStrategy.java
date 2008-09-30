@@ -18,6 +18,8 @@ package org.ppwcode.vernacular.resourcebundle_II;
 
 
 import java.util.Locale;
+
+import static java.util.ResourceBundle.getBundle;
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -109,7 +111,7 @@ public class DefaultResourceBundleLoadStrategy implements ResourceBundleLoadStra
       locale = Locale.getDefault();
     }
     try {
-      result = ResourceBundle.getBundle(basename, locale); // throws MissingResourceException
+      result = getBundle(basename, locale); // throws MissingResourceException
     }
     catch (MissingResourceException mrExc) {
       throw new ResourceBundleNotFoundException(basename, mrExc);
