@@ -87,7 +87,6 @@ public class DefaultResourceBundleLoadStrategy implements ResourceBundleLoadStra
    */
   @MethodContract(
     post = {
-      @Expression("result != null"),
       @Expression("locale != null ? ResourceBundle.getBundle(_basename, locale)"),
       @Expression("locale == null ? ResourceBundle.getBundle(_basename, Locale.default)")
     },
@@ -96,7 +95,7 @@ public class DefaultResourceBundleLoadStrategy implements ResourceBundleLoadStra
                           "(locale != null && " +
                           "ResourceBundle.getBundle(basename, locale) throws MissingResourceException) || " +
                           "(locale == null && " +
-                          "ResourceBundle.getBundle(basename, Locale.default) throws MissingResourceException)"))
+                          "ResourceBundle.getBundle(basename) throws MissingResourceException)"))
   )
   public ResourceBundle loadResourceBundle(final String basename) throws ResourceBundleNotFoundException {
     ResourceBundle result = null;
