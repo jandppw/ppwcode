@@ -148,7 +148,7 @@ public class DefaultResourceBundleLoadStrategyTest {
   @Test
   public void testLoadResourceBundleExisting() throws ResourceBundleNotFoundException {
     for (DefaultResourceBundleLoadStrategy drbls : subjects) {
-      System.out.println(drbls);
+//      System.out.println(drbls);
       testLoadResourceBundle(drbls, EXISTING_BASE_NAME, true);
     }
   }
