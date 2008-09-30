@@ -157,7 +157,7 @@ public final class ResourceBundleHelpers {
         result = value(rb, keys[i], valueType);
       }
       catch (KeyNotFoundException exc) {
-        // NOP search further
+        i++;
       }
     }
     if (result == null) {
