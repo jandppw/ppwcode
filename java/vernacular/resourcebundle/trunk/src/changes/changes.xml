@@ -38,9 +38,14 @@
       </action>
       <action dev="jand" type="update">
         Using Toryt annotations for contracts.
+      </action>
+      <action dev="jand" type="update">
+        ResourceBundleLoadStrategy now throws exceptions when the resource bundle is
+        not found, instead of returning null.
+      </action>
     </release>
 
-    <!-- MUDO put changes here of ppw-i18n; see purgatory < r2714-->
+    <!-- MUDO put changes here of ppw-i18n; see purgatory < r2714 -->
 
   </body>
 </document>
