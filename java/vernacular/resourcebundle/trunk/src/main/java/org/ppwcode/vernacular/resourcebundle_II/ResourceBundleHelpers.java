@@ -85,7 +85,6 @@ public final class ResourceBundleHelpers {
    * the resource bundle with the same basename as the FQCN of {@code type} or one of its super types.
    *
    * @mudo contract
-   * @mudo unit tests
    */
   public static <_T_> _T_ value(Class<?> type, String[] keys, Class<_T_> valueType, ResourceBundleLoadStrategy rbls)
       throws WrongValueTypeException, KeyNotFoundException {
@@ -125,8 +124,6 @@ public final class ResourceBundleHelpers {
    * resource bundle {@code rb}.
    * Throws an exceptions if no such key is found in the resource bundle, or the found value associated with
    * the first key found is of a different type.
-   *
-   * @mudo unit tests
    */
   @MethodContract(
     pre  = {
@@ -171,8 +168,6 @@ public final class ResourceBundleHelpers {
    * The value associated with key {@code key} in resource bundle {@code rb} of type {@code valueType}.
    * Throws exceptions if no such key is found in the resource bundle, or the found value associated with
    * the key is of a different type.
-   *
-   * @mudo unit tests
    */
   @MethodContract(
     pre  = {
