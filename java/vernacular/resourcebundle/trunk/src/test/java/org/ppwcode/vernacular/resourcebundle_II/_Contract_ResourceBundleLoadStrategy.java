@@ -17,14 +17,13 @@ limitations under the License.
 package org.ppwcode.vernacular.resourcebundle_II;
 
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ResourceBundle;
 
-import org.ppwcode.vernacular.resourcebundle_II.ResourceBundleLoadStrategy;
 
-
-public class ResourceBundleLoadStrategyContract {
+public class _Contract_ResourceBundleLoadStrategy {
 
   // interface, not actual tests, only contract
 
@@ -36,8 +35,11 @@ public class ResourceBundleLoadStrategyContract {
 
   public static void loadResourceBundle(ResourceBundleLoadStrategy subject, String basename, ResourceBundle result) {
     // validate
-    assertTrue(basename == null ? result == null : true);
-    assertTrue(basename.equals(EMPTY) ? result == null : true);
+    assertNotNull(result);
+  }
+
+  public static void loadResourceBundle(ResourceBundleLoadStrategy subject, String basename, ResourceBundleNotFoundException exc) {
+    assertTrue(basename == null || EMPTY.equals(basename) || true);
   }
 
 }

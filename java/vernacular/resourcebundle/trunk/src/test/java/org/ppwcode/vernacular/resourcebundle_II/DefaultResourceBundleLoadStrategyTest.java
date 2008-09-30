@@ -17,10 +17,11 @@ limitations under the License.
 package org.ppwcode.vernacular.resourcebundle_II;
 
 
+import static java.util.ResourceBundle.getBundle;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import java.util.HashSet;
 import java.util.Locale;
@@ -31,8 +32,6 @@ import java.util.Set;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.ppwcode.vernacular.resourcebundle_II.DefaultResourceBundleLoadStrategy;
-import org.ppwcode.vernacular.resourcebundle_II.ResourceBundleNotFoundException;
 
 
 public class DefaultResourceBundleLoadStrategyTest {
@@ -81,7 +80,7 @@ public class DefaultResourceBundleLoadStrategyTest {
   }
 
   public static void assertTypeInvariants(DefaultResourceBundleLoadStrategy subject) {
-    ResourceBundleLoadStrategyContract.assertInvariants(subject);
+    _Contract_ResourceBundleLoadStrategy.assertInvariants(subject);
   }
 
   @Test
@@ -112,34 +111,36 @@ public class DefaultResourceBundleLoadStrategyTest {
 
   public final static String EMPTY = "";
 
-  public static void testLoadResourceBundle(DefaultResourceBundleLoadStrategy subject, String basename, boolean shouldExist) throws ResourceBundleNotFoundException {
+  public static void testLoadResourceBundle(DefaultResourceBundleLoadStrategy subject, String basename, boolean shouldExist) {
     // execute
-    ResourceBundle result = subject.loadResourceBundle(basename);
-    // validate
-    assertTrue(basename == null || basename.equals(EMPTY) ? result == null : true);
-    if (subject.getLocale() != null) {
-      try {
-        ResourceBundle expected = ResourceBundle.getBundle(basename, subject.getLocale());
+    try {
+      ResourceBundle result = subject.loadResourceBundle(basename);
+      // validate
+      if (shouldExist) {
+        _Contract_ResourceBundleLoadStrategy.loadResourceBundle(subject, basename, result);
+        ResourceBundle expected = null;
+        if (subject.getLocale() != null) {
+          expected = getBundle(basename, subject.getLocale());
+        }
+        else {
+          expected = getBundle(basename);
+        }
         assertEquals(expected, result);
       }
-      catch (MissingResourceException mrExc) {
-        assertNull(result);
+      else {
+        fail();  // should be an exception
       }
     }
-    if (subject.getLocale() == null) {
-      try {
-        ResourceBundle expected = ResourceBundle.getBundle(basename);
-        assertEquals(expected, result);
+    catch (ResourceBundleNotFoundException rbnfExc) {
+      if (shouldExist) {
+        fail();
       }
-      catch (MissingResourceException mrExc) {
-        assertNull(result);
+      else {
+        _Contract_ResourceBundleLoadStrategy.loadResourceBundle(subject, basename, rbnfExc);
+        assertTrue(basename == null || EMPTY.equals(basename) ||
+                   (subject.getLocale() != null && assertMissingResource(basename, subject.getLocale())) ||
+                   (subject.getLocale() == null && assertMissingResource(basename)));
       }
-    }
-    if (shouldExist) {
-      assertNotNull(result);
-    }
-    else {
-      assertNull(result);
     }
     assertTypeInvariants(subject);
   }
@@ -147,8 +148,8 @@ public class DefaultResourceBundleLoadStrategyTest {
   @Test
   public void testLoadResourceBundleExisting() throws ResourceBundleNotFoundException {
     for (DefaultResourceBundleLoadStrategy drbls : subjects) {
-      System.out.println(drbls); // MUDO this is a true bug
-      testLoadResourceBundle(drbls, "org.ppwcode.i18n_I.DefaultResourceBundleLoadStrategy", true);
+      System.out.println(drbls);
+      testLoadResourceBundle(drbls, EXISTING_BASE_NAME, true);
     }
   }
 
@@ -158,6 +159,28 @@ public class DefaultResourceBundleLoadStrategyTest {
       testLoadResourceBundle(drbls, "somethingelse.that.does.net.exist", false);
     }
   }
+
+  public final static boolean assertMissingResource(String basename, Locale locale) {
+    try {
+      getBundle(basename, locale);
+      return false;
+    }
+    catch (MissingResourceException mrExc) {
+      return true;
+    }
+  }
+
+  public final static boolean assertMissingResource(String basename) {
+    try {
+      getBundle(basename);
+      return false;
+    }
+    catch (MissingResourceException mrExc) {
+      return true;
+    }
+  }
+
+  public final static String EXISTING_BASE_NAME = DefaultResourceBundleLoadStrategy.class.getCanonicalName();
 
 }
 
