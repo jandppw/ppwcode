@@ -18,7 +18,8 @@ package org.ppwcode.vernacular.value_III.web;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.preArgumentNotNull;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.pre;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotNull;
 import static org.ppwcode.vernacular.value_III.ValueHelpers.empty;
 import static org.ppwcode.vernacular.value_III.ValueHelpers.registerPropertyEditorPackage;
 
@@ -33,7 +34,6 @@ import org.apache.commons.logging.LogFactory;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.vernacular.exception_II.ProgrammingErrors;
 
 
 /**
@@ -97,7 +97,7 @@ public class RegisterPropertyEditors implements ServletContextListener {
    */
   public void contextInitialized(final ServletContextEvent event) {
     assert preArgumentNotNull(event, "event");
-    assert ProgrammingErrors.pre(event.getServletContext() != null, "event.getServletContext() != null");
+    assert pre(event.getServletContext() != null, "event.getServletContext() != null");
     String initParameterValue = event.getServletContext().getInitParameter(INIT_PARAMETER_NAME);
     if (empty(initParameterValue) && LOG.isDebugEnabled()) {
       LOG.debug("no init parameter \"" + INIT_PARAMETER_NAME +

@@ -17,14 +17,14 @@ limitations under the License.
 package org.ppwcode.util.test.contract;
 
 
-import org.ppwcode.vernacular.exception_II.ProgrammingErrors;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotNull;
 
 
 public class NoSuchContractException extends Exception {
 
   public NoSuchContractException(Class<?> subjectType, Throwable cause) {
     super(cause);
-    ProgrammingErrors.preArgumentNotNull(subjectType, "subjectType");
+    preArgumentNotNull(subjectType, "subjectType");
     $subjectType = subjectType;
   }
 

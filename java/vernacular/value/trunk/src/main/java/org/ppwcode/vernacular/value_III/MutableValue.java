@@ -17,11 +17,11 @@ limitations under the License.
 package org.ppwcode.vernacular.value_III;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
 
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.vernacular.exception_II.ProgrammingErrors;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
 
@@ -107,7 +107,7 @@ public abstract class MutableValue extends Value implements Cloneable {
       result = (MutableValue)super.clone();
     }
     catch (CloneNotSupportedException cnsExc) {
-      ProgrammingErrors.unexpectedException(cnsExc, "we do implement Cloneable");
+      unexpectedException(cnsExc, "we do implement Cloneable");
     }
     return result;
   }
