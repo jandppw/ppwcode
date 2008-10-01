@@ -18,10 +18,10 @@ package org.ppwcode.util.reflect_I;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.pre;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.preArgumentNotEmpty;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.preArgumentNotNull;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.unexpectedException;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.pre;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotEmpty;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotNull;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
 
 import java.beans.Beans;
 import java.io.IOException;
@@ -37,7 +37,6 @@ import java.util.Set;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.vernacular.exception_II.ProgrammingErrors;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.Invars;
 import org.toryt.annotations_I.MethodContract;
@@ -254,7 +253,7 @@ public class TypeHelpers {
     post = @Expression("Modifier.isPublic(_t.getModifiers())")
   )
   public static boolean isPublic(Class<?> t) {
-    assert ProgrammingErrors.preArgumentNotNull(t, "method");
+    assert preArgumentNotNull(t, "method");
     return Modifier.isPublic(t.getModifiers());
   }
 

@@ -18,8 +18,8 @@ package org.ppwcode.util.reflect_I;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.pre;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.preArgumentNotEmpty;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.pre;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotEmpty;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
