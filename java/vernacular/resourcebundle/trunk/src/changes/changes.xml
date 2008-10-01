@@ -31,15 +31,22 @@
   </properties>
   <body>
 
-    <release version="II v1.0" date="MUDO" description="big cleanup">
-      <action dev="jand" type="update">
+    <release version="II v1.1" date="2008-10-01" description="new version of ppwcode exception vernacular">
+      <action dev="jandockx@gmail.com" type="update">
+        Via a new parent pom, we use the first non-snapshot release of the ppwcode
+        exception vernacular. Here, there is one class name changed, and we changed this code
+        accordingly. This is only an implementation issue.
+      </action>
+    </release>
+    <release version="II v1.0" date="2008-09-30" description="big cleanup">
+      <action dev="jandockx@gmail.com" type="update">
         Moved project from PeopleWare to ppwcode. Packages thus have new names.
         This is the natural child of ppw-i18n-I
       </action>
-      <action dev="jand" type="update">
+      <action dev="jandockx@gmail.com" type="update">
         Using Toryt annotations for contracts.
       </action>
-      <action dev="jand" type="update">
+      <action dev="jandockx@gmail.com" type="update">
         ResourceBundleLoadStrategy now throws exceptions when the resource bundle is
         not found, instead of returning null.
       </action>
