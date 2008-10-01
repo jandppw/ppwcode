@@ -19,10 +19,10 @@ package org.ppwcode.util.reflect_I;
 
 import static java.lang.reflect.Modifier.isAbstract;
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.pre;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.preArgumentNotEmpty;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.preArgumentNotNull;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.unexpectedException;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.pre;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotEmpty;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotNull;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -34,7 +34,7 @@ import java.util.Queue;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.vernacular.exception_II.ProgrammingErrors;
+import org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
 import org.toryt.annotations_I.Throw;
@@ -148,7 +148,7 @@ public final class MethodHelpers {
 
   /**
    * <p>Return the method of class {@code type} with signature {@code signature}.
-   *   If something goes wrong, this is considered a programming error (see {@link ProgrammingErrors}).</p>
+   *   If something goes wrong, this is considered a programming error (see {@link ProgrammingErrorHelpers}).</p>
    * <p>{@code findMethod} returns any method (not only {@code public} methods as
    *   {@link Class#getMethod(String, Class...)} does), but only methods declared exactly in {@code type},
    *   like {@link Class#getDeclaredMethod(String, Class...)}, and unlike
@@ -305,7 +305,7 @@ public final class MethodHelpers {
 
   /**
    * <p>Return the method of class {@code type} with signature {@code signature}.
-   *   If something goes wrong, this is considered a programming error (see {@link ProgrammingErrors}).</p>
+   *   If something goes wrong, this is considered a programming error (see {@link ProgrammingErrorHelpers}).</p>
    * <p>We return any matching method found in {@code type}, and if not found there, any non-private
    *   method found in a superclass, searching from this {@code type} towards {@link Object} (if {@code type}
    *   is a class). If not found in any of the superclasses, we start searching the interfaces, of {@code type},
@@ -352,7 +352,7 @@ public final class MethodHelpers {
 
   /**
    * <p>Assert whether class {@code type} has a method with signature {@code signature}.
-   *   If something goes wrong, this is considered a programming error (see {@link ProgrammingErrors}).</p>
+   *   If something goes wrong, this is considered a programming error (see {@link ProgrammingErrorHelpers}).</p>
    * <p>{@code hasMethod} returns {@code true} on the existence of any method (not only {@code public} methods
    *   as {@link Class#getMethod(String, Class...)} does), but only methods declared exactly in {@code _type},
    *   like {@link Class#getDeclaredMethod(String, Class...)}, and unlike
@@ -398,7 +398,7 @@ public final class MethodHelpers {
   /**
    * <p>Assert whether class {@code type} has a public method with signature {@code signature}.
    *   Only methods defined in {@code type} apply: inherited methods do not count.
-   *   If something goes wrong, this is considered a programming error (see {@link ProgrammingErrors}).</p>
+   *   If something goes wrong, this is considered a programming error (see {@link ProgrammingErrorHelpers}).</p>
    *
    * @param type
    *        The class to look for the method in.
@@ -439,7 +439,7 @@ public final class MethodHelpers {
 
   /**
    * <p>Return the constructor of class {@code type} with signature {@code signature}.
-   *   If something goes wrong, this is considered a programming error (see {@link ProgrammingErrors}).</p>
+   *   If something goes wrong, this is considered a programming error (see {@link ProgrammingErrorHelpers}).</p>
    * <p>{@code findMethod} returns any method (not only {@code public} methods as
    *   {@link Class#getMethod(String, Class...)} does), but only methods declared exactly in {@code type},
    *   like {@link Class#getDeclaredMethod(String, Class...)}, and unlike

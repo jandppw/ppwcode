@@ -21,9 +21,9 @@ import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.MethodHelpers.hasPublicMethod;
 import static org.ppwcode.util.reflect_I.MethodHelpers.isPublic;
 import static org.ppwcode.util.reflect_I.MethodHelpers.method;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.pre;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.preArgumentNotNull;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.unexpectedException;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.pre;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotNull;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

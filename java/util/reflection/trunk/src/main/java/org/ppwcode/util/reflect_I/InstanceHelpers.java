@@ -18,12 +18,12 @@ package org.ppwcode.util.reflect_I;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrors.unexpectedException;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotNull;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
 
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.vernacular.exception_II.ProgrammingErrors;
 
 
 /**
@@ -46,7 +46,7 @@ public class InstanceHelpers {
 
   // MUDO tests and contracts
   public static <_Class_> _Class_ newInstance(Class<_Class_> clazz) {
-    ProgrammingErrors.preArgumentNotNull(clazz, "clazz");
+    preArgumentNotNull(clazz, "clazz");
     _Class_ result = null;
     try {
       result = clazz.newInstance();
