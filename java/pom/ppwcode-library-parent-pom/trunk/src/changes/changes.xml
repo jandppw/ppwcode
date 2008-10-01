@@ -27,6 +27,11 @@
     <author email="jandockx@gmail.com">Jan Dockx</author>
   </properties>
   <body>
+    <release version="1.5.0" date="2008-10-01" description="Exception vernacular II version 1.0">
+      <action dev="jandockx@gmail.com" type="update">
+        Exception vernacular version update from snapshot to II 1.0.
+      </action>
+    </release>
     <release version="1.4.0" date="2008-09-30" description="Resourcebundle version 1.0">
       <action dev="jandockx@gmail.com" type="update">
         Resourcebundle version update from snapshot to 1.0.
