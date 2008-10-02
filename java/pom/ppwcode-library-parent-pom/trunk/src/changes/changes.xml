@@ -27,6 +27,11 @@
     <author email="jandockx@gmail.com">Jan Dockx</author>
   </properties>
   <body>
+    <release version="1.7.0" date="2008-10-02" description="Toryt annotations version I v1.1">
+      <action dev="jandockx@gmail.com" type="update">
+        Toryt annotations version update from snapshot to I v1.1.
+      </action>
+    </release>
     <release version="1.6.0" date="2008-10-01" description="Resourcebundle vernacular II version 1.1">
       <action dev="jandockx@gmail.com" type="update">
         Resourcebundle vernacular version update from II v1.0 to II v1.1.
