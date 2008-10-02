@@ -483,26 +483,26 @@
         </configuration>
       </plugin>
 
-       <plugin>
-         <groupId>org.apache.maven.plugins</groupId>
-         <artifactId>maven-source-plugin</artifactId>
-         <executions>
-           <execution>
-             <id>attach-sources</id>
-             <phase>verify</phase>
-             <goals>
-               <goal>jar</goal>
-             </goals>
-           </execution>
-           <execution>
-             <id>attach-test-sources</id>
-             <phase>verify</phase>
-             <goals>
-               <goal>test-jar</goal>
-             </goals>
-           </execution>
-         </executions>
-       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+         <execution>
+           <id>attach-sources</id>
+           <phase>verify</phase>
+           <goals>
+             <goal>jar</goal>
+           </goals>
+         </execution>
+         <execution>
+           <id>attach-test-sources</id>
+           <phase>verify</phase>
+           <goals>
+             <goal>test-jar</goal>
+           </goals>
+         </execution>
+        </executions>
+      </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -546,6 +546,36 @@
         </configuration>
       </plugin>
 -->
+      <plugin>
+        <groupId>com.agilejava.docbkx</groupId>
+        <artifactId>docbkx-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate-html</goal>
+            </goals>
+            <phase>pre-site</phase>
+            <configuration>
+              <!-- Copy images so they would be available for the site -->
+              <preProcess>
+                  <copy todir="${site.target.docbooks}/images" failOnError="false">
+                    <fileset dir="src/docbkx/images" />
+                  </copy>
+              </preProcess>
+              <targetDirectory>${site.target.docbooks}</targetDirectory>
+              <htmlhelpEnumerateImages>true</htmlhelpEnumerateImages>
+            </configuration>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>org.docbook</groupId>
+            <artifactId>docbook-xml</artifactId>
+            <version>4.4</version>
+            <scope>runtime</scope>
+          </dependency>
+        </dependencies>
+      </plugin>
 
     </plugins>
   </build>
