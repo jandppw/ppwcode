@@ -27,6 +27,11 @@
     <author email="jandockx@gmail.com">Jan Dockx</author>
   </properties>
   <body>
+    <release version="1.5.0" date="2008-10-02" description="New parent pom">
+      <action dev="jandockx@gmail.com" type="update">
+        New parent pom.
+      </action>
+    </release>
     <release version="1.4.0" date="2008-10-01" description="New parent pom">
       <action dev="jandockx@gmail.com" type="fix">
         New parent pom.
