@@ -96,7 +96,7 @@
     <ppwcode.libraryKind>maven2</ppwcode.libraryKind>
     <!-- The short artifact name. The real artifact name is calculated from the ppwcode.libraryKind,
          this short name, and the ppwcode.markVersion -->
-    <ppwcode.shortArtifactName>dependencyManagement-pom</ppwcode.shortArtifactName>
+    <ppwcode.shortArtifactName>dependencyManagement</ppwcode.shortArtifactName>
 
     <!-- Irrelevant -->
     <ppwcode.checkstyle.headerLocation></ppwcode.checkstyle.headerLocation>
