@@ -27,6 +27,11 @@
     <author email="jandockx@gmail.com">Jan Dockx</author>
   </properties>
   <body>
+    <release version="1.9.0" date="2008-10-03" description="import dependency management">
+      <action dev="jandockx@gmail.com" type="update">
+        import dependency management; javax.ejb3 added
+      </action>
+    </release>
     <release version="1.8.0" date="2008-10-02" description="new version of ppwcode exception vernacular">
       <action dev="jandockx@gmail.com" type="update">
         ppwcode exception vernacular version management from II v1.0 to IIv2.0.
