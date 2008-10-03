@@ -27,6 +27,11 @@
     <author email="jandockx@gmail.com">Jan Dockx</author>
   </properties>
   <body>
+    <release version="1.8.0" date="2008-10-02" description="new version of ppwcode exception vernacular">
+      <action dev="jandockx@gmail.com" type="update">
+        ppwcode exception vernacular version management from II v1.0 to IIv2.0.
+      </action>
+    </release>
     <release version="1.7.0" date="2008-10-02" description="Toryt annotations version I v1.1">
       <action dev="jandockx@gmail.com" type="update">
         Toryt annotations version update from snapshot to I v1.1.
