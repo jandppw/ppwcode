@@ -36,11 +36,17 @@
 
   <!-- VERSION, PACKAGING, NAME & DESCRIPTION: OVERWRITE IN YOUR CHILD POM (know what you are doing :-) ) -->
   <!-- for ppwcode projects, groupId and artifactId are calculated, and used in the magic mantra (see below) -->
-  <groupId>org.ppwcode</groupId> <!-- group id cannot be calculated with inheritance -->
-  <version>1.8.0</version>
+  <groupId>org.ppwcode.${ppwcode.libraryKind}</groupId>
+  <artifactId>ppwcode-${ppwcode.libraryKind}-${ppwcode.shortArtifactName}</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>ppwcode ppwcode library parent pom</name>
-  <description>A parent pom for ppwcode libaries.</description>
+  <name>ppwcode dependencyManagement pom</name>
+  <description>This pom contains in the dependency management section a consistent state of the versions of
+    the ppwcode libraries plus the external libraries they depend on. This consistent set is used internally,
+    but also of use to projects outside ppwcode. Via the dependencyManagement import mechanism (see
+    [http://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#Importing_Dependencies the
+    maven website], introduced since version 2.0.9 of Maven 2, this consistent set can be imported into
+    your projects or pom hierarchy.</description>
   <inceptionYear>2008</inceptionYear>
 
   <!-- DEVELOPERS & CONTRIBUTORS: OVERWRITE IN YOUR CHILD POM (we don't work for you :-) ) -->
@@ -60,17 +66,6 @@
         <aim>jandockx@gmail.com</aim>
         <skype>callto:jandockx</skype>
       </properties>
-    </developer>
-    <developer>
-      <name>Ruben Vandeginste</name>
-      <id>ruben.vandeginste</id>
-      <email>ruben.vandeginste@gmail.com</email>
-      <timezone>+1</timezone>
-      <organization>PeopleWare n.v.</organization>
-      <organizationUrl>http://www.peopleware.be/</organizationUrl>
-      <roles>
-        <role>developer</role>
-      </roles>
     </developer>
   </developers>
   <contributors>
@@ -98,17 +93,13 @@
     <!-- The kind of library. This name should match the structure in the Subversion repository,
          as it is used to calculate relative paths for the SCM definitions and project documentation
          sites. -->
-    <ppwcode.libraryKind>pom</ppwcode.libraryKind>
+    <ppwcode.libraryKind>maven2</ppwcode.libraryKind>
     <!-- The short artifact name. The real artifact name is calculated from the ppwcode.libraryKind,
          this short name, and the ppwcode.markVersion -->
-    <ppwcode.shortArtifactName>ppwcode-library-parent-pom</ppwcode.shortArtifactName>
-    <!-- The mark version of the artifact. This part of the version becomes part of the artifactId.
-         For this pom, an empty mark version is used, which results in "double slash in paths", which works. -->
-    <ppwcode.markVersion></ppwcode.markVersion>
+    <ppwcode.shortArtifactName>dependencyManagement-pom</ppwcode.shortArtifactName>
 
-    <!-- File describing the project's license template, which must be defined in each text file in your project.
-         ppwcode libraries must all carry apache license 2.0 headers -->
-    <ppwcode.checkstyle.headerLocation>ppwcode_apache_2_0_license.regex</ppwcode.checkstyle.headerLocation>
+    <!-- Irrelevant -->
+    <ppwcode.checkstyle.headerLocation></ppwcode.checkstyle.headerLocation>
 
     <!-- INHERITED SETTINGS -->
     <!-- The root of project sites for external readers (ppwcode.mainUrl) and the root where artifacts and
@@ -120,16 +111,12 @@
          ppwcode.mainScmUrl and ppwcode.mainScmViewUrl. ppwcode.inScmLocation is calculated below. -->
 
 
-    <!-- CALCULATIONS -->
-    <ppwcode.artifactId>ppwcode-${ppwcode.libraryKind}-${ppwcode.shortArtifactName}-${ppwcode.markVersion}</ppwcode.artifactId>
-    <ppwcode.groupId>org.ppwcode.${ppwcode.libraryKind}</ppwcode.groupId>
-
     <!-- CALCULATE DOCUMENTATION SITE SETTINGS -->
 
     <!-- The relative path in the Java http site where the project documentation site will reside.
          For ppwcode libraries, we separate the artifact Id in the shortArtifactName and the markVersion,
          overriding the definition in the parent pom -->
-    <ppwcode.inSiteLocation>${ppwcode.distributionManagement.site.relativePath}/${ppwcode.libraryKind}/${ppwcode.shortArtifactName}/${ppwcode.markVersion}/${pom.version}</ppwcode.inSiteLocation>
+    <ppwcode.inSiteLocation>${ppwcode.distributionManagement.site.relativePath}/${ppwcode.libraryKind}/${ppwcode.shortArtifactName}/${pom.version}</ppwcode.inSiteLocation>
     <!-- The project URL calculation can be inherited, as wel as the upload URL and other site distribution management
          settings. -->
 
@@ -139,9 +126,6 @@
          can be calculated here. -->
     <ppwcode.inScmLocation>java/${ppwcode.libraryKind}/${ppwcode.shortArtifactName}</ppwcode.inScmLocation>
     <!-- The SCM URL calculations can be inherited/ -->
-
-    <!-- Calculation of the artifact id (for child poms, not used in this pom) -->
-    <ppwcode.artifactId>ppwcode-${ppwcode.libraryKind}-${ppwcode.shortArtifactName}-${ppwcode.markVersion}</ppwcode.artifactId>
 
   </properties>
 
@@ -161,7 +145,6 @@
        that is superfluous
   <artifactId>${ppwcode.artifactId}</artifactId>
   -->
-  <artifactId>ppwcode-ppwcode-library-parent-pom</artifactId>
   <url>${ppwcode.url}</url>
   <scm>
     <connection>${ppwcode.scm.connection}</connection>
@@ -186,7 +169,7 @@
   <!-- License information, issue management, mailing lists, organization, inception year,
        are all inherited, because they "happen" to be the same for all ppwcode projects as for the parent pom. -->
 
-  <!-- Maven 2 repositories: where mvn should look for dependencies, apart from the global Maven 2 repository -->
+  <!-- Maven 2 repositories: where mvn should look for the parent pom -->
   <repositories>
     <repository>
       <id>ppwcodeRepo</id>
@@ -200,17 +183,13 @@
       <name>ppwcode Maven 2 snapshot repository</name>
       <url>http://www.ppwcode.org/java/maven2snapshotrepo</url>
     </repository>
-    <repository>
-      <id>torytRepo</id>
-      <name>Toryt Maven 2 repository</name>
-      <url>http://www.ppwcode.org/toryt/maven2repo</url>
-    </repository>
   </repositories>
 
   <!-- dependency management: to ensure that different ppwcode Java projects use the same versions, those
        versions are defined here -->
   <dependencyManagement>
     <dependencies>
+
       <!-- ppwcode -->
       <dependency>
         <groupId>org.ppwcode</groupId>
@@ -221,7 +200,7 @@
       <dependency>
         <groupId>org.ppwcode.util</groupId>
         <artifactId>ppwcode-util-reflection-I</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version> <!-- MUDO -->
       </dependency>
       <dependency>
         <groupId>org.ppwcode.vernacular</groupId>
@@ -236,29 +215,30 @@
       <dependency>
         <groupId>org.ppwcode.vernacular</groupId>
         <artifactId>ppwcode-vernacular-semantics-VI</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version> <!-- MUDO -->
       </dependency>
       <dependency>
         <groupId>org.ppwcode.vernacular</groupId>
         <artifactId>ppwcode-vernacular-persistence-III</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version> <!-- MUDO -->
       </dependency>
       <dependency>
         <groupId>org.ppwcode.vernacular</groupId>
         <artifactId>ppwcode-vernacular-value-III</artifactId>
-        <version>dev-SNAPSHOT</version>
+        <version>dev-SNAPSHOT</version> <!-- MUDO -->
       </dependency>
       <dependency>
         <groupId>org.ppwcode.vernacular</groupId>
         <artifactId>ppwcode-value-III</artifactId>
-        <version>dev-SNAPSHOT</version>
+        <version>dev-SNAPSHOT</version> <!-- MUDO -->
       </dependency>
+
+      <!-- external libraries -->
       <dependency>
         <groupId>org.toryt</groupId>
         <artifactId>Toryt-annotations-I</artifactId>
         <version>1.1</version>
       </dependency>
-      <!-- external libraries -->
       <dependency>
         <groupId>commons-beanutils</groupId>
         <artifactId>commons-beanutils-core</artifactId>
@@ -303,32 +283,8 @@
         <artifactId>jsf-api</artifactId>
         <version>1.1_02</version>
       </dependency>
+
     </dependencies>
   </dependencyManagement>
-
-  <build>
-    <plugins>
-      <plugin>
-        <!-- the artifacts in which to look for the checkstyle definition and license headers -->
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.2</version>
-        <dependencies>
-          <dependency>
-            <!-- dependency on the checkstyle resource -->
-            <groupId>org.ppwcode.checkstyle</groupId>
-            <artifactId>checkstyle</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-          </dependency>
-          <dependency>
-            <!-- dependency on the license templates -->
-            <groupId>org.ppwcode.checkstyle</groupId>
-            <artifactId>licenses</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-          </dependency>
-        </dependencies>
-      </plugin>
-    </plugins>
-  </build>
 
 </project>
