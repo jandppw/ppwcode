@@ -19,7 +19,6 @@ package org.ppwcode.vernacular.semantics_VI.exception;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.ppwcode.util.reflect_I.PropertyHelpers.hasProperty;
 import static org.ppwcode.vernacular.exception_II.InternalException.DEFAULT_MESSAGE_KEY;
@@ -215,37 +214,38 @@ public class SetterPropertyExceptionTest {
     }
   }
 
-  private void testSetterPropertyExceptionClassOfQStringObjectStringThrowable(final Class<?> originType,
-                                                                              final String propertyName,
-                                                                              final Object vetoedValue,
-                                                                              final String message,
-                                                                              final Throwable cause) {
-    // execute
-    SetterPropertyException subject = new SetterPropertyException(originType, propertyName, vetoedValue, message, cause);
-    // validate
-    assertNull(subject.getOrigin());
-    assertEquals(originType, subject.getOriginType());
-    assertEquals(propertyName, subject.getPropertyName());
-    assertNull(subject.getPropertyValue());
-    assertEquals(vetoedValue, subject.getVetoedValue());
-    assertEquals(message == null ? DEFAULT_MESSAGE_KEY : message, subject.getMessage());
-    assertEquals(cause, subject.getCause());
-    PropertyExceptionTest.assertTypeInvariants(subject);
-    assertTypeInvariants(subject);
-  }
+//  private void testSetterPropertyExceptionClassOfQStringObjectStringThrowable(final Class<?> originType,
+//                                                                              final String propertyName,
+//                                                                              final Object vetoedValue,
+//                                                                              final String message,
+//                                                                              final Throwable cause) {
+//    // execute
+//    SetterPropertyException subject = new SetterPropertyException(originType, propertyName, vetoedValue, message, cause);
+//    // validate
+//    assertNull(subject.getOrigin());
+//    assertEquals(originType, subject.getOriginType());
+//    assertEquals(propertyName, subject.getPropertyName());
+//    assertNull(subject.getPropertyValue());
+//    assertEquals(vetoedValue, subject.getVetoedValue());
+//    assertEquals(message == null ? DEFAULT_MESSAGE_KEY : message, subject.getMessage());
+//    assertEquals(cause, subject.getCause());
+//    PropertyExceptionTest.assertTypeInvariants(subject);
+//    assertTypeInvariants(subject);
+//  }
 
-  @Test
-  public void testSetterPropertyExceptionClassOfQStringObjectStringThrowable() {
-    for (String message : messages) {
-      for (String propertyName : propertyNames) {
-        for (Object vetoedValue : vetoedValues) {
-          for (Throwable t : throwables) {
-            testSetterPropertyExceptionClassOfQStringObjectStringThrowable(OriginStub.class, propertyName, vetoedValue, message, t);
-          }
-        }
-      }
-    }
-  }
+//  Method no longer exists
+//  @Test
+//  public void testSetterPropertyExceptionClassOfQStringObjectStringThrowable() {
+//    for (String message : messages) {
+//      for (String propertyName : propertyNames) {
+//        for (Object vetoedValue : vetoedValues) {
+//          for (Throwable t : throwables) {
+//            testSetterPropertyExceptionClassOfQStringObjectStringThrowable(OriginStub.class, propertyName, vetoedValue, message, t);
+//          }
+//        }
+//      }
+//    }
+//  }
 
   public static void testLike(SetterPropertyException subject, PropertyException other) {
     // execute

@@ -19,7 +19,6 @@ package org.ppwcode.vernacular.semantics_VI.exception;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.ppwcode.util.reflect_I.PropertyHelpers.hasProperty;
 import static org.ppwcode.vernacular.exception_II.InternalException.DEFAULT_MESSAGE_KEY;
@@ -199,33 +198,34 @@ public class ValuePropertyExceptionTest {
     }
   }
 
-  private void testValuePropertyExceptionClassOfQStringObjectStringThrowable(final Class<?> originType,
-                                                                              final String propertyName,
-                                                                              final String message,
-                                                                              final Throwable cause) {
-    // execute
-    ValuePropertyException subject = new ValuePropertyException(originType, propertyName, message, cause);
-    // validate
-    assertNull(subject.getOrigin());
-    assertEquals(originType, subject.getOriginType());
-    assertEquals(propertyName, subject.getPropertyName());
-    assertNull(subject.getPropertyValue());
-    assertEquals(message == null ? DEFAULT_MESSAGE_KEY : message, subject.getMessage());
-    assertEquals(cause, subject.getCause());
-    PropertyExceptionTest.assertTypeInvariants(subject);
-    assertTypeInvariants(subject);
-  }
+//  private void testValuePropertyExceptionClassOfQStringObjectStringThrowable(final Class<?> originType,
+//                                                                              final String propertyName,
+//                                                                              final String message,
+//                                                                              final Throwable cause) {
+//    // execute
+//    ValuePropertyException subject = new ValuePropertyException(originType, propertyName, message, cause);
+//    // validate
+//    assertNull(subject.getOrigin());
+//    assertEquals(originType, subject.getOriginType());
+//    assertEquals(propertyName, subject.getPropertyName());
+//    assertNull(subject.getPropertyValue());
+//    assertEquals(message == null ? DEFAULT_MESSAGE_KEY : message, subject.getMessage());
+//    assertEquals(cause, subject.getCause());
+//    PropertyExceptionTest.assertTypeInvariants(subject);
+//    assertTypeInvariants(subject);
+//  }
 
-  @Test
-  public void testValuePropertyExceptionClassOfQStringObjectStringThrowable() {
-    for (String message : messages) {
-      for (String propertyName : propertyNames) {
-        for (Throwable t : throwables) {
-          testValuePropertyExceptionClassOfQStringObjectStringThrowable(OriginStub.class, propertyName, message, t);
-        }
-      }
-    }
-  }
+//  Method no longer exists
+//  @Test
+//  public void testValuePropertyExceptionClassOfQStringObjectStringThrowable() {
+//    for (String message : messages) {
+//      for (String propertyName : propertyNames) {
+//        for (Throwable t : throwables) {
+//          testValuePropertyExceptionClassOfQStringObjectStringThrowable(OriginStub.class, propertyName, message, t);
+//        }
+//      }
+//    }
+//  }
 
   public static void testLike(ValuePropertyException subject, PropertyException other) {
     // execute
