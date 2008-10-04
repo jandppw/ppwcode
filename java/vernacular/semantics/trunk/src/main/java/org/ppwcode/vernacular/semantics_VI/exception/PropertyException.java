@@ -23,6 +23,7 @@ import static org.ppwcode.util.reflect_I.PropertyHelpers.hasProperty;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.ppwcode.vernacular.exception_II.InternalException;
 import org.ppwcode.vernacular.exception_II.SemanticException;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
@@ -31,39 +32,48 @@ import org.toryt.annotations_I.MethodContract;
 
 
 /**
- * <p>PropertyExceptions are exceptions that carry with them information
- *   about the property for which they occurred. They are usually thrown
- *   by a property setter during validation. If the property name is
- *   <code>null</code>, it means that the exception could not be
- *   attributed to a specific property of {@link #getOrigin()}.
- *   <em>The <code>origin</code> should not be <code>null</code></em>,
- *   except when the exception is thrown during construction of an
- *   object, that could not be completed. In that case, the type
- *   should be filled out. Carrying the reference to the object would
- *   expose an incompletely initialized object, as the exception
- *   signals a failure to complete the initialization.</p>
- * <p>Localized messages are sougth
- *   in a <kbd>*.properties</kbd> file for the class of the origin. The
- *   properties files should be in the directory next to the bean class, with
- *   name <kbd><var>{@link #getOrigin()}<code>.getClass().getName()</code></var>
- *   <var>_locale_identification</var>.properties</kbd>. Alternatively,
- *   messages can be added to a properties file that comes with the
- *   exception.</p>
- * <p>The keys for the localized messages have to have the form
- *   <code><var>this.getClass().getName()</var>.
- *         <var>{@link #getPropertyName()}</var>.
- *         <var>{@link #getMessage()}</var></code>.
- *   See {@link #getLocalizedMessageKeys()}.</p>
+ * <p>PropertyExceptions are exceptions that carry with them information about the property for which they occurred.
+ *   They are usually thrown by a property setter during validation. If the property name is <code>null</code>, it
+ *   means that the exception could not be attributed to a specific property of {@link #getOrigin()}.
+ *   <em>The <code>origin</code> should not be <code>null</code></em>, except when the exception is thrown during
+ *   construction of an object (or more objects are involved, see below), that could not be completed. In that case,
+ *   the type should be filled out. Carrying the reference to the object would expose an incompletely initialized
+ *   object, as the exception signals a failure to complete the initialization. <em>The <code>originType</code>
+ *   should not be <code>null</code></em>, except when the exception is a compound that gathers validation
+ *   information over many objects. Specific property exception subtypes will make these advises binding in most
+ *   cases.</p>
+ * MUDO move this discussion to l10n package
+ * <p>Localized messages are sought in a <kbd>*.properties</kbd> file for {@link #getOriginType() originType} and its
+ *   super types. The properties files should be in the directory next to the bean class, with name
+ *   <kbd><var>{@link #getOrigin()}<code>.getClass().getName()</code></var>_<var>_locale_identification</var>.properties</kbd>.
+ *   Alternatively, messages can be added to a properties file that comes with the exception, with name
+ *   <kbd><var>}<code>getClass().getName()</code></var>_<var>_locale_identification</var>.properties</kbd>.</p>
+ * <p>The keys for the localized messages in the {@link #getOriginType() originType} properties files have to have the
+ *   form
+ *   <code><var>this.getClass().getCanonicalName()</var>.<var>{@link #getPropertyName()}</var>.<var>{@link #getMessage()}</var></code>.
+ *   If such a key does not exist, we look for a key
+ *   <code><var>this.getClass().getCanonicalName()</var>.<var>{@link #getPropertyName()}</var></code>, and next for
+ *   <code><var>this.getClass().getCanonicalName()</var>.<var>{@link #getMessage()}</var></code> ,and then for
+ *   <code><var>this.getClass().getCanonicalName()</var>. If neither of these keys are found, we look in the properties file
+ *   that comes with the exception for an entry with the key
+ *   <var>{@link #getMessage()}</var>, and if that is not found, for an entry with key
+ *   {@link InternalException#DEFAULT_MESSAGE_KEY}.</p>
+ * <p>The values in the properties files can use data from exception as parameters in the message. Available are:</p>
+ * MUDO This feature is not implemented yet.
+ * <ul>
+ *   <li>the localized name of the origin type, as <code>{originType}</code>, or <code>{originTypes}</code> for the plural</li>
+ *   <li>the localized name of the property as <code>{propertyName}</code></li>
+ *   <li>the origin object, as <code>{origin}</code>; this can be used with concatenation to get the values of certain
+ *     properties, like <code>{origin.<var>myProperty.myProperty</var>}</code>; if {@code null} is encountered along this chain,
+ *     the entire expression evaluates to the string {@code "null"}</li>
+ *   <li>any property a subtype of PropertyException might introduce, as <code>{<var>propertyName</var>}</code>.</li>
+ * </ul>
  *
- * @note Throwables cannot have generic parameters. Otherwise we would have used
- *       this instead of {@link #getOriginType()}.
+ *
+ * @note Throwables cannot have generic parameters. Otherwise we would have used this instead of {@link #getOriginType()}.
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
- *
- * @idea (jand): Check that property name is truly a property of the origin
- * @mudo extends SemanticException extends InternalException
- * @mudo i18n
  */
 @Copyright("2004 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
@@ -76,6 +86,33 @@ public class PropertyException extends SemanticException {
 
   /*<construction>*/
   //-------------------------------------------------------------------------
+
+  /**
+   * Specialized constructor for Compound subtype, without a property name, type
+   * or origin.
+   *
+   * @param     message
+   *            The message that describes the exceptional circumstance.
+   * @param     cause
+   *            The exception that occurred, causing this exception to be
+   *            thrown, if that is the case.
+   */
+  @MethodContract(
+    pre  = {
+      @Expression("_message == null || ! _message.equals(EMPTY)")
+    },
+    post = {
+      @Expression("origin == null"),
+      @Expression("originType == null"),
+      @Expression("propertyName == null"),
+      @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
+      @Expression("cause == _cause")
+    }
+  )
+  protected PropertyException(final String message, final Throwable cause) {
+    super(message, cause);
+    assert (message == null) || (! message.equals(""));
+  }
 
   /**
    * @param     origin

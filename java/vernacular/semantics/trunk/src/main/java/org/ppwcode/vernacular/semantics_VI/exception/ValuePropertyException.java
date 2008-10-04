@@ -33,27 +33,18 @@ import org.toryt.annotations_I.MethodContract;
 
 
 /**
- * MUDO documentation
- * <p>In many cases, a property exception is needed that reports
- *   the new value that was tried to set, and the old value
- *   of the property. These values can be used to generate
- *   sensible end-user messages of the form <q>Unable to change
- *   {propertyName} for {origin} from {propertyValue} to
- *   {vetoedValue}</q>.</p>
- * <p>This exception is a generalized version of a
- *   {@link PropertyException} that carries that information.
- *   It is a bore to create separate exceptions for each of those
- *   specific cases.</p>
- * <p>It would be nice to use generics for the type of the
- *   property value, but generics are not possible for exceptions.</p>
- * <p>This exception can be used for simple properties of all kinds:
- *   simple properties of reference type, as well as simple properties
- *   of value types, both of mutable types and immutable types. When
- *   the values are put into the exception and when they are returned
- *   out of the exception, we try to clone them. We expect mutable
- *   value types to be cloneable, and immutable value types and
- *   reference types not to be cloneable. This way, the actual value
- *   is guarded from change.</p>
+ * <p>In many cases, a property exception is needed that reports the original value of the property.
+ *   This value can be used to generate sensible end-user messages of the form <q>Unable to change
+ *   {propertyName} for {origin} from {propertyValue}</q>.</p>
+ * <p>This exception is a generalized version of a {@link PropertyException} that carries that
+ *   information. It is a bore to create separate exceptions for each of those specific cases. It would
+ *   be nice to use generics for the type of the property value, but generics are not possible for
+ *   exceptions.</p>
+ * <p>This exception can be used for simple properties of all kinds: simple properties of reference type,
+ *   as well as simple properties of value types, both of mutable types and immutable types. When the
+ *   values are put into the exception and when they are returned out of the exception, we try to clone
+ *   them. We expect mutable value types to be cloneable, and immutable value types and reference types
+ *   not to be cloneable. This way, the actual value is guarded from change.</p>
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
@@ -64,7 +55,10 @@ import org.toryt.annotations_I.MethodContract;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-@Invars(@Expression("propertyName != null"))
+@Invars({
+  @Expression("propertyName != null"),
+  @Expression("originType != null")
+})
 public class ValuePropertyException extends PropertyException {
 
   /*<construction>*/
@@ -99,10 +93,7 @@ public class ValuePropertyException extends PropertyException {
       @Expression("cause == _cause")
     }
   )
-  public ValuePropertyException(final Object origin,
-                                 final String propertyName,
-                                 final String message,
-                                 final Throwable cause) {
+  public ValuePropertyException(Object origin, String propertyName, String message, Throwable cause) {
     super(origin, propertyName, message, cause);
     assert propertyName != null;
     $propertyValue = safePropertyValue(origin, propertyName);
@@ -155,45 +146,42 @@ public class ValuePropertyException extends PropertyException {
       $propertyValue = safePropertyValue(origin, propertyName);
     }
   }
-
-
-  /**
-   * @param     originType
-   *            The bean that has thrown this exception.
-   * @param     propertyName
-   *            The name of the property of which the setter has thrown
-   *            this exception because parameter validation failed.
-   * @param     message
-   *            The message that describes the exceptional circumstance.
-   * @param     cause
-   *            The exception that occurred, causing this exception to be
-   *            thrown, if that is the case.
-   *
-   * @since IV
-   */
-  @MethodContract(
-    pre  = {
-      @Expression("_originType != null"),
-      @Expression("_propertyName != null"),
-      @Expression("hasProperty(_originType, _propertyName)"),
-      @Expression("_message == null || ! _message.equals(EMPTY)")
-    },
-    post = {
-      @Expression("origin == null"),
-      @Expression("originType == _originType"),
-      @Expression("propertyName == _propertyName"),
-      @Expression("propertyValue == null"),
-      @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
-      @Expression("cause == _cause")
-    }
-  )
-  public ValuePropertyException(final Class<?> originType,
-                                 final String propertyName,
-                                 final String message,
-                                 final Throwable cause) {
-    super(originType, propertyName, message, cause);
-    assert propertyName != null;
-  }
+//
+//
+//  /**
+//   * @param     originType
+//   *            The bean that has thrown this exception.
+//   * @param     propertyName
+//   *            The name of the property of which the setter has thrown
+//   *            this exception because parameter validation failed.
+//   * @param     message
+//   *            The message that describes the exceptional circumstance.
+//   * @param     cause
+//   *            The exception that occurred, causing this exception to be
+//   *            thrown, if that is the case.
+//   *
+//   * @since IV
+//   */
+//  @MethodContract(
+//    pre  = {
+//      @Expression("_originType != null"),
+//      @Expression("_propertyName != null"),
+//      @Expression("hasProperty(_originType, _propertyName)"),
+//      @Expression("_message == null || ! _message.equals(EMPTY)")
+//    },
+//    post = {
+//      @Expression("origin == null"),
+//      @Expression("originType == _originType"),
+//      @Expression("propertyName == _propertyName"),
+//      @Expression("propertyValue == null"),
+//      @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
+//      @Expression("cause == _cause")
+//    }
+//  )
+//  public ValuePropertyException(Class<?> originType, String propertyName, String message, Throwable cause) {
+//    super(originType, propertyName, message, cause);
+//    assert propertyName != null;
+//  }
 
   private static Object safePropertyValue(final Object origin, final String propertyName) {
     try {

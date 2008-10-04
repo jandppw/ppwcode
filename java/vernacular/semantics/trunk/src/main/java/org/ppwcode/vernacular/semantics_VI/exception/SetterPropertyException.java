@@ -29,26 +29,17 @@ import org.toryt.annotations_I.MethodContract;
 
 
 /**
- * <p>In many cases, a property exception is needed that reports
- *   the new value that was tried to set, and the old value
- *   of the property. These values can be used to generate
- *   sensible end-user messages of the form <q>Unable to change
- *   {propertyName} for {origin} from {propertyValue} to
- *   {vetoedValue}</q>.</p>
- * <p>This exception is a generalized version of a
- *   {@link PropertyException} that carries that information.
- *   It is a bore to create separate exceptions for each of those
- *   specific cases.</p>
- * <p>It would be nice to use generics for the type of the
- *   property value, but generics are not possible for exceptions.</p>
- * <p>This exception can be used for simple properties of all kinds:
- *   simple properties of reference type, as well as simple properties
- *   of value types, both of mutable types and immutable types. When
- *   the values are put into the exception and when they are returned
- *   out of the exception, we try to clone them. We expect mutable
- *   value types to be cloneable, and immutable value types and
- *   reference types not to be cloneable. This way, the actual value
- *   is guarded from change.</p>
+ * <p>In many cases, a property exception is needed that reports the new value that was tried to set, and the
+ *   old value of the property. These values can be used to generate sensible end-user messages of the form
+ *   <q>Unable to change {propertyName} for {origin} from {propertyValue} to {vetoedValue}</q>.</p>
+ * <p>This exception is a generalized version of a {@link PropertyException} that carries that information.
+ *   It is a bore to create separate exceptions for each of those specific cases. It would be nice to use
+ *   generics for the type of the property value, but generics are not possible for exceptions.</p>
+ * <p>This exception can be used for simple properties of all kinds: simple properties of reference type, as
+ *   well as simple properties of value types, both of mutable types and immutable types. When the values are
+ *   put into the exception and when they are returned out of the exception, we try to clone them. We expect
+ *   mutable value types to be cloneable, and immutable value types and reference types not to be cloneable.
+ *   This way, the actual value is guarded from change.</p>
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
@@ -155,48 +146,48 @@ public class SetterPropertyException extends ValuePropertyException {
   }
 
 
-  /**
-   * @param     originType
-   *            The bean that has thrown this exception.
-   * @param     propertyName
-   *            The name of the property of which the setter has thrown
-   *            this exception because parameter validation failed.
-   * @param     vetoedValue
-   *            The value that was tried to set on property {@code propertyName},
-   *            which is being vetoed by this exception.
-   * @param     message
-   *            The message that describes the exceptional circumstance.
-   * @param     cause
-   *            The exception that occurred, causing this exception to be
-   *            thrown, if that is the case.
-   *
-   * @since IV
-   */
-  @MethodContract(
-    pre  = {
-      @Expression("_originType != null"),
-      @Expression("_propertyName != null"),
-      @Expression("hasProperty(_originType, _propertyName)"),
-      @Expression("_message == null || ! _message.equals(EMPTY)")
-    },
-    post = {
-      @Expression("origin == null"),
-      @Expression("originType == _originType"),
-      @Expression("propertyName == _propertyName"),
-      @Expression("propertyValue == null"),
-      @Expression("vetoedValue == safeReference(_vetoedValue)"),
-      @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
-      @Expression("cause == _cause")
-    }
-  )
-  public SetterPropertyException(final Class<?> originType,
-                                 final String propertyName,
-                                 final Object vetoedValue,
-                                 final String message,
-                                 final Throwable cause) {
-    super(originType, propertyName, message, cause);
-    $vetoedValue = safeReference(vetoedValue);
-  }
+//  /**
+//   * @param     originType
+//   *            The bean that has thrown this exception.
+//   * @param     propertyName
+//   *            The name of the property of which the setter has thrown
+//   *            this exception because parameter validation failed.
+//   * @param     vetoedValue
+//   *            The value that was tried to set on property {@code propertyName},
+//   *            which is being vetoed by this exception.
+//   * @param     message
+//   *            The message that describes the exceptional circumstance.
+//   * @param     cause
+//   *            The exception that occurred, causing this exception to be
+//   *            thrown, if that is the case.
+//   *
+//   * @since IV
+//   */
+//  @MethodContract(
+//    pre  = {
+//      @Expression("_originType != null"),
+//      @Expression("_propertyName != null"),
+//      @Expression("hasProperty(_originType, _propertyName)"),
+//      @Expression("_message == null || ! _message.equals(EMPTY)")
+//    },
+//    post = {
+//      @Expression("origin == null"),
+//      @Expression("originType == _originType"),
+//      @Expression("propertyName == _propertyName"),
+//      @Expression("propertyValue == null"),
+//      @Expression("vetoedValue == safeReference(_vetoedValue)"),
+//      @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
+//      @Expression("cause == _cause")
+//    }
+//  )
+//  public SetterPropertyException(final Class<?> originType,
+//                                 final String propertyName,
+//                                 final Object vetoedValue,
+//                                 final String message,
+//                                 final Throwable cause) {
+//    super(originType, propertyName, message, cause);
+//    $vetoedValue = safeReference(vetoedValue);
+//  }
 
   /*</construction>*/
 

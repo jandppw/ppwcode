@@ -37,28 +37,22 @@ import org.toryt.annotations_I.Throw;
 
 
 /**
- * <p>Compound property exceptions make it possible for an implementation
- *   of a setter, a constructor, or a validation method of a bean to report
- *   all that is wrong with arguments or the bean at once.</p>
- * <p>With single exceptions, a method can report 1 exceptional
- *   condition. Often, there are more reasons possible to reject an actual
- *   argument. A traditional implementation tests the conditions one by one,
- *   and throws an exception when the first failure of
- *   occurs. This can than be reported to the end user, but once this mistake
- *   is corrected, it often results in the next rejection. This is especially
- *   annoying in web applications, that have a long round trip.</p>
- * <p>Compound exceptions make it possible to implement validation in such
- *   a way that all validation is done every time. A validation failure
- *   is stored and remembered until all validation is done, and then
- *   collected in a compound exception, which makes it possible to provide
- *   full feedback on validity to the end user in one pass.</p>
- * <p>Compound property exceptions are build during a certain time, and migth
- *   eventually be thrown or not be thrown. An {@link #isEmpty()} compound
- *   property exception should never be thrown. Before a compound property
+ * <p>Compound property exceptions make it possible for an implementation of a setter, a constructor, or a
+ *   validation method of a bean to report all that is wrong with arguments or the bean at once.</p>
+ * <p>With single exceptions, a method can report 1 exceptional condition. Often, there are more reasons
+ *   possible to reject an actual argument. A traditional implementation tests the conditions one by one,
+ *   and throws an exception when the first failure of occurs. This can than be reported to the end user,
+ *   but once this mistake is corrected, it often results in the next rejection. This is especially annoying
+ *   in web applications, that have a long round trip.</p>
+ * <p>Compound exceptions make it possible to implement validation in such a way that all validation is done
+ *   every time. A validation failure is stored and remembered until all validation is done, and then collected
+ *   in a compound exception, which makes it possible to provide full feedback on validity to the end user in
+ *   one pass.</p>
+ * <p>Compound property exceptions are build during a certain time, and migth eventually be thrown or not be
+ *   thrown. An {@link #isEmpty()} compound property exception should never be thrown. Before a compound property
  *   exception is thrown, it should be {@link #isClosed closed}.</p>
- * <p>Compound property exceptions are meant as a flat list. You should
- *   not nest compound property exceptions. This also avoids cyclic
- *   element exceptions.</p>
+ * <p>Compound property exceptions are meant as a flat list. You should not nest compound property exceptions.
+ *   This also avoids cyclic element exceptions.</p>
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
@@ -67,7 +61,10 @@ import org.toryt.annotations_I.Throw;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-@Invars(@Expression("elementsException.size > 1 ? propertyName == null"))
+@Invars({
+  @Expression("elementsException.size > 1 ? propertyName == null"),
+  @Expression("for (PropertyException pExc : allElementExceptions) {! pExc instanceof CompoundPropertyException)")
+})
 public final class CompoundPropertyException extends PropertyException {
 
   /**
@@ -77,6 +74,31 @@ public final class CompoundPropertyException extends PropertyException {
 
   /*<construction;>*/
   //------------------------------------------------------------------
+
+  /**
+   * Only use this to gather exceptions over many objects.
+   *
+   * @param     message
+   *            The message that describes the exceptional circumstance.
+   * @param     cause
+   *            The exception that occurred, causing this exception to be
+   *            thrown, if that is the case.
+   */
+  @MethodContract(
+    pre  = {
+      @Expression("_message == null || ! _message.equals(EMPTY)")
+    },
+    post = {
+      @Expression("origin == null"),
+      @Expression("originType == null"),
+      @Expression("propertyName == null"),
+      @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
+      @Expression("cause == _cause")
+    }
+  )
+  public CompoundPropertyException(final String message, final Throwable cause) {
+    super(message, cause);
+  }
 
   /**
    * @param     origin
@@ -354,6 +376,7 @@ public final class CompoundPropertyException extends PropertyException {
     @Expression("! $elementExceptions.containsValue(null)"),
     @Expression("for (Set s : $elementExceptions.values) {! s.isEmpty()}"),
     @Expression("for (Set s : $elementExceptions.values) {! s.contains(null)}"),
+    @Expression("for (Set s : $elementExceptions.values) {! s instanceof CompoundPropertyException}"),
     @Expression("for (Map.Entry e : $elementExceptions.entrySet) {for (PropertyException pe : e.value) {pe.propertyName == e.key}}"),
     @Expression("for (Set e : elementExceptions.values) {for (PropertyException pe : s) {pe.origin == origin}}"),
     @Expression("for (Set e : elementExceptions.values) {for (PropertyException pe : s) {pe.originType == originType}}"),
