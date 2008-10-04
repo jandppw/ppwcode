@@ -199,6 +199,29 @@ public class CompoundPropertyExceptionTest {
     return s1 == null ? s2 == null : s1.equals(s2);
   }
 
+  private void testCompoundPropertyExceptionStringThrowable(String message, Throwable cause) {
+    // execute
+    CompoundPropertyException subject = new CompoundPropertyException(message, cause);
+    // validate
+    assertNull(subject.getOrigin());
+    assertNull(subject.getOriginType());
+    assertNull(subject.getPropertyName());
+    assertEquals(message == null ? DEFAULT_MESSAGE_KEY : message, subject.getMessage());
+    assertEquals(cause, subject.getCause());
+    assertFalse(subject.isClosed());
+    assertTrue(subject.getElementExceptions().isEmpty());
+    assertTypeInvariants(subject);
+  }
+
+  @Test
+  public void testCompoundPropertyExceptionStringThrowable() {
+    for (String message : messages) {
+      for (Throwable t : throwables) {
+        testCompoundPropertyExceptionStringThrowable(message, t);
+      }
+    }
+  }
+
   private void testCompoundPropertyExceptionObjectStringStringThrowable(final Object origin,
                                                                       final String propertyName,
                                                                       final String message,

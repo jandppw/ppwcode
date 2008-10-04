@@ -18,7 +18,6 @@ package org.ppwcode.vernacular.semantics_VI.exception;
 
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.ppwcode.util.reflect_I.PropertyHelpers.hasProperty;
@@ -124,10 +123,29 @@ public class PropertyExceptionTest {
 
   public static void assertTypeInvariants(PropertyException subject) {
     assertTrue(subject.getMessage() == null || ! subject.getMessage().equals(EMPTY));
-    assertNotNull(subject.getOriginType());
     assertTrue(subject.getOrigin() != null ? subject.getOriginType() == subject.getOrigin().getClass() : true);
-    assertNotNull(subject.getOriginType());
     assertTrue(subject.getPropertyName() != null ? hasProperty(subject.getOriginType(), subject.getPropertyName()) : true);
+  }
+
+  private void testPropertyExceptionStringThrowable(String message, Throwable cause) {
+    // execute
+    PropertyException subject = new PropertyException(message, cause);
+    // validate
+    assertNull(subject.getOrigin());
+    assertNull(subject.getOriginType());
+    assertNull(subject.getPropertyName());
+    assertEquals(message == null ? DEFAULT_MESSAGE_KEY : message, subject.getMessage());
+    assertEquals(cause, subject.getCause());
+    assertTypeInvariants(subject);
+  }
+
+  @Test
+  public void testPropertyExceptionStringThrowable() {
+    for (String message : messages) {
+      for (Throwable t : throwables) {
+        testPropertyExceptionStringThrowable(message, t);
+      }
+    }
   }
 
   private void testPropertyExceptionObjectStringStringThrowable(final Object origin,
