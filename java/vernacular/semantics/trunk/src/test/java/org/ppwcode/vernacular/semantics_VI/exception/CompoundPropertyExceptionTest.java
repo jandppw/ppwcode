@@ -422,8 +422,8 @@ public class CompoundPropertyExceptionTest {
       assertTrue((pExc instanceof CompoundPropertyException) ||
                  (pExc == null) ||
                  ((subject.getPropertyName() != null) && (! eqn(pExc.getPropertyName(), subject.getPropertyName()))) ||
-                 (pExc.getOrigin() != subject.getOrigin()) ||
-                 (pExc.getOriginType() != subject.getOriginType()));
+                 (subject.getOrigin() != null && pExc.getOrigin() != subject.getOrigin()) ||
+                 (subject.getOriginType() != null && pExc.getOriginType() != subject.getOriginType()));
     }
   }
 

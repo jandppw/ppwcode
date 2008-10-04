@@ -318,8 +318,8 @@ public final class CompoundPropertyException extends PropertyException {
       @Throw(type = IllegalArgumentException.class, cond = @Expression("_pExc instanceof CompoundPropertyException")),
       @Throw(type = IllegalArgumentException.class, cond = @Expression("_pExc == null")),
       @Throw(type = IllegalArgumentException.class, cond = @Expression("propertyName != null && _pExc.propertyName != propertyName")),
-      @Throw(type = IllegalArgumentException.class, cond = @Expression("_pExc.origin != origin")),
-      @Throw(type = IllegalArgumentException.class, cond = @Expression("_pExc.originType != originType"))
+      @Throw(type = IllegalArgumentException.class, cond = @Expression("origin != null ? _pExc.origin != origin")),
+      @Throw(type = IllegalArgumentException.class, cond = @Expression("originType != null ? _pExc.originType != originType"))
     }
   )
   public void addElementException(final PropertyException pExc)
@@ -336,10 +336,10 @@ public final class CompoundPropertyException extends PropertyException {
     if ((getPropertyName() != null) && (!getPropertyName().equals(pExc.getPropertyName()))) {
       throw new IllegalArgumentException("only exceptions for property " + getPropertyName() + " are allowed");
     }
-    if (pExc.getOrigin() != getOrigin()) {
+    if ((getOrigin() != null) && (pExc.getOrigin() != getOrigin())) {
       throw new IllegalArgumentException("only exceptions for origin " + getOrigin() + " are allowed");
     }
-    if ((getOrigin() == null) && (pExc.getOriginType() != getOriginType())) {
+    if ((getOriginType() != null) && (getOrigin() == null) && (pExc.getOriginType() != getOriginType())) {
       throw new IllegalArgumentException("only exceptions for origin type " + getOriginType() + " are allowed");
     }
     Set<PropertyException> propertySet = $elementExceptions.get(pExc.getPropertyName());
