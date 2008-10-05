@@ -30,5 +30,10 @@ public class StubRousseauBeanB extends StubRousseauBean {
     $property8 = property8;
   }
 
+  @Override
+  public int nrOfProperties() {
+    return 6;
+  }
+
 }
 

@@ -31,11 +31,12 @@ import java.util.Set;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.ppwcode.vernacular.semantics_VI.bean.stubs.NumberOfProperties;
 
 
 public class AbstractSemanticBeanTest {
 
-  public static class AbstractSemanticBeanSTUB extends AbstractSemanticBean {
+  public static class AbstractSemanticBeanSTUB extends AbstractSemanticBean implements NumberOfProperties {
 
     public AbstractSemanticBeanSTUB(String property1, Date property2, Set<String> property3, int[] property4) {
       $property1 = property1;
@@ -85,10 +86,27 @@ public class AbstractSemanticBeanTest {
 
     private int[] $property4;
 
+
+    public int nrOfProperties() {
+      return 4;
+    }
+
+    public int nrOfSimpleProperties() {
+      return nrOfProperties() - 2; // property 3 is a set, property 4 is an array
+    }
+
   }
 
-  public static class AbstractSemanticBeanNOPROPERTIES extends AbstractSemanticBean {
-    // NOP
+  public static class AbstractSemanticBeanNOPROPERTIES extends AbstractSemanticBean implements NumberOfProperties {
+
+    public int nrOfProperties() {
+      return 0;
+    }
+
+    public int nrOfSimpleProperties() {
+      return nrOfProperties(); // only simple properties in this class
+    }
+
   }
 
 
@@ -189,16 +207,17 @@ public class AbstractSemanticBeanTest {
     }
   }
 
-  public static Set<String> testPropertyNamesForToStringA(AbstractSemanticBean subject, int nrofProperties) {
+  public static Set<String> testPropertyNamesForToStringA(AbstractSemanticBean subject) {
     Set<String> result = subject.propertyNamesForToString();
     assertNotNull(result);
-    assertEquals(nrofProperties, result.size());
+    System.out.println(subject.getClass().getCanonicalName());
+    assertEquals(((NumberOfProperties)subject).nrOfSimpleProperties(), result.size());
     assertInvariants(subject);
     return result;
   }
 
-  public static Set<String> testPropertyNamesForToStringB(AbstractSemanticBean subject, int nrOfProperties) {
-    Set<String> result = testPropertyNamesForToStringA(subject, nrOfProperties);
+  public static Set<String> testPropertyNamesForToStringB(AbstractSemanticBean subject) {
+    Set<String> result = testPropertyNamesForToStringA(subject);
     assertTrue(result.contains("property1"));
     assertTrue(result.contains("property2"));
     return result;
@@ -207,13 +226,13 @@ public class AbstractSemanticBeanTest {
   @Test
   public void testPropertyNamesForToString2() {
     AbstractSemanticBean subject = new AbstractSemanticBeanNOPROPERTIES();
-    testPropertyNamesForToStringA(subject, 0);
+    testPropertyNamesForToStringA(subject);
   }
 
   @Test
   public void testPropertyNamesForToString1() {
     for (AbstractSemanticBean subject : subjects) {
-      testPropertyNamesForToStringB(subject, 2);
+      testPropertyNamesForToStringB(subject);
     }
   }
 
