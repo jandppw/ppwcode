@@ -185,8 +185,8 @@ public class CompoundPropertyExceptionTest {
     for (Map.Entry<String, Set<PropertyException>> e : subject.getElementExceptions().entrySet()) {
       for (PropertyException pe : e.getValue()) {
         eqn(pe.getPropertyName(), e.getKey());
-        assertEquals(subject.getOrigin(), pe.getOrigin());
-        assertEquals(subject.getOriginType(), pe.getOriginType());
+        assertTrue(subject.getOrigin() != null ? subject.getOrigin() == pe.getOrigin() : true);
+        assertTrue(subject.getOriginType() != null ? subject.getOriginType() == pe.getOriginType() : true);
         assertFalse(pe instanceof CompoundPropertyException);
       }
     }
