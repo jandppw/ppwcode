@@ -22,7 +22,7 @@ import org.ppwcode.vernacular.semantics_VI.exception.CompoundPropertyException;
 import org.ppwcode.vernacular.semantics_VI.exception.PropertyException;
 
 
-public class StubRousseauBean extends AbstractRousseauBean {
+public class StubRousseauBean extends AbstractRousseauBean implements NumberOfProperties {
 
   @Override
   public void normalize() {
@@ -105,6 +105,14 @@ public class StubRousseauBean extends AbstractRousseauBean {
 
   public final void setProperty5(StubRousseauBeanB property5) {
     $property5 = property5;
+  }
+
+  public int nrOfProperties() {
+    return 5;
+  }
+
+  public int nrOfSimpleProperties() {
+    return nrOfProperties(); // only simple properties in this class
   }
 
 }

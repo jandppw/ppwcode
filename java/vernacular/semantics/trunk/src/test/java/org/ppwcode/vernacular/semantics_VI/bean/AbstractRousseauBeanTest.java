@@ -31,13 +31,14 @@ import java.util.Set;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.ppwcode.vernacular.semantics_VI.bean.stubs.NumberOfProperties;
 import org.ppwcode.vernacular.semantics_VI.exception.CompoundPropertyException;
 import org.ppwcode.vernacular.semantics_VI.exception.PropertyException;
 
 
 public class AbstractRousseauBeanTest {
 
-  public static class AbstractRousseauBeanSTUB extends AbstractRousseauBean {
+  public static class AbstractRousseauBeanSTUB extends AbstractRousseauBean implements NumberOfProperties {
 
     public AbstractRousseauBeanSTUB(String property1, Date property2, Set<String> property3, int[] property4) {
       $property1 = property1;
@@ -87,9 +88,18 @@ public class AbstractRousseauBeanTest {
 
     private int[] $property4;
 
+
+    public int nrOfProperties() {
+      return 4;
+    }
+
+    public int nrOfSimpleProperties() {
+      return nrOfProperties() - 2; // property 3 is a set, property 4 is an array
+    }
+
   }
 
-  public static class AbstractRousseauBeanWILD extends AbstractRousseauBeanSTUB {
+  public static class AbstractRousseauBeanWILD extends AbstractRousseauBeanSTUB implements NumberOfProperties {
 
     public AbstractRousseauBeanWILD(String property1, Date property2, Set<String> property3, int[] property4) {
       super(property1, property2, property3, property4);
@@ -109,8 +119,16 @@ public class AbstractRousseauBeanTest {
 
   }
 
-  public static class AbstractRousseauBeanNOPROPERTIES extends AbstractRousseauBean {
-    // NOP
+  public static class AbstractRousseauBeanNOPROPERTIES extends AbstractRousseauBean implements NumberOfProperties {
+
+    public int nrOfProperties() {
+      return 0;
+    }
+
+    public int nrOfSimpleProperties() {
+      return nrOfProperties(); // only simple properties in this class
+    }
+
   }
 
 
@@ -138,6 +156,7 @@ public class AbstractRousseauBeanTest {
     subjects.add(subject);
     subject = new AbstractRousseauBeanWILD("PROPERTY 1", new Date(), stringSet, intArray);
     subjects.add(subject);
+    subjects.addAll(RousseauBeanHelpersTest.someRousseauBeans());
   }
 
   @After
@@ -211,16 +230,16 @@ public class AbstractRousseauBeanTest {
     }
   }
 
-  public static Set<String> testPropertyNamesForToStringA(AbstractRousseauBean subject, int nrOfProperties) {
-    Set<String> result = AbstractSemanticBeanTest.testPropertyNamesForToStringA(subject, nrOfProperties);
+  public static Set<String> testPropertyNamesForToStringA(AbstractRousseauBean subject) {
+    Set<String> result = AbstractSemanticBeanTest.testPropertyNamesForToStringA(subject);
     assertFalse(result.contains("wildExceptions"));
     assertFalse(result.contains("civilized"));
     assertInvariants(subject);
     return result;
   }
 
-  public static Set<String> testPropertyNamesForToStringB(AbstractRousseauBean subject, int nrOfProperties) {
-    Set<String> result = AbstractSemanticBeanTest.testPropertyNamesForToStringB(subject, nrOfProperties);
+  public static Set<String> testPropertyNamesForToStringB(AbstractRousseauBean subject) {
+    Set<String> result = AbstractSemanticBeanTest.testPropertyNamesForToStringB(subject);
     assertFalse(result.contains("wildExceptions"));
     assertFalse(result.contains("civilized"));
     assertInvariants(subject);
@@ -230,13 +249,13 @@ public class AbstractRousseauBeanTest {
   @Test
   public void testPropertyNamesForToString2() {
     AbstractRousseauBean subject = new AbstractRousseauBeanNOPROPERTIES();
-    testPropertyNamesForToStringA(subject, 0);
+    testPropertyNamesForToStringA(subject);
   }
 
   @Test
   public void testPropertyNamesForToString1() {
     for (AbstractRousseauBean subject : subjects) {
-      testPropertyNamesForToStringB(subject, 2);
+      testPropertyNamesForToStringB(subject); // 2
     }
   }
 

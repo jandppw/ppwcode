@@ -59,5 +59,10 @@ public class StubRousseauBeanA extends StubRousseauBean {
     return cpe;
   }
 
+  @Override
+  public int nrOfProperties() {
+    return 8;
+  }
+
 }
 

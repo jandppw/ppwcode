@@ -17,6 +17,7 @@ limitations under the License.
 package org.ppwcode.vernacular.semantics_VI.bean;
 
 
+import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
 import java.beans.PropertyDescriptor;
@@ -117,10 +118,10 @@ public abstract class AbstractSemanticBean implements SemanticBean {
    * @mudo contract
    */
   protected Set<String> propertyNamesForToString() {
-    PropertyDescriptor[] pds = PropertyUtils.getPropertyDescriptors(this);
+    PropertyDescriptor[] pds = getPropertyDescriptors(this);
     Set<String> result = new HashSet<String>(pds.length);
     for (int i = 0; i < pds.length; i++) {
-      Class<?> propertyType = pds[i].getReadMethod().getReturnType();
+      Class<?> propertyType = pds[i].getPropertyType();
       if (! Collection.class.isAssignableFrom(propertyType) &&
           ! propertyType.isArray() &&
           ! pds[i].getName().equals("class")) {
