@@ -57,6 +57,8 @@ public final class RousseauBeanHelpers {
    * These are the beans that are simple properties of {@code rb}. Upstream means
    * in most cases (this is all that is implemented at this time) the beans
    * reachable via a to-one association.
+   *
+   * @mudo method is probably never used; remove before release
    */
   @MethodContract(
     pre  = @Expression("_rb != null"),
@@ -95,6 +97,8 @@ public final class RousseauBeanHelpers {
    * in most cases (this is all that is implemented at this time) the beans
    * reachable via a to-one association. This is applied recursively.
    * {@code rb} itself is also part of the set.
+   *
+   * @mudo method is probably never used; remove before release
    */
   @MethodContract(
     pre  = @Expression("_rb != null"),
@@ -125,6 +129,8 @@ public final class RousseauBeanHelpers {
    * Normalize {@code rb} and all other {@link RousseauBean RousseauBeans} that can be reached
    * from {@code rb} over to-one associations (upstream). At the same time, check the civility
    * and gather all {@link PropertyException PropertyExceptions} that might occur.
+   *
+   * @mudo method is probably never used; remove before release
    */
   @MethodContract(
     pre  = @Expression("_rb != null"),
@@ -153,6 +159,44 @@ public final class RousseauBeanHelpers {
         }
       }
       i++;
+    }
+    return cpe;
+  }
+
+  /**
+   * Normalize all {@link RousseauBean RousseauBean} in {@code rbs}.
+   */
+  @MethodContract(
+    pre  = @Expression("_rbs != null"),
+    post = {
+      @Expression("for (RousseauBean rb : _rbs) {rb.normalize()}")
+    }
+  )
+  public static void normalize(Set<? extends RousseauBean> rbs) {
+    assert preArgumentNotNull(rbs, "rbs");
+    for (RousseauBean rb : rbs) {
+      rb.normalize();
+    }
+  }
+
+  /**
+   * Gather all {@link RousseauBean#wildExceptions() wild exceptions} from all {@link RousseauBean RousseauBeans}
+   * in {@code rbs}.
+   */
+  @MethodContract(
+    pre  = @Expression("_rbs != null"),
+    post = {
+      @Expression("result != null"),
+      @Expression("result.allElementExceptions == union (RousseauBean rb : _rbs) {rb.wildExceptions().allElementExceptions}")
+    }
+  )
+  public static CompoundPropertyException wildExceptions(Set<? extends RousseauBean> rbs) {
+    assert preArgumentNotNull(rbs, "rbs");
+    CompoundPropertyException cpe = new CompoundPropertyException("UPSTREAM_EXCEPTIONS", null);
+    for (RousseauBean rb : rbs) {
+      for (PropertyException pExc : rb.wildExceptions().getAllElementExceptions()) {
+        cpe.addElementException(pExc);
+      }
     }
     return cpe;
   }
