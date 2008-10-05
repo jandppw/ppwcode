@@ -114,6 +114,7 @@ public class AbstractSemanticBeanTest {
     subjects.add(subject);
     subject = new AbstractSemanticBeanSTUB("PROPERTY 1", new Date(), stringSet, intArray);
     subjects.add(subject);
+    subjects.addAll(RousseauBeanHelpersTest.someRousseauBeans());
   }
 
   @After
