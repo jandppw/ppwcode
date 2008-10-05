@@ -269,8 +269,8 @@ public final class CompoundPropertyException extends PropertyException {
       @Expression("for (Set s : elementExceptions.values) {! s.isEmpty()}"),
       @Expression("for (Set s : elementExceptions.values) {! s.contains(null)}"),
       @Expression("for (Map.Entry e : elementExceptions.entrySet) {for (PropertyException pe : e.value) {pe.propertyName == e.key}}"),
-      @Expression("for (Set e : elementExceptions.values) {for (PropertyException pe : s) {pe.origin == origin}}"),
-      @Expression("for (Set e : elementExceptions.values) {for (PropertyException pe : s) {pe.originType == originType}}"),
+      @Expression("origin != null ? for (Set e : elementExceptions.values) {for (PropertyException pe : s) {pe.origin == origin}}"),
+      @Expression("originType != null ? for (Set e : elementExceptions.values) {for (PropertyException pe : s) {pe.originType == originType}}"),
       @Expression("for (Set e : elementExceptions.values) {for (PropertyException pe : s) {! pe instanceof CompoundPropertyException}}"),
       @Expression("propertyName != null ? elementExceptions.size <= 1"),
       @Expression("propertyName != null ? for (String s) {s != propertyName ? ! elementExceptions.containsKey(s)}")
