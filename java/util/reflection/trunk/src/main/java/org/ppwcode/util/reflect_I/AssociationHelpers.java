@@ -85,7 +85,7 @@ public final class AssociationHelpers {
     for (int i = 0; i < pds.length; i++) {
       PropertyDescriptor pd = pds[i];
       if (associatedType.isAssignableFrom(pd.getPropertyType())) {
-        _T_ candidate = propertyValue(bean, pd.getName());
+        _T_ candidate = propertyValue(bean, pd.getName(), associatedType);
         if (candidate != null) {
           result.add(candidate);
         }
