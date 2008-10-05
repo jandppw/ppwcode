@@ -33,13 +33,18 @@ import org.ppwcode.vernacular.semantics_VI.exception.PropertyException;
 
 public class RousseauBeanHelpersTest {
 
-  Set<RousseauBean> $rousseauBeans;
+  private Set<? extends RousseauBean> $rousseauBeans;
 
   @Before
   public void setUp() throws Exception {
-    $rousseauBeans = new HashSet<RousseauBean>();
+    Set<? extends RousseauBean> rousseauBeans = someRousseauBeans();
+    $rousseauBeans = rousseauBeans;
+  }
+
+  public static Set<StubRousseauBean> someRousseauBeans() {
+    Set<StubRousseauBean> rousseauBeans = new HashSet<StubRousseauBean>();
     StubRousseauBean srb = new StubRousseauBean();
-    $rousseauBeans.add(srb);
+    rousseauBeans.add(srb);
     StubRousseauBean srb1 = new StubRousseauBean();
     srb = new StubRousseauBean();
     srb.setProperty2(srb1);
@@ -47,7 +52,7 @@ public class RousseauBeanHelpersTest {
     srb.setProperty4(srbA);
     StubRousseauBeanB srbB = new StubRousseauBeanB();
     srb.setProperty5(srbB);
-    $rousseauBeans.add(srb);
+    rousseauBeans.add(srb);
     srb1 = new StubRousseauBean();
     srb = new StubRousseauBean();
     srb.setProperty2(srb1);
@@ -62,7 +67,8 @@ public class RousseauBeanHelpersTest {
     srb.setProperty4(srbA);
     srbB = new StubRousseauBeanB();
     srb.setProperty5(srbB);
-    $rousseauBeans.add(srb);
+    rousseauBeans.add(srb);
+    return rousseauBeans;
   }
 
   @After
