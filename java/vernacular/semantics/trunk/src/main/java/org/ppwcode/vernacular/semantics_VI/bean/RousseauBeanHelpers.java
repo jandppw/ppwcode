@@ -146,7 +146,12 @@ public final class RousseauBeanHelpers {
       for (PropertyException pExc : current.wildExceptions().getAllElementExceptions()) {
         cpe.addElementException(pExc);
       }
-      agenda.addAll(directUpstreamRousseauBeans(current));
+      Set<RousseauBean> durbs = directUpstreamRousseauBeans(current);
+      for (RousseauBean rousseauBean : durbs) {
+        if (! agenda.contains(rousseauBean)) {
+          agenda.add(rousseauBean);
+        }
+      }
       i++;
     }
     return cpe;
