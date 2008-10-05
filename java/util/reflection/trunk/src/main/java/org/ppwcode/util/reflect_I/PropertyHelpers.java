@@ -596,14 +596,14 @@ public final class PropertyHelpers {
   }
 
   /**
-   * The value to be written to the text file, as String.
+   * The value of property {@code propertyName} of {@code bean}.
    */
-  public static <_Value_, _Bean_> _Value_ propertyValue(final _Bean_ bean, final String propertyName) {
+  public static <_Value_> _Value_ propertyValue(final Object bean, final String propertyName) {
     Method inspector;
     inspector = propertyReadMethod(bean.getClass(), propertyName); // MUDO should use dynamic method; use method from PropertyUtils?
     assert inspector != null;
     try {
-      @SuppressWarnings("unchecked") _Value_ result = (_Value_)inspector.invoke(bean, (Object[])null);
+      @SuppressWarnings("unchecked") _Value_ result = (_Value_)inspector.invoke(bean);
       return result;
     }
     catch (IllegalArgumentException iaExc) {
@@ -620,6 +620,42 @@ public final class PropertyHelpers {
     }
     catch (ExceptionInInitializerError eiiErr) {
       unexpectedException(eiiErr);
+    }
+    catch (ClassCastException ccExc) {
+      unexpectedException(ccExc, "retrieve value not of expected type");
+    }
+    return null;
+  }
+
+
+  /**
+   * The value of property {@code propertyName} of {@code bean}.
+   */
+  public static <_Value_> _Value_ propertyValue(final Object bean, final String propertyName, Class<_Value_> valueType) {
+    Method inspector;
+    inspector = propertyReadMethod(bean.getClass(), propertyName); // MUDO should use dynamic method; use method from PropertyUtils?
+    assert inspector != null;
+    try {
+      _Value_ result = valueType.cast(inspector.invoke(bean));
+      return result;
+    }
+    catch (IllegalArgumentException iaExc) {
+      unexpectedException(iaExc, "there are no arguments, and the implicit argument is not null and of the correct type");
+    }
+    catch (NullPointerException npExc) {
+      unexpectedException(npExc, "implicit argument is not null");
+    }
+    catch (IllegalAccessException iaExc) {
+      unexpectedException(iaExc);
+    }
+    catch (InvocationTargetException itExc) {
+      unexpectedException(itExc);
+    }
+    catch (ExceptionInInitializerError eiiErr) {
+      unexpectedException(eiiErr);
+    }
+    catch (ClassCastException ccExc) {
+      unexpectedException(ccExc, "retrieve value not of expected type");
     }
     return null;
   }
