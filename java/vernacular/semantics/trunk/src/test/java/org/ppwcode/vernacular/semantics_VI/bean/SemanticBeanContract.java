@@ -41,7 +41,7 @@ public class SemanticBeanContract {
 
   public static void contractToString(SemanticBean subject, String result) {
     assertNotNull(result);
-    assertTrue(result.startsWith(subject.getClass().getName() + "@" + Integer.toHexString(subject.hashCode()) + "["));
+    assertTrue(result.startsWith(subject.getClass().getCanonicalName() + "@" + Integer.toHexString(subject.hashCode()) + "["));
     assertTrue(result.endsWith("]"));
   }
 

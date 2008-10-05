@@ -19,15 +19,15 @@ package org.ppwcode.vernacular.semantics_VI.bean;
 
 import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+import static org.ppwcode.util.reflect_I.PropertyHelpers.propertyValue;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotNull;
 
 import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
@@ -73,36 +73,57 @@ public abstract class AbstractSemanticBean implements SemanticBean {
 
   @Override
   public final String toString() {
-    StringBuilder result = new StringBuilder(super.toString());
-    result.append("[");
-    propertiesString(result);
-    result.append("]");
+    StringBuilder result = new StringBuilder();
+    HashSet<AbstractSemanticBean> cycleDetector = new HashSet<AbstractSemanticBean>();
+    appendToString(result, cycleDetector);
     return result.toString();
   }
 
-  private void propertiesString(StringBuilder result) {
+  private final void appendToString(StringBuilder sb, HashSet<AbstractSemanticBean> cycleDetector) {
+    preArgumentNotNull(sb);
+    preArgumentNotNull(cycleDetector);
+    if (cycleDetector.contains(this)) {
+      sb.append("see --> ");
+      appendSimpleToString(this, sb);
+    }
+    else {
+      cycleDetector.add(this);
+      appendSimpleToString(this, sb);
+      propertiesString(sb, cycleDetector);
+    }
+  }
+
+  private static void appendSimpleToString(AbstractSemanticBean asb, StringBuilder sb) {
+    sb.append(asb.getClass().getCanonicalName());
+    sb.append("@");
+    sb.append(Integer.toHexString(asb.hashCode()));
+  }
+
+  private void propertiesString(StringBuilder sb, HashSet<AbstractSemanticBean> cycleDetector) {
+    preArgumentNotNull(sb);
+    preArgumentNotNull(cycleDetector);
+    sb.append("[");
     Iterator<String> iter = propertyNamesForToString().iterator();
     while (iter.hasNext()) {
       String pname = iter.next();
-      result.append(pname);
-      result.append(" = ");
-      try {
-        result.append(PropertyUtils.getProperty(this, pname));
+      sb.append(pname);
+      sb.append(" = ");
+      Object pValue = propertyValue(this, pname);
+      if (pValue == null) {
+        sb.append("null");
       }
-      // exceptions are programming errors
-      catch (IllegalAccessException exc) {
-        assert false : "IllegalAccessException should not happen: " + exc;
+      else if (! (pValue instanceof AbstractSemanticBean)) {
+        sb.append(pValue.toString());
       }
-      catch (InvocationTargetException exc) {
-        assert false : "InvocationTargetException should not happen: " + exc;
-      }
-      catch (NoSuchMethodException exc) {
-        assert false : "NoSuchMethodException should not happen: " + exc;
+      else {
+        AbstractSemanticBean asb = (AbstractSemanticBean)pValue;
+        asb.appendToString(sb, cycleDetector);
       }
       if (iter.hasNext()) {
-        result.append(", ");
+        sb.append(", ");
       }
     }
+    sb.append("]");
   }
 
   /**
