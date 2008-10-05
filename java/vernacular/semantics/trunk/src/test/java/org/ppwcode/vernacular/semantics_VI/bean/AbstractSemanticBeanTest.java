@@ -181,6 +181,7 @@ public class AbstractSemanticBeanTest {
   public static void testToString(AbstractSemanticBean subject) {
     // execute
     String result = subject.toString();
+    System.out.println(result);
     // validate
     SemanticBeanContract.contractToString(subject, result);
     assertInvariants(subject);
@@ -210,7 +211,7 @@ public class AbstractSemanticBeanTest {
   public static Set<String> testPropertyNamesForToStringA(AbstractSemanticBean subject) {
     Set<String> result = subject.propertyNamesForToString();
     assertNotNull(result);
-    System.out.println(subject.getClass().getCanonicalName());
+//    System.out.println(subject.getClass().getCanonicalName());
     assertEquals(((NumberOfProperties)subject).nrOfSimpleProperties(), result.size());
     assertInvariants(subject);
     return result;
