@@ -17,6 +17,9 @@ limitations under the License.
 package org.ppwcode.vernacular.semantics_VI.bean.stubs;
 
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.ppwcode.vernacular.semantics_VI.bean.AbstractRousseauBean;
 import org.ppwcode.vernacular.semantics_VI.exception.CompoundPropertyException;
 import org.ppwcode.vernacular.semantics_VI.exception.PropertyException;
@@ -56,6 +59,7 @@ public class StubRousseauBean extends AbstractRousseauBean implements NumberOfPr
 
   private StubRousseauBeanB $property5;
 
+  private Set<StubRousseauBeanA> $propertyA = new HashSet<StubRousseauBeanA>();
 
 
   public final String getProperty1() {
@@ -107,12 +111,20 @@ public class StubRousseauBean extends AbstractRousseauBean implements NumberOfPr
     $property5 = property5;
   }
 
+  public final Set<StubRousseauBeanA> getPropertyA() {
+    return $propertyA;
+  }
+
+  public final void addPropertyA(StubRousseauBeanA srb) {
+    $propertyA.add(srb);
+  }
+
   public int nrOfProperties() {
-    return 5;
+    return 6;
   }
 
   public int nrOfSimpleProperties() {
-    return nrOfProperties(); // only simple properties in this class
+    return nrOfProperties() - 1;
   }
 
 }

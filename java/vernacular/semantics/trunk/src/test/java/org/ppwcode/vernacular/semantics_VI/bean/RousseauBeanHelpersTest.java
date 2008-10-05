@@ -43,8 +43,10 @@ public class RousseauBeanHelpersTest {
 
   public static Set<StubRousseauBean> someRousseauBeans() {
     Set<StubRousseauBean> rousseauBeans = new HashSet<StubRousseauBean>();
+
     StubRousseauBean srb = new StubRousseauBean();
     rousseauBeans.add(srb);
+
     StubRousseauBean srb1 = new StubRousseauBean();
     srb = new StubRousseauBean();
     srb.setProperty2(srb1);
@@ -53,6 +55,7 @@ public class RousseauBeanHelpersTest {
     StubRousseauBeanB srbB = new StubRousseauBeanB();
     srb.setProperty5(srbB);
     rousseauBeans.add(srb);
+
     srb1 = new StubRousseauBean();
     srb = new StubRousseauBean();
     srb.setProperty2(srb1);
@@ -68,6 +71,19 @@ public class RousseauBeanHelpersTest {
     srbB = new StubRousseauBeanB();
     srb.setProperty5(srbB);
     rousseauBeans.add(srb);
+
+    srb = new StubRousseauBean();
+    for (int i = 0; i < 5; i++) {
+      StubRousseauBeanA srbAQ = new StubRousseauBeanA();
+      srbAQ.setProperty6(srb);
+      StubRousseauBeanB srbBQ = new StubRousseauBeanB();
+      srbBQ.setProperty2(srb);
+      srbBQ.setProperty8(srbAQ);
+      srbAQ.setProperty5(srbBQ);
+      srb.addPropertyA(srbAQ);
+    }
+    rousseauBeans.add(srb);
+
     return rousseauBeans;
   }
 
@@ -142,6 +158,45 @@ public class RousseauBeanHelpersTest {
       testNormalizeAndCheckCivilityOnUpstreamRousseauBeans(rb);
     }
   }
+
+//  @Test
+//  public void tt() {
+//    PropertyDescriptor pd = PropertyHelpers.propertyDescriptor(StubRousseauBeanA.class, "propertyA");
+//    System.out.println(pd);
+//    System.out.println(pd.getPropertyType());
+//    System.out.println(pd.getPropertyType().getTypeParameters());
+//    System.out.println(pd.getPropertyType().getTypeParameters().length);
+//    System.out.println(pd.getPropertyType().getTypeParameters()[0]);
+//    System.out.println(pd.getPropertyType().getTypeParameters()[0].getName());
+//    System.out.println(pd.getPropertyType().getTypeParameters()[0].getGenericDeclaration());
+//    System.out.println(pd.getPropertyType().getTypeParameters()[0].getBounds());
+//    System.out.println(pd.getPropertyType().getTypeParameters()[0].getBounds().length);
+//    System.out.println(pd.getPropertyType().getTypeParameters()[0].getBounds()[0]);
+//
+//    System.out.println();
+//
+//    StubRousseauBean srb = new StubRousseauBean();
+//    for (int i = 0; i < 5; i++) {
+//      StubRousseauBeanA srbAQ = new StubRousseauBeanA();
+//      srbAQ.setProperty6(srb);
+//      StubRousseauBeanB srbBQ = new StubRousseauBeanB();
+//      srbBQ.setProperty2(srb);
+//      srbBQ.setProperty8(srbAQ);
+//      srbAQ.setProperty5(srbBQ);
+//      srb.addPropertyA(srbAQ);
+//    }
+//    System.out.println(srb.getPropertyA());
+//    System.out.println(srb.getPropertyA().getClass());
+//    System.out.println(srb.getPropertyA().getClass().getGenericInterfaces());
+//    System.out.println(srb.getPropertyA().getClass().getGenericInterfaces().length);
+//    for (int i = 0; i < srb.getPropertyA().getClass().getGenericInterfaces().length; i++) {
+//      System.out.println(srb.getPropertyA().getClass().getGenericInterfaces()[i]);
+//    }
+//    System.out.println(srb.getPropertyA().getClass().getGenericSuperclass());
+//    System.out.println(srb.getPropertyA().getClass().getTypeParameters());
+//    System.out.println(srb.getPropertyA().getClass().getTypeParameters().length);
+//    System.out.println(srb.getPropertyA().getClass().getTypeParameters()[0]);
+//  }
 
 }
 
