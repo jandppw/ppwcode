@@ -75,17 +75,17 @@ import org.toryt.annotations_I.MethodContract;
  *     another class or interface. A top level class is a class that is not a
  *     nested class.</p>
  *   <p>[...]</p>
- *   <p>Member class declarations (§8.5) describe nested classes that are members
+ *   <p>Member class declarations (ï¿½8.5) describe nested classes that are members
  *     of the surrounding class. Member classes may be static, in which case they
  *     have no access to the instance variables of the surrounding class; or they
- *     may be inner classes (§8.1.3).<p>
- *   <p>Member interface declarations (§8.5) describe nested interfaces that are
+ *     may be inner classes (ï¿½8.1.3).<p>
+ *   <p>Member interface declarations (ï¿½8.5) describe nested interfaces that are
  *     members of the surrounding class.</p>
  *   <p>[...]</p>
- *   <p>Inner classes include local (§14.3), anonymous (§15.9.5) and
- *     non-static member classes (§8.5).</p>
+ *   <p>Inner classes include local (ï¿½14.3), anonymous (ï¿½15.9.5) and
+ *     non-static member classes (ï¿½8.5).</p>
  *   <p>[...]</p>
- *   <p>Member interfaces (§8.5) are always implicitly static so they are never
+ *   <p>Member interfaces (ï¿½8.5) are always implicitly static so they are never
  *     considered to be inner classes.</p>
  *   <p>[...]</p>
  *   <p>Nested enum types are implicitly static.</p>
@@ -98,14 +98,14 @@ import org.toryt.annotations_I.MethodContract;
  *   <cite><a href="http://java.sun.com/docs/books/jls/third_edition/html/interfaces.html">Java Language Specification, Chapter 9</a></cite>
  * </blockquote>
  * <blockquote>
- *   <p>A local class is a nested class (§8) that is not a member of any class and
- *     that has a name. All local classes are inner classes (§8.1.3). Every local
+ *   <p>A local class is a nested class (ï¿½8) that is not a member of any class and
+ *     that has a name. All local classes are inner classes (ï¿½8.1.3). Every local
  *     class declaration statement is immediately contained by a block.</p>
  *   <cite><a href="http://java.sun.com/docs/books/jls/third_edition/html/statements.html">Java Language Specification, Chapter 14</a></cite>
  * </blockquote>
  * <blockquote>
- *   <p>An anonymous class is always an inner class (§8.1.3); it is never static
- *     (§8.1.1, §8.5.2).</p>
+ *   <p>An anonymous class is always an inner class (ï¿½8.1.3); it is never static
+ *     (ï¿½8.1.1, ï¿½8.5.2).</p>
  *   <cite><a href="http://java.sun.com/docs/books/jls/third_edition/html/expressions.html">Java Language Specification, Chapter 15</a></cite>
  * </blockquote>
  * <p>The following table is a synopsis of the relation of the terms concerning top level and nested types:</p>
@@ -573,7 +573,7 @@ public class TypeHelpers {
       result.add(superClass);
     }
     @SuppressWarnings("unchecked")
-    Class<? super _Type_>[] superInterfaces = type.getInterfaces();
+    Class<? super _Type_>[] superInterfaces = (Class<? super _Type_>[]) type.getInterfaces();
     for (Class<? super _Type_> i : superInterfaces) {
       result.add(i);
     }
