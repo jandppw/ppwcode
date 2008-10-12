@@ -1,0 +1,351 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <!--
+  Copyright 2007 - $Date: 2008-09-10 15:18:46 +0200 (Wed, 10 Sep 2008) $ by HDP v.z.w / AristA v.z.w.
+
+  NO RIGHTS ARE GRANTED FOR THE USE OF THIS SOFTWARE, EXCEPT, IN WRITING,
+  TO SELECTED PARTIES.
+
+  $Date: 2008-09-10 15:18:46 +0200 (Wed, 10 Sep 2008) $
+  $Revision: 1214 $
+  $HeadURL: http://194.10.201.129/svn/Applications/poms/parent-pom-ejbjar/trunk/pom.xml $
+  -->
+
+  <!-- NOTE: you probably have to give Maven more memory:
+             export MAVEN_OPTS=-Xmx1024M -->
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>be.arista</groupId>
+    <artifactId>parent-pom</artifactId>
+    <version>2.4.1</version>
+  </parent>
+
+  <properties>
+    <!-- The relative path in the Subversion repository where this project will reside. This should point to a directory
+         that has at least a "trunk" subdirectory. -->
+    <ppwcode.inScmLocation>java/research/jpa</ppwcode.inScmLocation>
+  </properties>
+
+  <!-- GROUP ID, VERSION, PACKAGING, NAME & DESCRIPTION: OVERWRITE IN YOUR CHILD POM (know what you are doing :-) ) -->
+  <groupId>org.ppwcode.research</groupId>
+  <artifactId>ppwcode-research-jpa</artifactId>
+  <packaging>jar</packaging>
+  <version>dev-SNAPSHOT</version>
+  <name>ppwcode JPA research</name>
+  <description>Proof of concept, unit tests that are used during the development of the ppwcode JPA vernacular.</description>
+  <inceptionYear>2008</inceptionYear>
+
+  <!-- DEVELOPERS & CONTRIBUTORS: OVERWRITE IN YOUR CHILD POM -->
+  <developers>
+    <developer>
+      <name>Jan Dockx</name>
+      <id>jandockx</id>
+      <email>jandockx@gmail.com</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare s.a./n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Tom Mahieu</name>
+      <id>Tom.Mahieu</id>
+      <email>Tom.Mahieu@gmail.com</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare s.a./n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Ruben Vandeginste</name>
+      <id>Ruben.Vandeginste</id>
+      <email>Ruben.Vandeginste@gmail.com</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare s.a./n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+  </developers>
+  <contributors>
+  </contributors>
+
+  <!-- MAGIC MANTRA -->
+  <!-- The following entries need to be repeated, and can not sensibly be inherited.
+       The reason is, sadly, that Maven 2 has a built in, undocumented "feature" that appends the artifact id to a number of URL's and paths
+       if those URL's or paths are inherited. The reasoning behind that is he use of inheritance inside multi-module projects.
+       It seems that if you are using inheritance outside of multi-module projects, you are out of luck.
+       At least, we are :-(.  -->
+  <url>${ppwcode.url}</url>
+  <scm>
+    <connection>${ppwcode.scm.connection}</connection>
+    <developerConnection>${ppwcode.scm.developerConnection}</developerConnection>
+    <url>${ppwcode.scm.url}</url>
+  </scm>
+  <distributionManagement>
+    <site>
+      <id>${ppwcode.distributionManagement.site.id}</id>
+      <name>${ppwcode.distributionManagement.site.name}</name>
+      <url>${ppwcode.distributionManagement.site.url}</url>
+    </site>
+  </distributionManagement>
+
+  <!-- needs to be copied in every pom to find parent -->
+  <repositories>
+
+    <repository>
+      <id>HdpProjectRepo</id>
+      <name>Main project repository for Arista/HDP projects</name>
+      <url>http://hdp-dr-38.intranet.hdp.be/mvn2repo/projectArtifacts</url>
+      <layout>default</layout>
+      <releases>
+        <enabled>true</enabled>
+        <checksumPolicy>fail</checksumPolicy>
+        <updatePolicy>daily</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>HdpProjectSnapshotRepo</id>
+      <name>Snapshot project repository for Arista/HDP projects</name>
+      <url>http://hdp-dr-38.intranet.hdp.be/mvn2repo/projectSnapshotArtifacts</url>
+      <layout>default</layout>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+        <checksumPolicy>fail</checksumPolicy>
+      </snapshots>
+    </repository>
+
+  </repositories>
+
+
+
+
+
+  <!-- EXTENSIONS SPECIFIC FOR EJB3 JARS -->
+
+  <build>
+    <plugins>
+      <plugin>
+        <!-- This generates the ejb jar and the client jar (packaging == ejb),
+             with correct ejb jar manifest etc. -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-ejb-plugin</artifactId>
+        <configuration>
+          <ejbVersion>3.0</ejbVersion>
+          <generateClient>true</generateClient>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+            </manifest>
+          </archive>
+          <clientExcludes>
+             <!-- we cannot exclude the implementations of our session beans, because then
+                  the ejb plugin balks "... ContractsBackEnd-dev-SNAPSHOT-client.jar jar file is not an enterprise bean level 3.0 module." -->
+             <!-- default excludes are **/*Bean.class, **/*CMP.class, **/*Session.class, **/package.html
+                  This is so ugly we try to reset that. An empty "clientExcludes" section doesn't work. Now
+                  we try with 1 bogus exclude -->
+             <clientExclude>bogus/*</clientExclude>
+          </clientExcludes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <!-- Generate stubs for EJB3 session beans. Custom plugin. Output is
+            is a wsclient (Websphere client). -->
+        <groupId>be.hdp</groupId>
+        <artifactId>wasstubs-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>ejbstubs</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <!-- Initialize directories for temporary files for in-memory DB for tests. -->
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>initialize</phase>
+            <configuration>
+              <tasks>
+                <mkdir dir="target/TestDB" />
+                <mkdir dir="target/log/jpa" />
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <!-- Make sure that during unit test entities are JPA enhanced by an agent.
+             This requires the agent in a certain location. -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <argLine>-javaagent:${basedir}/target/openjpa-1.2.0.jar</argLine>
+          <workingDirectory>${basedir}/target</workingDirectory>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <!-- Makes OpenJPA jar available in certain location for unit tests. -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.apache.openjpa</groupId>
+                  <artifactId>openjpa</artifactId>
+                  <version>1.2.0</version>
+                  <outputDirectory>${project.build.directory}</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>openjpa-maven-plugin</artifactId>
+        <!--
+          This plugin will enhance the generated class files with the OpenJPA enhancer.
+          This is needed if, e.g., you want to run the persistence unit tests inside eclipse.
+          To do that, first run "mvn clean test-compile; mvn openjpa:enhance" from the command line. This will
+          replace the existing class files in target/classes with their enhanced version.
+
+          Don't do this in the default lifecycle, because the class files in the  actual artifact
+          to be deployed MAY NOT BE ENHANCED.
+         -->
+         <!--
+        <executions>
+          <execution>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>enhance</goal>
+            </goals>
+          </execution>
+        </executions>
+        -->
+        <configuration>
+          <classes> ${basedir}/target/classes/org/ppwcode/research/jpa/crud </classes>
+          <toolProperties>
+            <property>
+              <name>addDefaultConstructor</name>
+              <value>true</value>
+            </property>
+            <property>
+              <name>enforcePropertyRestrictions</name>
+              <value>true</value>
+            </property>
+          </toolProperties>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <!-- the full (not the thin) IBM WS JPA client -->
+            <groupId>com.ibm.ws</groupId>
+            <artifactId>com.ibm.ws.jpa.client</artifactId>
+            <version>6.1.0</version>
+          </dependency>
+          <!-- Can this be deleted??? MUDO
+          <dependency>
+            <groupId>org.codehaus.mojo.hibernate3</groupId>
+            <artifactId>maven-hibernate3-jdk15</artifactId>
+            <version>2.1</version>
+            <scope>test</scope>
+          </dependency>
+          -->
+        </dependencies>
+      </plugin>
+    </plugins>
+  </build>
+
+
+
+
+
+  <!-- EXTENSIONS SPECIFIC FOR THIS PROJECT -->
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.ppwcode.vernacular</groupId>
+      <artifactId>ppwcode-vernacular-exception-II</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.ppwcode.vernacular</groupId>
+      <artifactId>ppwcode-vernacular-semantics-VI</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.ppwcode.vernacular</groupId>
+      <artifactId>ppwcode-vernacular-persistence-III</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.ejb</groupId>
+      <artifactId>ejb-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.persistence</groupId>
+      <artifactId>persistence-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.ibm.ws</groupId>
+      <artifactId>com.ibm.ws.jpa.client</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.informix</groupId>
+      <artifactId>com.informix.ifxjdbc</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>net.sf.json-lib</groupId>
+      <artifactId>json-lib</artifactId>
+      <classifier>jdk15</classifier>
+    </dependency>
+  </dependencies>
+
+</project>

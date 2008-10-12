@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>ppwcode-research-jpa</name>
+	<comment>Business logic of Client Contracts @ HDP. This version is a stub,
+               with minimal functionality needed for Jethro (AristA RIM). Potentially,
+               this version will grow to be the contract system for HDP.
+               In this stub version, the enterprise management is included. In the master
+               plan, this should become a separate HDP level project.</comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
+</projectDescription>

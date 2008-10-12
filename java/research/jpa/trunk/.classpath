@@ -1,0 +1,86 @@
+<classpath>
+  <classpathentry kind="src" path="src/main/java"/>
+  <classpathentry kind="src" path="src/main/resources" excluding="**/*.java"/>
+  <classpathentry kind="src" path="src/test/java" output="target/test-classes"/>
+  <classpathentry kind="output" path="target/classes"/>
+  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+  <classpathentry kind="var" path="M2_REPO/com/ibm/ws/com.ibm.ws.jpa.client/6.1.0/com.ibm.ws.jpa.client-6.1.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/informix/com.informix.ifxjdbc/3.0.3/com.informix.ifxjdbc-3.0.3.jar"/>
+  <classpathentry kind="var" path="M2_REPO/commons-beanutils/commons-beanutils/1.7.0/commons-beanutils-1.7.0.jar" sourcepath="M2_REPO/commons-beanutils/commons-beanutils/1.7.0/commons-beanutils-1.7.0-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/Users/jand/.m2/repository/commons-beanutils/commons-beanutils/1.7.0/commons-beanutils-1.7.0-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/commons-beanutils/commons-beanutils-core/1.7.0/commons-beanutils-core-1.7.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/commons-collections/commons-collections/3.2/commons-collections-3.2.jar" sourcepath="M2_REPO/commons-collections/commons-collections/3.2/commons-collections-3.2-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/commons-lang/commons-lang/2.0/commons-lang-2.0.jar" sourcepath="M2_REPO/commons-lang/commons-lang/2.0/commons-lang-2.0-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/Users/jand/.m2/repository/commons-lang/commons-lang/2.0/commons-lang-2.0-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar" sourcepath="M2_REPO/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/Users/jand/.m2/repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging-api/1.1/commons-logging-api-1.1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/javax/ejb/ejb-api/3.0/ejb-api-3.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/net/sf/ezmorph/ezmorph/1.0.4/ezmorph-1.0.4.jar" sourcepath="M2_REPO/net/sf/ezmorph/ezmorph/1.0.4/ezmorph-1.0.4-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/Users/jand/.m2/repository/net/sf/ezmorph/ezmorph/1.0.4/ezmorph-1.0.4-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/hsqldb/hsqldb/1.8.0.7/hsqldb-1.8.0.7.jar"/>
+  <classpathentry kind="var" path="M2_REPO/joda-time/joda-time/1.5.2/joda-time-1.5.2.jar" sourcepath="M2_REPO/joda-time/joda-time/1.5.2/joda-time-1.5.2-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/Users/jand/.m2/repository/joda-time/joda-time/1.5.2/joda-time-1.5.2-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/net/sf/json-lib/json-lib/2.2.2/json-lib-2.2.2-jdk15.jar" sourcepath="M2_REPO/net/sf/json-lib/json-lib/2.2.2/json-lib-2.2.2-jdk15-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/Users/jand/.m2/repository/net/sf/json-lib/json-lib/2.2.2/json-lib-2.2.2-jdk15-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/javax/transaction/jta/1.0.1B/jta-1.0.1B.jar"/>
+  <classpathentry kind="var" path="M2_REPO/junit/junit/4.4/junit-4.4.jar" sourcepath="M2_REPO/junit/junit/4.4/junit-4.4-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/Users/jand/.m2/repository/junit/junit/4.4/junit-4.4-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/javax/persistence/persistence-api/1.0/persistence-api-1.0.jar" sourcepath="M2_REPO/javax/persistence/persistence-api/1.0/persistence-api-1.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/ppwcode/ppwcode-metainfo-I/1.0/ppwcode-metainfo-I-1.0.jar" sourcepath="M2_REPO/org/ppwcode/ppwcode-metainfo-I/1.0/ppwcode-metainfo-I-1.0-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/Users/jand/.m2/repository/org/ppwcode/ppwcode-metainfo-I/1.0/ppwcode-metainfo-I-1.0-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/org/ppwcode/util/ppwcode-util-reflection-I/1.0.0-SNAPSHOT/ppwcode-util-reflection-I-1.0.0-SNAPSHOT.jar" sourcepath="M2_REPO/org/ppwcode/util/ppwcode-util-reflection-I/1.0.0-SNAPSHOT/ppwcode-util-reflection-I-1.0.0-SNAPSHOT-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/Users/jand/.m2/repository/org/ppwcode/util/ppwcode-util-reflection-I/1.0.0-SNAPSHOT/ppwcode-util-reflection-I-1.0.0-SNAPSHOT-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/org/ppwcode/vernacular/ppwcode-vernacular-exception-II/2.0/ppwcode-vernacular-exception-II-2.0.jar" sourcepath="M2_REPO/org/ppwcode/vernacular/ppwcode-vernacular-exception-II/2.0/ppwcode-vernacular-exception-II-2.0-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/Users/jand/.m2/repository/org/ppwcode/vernacular/ppwcode-vernacular-exception-II/2.0/ppwcode-vernacular-exception-II-2.0-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/org/ppwcode/vernacular/ppwcode-vernacular-persistence-III/1.0.0-SNAPSHOT/ppwcode-vernacular-persistence-III-1.0.0-SNAPSHOT.jar" sourcepath="M2_REPO/org/ppwcode/vernacular/ppwcode-vernacular-persistence-III/1.0.0-SNAPSHOT/ppwcode-vernacular-persistence-III-1.0.0-SNAPSHOT-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/Users/jand/.m2/repository/org/ppwcode/vernacular/ppwcode-vernacular-persistence-III/1.0.0-SNAPSHOT/ppwcode-vernacular-persistence-III-1.0.0-SNAPSHOT-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/org/ppwcode/vernacular/ppwcode-vernacular-resourcebundle-II/1.1/ppwcode-vernacular-resourcebundle-II-1.1.jar" sourcepath="M2_REPO/org/ppwcode/vernacular/ppwcode-vernacular-resourcebundle-II/1.1/ppwcode-vernacular-resourcebundle-II-1.1-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/Users/jand/.m2/repository/org/ppwcode/vernacular/ppwcode-vernacular-resourcebundle-II/1.1/ppwcode-vernacular-resourcebundle-II-1.1-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/org/ppwcode/vernacular/ppwcode-vernacular-semantics-VI/1.0.0-SNAPSHOT/ppwcode-vernacular-semantics-VI-1.0.0-SNAPSHOT.jar" sourcepath="M2_REPO/org/ppwcode/vernacular/ppwcode-vernacular-semantics-VI/1.0.0-SNAPSHOT/ppwcode-vernacular-semantics-VI-1.0.0-SNAPSHOT-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/Users/jand/.m2/repository/org/ppwcode/vernacular/ppwcode-vernacular-semantics-VI/1.0.0-SNAPSHOT/ppwcode-vernacular-semantics-VI-1.0.0-SNAPSHOT-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+  <classpathentry kind="var" path="M2_REPO/org/toryt/Toryt-annotations-I/1.1/toryt-annotations-I-1.1.jar" sourcepath="M2_REPO/org/toryt/Toryt-annotations-I/1.1/toryt-annotations-I-1.1-sources.jar">
+    <attributes>
+      <attribute value="jar:file:/Users/jand/.m2/repository/org/toryt/Toryt-annotations-I/1.1/toryt-annotations-I-1.1-javadoc.jar!/" name="javadoc_location"/>
+    </attributes>
+  </classpathentry>
+</classpath>
