@@ -43,17 +43,12 @@ public class DynaBeanExperiment {
     $e = new Master();
     $e.setPersistenceId(444);
     $e.setPersistenceVersion(555);
-    $e.setEnterpriseId("0456-789-123");
     $e.setName("An Enterprise Name");
-    $e.setAddress("MyStreet 6\n5546 A City\nBelgium");
-    GregorianCalendar gc = new GregorianCalendar();
-    gc.set(2222, 1, 1);
-    $e.setTerminationDate(gc.getTime());
     System.out.println("bean: " + $e);
   }
 
   @Test
-  public void enterpriseToDynaBean1() throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
+  public void masterToDynaBean1() throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
 //    System.out.println("\nbean 2 dynabean");
     DynaProperty[] props = new DynaProperty[]{
       new DynaProperty("id", Long.class),
@@ -72,7 +67,7 @@ public class DynaBeanExperiment {
   }
 
   @Test(expected = ConversionException.class)
-  public void enterpriseToDynaBean2() throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
+  public void masterToDynaBean2() throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
 //    System.out.println("\nbean 2 dynabean");
     DynaProperty[] props = new DynaProperty[]{
       new DynaProperty("id", Long.class),
@@ -88,7 +83,7 @@ public class DynaBeanExperiment {
   }
 
   @Test
-  public void dynaBeanToEnterprise1() throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
+  public void dynaBeanToMaster1() throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
 //    System.out.println("\ndynabean 2 bean");
     DynaBean edb = new LazyDynaBean();
     edb.set("id", 666L);
@@ -110,7 +105,7 @@ public class DynaBeanExperiment {
 
 
   @Test(expected = IllegalArgumentException.class)
-  public void dynaBeanToEnterprise2() throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
+  public void dynaBeanToMaster2() throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
 //    System.out.println("\ndynabean 2 bean");
     DynaBean edb = new LazyDynaBean();
     edb.set("id", 666L);
