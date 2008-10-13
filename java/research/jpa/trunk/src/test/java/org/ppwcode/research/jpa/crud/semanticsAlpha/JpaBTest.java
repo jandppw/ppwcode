@@ -395,7 +395,7 @@ public class JpaBTest {
     System.out.println();
     System.out.println();
     System.out.println();
-    System.out.println("hypothesis2b (master with 2 details, created using persist, serialized and deserialized outside transaction)");
+    System.out.println("hypothesis2c (master with 2 details, created using persist, serialized and deserialized outside transaction)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
 
@@ -447,6 +447,60 @@ public class JpaBTest {
 
   @Test
   public void hypothesis2d() throws FileNotFoundException, IOException, ClassNotFoundException {
+    System.out.println();
+    System.out.println();
+    System.out.println();
+    System.out.println("hypothesis2d (master with 2 details, created using persist, details touched, serialized and deserialized outside transaction)");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    EntityManager em = emf.createEntityManager();
+
+    EntityTransaction tx = em.getTransaction();
+    tx.begin();
+    Master e = createMaster0();
+    Detail slcA = createDetailA(e);
+    Detail slcB = createDetailB(e);
+    em.persist(e);
+    em.persist(slcA); // note: persist works in creation, merge does not
+    em.persist(slcB);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+    System.out.println("master after persist:\n\t" + e);
+    System.out.println("detail A after persist:\n\t" + slcA);
+    System.out.println("detail B after persist:\n\t" + slcB);
+
+    Integer eId = e.getPersistenceId();
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Master fromDbE = em.find(Master.class, eId);
+    assertFalse(em.contains(e));
+    fromDbE.getDetails();
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+    System.out.println("master from DB:\n\t" + fromDbE);
+    assertNotNull(fromDbE.$details); // set should be initialized
+    System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
+    assertNotNull(fromDbE.getDetails());
+    System.out.println("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
+
+    Master deserE = serAndDeserMaster(fromDbE);
+
+    assertMaster0(eId, deserE);
+    assertNotSame(fromDbE, deserE);
+    System.out.println("master from ser:\n\t" + deserE);
+    assertNotNull(deserE.$details);
+    System.out.println("$details of master from ser file:\n\t" + deserE.$details);
+    assertNotNull(deserE.getDetails());
+    System.out.println("details from master from ser:\n\t" + deserE.getDetails());
+  }
+
+  @Test
+  public void hypothesis2e() throws FileNotFoundException, IOException, ClassNotFoundException {
     System.out.println();
     System.out.println();
     System.out.println();
@@ -503,7 +557,7 @@ public class JpaBTest {
   }
 
   @Test
-  public void hypothesis2e() throws FileNotFoundException, IOException, ClassNotFoundException {
+  public void hypothesis2f() throws FileNotFoundException, IOException, ClassNotFoundException {
     System.out.println();
     System.out.println();
     System.out.println();
