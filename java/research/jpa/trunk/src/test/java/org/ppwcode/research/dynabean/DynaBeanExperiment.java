@@ -18,7 +18,7 @@ import org.apache.commons.beanutils.LazyDynaBean;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.ppwcode.research.jpa.crud.semanticsAlpha.Enterprise;
+import org.ppwcode.research.jpa.crud.semanticsAlpha.Master;
 
 
 
@@ -26,11 +26,11 @@ import org.ppwcode.research.jpa.crud.semanticsAlpha.Enterprise;
 public class DynaBeanExperiment {
 
 
-  private Enterprise $e;
+  private Master $e;
 
   @Before
   public void prepare() {
-    $e = new Enterprise();
+    $e = new Master();
     $e.setPersistenceId(444);
     $e.setPersistenceVersion(555);
     $e.setEnterpriseId("0456-789-123");
@@ -92,7 +92,7 @@ public class DynaBeanExperiment {
 //    Map<?, ?> edbDesc = PropertyUtils.describe(edb);
 //    System.out.println("  dynabean: " + edbDesc);
 //    System.out.println("  dynaClass: " + edb.getDynaClass());
-    Enterprise e = new Enterprise();
+    Master e = new Master();
     PropertyUtils.copyProperties(e, edb);
 //    System.out.println("  bean: " + e);
 //    System.out.println();
@@ -114,7 +114,7 @@ public class DynaBeanExperiment {
 //    Map<?, ?> edbDesc = PropertyUtils.describe(edb);
 //    System.out.println("  dynabean: " + edbDesc);
 //    System.out.println("  dynaClass: " + edb.getDynaClass());
-    Enterprise e = new Enterprise();
+    Master e = new Master();
     PropertyUtils.copyProperties(e, edb); // IllegalArgumentException, with stupid output on err???
 //    System.out.println("  bean: " + e);
 //    System.out.println();

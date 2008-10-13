@@ -39,7 +39,7 @@ import org.toryt.annotations_I.MethodContract;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision: 2727 $",
          date     = "$Date: 2008-09-29 18:21:16 +0200 (Mon, 29 Sep 2008) $")
-public class SecondLineContract extends AbstractIntegerIdVersionedPersistentBean {
+public class Detail extends AbstractIntegerIdVersionedPersistentBean {
 
 
   /*<property name="Contract Start Date">
@@ -112,14 +112,14 @@ public class SecondLineContract extends AbstractIntegerIdVersionedPersistentBean
 
   @Basic(init = @Expression("enterprise == null"),
          invars = @Expression("enterprise != null ? enterprise.contracts.contains(this)"))
-  public final Enterprise getEnterprise() {
+  public final Master getEnterprise() {
     return $enterprise;
   }
 
   @MethodContract(post = { @Expression("enterprise == _enterprise"),
                            @Expression("'enterprise != null ? ! 'enterprise.contracts.contains(this)"),
                            @Expression("_enterprise != null ? _enterprise.contracts.contains(this)")})
-  public final void setEnterprise(Enterprise enterprise) {
+  public final void setEnterprise(Master enterprise) {
     if ($enterprise != enterprise) {
       if ($enterprise != null) {
         $enterprise.removeContract(this);
@@ -133,7 +133,7 @@ public class SecondLineContract extends AbstractIntegerIdVersionedPersistentBean
 
   @ManyToOne(cascade = {}, optional = false, fetch = FetchType.EAGER)
   @JoinColumn(name="enterprise_fk", nullable = false)
-  private Enterprise $enterprise;
+  private Master $enterprise;
 
   /*</property>*/
 
