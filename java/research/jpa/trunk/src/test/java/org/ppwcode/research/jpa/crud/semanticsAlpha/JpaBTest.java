@@ -48,6 +48,7 @@ public class JpaBTest {
   static final String PERSISTENCE_UNIT_NAME = "be_hdp_contracts_I_IBMOpenJPA_test";
 
   public final static String MASTER_NAME_0 = "HYPOTHESIS-NAME";
+  public final static String MASTER_NAME_1 = "HYPOTHESIS-NEW-NAME";
 
   public final static Date DETAIL_DATE_A = new Date();
 
@@ -59,6 +60,11 @@ public class JpaBTest {
   private void assertMaster0(Integer eId, Master fromDbE) {
     assertEquals(eId, fromDbE.getPersistenceId());
     assertEquals(MASTER_NAME_0, fromDbE.getName());
+  }
+
+  private void assertMaster1(Integer eId, Master fromDbE) {
+    assertEquals(eId, fromDbE.getPersistenceId());
+    assertEquals(MASTER_NAME_1, fromDbE.getName());
   }
 
   private Master createMaster0() {
@@ -562,7 +568,127 @@ public class JpaBTest {
     assertNotNull(deserE.getDetails());
   }
 
+  @Test
+  public void hypothesis3a() {
+    System.out.println();
+    System.out.println();
+    System.out.println();
+    System.out.println("hypothesis13a (master without detail, created with PERSIST, field change on managed master in transaction)");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    EntityManager em = emf.createEntityManager();
 
+    EntityTransaction tx = em.getTransaction();
+    tx.begin();
+    Master e = createMaster0();
+    assertFalse(em.contains(e));
+    em.persist(e);
+    assertTrue(em.contains(e));
+    System.out.println("NOTE THAT original master IS IN entity manager AFTER PERSIST");
+    tx.commit();
+    assertTrue(em.contains(e));
+    System.out.println("NOTE THAT original master IS IN entity manager AFTER COMMIT");
+    tx = null;
+    em.close();
+    em = null;
+
+    Integer eId = e.getPersistenceId();
+    Integer eVersion = e.getPersistenceVersion();
+    System.out.println("id of PERSISTed master: " + eId);
+    System.out.println("version of PERSISTed master: " + eVersion);
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Master fromDbE = em.find(Master.class, eId);
+    fromDbE.setName(MASTER_NAME_1);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    fromDbE = em.find(Master.class, eId);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    assertMaster1(eId, fromDbE);
+    assertNotSame(e, fromDbE);
+    System.out.println("master retrieved from DB:\n\t" + fromDbE);
+    System.out.println("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
+    System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
+    assertNull(fromDbE.$details); // ok; set is not initialized
+    System.out.println("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
+    assertNull(fromDbE.getDetails());
+    System.out.println("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
+    System.out.println("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())<0));
+    assertTrue(eVersion.compareTo(fromDbE.getPersistenceVersion())<0);
+    System.out.println("PERSISTENCE VERSION INCREASES AFTER FIELD CHANGE");
+  }
+
+  @Test
+  public void hypothesis3b() {
+    System.out.println();
+    System.out.println();
+    System.out.println();
+    System.out.println("hypothesis13b (master without detail, created with PERSIST, field change to same value on managed master in transaction)");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    EntityManager em = emf.createEntityManager();
+
+    EntityTransaction tx = em.getTransaction();
+    tx.begin();
+    Master e = createMaster0();
+    assertFalse(em.contains(e));
+    em.persist(e);
+    assertTrue(em.contains(e));
+    System.out.println("NOTE THAT original master IS IN entity manager AFTER PERSIST");
+    tx.commit();
+    assertTrue(em.contains(e));
+    System.out.println("NOTE THAT original master IS IN entity manager AFTER COMMIT");
+    tx = null;
+    em.close();
+    em = null;
+
+    Integer eId = e.getPersistenceId();
+    Integer eVersion = e.getPersistenceVersion();
+    System.out.println("id of PERSISTed master: " + eId);
+    System.out.println("version of PERSISTed master: " + eVersion);
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Master fromDbE = em.find(Master.class, eId);
+    fromDbE.setName(MASTER_NAME_0);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    fromDbE = em.find(Master.class, eId);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    assertMaster0(eId, fromDbE);
+    assertNotSame(e, fromDbE);
+    System.out.println("master retrieved from DB:\n\t" + fromDbE);
+    System.out.println("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
+    System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
+    assertNull(fromDbE.$details); // ok; set is not initialized
+    System.out.println("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
+    assertNull(fromDbE.getDetails());
+    System.out.println("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
+    System.out.println("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())<0));
+    assertTrue(eVersion.compareTo(fromDbE.getPersistenceVersion())==0);
+    System.out.println("PERSISTENCE VERSION REMAINS THE SAME WHEN SAME VALUE IS EXPLICITLY SET ON FIELD");
+  }
 
 
 
