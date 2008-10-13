@@ -1,3 +1,19 @@
+/*<license>
+Copyright 2008 - $Date: 2008-09-29 16:35:07 +0200 (Mon, 29 Sep 2008) $ by PeopleWare n.v.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</license>*/
+
 package org.ppwcode.research.jpa.crud.semanticsAlpha;
 
 import static org.junit.Assert.assertEquals;
@@ -103,13 +119,13 @@ public class JpaTest {
     assertEnterprise0(eId, fromDbE);
     assertNotSame(persistedE, fromDbE);
     System.out.println("enterprise retrieved from DB:\n\t" + fromDbE);
-    System.out.println("$contracts of enterprise retrieved from DB is null?: " + (fromDbE.$contracts == null));
-    System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$contracts);
-    assertNull(fromDbE.$contracts); // ok; set is not initialized
-    System.out.println("contracts of enterprise retrieved from DB:\n\t" + fromDbE.getContracts());
+    System.out.println("$contracts of enterprise retrieved from DB is null?: " + (fromDbE.$details == null));
+    System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$details);
+    assertNull(fromDbE.$details); // ok; set is not initialized
+    System.out.println("contracts of enterprise retrieved from DB:\n\t" + fromDbE.getDetails());
     System.out.println("IT IS ABSOLUTELY INCREDIBLE THAT THE ABOVE IS NOT NULL; THERE IS MAGIC HERE");
-    assertNotNull(fromDbE.getContracts()); // there is no code that makes this possible in Enterprise! This is completely weird!
-    assertTrue(fromDbE.getContracts().isEmpty());
+    assertNotNull(fromDbE.getDetails()); // there is no code that makes this possible in Enterprise! This is completely weird!
+    assertTrue(fromDbE.getDetails().isEmpty());
   }
 
   @Test
@@ -158,14 +174,14 @@ public class JpaTest {
     em = null;
     assertEnterprise0(eId, fromDbE);
     assertNotSame(e, fromDbE);
-    assertNull(fromDbE.$contracts); // ok; set is not initialized
+    assertNull(fromDbE.$details); // ok; set is not initialized
     System.out.println("enterprise retrieved from DB:\n\t" + fromDbE);
-    System.out.println("$contracts of enterprise retrievede from DB:\n\t" + fromDbE.$contracts);
-    assertNull(fromDbE.$contracts);
-    System.out.println("contracts of enterprise retrievede from DB:\n\t" + fromDbE.getContracts());
+    System.out.println("$contracts of enterprise retrievede from DB:\n\t" + fromDbE.$details);
+    assertNull(fromDbE.$details);
+    System.out.println("contracts of enterprise retrievede from DB:\n\t" + fromDbE.getDetails());
     System.out.println("IT IS ABSOLUTELY INCREDIBLE THAT THE ABOVE IS NOT NULL; THERE IS MAGIC HERE");
-    assertNotNull(fromDbE.getContracts());
-    assertTrue(fromDbE.getContracts().isEmpty());
+    assertNotNull(fromDbE.getDetails());
+    assertTrue(fromDbE.getDetails().isEmpty());
   }
 
   @Test
@@ -207,24 +223,24 @@ public class JpaTest {
     assertEnterprise0(eId, fromDbE);
     assertNotSame(e, fromDbE);
     System.out.println("enterprise retrieved from DB:\n\t" + fromDbE);
-    assertNull(fromDbE.$contracts); // ok; set is not initialized
-    System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$contracts);
-    System.out.println("contracts of enterprise retrieved from DB:\n\t" + fromDbE.getContracts());
-    assertNotNull(fromDbE.getContracts());
-    assertTrue(fromDbE.getContracts().isEmpty());
+    assertNull(fromDbE.$details); // ok; set is not initialized
+    System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$details);
+    System.out.println("contracts of enterprise retrieved from DB:\n\t" + fromDbE.getDetails());
+    assertNotNull(fromDbE.getDetails());
+    assertTrue(fromDbE.getDetails().isEmpty());
 
     Master deserE = serAndDeserEnterprise(e);
 
     assertEnterprise0(eId, deserE);
     assertNotSame(e, deserE);
     System.out.println("enterprise from ser file:\n\t" + deserE);
-    assertNotNull(fromDbE.$contracts);
-    System.out.println("$contracts of enterprise from ser file:\n\t" + deserE.$contracts);
-    System.out.println("type of $contracts of enterprise from ser file:\n\t" + deserE.$contracts.getClass());
+    assertNotNull(fromDbE.$details);
+    System.out.println("$contracts of enterprise from ser file:\n\t" + deserE.$details);
+    System.out.println("type of $contracts of enterprise from ser file:\n\t" + deserE.$details.getClass());
     System.out.println("NOTE THAT AFTER DESERIALIZATION, $contracts IS NOT NULL");
-    System.out.println("contracts of enterprise from ser file:\n\t" + deserE.getContracts());
-    assertNotNull(deserE.getContracts());
-    assertTrue(deserE.getContracts().isEmpty());
+    System.out.println("contracts of enterprise from ser file:\n\t" + deserE.getDetails());
+    assertNotNull(deserE.getDetails());
+    assertTrue(deserE.getDetails().isEmpty());
   }
 
   @Test
@@ -264,15 +280,15 @@ public class JpaTest {
 
     assertEnterprise0(eId, fromDbE);
     System.out.println("enterprise from DB:\n\t" + fromDbE);
-    assertNull(fromDbE.$contracts); // ok; set is not initialized
-    System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$contracts);
-    System.out.println("contracts of enterprise retrieved from DB:\n\t" + fromDbE.getContracts());
-    assertNotNull(fromDbE.$contracts); // set is initialized
+    assertNull(fromDbE.$details); // ok; set is not initialized
+    System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$details);
+    System.out.println("contracts of enterprise retrieved from DB:\n\t" + fromDbE.getDetails());
+    assertNotNull(fromDbE.$details); // set is initialized
     System.out.println("NOTE THAT THE enterprise IS STILL ATTACHED, EVEN THOUGH THE TRANSACTION IS COMMITTED, AND THE entity manager IS SET TO null");
-    assertNotNull(fromDbE.getContracts());
-    System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$contracts);
-    System.out.println("type of $contracts of enterprise retrieved from DB:\n\t" + fromDbE.$contracts.getClass());
-    assertFalse(fromDbE.getContracts().isEmpty()); // this is totally unexpected, since the collection is lazy and never touched while attached
+    assertNotNull(fromDbE.getDetails());
+    System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$details);
+    System.out.println("type of $contracts of enterprise retrieved from DB:\n\t" + fromDbE.$details.getClass());
+    assertFalse(fromDbE.getDetails().isEmpty()); // this is totally unexpected, since the collection is lazy and never touched while attached
 
 
     Master deserE = serAndDeserEnterprise(fromDbE);
@@ -280,13 +296,13 @@ public class JpaTest {
     assertEnterprise0(eId, deserE);
     assertNotSame(fromDbE, deserE);
     System.out.println("enterprise from ser:\n\t" + deserE);
-    assertNotNull(fromDbE.$contracts);
-    System.out.println("$contracts of enterprise from ser file:\n\t" + deserE.$contracts);
-    System.out.println("type of $contracts of enterprise from ser file:\n\t" + deserE.$contracts.getClass());
+    assertNotNull(fromDbE.$details);
+    System.out.println("$contracts of enterprise from ser file:\n\t" + deserE.$details);
+    System.out.println("type of $contracts of enterprise from ser file:\n\t" + deserE.$details.getClass());
     System.out.println("NOTE THAT AFTER DESERIALIZATION, $contracts IS NOT NULL");
-    System.out.println("contracts from enterprise from ser:\n\t" + deserE.getContracts());
-    assertNotNull(deserE.getContracts());
-    assertFalse(deserE.getContracts().isEmpty()); // ok, what goes in serialization comes out
+    System.out.println("contracts from enterprise from ser:\n\t" + deserE.getDetails());
+    assertNotNull(deserE.getDetails());
+    assertFalse(deserE.getDetails().isEmpty()); // ok, what goes in serialization comes out
   }
 
   @Test
@@ -325,25 +341,25 @@ public class JpaTest {
     tx = null;
     em = null;
     System.out.println("enterprise from DB:\n\t" + fromDbE);
-    assertNull(fromDbE.$contracts); // ok; set is not initialized
-    System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$contracts);
-    System.out.println("contracts of enterprise retrieved from DB:\n\t" + fromDbE.getContracts());
-    assertNotNull(fromDbE.$contracts); // set is initialized
+    assertNull(fromDbE.$details); // ok; set is not initialized
+    System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$details);
+    System.out.println("contracts of enterprise retrieved from DB:\n\t" + fromDbE.getDetails());
+    assertNotNull(fromDbE.$details); // set is initialized
     System.out.println("NOTE THAT THE enterprise IS STILL ATTACHED, EVEN THOUGH THE TRANSACTION IS COMMITTED, AND THE entity manager IS SET TO null");
-    assertNotNull(fromDbE.getContracts());
-    System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$contracts);
-    System.out.println("type of $contracts of enterprise retrieved from DB:\n\t" + fromDbE.$contracts.getClass());
+    assertNotNull(fromDbE.getDetails());
+    System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$details);
+    System.out.println("type of $contracts of enterprise retrieved from DB:\n\t" + fromDbE.$details.getClass());
 
     Master deserE = deserEnterprise();
 
     assertEnterprise0(eId, deserE);
     assertNotSame(fromDbE, deserE);
     System.out.println("enterprise from ser:\n\t" + deserE);
-    assertNotNull(fromDbE.$contracts);
-    System.out.println("$contracts of enterprise from ser file:\n\t" + deserE.$contracts);
+    assertNotNull(fromDbE.$details);
+    System.out.println("$contracts of enterprise from ser file:\n\t" + deserE.$details);
     System.out.println("NOTE THAT AFTER DESERIALIZATION, $contracts IS NULL: reason: serialized before toString of collection (even outside transaction)");
-    System.out.println("contracts from enterprise from ser:\n\t" + deserE.getContracts());
-    assertNull(deserE.getContracts());
+    System.out.println("contracts from enterprise from ser:\n\t" + deserE.getDetails());
+    assertNull(deserE.getDetails());
   }
 
   @Test
@@ -381,9 +397,9 @@ public class JpaTest {
     tx = null;
     em = null;
     System.out.println("enterprise from DB:\n\t" + fromDbE);
-    assertNull(fromDbE.$contracts); // ok; set is not initialized
-    System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$contracts);
-    assertNotNull(fromDbE.getContracts());
+    assertNull(fromDbE.$details); // ok; set is not initialized
+    System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$details);
+    assertNotNull(fromDbE.getDetails());
     System.out.println("YET SOME MAGIC: $CONTRACTS NOT INITIALIZED AND NULL, BUT GETCONTRACTS NOT NULL");
     System.out.println("THIS MEANS WITHOUT A DOUBT THAT JPA FIDLES WITH THE BODY OF GETCONTRACTS!!!!!!");
     System.out.println("JUST BY CALLING getContracts(), and not $contracts !!!! the collection gets initialized");
@@ -394,11 +410,11 @@ public class JpaTest {
     assertEnterprise0(eId, deserE);
     assertNotSame(fromDbE, deserE);
     System.out.println("enterprise from ser:\n\t" + deserE);
-    assertNotNull(fromDbE.$contracts);
-    System.out.println("$contracts of enterprise from ser file:\n\t" + deserE.$contracts);
+    assertNotNull(fromDbE.$details);
+    System.out.println("$contracts of enterprise from ser file:\n\t" + deserE.$details);
     System.out.println("NOTE THAT AFTER DESERIALIZATION, $contracts IS NOT NULL: reason: slight touch of getContracts!!!!");
-    System.out.println("contracts from enterprise from ser:\n\t" + deserE.getContracts());
-    assertNotNull(deserE.getContracts());
+    System.out.println("contracts from enterprise from ser:\n\t" + deserE.getDetails());
+    assertNotNull(deserE.getDetails());
   }
 
   @Test
@@ -436,8 +452,8 @@ public class JpaTest {
     tx = null;
     em = null;
     System.out.println("enterprise from DB:\n\t" + fromDbE);
-    assertNull(fromDbE.$contracts); // ok; set is not initialized
-    System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$contracts);
+    assertNull(fromDbE.$details); // ok; set is not initialized
+    System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$details);
     System.out.println("WE NEVER CALLED GETCONTRACTS; NOW SERIALIZING");
 
     Master deserE = serAndDeserEnterprise(fromDbE);
@@ -445,11 +461,11 @@ public class JpaTest {
     assertEnterprise0(eId, deserE);
     assertNotSame(fromDbE, deserE);
     System.out.println("enterprise from ser:\n\t" + deserE);
-    assertNull(fromDbE.$contracts);
-    System.out.println("$contracts of enterprise from ser file:\n\t" + deserE.$contracts);
+    assertNull(fromDbE.$details);
+    System.out.println("$contracts of enterprise from ser file:\n\t" + deserE.$details);
     System.out.println("NOTE THAT AFTER DESERIALIZATION, $contracts IS NULL: reason: serialized before toString of collection (even outside transaction)");
-    System.out.println("contracts from enterprise from ser:\n\t" + deserE.getContracts());
-    assertNull(deserE.getContracts());
+    System.out.println("contracts from enterprise from ser:\n\t" + deserE.getDetails());
+    assertNull(deserE.getDetails());
   }
 
   // THE ABOVE MEANS THAT WE NEED TO DO MORE TO MAKE SURE THAT WE DO NOT SEND CONTRACTS OVER THE WIRE
@@ -497,17 +513,17 @@ public class JpaTest {
 
   private Detail createContractB(Master e) {
     Detail slcB = new Detail();
-    slcB.setStartDate(CONTRACT_START_DATE_B);
+    slcB.setDate(CONTRACT_START_DATE_B);
     slcB.setTerminationDate(CONTRACT_TERMINATION_DATE_B);
-    slcB.setEnterprise(e);
+    slcB.setMaster(e);
     return slcB;
   }
 
   private Detail createContractA(Master e) {
     Detail slcA = new Detail();
-    slcA.setStartDate(CONTRACT_START_DATE_A);
+    slcA.setDate(CONTRACT_START_DATE_A);
     slcA.setTerminationDate(CONTRACT_TERMINATION_DATE_A);
-    slcA.setEnterprise(e);
+    slcA.setMaster(e);
     return slcA;
   }
 
