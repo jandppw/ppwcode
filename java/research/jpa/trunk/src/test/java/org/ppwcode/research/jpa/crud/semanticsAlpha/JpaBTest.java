@@ -625,8 +625,8 @@ public class JpaBTest {
     assertNull(fromDbE.getDetails());
     System.out.println("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
     System.out.println("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())<0));
-    assertTrue(eVersion.compareTo(fromDbE.getPersistenceVersion())<0);
-    System.out.println("PERSISTENCE VERSION INCREASES AFTER FIELD CHANGE");
+    assertTrue(eVersion + 1 == fromDbE.getPersistenceVersion());
+    System.out.println("PERSISTENCE VERSION INCREASES WITH 1 AFTER FIELD CHANGE");
   }
 
   @Test
@@ -748,8 +748,8 @@ public class JpaBTest {
     assertNull(fromDbE.getDetails());
     System.out.println("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
     System.out.println("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())<0));
-    assertTrue(eVersion.compareTo(fromDbE.getPersistenceVersion())<0);
-    System.out.println("PERSISTENCE VERSION INCREASES AFTER (DETACHED) FIELD CHANGE AND SUBSEQUENT MERGE");
+    assertTrue(eVersion + 1 == fromDbE.getPersistenceVersion());
+    System.out.println("PERSISTENCE VERSION INCREASES WITH 1 AFTER (DETACHED) FIELD CHANGE AND SUBSEQUENT MERGE");
   }
 
   @Test
