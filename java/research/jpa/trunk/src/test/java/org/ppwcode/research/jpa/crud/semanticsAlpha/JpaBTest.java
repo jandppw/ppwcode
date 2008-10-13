@@ -43,7 +43,7 @@ import org.junit.Test;
 import org.ppwcode.research.jpa.crud.semanticsAlpha.Master;
 import org.ppwcode.research.jpa.crud.semanticsAlpha.Detail;
 
-public class JpaTestB {
+public class JpaBTest {
 
   static final String PERSISTENCE_UNIT_NAME = "be_hdp_contracts_I_IBMOpenJPA_test";
 
@@ -72,7 +72,7 @@ public class JpaTestB {
     System.out.println();
     System.out.println();
     System.out.println();
-    System.out.println("hypothesis1 (master without detail, saved with merge)");
+    System.out.println("hypothesis1 (master without detail, saved with MERGE)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
 
@@ -82,22 +82,22 @@ public class JpaTestB {
     assertFalse(em.contains(e));
     Master persistedE = em.merge(e);
     assertFalse(em.contains(e));
-    System.out.println("NOTE THAT enterprise IS NOT IN entity manager AFTER MERGE");
+    System.out.println("NOTE THAT original master IS NOT IN entity manager AFTER MERGE");
     assertTrue(em.contains(persistedE));
-    System.out.println("NOTE THAT persisted enterprise IS IN entity manager AFTER MERGE");
+    System.out.println("NOTE THAT MERGEd master IS IN entity manager AFTER MERGE");
     tx.commit();
     assertFalse(em.contains(e));
-    System.out.println("NOTE THAT enterprise IS NOT IN entity manager AFTER MERGE");
+    System.out.println("NOTE THAT original master IS NOT IN entity manager AFTER COMMIT");
     assertTrue(em.contains(persistedE));
-    System.out.println("NOTE THAT persisted enterprise IS STILL IN entity manager AFTER COMMIT");
+    System.out.println("NOTE THAT MERGEd master IS STILL IN entity manager AFTER COMMIT");
     em.close();
     tx = null;
     em = null;
 
     Integer eId = persistedE.getPersistenceId();
-    System.out.println("id of persisted enterprise: " + eId);
-    System.out.println("RAM enterprise:\n\t" + e);
-    System.out.println("persisted version of RAM enterprise:\n\t" + persistedE);
+    System.out.println("id of MERGEd master: " + eId);
+    System.out.println("original RAM master:\n\t" + e);
+    System.out.println("MERGEd version of original RAM master:\n\t" + persistedE);
     assertNotSame(e, persistedE);
 
     em = emf.createEntityManager();
@@ -110,14 +110,13 @@ public class JpaTestB {
     em = null;
     assertMaster0(eId, fromDbE);
     assertNotSame(persistedE, fromDbE);
-    System.out.println("enterprise retrieved from DB:\n\t" + fromDbE);
-    System.out.println("$contracts of enterprise retrieved from DB is null?: " + (fromDbE.$details == null));
-    System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$details);
+    System.out.println("master retrieved from DB:\n\t" + fromDbE);
+    System.out.println("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
+    System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
     assertNull(fromDbE.$details); // ok; set is not initialized
-    System.out.println("contracts of enterprise retrieved from DB:\n\t" + fromDbE.getDetails());
-    System.out.println("IT IS ABSOLUTELY INCREDIBLE THAT THE ABOVE IS NOT NULL; THERE IS MAGIC HERE");
-    assertNotNull(fromDbE.getDetails()); // there is no code that makes this possible in Enterprise! This is completely weird!
-    assertTrue(fromDbE.getDetails().isEmpty());
+    System.out.println("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
+    assertNull(fromDbE.getDetails());
+    System.out.println("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
   }
 
   @Test
@@ -125,7 +124,7 @@ public class JpaTestB {
     System.out.println();
     System.out.println();
     System.out.println();
-    System.out.println("hypothesis1a (enterprise without contract, saved with merge --> we also have primary key)");
+    System.out.println("hypothesis1a (master without detail, saved with PERSIST --> we also have primary key)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
 
@@ -133,26 +132,28 @@ public class JpaTestB {
     tx.begin();
     Master e = createMaster0();
     assertFalse(em.contains(e));
-    System.out.println("RAM enterprise:\n\t" + e);
+    System.out.println("RAM master:\n\t" + e);
     assertNull(e.getPersistenceId());
     assertNull(e.getPersistenceVersion());
+    // using persist here
     em.persist(e);
     assertTrue(em.contains(e));
     assertNotNull(e.getPersistenceId());
     assertNull(e.getPersistenceVersion());
-    System.out.println("RAM enterprise, persisted, uncommitted:\n\t" + e);
+    System.out.println("RAM master, persisted, uncommitted:\n\t" + e);
     tx.commit();
     tx = null;
     assertTrue(em.contains(e));
-    System.out.println("NOTE THAT enterprise IS STILL IN entity manager AFTER COMMIT");
+    System.out.println("NOTE THAT master IS STILL IN entity manager AFTER COMMIT");
+    System.out.println("RAM master, persisted, committed:\n\t" + e);
     em.close();
     em = null;
     assertNotNull(e.getPersistenceId());
     assertNotNull(e.getPersistenceVersion());
-    System.out.println("RAM enterprise, persisted, committed:\n\t" + e);
+    System.out.println("RAM master, persisted, committed, detached:\n\t" + e);
 
     Integer eId = e.getPersistenceId();
-    System.out.println("id of persisted enterprise: " + eId);
+    System.out.println("id of persisted master: " + eId);
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
@@ -163,19 +164,18 @@ public class JpaTestB {
     tx.commit();
     tx = null;
     assertTrue(em.contains(fromDbE));
-    System.out.println("NOTE THAT entity manager STILL CONTAINS RETRIEVED enterprise AFTER COMMIT");
+    System.out.println("NOTE THAT entity manager STILL CONTAINS RETRIEVED master AFTER COMMIT");
     em.close();
     em = null;
     assertMaster0(eId, fromDbE);
     assertNotSame(e, fromDbE);
     assertNull(fromDbE.$details); // ok; set is not initialized
-    System.out.println("enterprise retrieved from DB:\n\t" + fromDbE);
-    System.out.println("$contracts of enterprise retrievede from DB:\n\t" + fromDbE.$details);
+    System.out.println("master retrieved from DB:\n\t" + fromDbE);
+    System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
     assertNull(fromDbE.$details);
-    System.out.println("contracts of enterprise retrievede from DB:\n\t" + fromDbE.getDetails());
-    System.out.println("IT IS ABSOLUTELY INCREDIBLE THAT THE ABOVE IS NOT NULL; THERE IS MAGIC HERE");
-    assertNotNull(fromDbE.getDetails());
-    assertTrue(fromDbE.getDetails().isEmpty());
+    System.out.println("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
+    assertNull(fromDbE.getDetails());
+    System.out.println("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
   }
 
   @Test
@@ -183,30 +183,34 @@ public class JpaTestB {
     System.out.println();
     System.out.println();
     System.out.println();
-    System.out.println("hypothesis1b  (enterprise without contract, saved with persist, serialized and deserialized)");
+    System.out.println("hypothesis1b  (master without detail, saved with PERSIST, serialized and deserialized)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
 
     EntityTransaction tx = em.getTransaction();
     tx.begin();
     Master e = createMaster0();
-    System.out.println("RAM enterprise:\n\t" + e);
+    System.out.println("original RAM master:\n\t" + e);
     assertNull(e.getPersistenceId());
     assertNull(e.getPersistenceVersion());
+    assertNotNull(e.$details);
+    System.out.println("NOTE THAT $details for original RAM master is NOT NULL: "+e.$details);
+    assertNotNull(e.getDetails());
+    System.out.println("NOTE THAT details for original RAM master is NOT NULL: "+e.getDetails());
     em.persist(e);
     assertNotNull(e.getPersistenceId());
     assertNull(e.getPersistenceVersion());
-    System.out.println("RAM enterprise, after persist:\n\t" + e);
+    System.out.println("original RAM master, after PERSIST:\n\t" + e);
     tx.commit();
     tx = null;
     em.close();
     em = null;
     assertNotNull(e.getPersistenceId());
     assertNotNull(e.getPersistenceVersion());
-    System.out.println("RAM enterprise, after commit:\n\t" + e);
+    System.out.println("original RAM master, after commit and detach:\n\t" + e);
 
     Integer eId = e.getPersistenceId();
-    System.out.println("id of persisted enterprise: " + eId);
+    System.out.println("id of persisted master: " + eId);
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
@@ -218,25 +222,37 @@ public class JpaTestB {
     em = null;
     assertMaster0(eId, fromDbE);
     assertNotSame(e, fromDbE);
-    System.out.println("enterprise retrieved from DB:\n\t" + fromDbE);
+    System.out.println("master retrieved from DB:\n\t" + fromDbE);
     assertNull(fromDbE.$details); // ok; set is not initialized
-    System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$details);
-    System.out.println("contracts of enterprise retrieved from DB:\n\t" + fromDbE.getDetails());
-    assertNotNull(fromDbE.getDetails());
-    assertTrue(fromDbE.getDetails().isEmpty());
+    System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
+    assertNull(fromDbE.getDetails());
+    System.out.println("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
 
+    // serialization and deserialization of original master
     Master deserE = serAndDeserMaster(e);
 
     assertMaster0(eId, deserE);
     assertNotSame(e, deserE);
-    System.out.println("enterprise from ser file:\n\t" + deserE);
-    assertNotNull(fromDbE.$details);
-    System.out.println("$contracts of enterprise from ser file:\n\t" + deserE.$details);
-    System.out.println("type of $contracts of enterprise from ser file:\n\t" + deserE.$details.getClass());
-    System.out.println("NOTE THAT AFTER DESERIALIZATION, $contracts IS NOT NULL");
-    System.out.println("contracts of enterprise from ser file:\n\t" + deserE.getDetails());
+    System.out.println("original master from ser file:\n\t" + deserE);
+    assertNotNull(deserE.$details);
+    System.out.println("$details of original master from ser file:\n\t" + deserE.$details);
+    System.out.println("type of $details of original master from ser file:\n\t" + deserE.$details.getClass());
+    System.out.println("NOTE THAT AFTER SERIALIZATION+DESERIALIZATION, $details IS NOT NULL");
     assertNotNull(deserE.getDetails());
+    System.out.println("details of master from ser file:\n\t" + deserE.getDetails());
     assertTrue(deserE.getDetails().isEmpty());
+
+    // serialization and deserialization of master from db
+    Master deserFromDbE = serAndDeserMaster(fromDbE);
+
+    assertMaster0(eId, deserFromDbE);
+    assertNotSame(e, deserFromDbE);
+    System.out.println("master from db from ser file:\n\t" + deserFromDbE);
+    assertNull(deserFromDbE.$details);
+    System.out.println("$details of master from db from ser file:\n\t" + deserFromDbE.$details);
+    System.out.println("NOTE THAT AFTER SERIALIZATION+DESERIALIZATION, $details IS NULL");
+    assertNull(deserFromDbE.getDetails());
+    System.out.println("details of master from db from ser file:\n\t" + deserFromDbE.getDetails());
   }
 
   @Test
@@ -244,7 +260,7 @@ public class JpaTestB {
     System.out.println();
     System.out.println();
     System.out.println();
-    System.out.println("hypothesis2a (enterprise with 2 contracts, created using persist, serialized outside transaction and deserialized)");
+    System.out.println("hypothesis2a (master with 2 details, created using persist, serialized outside transaction and deserialized)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
 
@@ -260,47 +276,62 @@ public class JpaTestB {
     tx = null;
     em.close();
     em = null;
-    System.out.println("enterprise in DB:\n\t" + e);
-    System.out.println("contract A in DB:\n\t" + slcA);
-    System.out.println("contract B in DB:\n\t" + slcB);
+    System.out.println("master after persist:\n\t" + e);
+    System.out.println("detail A after persist:\n\t" + slcA);
+    System.out.println("detail B after persist:\n\t" + slcB);
 
     Integer eId = e.getPersistenceId();
+
+    assertMaster0(eId, e);
+    assertNotNull(e.$details); // ok; set is not initialized
+    System.out.println("$details of master after persist:\n\t" + e.$details);
+    System.out.println("details of master after persist:\n\t" + e.getDetails());
+    assertNotNull(e.$details); // set is not initialized: working with detached objects
+    assertNotNull(e.getDetails()); // set is not initialized: working with detached objects
+    System.out.println("master after persist: keeps the details set during persist");
+
+    Master deserEe = serAndDeserMaster(e);
+
+    assertMaster0(eId, deserEe);
+    assertNotSame(e, deserEe);
+    System.out.println("master from original ser:\n\t" + deserEe);
+    assertNotNull(deserEe.$details);
+    System.out.println("$details of master from original ser file:\n\t" + deserEe.$details);
+    System.out.println("NOTE THAT AFTER SERIALIZATION+DESERIALIZATION, $details IS NOT NULL");
+    System.out.println("details from master from original ser:\n\t" + deserEe.getDetails());
+    assertNotNull(deserEe.$details);
+    assertNotNull(deserEe.getDetails());
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
     Master fromDbE = em.find(Master.class, eId);
-    em.contains(e);
+    assertFalse(em.contains(e));
     tx.commit();
     tx = null;
     em.close();
     em = null;
 
     assertMaster0(eId, fromDbE);
-    System.out.println("enterprise from DB:\n\t" + fromDbE);
+    System.out.println("master retrieved from DB:\n\t" + fromDbE);
     assertNull(fromDbE.$details); // ok; set is not initialized
-    System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$details);
-    System.out.println("contracts of enterprise retrieved from DB:\n\t" + fromDbE.getDetails());
-    assertNotNull(fromDbE.$details); // set is initialized
-    System.out.println("NOTE THAT THE enterprise IS STILL ATTACHED, EVEN THOUGH THE TRANSACTION IS COMMITTED, AND THE entity manager IS SET TO null");
-    assertNotNull(fromDbE.getDetails());
-    System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$details);
-    System.out.println("type of $contracts of enterprise retrieved from DB:\n\t" + fromDbE.$details.getClass());
-    assertFalse(fromDbE.getDetails().isEmpty()); // this is totally unexpected, since the collection is lazy and never touched while attached
-
+    System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
+    System.out.println("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
+    assertNull(fromDbE.$details); // set is not initialized: working with detached objects
+    assertNull(fromDbE.getDetails()); // set is not initialized: working with detached objects
+    System.out.println("master retrieved from DB: lazy loading of attached details");
 
     Master deserE = serAndDeserMaster(fromDbE);
 
     assertMaster0(eId, deserE);
     assertNotSame(fromDbE, deserE);
-    System.out.println("enterprise from ser:\n\t" + deserE);
-    assertNotNull(fromDbE.$details);
-    System.out.println("$contracts of enterprise from ser file:\n\t" + deserE.$details);
-    System.out.println("type of $contracts of enterprise from ser file:\n\t" + deserE.$details.getClass());
-    System.out.println("NOTE THAT AFTER DESERIALIZATION, $contracts IS NOT NULL");
-    System.out.println("contracts from enterprise from ser:\n\t" + deserE.getDetails());
-    assertNotNull(deserE.getDetails());
-    assertFalse(deserE.getDetails().isEmpty()); // ok, what goes in serialization comes out
+    System.out.println("master from ser:\n\t" + deserE);
+    assertNull(deserE.$details);
+    System.out.println("$details of master from ser file:\n\t" + deserE.$details);
+    System.out.println("NOTE THAT AFTER SERIALIZATION+DESERIALIZATION, $details IS STILL NULL");
+    System.out.println("details from master from ser:\n\t" + deserE.getDetails());
+    assertNull(deserE.$details);
+    assertNull(deserE.getDetails());
   }
 
   @Test
@@ -308,7 +339,7 @@ public class JpaTestB {
     System.out.println();
     System.out.println();
     System.out.println();
-    System.out.println("hypothesis2b (enterprise with 2 contracts, created using persist, serialized inside transaction and deserialized)");
+    System.out.println("hypothesis2b (master with 2 details, created using persist, serialized inside transaction and deserialized)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
 
@@ -324,9 +355,9 @@ public class JpaTestB {
     tx = null;
     em.close();
     em = null;
-    System.out.println("enterprise in DB:\n\t" + e);
-    System.out.println("contract A in DB:\n\t" + slcA);
-    System.out.println("contract B in DB:\n\t" + slcB);
+    System.out.println("master in DB:\n\t" + e);
+    System.out.println("detail A in DB:\n\t" + slcA);
+    System.out.println("detail B in DB:\n\t" + slcB);
 
     Integer eId = e.getPersistenceId();
 
@@ -340,25 +371,25 @@ public class JpaTestB {
     tx = null;
     em.close();
     em = null;
-    System.out.println("enterprise from DB:\n\t" + fromDbE);
+    System.out.println("master from DB:\n\t" + fromDbE);
     assertNull(fromDbE.$details); // ok; set is not initialized
-    System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$details);
-    System.out.println("contracts of enterprise retrieved from DB:\n\t" + fromDbE.getDetails());
+    System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
+    System.out.println("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
     assertNotNull(fromDbE.$details); // set is initialized
-    System.out.println("NOTE THAT THE enterprise IS STILL ATTACHED, EVEN THOUGH THE TRANSACTION IS COMMITTED, AND THE entity manager IS SET TO null");
+    System.out.println("NOTE THAT THE master IS STILL ATTACHED, EVEN THOUGH THE TRANSACTION IS COMMITTED, AND THE entity manager IS SET TO null");
     assertNotNull(fromDbE.getDetails());
-    System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$details);
-    System.out.println("type of $contracts of enterprise retrieved from DB:\n\t" + fromDbE.$details.getClass());
+    System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
+    System.out.println("type of $details of master retrieved from DB:\n\t" + fromDbE.$details.getClass());
 
     Master deserE = deserMaster();
 
     assertMaster0(eId, deserE);
     assertNotSame(fromDbE, deserE);
-    System.out.println("enterprise from ser:\n\t" + deserE);
+    System.out.println("master from ser:\n\t" + deserE);
     assertNotNull(fromDbE.$details);
-    System.out.println("$contracts of enterprise from ser file:\n\t" + deserE.$details);
-    System.out.println("NOTE THAT AFTER DESERIALIZATION, $contracts IS NULL: reason: serialized before toString of collection (even outside transaction)");
-    System.out.println("contracts from enterprise from ser:\n\t" + deserE.getDetails());
+    System.out.println("$details of master from ser file:\n\t" + deserE.$details);
+    System.out.println("NOTE THAT AFTER DESERIALIZATION, $details IS NULL: reason: serialized before toString of collection (even outside transaction)");
+    System.out.println("details from master from ser:\n\t" + deserE.getDetails());
     assertNull(deserE.getDetails());
   }
 
@@ -367,7 +398,7 @@ public class JpaTestB {
     System.out.println();
     System.out.println();
     System.out.println();
-    System.out.println("hypothesis2c (enterprise with 2 contracts, created using persist, serialized and deserialized, outside trans, with slight touch on contracts)");
+    System.out.println("hypothesis2c (master with 2 details, created using persist, serialized and deserialized, outside trans, with slight touch on details)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
 
@@ -383,9 +414,9 @@ public class JpaTestB {
     tx = null;
     em.close();
     em = null;
-    System.out.println("enterprise in DB:\n\t" + e);
-    System.out.println("contract A in DB:\n\t" + slcA);
-    System.out.println("contract B in DB:\n\t" + slcB);
+    System.out.println("master in DB:\n\t" + e);
+    System.out.println("detail A in DB:\n\t" + slcA);
+    System.out.println("detail B in DB:\n\t" + slcB);
 
     Integer eId = e.getPersistenceId();
 
@@ -398,24 +429,24 @@ public class JpaTestB {
     tx = null;
     em.close();
     em = null;
-    System.out.println("enterprise from DB:\n\t" + fromDbE);
+    System.out.println("master from DB:\n\t" + fromDbE);
     assertNull(fromDbE.$details); // ok; set is not initialized
-    System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$details);
+    System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
     assertNotNull(fromDbE.getDetails());
     System.out.println("YET SOME MAGIC: $DETAILS NOT INITIALIZED AND NULL, BUT GETDETAILS NOT NULL");
     System.out.println("THIS MEANS WITHOUT A DOUBT THAT JPA FIDLES WITH THE BODY OF GETDETAILS!!!!!!");
-    System.out.println("JUST BY CALLING getContracts(), and not $contracts !!!! the collection gets initialized");
+    System.out.println("JUST BY CALLING getContracts(), and not $details !!!! the collection gets initialized");
     System.out.println("COMPARE THIS TO 2D: SAME CODE, NO GETDETAILS");
 
     Master deserE = serAndDeserMaster(fromDbE);
 
     assertMaster0(eId, deserE);
     assertNotSame(fromDbE, deserE);
-    System.out.println("enterprise from ser:\n\t" + deserE);
+    System.out.println("master from ser:\n\t" + deserE);
     assertNotNull(fromDbE.$details);
-    System.out.println("$contracts of enterprise from ser file:\n\t" + deserE.$details);
-    System.out.println("NOTE THAT AFTER DESERIALIZATION, $contracts IS NOT NULL: reason: slight touch of getContracts!!!!");
-    System.out.println("contracts from enterprise from ser:\n\t" + deserE.getDetails());
+    System.out.println("$details of master from ser file:\n\t" + deserE.$details);
+    System.out.println("NOTE THAT AFTER DESERIALIZATION, $details IS NOT NULL: reason: slight touch of getContracts!!!!");
+    System.out.println("details from master from ser:\n\t" + deserE.getDetails());
     assertNotNull(deserE.getDetails());
   }
 
@@ -424,7 +455,7 @@ public class JpaTestB {
     System.out.println();
     System.out.println();
     System.out.println();
-    System.out.println("hypothesis2d (enterprise with 2 contracts, created using persist, serialized without any init, and deserialized)");
+    System.out.println("hypothesis2d (master with 2 details, created using persist, serialized without any init, and deserialized)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
 
@@ -440,9 +471,9 @@ public class JpaTestB {
     tx = null;
     em.close();
     em = null;
-    System.out.println("enterprise in DB:\n\t" + e);
-    System.out.println("contract A in DB:\n\t" + slcA);
-    System.out.println("contract B in DB:\n\t" + slcB);
+    System.out.println("master in DB:\n\t" + e);
+    System.out.println("detail A in DB:\n\t" + slcA);
+    System.out.println("detail B in DB:\n\t" + slcB);
 
     Integer eId = e.getPersistenceId();
 
@@ -455,20 +486,20 @@ public class JpaTestB {
     tx = null;
     em.close();
     em = null;
-    System.out.println("enterprise from DB:\n\t" + fromDbE);
+    System.out.println("master from DB:\n\t" + fromDbE);
     assertNull(fromDbE.$details); // ok; set is not initialized
-    System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$details);
+    System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
     System.out.println("WE NEVER CALLED GETDETAILS; NOW SERIALIZING");
 
     Master deserE = serAndDeserMaster(fromDbE);
 
     assertMaster0(eId, deserE);
     assertNotSame(fromDbE, deserE);
-    System.out.println("enterprise from ser:\n\t" + deserE);
+    System.out.println("master from ser:\n\t" + deserE);
     assertNull(fromDbE.$details);
-    System.out.println("$contracts of enterprise from ser file:\n\t" + deserE.$details);
-    System.out.println("NOTE THAT AFTER DESERIALIZATION, $contracts IS NULL: reason: serialized before toString of collection (even outside transaction)");
-    System.out.println("contracts from enterprise from ser:\n\t" + deserE.getDetails());
+    System.out.println("$details of master from ser file:\n\t" + deserE.$details);
+    System.out.println("NOTE THAT AFTER DESERIALIZATION, $details IS NULL: reason: serialized before toString of collection (even outside transaction)");
+    System.out.println("details from master from ser:\n\t" + deserE.getDetails());
     assertNull(deserE.getDetails());
   }
 

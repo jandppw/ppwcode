@@ -43,7 +43,7 @@ import org.junit.Test;
 import org.ppwcode.research.jpa.crud.semanticsAlpha.Master;
 import org.ppwcode.research.jpa.crud.semanticsAlpha.Detail;
 
-public class JpaTestA {
+public class JpaATest {
 
   static final String PERSISTENCE_UNIT_NAME = "be_hdp_contracts_I_IBMOpenJPA_test";
 
