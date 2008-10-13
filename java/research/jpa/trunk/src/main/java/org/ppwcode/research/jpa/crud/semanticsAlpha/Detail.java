@@ -1,7 +1,17 @@
 /*<license>
-  Copyright 2008, AristA vzw
-  NO RIGHTS ARE GRANTED FOR THE USE OF THIS SOFTWARE, EXCEPT, IN WRITING,
-  TO SELECTED PARTIES.
+Copyright 2008 - $Date: 2008-09-29 16:35:07 +0200 (Mon, 29 Sep 2008) $ by PeopleWare n.v.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 </license>*/
 
 package org.ppwcode.research.jpa.crud.semanticsAlpha;
@@ -30,37 +40,36 @@ import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
 
 /**
- * MUDO contract hierarchy; this should become ...arista.secondlinecontract
+ * Detail
  */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@Table(name="be_hdp_contracts_i_secondlinecontract")
-@Copyright("2004 - $Date: 2008-09-29 18:21:16 +0200 (Mon, 29 Sep 2008) $, PeopleWare n.v.")
+@Table(name="org_ppwcode_research_jpa_crud_semanticsalpha_detail")
+@Copyright("2008 - $Date: 2008-09-29 18:21:16 +0200 (Mon, 29 Sep 2008) $, PeopleWare n.v.")
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision: 2727 $",
          date     = "$Date: 2008-09-29 18:21:16 +0200 (Mon, 29 Sep 2008) $")
 public class Detail extends AbstractIntegerIdVersionedPersistentBean {
 
 
-  /*<property name="Contract Start Date">
+  /*<property name="Detail Date">
   -------------------------------------------------------------------------*/
 
   /**
-   * If the Start date is {@code null}, it means the enterprise
-   * still exists.
+   * Can be {@code null}.
    */
-  public final Date getStartDate() {
-    return $startDate == null ? null : (Date)$startDate.clone();
+  public final Date getDate() {
+    return $date == null ? null : (Date)$date.clone();
   }
 
   /**
-   * @post equalsWithNull(getStartDate(), StartDate);
+   * @post equalsWithNull(getDate(), date);
    */
-  public final void setStartDate(Date startDate) {
-    if (startDate != null) {
-      $startDate = (new DateMidnight(startDate)).toDate();
+  public final void setDate(Date date) {
+    if (date != null) {
+      $date = (new DateMidnight(date)).toDate();
     } else {
-      $startDate = null;
+      $date = null;
     }
   }
 
@@ -68,72 +77,40 @@ public class Detail extends AbstractIntegerIdVersionedPersistentBean {
    * Can be {@code null}.
    */
 
-  @Column(name="start_date")
-  // TODO Contracts
-  private Date $startDate;
+  @Column(name="date")
+  private Date $date;
 
   /*</property>*/
 
 
-  /*<property name="Termination Date">
+
+  /*<property name="Master">
   -------------------------------------------------------------------------*/
 
-  /**
-   * If the termination date is {@code null}, it means the enterprise
-   * still exists.
-   */
-  public final Date getTerminationDate() {
-    return $terminationDate == null ? null : (Date)$terminationDate.clone();
+  @Basic(init = @Expression("master == null"),
+         invars = @Expression("master != null ? master.details.contains(this)"))
+  public final Master getMaster() {
+    return $master;
   }
 
-  /**
-   * @post equalsWithNull(getTerminationDate(), terminationDate);
-   */
-  public final void setTerminationDate(Date terminationDate) {
-    if (terminationDate != null) {
-      $terminationDate = (new DateMidnight(terminationDate)).toDate();
-    } else {
-      $terminationDate = null;
-    }
-  }
-
-  /**
-   * Can be {@code null}.
-   */
-  @Column(name="termination_date")
-  //TODO Contracts
-  private Date $terminationDate;
-
-  /*</property>*/
-
-
-  /*<property name="Enterprise">
-  -------------------------------------------------------------------------*/
-
-  @Basic(init = @Expression("enterprise == null"),
-         invars = @Expression("enterprise != null ? enterprise.contracts.contains(this)"))
-  public final Master getEnterprise() {
-    return $enterprise;
-  }
-
-  @MethodContract(post = { @Expression("enterprise == _enterprise"),
-                           @Expression("'enterprise != null ? ! 'enterprise.contracts.contains(this)"),
-                           @Expression("_enterprise != null ? _enterprise.contracts.contains(this)")})
-  public final void setEnterprise(Master enterprise) {
-    if ($enterprise != enterprise) {
-      if ($enterprise != null) {
-        $enterprise.removeContract(this);
+  @MethodContract(post = { @Expression("master == _master"),
+                           @Expression("'master != null ? ! 'master.details.contains(this)"),
+                           @Expression("_master != null ? _master.details.contains(this)")})
+  public final void setMaster(Master master) {
+    if ($master != master) {
+      if ($master != null) {
+        $master.removeDetail(this);
       }
-      $enterprise = enterprise;
-      if ($enterprise != null) {
-        $enterprise.addContract(this);
+      $master = master;
+      if ($master != null) {
+        $master.addDetail(this);
       }
     }
   }
 
   @ManyToOne(cascade = {}, optional = false, fetch = FetchType.EAGER)
-  @JoinColumn(name="enterprise_fk", nullable = false)
-  private Master $enterprise;
+  @JoinColumn(name="master_fk", nullable = false)
+  private Master $master;
 
   /*</property>*/
 
