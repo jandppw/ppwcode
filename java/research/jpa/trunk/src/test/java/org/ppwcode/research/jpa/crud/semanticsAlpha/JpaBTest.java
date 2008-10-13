@@ -562,59 +562,6 @@ public class JpaBTest {
     assertNotNull(deserE.getDetails());
   }
 
-  @Test
-  public void hypothesis2f() throws FileNotFoundException, IOException, ClassNotFoundException {
-    System.out.println();
-    System.out.println();
-    System.out.println();
-    System.out.println("hypothesis2f (master with 2 details, created using persist, serialized without any init, and deserialized)");
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-    EntityManager em = emf.createEntityManager();
-
-    EntityTransaction tx = em.getTransaction();
-    tx.begin();
-    Master e = createMaster0();
-    Detail slcA = createDetailA(e);
-    Detail slcB = createDetailB(e);
-    em.persist(e);
-    em.persist(slcA); // note: persist works in creation, merge does not
-    em.persist(slcB);
-    tx.commit();
-    tx = null;
-    em.close();
-    em = null;
-    System.out.println("master in DB:\n\t" + e);
-    System.out.println("detail A in DB:\n\t" + slcA);
-    System.out.println("detail B in DB:\n\t" + slcB);
-
-    Integer eId = e.getPersistenceId();
-
-    em = emf.createEntityManager();
-    tx = em.getTransaction();
-    tx.begin();
-    Master fromDbE = em.find(Master.class, eId);
-    assertFalse(em.contains(e));
-    tx.commit();
-    tx = null;
-    em.close();
-    em = null;
-    System.out.println("master from DB:\n\t" + fromDbE);
-    assertNull(fromDbE.$details); // ok; set is not initialized
-    System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
-    System.out.println("WE NEVER CALLED GETDETAILS; NOW SERIALIZING");
-
-    Master deserE = serAndDeserMaster(fromDbE);
-
-    assertMaster0(eId, deserE);
-    assertNotSame(fromDbE, deserE);
-    System.out.println("master from ser:\n\t" + deserE);
-    assertNull(fromDbE.$details);
-    System.out.println("$details of master from ser file:\n\t" + deserE.$details);
-    System.out.println("NOTE THAT AFTER DESERIALIZATION, $details IS NULL: reason: serialized before toString of collection (even outside transaction)");
-    System.out.println("details from master from ser:\n\t" + deserE.getDetails());
-    assertNull(deserE.getDetails());
-  }
-
 
 
 
