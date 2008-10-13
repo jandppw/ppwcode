@@ -687,7 +687,7 @@ public class JpaBTest {
     System.out.println("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
     System.out.println("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())<0));
     assertTrue(eVersion.compareTo(fromDbE.getPersistenceVersion())==0);
-    System.out.println("PERSISTENCE VERSION REMAINS THE SAME WHEN SAME VALUE IS EXPLICITLY SET ON FIELD");
+    System.out.println("PERSISTENCE VERSION DOES NOT CHANGE WHEN SAME VALUE IS EXPLICITLY SET ON FIELD");
   }
 
   @Test
@@ -749,7 +749,69 @@ public class JpaBTest {
     System.out.println("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
     System.out.println("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())<0));
     assertTrue(eVersion.compareTo(fromDbE.getPersistenceVersion())<0);
-    System.out.println("PERSISTENCE VERSION INCREASES AFTER FIELD CHANGE");
+    System.out.println("PERSISTENCE VERSION INCREASES AFTER (DETACHED) FIELD CHANGE AND SUBSEQUENT MERGE");
+  }
+
+  @Test
+  public void hypothesis3d() {
+    System.out.println();
+    System.out.println();
+    System.out.println();
+    System.out.println("hypothesis3d (master without detail, created with PERSIST, field change to same value on detached master, master merged back)");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    EntityManager em = emf.createEntityManager();
+
+    EntityTransaction tx = em.getTransaction();
+    tx.begin();
+    Master e = createMaster0();
+    assertFalse(em.contains(e));
+    em.persist(e);
+    assertTrue(em.contains(e));
+    System.out.println("NOTE THAT original master IS IN entity manager AFTER PERSIST");
+    tx.commit();
+    assertTrue(em.contains(e));
+    System.out.println("NOTE THAT original master IS IN entity manager AFTER COMMIT");
+    tx = null;
+    em.close();
+    em = null;
+
+    Integer eId = e.getPersistenceId();
+    Integer eVersion = e.getPersistenceVersion();
+    System.out.println("id of PERSISTed master: " + eId);
+    System.out.println("version of PERSISTed master: " + eVersion);
+
+    e.setName(MASTER_NAME_0);
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    em.merge(e);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Master fromDbE = em.find(Master.class, eId);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    assertMaster0(eId, fromDbE);
+    assertNotSame(e, fromDbE);
+    System.out.println("master retrieved from DB:\n\t" + fromDbE);
+    System.out.println("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
+    System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
+    assertNull(fromDbE.$details); // ok; set is not initialized
+    System.out.println("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
+    assertNull(fromDbE.getDetails());
+    System.out.println("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
+    System.out.println("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())<0));
+    assertTrue(eVersion.compareTo(fromDbE.getPersistenceVersion())==0);
+    System.out.println("PERSISTENCE VERSION DOES NOT CHANGE WHEN SAME VALUE IS EXPLICITLY SET ON (DETACHED) FIELD AND SUBSEQUENT MERGE");
   }
 
 
