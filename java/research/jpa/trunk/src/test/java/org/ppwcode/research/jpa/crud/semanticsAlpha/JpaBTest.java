@@ -1292,7 +1292,7 @@ public class JpaBTest {
     System.out.println();
     System.out.println();
     System.out.println();
-    System.out.println("hypothesis6a (master without details, created using persist, remove detached master)");
+    System.out.println("hypothesis6c (master without details, created using persist, remove detached master)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
 
@@ -1358,7 +1358,7 @@ public class JpaBTest {
     System.out.println();
     System.out.println();
     System.out.println();
-    System.out.println("hypothesis6b (master without details, created using merge, remove detached master)");
+    System.out.println("hypothesis6d (master without details, created using merge, remove detached master)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
 
@@ -1419,7 +1419,88 @@ public class JpaBTest {
     System.out.println("master is removed");
   }
 
+  @Test
+  public void hypothesis7a() {
+    System.out.println();
+    System.out.println();
+    System.out.println();
+    System.out.println("hypothesis7a (master with 2 details, created using persist, remove managed master in transaction)");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    EntityManager em = emf.createEntityManager();
 
+    EntityTransaction tx = em.getTransaction();
+    tx.begin();
+    Master e = createMaster0();
+    Detail slcA = createDetailA(e);
+    Detail slcB = createDetailB(e);
+    em.persist(e);
+    em.persist(slcA); // note: persist works in creation, merge does not
+    em.persist(slcB);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+    System.out.println("master after persist:\n\t" + e);
+    System.out.println("detail A after persist:\n\t" + slcA);
+    System.out.println("detail B after persist:\n\t" + slcB);
+
+    Integer eId = e.getPersistenceId();
+    System.out.println("id of PERSISTed master: " + eId);
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Master fromDbE = em.find(Master.class, eId);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    assertMaster0(eId, fromDbE);
+    assertNotSame(e, fromDbE);
+    System.out.println("master retrieved from DB:\n\t" + fromDbE);
+    System.out.println("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
+    System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
+    assertNull(fromDbE.$details); // ok; set is not initialized
+    System.out.println("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
+    assertNull(fromDbE.getDetails());
+    System.out.println("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    fromDbE = em.find(Master.class, eId);
+    em.remove(fromDbE);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    fromDbE = em.find(Master.class, eId);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    assertNull(fromDbE);
+    System.out.println("master is removed");
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Detail a = em.find(Detail.class, slcA.getPersistenceId());
+    Detail b = em.find(Detail.class, slcB.getPersistenceId());
+    System.out.println("detail A after remove:\n\t" + a);
+    System.out.println("detail B after remove:\n\t" + b);
+
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+  }
 
 
   // THE ABOVE MEANS THAT WE NEED TO DO MORE TO MAKE SURE THAT WE DO NOT SEND DETAILS OVER THE WIRE
