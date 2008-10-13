@@ -60,7 +60,7 @@ import org.toryt.annotations_I.MethodContract;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision: 2727 $",
          date     = "$Date: 2008-09-29 18:21:16 +0200 (Mon, 29 Sep 2008) $")
-public class Enterprise extends AbstractIntegerIdVersionedPersistentBean {
+public class Master extends AbstractIntegerIdVersionedPersistentBean {
 
   /*<property name="enterprise id">
   -------------------------------------------------------------------------*/
@@ -180,13 +180,13 @@ public class Enterprise extends AbstractIntegerIdVersionedPersistentBean {
   @MethodContract(pre  = {@Expression("_c != null"),
                           @Expression("_c.enterprise == this")},
                   post = @Expression("contracts.contains(_c)"))
-  final void addContract(SecondLineContract c) {
+  final void addContract(Detail c) {
     assert preArgumentNotNull(c, "c");
     $contracts.add(c);
   }
 
   @MethodContract(post = @Expression("! contracts.contains(_c)"))
-  final void removeContract(SecondLineContract c) {
+  final void removeContract(Detail c) {
     $contracts.remove(c);
   }
 
@@ -194,8 +194,8 @@ public class Enterprise extends AbstractIntegerIdVersionedPersistentBean {
          invars = {@Expression("contracts != null"),
                    @Expression("! contracts.contains(null)"),
                    @Expression("for (Contract c : contracts) { c.enterprise == this }")})
-  final public Set<SecondLineContract> getContracts() {
-    return $contracts == null ? null : new HashSet<SecondLineContract>($contracts);
+  final public Set<Detail> getContracts() {
+    return $contracts == null ? null : new HashSet<Detail>($contracts);
   }
 
   /**
@@ -226,7 +226,7 @@ public class Enterprise extends AbstractIntegerIdVersionedPersistentBean {
            @Expression("! $contracts.contains(null)"),
            @Expression("for (Contract c : $contracts) { c.enterprise == this }")})
   // hibernate and JPA do not allow final for the set.
-  Set<SecondLineContract> $contracts = new HashSet<SecondLineContract>(); // package accessible for some tests
+  Set<Detail> $contracts = new HashSet<Detail>(); // package accessible for some tests
   // set is null after deserialization if not initialized before serialization
 
   /*</property>*/

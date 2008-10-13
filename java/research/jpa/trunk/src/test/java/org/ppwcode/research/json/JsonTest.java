@@ -14,16 +14,16 @@ import org.apache.commons.beanutils.LazyDynaBean;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.ppwcode.research.jpa.crud.semanticsAlpha.Enterprise;
+import org.ppwcode.research.jpa.crud.semanticsAlpha.Master;
 
 
 public class JsonTest {
 
-  private Enterprise $e;
+  private Master $e;
 
   @Before
   public void prepare() {
-    $e = new Enterprise();
+    $e = new Master();
     $e.setPersistenceId(444);
     $e.setPersistenceVersion(555);
     $e.setEnterpriseId("0456-789-123");

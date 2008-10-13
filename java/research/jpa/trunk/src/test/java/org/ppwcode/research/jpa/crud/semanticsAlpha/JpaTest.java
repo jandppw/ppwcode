@@ -24,8 +24,8 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 import org.junit.Test;
-import org.ppwcode.research.jpa.crud.semanticsAlpha.Enterprise;
-import org.ppwcode.research.jpa.crud.semanticsAlpha.SecondLineContract;
+import org.ppwcode.research.jpa.crud.semanticsAlpha.Master;
+import org.ppwcode.research.jpa.crud.semanticsAlpha.Detail;
 
 public class JpaTest {
 
@@ -44,7 +44,7 @@ public class JpaTest {
   private String $cwdName;
   private String $serFileName;
 
-  private void assertEnterprise0(Integer eId, Enterprise fromDbE) {
+  private void assertEnterprise0(Integer eId, Master fromDbE) {
     assertEquals(eId, fromDbE.getPersistenceId());
     assertEquals(ENTERPRISE_NAME_0, fromDbE.getName());
     assertEquals(ENTERPRISE_ADDRESS_0, fromDbE.getAddress());
@@ -52,8 +52,8 @@ public class JpaTest {
     assertTrue(sameDay(ENTERPRISE_TERMINATION_DATE_0, fromDbE.getTerminationDate()));
   }
 
-  private Enterprise createEnterprise0() {
-    Enterprise e = new Enterprise();
+  private Master createEnterprise0() {
+    Master e = new Master();
     e.setName(ENTERPRISE_NAME_0);
     e.setAddress(ENTERPRISE_ADDRESS_0);
     e.setEnterpriseId(ENTERPRISE_ENTERPRISE_ID_0);
@@ -72,9 +72,9 @@ public class JpaTest {
 
     EntityTransaction tx = em.getTransaction();
     tx.begin();
-    Enterprise e = createEnterprise0();
+    Master e = createEnterprise0();
     assertFalse(em.contains(e));
-    Enterprise persistedE = em.merge(e);
+    Master persistedE = em.merge(e);
     assertFalse(em.contains(e));
     System.out.println("NOTE THAT enterprise IS NOT IN entity manager AFTER MERGE");
     assertTrue(em.contains(persistedE));
@@ -96,7 +96,7 @@ public class JpaTest {
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
-    Enterprise fromDbE = em.find(Enterprise.class, eId);
+    Master fromDbE = em.find(Master.class, eId);
     tx.commit();
     tx = null;
     em = null;
@@ -123,7 +123,7 @@ public class JpaTest {
 
     EntityTransaction tx = em.getTransaction();
     tx.begin();
-    Enterprise e = createEnterprise0();
+    Master e = createEnterprise0();
     assertFalse(em.contains(e));
     System.out.println("RAM enterprise:\n\t" + e);
     assertNull(e.getPersistenceId());
@@ -149,7 +149,7 @@ public class JpaTest {
     tx = em.getTransaction();
     tx.begin();
     assertFalse(em.contains(e));
-    Enterprise fromDbE = em.find(Enterprise.class, eId);
+    Master fromDbE = em.find(Master.class, eId);
     assertTrue(em.contains(fromDbE));
     tx.commit();
     tx = null;
@@ -179,7 +179,7 @@ public class JpaTest {
 
     EntityTransaction tx = em.getTransaction();
     tx.begin();
-    Enterprise e = createEnterprise0();
+    Master e = createEnterprise0();
     System.out.println("RAM enterprise:\n\t" + e);
     assertNull(e.getPersistenceId());
     assertNull(e.getPersistenceVersion());
@@ -200,7 +200,7 @@ public class JpaTest {
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
-    Enterprise fromDbE = em.find(Enterprise.class, eId);
+    Master fromDbE = em.find(Master.class, eId);
     tx.commit();
     tx = null;
     em = null;
@@ -213,7 +213,7 @@ public class JpaTest {
     assertNotNull(fromDbE.getContracts());
     assertTrue(fromDbE.getContracts().isEmpty());
 
-    Enterprise deserE = serAndDeserEnterprise(e);
+    Master deserE = serAndDeserEnterprise(e);
 
     assertEnterprise0(eId, deserE);
     assertNotSame(e, deserE);
@@ -238,9 +238,9 @@ public class JpaTest {
 
     EntityTransaction tx = em.getTransaction();
     tx.begin();
-    Enterprise e = createEnterprise0();
-    SecondLineContract slcA = createContractA(e);
-    SecondLineContract slcB = createContractB(e);
+    Master e = createEnterprise0();
+    Detail slcA = createContractA(e);
+    Detail slcB = createContractB(e);
     em.persist(e);
     em.persist(slcA); // note: persist works in creation, merge does not
     em.persist(slcB);
@@ -256,7 +256,7 @@ public class JpaTest {
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
-    Enterprise fromDbE = em.find(Enterprise.class, eId);
+    Master fromDbE = em.find(Master.class, eId);
     em.contains(e);
     tx.commit();
     tx = null;
@@ -275,7 +275,7 @@ public class JpaTest {
     assertFalse(fromDbE.getContracts().isEmpty()); // this is totally unexpected, since the collection is lazy and never touched while attached
 
 
-    Enterprise deserE = serAndDeserEnterprise(fromDbE);
+    Master deserE = serAndDeserEnterprise(fromDbE);
 
     assertEnterprise0(eId, deserE);
     assertNotSame(fromDbE, deserE);
@@ -300,9 +300,9 @@ public class JpaTest {
 
     EntityTransaction tx = em.getTransaction();
     tx.begin();
-    Enterprise e = createEnterprise0();
-    SecondLineContract slcA = createContractA(e);
-    SecondLineContract slcB = createContractB(e);
+    Master e = createEnterprise0();
+    Detail slcA = createContractA(e);
+    Detail slcB = createContractB(e);
     em.persist(e);
     em.persist(slcA); // note: persist works in creation, merge does not
     em.persist(slcB);
@@ -318,7 +318,7 @@ public class JpaTest {
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
-    Enterprise fromDbE = em.find(Enterprise.class, eId);
+    Master fromDbE = em.find(Master.class, eId);
     em.contains(e);
     serEnterprise(fromDbE);
     tx.commit();
@@ -334,7 +334,7 @@ public class JpaTest {
     System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$contracts);
     System.out.println("type of $contracts of enterprise retrieved from DB:\n\t" + fromDbE.$contracts.getClass());
 
-    Enterprise deserE = deserEnterprise();
+    Master deserE = deserEnterprise();
 
     assertEnterprise0(eId, deserE);
     assertNotSame(fromDbE, deserE);
@@ -357,9 +357,9 @@ public class JpaTest {
 
     EntityTransaction tx = em.getTransaction();
     tx.begin();
-    Enterprise e = createEnterprise0();
-    SecondLineContract slcA = createContractA(e);
-    SecondLineContract slcB = createContractB(e);
+    Master e = createEnterprise0();
+    Detail slcA = createContractA(e);
+    Detail slcB = createContractB(e);
     em.persist(e);
     em.persist(slcA); // note: persist works in creation, merge does not
     em.persist(slcB);
@@ -375,7 +375,7 @@ public class JpaTest {
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
-    Enterprise fromDbE = em.find(Enterprise.class, eId);
+    Master fromDbE = em.find(Master.class, eId);
     em.contains(e);
     tx.commit();
     tx = null;
@@ -389,7 +389,7 @@ public class JpaTest {
     System.out.println("JUST BY CALLING getContracts(), and not $contracts !!!! the collection gets initialized");
     System.out.println("COMPARE THIS TO 2D: SAME CODE, NO GETCONTRACTS");
 
-    Enterprise deserE = serAndDeserEnterprise(fromDbE);
+    Master deserE = serAndDeserEnterprise(fromDbE);
 
     assertEnterprise0(eId, deserE);
     assertNotSame(fromDbE, deserE);
@@ -412,9 +412,9 @@ public class JpaTest {
 
     EntityTransaction tx = em.getTransaction();
     tx.begin();
-    Enterprise e = createEnterprise0();
-    SecondLineContract slcA = createContractA(e);
-    SecondLineContract slcB = createContractB(e);
+    Master e = createEnterprise0();
+    Detail slcA = createContractA(e);
+    Detail slcB = createContractB(e);
     em.persist(e);
     em.persist(slcA); // note: persist works in creation, merge does not
     em.persist(slcB);
@@ -430,7 +430,7 @@ public class JpaTest {
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
-    Enterprise fromDbE = em.find(Enterprise.class, eId);
+    Master fromDbE = em.find(Master.class, eId);
     em.contains(e);
     tx.commit();
     tx = null;
@@ -440,7 +440,7 @@ public class JpaTest {
     System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$contracts);
     System.out.println("WE NEVER CALLED GETCONTRACTS; NOW SERIALIZING");
 
-    Enterprise deserE = serAndDeserEnterprise(fromDbE);
+    Master deserE = serAndDeserEnterprise(fromDbE);
 
     assertEnterprise0(eId, deserE);
     assertNotSame(fromDbE, deserE);
@@ -454,21 +454,21 @@ public class JpaTest {
 
   // THE ABOVE MEANS THAT WE NEED TO DO MORE TO MAKE SURE THAT WE DO NOT SEND CONTRACTS OVER THE WIRE
 
-  private Enterprise serAndDeserEnterprise(Enterprise e) throws FileNotFoundException,
+  private Master serAndDeserEnterprise(Master e) throws FileNotFoundException,
   IOException,
   ClassNotFoundException {
     serEnterprise(e);
-    Enterprise deserE = deserEnterprise();
+    Master deserE = deserEnterprise();
     return deserE;
   }
 
-  private Enterprise deserEnterprise() throws FileNotFoundException,
+  private Master deserEnterprise() throws FileNotFoundException,
                                       IOException,
                                       ClassNotFoundException {
     File iSerFile = new File($serFileName);
     FileInputStream fis = new FileInputStream(iSerFile);
     ObjectInputStream ois = new ObjectInputStream(fis);
-    Enterprise deserE = (Enterprise)ois.readObject();
+    Master deserE = (Master)ois.readObject();
     ois.close();
     ois = null;
     fis.close();
@@ -478,7 +478,7 @@ public class JpaTest {
     return deserE;
   }
 
-  private void serEnterprise(Enterprise e) throws FileNotFoundException, IOException {
+  private void serEnterprise(Master e) throws FileNotFoundException, IOException {
     $cwdName = System.getProperty("user.dir");
     $serFileName = $cwdName + "/hypothesis.ser";
     System.out.println($serFileName);
@@ -495,16 +495,16 @@ public class JpaTest {
     oSerFile = null;
   }
 
-  private SecondLineContract createContractB(Enterprise e) {
-    SecondLineContract slcB = new SecondLineContract();
+  private Detail createContractB(Master e) {
+    Detail slcB = new Detail();
     slcB.setStartDate(CONTRACT_START_DATE_B);
     slcB.setTerminationDate(CONTRACT_TERMINATION_DATE_B);
     slcB.setEnterprise(e);
     return slcB;
   }
 
-  private SecondLineContract createContractA(Enterprise e) {
-    SecondLineContract slcA = new SecondLineContract();
+  private Detail createContractA(Master e) {
+    Detail slcA = new Detail();
     slcA.setStartDate(CONTRACT_START_DATE_A);
     slcA.setTerminationDate(CONTRACT_TERMINATION_DATE_A);
     slcA.setEnterprise(e);
