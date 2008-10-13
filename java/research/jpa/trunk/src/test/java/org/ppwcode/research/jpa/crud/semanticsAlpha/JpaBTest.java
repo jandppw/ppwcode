@@ -1070,6 +1070,93 @@ public class JpaBTest {
     System.out.println("PERSISTENCE VERSION DOES NOT CHANGE WHEN SAME VALUE IS EXPLICITLY SET ON FIELD");
   }
 
+  @Test
+  public void hypothesis5a() {
+    System.out.println();
+    System.out.println();
+    System.out.println();
+    System.out.println("hypothesis5a (master without details, created using persist)");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    EntityManager em = emf.createEntityManager();
+
+    EntityTransaction tx = em.getTransaction();
+    tx.begin();
+    Master e = createMaster0();
+    em.persist(e);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+    System.out.println("master after persist:\n\t" + e);
+
+    Integer eId = e.getPersistenceId();
+    assertNotNull(eId);
+    System.out.println("id of PERSISTed master: " + eId);
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Master fromDbE = em.find(Master.class, eId);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    assertMaster0(eId, fromDbE);
+    assertNotSame(e, fromDbE);
+    System.out.println("master retrieved from DB:\n\t" + fromDbE);
+    System.out.println("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
+    System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
+    assertNull(fromDbE.$details); // ok; set is not initialized
+    System.out.println("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
+    assertNull(fromDbE.getDetails());
+    System.out.println("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
+  }
+
+  @Test
+  public void hypothesis5b() {
+    System.out.println();
+    System.out.println();
+    System.out.println();
+    System.out.println("hypothesis5b (master without details, created using merge)");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    EntityManager em = emf.createEntityManager();
+
+    EntityTransaction tx = em.getTransaction();
+    tx.begin();
+    Master e = createMaster0();
+    Master mergedE = em.merge(e);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+    System.out.println("master after merge:\n\t" + mergedE);
+
+    Integer eId = mergedE.getPersistenceId();
+    assertNotNull(eId);
+    System.out.println("id of MERGEd master: " + eId);
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Master fromDbE = em.find(Master.class, eId);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    assertMaster0(eId, fromDbE);
+    assertNotSame(e, fromDbE);
+    System.out.println("master retrieved from DB:\n\t" + fromDbE);
+    System.out.println("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
+    System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
+    assertNull(fromDbE.$details); // ok; set is not initialized
+    System.out.println("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
+    assertNull(fromDbE.getDetails());
+    System.out.println("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
+  }
+
+
 
 
   // THE ABOVE MEANS THAT WE NEED TO DO MORE TO MAKE SURE THAT WE DO NOT SEND DETAILS OVER THE WIRE
