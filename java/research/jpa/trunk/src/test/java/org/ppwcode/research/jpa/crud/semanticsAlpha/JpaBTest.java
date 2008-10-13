@@ -355,9 +355,9 @@ public class JpaBTest {
     tx = null;
     em.close();
     em = null;
-    System.out.println("master in DB:\n\t" + e);
-    System.out.println("detail A in DB:\n\t" + slcA);
-    System.out.println("detail B in DB:\n\t" + slcB);
+    System.out.println("master after persist:\n\t" + e);
+    System.out.println("detail A after persist:\n\t" + slcA);
+    System.out.println("detail B after persist:\n\t" + slcB);
 
     Integer eId = e.getPersistenceId();
 
@@ -365,7 +365,7 @@ public class JpaBTest {
     tx = em.getTransaction();
     tx.begin();
     Master fromDbE = em.find(Master.class, eId);
-    em.contains(e);
+    assertFalse(em.contains(e));
     serMaster(fromDbE);
     tx.commit();
     tx = null;
@@ -375,20 +375,17 @@ public class JpaBTest {
     assertNull(fromDbE.$details); // ok; set is not initialized
     System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
     System.out.println("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
-    assertNotNull(fromDbE.$details); // set is initialized
-    System.out.println("NOTE THAT THE master IS STILL ATTACHED, EVEN THOUGH THE TRANSACTION IS COMMITTED, AND THE entity manager IS SET TO null");
-    assertNotNull(fromDbE.getDetails());
-    System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
-    System.out.println("type of $details of master retrieved from DB:\n\t" + fromDbE.$details.getClass());
+    assertNull(fromDbE.$details);
+    assertNull(fromDbE.getDetails());
 
     Master deserE = deserMaster();
 
     assertMaster0(eId, deserE);
     assertNotSame(fromDbE, deserE);
     System.out.println("master from ser:\n\t" + deserE);
-    assertNotNull(fromDbE.$details);
+    assertNull(deserE.$details);
     System.out.println("$details of master from ser file:\n\t" + deserE.$details);
-    System.out.println("NOTE THAT AFTER DESERIALIZATION, $details IS NULL: reason: serialized before toString of collection (even outside transaction)");
+    System.out.println("NOTE THAT AFTER SERIALIZATION+DESERIALIZATION, $details IS STILL NULL");
     System.out.println("details from master from ser:\n\t" + deserE.getDetails());
     assertNull(deserE.getDetails());
   }
