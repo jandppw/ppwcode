@@ -13,8 +13,8 @@
     <provider>com.ibm.websphere.persistence.PersistenceProviderImpl</provider>
 
     <class>org.ppwcode.vernacular.persistence_III.AbstractIntegerIdVersionedPersistentBean</class>
-    <class>org.ppwcode.research.jpa.crud.semanticsAlpha.Enterprise</class>
-    <class>org.ppwcode.research.jpa.crud.semanticsAlpha.SecondLineContract</class>
+    <class>org.ppwcode.research.jpa.crud.semanticsAlpha.Master</class>
+    <class>org.ppwcode.research.jpa.crud.semanticsAlpha.Detail</class>
 
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
@@ -53,8 +53,8 @@
     <non-jta-data-source>jdbc/ContractsNonJTA</non-jta-data-source>
 
     <class>org.ppwcode.vernacular.persistence_III.AbstractIntegerIdVersionedPersistentBean</class>
-    <class>org.ppwcode.research.jpa.crud.semanticsAlpha.Enterprise</class>
-    <class>org.ppwcode.research.jpa.crud.semanticsAlpha.SecondLineContract</class>
+    <class>org.ppwcode.research.jpa.crud.semanticsAlpha.Master</class>
+    <class>org.ppwcode.research.jpa.crud.semanticsAlpha.Detail</class>
 
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
