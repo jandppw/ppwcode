@@ -814,7 +814,261 @@ public class JpaBTest {
     System.out.println("PERSISTENCE VERSION DOES NOT CHANGE WHEN SAME VALUE IS EXPLICITLY SET ON (DETACHED) FIELD AND SUBSEQUENT MERGE");
   }
 
+  @Test
+  public void hypothesis4a() {
+    System.out.println();
+    System.out.println();
+    System.out.println();
+    System.out.println("hypothesis4a (master with 2 details, created using persist, field change on managed master in transaction)");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    EntityManager em = emf.createEntityManager();
 
+    EntityTransaction tx = em.getTransaction();
+    tx.begin();
+    Master e = createMaster0();
+    Detail slcA = createDetailA(e);
+    Detail slcB = createDetailB(e);
+    em.persist(e);
+    em.persist(slcA); // note: persist works in creation, merge does not
+    em.persist(slcB);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+    System.out.println("master after persist:\n\t" + e);
+    System.out.println("detail A after persist:\n\t" + slcA);
+    System.out.println("detail B after persist:\n\t" + slcB);
+
+    Integer eId = e.getPersistenceId();
+    Integer eVersion = e.getPersistenceVersion();
+    System.out.println("id of PERSISTed master: " + eId);
+    System.out.println("version of PERSISTed master: " + eVersion);
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Master fromDbE = em.find(Master.class, eId);
+    fromDbE.setName(MASTER_NAME_1);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    fromDbE = em.find(Master.class, eId);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    assertMaster1(eId, fromDbE);
+    assertNotSame(e, fromDbE);
+    System.out.println("master retrieved from DB:\n\t" + fromDbE);
+    System.out.println("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
+    System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
+    assertNull(fromDbE.$details); // ok; set is not initialized
+    System.out.println("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
+    assertNull(fromDbE.getDetails());
+    System.out.println("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
+    System.out.println("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())<0));
+    assertTrue(eVersion + 1 == fromDbE.getPersistenceVersion());
+    System.out.println("PERSISTENCE VERSION INCREASES WITH 1 AFTER FIELD CHANGE");
+  }
+
+
+  @Test
+  public void hypothesis4b() {
+    System.out.println();
+    System.out.println();
+    System.out.println();
+    System.out.println("hypothesis4b (master with 2 details, created using persist, field change to same value on managed master in transaction)");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    EntityManager em = emf.createEntityManager();
+
+    EntityTransaction tx = em.getTransaction();
+    tx.begin();
+    Master e = createMaster0();
+    Detail slcA = createDetailA(e);
+    Detail slcB = createDetailB(e);
+    em.persist(e);
+    em.persist(slcA); // note: persist works in creation, merge does not
+    em.persist(slcB);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+    System.out.println("master after persist:\n\t" + e);
+    System.out.println("detail A after persist:\n\t" + slcA);
+    System.out.println("detail B after persist:\n\t" + slcB);
+
+    Integer eId = e.getPersistenceId();
+    Integer eVersion = e.getPersistenceVersion();
+    System.out.println("id of PERSISTed master: " + eId);
+    System.out.println("version of PERSISTed master: " + eVersion);
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Master fromDbE = em.find(Master.class, eId);
+    fromDbE.setName(MASTER_NAME_0);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    fromDbE = em.find(Master.class, eId);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    assertMaster0(eId, fromDbE);
+    assertNotSame(e, fromDbE);
+    System.out.println("master retrieved from DB:\n\t" + fromDbE);
+    System.out.println("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
+    System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
+    assertNull(fromDbE.$details); // ok; set is not initialized
+    System.out.println("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
+    assertNull(fromDbE.getDetails());
+    System.out.println("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
+    System.out.println("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())==0));
+    assertTrue(eVersion.compareTo(fromDbE.getPersistenceVersion())==0);
+    System.out.println("PERSISTENCE VERSION DOES NOT CHANGE WHEN SAME VALUE IS EXPLICITLY SET ON FIELD");
+  }
+
+  @Test
+  public void hypothesis4c() {
+    System.out.println();
+    System.out.println();
+    System.out.println();
+    System.out.println("hypothesis4c (master with 2 details, created using persist, field change on detached master, master merged)");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    EntityManager em = emf.createEntityManager();
+
+    EntityTransaction tx = em.getTransaction();
+    tx.begin();
+    Master e = createMaster0();
+    Detail slcA = createDetailA(e);
+    Detail slcB = createDetailB(e);
+    em.persist(e);
+    em.persist(slcA); // note: persist works in creation, merge does not
+    em.persist(slcB);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+    System.out.println("master after persist:\n\t" + e);
+    System.out.println("detail A after persist:\n\t" + slcA);
+    System.out.println("detail B after persist:\n\t" + slcB);
+
+    Integer eId = e.getPersistenceId();
+    Integer eVersion = e.getPersistenceVersion();
+    System.out.println("id of PERSISTed master: " + eId);
+    System.out.println("version of PERSISTed master: " + eVersion);
+
+    e.setName(MASTER_NAME_1);
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    em.merge(e);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Master fromDbE = em.find(Master.class, eId);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    assertMaster1(eId, fromDbE);
+    assertNotSame(e, fromDbE);
+    System.out.println("master retrieved from DB:\n\t" + fromDbE);
+    System.out.println("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
+    System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
+    assertNull(fromDbE.$details); // ok; set is not initialized
+    System.out.println("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
+    assertNull(fromDbE.getDetails());
+    System.out.println("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
+    System.out.println("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())<0));
+    assertTrue(eVersion + 1 == fromDbE.getPersistenceVersion());
+    System.out.println("PERSISTENCE VERSION INCREASES WITH 1 AFTER FIELD CHANGE");
+  }
+
+
+  @Test
+  public void hypothesis4d() {
+    System.out.println();
+    System.out.println();
+    System.out.println();
+    System.out.println("hypothesis4d (master with 2 details, created using persist, field change to same value on detached master, master merged)");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    EntityManager em = emf.createEntityManager();
+
+    EntityTransaction tx = em.getTransaction();
+    tx.begin();
+    Master e = createMaster0();
+    Detail slcA = createDetailA(e);
+    Detail slcB = createDetailB(e);
+    em.persist(e);
+    em.persist(slcA); // note: persist works in creation, merge does not
+    em.persist(slcB);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+    System.out.println("master after persist:\n\t" + e);
+    System.out.println("detail A after persist:\n\t" + slcA);
+    System.out.println("detail B after persist:\n\t" + slcB);
+
+    Integer eId = e.getPersistenceId();
+    Integer eVersion = e.getPersistenceVersion();
+    System.out.println("id of PERSISTed master: " + eId);
+    System.out.println("version of PERSISTed master: " + eVersion);
+
+    e.setName(MASTER_NAME_0);
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    em.merge(e);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Master fromDbE = em.find(Master.class, eId);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    assertMaster0(eId, fromDbE);
+    assertNotSame(e, fromDbE);
+    System.out.println("master retrieved from DB:\n\t" + fromDbE);
+    System.out.println("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
+    System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
+    assertNull(fromDbE.$details); // ok; set is not initialized
+    System.out.println("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
+    assertNull(fromDbE.getDetails());
+    System.out.println("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
+    System.out.println("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())==0));
+    assertTrue(eVersion.compareTo(fromDbE.getPersistenceVersion())==0);
+    System.out.println("PERSISTENCE VERSION DOES NOT CHANGE WHEN SAME VALUE IS EXPLICITLY SET ON FIELD");
+  }
 
 
 
