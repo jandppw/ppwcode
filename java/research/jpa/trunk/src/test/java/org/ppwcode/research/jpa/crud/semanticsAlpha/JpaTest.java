@@ -47,33 +47,23 @@ public class JpaTest {
 
   static final String PERSISTENCE_UNIT_NAME = "be_hdp_contracts_I_IBMOpenJPA_test";
 
-  public final static String ENTERPRISE_NAME_0 = "HYPOTHESIS-NAME";
-  public final static String ENTERPRISE_ADDRESS_0 = "HYPOTHESIS ADDRESS";
-  public final static String ENTERPRISE_ENTERPRISE_ID_0 = "0123 456 789";
-  public final static Date ENTERPRISE_TERMINATION_DATE_0 = new Date();
+  public final static String MASTER_NAME_0 = "HYPOTHESIS-NAME";
 
-  public final static Date CONTRACT_START_DATE_A = new Date();
-  public final static Date CONTRACT_TERMINATION_DATE_A = new Date();
+  public final static Date DETAIL_DATE_A = new Date();
 
-  public final static Date CONTRACT_START_DATE_B = new Date();
-  public final static Date CONTRACT_TERMINATION_DATE_B = new Date();
+  public final static Date DETAIL_DATE_B = new Date();
+
   private String $cwdName;
   private String $serFileName;
 
-  private void assertEnterprise0(Integer eId, Master fromDbE) {
+  private void assertMaster0(Integer eId, Master fromDbE) {
     assertEquals(eId, fromDbE.getPersistenceId());
-    assertEquals(ENTERPRISE_NAME_0, fromDbE.getName());
-    assertEquals(ENTERPRISE_ADDRESS_0, fromDbE.getAddress());
-    assertEquals(ENTERPRISE_ENTERPRISE_ID_0, fromDbE.getEnterpriseId());
-    assertTrue(sameDay(ENTERPRISE_TERMINATION_DATE_0, fromDbE.getTerminationDate()));
+    assertEquals(MASTER_NAME_0, fromDbE.getName());
   }
 
-  private Master createEnterprise0() {
+  private Master createMaster0() {
     Master e = new Master();
-    e.setName(ENTERPRISE_NAME_0);
-    e.setAddress(ENTERPRISE_ADDRESS_0);
-    e.setEnterpriseId(ENTERPRISE_ENTERPRISE_ID_0);
-    e.setTerminationDate(ENTERPRISE_TERMINATION_DATE_0);
+    e.setName(MASTER_NAME_0);
     return e;
   }
 
@@ -82,13 +72,13 @@ public class JpaTest {
     System.out.println();
     System.out.println();
     System.out.println();
-    System.out.println("hypothesis1 (enterprise without contract, saved with merge)");
+    System.out.println("hypothesis1 (master without detail, saved with merge)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
 
     EntityTransaction tx = em.getTransaction();
     tx.begin();
-    Master e = createEnterprise0();
+    Master e = createMaster0();
     assertFalse(em.contains(e));
     Master persistedE = em.merge(e);
     assertFalse(em.contains(e));
@@ -100,6 +90,7 @@ public class JpaTest {
     System.out.println("NOTE THAT enterprise IS NOT IN entity manager AFTER MERGE");
     assertTrue(em.contains(persistedE));
     System.out.println("NOTE THAT persisted enterprise IS STILL IN entity manager AFTER COMMIT");
+    em.close();
     tx = null;
     em = null;
 
@@ -114,9 +105,10 @@ public class JpaTest {
     tx.begin();
     Master fromDbE = em.find(Master.class, eId);
     tx.commit();
+    em.close();
     tx = null;
     em = null;
-    assertEnterprise0(eId, fromDbE);
+    assertMaster0(eId, fromDbE);
     assertNotSame(persistedE, fromDbE);
     System.out.println("enterprise retrieved from DB:\n\t" + fromDbE);
     System.out.println("$contracts of enterprise retrieved from DB is null?: " + (fromDbE.$details == null));
@@ -139,7 +131,7 @@ public class JpaTest {
 
     EntityTransaction tx = em.getTransaction();
     tx.begin();
-    Master e = createEnterprise0();
+    Master e = createMaster0();
     assertFalse(em.contains(e));
     System.out.println("RAM enterprise:\n\t" + e);
     assertNull(e.getPersistenceId());
@@ -153,6 +145,7 @@ public class JpaTest {
     tx = null;
     assertTrue(em.contains(e));
     System.out.println("NOTE THAT enterprise IS STILL IN entity manager AFTER COMMIT");
+    em.close();
     em = null;
     assertNotNull(e.getPersistenceId());
     assertNotNull(e.getPersistenceVersion());
@@ -171,8 +164,9 @@ public class JpaTest {
     tx = null;
     assertTrue(em.contains(fromDbE));
     System.out.println("NOTE THAT entity manager STILL CONTAINS RETRIEVED enterprise AFTER COMMIT");
+    em.close();
     em = null;
-    assertEnterprise0(eId, fromDbE);
+    assertMaster0(eId, fromDbE);
     assertNotSame(e, fromDbE);
     assertNull(fromDbE.$details); // ok; set is not initialized
     System.out.println("enterprise retrieved from DB:\n\t" + fromDbE);
@@ -195,7 +189,7 @@ public class JpaTest {
 
     EntityTransaction tx = em.getTransaction();
     tx.begin();
-    Master e = createEnterprise0();
+    Master e = createMaster0();
     System.out.println("RAM enterprise:\n\t" + e);
     assertNull(e.getPersistenceId());
     assertNull(e.getPersistenceVersion());
@@ -205,6 +199,7 @@ public class JpaTest {
     System.out.println("RAM enterprise, after persist:\n\t" + e);
     tx.commit();
     tx = null;
+    em.close();
     em = null;
     assertNotNull(e.getPersistenceId());
     assertNotNull(e.getPersistenceVersion());
@@ -219,8 +214,9 @@ public class JpaTest {
     Master fromDbE = em.find(Master.class, eId);
     tx.commit();
     tx = null;
+    em.close();
     em = null;
-    assertEnterprise0(eId, fromDbE);
+    assertMaster0(eId, fromDbE);
     assertNotSame(e, fromDbE);
     System.out.println("enterprise retrieved from DB:\n\t" + fromDbE);
     assertNull(fromDbE.$details); // ok; set is not initialized
@@ -229,9 +225,9 @@ public class JpaTest {
     assertNotNull(fromDbE.getDetails());
     assertTrue(fromDbE.getDetails().isEmpty());
 
-    Master deserE = serAndDeserEnterprise(e);
+    Master deserE = serAndDeserMaster(e);
 
-    assertEnterprise0(eId, deserE);
+    assertMaster0(eId, deserE);
     assertNotSame(e, deserE);
     System.out.println("enterprise from ser file:\n\t" + deserE);
     assertNotNull(fromDbE.$details);
@@ -254,14 +250,15 @@ public class JpaTest {
 
     EntityTransaction tx = em.getTransaction();
     tx.begin();
-    Master e = createEnterprise0();
-    Detail slcA = createContractA(e);
-    Detail slcB = createContractB(e);
+    Master e = createMaster0();
+    Detail slcA = createDetailA(e);
+    Detail slcB = createDetailB(e);
     em.persist(e);
     em.persist(slcA); // note: persist works in creation, merge does not
     em.persist(slcB);
     tx.commit();
     tx = null;
+    em.close();
     em = null;
     System.out.println("enterprise in DB:\n\t" + e);
     System.out.println("contract A in DB:\n\t" + slcA);
@@ -276,9 +273,10 @@ public class JpaTest {
     em.contains(e);
     tx.commit();
     tx = null;
+    em.close();
     em = null;
 
-    assertEnterprise0(eId, fromDbE);
+    assertMaster0(eId, fromDbE);
     System.out.println("enterprise from DB:\n\t" + fromDbE);
     assertNull(fromDbE.$details); // ok; set is not initialized
     System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$details);
@@ -291,9 +289,9 @@ public class JpaTest {
     assertFalse(fromDbE.getDetails().isEmpty()); // this is totally unexpected, since the collection is lazy and never touched while attached
 
 
-    Master deserE = serAndDeserEnterprise(fromDbE);
+    Master deserE = serAndDeserMaster(fromDbE);
 
-    assertEnterprise0(eId, deserE);
+    assertMaster0(eId, deserE);
     assertNotSame(fromDbE, deserE);
     System.out.println("enterprise from ser:\n\t" + deserE);
     assertNotNull(fromDbE.$details);
@@ -316,14 +314,15 @@ public class JpaTest {
 
     EntityTransaction tx = em.getTransaction();
     tx.begin();
-    Master e = createEnterprise0();
-    Detail slcA = createContractA(e);
-    Detail slcB = createContractB(e);
+    Master e = createMaster0();
+    Detail slcA = createDetailA(e);
+    Detail slcB = createDetailB(e);
     em.persist(e);
     em.persist(slcA); // note: persist works in creation, merge does not
     em.persist(slcB);
     tx.commit();
     tx = null;
+    em.close();
     em = null;
     System.out.println("enterprise in DB:\n\t" + e);
     System.out.println("contract A in DB:\n\t" + slcA);
@@ -336,9 +335,10 @@ public class JpaTest {
     tx.begin();
     Master fromDbE = em.find(Master.class, eId);
     em.contains(e);
-    serEnterprise(fromDbE);
+    serMaster(fromDbE);
     tx.commit();
     tx = null;
+    em.close();
     em = null;
     System.out.println("enterprise from DB:\n\t" + fromDbE);
     assertNull(fromDbE.$details); // ok; set is not initialized
@@ -350,9 +350,9 @@ public class JpaTest {
     System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$details);
     System.out.println("type of $contracts of enterprise retrieved from DB:\n\t" + fromDbE.$details.getClass());
 
-    Master deserE = deserEnterprise();
+    Master deserE = deserMaster();
 
-    assertEnterprise0(eId, deserE);
+    assertMaster0(eId, deserE);
     assertNotSame(fromDbE, deserE);
     System.out.println("enterprise from ser:\n\t" + deserE);
     assertNotNull(fromDbE.$details);
@@ -373,14 +373,15 @@ public class JpaTest {
 
     EntityTransaction tx = em.getTransaction();
     tx.begin();
-    Master e = createEnterprise0();
-    Detail slcA = createContractA(e);
-    Detail slcB = createContractB(e);
+    Master e = createMaster0();
+    Detail slcA = createDetailA(e);
+    Detail slcB = createDetailB(e);
     em.persist(e);
     em.persist(slcA); // note: persist works in creation, merge does not
     em.persist(slcB);
     tx.commit();
     tx = null;
+    em.close();
     em = null;
     System.out.println("enterprise in DB:\n\t" + e);
     System.out.println("contract A in DB:\n\t" + slcA);
@@ -395,19 +396,20 @@ public class JpaTest {
     em.contains(e);
     tx.commit();
     tx = null;
+    em.close();
     em = null;
     System.out.println("enterprise from DB:\n\t" + fromDbE);
     assertNull(fromDbE.$details); // ok; set is not initialized
     System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$details);
     assertNotNull(fromDbE.getDetails());
-    System.out.println("YET SOME MAGIC: $CONTRACTS NOT INITIALIZED AND NULL, BUT GETCONTRACTS NOT NULL");
-    System.out.println("THIS MEANS WITHOUT A DOUBT THAT JPA FIDLES WITH THE BODY OF GETCONTRACTS!!!!!!");
+    System.out.println("YET SOME MAGIC: $DETAILS NOT INITIALIZED AND NULL, BUT GETDETAILS NOT NULL");
+    System.out.println("THIS MEANS WITHOUT A DOUBT THAT JPA FIDLES WITH THE BODY OF GETDETAILS!!!!!!");
     System.out.println("JUST BY CALLING getContracts(), and not $contracts !!!! the collection gets initialized");
-    System.out.println("COMPARE THIS TO 2D: SAME CODE, NO GETCONTRACTS");
+    System.out.println("COMPARE THIS TO 2D: SAME CODE, NO GETDETAILS");
 
-    Master deserE = serAndDeserEnterprise(fromDbE);
+    Master deserE = serAndDeserMaster(fromDbE);
 
-    assertEnterprise0(eId, deserE);
+    assertMaster0(eId, deserE);
     assertNotSame(fromDbE, deserE);
     System.out.println("enterprise from ser:\n\t" + deserE);
     assertNotNull(fromDbE.$details);
@@ -428,14 +430,15 @@ public class JpaTest {
 
     EntityTransaction tx = em.getTransaction();
     tx.begin();
-    Master e = createEnterprise0();
-    Detail slcA = createContractA(e);
-    Detail slcB = createContractB(e);
+    Master e = createMaster0();
+    Detail slcA = createDetailA(e);
+    Detail slcB = createDetailB(e);
     em.persist(e);
     em.persist(slcA); // note: persist works in creation, merge does not
     em.persist(slcB);
     tx.commit();
     tx = null;
+    em.close();
     em = null;
     System.out.println("enterprise in DB:\n\t" + e);
     System.out.println("contract A in DB:\n\t" + slcA);
@@ -450,15 +453,16 @@ public class JpaTest {
     em.contains(e);
     tx.commit();
     tx = null;
+    em.close();
     em = null;
     System.out.println("enterprise from DB:\n\t" + fromDbE);
     assertNull(fromDbE.$details); // ok; set is not initialized
     System.out.println("$contracts of enterprise retrieved from DB:\n\t" + fromDbE.$details);
-    System.out.println("WE NEVER CALLED GETCONTRACTS; NOW SERIALIZING");
+    System.out.println("WE NEVER CALLED GETDETAILS; NOW SERIALIZING");
 
-    Master deserE = serAndDeserEnterprise(fromDbE);
+    Master deserE = serAndDeserMaster(fromDbE);
 
-    assertEnterprise0(eId, deserE);
+    assertMaster0(eId, deserE);
     assertNotSame(fromDbE, deserE);
     System.out.println("enterprise from ser:\n\t" + deserE);
     assertNull(fromDbE.$details);
@@ -468,17 +472,17 @@ public class JpaTest {
     assertNull(deserE.getDetails());
   }
 
-  // THE ABOVE MEANS THAT WE NEED TO DO MORE TO MAKE SURE THAT WE DO NOT SEND CONTRACTS OVER THE WIRE
+  // THE ABOVE MEANS THAT WE NEED TO DO MORE TO MAKE SURE THAT WE DO NOT SEND DETAILS OVER THE WIRE
 
-  private Master serAndDeserEnterprise(Master e) throws FileNotFoundException,
+  private Master serAndDeserMaster(Master e) throws FileNotFoundException,
   IOException,
   ClassNotFoundException {
-    serEnterprise(e);
-    Master deserE = deserEnterprise();
+    serMaster(e);
+    Master deserE = deserMaster();
     return deserE;
   }
 
-  private Master deserEnterprise() throws FileNotFoundException,
+  private Master deserMaster() throws FileNotFoundException,
                                       IOException,
                                       ClassNotFoundException {
     File iSerFile = new File($serFileName);
@@ -494,7 +498,7 @@ public class JpaTest {
     return deserE;
   }
 
-  private void serEnterprise(Master e) throws FileNotFoundException, IOException {
+  private void serMaster(Master e) throws FileNotFoundException, IOException {
     $cwdName = System.getProperty("user.dir");
     $serFileName = $cwdName + "/hypothesis.ser";
     System.out.println($serFileName);
@@ -511,18 +515,16 @@ public class JpaTest {
     oSerFile = null;
   }
 
-  private Detail createContractB(Master e) {
+  private Detail createDetailB(Master e) {
     Detail slcB = new Detail();
-    slcB.setDate(CONTRACT_START_DATE_B);
-    slcB.setTerminationDate(CONTRACT_TERMINATION_DATE_B);
+    slcB.setDate(DETAIL_DATE_B);
     slcB.setMaster(e);
     return slcB;
   }
 
-  private Detail createContractA(Master e) {
+  private Detail createDetailA(Master e) {
     Detail slcA = new Detail();
-    slcA.setDate(CONTRACT_START_DATE_A);
-    slcA.setTerminationDate(CONTRACT_TERMINATION_DATE_A);
+    slcA.setDate(DETAIL_DATE_A);
     slcA.setMaster(e);
     return slcA;
   }
