@@ -504,7 +504,7 @@ public class JpaBTest {
     System.out.println();
     System.out.println();
     System.out.println();
-    System.out.println("hypothesis2c (master with 2 details, created using persist, serialized and deserialized outside transaction, with slight touch on details)");
+    System.out.println("hypothesis2e (master with 2 details, created using persist, touching details on managed entities)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
 
@@ -533,25 +533,31 @@ public class JpaBTest {
     assertFalse(em.contains(e));
     tx.commit();
     tx = null;
+
+    System.out.println("managed master from DB:\n\t" + fromDbE);
+    assertNull(fromDbE.$details); // ok; set is not initialized
+    System.out.println("$details of managed master:\n\t" + fromDbE.$details);
+    assertNotNull(fromDbE.getDetails());
+    System.out.println("details of managed master:\n\t" + fromDbE.getDetails());
+    assertNotNull(fromDbE.$details);
+    System.out.println("$details of managed master:\n\t" + fromDbE.$details);
+    System.out.println("BEFORE: $DETAILS IS NOT INITIALIZED AND NULL");
+    System.out.println("GETDETAILS: GETDETAILS IS INITIALIZED AND NOT NULL");
+    System.out.println("AFTER: $DETAILS IS INITIALIZED AND NOT NULL");
+    System.out.println("THIS MEANS WITHOUT A DOUBT THAT JPA FIDLES WITH THE BODY OF GETDETAILS!!!!!!");
+    System.out.println("JUST BY CALLING getDetails(), and not $details !!!! the collection gets initialized");
+
     em.close();
     em = null;
-    System.out.println("master from DB:\n\t" + fromDbE);
-    assertNull(fromDbE.$details); // ok; set is not initialized
-    System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
-    assertNotNull(fromDbE.getDetails());
-    System.out.println("YET SOME MAGIC: $DETAILS NOT INITIALIZED AND NULL, BUT GETDETAILS NOT NULL");
-    System.out.println("THIS MEANS WITHOUT A DOUBT THAT JPA FIDLES WITH THE BODY OF GETDETAILS!!!!!!");
-    System.out.println("JUST BY CALLING getContracts(), and not $details !!!! the collection gets initialized");
-    System.out.println("COMPARE THIS TO 2D: SAME CODE, NO GETDETAILS");
 
     Master deserE = serAndDeserMaster(fromDbE);
 
     assertMaster0(eId, deserE);
     assertNotSame(fromDbE, deserE);
     System.out.println("master from ser:\n\t" + deserE);
-    assertNotNull(fromDbE.$details);
+    assertNotNull(deserE.$details);
     System.out.println("$details of master from ser file:\n\t" + deserE.$details);
-    System.out.println("NOTE THAT AFTER DESERIALIZATION, $details IS NOT NULL: reason: slight touch of getContracts!!!!");
+    System.out.println("NOTE THAT AFTER SERIALIZATION+DESERIALIZATION, $details IS NOT NULL: reason: touch of getDetails!!!!");
     System.out.println("details from master from ser:\n\t" + deserE.getDetails());
     assertNotNull(deserE.getDetails());
   }
@@ -561,7 +567,7 @@ public class JpaBTest {
     System.out.println();
     System.out.println();
     System.out.println();
-    System.out.println("hypothesis2d (master with 2 details, created using persist, serialized without any init, and deserialized)");
+    System.out.println("hypothesis2f (master with 2 details, created using persist, serialized without any init, and deserialized)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
 
@@ -587,7 +593,7 @@ public class JpaBTest {
     tx = em.getTransaction();
     tx.begin();
     Master fromDbE = em.find(Master.class, eId);
-    em.contains(e);
+    assertFalse(em.contains(e));
     tx.commit();
     tx = null;
     em.close();
@@ -608,6 +614,12 @@ public class JpaBTest {
     System.out.println("details from master from ser:\n\t" + deserE.getDetails());
     assertNull(deserE.getDetails());
   }
+
+
+
+
+
+
 
   // THE ABOVE MEANS THAT WE NEED TO DO MORE TO MAKE SURE THAT WE DO NOT SEND DETAILS OVER THE WIRE
 
