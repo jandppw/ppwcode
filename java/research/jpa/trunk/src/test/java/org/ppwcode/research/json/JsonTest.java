@@ -42,12 +42,7 @@ public class JsonTest {
     $e = new Master();
     $e.setPersistenceId(444);
     $e.setPersistenceVersion(555);
-    $e.setEnterpriseId("0456-789-123");
     $e.setName("An Enterprise Name");
-    $e.setAddress("MyStreet 6\n5546 A City\nBelgium");
-    GregorianCalendar gc = new GregorianCalendar();
-    gc.set(2222, 1, 1);
-    $e.setTerminationDate(gc.getTime());
 //    System.out.println($e);
   }
 
@@ -61,7 +56,7 @@ public class JsonTest {
    * Cycle is in origin of wildExceptions CompoundPropertyException. But we don't want to serialize the wildExceptions anyway. Exclude
    */
   @Test
-  public void enterpriseToJson2() {
+  public void masterToJson2() {
     JsonConfig cf = new JsonConfig();
     cf.setExcludes(new String[] {"wildExceptions"});
     /*JSON je =*/ JSONSerializer.toJSON($e, cf);
@@ -73,7 +68,7 @@ public class JsonTest {
    * This should be generalized with a filter. or a processor for persistent beans in general (that deals with ATToMany relationships).
    */
   @Test
-  public void enterpriseToJson3() {
+  public void masterToJson3() {
     JsonConfig cf = new JsonConfig();
     cf.setExcludes(new String[] {"wildExceptions", "civilized", "contracts"});
 //    JSON je = JSONSerializer.toJSON($e, cf);
@@ -91,7 +86,6 @@ public class JsonTest {
     DynaBean edb = new LazyDynaBean();
     edb.set("persistenceId", 666);
     edb.set("persistenceVersion", 777L);
-    edb.set("enterpriseId", "9876-734-123");
     edb.set("name", "A Lazy Bean");
     edb.set("address", "Lazy Street 25\n88484 Lazy Town\nLazilia");
     GregorianCalendar gc = new GregorianCalendar();
