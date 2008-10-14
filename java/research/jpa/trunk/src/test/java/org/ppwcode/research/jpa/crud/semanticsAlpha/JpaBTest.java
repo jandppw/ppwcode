@@ -1076,6 +1076,7 @@ public class JpaBTest {
     System.out.println();
     System.out.println();
     System.out.println();
+    System.out.println("CREATE NEW MASTER");
     System.out.println("hypothesis5a (master without details, created using persist)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
@@ -1088,11 +1089,9 @@ public class JpaBTest {
     tx = null;
     em.close();
     em = null;
-    System.out.println("master after persist:\n\t" + e);
 
     Integer eId = e.getPersistenceId();
     assertNotNull(eId);
-    System.out.println("id of PERSISTed master: " + eId);
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
@@ -1104,14 +1103,7 @@ public class JpaBTest {
     em = null;
 
     assertMaster0(eId, fromDbE);
-    assertNotSame(e, fromDbE);
-    System.out.println("master retrieved from DB:\n\t" + fromDbE);
-    System.out.println("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
-    System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
-    assertNull(fromDbE.$details); // ok; set is not initialized
-    System.out.println("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
-    assertNull(fromDbE.getDetails());
-    System.out.println("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
+    System.out.println("master without details successfully created with persist");
   }
 
   @Test
@@ -1119,6 +1111,7 @@ public class JpaBTest {
     System.out.println();
     System.out.println();
     System.out.println();
+    System.out.println("CREATE NEW MASTER");
     System.out.println("hypothesis5b (master without details, created using merge)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
@@ -1131,11 +1124,9 @@ public class JpaBTest {
     tx = null;
     em.close();
     em = null;
-    System.out.println("master after merge:\n\t" + mergedE);
 
     Integer eId = mergedE.getPersistenceId();
     assertNotNull(eId);
-    System.out.println("id of MERGEd master: " + eId);
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
@@ -1147,14 +1138,7 @@ public class JpaBTest {
     em = null;
 
     assertMaster0(eId, fromDbE);
-    assertNotSame(e, fromDbE);
-    System.out.println("master retrieved from DB:\n\t" + fromDbE);
-    System.out.println("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
-    System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
-    assertNull(fromDbE.$details); // ok; set is not initialized
-    System.out.println("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
-    assertNull(fromDbE.getDetails());
-    System.out.println("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
+    System.out.println("master without details successfully created with merge");
   }
 
   @Test
@@ -1162,6 +1146,7 @@ public class JpaBTest {
     System.out.println();
     System.out.println();
     System.out.println();
+    System.out.println("DELETE MASTER WITHOUT DETAILS");
     System.out.println("hypothesis6a (master without details, created using persist, remove managed master)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
@@ -1174,35 +1159,14 @@ public class JpaBTest {
     tx = null;
     em.close();
     em = null;
-    System.out.println("master after persist:\n\t" + e);
 
     Integer eId = e.getPersistenceId();
     assertNotNull(eId);
-    System.out.println("id of PERSISTed master: " + eId);
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
     Master fromDbE = em.find(Master.class, eId);
-    tx.commit();
-    tx = null;
-    em.close();
-    em = null;
-
-    assertMaster0(eId, fromDbE);
-    assertNotSame(e, fromDbE);
-    System.out.println("master retrieved from DB:\n\t" + fromDbE);
-    System.out.println("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
-    System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
-    assertNull(fromDbE.$details); // ok; set is not initialized
-    System.out.println("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
-    assertNull(fromDbE.getDetails());
-    System.out.println("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
-
-    em = emf.createEntityManager();
-    tx = em.getTransaction();
-    tx.begin();
-    fromDbE = em.find(Master.class, eId);
     em.remove(fromDbE);
     tx.commit();
     tx = null;
@@ -1219,7 +1183,7 @@ public class JpaBTest {
     em = null;
 
     assertNull(fromDbE);
-    System.out.println("master is removed");
+    System.out.println("master without details is removed");
 }
 
   @Test
@@ -1227,6 +1191,7 @@ public class JpaBTest {
     System.out.println();
     System.out.println();
     System.out.println();
+    System.out.println("DELETE MASTER WITHOUT DETAILS");
     System.out.println("hypothesis6b (master without details, created using merge, remove managed master)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
@@ -1239,35 +1204,14 @@ public class JpaBTest {
     tx = null;
     em.close();
     em = null;
-    System.out.println("master after merge:\n\t" + mergedE);
 
     Integer eId = mergedE.getPersistenceId();
     assertNotNull(eId);
-    System.out.println("id of MERGEd master: " + eId);
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
     Master fromDbE = em.find(Master.class, eId);
-    tx.commit();
-    tx = null;
-    em.close();
-    em = null;
-
-    assertMaster0(eId, fromDbE);
-    assertNotSame(e, fromDbE);
-    System.out.println("master retrieved from DB:\n\t" + fromDbE);
-    System.out.println("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
-    System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
-    assertNull(fromDbE.$details); // ok; set is not initialized
-    System.out.println("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
-    assertNull(fromDbE.getDetails());
-    System.out.println("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
-
-    em = emf.createEntityManager();
-    tx = em.getTransaction();
-    tx.begin();
-    fromDbE = em.find(Master.class, eId);
     em.remove(fromDbE);
     tx.commit();
     tx = null;
@@ -1284,7 +1228,7 @@ public class JpaBTest {
     em = null;
 
     assertNull(fromDbE);
-    System.out.println("master is removed");
+    System.out.println("master without details is removed");
   }
 
   @Test(expected=ArgumentException.class)
@@ -1292,6 +1236,7 @@ public class JpaBTest {
     System.out.println();
     System.out.println();
     System.out.println();
+    System.out.println("DELETE MASTER WITHOUT DETAILS");
     System.out.println("hypothesis6c (master without details, created using persist, remove detached master)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
@@ -1304,36 +1249,15 @@ public class JpaBTest {
     tx = null;
     em.close();
     em = null;
-    System.out.println("master after persist:\n\t" + e);
 
     Integer eId = e.getPersistenceId();
     assertNotNull(eId);
-    System.out.println("id of PERSISTed master: " + eId);
-
-    em = emf.createEntityManager();
-    tx = em.getTransaction();
-    tx.begin();
-    Master fromDbE = em.find(Master.class, eId);
-    tx.commit();
-    tx = null;
-    em.close();
-    em = null;
-
-    assertMaster0(eId, fromDbE);
-    assertNotSame(e, fromDbE);
-    System.out.println("master retrieved from DB:\n\t" + fromDbE);
-    System.out.println("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
-    System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
-    assertNull(fromDbE.$details); // ok; set is not initialized
-    System.out.println("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
-    assertNull(fromDbE.getDetails());
-    System.out.println("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
 
     System.out.println("EntityManager remove will throw an ArgumentException when the argument is a detached object.");
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
-    em.remove(fromDbE);
+    em.remove(e);
     tx.commit();
     System.out.println("EntityManager DID NOT THROW AN ARGUMENTEXCEPTION");
     tx = null;
@@ -1343,7 +1267,7 @@ public class JpaBTest {
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
-    fromDbE = em.find(Master.class, eId);
+    Master fromDbE = em.find(Master.class, eId);
     tx.commit();
     tx = null;
     em.close();
@@ -1358,6 +1282,7 @@ public class JpaBTest {
     System.out.println();
     System.out.println();
     System.out.println();
+    System.out.println("DELETE MASTER WITHOUT DETAILS");
     System.out.println("hypothesis6d (master without details, created using merge, remove detached master)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
@@ -1370,36 +1295,15 @@ public class JpaBTest {
     tx = null;
     em.close();
     em = null;
-    System.out.println("master after merge:\n\t" + mergedE);
 
     Integer eId = mergedE.getPersistenceId();
     assertNotNull(eId);
-    System.out.println("id of MERGEd master: " + eId);
-
-    em = emf.createEntityManager();
-    tx = em.getTransaction();
-    tx.begin();
-    Master fromDbE = em.find(Master.class, eId);
-    tx.commit();
-    tx = null;
-    em.close();
-    em = null;
-
-    assertMaster0(eId, fromDbE);
-    assertNotSame(e, fromDbE);
-    System.out.println("master retrieved from DB:\n\t" + fromDbE);
-    System.out.println("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
-    System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
-    assertNull(fromDbE.$details); // ok; set is not initialized
-    System.out.println("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
-    assertNull(fromDbE.getDetails());
-    System.out.println("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
 
     System.out.println("EntityManager remove will throw an ArgumentException when the argument is a detached object.");
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
-    em.remove(fromDbE);
+    em.remove(mergedE);
     tx.commit();
     System.out.println("EntityManager DID NOT THROW AN ARGUMENTEXCEPTION");
     tx = null;
@@ -1409,7 +1313,7 @@ public class JpaBTest {
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
-    fromDbE = em.find(Master.class, eId);
+    Master fromDbE = em.find(Master.class, eId);
     tx.commit();
     tx = null;
     em.close();
@@ -1424,6 +1328,7 @@ public class JpaBTest {
     System.out.println();
     System.out.println();
     System.out.println();
+    System.out.println("DELETE MASTER WITH DETAILS");
     System.out.println("hypothesis7a (master with 2 details, created using persist, remove managed master in transaction)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
@@ -1451,6 +1356,7 @@ public class JpaBTest {
     tx = em.getTransaction();
     tx.begin();
     Master fromDbE = em.find(Master.class, eId);
+    System.out.println("details : "+fromDbE.getDetails());
     tx.commit();
     tx = null;
     em.close();
@@ -1461,9 +1367,9 @@ public class JpaBTest {
     System.out.println("master retrieved from DB:\n\t" + fromDbE);
     System.out.println("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
     System.out.println("$details of master retrieved from DB:\n\t" + fromDbE.$details);
-    assertNull(fromDbE.$details); // ok; set is not initialized
+//    assertNull(fromDbE.$details); // ok; set is not initialized
     System.out.println("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
-    assertNull(fromDbE.getDetails());
+//    assertNull(fromDbE.getDetails());
     System.out.println("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
 
     em = emf.createEntityManager();
@@ -1475,6 +1381,8 @@ public class JpaBTest {
     tx = null;
     em.close();
     em = null;
+
+    System.out.println();
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
