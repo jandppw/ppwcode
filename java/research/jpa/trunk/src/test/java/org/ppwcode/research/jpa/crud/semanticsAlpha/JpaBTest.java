@@ -39,6 +39,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceException;
 
 import org.apache.openjpa.persistence.ArgumentException;
 import org.junit.Test;
@@ -48,6 +49,7 @@ import org.ppwcode.research.jpa.crud.semanticsAlpha.Detail;
 public class JpaBTest {
 
   static final String PERSISTENCE_UNIT_NAME = "be_hdp_contracts_I_IBMOpenJPA_test";
+  //static final String PERSISTENCE_UNIT_NAME = "be_hdp_contracts_I";
 
   final static Logger LOGGER = Logger.getLogger("JpaBTest");
 
@@ -620,6 +622,7 @@ public class JpaBTest {
     LOGGER.fine("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())<0));
     assertTrue(eVersion + 1 == fromDbE.getPersistenceVersion());
     LOGGER.fine("PERSISTENCE VERSION INCREASES WITH 1 AFTER FIELD CHANGE");
+    System.out.println("master without details successfully modified and persistence version incremented");
   }
 
   @Test
@@ -679,6 +682,7 @@ public class JpaBTest {
     LOGGER.fine("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())<0));
     assertTrue(eVersion.compareTo(fromDbE.getPersistenceVersion())==0);
     LOGGER.fine("PERSISTENCE VERSION DOES NOT CHANGE WHEN SAME VALUE IS EXPLICITLY SET ON FIELD");
+    System.out.println("master without details remains the same and persistence version not incremented");
   }
 
   @Test
@@ -739,6 +743,7 @@ public class JpaBTest {
     LOGGER.fine("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())<0));
     assertTrue(eVersion + 1 == fromDbE.getPersistenceVersion());
     LOGGER.fine("PERSISTENCE VERSION INCREASES WITH 1 AFTER (DETACHED) FIELD CHANGE AND SUBSEQUENT MERGE");
+    System.out.println("master without details successfully modified and persistence version incremented");
   }
 
   @Test
@@ -799,6 +804,7 @@ public class JpaBTest {
     LOGGER.fine("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())<0));
     assertTrue(eVersion.compareTo(fromDbE.getPersistenceVersion())==0);
     LOGGER.fine("PERSISTENCE VERSION DOES NOT CHANGE WHEN SAME VALUE IS EXPLICITLY SET ON (DETACHED) FIELD AND SUBSEQUENT MERGE");
+    System.out.println("master without details remains the same and persistence version not incremented");
   }
 
   @Test
@@ -860,6 +866,7 @@ public class JpaBTest {
     LOGGER.fine("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())<0));
     assertTrue(eVersion + 1 == fromDbE.getPersistenceVersion());
     LOGGER.fine("PERSISTENCE VERSION INCREASES WITH 1 AFTER FIELD CHANGE");
+    System.out.println("master with details successfully modified and persistence version incremented");
   }
 
 
@@ -922,6 +929,7 @@ public class JpaBTest {
     LOGGER.fine("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())==0));
     assertTrue(eVersion.compareTo(fromDbE.getPersistenceVersion())==0);
     LOGGER.fine("PERSISTENCE VERSION DOES NOT CHANGE WHEN SAME VALUE IS EXPLICITLY SET ON FIELD");
+    System.out.println("master with details remains the same and persistence version not incremented");
   }
 
   @Test
@@ -984,6 +992,7 @@ public class JpaBTest {
     LOGGER.fine("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())<0));
     assertTrue(eVersion + 1 == fromDbE.getPersistenceVersion());
     LOGGER.fine("PERSISTENCE VERSION INCREASES WITH 1 AFTER FIELD CHANGE");
+    System.out.println("master with details successfully modified and persistence version incremented");
   }
 
 
@@ -1047,7 +1056,76 @@ public class JpaBTest {
     LOGGER.fine("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())==0));
     assertTrue(eVersion.compareTo(fromDbE.getPersistenceVersion())==0);
     LOGGER.fine("PERSISTENCE VERSION DOES NOT CHANGE WHEN SAME VALUE IS EXPLICITLY SET ON FIELD");
+    System.out.println("master with details remains the same and persistence version not incremented");
   }
+
+  @Test
+  public void hypothesis4e() {
+    displayTest("MASTER WITH DETAILS: FIELD CHANGE",
+        "hypothesis4a (master with 2 details, created using persist, field change on managed master in transaction, details touched)");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    EntityManager em = emf.createEntityManager();
+
+    EntityTransaction tx = em.getTransaction();
+    tx.begin();
+    Master e = createMaster0();
+    Detail slcA = createDetailA(e);
+    Detail slcB = createDetailB(e);
+    em.persist(e);
+    em.persist(slcA); // note: persist works in creation, merge does not
+    em.persist(slcB);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+    LOGGER.fine("master after persist:\n\t" + e);
+    LOGGER.fine("detail A after persist:\n\t" + slcA);
+    LOGGER.fine("detail B after persist:\n\t" + slcB);
+
+    Integer eId = e.getPersistenceId();
+    Integer eVersion = e.getPersistenceVersion();
+    LOGGER.fine("id of PERSISTed master: " + eId);
+    LOGGER.fine("version of PERSISTed master: " + eVersion);
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Master fromDbE = em.find(Master.class, eId);
+    fromDbE.setName(MASTER_NAME_1);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    fromDbE = em.find(Master.class, eId);
+    fromDbE.getDetails();
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    assertMaster1(eId, fromDbE);
+    assertNotSame(e, fromDbE);
+    LOGGER.fine("master retrieved from DB:\n\t" + fromDbE);
+    LOGGER.fine("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
+    LOGGER.fine("$details of master retrieved from DB:\n\t" + fromDbE.$details);
+    assertNotNull(fromDbE.$details); // ok; set is not initialized
+    LOGGER.fine("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
+    assertNotNull(fromDbE.getDetails());
+    assertTrue(fromDbE.getDetails().size()==2);
+    for (Detail d : fromDbE.getDetails()) {
+      assertTrue((d.getPersistenceId().compareTo(slcA.getPersistenceId())==0)||
+          (d.getPersistenceId().compareTo(slcB.getPersistenceId())==0));
+    }
+    LOGGER.fine("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())<0));
+    assertTrue(eVersion + 1 == fromDbE.getPersistenceVersion());
+    LOGGER.fine("PERSISTENCE VERSION INCREASES WITH 1 AFTER FIELD CHANGE");
+    System.out.println("master with details successfully modified and persistence version incremented");
+  }
+
 
   @Test
   public void hypothesis5a() {
@@ -1216,7 +1294,7 @@ public class JpaBTest {
     Integer eId = e.getPersistenceId();
     assertNotNull(eId);
 
-    System.out.println("EntityManager remove will throw an ArgumentException when the argument is a detached object.");
+    System.out.println("EntityManager.remove() will throw an ArgumentException when the argument is a detached object.");
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
@@ -1259,7 +1337,7 @@ public class JpaBTest {
     Integer eId = mergedE.getPersistenceId();
     assertNotNull(eId);
 
-    System.out.println("EntityManager remove will throw an ArgumentException when the argument is a detached object.");
+    System.out.println("EntityManager.remove() will throw an ArgumentException when the argument is a detached object.");
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
@@ -1283,7 +1361,7 @@ public class JpaBTest {
     System.out.println("master is removed");
   }
 
-  @Test
+  @Test(expected=PersistenceException.class)
   public void hypothesis7a() {
     displayTest("DELETE MASTER WITH DETAILS",
         "hypothesis7a (master with 2 details, created using persist, remove managed master in transaction)");
@@ -1313,6 +1391,7 @@ public class JpaBTest {
     tx = em.getTransaction();
     tx.begin();
     Master fromDbE = em.find(Master.class, eId);
+    fromDbE.getDetails();
     LOGGER.fine("details : "+fromDbE.getDetails());
     tx.commit();
     tx = null;
@@ -1321,20 +1400,20 @@ public class JpaBTest {
 
     assertMaster0(eId, fromDbE);
     assertNotSame(e, fromDbE);
-    LOGGER.fine("master retrieved from DB:\n\t" + fromDbE);
-    LOGGER.fine("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
-    LOGGER.fine("$details of master retrieved from DB:\n\t" + fromDbE.$details);
-//    assertNull(fromDbE.$details); // ok; set is not initialized
-    LOGGER.fine("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
-//    assertNull(fromDbE.getDetails());
-    LOGGER.fine("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
+    assertTrue(fromDbE.getDetails().size()==2);
+    for (Detail d : fromDbE.getDetails()) {
+      assertTrue((d.getPersistenceId().compareTo(slcA.getPersistenceId())==0)||
+          (d.getPersistenceId().compareTo(slcB.getPersistenceId())==0));
+    }
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
     fromDbE = em.find(Master.class, eId);
     em.remove(fromDbE);
+    System.out.println("EntityManager.remove() will throw a PersistenceException because foreign key constraints will be violated.");
     tx.commit();
+    System.out.println("EntityManager DID NOT THROW AN PERSISTENCEEXCEPTION");
     tx = null;
     em.close();
     em = null;
@@ -1354,10 +1433,17 @@ public class JpaBTest {
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
+    System.out.println(slcA.getPersistenceId());
+    System.out.println(slcB.getPersistenceId());
     Detail a = em.find(Detail.class, slcA.getPersistenceId());
     Detail b = em.find(Detail.class, slcB.getPersistenceId());
     LOGGER.fine("detail A after remove:\n\t" + a);
     LOGGER.fine("detail B after remove:\n\t" + b);
+    System.out.println("detail A after remove:\n\t" + a);
+    System.out.println("detail B after remove:\n\t" + b);
+
+    assertNull(a);
+    assertNull(b);
 
     tx.commit();
     tx = null;
