@@ -30,7 +30,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.joda.time.DateMidnight;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
@@ -67,7 +66,7 @@ public class Detail extends AbstractIntegerIdVersionedPersistentBean {
    */
   public final void setDate(Date date) {
     if (date != null) {
-      $date = (new DateMidnight(date)).toDate();
+      $date = date;
     } else {
       $date = null;
     }
