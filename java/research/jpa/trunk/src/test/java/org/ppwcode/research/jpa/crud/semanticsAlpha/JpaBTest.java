@@ -42,6 +42,7 @@ import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
 
 import org.apache.openjpa.persistence.ArgumentException;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.ppwcode.research.jpa.crud.semanticsAlpha.Master;
 import org.ppwcode.research.jpa.crud.semanticsAlpha.Detail;
@@ -57,11 +58,15 @@ public class JpaBTest {
   public final static String MASTER_NAME_1 = "HYPOTHESIS-NEW-NAME";
 
   public final static Date DETAIL_DATE_A = new Date();
-
   public final static Date DETAIL_DATE_B = new Date();
 
   private String $cwdName;
   private String $serFileName;
+
+  @BeforeClass
+  public static void updateDateB() {
+    DETAIL_DATE_B.setTime(DETAIL_DATE_A.getTime()+9876543);
+  }
 
   private void assertMaster0(Integer eId, Master fromDbE) {
     assertEquals(eId, fromDbE.getPersistenceId());
@@ -94,6 +99,11 @@ public class JpaBTest {
     System.out.println();
     System.out.println(msg1);
     System.out.println(msg2);
+  }
+
+  @Test
+  public void checkDates() {
+    assertFalse(DETAIL_DATE_A.equals(DETAIL_DATE_B));
   }
 
   @Test
@@ -1768,6 +1778,53 @@ public class JpaBTest {
 
     System.out.println("detail successfully retrieved, with master attached (master.getDetails() was touched and" +
         " contains correct details, serialization succeeded)");
+  }
+
+  @Test
+  public void hypothesis9a() {
+    displayTest("MODIFY DETAIL: FIELD CHANGE",
+        "hypothesis9a (master with 2 details, created using persist, retrieve, modify and merge detail, using managed detail)");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    EntityManager em = emf.createEntityManager();
+
+    EntityTransaction tx = em.getTransaction();
+    tx.begin();
+    Master e = createMaster0();
+    Detail slcA = createDetailA(e);
+    Detail slcB = createDetailB(e);
+    em.persist(e);
+    em.persist(slcA); // note: persist works in creation, merge does not
+    em.persist(slcB);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+    LOGGER.fine("master after persist:\n\t" + e);
+    LOGGER.fine("detail A after persist:\n\t" + slcA);
+    LOGGER.fine("detail B after persist:\n\t" + slcB);
+
+    Integer aId = slcA.getPersistenceId();
+    LOGGER.fine("id of PERSISTed detail A: " + aId);
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Detail fromDbA = em.find(Detail.class, aId);
+
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    assertNotNull(fromDbA);
+    assertDetailA(aId, fromDbA);
+    assertNotSame(slcA, fromDbA);
+    assertNotNull(fromDbA.getMaster());
+    assertMaster0(e.getPersistenceId(), fromDbA.getMaster());
+    assertNull(fromDbA.getMaster().$details);
+    assertNull(fromDbA.getMaster().getDetails());
+
+    System.out.println("detail successfully retrieved, with master attached (master.getDetails() is null)");
   }
 
 
