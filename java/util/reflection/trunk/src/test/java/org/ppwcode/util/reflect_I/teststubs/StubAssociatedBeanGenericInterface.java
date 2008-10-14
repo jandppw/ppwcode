@@ -46,8 +46,5 @@ public interface StubAssociatedBeanGenericInterface<_I_ extends Number> {
 
   void addPropertyA(StubAssociatedBeanGenericA srb);
 
-  @SuppressWarnings("unchecked")
-  final static Class<? extends StubAssociatedBeanGenericInterface<?>> GENERIC_SUPER_TYPE = (Class<? extends StubAssociatedBeanGenericInterface<?>>)StubAssociatedBeanGenericInterface.class;
-
 }
 
