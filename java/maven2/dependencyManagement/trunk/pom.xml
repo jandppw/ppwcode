@@ -195,7 +195,6 @@
         <groupId>org.ppwcode</groupId>
         <artifactId>ppwcode-metainfo-I</artifactId>
         <version>1.0</version>
-        <scope>compile</scope>
       </dependency>
       <dependency>
         <groupId>org.ppwcode.util</groupId>
@@ -248,7 +247,6 @@
         <groupId>commons-logging</groupId>
         <artifactId>commons-logging-api</artifactId>
         <version>1.1</version> <!-- should be 1.1.1 -->
-        <scope>runtime</scope>
       </dependency>
       <dependency>
         <groupId>javax.persistence</groupId>
