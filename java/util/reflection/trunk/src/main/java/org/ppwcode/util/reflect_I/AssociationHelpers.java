@@ -77,7 +77,7 @@ public final class AssociationHelpers {
                   "}") // MUDO add toMany
     }
   )
-  public static <_T_> Set<_T_> directAssociatedBeans(_T_ bean, Class<_T_> associatedType) {
+  public static <_T_> Set<_T_> directAssociatedBeans(_T_ bean, Class<? extends _T_> associatedType) {
     assert preArgumentNotNull(bean, "bean");
     assert preArgumentNotNull(associatedType, "associatedType");
     Set<_T_> result = new HashSet<_T_>();
@@ -143,7 +143,7 @@ public final class AssociationHelpers {
                    "union (_T_ t : directAssociatedSemanticBeans(_bean)) {associatedSemanticBeans(t)}")
     }
   )
-  public static <_T_> Set<_T_> associatedBeans(_T_ bean, Class<_T_> associatedType) {
+  public static <_T_> Set<_T_> associatedBeans(_T_ bean, Class<? extends _T_> associatedType) {
     assert preArgumentNotNull(bean, "bean");
     assert preArgumentNotNull(associatedType, "associatedType");
     LinkedList<_T_> agenda = new LinkedList<_T_>();

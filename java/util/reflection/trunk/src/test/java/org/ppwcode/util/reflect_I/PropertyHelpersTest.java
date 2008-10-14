@@ -46,6 +46,8 @@ import java.util.Set;
 import org.junit.Test;
 import org.ppwcode.util.reflect_I.teststubs.CloneableStubClassA;
 import org.ppwcode.util.reflect_I.teststubs.StubClass;
+import org.ppwcode.vernacular.exception_II.InternalException;
+import org.ppwcode.vernacular.exception_II.SemanticException;
 
 
 public class PropertyHelpersTest {
@@ -487,6 +489,21 @@ public class PropertyHelpersTest {
 //  public void testPropertyValue() {
 //    fail("Not yet implemented");
 //  }
+
+  @Test
+  public void testSetPropertyValue1() throws InternalException {
+    StubClass subject = new StubClass();
+    Object newValue = new Object();
+    PropertyHelpers.setPropertyValue(subject, "internalExceptionProperty", newValue);
+    assertEquals(newValue, subject.getInternalExceptionProperty());
+  }
+
+  @Test(expected = SemanticException.class)
+  public void testSetPropertyValue2() throws InternalException {
+    StubClass subject = new StubClass();
+    SemanticException newValue = new SemanticException("Semantic Exception message", null);
+    PropertyHelpers.setPropertyValue(subject, "internalExceptionProperty", newValue);
+  }
 
 }
 
