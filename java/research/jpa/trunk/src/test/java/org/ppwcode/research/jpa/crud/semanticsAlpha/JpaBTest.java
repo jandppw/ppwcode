@@ -73,6 +73,16 @@ public class JpaBTest {
     assertEquals(MASTER_NAME_1, fromDbE.getName());
   }
 
+  private void assertDetailA(Integer eId, Detail fromDbE) {
+    assertEquals(eId, fromDbE.getPersistenceId());
+    assertEquals(DETAIL_DATE_A, fromDbE.getDate());
+  }
+
+  private void assertDetailB(Integer eId, Detail fromDbE) {
+    assertEquals(eId, fromDbE.getPersistenceId());
+    assertEquals(DETAIL_DATE_B, fromDbE.getDate());
+  }
+
   private Master createMaster0() {
     Master e = new Master();
     e.setName(MASTER_NAME_0);
@@ -89,7 +99,7 @@ public class JpaBTest {
   @Test
   public void hypothesis1() {
     displayTest("RETRIEVE MASTER WITHOUT DETAILS",
-        "hypothesis1 (master without detail, saved with MERGE)");
+        "hypothesis1 (master without detail, saved with merge)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
 
@@ -139,7 +149,7 @@ public class JpaBTest {
   @Test
   public void hypothesis1a() {
     displayTest("RETRIEVE MASTER WITHOUT DETAILS",
-      "hypothesis1a (master without detail, saved with PERSIST --> we also have primary key)");
+      "hypothesis1a (master without detail, saved with persist --> we also have primary key)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
 
@@ -196,7 +206,7 @@ public class JpaBTest {
   @Test
   public void hypothesis1b() throws IOException, ClassNotFoundException {
     displayTest("RETRIEVE MASTER WITHOUT DETAILS",
-        "hypothesis1b  (master without detail, saved with PERSIST, serialized and deserialized)");
+        "hypothesis1b  (master without detail, saved with persist, serialized and deserialized)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
 
@@ -1537,8 +1547,277 @@ public class JpaBTest {
     em = null;
   }
 
+  @Test
+  public void hypothesis8a() {
+    displayTest("RETRIEVE DETAIL",
+        "hypothesis8a (master with 2 details, created using persist, retrieve detail)");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    EntityManager em = emf.createEntityManager();
+
+    EntityTransaction tx = em.getTransaction();
+    tx.begin();
+    Master e = createMaster0();
+    Detail slcA = createDetailA(e);
+    Detail slcB = createDetailB(e);
+    em.persist(e);
+    em.persist(slcA); // note: persist works in creation, merge does not
+    em.persist(slcB);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+    LOGGER.fine("master after persist:\n\t" + e);
+    LOGGER.fine("detail A after persist:\n\t" + slcA);
+    LOGGER.fine("detail B after persist:\n\t" + slcB);
+
+    Integer aId = slcA.getPersistenceId();
+    LOGGER.fine("id of PERSISTed detail A: " + aId);
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Detail fromDbA = em.find(Detail.class, aId);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    assertNotNull(fromDbA);
+    assertDetailA(aId, fromDbA);
+    assertNotSame(slcA, fromDbA);
+    assertNotNull(fromDbA.getMaster());
+    assertMaster0(e.getPersistenceId(), fromDbA.getMaster());
+    assertNull(fromDbA.getMaster().$details);
+    assertNull(fromDbA.getMaster().getDetails());
+
+    System.out.println("detail successfully retrieved, with master attached (master.getDetails() is null)");
+  }
+
+  @Test
+  public void hypothesis8b() {
+    displayTest("RETRIEVE DETAIL",
+        "hypothesis8b (master with 2 details, created using persist, retrieve detail, touch master.getDetails())");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    EntityManager em = emf.createEntityManager();
+
+    EntityTransaction tx = em.getTransaction();
+    tx.begin();
+    Master e = createMaster0();
+    Detail slcA = createDetailA(e);
+    Detail slcB = createDetailB(e);
+    em.persist(e);
+    em.persist(slcA); // note: persist works in creation, merge does not
+    em.persist(slcB);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+    LOGGER.fine("master after persist:\n\t" + e);
+    LOGGER.fine("detail A after persist:\n\t" + slcA);
+    LOGGER.fine("detail B after persist:\n\t" + slcB);
+
+    Integer aId = slcA.getPersistenceId();
+    LOGGER.fine("id of PERSISTed detail A: " + aId);
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Detail fromDbA = em.find(Detail.class, aId);
+    fromDbA.getMaster().getDetails();
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    assertNotNull(fromDbA);
+    assertDetailA(aId, fromDbA);
+    assertNotSame(slcA, fromDbA);
+    assertNotNull(fromDbA.getMaster());
+    assertMaster0(e.getPersistenceId(), fromDbA.getMaster());
+    assertNotNull(fromDbA.getMaster().$details);
+    assertNotNull(fromDbA.getMaster().getDetails());
+    assertTrue(fromDbA.getMaster().getDetails().size()==2);
+    for (Detail d : fromDbA.getMaster().getDetails()) {
+      assertTrue((d.getPersistenceId().compareTo(slcA.getPersistenceId())==0)||
+          (d.getPersistenceId().compareTo(slcB.getPersistenceId())==0));
+    }
+
+    System.out.println("detail successfully retrieved, with master attached " +
+        "(master.getDetails() was touched and contains correct details)");
+  }
+
+  @Test
+  public void hypothesis8c() throws FileNotFoundException, IOException, ClassNotFoundException {
+    displayTest("RETRIEVE DETAIL",
+        "hypothesis8c (master with 2 details, created using persist, retrieve detail, serialize and deserialize)");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    EntityManager em = emf.createEntityManager();
+
+    EntityTransaction tx = em.getTransaction();
+    tx.begin();
+    Master e = createMaster0();
+    Detail slcA = createDetailA(e);
+    Detail slcB = createDetailB(e);
+    em.persist(e);
+    em.persist(slcA); // note: persist works in creation, merge does not
+    em.persist(slcB);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+    LOGGER.fine("master after persist:\n\t" + e);
+    LOGGER.fine("detail A after persist:\n\t" + slcA);
+    LOGGER.fine("detail B after persist:\n\t" + slcB);
+
+    Integer aId = slcA.getPersistenceId();
+    LOGGER.fine("id of PERSISTed detail A: " + aId);
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Detail fromDbA = em.find(Detail.class, aId);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    assertNotNull(fromDbA);
+    assertDetailA(aId, fromDbA);
+    assertNotSame(slcA, fromDbA);
+    assertNotNull(fromDbA.getMaster());
+    assertMaster0(e.getPersistenceId(), fromDbA.getMaster());
+    assertNull(fromDbA.getMaster().$details);
+    assertNull(fromDbA.getMaster().getDetails());
+
+    Detail deserDA = serAndDeserDetail(fromDbA);
+    assertNotNull(deserDA);
+    assertDetailA(aId, deserDA);
+    assertNotSame(slcA, deserDA);
+    assertNotNull(deserDA.getMaster());
+    assertMaster0(e.getPersistenceId(), deserDA.getMaster());
+    assertNull(deserDA.getMaster().$details);
+    assertNull(deserDA.getMaster().getDetails());
+
+    System.out.println("detail successfully retrieved, with master attached (master.getDetails() is null," +
+        " serialization succeeded)");
+  }
+
+  @Test
+  public void hypothesis8d() throws FileNotFoundException, IOException, ClassNotFoundException {
+    displayTest("RETRIEVE DETAIL",
+        "hypothesis8d (master with 2 details, created using persist, retrieve detail, touch master.getDetails()," +
+        " serialize and deserialize)");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    EntityManager em = emf.createEntityManager();
+
+    EntityTransaction tx = em.getTransaction();
+    tx.begin();
+    Master e = createMaster0();
+    Detail slcA = createDetailA(e);
+    Detail slcB = createDetailB(e);
+    em.persist(e);
+    em.persist(slcA); // note: persist works in creation, merge does not
+    em.persist(slcB);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+    LOGGER.fine("master after persist:\n\t" + e);
+    LOGGER.fine("detail A after persist:\n\t" + slcA);
+    LOGGER.fine("detail B after persist:\n\t" + slcB);
+
+    Integer aId = slcA.getPersistenceId();
+    LOGGER.fine("id of PERSISTed detail A: " + aId);
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Detail fromDbA = em.find(Detail.class, aId);
+    fromDbA.getMaster().getDetails();
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    assertNotNull(fromDbA);
+    assertDetailA(aId, fromDbA);
+    assertNotSame(slcA, fromDbA);
+    assertNotNull(fromDbA.getMaster());
+    assertMaster0(e.getPersistenceId(), fromDbA.getMaster());
+    assertNotNull(fromDbA.getMaster().$details);
+    assertNotNull(fromDbA.getMaster().getDetails());
+    assertTrue(fromDbA.getMaster().getDetails().size()==2);
+    for (Detail d : fromDbA.getMaster().getDetails()) {
+      assertTrue((d.getPersistenceId().compareTo(slcA.getPersistenceId())==0)||
+          (d.getPersistenceId().compareTo(slcB.getPersistenceId())==0));
+    }
+
+    Detail deserDA = serAndDeserDetail(fromDbA);
+    assertNotNull(deserDA);
+    assertDetailA(aId, deserDA);
+    assertNotSame(slcA, deserDA);
+    assertNotNull(deserDA.getMaster());
+    assertMaster0(e.getPersistenceId(), deserDA.getMaster());
+    assertNotNull(deserDA.getMaster().$details);
+    assertNotNull(deserDA.getMaster().getDetails());
+    assertTrue(deserDA.getMaster().getDetails().size()==2);
+    for (Detail d : deserDA.getMaster().getDetails()) {
+      assertTrue((d.getPersistenceId().compareTo(slcA.getPersistenceId())==0)||
+          (d.getPersistenceId().compareTo(slcB.getPersistenceId())==0));
+    }
+
+    System.out.println("detail successfully retrieved, with master attached (master.getDetails() was touched and" +
+        " contains correct details, serialization succeeded)");
+  }
+
+
+
+
 
   // THE ABOVE MEANS THAT WE NEED TO DO MORE TO MAKE SURE THAT WE DO NOT SEND DETAILS OVER THE WIRE
+
+  // HELPER CODE
+
+  private Detail serAndDeserDetail(Detail e) throws FileNotFoundException,
+  IOException,
+  ClassNotFoundException {
+    serDetail(e);
+    Detail deserE = deserDetail();
+    return deserE;
+  }
+
+  private Detail deserDetail() throws FileNotFoundException,
+                                      IOException,
+                                      ClassNotFoundException {
+    File iSerFile = new File($serFileName);
+    FileInputStream fis = new FileInputStream(iSerFile);
+    ObjectInputStream ois = new ObjectInputStream(fis);
+    Detail deserE = (Detail)ois.readObject();
+    ois.close();
+    ois = null;
+    fis.close();
+    fis = null;
+    iSerFile.delete();
+    iSerFile = null;
+    return deserE;
+  }
+
+  private void serDetail(Detail e) throws FileNotFoundException, IOException {
+    $cwdName = System.getProperty("user.dir");
+    $serFileName = $cwdName + "/hypothesis.ser";
+    LOGGER.fine($serFileName);
+    File oSerFile = new File($serFileName);
+    FileOutputStream fos = new FileOutputStream(oSerFile);
+    ObjectOutputStream oos = new ObjectOutputStream(fos);
+    oos.writeObject(e);
+    oos.flush();
+    oos.close();
+    oos = null;
+    fos.flush();
+    fos.close();
+    fos = null;
+    oSerFile = null;
+  }
 
   private Master serAndDeserMaster(Master e) throws FileNotFoundException,
   IOException,
