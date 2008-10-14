@@ -32,7 +32,13 @@
 
       <property name="openjpa.Log" value="DefaultLevel=INFO,SQL=TRACE,File=./log/jpa/jpaEnhancerLog.log,Runtime=INFO,Tool=INFO"/>
       <!-- execute the ddl script on the database -->
-      <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>
+
+
+      <property name="openjpa.jdbc.MappingDefaults" value="ForeignKeyDeleteAction=restrict, JoinForeignKeyDeleteAction=restrict"/>
+<!--      <property name="openjpa.jdbc.SchemaFactory" value="native(ForeignKeys=true)"/>-->
+      <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(SchemaAction=refresh)"/>
+<!--      <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>-->
+
     </properties>
   </persistence-unit>
 
@@ -44,13 +50,13 @@
 
     <provider>com.ibm.websphere.persistence.PersistenceProviderImpl</provider>
 
-    <jta-data-source>jdbc/Contracts</jta-data-source>
+<!--    <jta-data-source>jdbc/Contracts</jta-data-source>-->
 
     <!-- second data source needed for "GeneratedValue" (which cannot be used
      during a transaction); in WebSphere: non-JTA data source means that on the
      data source a custom property has to be added "nonTransactionalDataSource"
      with value "true" -->
-    <non-jta-data-source>jdbc/ContractsNonJTA</non-jta-data-source>
+<!--    <non-jta-data-source>jdbc/ContractsNonJTA</non-jta-data-source>-->
 
     <class>org.ppwcode.vernacular.persistence_III.AbstractIntegerIdVersionedPersistentBean</class>
     <class>org.ppwcode.research.jpa.crud.semanticsAlpha.Master</class>
@@ -60,13 +66,22 @@
 
     <properties>
 
+      <property name="openjpa.ConnectionDriverName" value="com.informix.jdbc.IfxDriver"/>
+      <property name="openjpa.ConnectionURL" value="jdbc:informix-sqli://10.0.0.51:2108/cascading:informixserver=idsdevsoc4"/>
+      <property name="openjpa.ConnectionUserName" value="informix"/>
+      <property name="openjpa.ConnectionPassword" value="Africa02"/>
+
       <property name="openjpa.Log" value="DefaultLevel=INFO,SQL=TRACE,Runtime=INFO,Tool=INFO"/>
 
       <!-- WARNING: SHOULD BE DISABLED WHEN MOVING TO PRODUCTION -->
       <!-- NOTE: mapping can be manually done with wsmapping.sh from WebSphere -->
       <!-- execute the ddl script on the database -->
 
-      <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>
+
+      <property name="openjpa.jdbc.MappingDefaults" value="ForeignKeyDeleteAction=restrict, JoinForeignKeyDeleteAction=restrict"/>
+<!--      <property name="openjpa.jdbc.SchemaFactory" value="native(ForeignKeys=true)"/>-->
+      <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(SchemaAction=refresh)"/>
+<!--      <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>-->
 
       <!-- not needed, OpenJPA detects this automatically -->
       <!-- <property name="openjpa.jdbc.DBDictionary" value="InformixDictionary"/> -->
