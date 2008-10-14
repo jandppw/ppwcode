@@ -1451,6 +1451,92 @@ public class JpaBTest {
     em = null;
   }
 
+  @Test
+  public void hypothesis7b() {
+    displayTest("DELETE MASTER WITH DETAILS",
+        "hypothesis7b (master with 2 details, created using persist, first remove details then remove managed master in transaction)");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    EntityManager em = emf.createEntityManager();
+
+    EntityTransaction tx = em.getTransaction();
+    tx.begin();
+    Master e = createMaster0();
+    Detail slcA = createDetailA(e);
+    Detail slcB = createDetailB(e);
+    em.persist(e);
+    em.persist(slcA); // note: persist works in creation, merge does not
+    em.persist(slcB);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+    LOGGER.fine("master after persist:\n\t" + e);
+    LOGGER.fine("detail A after persist:\n\t" + slcA);
+    LOGGER.fine("detail B after persist:\n\t" + slcB);
+
+    Integer eId = e.getPersistenceId();
+    LOGGER.fine("id of PERSISTed master: " + eId);
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Master fromDbE = em.find(Master.class, eId);
+    fromDbE.getDetails();
+    LOGGER.fine("details : "+fromDbE.getDetails());
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    assertMaster0(eId, fromDbE);
+    assertNotSame(e, fromDbE);
+    assertTrue(fromDbE.getDetails().size()==2);
+    for (Detail d : fromDbE.getDetails()) {
+      assertTrue((d.getPersistenceId().compareTo(slcA.getPersistenceId())==0)||
+          (d.getPersistenceId().compareTo(slcB.getPersistenceId())==0));
+    }
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    slcA = em.find(Detail.class, slcA.getPersistenceId());
+    slcB = em.find(Detail.class, slcB.getPersistenceId());
+    em.remove(slcA);
+    em.remove(slcB);
+    fromDbE = em.find(Master.class, eId);
+    em.remove(fromDbE);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    fromDbE = em.find(Master.class, eId);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    assertNull(fromDbE);
+    System.out.println("master is removed");
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Detail a = em.find(Detail.class, slcA.getPersistenceId());
+    Detail b = em.find(Detail.class, slcB.getPersistenceId());
+
+    assertNull(a);
+    assertNull(b);
+
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+  }
+
 
   // THE ABOVE MEANS THAT WE NEED TO DO MORE TO MAKE SURE THAT WE DO NOT SEND DETAILS OVER THE WIRE
 
@@ -1481,7 +1567,7 @@ public class JpaBTest {
   private void serMaster(Master e) throws FileNotFoundException, IOException {
     $cwdName = System.getProperty("user.dir");
     $serFileName = $cwdName + "/hypothesis.ser";
-    System.out.println($serFileName);
+    LOGGER.fine($serFileName);
     File oSerFile = new File($serFileName);
     FileOutputStream fos = new FileOutputStream(oSerFile);
     ObjectOutputStream oos = new ObjectOutputStream(fos);
