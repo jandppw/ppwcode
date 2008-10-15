@@ -21,7 +21,10 @@ import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotNull;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
 
+import java.io.NotSerializableException;
+import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +33,6 @@ import java.util.ListIterator;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers;
 
 
 /**
@@ -95,6 +97,42 @@ public final class SerializationHelpers {
   }
 
 
+  public static Object replace(Serializable s) throws NotSerializableException {
+    SerializationObject result = new SerializationObject();
+    result.serializedClass = s.getClass();
+    List<Field> fields = fields(s.getClass());
+    for (Field field : fields) {
+      if (! Modifier.isStatic(field.getModifiers()) &&
+          ! Modifier.isTransient(field.getModifiers()) &&
+          ! field.isAnnotationPresent(DoNotSerialize.class)) {
+        SerializationInstanceVariable siv = new SerializationInstanceVariable();
+        siv.declaringClass = field.getDeclaringClass();
+        siv.name = field.getName();
+        siv.value = fieldValue(s, field); // NotSerializableException
+        result.instanceVariables.add(siv);
+      }
+    }
+    return result;
+  }
 
+  private static Serializable fieldValue(Object object, Field field) throws NotSerializableException {
+    boolean oldAccessible = field.isAccessible();
+    field.setAccessible(true);
+    Serializable result = null;
+    try {
+      result = (Serializable)field.get(object); // ClassCastException
+    }
+    catch (IllegalArgumentException exc) {
+      unexpectedException(exc);
+    }
+    catch (IllegalAccessException exc) {
+      unexpectedException(exc);
+    }
+    catch (ClassCastException ccExc) {
+      throw new NotSerializableException(field.getType().getName());
+    }
+    field.setAccessible(oldAccessible);
+    return result;
+  }
 
 }
