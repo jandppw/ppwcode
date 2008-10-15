@@ -17,6 +17,8 @@ limitations under the License.
 package org.ppwcode.util.reflect_I.serialization;
 
 
+import static org.ppwcode.util.reflect_I.FieldHelpers.fields;
+
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.ListIterator;
@@ -48,7 +50,7 @@ public class InstanceVariableExperiment {
   @Test
   public void experiment2() {
     Class<?> c = AbstractSubSubStubClass.class;
-    List<Field> result = SerializationHelpers.fields(c);
+    List<Field> result = fields(c);
     System.out.println(result);
   }
 
@@ -65,7 +67,7 @@ public class InstanceVariableExperiment {
   @Test
   public void experiment3() {
     Class<?> c = AbstractSubSubStubClass.class;
-    List<Field> result = SerializationHelpers.fields(c);
+    List<Field> result = fields(c);
     filter(result);
     System.out.println(result);
   }
@@ -92,7 +94,7 @@ public class InstanceVariableExperiment {
 
     };
     Class<?> c = AbstractSubSubStubClass.class;
-    List<Field> result = SerializationHelpers.fields(c);
+    List<Field> result = fields(c);
     filter(result);
     for (Field f : result) {
       System.out.println();
@@ -133,7 +135,7 @@ public class InstanceVariableExperiment {
 
     };
     Class<?> c = AbstractSubSubStubClass.class;
-    List<Field> result = SerializationHelpers.fields(c);
+    List<Field> result = fields(c);
     filter(result);
     for (Field f : result) {
       System.out.println();

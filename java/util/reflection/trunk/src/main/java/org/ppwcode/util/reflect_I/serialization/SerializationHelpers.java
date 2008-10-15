@@ -18,17 +18,14 @@ package org.ppwcode.util.reflect_I.serialization;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotNull;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
+import static org.ppwcode.util.reflect_I.FieldHelpers.fieldValue;
+import static org.ppwcode.util.reflect_I.FieldHelpers.fields;
 
 import java.io.NotSerializableException;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.ListIterator;
 
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
@@ -47,56 +44,6 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
          date     = "$Date: 2008-10-01 23:01:20 +0200 (Wed, 01 Oct 2008) $")
 public final class SerializationHelpers {
 
-  public static List<Field> fields(Class<?> c) {
-    List<Field> result = new ArrayList<Field>();
-    while (c != null) {
-      Field[] fs = c.getDeclaredFields();
-      result.addAll(Arrays.asList(fs));
-      c = c.getSuperclass();
-    }
-    return result;
-  }
-
-  public void f(Object obj) {
-    preArgumentNotNull(obj, "obj");
-    // serialize from top to bottom
-    List<Class<?>> classes = new ArrayList<Class<?>>();
-    Class<?> current = obj.getClass();
-    while (current !=  null) {
-      classes.add(current);
-      current = current.getSuperclass();
-    }
-    ListIterator<Class<?>> iter = classes.listIterator(classes.size());
-    while (iter.hasPrevious()) {
-      writeObjectSlice(obj, iter.previous());
-    }
-  }
-
-  private void writeObjectSlice(Object obj, Class<?> clazz) {
-    Field[] fields = clazz.getDeclaredFields();
-    for (int i = 0; i < fields.length; i++) {
-      Field field = fields[i];
-      if (! field.isAnnotationPresent(DoNotSerialize.class)) {
-        writeValue(obj, field);
-      }
-    }
-  }
-
-  private void writeValue(Object obj, Field field) {
-    field.setAccessible(true);
-    try {
-      Object value = field.get(obj);
-      ////
-    }
-    catch (IllegalArgumentException exc) {
-      unexpectedException(exc);
-    }
-    catch (IllegalAccessException exc) {
-      unexpectedException(exc);
-    }
-  }
-
-
   public static Object replace(Serializable s) throws NotSerializableException {
     SerializationObject result = new SerializationObject();
     result.serializedClass = s.getClass();
@@ -108,30 +55,17 @@ public final class SerializationHelpers {
         SerializationInstanceVariable siv = new SerializationInstanceVariable();
         siv.declaringClass = field.getDeclaringClass();
         siv.name = field.getName();
-        siv.value = fieldValue(s, field); // NotSerializableException
+        try {
+          siv.value = fieldValue(s, field, Serializable.class); // ClassCastExcxeption
+        }
+        catch (ClassCastException ccExc) {
+          Object fv = fieldValue(s, field);
+          assert fv != null;
+          throw new NotSerializableException(fv.getClass().getName());
+        }
         result.instanceVariables.add(siv);
       }
     }
-    return result;
-  }
-
-  private static Serializable fieldValue(Object object, Field field) throws NotSerializableException {
-    boolean oldAccessible = field.isAccessible();
-    field.setAccessible(true);
-    Serializable result = null;
-    try {
-      result = (Serializable)field.get(object); // ClassCastException
-    }
-    catch (IllegalArgumentException exc) {
-      unexpectedException(exc);
-    }
-    catch (IllegalAccessException exc) {
-      unexpectedException(exc);
-    }
-    catch (ClassCastException ccExc) {
-      throw new NotSerializableException(field.getType().getName());
-    }
-    field.setAccessible(oldAccessible);
     return result;
   }
 
