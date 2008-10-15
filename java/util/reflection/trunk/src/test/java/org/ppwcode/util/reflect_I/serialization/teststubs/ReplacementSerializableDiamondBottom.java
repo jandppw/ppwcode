@@ -16,39 +16,35 @@ limitations under the License.
 
 package org.ppwcode.util.reflect_I.serialization.teststubs;
 
-import org.ppwcode.util.reflect_I.serialization.DoNotSerialize;
+
+public class ReplacementSerializableDiamondBottom extends ReplacementSerializableStub {
+
+  private ReplacementSerializableDiamondRight $right;
 
 
-public class ReplacementSerializableSubSubStub extends ReplacementSerializableSubStub {
-
-  public final String getProperty1TT() {
-    return $property1;
+  public final ReplacementSerializableDiamondRight getRight() {
+    return $right;
   }
 
-  public final void setProperty1TT(String property) {
-    $property1 = property;
+
+  public final void setRight(ReplacementSerializableDiamondRight right) {
+    $right = right;
   }
 
-  @DoNotSerialize
-  private String $property1 = DEFAULT_PROPERTY_1_TT_VALUE;
 
 
 
+  private ReplacementSerializableDiamondLeft $left;
 
-  public final Delegate getDelegate() {
-    return $delegate;
+
+  public final ReplacementSerializableDiamondLeft getLeft() {
+    return $left;
   }
 
-  public final void setDelegate(Delegate delegate) {
-    $delegate = delegate;
+
+  public final void setLeft(ReplacementSerializableDiamondLeft left) {
+    $left = left;
   }
-
-  private Delegate $delegate;
-
-
-  public final static String DEFAULT_PROPERTY_1_TT_VALUE = "DEFAULT_PROPERTY_1_TT_VALUE";
-
-
 
 }
 

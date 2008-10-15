@@ -21,154 +21,21 @@ import static junit.framework.Assert.assertEquals;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.OutputStream;
 import java.io.ObjectOutputStream;
-import java.lang.reflect.Field;
 import java.util.Date;
-import java.util.List;
-import java.util.ListIterator;
-
-import junit.framework.Assert;
 
 import org.junit.Test;
 import org.ppwcode.util.reflect_I.serialization.teststubs.ExternalizableStub;
 import org.ppwcode.util.reflect_I.serialization.teststubs.ExternalizableSubStub;
 import org.ppwcode.util.reflect_I.serialization.teststubs.ExternalizableSubSubStub;
-import org.ppwcode.util.reflect_I.teststubs.AbstractSubSubStubClass;
 
 
 public class InstanceVariableExternalizableExperiment {
 
   public final static String INSTANCE_VARIABLE_NAME = "$stubPropertyString";
-
-  @Test
-  public void experiment1() {
-    Class<?> c = AbstractSubSubStubClass.class;
-    while (c != null) {
-      System.out.println();
-      System.out.println(c);
-      System.out.println("--------------------------------------");
-      Field[] fs = c.getDeclaredFields();
-      for (int i = 0; i < fs.length; i++) {
-        Field field = fs[i];
-        System.out.println(field);
-      }
-      c = c.getSuperclass();
-    }
-  }
-
-  @Test
-  public void experiment2() {
-    Class<?> c = AbstractSubSubStubClass.class;
-    List<Field> result = SerializationHelpers.fields(c);
-    System.out.println(result);
-  }
-
-  public void filter(List<Field> l) {
-    ListIterator<Field> li = l.listIterator();
-    while (li.hasNext()) {
-      Field f = li.next();
-      if (! f.getName().equals(INSTANCE_VARIABLE_NAME)) {
-        li.remove();
-      }
-    }
-  }
-
-  @Test
-  public void experiment3() {
-    Class<?> c = AbstractSubSubStubClass.class;
-    List<Field> result = SerializationHelpers.fields(c);
-    filter(result);
-    System.out.println(result);
-  }
-
-  @Test
-  public void experiment4() throws IllegalArgumentException, IllegalAccessException {
-    AbstractSubSubStubClass subject = new AbstractSubSubStubClass() {
-
-      public void stubMethodEpsilon() {
-        // NOP
-      }
-
-      public void stubMethodGamma() {
-        // NOP
-      }
-
-      public void stubMethodDelta() {
-        // NOP
-      }
-
-      public void stubMethodBeta() {
-        // NOP
-      }
-
-    };
-    Class<?> c = AbstractSubSubStubClass.class;
-    List<Field> result = SerializationHelpers.fields(c);
-    filter(result);
-    for (Field f : result) {
-      System.out.println();
-      System.out.println("field: " + f);
-      System.out.println("field.getName(): " + f.getName());
-      System.out.println("field.isAccessible(): " + f.isAccessible());
-      System.out.println("field..getAnnotations(): " + f.getAnnotations());
-      System.out.println("field.getDeclaringClass(): " + f.getDeclaringClass());
-      try {
-        System.out.print("field.get(subject): ");
-        System.out.println(f.get(subject));
-      }
-      catch (IllegalAccessException iaExc) {
-        System.out.println(iaExc);
-      }
-    }
-  }
-
-  @Test
-  public void experiment5() throws IllegalArgumentException, IllegalAccessException {
-    AbstractSubSubStubClass subject = new AbstractSubSubStubClass() {
-
-      public void stubMethodEpsilon() {
-        // NOP
-      }
-
-      public void stubMethodGamma() {
-        // NOP
-      }
-
-      public void stubMethodDelta() {
-        // NOP
-      }
-
-      public void stubMethodBeta() {
-        // NOP
-      }
-
-    };
-    Class<?> c = AbstractSubSubStubClass.class;
-    List<Field> result = SerializationHelpers.fields(c);
-    filter(result);
-    for (Field f : result) {
-      System.out.println();
-      System.out.println("field: " + f);
-      System.out.println("field.getName(): " + f.getName());
-      System.out.println("field.isAccessible(): " + f.isAccessible());
-      System.out.println("field..getAnnotations(): " + f.getAnnotations());
-      System.out.println("field.getDeclaringClass(): " + f.getDeclaringClass());
-      f.setAccessible(true);
-      System.out.println("field.isAccessible(): " + f.isAccessible());
-      try {
-        System.out.print("field.get(subject): ");
-        System.out.println(f.get(subject));
-      }
-      catch (IllegalAccessException iaExc) {
-        System.out.println(iaExc);
-      }
-    }
-  }
 
   public final static String FILE_NAME = InstanceVariableExternalizableExperiment.class.getName() + ".ser";
 

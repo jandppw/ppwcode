@@ -17,6 +17,9 @@ limitations under the License.
 package org.ppwcode.util.reflect_I.serialization.teststubs;
 
 
+import static org.ppwcode.util.reflect_I.serialization.SerializationHelpers.replace;
+
+import java.io.NotSerializableException;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -46,6 +49,10 @@ public class ReplacementSerializableStub extends ReplacementSerializableSuperStu
   private Date $property2;
 
 
+
+  protected Object writeReplace() throws NotSerializableException {
+    return replace(this);
+  }
 
 }
 
