@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2004 - $Date$ by PeopleWare n.v..
+Copyright 2004 - $Date: 2008-10-05 20:33:16 +0200 (Sun, 05 Oct 2008) $ by PeopleWare n.v..
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,28 +16,25 @@ limitations under the License.
 
 package org.ppwcode.util.reflect_I.teststubs;
 
+import org.ppwcode.util.reflect_I.serialization.DoNotSerialize;
 
-public class SuperSuperStubClass implements SuperSuperSuperStubInterface {
 
-  @SuppressWarnings("unused")
-  public void stubMethod() {
-    // NOP
+public class ExternalizableSubSubStub extends ExternalizableSubStub {
+
+  public final String getProperty1TT() {
+    return $property1;
   }
 
-  @SuppressWarnings("unused")
-  public void stubMethodB() {
-    // NOP
+  public final void setProperty1TT(String property) {
+    $property1 = property;
   }
 
-  @SuppressWarnings("unused")
-  public void stubMethodC() {
-    // NOP
-  }
+  @DoNotSerialize
+  private String $property1 = DEFAULT_PROPERTY_1_TT_VALUE;
 
-  @SuppressWarnings("unused")
-  private String $stubPropertyString = INSTANCE_VARIABLE_VALUE; // same name as instance variable in StubClass
 
-  public final static String INSTANCE_VARIABLE_VALUE = "SUPER_SUPER_STUB_CLASS_VALUE";
+
+  public final static String DEFAULT_PROPERTY_1_TT_VALUE = "DEFAULT_PROPERTY_1_TT_VALUE";
 
 }
 
