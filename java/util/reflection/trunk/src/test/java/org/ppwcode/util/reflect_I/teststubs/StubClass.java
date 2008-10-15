@@ -490,7 +490,7 @@ public class StubClass extends SuperStubClass {
     $stubPropertyString = stubPropertyString;
   }
 
-  private String $stubPropertyString = "String property stub";
+  private String $stubPropertyString = STUB_PROPERTY_STRING_VALUE;
 
 
 
@@ -519,6 +519,8 @@ public class StubClass extends SuperStubClass {
   }
 
   private Object $internalExceptionProperty;
+
+  public final static String STUB_PROPERTY_STRING_VALUE = "String property stub";
 
 }
 
