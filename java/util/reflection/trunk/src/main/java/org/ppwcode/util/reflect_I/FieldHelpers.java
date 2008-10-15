@@ -99,10 +99,11 @@ public final class FieldHelpers {
       @Expression("result = filter (Field f : fields(c)) {Modifiers.isStatic(f.modifiers)}"),
     }
   )
-  public static List<Field> instanceFields(Class<?> c) {
+  public static List<Field> instanceFields(final Class<?> c) {
     assert preArgumentNotNull(c, "c");
     List<Field> result = new ArrayList<Field>();
-    while (c != null) {
+    Class<?> current = c;
+    while (current != null) {
       Field[] fs = c.getDeclaredFields();
       List<Field> fsl = Arrays.asList(fs);
       reverse(fsl);
@@ -111,7 +112,7 @@ public final class FieldHelpers {
           result.add(f);
         }
       }
-      c = c.getSuperclass();
+      current = current.getSuperclass();
     }
     reverse(result);
     return result;
