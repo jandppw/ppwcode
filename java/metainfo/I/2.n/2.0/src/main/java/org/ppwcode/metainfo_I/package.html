@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<--
+Copyright 2007 - $Date$ by PeopleWare n.v..
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>org.ppwcode.metainfo_I/title>
+</head>
+<body>
+
+<p>Annotations to put meta-information into class files.</p>
+<p>{@link org.ppwcode.metainfo_I.Copyright} holds structured copyright information.
+  {@link org.ppwcode.metainfo_I.License} holds structured license information, for
+  selected Open Source licenses. {@link org.ppwcode.metainfo_I.vcs}
+  is a package that contains annotations to hold structured information for each
+  file for Version Control Systems (<acronym title="Version Control System">VCS</acronym>).</p>
+ <h3>Retention policy</h3>
+<p>All annotations in this library should have retention policy {@link java.lang.annotation.RetentionPolicy.CLASS}.
+  If we would use {@link java.lang.annotation.RetentionPolicy.RUNTIME}, we could use reflection to access
+  the meta information, at the cost of a little extra memory during runtime. That would be nice, yet,
+  it would also have use consequences for all projects that use libraries that use the meta information.
+  With a retention policy {@link java.lang.annotation.RetentionPolicy.RUNTIME}, any project P using one
+  or more libraries which employ ppwcode meta info, would have a runtime dependency on this library,
+  although it would probably never be used at runtime. By making the retention policy
+  {@link java.lang.annotation.RetentionPolicy.CLASS}, the meta information is embedded in the class files,
+  i.e., the binaries, as intended, and libraries using ppwcode meta info will only have a compile
+  time dependency on this library.</p>
+</body>
+</html>
