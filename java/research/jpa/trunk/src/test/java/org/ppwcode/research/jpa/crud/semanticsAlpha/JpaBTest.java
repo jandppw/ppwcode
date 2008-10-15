@@ -1907,6 +1907,246 @@ public class JpaBTest {
     System.out.println("detail field change with same value successful, persistence version stays the same");
   }
 
+  @Test
+  public void hypothesis9c() {
+    displayTest("MODIFY DETAIL: FIELD CHANGE",
+        "hypothesis9c (master with 2 details, created using persist, retrieve, modify detached detail, merge detail back)");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    EntityManager em = emf.createEntityManager();
+
+    EntityTransaction tx = em.getTransaction();
+    tx.begin();
+    Master e = createMaster0();
+    Detail slcA = createDetailA(e);
+    Detail slcB = createDetailB(e);
+    em.persist(e);
+    em.persist(slcA); // note: persist works in creation, merge does not
+    em.persist(slcB);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+    LOGGER.fine("master after persist:\n\t" + e);
+    LOGGER.fine("detail A after persist:\n\t" + slcA);
+    LOGGER.fine("detail B after persist:\n\t" + slcB);
+
+    Integer aId = slcA.getPersistenceId();
+    LOGGER.fine("id of PERSISTed detail A: " + aId);
+    Integer aVersion = slcA.getPersistenceVersion();
+    LOGGER.fine("version of PERSISTed detail A: " + aVersion);
+
+    Integer mVersion = e.getPersistenceVersion();
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Detail fromDbA = em.find(Detail.class, aId);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    fromDbA.setDate(DETAIL_DATE_B);
+    assertNotNull(fromDbA.getMaster().getName());
+    System.out.println(" NOTE: DETACHED DETAIL HAS A DETACHED, COMPLETE, MASTER");
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Detail blah = em.merge(fromDbA);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    assertNull(blah.getMaster().getName());
+    System.out.println(" NOTE: DETACHED DETAIL AFTER MERGE HAS A DETACHED, INCOMPLETE, MASTER: MASTER.GETNAME() == NULL");
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Detail copy = em.find(Detail.class, blah.getPersistenceId());
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    assertNotNull(copy.getMaster().getName());
+    System.out.println(" NOTE: DETACHED DETAIL AFTER FIND IN NEW TRANSACTION HAS A DETACHED, COMPLETE, MASTER");
+
+    assertNotNull(copy);
+    assertDetailB(aId, copy);
+    assertNotSame(slcA, copy);
+    assertNotNull(copy.getMaster());
+    System.out.println(e);
+    System.out.println(copy.getMaster());
+    assertMaster0(e.getPersistenceId(), copy.getMaster());
+    assertNull(copy.getMaster().$details);
+    assertNull(copy.getMaster().getDetails());
+
+    assertTrue(aVersion + 1 == copy.getPersistenceVersion());
+    assertTrue(mVersion.equals(copy.getMaster().getPersistenceVersion()));
+
+    System.out.println("detail field change successfull, persistence version incremented with 1");
+  }
+
+  @Test
+  public void hypothesis9d() {
+    displayTest("MODIFY DETAIL: FIELD CHANGE",
+        "hypothesis9d (master with 2 details, created using persist, retrieve, modify detached detail, merge detail back)");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    EntityManager em = emf.createEntityManager();
+
+    EntityTransaction tx = em.getTransaction();
+    tx.begin();
+    Master e = createMaster0();
+    Detail slcA = createDetailA(e);
+    Detail slcB = createDetailB(e);
+    em.persist(e);
+    em.persist(slcA); // note: persist works in creation, merge does not
+    em.persist(slcB);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+    LOGGER.fine("master after persist:\n\t" + e);
+    LOGGER.fine("detail A after persist:\n\t" + slcA);
+    LOGGER.fine("detail B after persist:\n\t" + slcB);
+
+    Integer aId = slcA.getPersistenceId();
+    LOGGER.fine("id of PERSISTed detail A: " + aId);
+    Integer aVersion = slcA.getPersistenceVersion();
+    LOGGER.fine("version of PERSISTed detail A: " + aVersion);
+
+    Integer mVersion = e.getPersistenceVersion();
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Detail fromDbA = em.find(Detail.class, aId);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    fromDbA.setDate(DETAIL_DATE_B);
+    assertNotNull(fromDbA.getMaster().getName());
+    System.out.println(" NOTE: DETACHED DETAIL HAS A DETACHED, COMPLETE, MASTER");
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Detail blah = em.merge(fromDbA);
+    blah.getMaster().getName();
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    assertNotNull(blah.getMaster().getName());
+    System.out.println(" NOTE: DETACHED DETAIL AFTER MERGE AND DETAIL.GETMASTER().GETNAME() HAS A DETACHED, COMPLETE, MASTER");
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Detail copy = em.find(Detail.class, blah.getPersistenceId());
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    assertNotNull(copy.getMaster().getName());
+    System.out.println(" NOTE: DETACHED DETAIL AFTER FIND IN NEW TRANSACTION HAS A DETACHED, COMPLETE, MASTER");
+
+    assertNotNull(copy);
+    assertDetailB(aId, copy);
+    assertNotSame(slcA, copy);
+    assertNotNull(copy.getMaster());
+    System.out.println(e);
+    System.out.println(copy.getMaster());
+    assertMaster0(e.getPersistenceId(), copy.getMaster());
+    assertNull(copy.getMaster().$details);
+    assertNull(copy.getMaster().getDetails());
+
+    assertTrue(aVersion + 1 == copy.getPersistenceVersion());
+    assertTrue(mVersion.equals(copy.getMaster().getPersistenceVersion()));
+
+    System.out.println("detail field change successfull, persistence version incremented with 1");
+  }
+
+  @Test
+  public void hypothesis9e() {
+    displayTest("MODIFY DETAIL: FIELD CHANGE",
+        "hypothesis9e (master with 2 details, created using persist, retrieve, modify detached detail," +
+        "merge detail back, modify with same value)");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    EntityManager em = emf.createEntityManager();
+
+    EntityTransaction tx = em.getTransaction();
+    tx.begin();
+    Master e = createMaster0();
+    Detail slcA = createDetailA(e);
+    Detail slcB = createDetailB(e);
+    em.persist(e);
+    em.persist(slcA); // note: persist works in creation, merge does not
+    em.persist(slcB);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+    LOGGER.fine("master after persist:\n\t" + e);
+    LOGGER.fine("detail A after persist:\n\t" + slcA);
+    LOGGER.fine("detail B after persist:\n\t" + slcB);
+
+    Integer aId = slcA.getPersistenceId();
+    LOGGER.fine("id of PERSISTed detail A: " + aId);
+    Integer aVersion = slcA.getPersistenceVersion();
+    LOGGER.fine("version of PERSISTed detail A: " + aVersion);
+
+    Integer mVersion = e.getPersistenceVersion();
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Detail fromDbA = em.find(Detail.class, aId);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    fromDbA.setDate(DETAIL_DATE_A);
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    em.merge(fromDbA);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Detail copy = em.find(Detail.class, slcA.getPersistenceId());
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    assertNotNull(copy);
+    assertDetailA(aId, copy);
+    assertNotSame(slcA, copy);
+    assertNotNull(copy.getMaster());
+    assertMaster0(e.getPersistenceId(), copy.getMaster());
+    assertNull(copy.getMaster().$details);
+    assertNull(copy.getMaster().getDetails());
+
+    assertTrue(aVersion.compareTo(copy.getPersistenceVersion())==0);
+    assertTrue(mVersion.equals(copy.getMaster().getPersistenceVersion()));
+
+    System.out.println("detail field change with same value successful, persistence version stays the same");
+  }
 
 
 
