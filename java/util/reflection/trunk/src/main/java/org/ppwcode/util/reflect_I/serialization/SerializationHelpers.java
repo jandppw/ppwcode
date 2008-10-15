@@ -44,6 +44,18 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
          date     = "$Date: 2008-10-01 23:01:20 +0200 (Wed, 01 Oct 2008) $")
 public final class SerializationHelpers {
 
+  /**
+   * <p>Create an alternative object for {@code s} to serialize instead of {@code s}.
+   *   The alternative object contains all instance variable values of {@code s},
+   *   except for those marked {@code transient} or annotated with {@link DoNotSerialize &#64;DoNotSerialize}.</p>
+   * <p>Implement a protected method as follows in your hierarchy of classes you want to use this approach:</p>
+   * <pre>
+   *   protected final Object writeReplace() throws NotSerializableException {
+   *     return {@link org.ppwcode.util.reflect_I.serialization.SerializationHelpers#replace(java.io.Serializable) SerializationHelpers.replace(this)};
+   *   }
+   * </pre>
+   * <p>The counterpart method for deserialization is the private method {@code SerializationObject.readResolve()}.
+   */
   public static Object replace(Serializable s) throws NotSerializableException {
     SerializationObject result = new SerializationObject();
     result.serializedClass = s.getClass();

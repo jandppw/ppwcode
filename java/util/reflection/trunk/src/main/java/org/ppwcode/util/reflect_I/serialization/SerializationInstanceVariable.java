@@ -20,12 +20,27 @@ package org.ppwcode.util.reflect_I.serialization;
 import java.io.Serializable;
 
 
+/**
+ * Data about one instance variable, used in an {@link SerializationObject} that replaces
+ * another object in serialization.
+ */
 public class SerializationInstanceVariable implements Serializable {
 
+  /**
+   * The exact class that declared this instance variable.
+   * It is important to carry this information, since private instance variables
+   * can be overloaded in subclasses.
+   */
   public Class<?> declaringClass;
 
+  /**
+   * The name of the instance variable this represents in {@link #declaringClass}.
+   */
   public String name;
 
+  /**
+   * The value of the instance variable this represents in the object we are replacing.
+   */
   public Serializable value;
 
   @Override
