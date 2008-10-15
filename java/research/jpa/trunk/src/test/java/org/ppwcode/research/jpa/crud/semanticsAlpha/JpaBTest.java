@@ -1961,6 +1961,7 @@ public class JpaBTest {
 
     assertNull(blah.getMaster().getName());
     System.out.println(" NOTE: DETACHED DETAIL AFTER MERGE HAS A DETACHED, INCOMPLETE, MASTER: MASTER.GETNAME() == NULL");
+    System.out.println(" -> ! NOTE THAT IF CASCADETYPE.MERGE FROM CHILD TO MASTER IS ACTIVATED, THE MASTER IS COMPLETE !");
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
