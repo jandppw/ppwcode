@@ -96,7 +96,7 @@ public final class FieldHelpers {
   @MethodContract(
     pre  = @Expression("c != null"),
     post = {
-      @Expression("result = filter (Field f : fields(c)) {Modifiers.isStatic(f.modifiers)}"),
+      @Expression("result = filter (Field f : fields(c)) {Modifiers.isStatic(f.modifiers)}")
     }
   )
   public static List<Field> instanceFields(final Class<?> c) {
@@ -130,7 +130,7 @@ public final class FieldHelpers {
     pre  = @Expression("c != null"),
     post = {
       @Expression("c != Object.class ? result == c.getDeclaredFields() U fields(c.getSuperClass())"),
-      @Expression("c == Object.class ? result.isEmpty()"),
+      @Expression("c == Object.class ? result.isEmpty()")
     }
   )
   public static List<Field> fields(Class<?> c) {
