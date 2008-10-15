@@ -28,10 +28,20 @@ import java.util.HashSet;
 import java.util.Set;
 
 
+/**
+ * This type is used by {@link SerializationHelpers#replace(Serializable)} to replace
+ * instances of other classes in serialization.
+ */
 public class SerializationObject implements Serializable {
 
+  /**
+   * The class of the original object this object is replacing in serialization.
+   */
   public Class<?> serializedClass;
 
+  /**
+   * Data about the instance variables of the object we are replacing.
+   */
   public final Set<SerializationInstanceVariable> instanceVariables = new HashSet<SerializationInstanceVariable>();
 
   @Override
@@ -45,6 +55,17 @@ public class SerializationObject implements Serializable {
     return sb.toString();
   }
 
+  /**
+   * This method, on deserialization of an object of this type, will replace this
+   * object by what is returned by this method, i.e., an object of type {@link #serializedClass},
+   * with all instance variables set according to {@link #instanceVariables}.
+   *
+   * This method must remain private to avoid unchecked access to the instance
+   * variables of all objects. See the reasoning about the public methods
+   * of {@code Externalizable} in the serialization specification.
+   * (A lame excuse, since anybody can access private instance variables,
+   * but hey).
+   */
   private Object readResolve() throws ObjectStreamException {
     Object result = newInstance(serializedClass);
     for (SerializationInstanceVariable siv : instanceVariables) {
