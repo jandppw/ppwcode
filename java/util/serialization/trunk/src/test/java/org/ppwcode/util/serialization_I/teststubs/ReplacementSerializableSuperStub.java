@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.util.reflect_I.serialization.teststubs;
+package org.ppwcode.util.serialization_I.teststubs;
 
 
 public class ReplacementSerializableSuperStub {
@@ -31,3 +31,4 @@ public class ReplacementSerializableSuperStub {
 
 }
 
+8
