@@ -1979,8 +1979,6 @@ public class JpaBTest {
     assertDetailB(aId, copy);
     assertNotSame(slcA, copy);
     assertNotNull(copy.getMaster());
-    System.out.println(e);
-    System.out.println(copy.getMaster());
     assertMaster0(e.getPersistenceId(), copy.getMaster());
     assertNull(copy.getMaster().$details);
     assertNull(copy.getMaster().getDetails());
@@ -2063,8 +2061,6 @@ public class JpaBTest {
     assertDetailB(aId, copy);
     assertNotSame(slcA, copy);
     assertNotNull(copy.getMaster());
-    System.out.println(e);
-    System.out.println(copy.getMaster());
     assertMaster0(e.getPersistenceId(), copy.getMaster());
     assertNull(copy.getMaster().$details);
     assertNull(copy.getMaster().getDetails());
