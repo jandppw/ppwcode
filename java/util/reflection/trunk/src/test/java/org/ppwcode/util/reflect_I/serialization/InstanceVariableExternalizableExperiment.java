@@ -35,13 +35,13 @@ import java.util.ListIterator;
 import junit.framework.Assert;
 
 import org.junit.Test;
+import org.ppwcode.util.reflect_I.serialization.teststubs.ExternalizableStub;
+import org.ppwcode.util.reflect_I.serialization.teststubs.ExternalizableSubStub;
+import org.ppwcode.util.reflect_I.serialization.teststubs.ExternalizableSubSubStub;
 import org.ppwcode.util.reflect_I.teststubs.AbstractSubSubStubClass;
-import org.ppwcode.util.reflect_I.teststubs.ExternalizableStub;
-import org.ppwcode.util.reflect_I.teststubs.ExternalizableSubStub;
-import org.ppwcode.util.reflect_I.teststubs.ExternalizableSubSubStub;
 
 
-public class InstanceVariableExperiment {
+public class InstanceVariableExternalizableExperiment {
 
   public final static String INSTANCE_VARIABLE_NAME = "$stubPropertyString";
 
@@ -170,7 +170,7 @@ public class InstanceVariableExperiment {
     }
   }
 
-  public final static String FILE_NAME = InstanceVariableExperiment.class.getName() + ".ser";
+  public final static String FILE_NAME = InstanceVariableExternalizableExperiment.class.getName() + ".ser";
 
   @Test
   public void externalizableTestA() throws IOException, ClassNotFoundException {

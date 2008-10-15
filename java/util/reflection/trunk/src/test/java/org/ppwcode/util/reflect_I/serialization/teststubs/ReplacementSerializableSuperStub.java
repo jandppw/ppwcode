@@ -14,10 +14,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.util.reflect_I.teststubs;
+package org.ppwcode.util.reflect_I.serialization.teststubs;
 
 
-public class ExternalizableSuperStub {
+public class ReplacementSerializableSuperStub {
 
   public final String getProperty1S() {
     return $property1;
