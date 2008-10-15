@@ -43,15 +43,17 @@ public class TestLicense_Type {
 
   private void test_getReader(Type lt) throws Exception {
     Reader licenseReader = lt.getReader();
-    assertNotNull(licenseReader);
-//    assertTrue(licenseReader.ready()); fails for no apparent reason at PeopleWare network
-    BufferedReader r = new BufferedReader(licenseReader);
-    String firstLine = r.readLine();
-    assertNotNull(firstLine);
-    assertTrue(firstLine.length() > 0);
-//    while (r.ready()) {
-//      System.out.println(r.readLine());
-//    }
+    if (lt.getUrl() != null) {
+      assertNotNull(licenseReader);
+  //    assertTrue(licenseReader.ready()); fails for no apparent reason at PeopleWare network
+      BufferedReader r = new BufferedReader(licenseReader);
+      String firstLine = r.readLine();
+      assertNotNull(firstLine);
+      assertTrue(firstLine.length() > 0);
+  //    while (r.ready()) {
+  //      System.out.println(r.readLine());
+  //    }
+    }
   }
 
   @Test

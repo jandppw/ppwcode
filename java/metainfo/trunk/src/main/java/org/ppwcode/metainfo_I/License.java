@@ -92,14 +92,24 @@ public @interface License {
     /**
      * The Mozilla Public License, vesion 1.1, released by the Mozilla Foundation
      */
-    MPL_v1_1     ("http://www.mozilla.org/MPL/MPL-1.1.html");
+    MPL_v1_1     ("http://www.mozilla.org/MPL/MPL-1.1.html"),
+
+    /**
+     * This is not open source, but proprietary code.
+     */
+    PROPIETARY   (null);
 
     Type(String url) {
-      try {
-        $url = new URL(url);
+      if (url != null) {
+        try {
+          $url = new URL(url);
+        }
+        catch (MalformedURLException exc) {
+          assert false : "MalformedURLException in definition of Type instance";
+        }
       }
-      catch (MalformedURLException exc) {
-        assert false : "MalformedURLException in definition of Type instance";
+      else {
+        $url = null;
       }
     }
 
@@ -121,12 +131,17 @@ public @interface License {
     private static final Class<?>[] CONTENT_TYPES = {InputStream.class};
 
     public final Reader getReader() throws Exception {
-      try {
-        InputStream result = (InputStream)getUrl().getContent(CONTENT_TYPES);
-        return new InputStreamReader(result);
+      if (getUrl() != null) {
+        try {
+          InputStream result = (InputStream)getUrl().getContent(CONTENT_TYPES);
+          return new InputStreamReader(result);
+        }
+        catch (IOException exc) {
+          throw new Exception("Could not retrieve license from the URL " + $url);
+        }
       }
-      catch (IOException exc) {
-        throw new Exception("Could not retrieve license from the URL " + $url);
+      else {
+        return null;
       }
     }
 
