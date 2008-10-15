@@ -17,7 +17,7 @@ limitations under the License.
 package org.ppwcode.util.reflect_I.serialization.teststubs;
 
 
-import static org.ppwcode.util.reflect_I.serialization.SerializationHelpers.fields;
+import static org.ppwcode.util.reflect_I.FieldHelpers.fields;
 
 import java.io.Externalizable;
 import java.io.IOException;
