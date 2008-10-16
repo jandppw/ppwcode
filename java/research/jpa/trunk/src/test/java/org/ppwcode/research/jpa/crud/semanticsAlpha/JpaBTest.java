@@ -2541,7 +2541,88 @@ public class JpaBTest {
 
     assertTrue(mVersion + 0 == fromDbA.getMaster().getPersistenceVersion());
 
-    System.out.println("detail created successfully, persistence version of master remains the same");
+    System.out.println("detail created successfully, persistence version of master stays the same");
+  }
+
+  @Test
+  public void hypothesis12a() {
+    displayTest("CREATE DETAIL AND ATTACH IT TO A MASTER WITH DETAILS",
+        "hypothesis11a (master with details, created using persist, create detail and attach to master, using managed master)");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+    EntityManager em = emf.createEntityManager();
+
+    EntityTransaction tx = em.getTransaction();
+    tx.begin();
+    Master e = createMaster0();
+    em.persist(e);
+    Detail a = createDetailA(e);
+    em.persist(a);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+    LOGGER.fine("master after persist:\n\t" + e);
+
+    Integer mId = e.getPersistenceId();
+    Integer mVersion = e.getPersistenceVersion();
+    Integer aId = a.getPersistenceId();
+    Integer aVersion = a.getPersistenceVersion();
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Master fromDbM = em.find(Master.class, mId);
+    Detail b = createDetailB(fromDbM);
+    em.persist(b);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    Integer bId = b.getPersistenceId();
+    Integer bVersion = b.getPersistenceVersion();
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Detail fromDbB = em.find(Detail.class, bId);
+    Detail fromDbA = em.find(Detail.class, aId);
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    assertNotNull(fromDbB);
+    assertDetailB(bId, fromDbB);
+    assertNotNull(fromDbB.getMaster());
+    assertMaster0(e.getPersistenceId(), fromDbB.getMaster());
+    assertNull(fromDbB.getMaster().$details);
+    assertNull(fromDbB.getMaster().getDetails());
+
+    assertNotNull(fromDbA);
+    assertDetailA(aId, fromDbA);
+    assertNotNull(fromDbA.getMaster());
+    assertMaster0(e.getPersistenceId(), fromDbA.getMaster());
+    assertNull(fromDbA.getMaster().$details);
+    assertNull(fromDbA.getMaster().getDetails());
+
+    assertTrue(aVersion + 0 == fromDbA.getPersistenceVersion());
+    assertTrue(mVersion + 1 == fromDbB.getMaster().getPersistenceVersion());
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    Master m = em.find(Master.class, e.getPersistenceId());
+    m.getDetails();
+    tx.commit();
+    tx = null;
+    em.close();
+    em = null;
+
+    assertTrue(m.getDetails().size() == 2);
+
+    System.out.println("detail created successfully, attach to master with detials, persistence version of master incremented with 1, " +
+        "persistence version of existing detail stays the same");
   }
 
 
