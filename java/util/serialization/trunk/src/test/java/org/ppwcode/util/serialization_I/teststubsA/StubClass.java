@@ -20,7 +20,6 @@ package org.ppwcode.util.serialization_I.teststubsA;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.ppwcode.util.reflect_I.teststubs.CloneableStubClassA;
 import org.ppwcode.vernacular.exception_II.InternalException;
 
 
