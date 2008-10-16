@@ -14,20 +14,37 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.util.serialization_I.teststubs;
+package org.ppwcode.util.serialization_I.teststubsB;
 
 
-public class ExternalizableSuperStub {
+public class ReplacementSerializableDiamondBottom extends ReplacementSerializableStub {
 
-  public final String getProperty1S() {
-    return $property1;
+  private ReplacementSerializableDiamondRight $right;
+
+
+  public final ReplacementSerializableDiamondRight getRight() {
+    return $right;
   }
 
-  public final void setProperty1S(String property) {
-    $property1 = property;
+
+  public final void setRight(ReplacementSerializableDiamondRight right) {
+    $right = right;
   }
 
-  private String $property1;
+
+
+
+  private ReplacementSerializableDiamondLeft $left;
+
+
+  public final ReplacementSerializableDiamondLeft getLeft() {
+    return $left;
+  }
+
+
+  public final void setLeft(ReplacementSerializableDiamondLeft left) {
+    $left = left;
+  }
 
 }
 

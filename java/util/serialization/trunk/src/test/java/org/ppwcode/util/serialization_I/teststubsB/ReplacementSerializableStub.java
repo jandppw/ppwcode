@@ -14,41 +14,45 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.util.serialization_I.teststubs;
-
-import org.ppwcode.util.serialization_I.DoNotSerialize;
+package org.ppwcode.util.serialization_I.teststubsB;
 
 
-public class ReplacementSerializableSubSubStub extends ReplacementSerializableSubStub {
+import static org.ppwcode.util.serialization_I.SerializationHelpers.replace;
 
-  public final String getProperty1TT() {
+import java.io.NotSerializableException;
+import java.io.Serializable;
+import java.util.Date;
+
+
+public class ReplacementSerializableStub extends ReplacementSerializableSuperStub implements Serializable {
+
+  public final String getProperty1() {
     return $property1;
   }
 
-  public final void setProperty1TT(String property) {
+  public final void setProperty1(String property) {
     $property1 = property;
   }
 
-  @DoNotSerialize
-  private String $property1 = DEFAULT_PROPERTY_1_TT_VALUE;
+  private String $property1;
 
 
 
-
-  public final Delegate getDelegate() {
-    return $delegate;
+  public final Date getProperty2() {
+    return $property2;
   }
 
-  public final void setDelegate(Delegate delegate) {
-    $delegate = delegate;
+  public final void setProperty2(Date property2) {
+    $property2 = property2;
   }
 
-  private Delegate $delegate;
+  private Date $property2;
 
 
-  public final static String DEFAULT_PROPERTY_1_TT_VALUE = "DEFAULT_PROPERTY_1_TT_VALUE";
 
-
+  protected Object writeReplace() throws NotSerializableException {
+    return replace(this);
+  }
 
 }
 

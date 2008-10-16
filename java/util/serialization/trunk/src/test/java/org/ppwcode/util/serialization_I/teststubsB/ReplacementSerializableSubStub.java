@@ -14,43 +14,20 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.util.serialization_I.teststubs;
+package org.ppwcode.util.serialization_I.teststubsB;
 
 
-import java.io.NotSerializableException;
-import java.io.Serializable;
-import java.util.Date;
+public class ReplacementSerializableSubStub extends ReplacementSerializableStub {
 
-
-public class ReplacementSerializableStub extends ReplacementSerializableSuperStub implements Serializable {
-
-  public final String getProperty1() {
+  public final String getProperty1T() {
     return $property1;
   }
 
-  public final void setProperty1(String property) {
+  public final void setProperty1T(String property) {
     $property1 = property;
   }
 
   private String $property1;
-
-
-
-  public final Date getProperty2() {
-    return $property2;
-  }
-
-  public final void setProperty2(Date property2) {
-    $property2 = property2;
-  }
-
-  private Date $property2;
-
-
-
-  protected Object writeReplace() throws NotSerializableException {
-    return replace(this);
-  }
 
 }
 

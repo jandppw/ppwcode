@@ -28,14 +28,14 @@ import java.io.ObjectOutputStream;
 import java.util.Date;
 
 import org.junit.Test;
-import org.ppwcode.util.reflect_I.serialization.teststubs.Delegate;
-import org.ppwcode.util.reflect_I.serialization.teststubs.ReplacementSerializableDiamondBottom;
-import org.ppwcode.util.reflect_I.serialization.teststubs.ReplacementSerializableDiamondLeft;
-import org.ppwcode.util.reflect_I.serialization.teststubs.ReplacementSerializableDiamondRight;
-import org.ppwcode.util.reflect_I.serialization.teststubs.ReplacementSerializableDiamondTop;
-import org.ppwcode.util.reflect_I.serialization.teststubs.ReplacementSerializableStub;
-import org.ppwcode.util.reflect_I.serialization.teststubs.ReplacementSerializableSubStub;
-import org.ppwcode.util.reflect_I.serialization.teststubs.ReplacementSerializableSubSubStub;
+import org.ppwcode.util.serialization_I.teststubsB.Delegate;
+import org.ppwcode.util.serialization_I.teststubsB.ReplacementSerializableDiamondBottom;
+import org.ppwcode.util.serialization_I.teststubsB.ReplacementSerializableDiamondLeft;
+import org.ppwcode.util.serialization_I.teststubsB.ReplacementSerializableDiamondRight;
+import org.ppwcode.util.serialization_I.teststubsB.ReplacementSerializableDiamondTop;
+import org.ppwcode.util.serialization_I.teststubsB.ReplacementSerializableStub;
+import org.ppwcode.util.serialization_I.teststubsB.ReplacementSerializableSubStub;
+import org.ppwcode.util.serialization_I.teststubsB.ReplacementSerializableSubSubStub;
 
 
 public class InstanceVariableReplacementSerializableExperiment {
