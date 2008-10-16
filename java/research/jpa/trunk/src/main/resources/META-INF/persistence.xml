@@ -12,7 +12,7 @@
 
     <provider>com.ibm.websphere.persistence.PersistenceProviderImpl</provider>
 
-    <class>org.ppwcode.vernacular.persistence_III.AbstractIntegerIdVersionedPersistentBean</class>
+    <class>org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdVersionedPersistentBean</class>
     <class>org.ppwcode.research.jpa.crud.semanticsAlpha.Master</class>
     <class>org.ppwcode.research.jpa.crud.semanticsAlpha.Detail</class>
 
@@ -58,7 +58,7 @@
      with value "true" -->
 <!--    <non-jta-data-source>jdbc/ContractsNonJTA</non-jta-data-source>-->
 
-    <class>org.ppwcode.vernacular.persistence_III.AbstractIntegerIdVersionedPersistentBean</class>
+    <class>org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdVersionedPersistentBean</class>
     <class>org.ppwcode.research.jpa.crud.semanticsAlpha.Master</class>
     <class>org.ppwcode.research.jpa.crud.semanticsAlpha.Detail</class>
 
