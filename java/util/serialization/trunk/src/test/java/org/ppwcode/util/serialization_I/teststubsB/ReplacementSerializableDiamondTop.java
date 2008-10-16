@@ -14,27 +14,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.util.serialization_I.teststubs;
-
-import org.ppwcode.util.serialization_I.DoNotSerialize;
+package org.ppwcode.util.serialization_I.teststubsB;
 
 
-public class ExternalizableSubSubStub extends ExternalizableSubStub {
+public class ReplacementSerializableDiamondTop extends ReplacementSerializableStub {
 
-  public final String getProperty1TT() {
-    return $property1;
-  }
-
-  public final void setProperty1TT(String property) {
-    $property1 = property;
-  }
-
-  @DoNotSerialize
-  private String $property1 = DEFAULT_PROPERTY_1_TT_VALUE;
-
-
-
-  public final static String DEFAULT_PROPERTY_1_TT_VALUE = "DEFAULT_PROPERTY_1_TT_VALUE";
+  // NOP
 
 }
 

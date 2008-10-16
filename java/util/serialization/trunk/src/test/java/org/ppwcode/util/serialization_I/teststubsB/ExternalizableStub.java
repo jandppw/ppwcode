@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.util.serialization_I.teststubs;
+package org.ppwcode.util.serialization_I.teststubsB;
 
 
 import static org.ppwcode.util.reflect_I.FieldHelpers.fields;
@@ -28,7 +28,7 @@ import java.lang.reflect.Modifier;
 import java.util.Date;
 import java.util.List;
 
-import org.ppwcode.util.reflect_I.serialization.DoNotSerialize;
+import org.ppwcode.util.serialization_I.DoNotSerialize;
 
 
 public class ExternalizableStub extends ExternalizableSuperStub implements Externalizable {

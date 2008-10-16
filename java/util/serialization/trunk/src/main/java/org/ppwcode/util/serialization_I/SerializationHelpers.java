@@ -51,7 +51,7 @@ public final class SerializationHelpers {
    * <p>Implement a protected method as follows in your hierarchy of classes you want to use this approach:</p>
    * <pre>
    *   protected final Object writeReplace() throws NotSerializableException {
-   *     return {@link org.ppwcode.util.reflect_I.serialization.SerializationHelpers#replace(java.io.Serializable) SerializationHelpers.replace(this)};
+   *     return {@link SerializationHelpers#replace(Serializable) SerializationHelpers.replace(this)};
    *   }
    * </pre>
    * <p>The counterpart method for deserialization is the private method {@code SerializationObject.readResolve()}.

@@ -28,9 +28,9 @@ import java.io.ObjectOutputStream;
 import java.util.Date;
 
 import org.junit.Test;
-import org.ppwcode.util.reflect_I.serialization.teststubs.ExternalizableStub;
-import org.ppwcode.util.reflect_I.serialization.teststubs.ExternalizableSubStub;
-import org.ppwcode.util.reflect_I.serialization.teststubs.ExternalizableSubSubStub;
+import org.ppwcode.util.serialization_I.teststubsB.ExternalizableStub;
+import org.ppwcode.util.serialization_I.teststubsB.ExternalizableSubStub;
+import org.ppwcode.util.serialization_I.teststubsB.ExternalizableSubSubStub;
 
 
 public class InstanceVariableExternalizableExperiment {
