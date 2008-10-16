@@ -311,8 +311,6 @@
     <dependency>
       <groupId>org.ppwcode.vernacular</groupId>
       <artifactId>ppwcode-vernacular-persistence-III</artifactId>
-      <!-- fixing to specific snapshot version because of a new backwards incompatible snapshot -->
-      <version>1.0.0-20081003.135021-20</version>
     </dependency>
     <dependency>
       <groupId>javax.ejb</groupId>
