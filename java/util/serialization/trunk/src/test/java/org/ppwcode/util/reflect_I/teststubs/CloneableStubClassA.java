@@ -19,6 +19,8 @@ package org.ppwcode.util.reflect_I.teststubs;
 
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
 
+import org.ppwcode.util.serialization_I.teststubsA.StubClass;
+
 
 public class CloneableStubClassA implements Cloneable {
 

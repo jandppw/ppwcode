@@ -14,12 +14,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.util.reflect_I.teststubs;
+package org.ppwcode.util.serialization_I.teststubsA;
 
 
-public interface StubInterfaceAlpha {
 
-  void stubMethodAlpha();
+public interface StubInterfaceBeta extends SuperSuperStubInterfaceA {
+
+  void stubMethodBeta();
+  void stubMethodEpsilon();
 
 }
 

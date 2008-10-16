@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.junit.Test;
-import org.ppwcode.util.reflect_I.teststubs.AbstractSubSubStubClass;
+import org.ppwcode.util.serialization_I.teststubsA.AbstractSubSubStubClass;
 
 
 public class InstanceVariableExperiment {

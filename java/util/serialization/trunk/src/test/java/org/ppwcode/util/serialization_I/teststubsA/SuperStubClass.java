@@ -14,30 +14,33 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.util.reflect_I.teststubs;
+package org.ppwcode.util.serialization_I.teststubsA;
 
 
-public class SuperSuperStubClass implements SuperSuperSuperStubInterface {
 
+public class SuperStubClass extends SuperSuperStubClass implements SuperSuperStubInterfaceA, SuperSuperStubInterfaceB {
+
+  @Override
   @SuppressWarnings("unused")
   public void stubMethod() {
     // NOP
   }
 
   @SuppressWarnings("unused")
+  public void stubMethodA() {
+    // NOP
+  }
+
+  @Override
+  @SuppressWarnings("unused")
   public void stubMethodB() {
     // NOP
   }
 
   @SuppressWarnings("unused")
-  public void stubMethodC() {
+  private void privateStubMethodBet() {
     // NOP
   }
-
-  @SuppressWarnings("unused")
-  private String $stubPropertyString = INSTANCE_VARIABLE_VALUE; // same name as instance variable in StubClass
-
-  public final static String INSTANCE_VARIABLE_VALUE = "SUPER_SUPER_STUB_CLASS_VALUE";
 
 }
 
