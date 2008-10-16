@@ -16,6 +16,8 @@ limitations under the License.
 
 package org.ppwcode.util.reflect_I.teststubs;
 
+import org.ppwcode.util.serialization_I.teststubsA.SuperStubClass;
+
 
 
 public class AlternateStubClass extends SuperStubClass {

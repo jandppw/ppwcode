@@ -14,12 +14,20 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.util.reflect_I.teststubs;
+package org.ppwcode.util.serialization_I.teststubsA;
 
 
-public interface StubInterfaceDelta {
 
-  void stubMethodDelta();
+
+public abstract class AbstractSubSubStubClass extends AbstractSubStubClass
+    implements StubInterfaceGamma, StubInterfaceDelta {
+
+  @SuppressWarnings("unused")
+  private void privateStubMethodAleph() {
+    // NOP
+  }
+
+  public final static String STUB_CONSTANT = "A STUB constant";
 
 }
 

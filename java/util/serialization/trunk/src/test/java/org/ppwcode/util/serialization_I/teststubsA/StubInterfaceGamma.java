@@ -14,19 +14,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.util.reflect_I.teststubs;
+package org.ppwcode.util.serialization_I.teststubsA;
 
 
+public interface StubInterfaceGamma extends StubInterfaceDelta {
 
-public abstract class AbstractSubSubStubClass extends AbstractSubStubClass
-    implements StubInterfaceGamma, StubInterfaceDelta {
+  void stubMethodGamma();
 
-  @SuppressWarnings("unused")
-  private void privateStubMethodAleph() {
-    // NOP
-  }
+  void stubMethodEpsilon();
 
-  public final static String STUB_CONSTANT = "A STUB constant";
+
+  public final static String STUB_CONSTANT_GAMMA = "Another STUB constant";
 
 }
 
