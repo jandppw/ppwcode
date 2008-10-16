@@ -104,7 +104,7 @@ public final class FieldHelpers {
     List<Field> result = new ArrayList<Field>();
     Class<?> current = c;
     while (current != null) {
-      Field[] fs = c.getDeclaredFields();
+      Field[] fs = current.getDeclaredFields();
       List<Field> fsl = Arrays.asList(fs);
       reverse(fsl);
       for (Field f : fsl) {
