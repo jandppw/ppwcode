@@ -2580,7 +2580,6 @@ public class JpaBTest {
     em = null;
 
     Integer bId = b.getPersistenceId();
-    Integer bVersion = b.getPersistenceVersion();
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
