@@ -211,8 +211,6 @@ public class FieldHelpersTest {
         expected.add(f);
       }
     }
-    System.out.println(expected);
-    System.out.println(result);
     assertEquals(expected, result);
   }
 
