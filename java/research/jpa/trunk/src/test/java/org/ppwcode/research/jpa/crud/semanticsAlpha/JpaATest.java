@@ -41,8 +41,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 import org.junit.Test;
-import org.ppwcode.research.jpa.crud.semanticsAlpha.Master;
-import org.ppwcode.research.jpa.crud.semanticsAlpha.Detail;
 
 public class JpaATest {
 

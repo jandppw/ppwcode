@@ -44,8 +44,6 @@ import javax.persistence.PersistenceException;
 import org.apache.openjpa.persistence.ArgumentException;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.ppwcode.research.jpa.crud.semanticsAlpha.Master;
-import org.ppwcode.research.jpa.crud.semanticsAlpha.Detail;
 
 public class JpaBTest {
 
