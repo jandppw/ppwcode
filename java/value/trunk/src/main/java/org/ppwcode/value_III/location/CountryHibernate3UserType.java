@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2004 - $Date$ by PeopleWare n.v..
+Copyright 2004 - $Date: 2008-10-17 16:01:32 +0200 (Fri, 17 Oct 2008) $ by PeopleWare n.v..
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.vernacular.value_III.hibernate2.AbstractEnumerationUserType;
+import org.ppwcode.vernacular.value_III.hibernate3.AbstractEnumerationUserType;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
 
@@ -34,19 +34,19 @@ import org.toryt.annotations_I.MethodContract;
  * @author    Jan Dockx
  * @author    Peopleware n.v.
  */
-@Copyright("2008 - $Date$, PeopleWare n.v.")
+@Copyright("2008 - $Date: 2008-10-17 16:01:32 +0200 (Fri, 17 Oct 2008) $, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision$",
-         date     = "$Date$")
-public final class CountryUserType extends AbstractEnumerationUserType {
+@SvnInfo(revision = "$Revision: 3153 $",
+         date     = "$Date: 2008-10-17 16:01:32 +0200 (Fri, 17 Oct 2008) $")
+public final class CountryHibernate3UserType extends AbstractEnumerationUserType {
 
   /**
-   * Create a new {@link CountryUserType}.
+   * Create a new {@link CountryHibernate3UserType}.
    *
    * @post new.getEnumerationValueEditor() instanceof CountryEditor;
    */
   @MethodContract(post = @Expression("enumerationValueEditor instanceof CountryEditor"))
-  public CountryUserType() {
+  public CountryHibernate3UserType() {
     super(new CountryEditor());
   }
 
