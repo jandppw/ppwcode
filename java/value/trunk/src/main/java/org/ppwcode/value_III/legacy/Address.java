@@ -19,6 +19,7 @@ package org.ppwcode.value_III.legacy;
 
 import java.io.Serializable;
 
+import org.ppwcode.value_III.location.Country;
 import org.ppwcode.vernacular.value_III.MutableValue;
 
 
