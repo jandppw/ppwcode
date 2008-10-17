@@ -19,7 +19,7 @@ package org.ppwcode.vernacular.value_III.stubs;
 import org.ppwcode.vernacular.value_III.AbstractEnumerationValueEditor;
 
 
-public class StubEnumerationValueEditor extends AbstractEnumerationValueEditor {
+public class StubEnumerationValueEditor extends AbstractEnumerationValueEditor<StubEnumerationValue> {
 
   public static final String LABEL_DECORATION = "++LABEL++";
 
