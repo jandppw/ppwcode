@@ -19,7 +19,6 @@ package org.ppwcode.value_III.location;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
-import java.io.Serializable;
 import java.util.Locale;
 import java.util.Map;
 
@@ -46,7 +45,7 @@ import org.toryt.annotations_I.MethodContract;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-public class CountryEditor extends DisplayLocaleBasedEnumerationValueEditor implements Serializable {
+public class CountryEditor extends DisplayLocaleBasedEnumerationValueEditor<Country> {
 
   /**
    * @return    Locale.class;

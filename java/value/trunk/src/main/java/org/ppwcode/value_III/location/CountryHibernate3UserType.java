@@ -38,7 +38,7 @@ import org.toryt.annotations_I.MethodContract;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision: 3153 $",
          date     = "$Date: 2008-10-17 16:01:32 +0200 (Fri, 17 Oct 2008) $")
-public final class CountryHibernate3UserType extends AbstractEnumerationUserType {
+public final class CountryHibernate3UserType extends AbstractEnumerationUserType<Country> {
 
   /**
    * Create a new {@link CountryHibernate3UserType}.
