@@ -69,17 +69,6 @@ public class LocaleEditor extends DisplayLocaleBasedEnumerationValueEditor<Local
 
   /**
    * A map containing all available locales ({@link Locale#getAvailableLocales()}).
-   *
-   * @result  result != null;
-   * @result  result.size() == Locale.getAvailableLocales().length;
-   * @result  (forAll int i;
-   *              0 <= i < Locale.getAvailableLocales().length;
-   *              result.containsKey(Locale.getAvailableLocales()[i].toString()));
-   * @result  (forAll int i;
-   *              0 <= i < Locale.getAvailableLocales().length;
-   *              result.get(Locale.getAvailableLocales()[i].toString())
-   *              == Locale.getAvailableLocales()[i]
-   *          );
    */
   @MethodContract( post =
     {
@@ -121,7 +110,7 @@ public class LocaleEditor extends DisplayLocaleBasedEnumerationValueEditor<Local
     }
   )
   public final String getLabel() {
-    String result = ""; //$NON-NLS-1$
+    String result = "";
     if ((getValue() != null) && (getValue() instanceof Locale)) {
       Locale localeToShow = (Locale)getValue();
       Locale localeInWhichToDisplay = (getDisplayLocale() == null)
