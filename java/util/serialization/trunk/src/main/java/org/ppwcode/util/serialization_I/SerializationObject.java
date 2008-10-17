@@ -22,7 +22,6 @@ import static org.ppwcode.util.reflect_I.InstanceHelpers.newInstance;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
 
 import java.io.InvalidObjectException;
-import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.HashSet;
@@ -75,7 +74,7 @@ public class SerializationObject implements Serializable {
    * (A lame excuse, since anybody can access private instance variables,
    * but hey).
    */
-  private Object readResolve() throws ObjectStreamException {
+  private Object readResolve() throws InvalidObjectException {
     Object result = newInstance(serializedClass);
     for (SerializationInstanceVariable siv : instanceVariables) {
       try {
@@ -86,13 +85,13 @@ public class SerializationObject implements Serializable {
         f.setAccessible(oldAccessible);
       }
       catch (SecurityException exc) {
-        new InvalidObjectException(exc.toString());
+        throw new InvalidObjectException(exc.toString());
       }
       catch (NoSuchFieldException exc) {
-        new InvalidObjectException(exc.toString());
+        throw new InvalidObjectException(exc.toString());
       }
       catch (IllegalArgumentException exc) {
-        new InvalidObjectException(exc.toString());
+        throw new InvalidObjectException(exc.toString());
       }
       catch (IllegalAccessException exc) {
         unexpectedException(exc);
