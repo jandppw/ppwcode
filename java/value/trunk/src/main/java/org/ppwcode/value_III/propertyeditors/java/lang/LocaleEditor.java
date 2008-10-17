@@ -14,14 +14,22 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.value_III.legacy;
+package org.ppwcode.value_III.propertyeditors.java.util;
 
+
+import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import org.ppwcode.metainfo_I.Copyright;
+import org.ppwcode.metainfo_I.License;
+import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.vernacular.value_III.DisplayLocaleBasedEnumerationValueEditor;
+import org.toryt.annotations_I.Basic;
+import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.MethodContract;
 
 
 /**
@@ -36,32 +44,19 @@ import org.ppwcode.vernacular.value_III.DisplayLocaleBasedEnumerationValueEditor
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
  */
-public class LocaleEditor
-    extends DisplayLocaleBasedEnumerationValueEditor {
+@Copyright("2008 - $Date$, PeopleWare n.v.")
+@License(APACHE_V2)
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
+public class LocaleEditor extends DisplayLocaleBasedEnumerationValueEditor<Locale> {
 
-  /*<section name="Meta Information">*/
-  //------------------------------------------------------------------
-
-  /** {@value} */
-  public static final String CVS_REVISION = "$Revision$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_DATE = "$Date$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_STATE = "$State$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_TAG = "$Name$"; //$NON-NLS-1$
-
-  /*</section>*/
-
-
-  /**
-   * @return Locale.class;
-   */
-  public final Class getEnumerationValueType() {
+  @Override
+  @MethodContract(post = @Expression("Locale.class"))
+  public final Class<Locale> getValueType() {
     return Locale.class;
   }
 
-  private static final Map LOCALE_MAP = new HashMap();
+  private static final Map<String, Locale> LOCALE_MAP = new HashMap<String, Locale>();
 
   static {
     Locale[] locales = Locale.getAvailableLocales();
@@ -69,7 +64,7 @@ public class LocaleEditor
       Locale l = locales[i];
       LOCALE_MAP.put(l.toString(), l);
     }
-    LOCALE_MAP.put(" ", new Locale(" "));  //$NON-NLS-1$ //$NON-NLS-2$
+    LOCALE_MAP.put(" ", new Locale(" "));
   }
 
   /**
@@ -86,7 +81,16 @@ public class LocaleEditor
    *              == Locale.getAvailableLocales()[i]
    *          );
    */
-  public final Map getValuesMap() {
+  @MethodContract( post =
+    {
+      @Expression("result != null"),
+      @Expression("result.size == Locale.getAvailableLocales().lenght"),
+      @Expression("for (int i : 0 .. Locale.getAvailableLocales().lenght) {result.containsKey(Locale.getAvailableLocales()[i].toString()}"),
+      @Expression("for (int i : 0 .. Locale.getAvailableLocales().lenght) {result.get(Locale.getAvailableLocales()[i].toString()) == Locale.getAvailableLocales()[i]}")
+    }
+  )
+  @Override
+  public final Map<String, Locale> getValuesMap() {
     return LOCALE_MAP;
   }
 
@@ -95,32 +99,27 @@ public class LocaleEditor
    * a label for the language part of the locale. If this is
    * <code>false</code>, the label will return a full label
    * that also displays the language variants.
-   *
-   * @basic
-   * @init      false;
    */
+  @Basic(init = @Expression("false"))
   public final boolean isShortMode() {
     return $shortMode;
   }
 
-  /**
-   * @post      new.isShortMode() == shortMode;
-   */
+  @MethodContract(
+    post = @Expression("shortMode = _shortMode")
+  )
   public final void setShortMode(final boolean shortMode) {
     $shortMode = shortMode;
   }
 
   private boolean $shortMode;
 
-  /**
-   * @return    getValue().X((getDisplayLocale() == null)
-   *                            ? getValue()
-   *                            : getDisplayLocale());
-   *            X is getDisplayName if !getShortMode(),
-   *            getDisplayLanguage if getShortMode()
-   *
-   * @todo (jand): clean up contract
-   */
+  @MethodContract(
+    post = {
+      @Expression("! shortMode ? value.getDisplayName(displayLocale == null ? value : displayLocale)"),
+      @Expression("shortMode ? value.getDisplayLanguage(displayLocale == null ? value : displayLocale)")
+    }
+  )
   public final String getLabel() {
     String result = ""; //$NON-NLS-1$
     if ((getValue() != null) && (getValue() instanceof Locale)) {
