@@ -94,7 +94,7 @@ public class Master extends AbstractIntegerIdVersionedPersistentBean {
                    @Expression("! details.contains(null)"),
                    @Expression("for (Detail c : details) { c.master == this }")})
   final public Set<Detail> getDetails() {
-    return $details == null ? null : new HashSet<Detail>($details);
+    return new HashSet<Detail>($details);
   }
 
   @OneToMany(mappedBy = "$master", cascade = {}, fetch=FetchType.LAZY)
