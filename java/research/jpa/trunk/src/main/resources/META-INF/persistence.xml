@@ -10,7 +10,8 @@
        explicit provider declaration and automatic ddl injection in database -->
   <persistence-unit name="be_hdp_contracts_I_IBMOpenJPA_test" transaction-type="RESOURCE_LOCAL">
 
-    <provider>com.ibm.websphere.persistence.PersistenceProviderImpl</provider>
+    <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
+<!--    <provider>com.ibm.websphere.persistence.PersistenceProviderImpl</provider>-->
 
     <class>org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdVersionedPersistentBean</class>
     <class>org.ppwcode.research.jpa.crud.semanticsAlpha.Master</class>
@@ -48,7 +49,8 @@
     <description>Persistence Unit for the application.  The database connection is provided by the
       application server through JNDI</description>
 
-    <provider>com.ibm.websphere.persistence.PersistenceProviderImpl</provider>
+    <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
+<!--    <provider>com.ibm.websphere.persistence.PersistenceProviderImpl</provider>-->
 
 <!--    <jta-data-source>jdbc/Contracts</jta-data-source>-->
 

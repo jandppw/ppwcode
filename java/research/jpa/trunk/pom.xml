@@ -142,43 +142,6 @@
   <build>
     <plugins>
       <plugin>
-        <!-- This generates the ejb jar and the client jar (packaging == ejb),
-             with correct ejb jar manifest etc. -->
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-ejb-plugin</artifactId>
-        <configuration>
-          <ejbVersion>3.0</ejbVersion>
-          <generateClient>true</generateClient>
-          <archive>
-            <manifest>
-              <addClasspath>true</addClasspath>
-            </manifest>
-          </archive>
-          <clientExcludes>
-             <!-- we cannot exclude the implementations of our session beans, because then
-                  the ejb plugin balks "... ContractsBackEnd-dev-SNAPSHOT-client.jar jar file is not an enterprise bean level 3.0 module." -->
-             <!-- default excludes are **/*Bean.class, **/*CMP.class, **/*Session.class, **/package.html
-                  This is so ugly we try to reset that. An empty "clientExcludes" section doesn't work. Now
-                  we try with 1 bogus exclude -->
-             <clientExclude>bogus/*</clientExclude>
-          </clientExcludes>
-        </configuration>
-      </plugin>
-      <plugin>
-        <!-- Generate stubs for EJB3 session beans. Custom plugin. Output is
-            is a wsclient (Websphere client). -->
-        <groupId>be.hdp</groupId>
-        <artifactId>wasstubs-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>ejbstubs</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <!-- Initialize directories for temporary files for in-memory DB for tests. -->
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
@@ -233,58 +196,6 @@
       </plugin>
 
 
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>openjpa-maven-plugin</artifactId>
-        <!--
-          This plugin will enhance the generated class files with the OpenJPA enhancer.
-          This is needed if, e.g., you want to run the persistence unit tests inside eclipse.
-          To do that, first run "mvn clean test-compile; mvn openjpa:enhance" from the command line. This will
-          replace the existing class files in target/classes with their enhanced version.
-
-          Don't do this in the default lifecycle, because the class files in the  actual artifact
-          to be deployed MAY NOT BE ENHANCED.
-         -->
-         <!--
-        <executions>
-          <execution>
-            <phase>process-classes</phase>
-            <goals>
-              <goal>enhance</goal>
-            </goals>
-          </execution>
-        </executions>
-        -->
-        <configuration>
-          <classes> ${basedir}/target/classes/org/ppwcode/research/jpa/crud </classes>
-          <toolProperties>
-            <property>
-              <name>addDefaultConstructor</name>
-              <value>true</value>
-            </property>
-            <property>
-              <name>enforcePropertyRestrictions</name>
-              <value>true</value>
-            </property>
-          </toolProperties>
-        </configuration>
-        <dependencies>
-          <dependency>
-            <!-- the full (not the thin) IBM WS JPA client -->
-            <groupId>com.ibm.ws</groupId>
-            <artifactId>com.ibm.ws.jpa.client</artifactId>
-            <version>6.1.0</version>
-          </dependency>
-          <!-- Can this be deleted??? MUDO
-          <dependency>
-            <groupId>org.codehaus.mojo.hibernate3</groupId>
-            <artifactId>maven-hibernate3-jdk15</artifactId>
-            <version>2.1</version>
-            <scope>test</scope>
-          </dependency>
-          -->
-        </dependencies>
-      </plugin>
     </plugins>
   </build>
 
@@ -323,9 +234,9 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>com.ibm.ws</groupId>
-      <artifactId>com.ibm.ws.jpa.client</artifactId>
-      <scope>test</scope>
+      <groupId>org.apache.openjpa</groupId>
+      <artifactId>openjpa</artifactId>
+      <version>1.2.0</version>
     </dependency>
     <dependency>
       <groupId>hsqldb</groupId>
