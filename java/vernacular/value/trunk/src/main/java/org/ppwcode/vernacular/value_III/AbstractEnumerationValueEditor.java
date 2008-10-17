@@ -88,7 +88,7 @@ public abstract class AbstractEnumerationValueEditor<_Value_> extends AbstractVa
    */
   @MethodContract(post = @Expression(scope = Scope.PROTECTED,
                                      value = "constant(getEnumerationValueType(), 'VALUES')"))
-  public Map<String, ?> getValuesMap() {
+  public Map<String, _Value_> getValuesMap() {
     return constant(getValueType(), "VALUES");
   }
 

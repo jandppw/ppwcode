@@ -26,10 +26,6 @@ import org.ppwcode.vernacular.value_III.EnumerationValue;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
 
-/**
- * @deprecated
- */
-@Deprecated
 public class StubEnumerationValue extends EnumerationValue {
 
   /**

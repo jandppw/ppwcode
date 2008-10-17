@@ -19,6 +19,8 @@ package org.ppwcode.vernacular.value_III;
 import static org.ppwcode.util.test.contract.Contract.contractFor;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.After;
@@ -29,10 +31,6 @@ import org.ppwcode.vernacular.value_III.stubs.StubEnumerationValue;
 import org.ppwcode.vernacular.value_III.stubs.StubEnumerationValueEditor;
 
 
-/**
- * @deprecated
- */
-@Deprecated
 public class AbstractEnumerationValueEditorTest {
 
   public static _Contract_AbstractEnumerationValueEditor CONTRACT;
@@ -45,20 +43,25 @@ public class AbstractEnumerationValueEditorTest {
     }
   }
 
-  AbstractEnumerationValueEditor[] $subjects;
+  List<AbstractEnumerationValueEditor<StubEnumerationValue>> $subjects;
 
   @Before
   public void setUp() throws Exception {
-    $subjects = new AbstractEnumerationValueEditor[5];
-    $subjects[0] = new StubEnumerationValueEditor();
-    $subjects[0].setValue(StubEnumerationValue.VALUE_1);
-    $subjects[1] = new StubEnumerationValueEditor();
-    $subjects[1].setValue(StubEnumerationValue.VALUE_2);
-    $subjects[2] = new StubEnumerationValueEditor();
-    $subjects[2].setValue(StubEnumerationValue.VALUE_3);
-    $subjects[3] = new StubEnumerationValueEditor();
-    $subjects[3].setValue(StubEnumerationValue.VALUE_DEFAULT);
-    $subjects[4] = new StubEnumerationValueEditor();
+    $subjects = new ArrayList<AbstractEnumerationValueEditor<StubEnumerationValue>>(5);
+    AbstractEnumerationValueEditor<StubEnumerationValue> aevEd = new StubEnumerationValueEditor();
+    aevEd.setValue(StubEnumerationValue.VALUE_1);
+    $subjects.add(aevEd);
+    aevEd = new StubEnumerationValueEditor();
+    aevEd.setValue(StubEnumerationValue.VALUE_2);
+    $subjects.add(aevEd);
+    aevEd = new StubEnumerationValueEditor();
+    aevEd.setValue(StubEnumerationValue.VALUE_3);
+    $subjects.add(aevEd);
+    aevEd = new StubEnumerationValueEditor();
+    aevEd.setValue(StubEnumerationValue.VALUE_DEFAULT);
+    $subjects.add(aevEd);
+    aevEd = new StubEnumerationValueEditor();
+    $subjects.add(aevEd);
   }
 
   @After
@@ -68,7 +71,7 @@ public class AbstractEnumerationValueEditorTest {
 
   @Test
   public void testGetEnumerationValueType() {
-    for (AbstractEnumerationValueEditor subject : $subjects) {
+    for (AbstractEnumerationValueEditor<StubEnumerationValue> subject : $subjects) {
       Class<?> result = subject.getValueType();
       CONTRACT.assertGetValueType(subject, result);
       CONTRACT.assertInvariants(subject);
@@ -77,7 +80,7 @@ public class AbstractEnumerationValueEditorTest {
 
   @Test
   public void testGetExpectedEnumerationValueTypeClassName() {
-    for (AbstractEnumerationValueEditor subject : $subjects) {
+    for (AbstractEnumerationValueEditor<StubEnumerationValue> subject : $subjects) {
       String result = subject.getExpectedValueTypeClassName();
       CONTRACT.assertGetExpectedValueTypeClassName(subject, result);
       CONTRACT.assertInvariants(subject);
@@ -86,7 +89,7 @@ public class AbstractEnumerationValueEditorTest {
 
   @Test
   public void testGetTags() {
-    for (AbstractEnumerationValueEditor subject : $subjects) {
+    for (AbstractEnumerationValueEditor<StubEnumerationValue> subject : $subjects) {
       String[] result = subject.getTags();
       CONTRACT.assertGetTags(subject, result);
       CONTRACT.assertInvariants(subject);
@@ -95,7 +98,7 @@ public class AbstractEnumerationValueEditorTest {
 
   @Test
   public void testGetValuesMap() {
-    for (AbstractEnumerationValueEditor subject : $subjects) {
+    for (AbstractEnumerationValueEditor<StubEnumerationValue> subject : $subjects) {
       Map<String, ?> result = subject.getValuesMap();
       CONTRACT.assertGetValuesMap(subject, result);
       CONTRACT.assertInvariants(subject);
@@ -106,7 +109,7 @@ public class AbstractEnumerationValueEditorTest {
 
   @Test
   public void testGetAsText() {
-    for (AbstractEnumerationValueEditor subject : $subjects) {
+    for (AbstractEnumerationValueEditor<StubEnumerationValue> subject : $subjects) {
       String result = subject.getAsText();
       CONTRACT.assertGetAsText(subject, result);
       CONTRACT.assertInvariants(subject);
@@ -115,7 +118,7 @@ public class AbstractEnumerationValueEditorTest {
 
   @Test
   public void testSetAsTextString_Nominal() {
-    for (AbstractEnumerationValueEditor subject : $subjects) {
+    for (AbstractEnumerationValueEditor<StubEnumerationValue> subject : $subjects) {
       for (String tag : StubEnumerationValue.VALUES.keySet()) {
         subject.setAsText(tag);
         CONTRACT.assertSetAsText_String_Nominal(subject, tag);
@@ -134,7 +137,7 @@ public class AbstractEnumerationValueEditorTest {
 
   @Test
   public void testSetAsTextString_Exception() {
-    for (AbstractEnumerationValueEditor subject : $subjects) {
+    for (AbstractEnumerationValueEditor<StubEnumerationValue> subject : $subjects) {
       for (String tag : WRONG_TAGS) {
         Object oldValue = subject.getValue();
         try {
