@@ -32,9 +32,11 @@ import org.toryt.annotations_I.MethodContract;
 
 /**
  * <p>This class defines general modi operandi for <em>legacy, pre-Java 5</em> type-safe enumeration value
- *   types. Values of an enumeration type are immutable. Values of an enumeration type implemented according
- *   to this pattern are not intended to be calculated with. We are interested merely in their existence.
- *   This is not an algebra, but a simple set.</p>
+ *   types. This code is not deprecated, but still of use, for programmatically defined enumeration value types,
+ *   which we cannot define using <code>enum</code>.</p>
+ * <p>Values of an enumeration type are immutable. Values of an enumeration type implemented according to this
+ *   pattern are not intended to be calculated with. We are interested merely in their existence. This is not an
+ *   algebra, but a simple set.</p>
  * <p>There are different possibilities to emulate type-safe enumeration types without the Java 5 {@code enum}
  *   syntax.</p>
  * <p>One popular way was to apply an n-ary singleton-like pattern, where the constructor is kept private, and
@@ -139,9 +141,7 @@ import org.toryt.annotations_I.MethodContract;
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
  *
- * @note Contract in test code not worked out, because this is legacy.
- *
- * @deprecated Use Java 5 {@code enum} types instead
+ * @mudo Contract in test code not worked out, because this was considered legacy, but it turns out we still need it.
  */
 @Copyright("2004 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
@@ -155,7 +155,6 @@ import org.toryt.annotations_I.MethodContract;
   @Expression("VALUES.values().contains(this)"),
   @Expression("this.equals(VALUES.get(toString()))")
 })
-@Deprecated
 public abstract class EnumerationValue extends ImmutableValue {
 
   /*<construction>*/
