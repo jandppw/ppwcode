@@ -213,10 +213,14 @@
       <groupId>org.ppwcode.vernacular</groupId>
       <artifactId>ppwcode-vernacular-exception-II</artifactId>
     </dependency>
-     <dependency>
-       <groupId>org.ppwcode.util</groupId>
-       <artifactId>ppwcode-util-reflection-I</artifactId>
-     </dependency>
+    <dependency>
+      <groupId>org.ppwcode.vernacular</groupId>
+      <artifactId>ppwcode-vernacular-resourcebundle-II</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.ppwcode.vernacular</groupId>
+      <artifactId>ppwcode-vernacular-exception-II</artifactId>
+    </dependency>
 
     <dependency>
       <!-- hibernate 2 -->
