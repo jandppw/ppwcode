@@ -52,8 +52,8 @@ import org.toryt.annotations_I.Throw;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-public abstract class AbstractEnumerationValueEditor extends AbstractValueEditor<Object>
-    implements EnumerationValueEditor, Serializable {
+public abstract class AbstractEnumerationValueEditor<_Value_> extends AbstractValueEditor<_Value_>
+    implements EnumerationValueEditor<_Value_>, Serializable {
 
   /*<property name="tags">*/
   //------------------------------------------------------------------

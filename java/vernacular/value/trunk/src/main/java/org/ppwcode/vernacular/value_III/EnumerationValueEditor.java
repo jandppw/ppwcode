@@ -65,7 +65,7 @@ import org.toryt.annotations_I.Throw;
   @Expression("! labelsMap.keySet().contains(null)"),
   @Expression("! labelsMap.values().contains(null)")
 })
-public interface EnumerationValueEditor extends ValueEditor<Object> {
+public interface EnumerationValueEditor<_Value_> extends ValueEditor<_Value_> {
 
 
   /**
