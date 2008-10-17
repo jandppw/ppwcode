@@ -53,7 +53,7 @@ public class NationalNumberUserType implements UserType {
   /*</section>*/
 
   /**
-   * Create a new {@link GenderUserType}.
+   * Create a new {@link NationalNumberHibernate2UserType}.
    *
    * @post new.getEnumerationValueEditor() instanceof GenderEditor;
    */
