@@ -81,7 +81,7 @@ public final class ResourceBundleHelpers {
   }
 
   /**
-   * The value of type {@code valueType} of associated with the first key from {@code keys} that is found in
+   * The value of type {@code valueType} associated with the first key from {@code keys} that is found in
    * the resource bundle with the same basename as the FQCN of {@code type} or one of its super types.
    *
    * @mudo contract
