@@ -18,15 +18,18 @@ package org.ppwcode.vernacular.value_III;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.util.resourcebundle.ResourceBundles.findKeyWithBasename;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
+import static org.ppwcode.vernacular.resourcebundle_II.ResourceBundleHelpers.value;
 
 import java.util.ResourceBundle;
 
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.util.resourcebundle.DefaultResourceBundleLoadStrategy;
-import org.ppwcode.util.resourcebundle.ResourceBundleLoadStrategy;
+import org.ppwcode.vernacular.resourcebundle_II.DefaultResourceBundleLoadStrategy;
+import org.ppwcode.vernacular.resourcebundle_II.KeyNotFoundException;
+import org.ppwcode.vernacular.resourcebundle_II.ResourceBundleLoadStrategy;
+import org.ppwcode.vernacular.resourcebundle_II.WrongValueTypeException;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
@@ -65,7 +68,7 @@ public abstract class ResourceBundleBasedEnumerationValueEditor extends Abstract
   public static final String LABEL_NOT_FOUND_TOKEN = "???";
 
   /**
-   * Return the a label from the {@link #getResourceBundleBasename()} resource bundle, with key
+   * Return the a label from the {@link #getValueType()} resource bundle, with key
    * {@link #getLabelKey()}. If the resource bundle is not found, or the key is not found in the resource
    * bundle, the String <code>LABEL_NOT_FOUND_TOKEN + getAsText() + LABEL_NOT_FOUND_TOKEN</code>
    * is returned.
@@ -73,10 +76,15 @@ public abstract class ResourceBundleBasedEnumerationValueEditor extends Abstract
    * @mudo contract
    */
   public final String getLabel() {
-    String result = findKeyWithBasename(getResourceBundleBasename(),
-                                        new String[] {getLabelKey()},
-                                        getResourceBundleLoadStrategy());
-    if (result == null) {
+    String result = null;
+    try {
+      result = value(getValueType(), new String[] {getLabelKey()}, String.class, getResourceBundleLoadStrategy());
+    }
+    catch (WrongValueTypeException exc) {
+      unexpectedException(exc, "value with key " + getLabelKey() + " in resource bundle for " +
+                               getValueType() + " is not of type String");
+    }
+    catch (KeyNotFoundException exc) {
       result = LABEL_NOT_FOUND_TOKEN + getAsText() + LABEL_NOT_FOUND_TOKEN;
     }
     return result;
@@ -101,18 +109,6 @@ public abstract class ResourceBundleBasedEnumerationValueEditor extends Abstract
   }
 
   private ResourceBundleLoadStrategy $resourceBundleLoadStrategy = new DefaultResourceBundleLoadStrategy();
-
-  /*</property>*/
-
-
-
-  /*<property name="resourceBundleBasename">*/
-  //------------------------------------------------------------------
-
-  @MethodContract(post = @Expression("enumerationValueType.name"))
-  public final String getResourceBundleBasename() {
-    return getValueType().getName();
-  }
 
   /*</property>*/
 
