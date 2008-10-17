@@ -11,11 +11,12 @@
   <persistence-unit name="be_hdp_contracts_I_IBMOpenJPA_test" transaction-type="RESOURCE_LOCAL">
 
     <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
-<!--    <provider>com.ibm.websphere.persistence.PersistenceProviderImpl</provider>-->
 
     <class>org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdVersionedPersistentBean</class>
     <class>org.ppwcode.research.jpa.crud.semanticsAlpha.Master</class>
     <class>org.ppwcode.research.jpa.crud.semanticsAlpha.Detail</class>
+    <class>org.ppwcode.research.jpa.crud.semanticsBeta.Master</class>
+    <class>org.ppwcode.research.jpa.crud.semanticsBeta.Detail</class>
 
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
@@ -23,22 +24,15 @@
 
       <property name="openjpa.ConnectionDriverName" value="org.hsqldb.jdbcDriver"/>
       <property name="openjpa.ConnectionURL" value="jdbc:hsqldb:target/TestDB/OpenJPADB"/>
-<!--      <property name="openjpa.ConnectionURL" value="jdbc:hsqldb:hsql://localhost/contracts"/>-->
       <property name="openjpa.ConnectionUserName" value="sa"/>
       <property name="openjpa.ConnectionPassword" value=""/>
-<!--      <property name="openjpa.ConnectionDriverName" value="com.informix.jdbc.IfxDriver"/>-->
-<!--      <property name="openjpa.ConnectionURL" value="jdbc:informix-sqli://194.10.201.168:2108/mahttest:informixserver=idsdr54_tcp"/>-->
-<!--      <property name="openjpa.ConnectionUserName" value="informix"/>-->
-<!--      <property name="openjpa.ConnectionPassword" value="Africa02"/>-->
 
       <property name="openjpa.Log" value="DefaultLevel=INFO,SQL=TRACE,File=./log/jpa/jpaEnhancerLog.log,Runtime=INFO,Tool=INFO"/>
       <!-- execute the ddl script on the database -->
 
 
       <property name="openjpa.jdbc.MappingDefaults" value="ForeignKeyDeleteAction=restrict, JoinForeignKeyDeleteAction=restrict"/>
-<!--      <property name="openjpa.jdbc.SchemaFactory" value="native(ForeignKeys=true)"/>-->
       <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(SchemaAction=refresh)"/>
-<!--      <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>-->
 
     </properties>
   </persistence-unit>
@@ -50,43 +44,26 @@
       application server through JNDI</description>
 
     <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
-<!--    <provider>com.ibm.websphere.persistence.PersistenceProviderImpl</provider>-->
-
-<!--    <jta-data-source>jdbc/Contracts</jta-data-source>-->
-
-    <!-- second data source needed for "GeneratedValue" (which cannot be used
-     during a transaction); in WebSphere: non-JTA data source means that on the
-     data source a custom property has to be added "nonTransactionalDataSource"
-     with value "true" -->
-<!--    <non-jta-data-source>jdbc/ContractsNonJTA</non-jta-data-source>-->
 
     <class>org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdVersionedPersistentBean</class>
     <class>org.ppwcode.research.jpa.crud.semanticsAlpha.Master</class>
     <class>org.ppwcode.research.jpa.crud.semanticsAlpha.Detail</class>
+    <class>org.ppwcode.research.jpa.crud.semanticsBeta.Master</class>
+    <class>org.ppwcode.research.jpa.crud.semanticsBeta.Detail</class>
 
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
     <properties>
 
       <property name="openjpa.ConnectionDriverName" value="com.informix.jdbc.IfxDriver"/>
-      <property name="openjpa.ConnectionURL" value="jdbc:informix-sqli://10.0.0.51:2108/cascading:informixserver=idsdevsoc4"/>
-      <property name="openjpa.ConnectionUserName" value="informix"/>
-      <property name="openjpa.ConnectionPassword" value="Africa02"/>
+      <property name="openjpa.ConnectionURL" value="jdbc:informix-sqli://127.0.0.1:3901/test:informixserver=idsdevsoc"/>
+      <property name="openjpa.ConnectionUserName" value="user"/>
+      <property name="openjpa.ConnectionPassword" value="password"/>
 
       <property name="openjpa.Log" value="DefaultLevel=INFO,SQL=TRACE,Runtime=INFO,Tool=INFO"/>
 
-      <!-- WARNING: SHOULD BE DISABLED WHEN MOVING TO PRODUCTION -->
-      <!-- NOTE: mapping can be manually done with wsmapping.sh from WebSphere -->
-      <!-- execute the ddl script on the database -->
-
-
       <property name="openjpa.jdbc.MappingDefaults" value="ForeignKeyDeleteAction=restrict, JoinForeignKeyDeleteAction=restrict"/>
-<!--      <property name="openjpa.jdbc.SchemaFactory" value="native(ForeignKeys=true)"/>-->
       <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(SchemaAction=refresh)"/>
-<!--      <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)"/>-->
-
-      <!-- not needed, OpenJPA detects this automatically -->
-      <!-- <property name="openjpa.jdbc.DBDictionary" value="InformixDictionary"/> -->
 
     </properties>
   </persistence-unit>
