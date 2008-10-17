@@ -44,8 +44,8 @@ import org.toryt.annotations_I.MethodContract;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-public abstract class DisplayLocaleBasedEnumerationValueEditor
-    extends AbstractEnumerationValueEditor implements Serializable {
+public abstract class DisplayLocaleBasedEnumerationValueEditor<_Value_>
+    extends AbstractEnumerationValueEditor<_Value_> implements Serializable {
 
 
 

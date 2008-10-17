@@ -123,7 +123,7 @@ public class AutomaticPropertyEditorConverter extends AbstractPropertyEditorConv
             Locale displayLocale = context.getViewRoot().getLocale();
             LOG.debug("PropertyEditor is of type DisplayLocaleBasedEnumerationValueEditor; "
                       + "setting display locale to " + displayLocale);
-            ((DisplayLocaleBasedEnumerationValueEditor)$propertyEditor).
+            ((DisplayLocaleBasedEnumerationValueEditor<?>)$propertyEditor).
                 setDisplayLocale(displayLocale);
           }
         }

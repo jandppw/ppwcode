@@ -57,7 +57,7 @@ import org.toryt.annotations_I.MethodContract;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-public abstract class ResourceBundleBasedEnumerationValueEditor extends AbstractEnumerationValueEditor {
+public abstract class ResourceBundleBasedEnumerationValueEditor<_Value_> extends AbstractEnumerationValueEditor<_Value_> {
 
   /**
    * The string pre- and postpended to the {@link #getAsText()} String

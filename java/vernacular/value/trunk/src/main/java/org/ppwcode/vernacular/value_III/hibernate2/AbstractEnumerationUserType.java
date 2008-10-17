@@ -60,12 +60,12 @@ import org.toryt.annotations_I.Invars;
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
 @Invars(@Expression("enumerationValueEditor() != null"))
-public class AbstractEnumerationUserType implements UserType {
+public class AbstractEnumerationUserType<_Value_> implements UserType {
 
   /**
    * @post new.getEnumerationValueEditor() == editor;
    */
-  protected AbstractEnumerationUserType(final EnumerationValueEditor editor) {
+  protected AbstractEnumerationUserType(final EnumerationValueEditor<_Value_> editor) {
     $editor = editor;
   }
 
@@ -75,11 +75,11 @@ public class AbstractEnumerationUserType implements UserType {
    *
    * @basic
    */
-  public final EnumerationValueEditor getEnumerationValueEditor() {
+  public final EnumerationValueEditor<_Value_> getEnumerationValueEditor() {
     return $editor;
   }
 
-  private EnumerationValueEditor $editor;
+  private EnumerationValueEditor<_Value_> $editor;
 
   private static final int[] SQL_TYPES = {Types.VARCHAR};
 
