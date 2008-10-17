@@ -14,12 +14,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.value_III.legacy.hibernate2;
+package org.ppwcode.value_III.location;
 
 
-import org.ppwcode.value_III.legacy.Country;
-import org.ppwcode.value_III.legacy.CountryEditor;
+import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+
+import org.ppwcode.metainfo_I.Copyright;
+import org.ppwcode.metainfo_I.License;
+import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.vernacular.value_III.hibernate2.AbstractEnumerationUserType;
+import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.MethodContract;
 
 
 /**
@@ -28,31 +33,19 @@ import org.ppwcode.vernacular.value_III.hibernate2.AbstractEnumerationUserType;
  *
  * @author    Jan Dockx
  * @author    Peopleware n.v.
- *
- * @deprecated
  */
-@Deprecated
+@Copyright("2008 - $Date$, PeopleWare n.v.")
+@License(APACHE_V2)
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public final class CountryUserType extends AbstractEnumerationUserType {
-
-  /*<section name="Meta Information">*/
-  //  ------------------------------------------------------------------
-
-  /** {@value} */
-  public static final String CVS_REVISION = "$Revision$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_DATE = "$Date$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_STATE = "$State$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_TAG = "$Name$"; //$NON-NLS-1$
-
-  /*</section>*/
 
   /**
    * Create a new {@link CountryUserType}.
    *
    * @post new.getEnumerationValueEditor() instanceof CountryEditor;
    */
+  @MethodContract(post = @Expression("enumerationValueEditor instanceof CountryEditor"))
   public CountryUserType() {
     super(new CountryEditor());
   }

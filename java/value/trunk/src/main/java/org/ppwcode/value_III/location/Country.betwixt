@@ -19,7 +19,7 @@
   $HeadURL$
 -->
 <info primitiveTypes="element">
-  <element name="country" class="be.peopleware.value_I.Country">
+  <element name="country" class="org.ppwcode.value_III.location">
     <attribute name="value" property="value" />
   </element>
 </info>

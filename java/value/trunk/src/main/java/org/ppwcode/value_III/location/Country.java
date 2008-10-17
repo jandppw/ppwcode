@@ -14,15 +14,23 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.value_III.legacy;
+package org.ppwcode.value_III.location;
 
+
+import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import org.ppwcode.metainfo_I.Copyright;
+import org.ppwcode.metainfo_I.License;
+import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.vernacular.value_III.EnumerationValue;
+import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.MethodContract;
+
 
 /**
  * A class representing a countries. Codes used are standard ISO code which
@@ -41,25 +49,12 @@ import org.ppwcode.vernacular.value_III.EnumerationValue;
  *                o.getClass() == Country.class);
  * @invar     VALUES.values().contains(this);
  * @invar     this.equals(VALUES.get(toString()));
- *
- * @deprecated
  */
-@Deprecated
+@Copyright("2008 - $Date$, PeopleWare n.v.")
+@License(APACHE_V2)
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public final class Country extends EnumerationValue {
-
-  /*<section name="Meta Information">*/
-  //  ------------------------------------------------------------------
-
-  /** {@value} */
-  public static final String CVS_REVISION = "$Revision$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_DATE = "$Date$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_STATE = "$State$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_TAG = "$Name$"; //$NON-NLS-1$
-
-  /*</section>*/
 
   /*<construction>*/
   //------------------------------------------------------------------
@@ -76,26 +71,28 @@ public final class Country extends EnumerationValue {
   }
 
   /**
-   * Enumeration types require a default constructor for
-   * serializability. It is ill-advised to use this default
-   * constructor yourself. Use the constants instead.
+   * Enumeration types require a default constructor for serializability. It is ill-advised to use
+   * this default constructor yourself. Use the constants instead.
    *
    * @post    new.toString().equals("BE");
    */
+  @MethodContract(post = @Expression("value == 'BE'"))
   public Country() {
-    this("BE"); //$NON-NLS-1$
+    this("BE");
   }
 
   /*</construction>*/
 
+
+
   /**
    * A map containing all possible values for this value type.
    */
-  public static final Map VALUES = countriesGenerator();
+  public static final Map<String, Country> VALUES = countriesGenerator();
 
-  private static Map countriesGenerator() {
-    Map result = new HashMap();
-    result.put(" ", new Country(" "));  //$NON-NLS-1$ //$NON-NLS-2$
+  private static Map<String, Country> countriesGenerator() {
+    Map<String, Country> result = new HashMap<String, Country>();
+    result.put(" ", new Country(" "));
     String[] isoCodes = Locale.getISOCountries();
     for (int i = 0; i < isoCodes.length; i++) {
       result.put(isoCodes[i], new Country(isoCodes[i]));

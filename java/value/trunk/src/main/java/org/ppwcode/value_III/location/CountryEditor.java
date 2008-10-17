@@ -14,14 +14,21 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.value_III.legacy;
+package org.ppwcode.value_III.location;
 
+
+import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
 import java.io.Serializable;
 import java.util.Locale;
 import java.util.Map;
 
+import org.ppwcode.metainfo_I.Copyright;
+import org.ppwcode.metainfo_I.License;
+import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.vernacular.value_III.DisplayLocaleBasedEnumerationValueEditor;
+import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.MethodContract;
 
 
 /**
@@ -34,32 +41,18 @@ import org.ppwcode.vernacular.value_III.DisplayLocaleBasedEnumerationValueEditor
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
- *
- * @deprecated
  */
-@Deprecated
-public class CountryEditor
-    extends DisplayLocaleBasedEnumerationValueEditor implements Serializable {
-
-  /*<section name="Meta Information">*/
-  //------------------------------------------------------------------
-
-  /** {@value} */
-  public static final String CVS_REVISION = "$Revision$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_DATE = "$Date$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_STATE = "$State$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_TAG = "$Name$"; //$NON-NLS-1$
-
-  /*</section>*/
-
+@Copyright("2008 - $Date$, PeopleWare n.v.")
+@License(APACHE_V2)
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
+public class CountryEditor extends DisplayLocaleBasedEnumerationValueEditor implements Serializable {
 
   /**
    * @return    Locale.class;
    */
-  public final Class getEnumerationValueType() {
+  @MethodContract(post = @Expression("Country.class"))
+  public final Class<?> getEnumerationValueType() {
     return Country.class;
   }
 
@@ -69,7 +62,9 @@ public class CountryEditor
    *
    * @return  Country.VALUES;
    */
-  public final Map getValuesMap() {
+  @MethodContract(post = @Expression("Country.VALUES"))
+  @Override
+  public final Map<String, Country> getValuesMap() {
     return Country.VALUES;
   }
 
@@ -85,11 +80,12 @@ public class CountryEditor
    * @idea (jand): Try to find a way to return, as default, the name of the
    *               country in its main language. although, that is political.
    */
+  @MethodContract(post = @Expression("new Locale('en', value.value).displayCountry(displayLocale == null ? new Locale('en', value) : displayLocale"))
   public final String getLabel() {
-    String result = ""; //$NON-NLS-1$
+    String result = "";
     if ((getValue() != null) && (getValue() instanceof Country)) {
       Country country = (Country)getValue();
-      Locale localeToShow = new Locale("en", country.toString()); //$NON-NLS-1$
+      Locale localeToShow = new Locale("en", country.getValue());
             /* language is just a default (null is not accepted);
              * we are only interested in the country setting */
       result = localeToShow.getDisplayCountry((getDisplayLocale() == null)
