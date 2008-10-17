@@ -24,9 +24,9 @@ import org.ppwcode.vernacular.value_III.hibernate3.AbstractEnumUserType;
 /**
  * A Hibernate 3 {@link UserType} for {@link Gender}.
  */
-public class GenderUserType extends AbstractEnumUserType<Gender> {
+public class GenderHibernate3UserType extends AbstractEnumUserType<Gender> {
 
-  public GenderUserType() {
+  public GenderHibernate3UserType() {
     super(new GenderEditor());
   }
 
