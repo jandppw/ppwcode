@@ -26,7 +26,7 @@ import net.sf.hibernate.HibernateException;
 import net.sf.hibernate.UserType;
 
 import org.ppwcode.value_III.legacy.EnterpriseNumber;
-import org.ppwcode.vernacular.value_III.PropertyException;
+import org.ppwcode.value_III.legacy.PropertyException;
 
 
 /**

@@ -19,8 +19,6 @@ package org.ppwcode.value_III.legacy;
 
 import junit.framework.TestCase;
 
-import org.ppwcode.vernacular.value_III.PropertyException;
-
 
 
 public class TestEnterpriseNumber extends TestCase {
