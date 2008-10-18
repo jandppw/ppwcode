@@ -19,8 +19,10 @@ package org.ppwcode.value_III.location;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
@@ -70,16 +72,7 @@ public class CountryEditor extends DisplayLocaleBasedEnumerationValueEditor<Coun
   /**
    * The name of the country in the language of {@link #getDisplayLocale()}.
    * If there is no display locale, the name of the country in English.
-   *
-   * @return    new Locale("en", toString())
-   *                .getDisplayCountry((getDisplayLocale() == null)
-   *                                      ? new Locale("en", toString())
-   *                                      : getDisplayLocale());
-   *
-   * @idea (jand): Try to find a way to return, as default, the name of the
-   *               country in its main language. although, that is political.
    */
-  @MethodContract(post = @Expression("new Locale('en', value.value).displayCountry(displayLocale == null ? new Locale('en', value) : displayLocale"))
   public final String getLabel() {
     String result = "";
     if ((getValue() != null) && (getValue() instanceof Country)) {
@@ -87,9 +80,25 @@ public class CountryEditor extends DisplayLocaleBasedEnumerationValueEditor<Coun
       Locale localeToShow = new Locale("en", country.getValue());
             /* language is just a default (null is not accepted);
              * we are only interested in the country setting */
-      result = localeToShow.getDisplayCountry((getDisplayLocale() == null)
-                                                  ? localeToShow
-                                                  : getDisplayLocale());
+      if (getDisplayLocale() != null) {
+        result = localeToShow.getDisplayCountry(getDisplayLocale());
+
+      }
+      else {
+        Set<Locale> countryLocales = country.getLocales();
+        if (countryLocales == null || countryLocales.isEmpty()) {
+          result = localeToShow.getDisplayCountry(Locale.US);
+        }
+        else {
+          Iterator<Locale> iter = countryLocales.iterator();
+          while (iter.hasNext()) {
+            result += localeToShow.getDisplayCountry(iter.next());
+            if (iter.hasNext()) {
+              result += " / ";
+            }
+          }
+        }
+      }
     }
     return result;
   }

@@ -17,43 +17,42 @@ limitations under the License.
 package org.ppwcode.value_III.location;
 
 
+import static java.util.Collections.unmodifiableMap;
+import static java.util.Collections.unmodifiableSet;
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.vernacular.value_III.EnumerationValue;
 import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.Invars;
 import org.toryt.annotations_I.MethodContract;
 
 
 /**
- * A class representing a countries. Codes used are standard ISO code which
- * can be found at @link http://ftp.ics.uci.edu/pub/ietf/http/related/iso639.txt
+ * A class representing a countries. Codes used are standard ISO code which can be found at
+ * <a href="http://ftp.ics.uci.edu/pub/ietf/http/related/iso639.txt">http://ftp.ics.uci.edu/pub/ietf/http/related/iso639.txt</a>.
+ * An extra "no country" country is added with a space as discriminator.
  *
  * @author    Jan Dockx
  * @author    Peopleware n.v.
- *
- * @invar     VALUES != null;
- * @invar     VALUES.size() > 0;
- * @invar     ! VALUES.keySet().contains(null);
- * @invar     ! VALUES.values().contains(null);
- * @invar     (forall Object o; VALUES.keySet().contains(o);
- *                t instanceof String);
- * @invar     (forall Object o; VALUES.values().contains(o);
- *                o.getClass() == Country.class);
- * @invar     VALUES.values().contains(this);
- * @invar     this.equals(VALUES.get(toString()));
  */
 @Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
+@Invars({
+  @Expression("VALUES.values().contains(this)"),
+  @Expression("this == VALUES[value]")
+})
 public final class Country extends EnumerationValue {
 
   /*<construction>*/
@@ -61,11 +60,16 @@ public final class Country extends EnumerationValue {
 
   /**
    * @param     discriminator
-   *            The string that discriminates this value.
-   * @pre       discriminator != null;
-   * @pre       discriminator.length > 0;
-   * @post      new.toString().equals(discriminator);
+   *            The string that discriminates this value. This should be an ISO
+   *            country code.
    */
+  @MethodContract(
+    pre  = {
+      @Expression("_discriminator != null"),
+      @Expression("_discriminator.length > 0")
+    },
+    post = @Expression("result.toString().equals(_discriminator)")
+  )
   private Country(final String discriminator) {
     super(discriminator);
   }
@@ -88,6 +92,14 @@ public final class Country extends EnumerationValue {
   /**
    * A map containing all possible values for this value type.
    */
+  @Invars({
+    @Expression("VALUES != null"),
+    @Expression("! VALUES.keySet().contains(null)"),
+    @Expression("! VALUES.values().contains(null)"),
+    @Expression("for (String cc : VALUES.keySet()) {VALUES[cc].value == cc}"),
+    @Expression("for (Country c : VALUES.values()) {c != NO_COUNTRY ? Locale.getISOCountries().contains(c.value)}"),
+    @Expression("for (String cc : Locale.getISOCountries()) {VALUES[cc] != null}")
+  })
   public static final Map<String, Country> VALUES = countriesGenerator();
 
   private static Map<String, Country> countriesGenerator() {
@@ -98,6 +110,64 @@ public final class Country extends EnumerationValue {
       result.put(isoCodes[i], new Country(isoCodes[i]));
     }
     return Collections.unmodifiableMap(result);
+  }
+
+
+  /**
+   * The country object representing no country (N/A). It was important to add this
+   * in the context of easy processing of HTML forms.
+   */
+  @Invars(@Expression("NO_COUNTRY = VALUES[SPACE]"))
+  public static Country NO_COUNTRY = VALUES.get(" ");
+
+
+  private final static Map<Country, Set<Locale>> PRIVATE_COUNTRY_LOCALES = new HashMap<Country, Set<Locale>>();
+  static {
+    Locale[] ls = Locale.getAvailableLocales();
+    for (Locale l : ls) {
+      Set<Locale> rs = countryLocaleSet(VALUES.get(l.getCountry()));
+      rs.add(l);
+    }
+    addLocale(VALUES.get("BE"), "de");
+    addLocale(VALUES.get("CD"), "fr");
+    makeSetsImmutable();
+  }
+
+  private static void addLocale(Country c, String isoLanguageCode) {
+    Set<Locale> sl = countryLocaleSet(VALUES.get(c.getValue()));
+    sl.add(new Locale(isoLanguageCode, c.getValue()));
+  }
+
+  private static Set<Locale> countryLocaleSet(Country c) {
+    Set<Locale> rs = PRIVATE_COUNTRY_LOCALES.get(c);
+    if (rs == null) {
+      rs = new HashSet<Locale>();
+      PRIVATE_COUNTRY_LOCALES.put(c, rs);
+    }
+    assert rs != null;
+    return rs;
+  }
+
+  private static void makeSetsImmutable() {
+    for (Map.Entry<Country, Set<Locale>> me : PRIVATE_COUNTRY_LOCALES.entrySet()) {
+      me.setValue(unmodifiableSet(me.getValue()));
+    }
+  }
+
+  /**
+   * An (incomplete) list of the locales for a given country.
+   *
+   * @todo Add more than the locale offered in Java EE. E.g., there is not de for BE!
+   *       See e.g. http://www.infoplease.com/ipa/A0855611.html
+   */
+  public final static Map<Country, Set<Locale>> COUNTRY_LOCALES = unmodifiableMap(PRIVATE_COUNTRY_LOCALES);
+
+  /**
+   * The locales in this country.
+   */
+  @MethodContract(post = @Expression("COUNTRY_LOCALES[this]"))
+  public final Set<Locale> getLocales() {
+    return COUNTRY_LOCALES.get(this);
   }
 
 }
