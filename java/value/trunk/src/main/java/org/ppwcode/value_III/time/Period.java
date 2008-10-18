@@ -14,10 +14,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.value_III.legacy;
+package org.ppwcode.value_III.time;
 
 import java.util.Date;
 
+import org.ppwcode.value_III.legacy.DayPeriod;
 import org.ppwcode.vernacular.value_III.MutableValue;
 
 
