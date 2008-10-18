@@ -71,15 +71,51 @@ public class CountryTest {
   }
 
 //  @Test
-//  public void demo() {
+//  public void demo1() {
 //    // there are no dutch translations in Java SE?!
 //    CountryEditor ce = (CountryEditor)PropertyEditorManager.findEditor(Country.class);
-//    ce.setDisplayLocale(new Locale("nl"));
 //    System.out.println("nr of countries: " + VALUES.size());
 //    for (Country c : VALUES.values()) {
 //      System.out.print(c.toString() + ": ");
 //      ce.setValue(c);
 //      System.out.println(ce.getLabel());
+//    }
+//  }
+//
+//  @Test
+//  public void demo2() {
+//    System.out.println(COUNTRY_LOCALES.size());
+//    SortedSet<Country> sortedCountries = new TreeSet<Country>(new Comparator<Country>() {
+//
+//      public int compare(Country o1, Country o2) {
+//        if (eqn(o1, o2)) {
+//          return 0;
+//        }
+//        else if (o1 == null) {
+//          return +1;
+//        }
+//        else if (o2 == null) {
+//          return -1;
+//        }
+//        else {
+//          return o1.getValue().compareTo(o2.getValue());
+//        }
+//      }
+//
+//    });
+//    sortedCountries.addAll(COUNTRY_LOCALES.keySet());
+//    for (Country c : sortedCountries) {
+//      System.out.println(c);
+//      if (c != null) {
+//        if (c.getLocales() != null) {
+//          for (Locale l : c.getLocales()) {
+//            System.out.println("  " + l);
+//          }
+//        }
+//        else {
+//          System.out.println("no known locales");
+//        }
+//      }
 //    }
 //  }
 
