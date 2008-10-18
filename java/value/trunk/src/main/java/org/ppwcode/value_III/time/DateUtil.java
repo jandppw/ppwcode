@@ -14,11 +14,20 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.value_III.legacy;
+package org.ppwcode.value_III.time;
+
+
+import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
+import org.ppwcode.metainfo_I.Copyright;
+import org.ppwcode.metainfo_I.License;
+import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.MethodContract;
 
 
 /**
@@ -27,20 +36,11 @@ import java.util.GregorianCalendar;
  * @author    Jan Dockx
  * @author    Peopleware NV
  */
+@Copyright("2008 - $Date$, PeopleWare n.v.")
+@License(APACHE_V2)
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public class DateUtil {
-
-  /*<section name="Meta Information">*/
-  //------------------------------------------------------------------
-  /** {@value} */
-  public static final String CVS_REVISION = "$Revision$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_DATE = "$Date$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_STATE = "$State$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_TAG = "$Name$"; //$NON-NLS-1$
-  /*</section>*/
-
 
   /*<construction>*/
   //------------------------------------------------------------------
@@ -56,9 +56,7 @@ public class DateUtil {
 
 
 
-  /**
-   * @return (date1 == null) ? (date2 == null) : dayDate(date1).equals(dayDate(date2));
-   */
+  @MethodContract(post = @Expression("(date1 == null) ? (date2 == null) : dayDate(date1) == dayDate(date2)"))
   public static boolean sameDay(Date date1, Date date2) {
     if ((date1 != null) && (date2 != null)) {
       GregorianCalendar cal1 = new GregorianCalendar();
@@ -79,19 +77,20 @@ public class DateUtil {
    * more accurate then the day level. More accurate information
    * is set to <code>0</code>.
    *
-   * @result date != null ? result != date;
-   * @result date == null ? result == null;
-   * @result date != null ? result.getYear() == date.getYear();
-   * @result date != null ? result.getMonth() == date.getMonth();
-   * @result date != null ? result.getDay() == date.getDay();
-   * @result date != null ? result.getHours() == 0;
-   * @result date != null ? result.getMinutes() == 0;
-   * @result date != null ? result.getSeconds() == 0;
-   * @result date != null ? result.getMilliSeconds() == 0;
-   *
    * @mudo don't use deprecated methods in contract
    * @note This was difficult to get right. Don't change without tests!
    */
+  @MethodContract(post = {
+    @Expression("_date == null ? result == null"),
+    @Expression("_date != null ? result != date"),
+    @Expression("_date != null ? result.year == date.year"),
+    @Expression("_date != null ? result.month == date.month"),
+    @Expression("_date != null ? result.day == date.day"),
+    @Expression("_date != null ? result.hours == 0"),
+    @Expression("_date != null ? result.minutes == 0"),
+    @Expression("_date != null ? result.seconds == 0"),
+    @Expression("_date != null ? result.milliseconds == 0")
+  })
   public static Date dayDate(Date date) {
     if (date == null) {
       return null;
@@ -109,9 +108,7 @@ public class DateUtil {
     return result;
   }
 
-  /**
-   * @return (date != null) && date.equals(dayDate(date));
-   */
+  @MethodContract(post = @Expression("(date != null) && date == dayDate(date)"))
   public static boolean isDayDate(Date date) {
     if (date == null) {
       return false;
