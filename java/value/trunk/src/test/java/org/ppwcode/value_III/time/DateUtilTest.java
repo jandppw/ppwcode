@@ -14,7 +14,7 @@ import static java.util.Calendar.MONTH;
 import static java.util.Calendar.SECOND;
 import static java.util.Calendar.YEAR;
 import static org.junit.Assert.*;
-import static org.ppwcode.value_III.time.DateUtil.isDayDate;
+import static org.ppwcode.value_III.time.DateHelpers.isDayDate;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -32,45 +32,45 @@ public class DateUtilTest {
   public void testSameDay1a() {
     Calendar c1 = new GregorianCalendar(2008, 9, 18, 23, 55, 35);
     Calendar c2 = new GregorianCalendar(2008, 9, 18);
-    assertTrue(DateUtil.sameDay(c1.getTime(), c2.getTime()));
+    assertTrue(DateHelpers.sameDay(c1.getTime(), c2.getTime()));
   }
 
   @Test
   public void testSameDay1b() {
     Calendar c1 = new GregorianCalendar(2008, 9, 18, 23, 55, 35);
     Calendar c2 = new GregorianCalendar(2008, 9, 19);
-    assertFalse(DateUtil.sameDay(c1.getTime(), c2.getTime()));
+    assertFalse(DateHelpers.sameDay(c1.getTime(), c2.getTime()));
   }
 
   @Test
   public void testSameDay1c() {
     Calendar c1 = new GregorianCalendar(2008, 9, 18, 23, 55, 35);
     Calendar c2 = new GregorianCalendar(2008, 10, 18);
-    assertFalse(DateUtil.sameDay(c1.getTime(), c2.getTime()));
+    assertFalse(DateHelpers.sameDay(c1.getTime(), c2.getTime()));
   }
 
   @Test
   public void testSameDay1d() {
     Calendar c1 = new GregorianCalendar(2008, 9, 18, 23, 55, 35);
     Calendar c2 = new GregorianCalendar(2009, 9, 18);
-    assertFalse(DateUtil.sameDay(c1.getTime(), c2.getTime()));
+    assertFalse(DateHelpers.sameDay(c1.getTime(), c2.getTime()));
   }
 
   @Test
   public void testSameDay1e() {
     Calendar c1 = new GregorianCalendar(2008, 9, 18, 23, 55, 35);
     Calendar c2 = new GregorianCalendar(2008, 9, 18, 23, 55, 35);
-    assertTrue(DateUtil.sameDay(c1.getTime(), c2.getTime()));
+    assertTrue(DateHelpers.sameDay(c1.getTime(), c2.getTime()));
   }
 
   @Test
   public void testSameDay2() {
     Calendar c = new GregorianCalendar(2008, 9, 18, 23, 55, 35);
-    assertTrue(DateUtil.sameDay(c.getTime(), c.getTime()));
+    assertTrue(DateHelpers.sameDay(c.getTime(), c.getTime()));
   }
 
   public void testDayDate(Date date) {
-    Date result = DateUtil.dayDate(date);
+    Date result = DateHelpers.dayDate(date);
     if (date == null) {
       assertNull(result);
     }
