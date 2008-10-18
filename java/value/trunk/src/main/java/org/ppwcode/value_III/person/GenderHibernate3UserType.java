@@ -23,6 +23,8 @@ import org.ppwcode.vernacular.value_III.hibernate3.AbstractEnumUserType;
 
 /**
  * A Hibernate 3 {@link UserType} for {@link Gender}.
+ *
+ * @note There is nothing to test here
  */
 public class GenderHibernate3UserType extends AbstractEnumUserType<Gender> {
 
