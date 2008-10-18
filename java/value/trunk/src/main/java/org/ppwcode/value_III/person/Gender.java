@@ -25,6 +25,8 @@ package org.ppwcode.value_III.person;
  * @author    David Van Keer
  * @author    Jan Dockx
  * @author    Peopleware n.v.
+ *
+ * @note There is nothing to test here
  */
 public enum Gender {
 
