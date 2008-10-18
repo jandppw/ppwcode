@@ -23,7 +23,6 @@ import static org.junit.Assert.assertTrue;
 import static org.ppwcode.value_III.location.Country.NO_COUNTRY;
 import static org.ppwcode.value_III.location.Country.VALUES;
 
-import java.beans.PropertyEditorManager;
 import java.util.Locale;
 
 import org.junit.Test;
