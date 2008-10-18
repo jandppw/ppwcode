@@ -16,8 +16,14 @@ limitations under the License.
 
 package org.ppwcode.value_III.time;
 
+
+import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+
 import java.util.Date;
 
+import org.ppwcode.metainfo_I.Copyright;
+import org.ppwcode.metainfo_I.License;
+import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.value_III.legacy.DayPeriod;
 import org.ppwcode.vernacular.value_III.MutableValue;
 
@@ -42,20 +48,14 @@ import org.ppwcode.vernacular.value_III.MutableValue;
  * @mudo (jand) must be a value, and move to ppw-value; suggest mutable; (add
  *       normalize method and getWildExceptions ?)
  * @mudo (nsmeets) Normalization does not seem to be a good idea.
+ *
+ * @see http://en.wikipedia.org/wiki/Allen's_Interval_Algebra Allen's Interval Algebra
  */
-public class Period extends MutableValue implements Comparable {
-
-  /*<section name="Meta Information">*/
-  //------------------------------------------------------------------
-  /** {@value} */
-  public static final String CVS_REVISION = "$Revision$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_DATE = "$Date$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_STATE = "$State$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_TAG = "$Name$"; //$NON-NLS-1$
-  /*</section>*/
+@Copyright("2008 - $Date$, PeopleWare n.v.")
+@License(APACHE_V2)
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
+public class StartEndPeriod extends MutableValue implements Comparable {
 
 
   /*<construction>*/
@@ -67,7 +67,7 @@ public class Period extends MutableValue implements Comparable {
    * @post    getStartDate() == null;
    * @post    getEndDate() == null;
    */
-  public Period() {
+  public StartEndPeriod() {
     // Since we demand of subtypes of MutableValue that they implement
     // {@link java.io.Serializable}, a default constructor is mandatory.
     // NOP
@@ -93,7 +93,7 @@ public class Period extends MutableValue implements Comparable {
 
   /**
    * @param     startDate
-   *            The start date to set for this Period.
+   *            The start date to set for this StartEndPeriod.
    * @post      (startDate == null)
    *               ? new.getStartDate() == null
    *               : new.getStartDate().equals(startDate);
@@ -146,7 +146,7 @@ public class Period extends MutableValue implements Comparable {
 
   /**
    * @param     endDate
-   *            The end date to set for this Period.
+   *            The end date to set for this StartEndPeriod.
    * @post      (endDate == null)
    *               ? new.getEndDate() == null
    *               : new.getEndDate().equals(endDate);
@@ -182,7 +182,7 @@ public class Period extends MutableValue implements Comparable {
   /*</property>*/
 
   /**
-   * @return  result instanceof Period
+   * @return  result instanceof StartEndPeriod
    *          &&
    *          (getStartDate() == null)
    *              ? result.getStartDate() == null
@@ -192,8 +192,8 @@ public class Period extends MutableValue implements Comparable {
    *              ? result.getEndDate() == null
    *              : result.getEndDate().equals(getEndDate());
    */
-  public Period clone() {
-    Period result = new Period();
+  public StartEndPeriod clone() {
+    StartEndPeriod result = new StartEndPeriod();
     try {
       result.setStartDate(getStartDate());
       result.setEndDate(getEndDate());
@@ -205,7 +205,7 @@ public class Period extends MutableValue implements Comparable {
   }
 
   /**
-   * @return  o instanceof Period &&
+   * @return  o instanceof StartEndPeriod &&
    *          (getStartDate() == null)
    *             ? o.getStartDate() == null
    *             : getStartDate().equals(o.getStartDate())
@@ -215,10 +215,10 @@ public class Period extends MutableValue implements Comparable {
    *             : getEndDate().equals(o.getEndDate());
    */
   public boolean equals(final Object o) {
-    if (!(o instanceof Period)) {
+    if (!(o instanceof StartEndPeriod)) {
       return false;
     }
-    Period other = (Period) o;
+    StartEndPeriod other = (StartEndPeriod) o;
     return
       ((getStartDate() == null)
           ? (other.getStartDate() == null)
@@ -306,17 +306,17 @@ public class Period extends MutableValue implements Comparable {
   /**
    * Compares this object with the specified object for order.
    *
-   * @result  getStartDate() == null && ((Period)o).getStartDate() == null
+   * @result  getStartDate() == null && ((StartEndPeriod)o).getStartDate() == null
    *            ==> result == 0;
-   * @result  getStartDate() == null && ((Period)o).getStartDate() != null
+   * @result  getStartDate() == null && ((StartEndPeriod)o).getStartDate() != null
    *            ==> result == -1;
-   * @result  getStartDate() != null && ((Period)o).getStartDate() == null
+   * @result  getStartDate() != null && ((StartEndPeriod)o).getStartDate() == null
    *            ==> result == 1;
-   * @result  getStartDate() != null && ((Period)o).getStartDate() != null
-   *            ==> getStartDate().compareTo(((Period)o).getStartDate());
+   * @result  getStartDate() != null && ((StartEndPeriod)o).getStartDate() != null
+   *            ==> getStartDate().compareTo(((StartEndPeriod)o).getStartDate());
    */
   public int compareTo(final Object o) {
-    Period p = (Period)o; // ClassCastException ok
+    StartEndPeriod p = (StartEndPeriod)o; // ClassCastException ok
     if (getStartDate() == null) {
       if (p.getStartDate() == null) { // NullPointerException ok
         return 0;

@@ -17,7 +17,13 @@ limitations under the License.
 package org.ppwcode.value_III.time;
 
 
+import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+
 import java.util.Date;
+
+import org.ppwcode.metainfo_I.Copyright;
+import org.ppwcode.metainfo_I.License;
+import org.ppwcode.metainfo_I.vcs.SvnInfo;
 
 
 /**
@@ -26,21 +32,11 @@ import java.util.Date;
  * @author    nsmeets
  * @author    Peopleware n.v.
  */
+@Copyright("2008 - $Date$, PeopleWare n.v.")
+@License(APACHE_V2)
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public class InvalidPeriodException extends Exception {
-
-  /*<section name="Meta Information">*/
-  //------------------------------------------------------------------
-
-  /** {@value} */
-  public static final String CVS_REVISION = "$Revision$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_DATE = "$Date$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_STATE = "$State$"; //$NON-NLS-1$
-  /** {@value} */
-  public static final String CVS_TAG = "$Name$"; //$NON-NLS-1$
-
-  /*</section>*/
 
   /*<construction>*/
   //------------------------------------------------------------------
