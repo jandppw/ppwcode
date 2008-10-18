@@ -19,9 +19,7 @@ package org.ppwcode.value_III.legacy;
 
 import java.util.regex.Pattern;
 
-import org.ppwcode.vernacular.value_III.CompoundPropertyException;
 import org.ppwcode.vernacular.value_III.ImmutableValue;
-import org.ppwcode.vernacular.value_III.PropertyException;
 
 
 /**

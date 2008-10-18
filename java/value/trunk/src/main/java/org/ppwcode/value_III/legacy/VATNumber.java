@@ -26,9 +26,7 @@ import org.apache.commons.logging.LogFactory;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.vernacular.value_III.CompoundPropertyException;
 import org.ppwcode.vernacular.value_III.ImmutableValue;
-import org.ppwcode.vernacular.value_III.PropertyException;
 
 
 /**

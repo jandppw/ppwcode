@@ -24,7 +24,6 @@ import javax.faces.convert.ConverterException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.ppwcode.vernacular.value_III.PropertyException;
 
 
 /**
