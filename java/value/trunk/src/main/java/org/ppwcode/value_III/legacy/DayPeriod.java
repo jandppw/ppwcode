@@ -19,6 +19,8 @@ package org.ppwcode.value_III.legacy;
 import java.util.Date;
 
 import org.ppwcode.value_III.time.DateHelpers;
+import org.ppwcode.value_III.time.InvalidPeriodException;
+import org.ppwcode.value_III.time.Period;
 import org.ppwcode.vernacular.value_III.MutableValue;
 
 
