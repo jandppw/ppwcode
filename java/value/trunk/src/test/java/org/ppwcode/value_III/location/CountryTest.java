@@ -71,18 +71,18 @@ public class CountryTest {
     assertEquals(VALUES.get(" "), NO_COUNTRY);
   }
 
-  @Test
-  public void demo() {
-    // there are no dutch translations in Java SE?!
-    CountryEditor ce = (CountryEditor)PropertyEditorManager.findEditor(Country.class);
-    ce.setDisplayLocale(new Locale("nl"));
-    System.out.println("nr of countries: " + VALUES.size());
-    for (Country c : VALUES.values()) {
-      System.out.print(c.toString() + ": ");
-      ce.setValue(c);
-      System.out.println(ce.getLabel());
-    }
-  }
+//  @Test
+//  public void demo() {
+//    // there are no dutch translations in Java SE?!
+//    CountryEditor ce = (CountryEditor)PropertyEditorManager.findEditor(Country.class);
+//    ce.setDisplayLocale(new Locale("nl"));
+//    System.out.println("nr of countries: " + VALUES.size());
+//    for (Country c : VALUES.values()) {
+//      System.out.print(c.toString() + ": ");
+//      ce.setValue(c);
+//      System.out.println(ce.getLabel());
+//    }
+//  }
 
 }
 
