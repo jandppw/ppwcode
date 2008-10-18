@@ -18,7 +18,7 @@ package org.ppwcode.value_III.legacy;
 
 import java.util.Date;
 
-import org.ppwcode.value_III.time.DateUtil;
+import org.ppwcode.value_III.time.DateHelpers;
 import org.ppwcode.vernacular.value_III.MutableValue;
 
 
@@ -50,8 +50,8 @@ import org.ppwcode.vernacular.value_III.MutableValue;
  * @author    Jan Dockx
  * @author    Peopleware NV
  *
- * @invar getStartDate() != null ? DateUtil.isDayDate(getStartDate());
- * @invar getEndDate() != null ? DateUtil.isDayDate(getEndDate());
+ * @invar getStartDate() != null ? DateHelpers.isDayDate(getStartDate());
+ * @invar getEndDate() != null ? DateHelpers.isDayDate(getEndDate());
  * @invar     (getStartDate() != null && getEndDate() != null)
  *                ? ! getStartDate().after(getEndDate());
  */
@@ -106,14 +106,14 @@ public class DayPeriod extends MutableValue implements Comparable {
   /**
    * @param     startDate
    *            The start date to set for this Period.
-   * @post      startDate == null ? new.getStartDate() == null : new.getStartDate().equals(DateUtil.dayDate(startDate));
+   * @post      startDate == null ? new.getStartDate() == null : new.getStartDate().equals(DateHelpers.dayDate(startDate));
    * @throws    InvalidPeriodException pExc
    *            ( startDate != null
    *                && getEndDate() != null
    *                && startDate.after(getEndDate())
    *            )
-   *              && DateUtil.sameDay(pExc.getStartDate(), startDate)
-   *              && DateUtil.sameDay(pExc.getEndDate(), getEndDate())
+   *              && DateHelpers.sameDay(pExc.getStartDate(), startDate)
+   *              && DateHelpers.sameDay(pExc.getEndDate(), getEndDate())
    *              && pExc.getMessage()
    *                    .equals("The given start date is not before the current end date.");
    */
@@ -128,7 +128,7 @@ public class DayPeriod extends MutableValue implements Comparable {
       );
       throw ipe;
     }
-    $startDate = DateUtil.dayDate(startDate);
+    $startDate = DateHelpers.dayDate(startDate);
   }
 
   private Date $startDate;
@@ -155,7 +155,7 @@ public class DayPeriod extends MutableValue implements Comparable {
   /**
    * @param     endDate
    *            The end date to set for this Period.
-   * @post      endDate == null ? new.getEndDate() == null : new.getEndDate().equals(DateUtil.dayDate(endDate));
+   * @post      endDate == null ? new.getEndDate() == null : new.getEndDate().equals(DateHelpers.dayDate(endDate));
    * @throws    InvalidPeriodException pExc
    *            ( getStartDate() != null
    *                && endDate != null
@@ -176,7 +176,7 @@ public class DayPeriod extends MutableValue implements Comparable {
           "The current start date is not before the given end date."
       );
     }
-    $endDate = DateUtil.dayDate(endDate);
+    $endDate = DateHelpers.dayDate(endDate);
   }
 
   private Date $endDate;
@@ -207,8 +207,8 @@ public class DayPeriod extends MutableValue implements Comparable {
       return false;
     }
     DayPeriod other = (DayPeriod) o;
-    return DateUtil.sameDay($startDate, other.$startDate) &&
-           DateUtil.sameDay($endDate, other.$endDate);
+    return DateHelpers.sameDay($startDate, other.$startDate) &&
+           DateHelpers.sameDay($endDate, other.$endDate);
   }
 
   /**
@@ -322,14 +322,14 @@ public class DayPeriod extends MutableValue implements Comparable {
    * <code>date in [getStartDate(), getEndDate()]</code>.
    *
    * @return (date != null) && (getStartDate() != null) && (getEndDate() != null) &&
-   *            (!DateUtil.dayDate(date).before(getStartDate())) && (!DateUtil.dayDate(date).after(getEndDate()));
+   *            (!DateHelpers.dayDate(date).before(getStartDate())) && (!DateHelpers.dayDate(date).after(getEndDate()));
    */
   public boolean contains(final Date date) {
     if ((date == null) || ($startDate == null) || ($endDate == null)) {
       return false;
     }
     else {
-      Date dayDate = DateUtil.dayDate(date);
+      Date dayDate = DateHelpers.dayDate(date);
       return (!dayDate.before($startDate)) && (!dayDate.after($endDate));
     }
   }
