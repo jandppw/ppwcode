@@ -22,7 +22,7 @@ package org.ppwcode.vernacular.value_III;
  *
  * NAME MUST BE PARSE_VALUE_EXCEPTION
  */
-public class PropertyException extends ValueException {
+public class PropertyException extends SemanticValueException {
 
   public PropertyException(Object origin, String dontKnow, String messageKey, Throwable cause) {
     super(messageKey, cause);
