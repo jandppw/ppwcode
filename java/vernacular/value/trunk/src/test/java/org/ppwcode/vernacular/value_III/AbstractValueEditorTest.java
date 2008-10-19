@@ -24,7 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.ppwcode.util.test.contract.NoSuchContractException;
 import org.ppwcode.vernacular.value_III.stubs.StubAbstractValueEditor;
-import org.ppwcode.vernacular.value_III.stubs.StubValue;
+import org.ppwcode.vernacular.value_III.stubs.StubAbstractValue;
 
 
 public class AbstractValueEditorTest {
@@ -39,7 +39,7 @@ public class AbstractValueEditorTest {
     }
   }
 
-  AbstractValueEditor<StubValue>[] $subjects;
+  AbstractValueEditor<StubAbstractValue>[] $subjects;
 
   @Before
   public void setUp() throws Exception {
