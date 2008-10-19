@@ -19,7 +19,7 @@ package org.ppwcode.vernacular.value_III.stubs;
 import org.ppwcode.vernacular.value_III.AbstractValueEditor;
 
 
-public class StubAbstractValueEditor extends AbstractValueEditor<StubValue> {
+public class StubAbstractValueEditor extends AbstractValueEditor<StubAbstractValue> {
 
   private final static StubAbstractValue DUMMY = new StubAbstractValue();
 
