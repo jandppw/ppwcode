@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.value_III.time;
+package org.ppwcode.value_III.time.period;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
@@ -24,6 +24,7 @@ import java.util.Date;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.ppwcode.value_III.time.Duration;
 import org.ppwcode.vernacular.value_III.ImmutableValue;
 
 
