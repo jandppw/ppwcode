@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.vernacular.value_III.ImmutableValue;
+import org.ppwcode.vernacular.value_III.AbstractImmutableValue;
 
 
 /**
@@ -46,7 +46,7 @@ import org.ppwcode.vernacular.value_III.ImmutableValue;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-public final class VATNumber extends ImmutableValue {
+public final class VATNumber extends AbstractImmutableValue {
 
   private static final Log LOG = LogFactory.getLog(VATNumber.class);
 

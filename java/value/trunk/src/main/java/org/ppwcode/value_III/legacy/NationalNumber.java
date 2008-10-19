@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.regex.Pattern;
 
-import org.ppwcode.vernacular.value_III.ImmutableValue;
+import org.ppwcode.vernacular.value_III.AbstractImmutableValue;
 
 
 /**
@@ -38,7 +38,7 @@ import org.ppwcode.vernacular.value_III.ImmutableValue;
  * @invar  Pattern.matches(RIGHT_PATTERN, getRightNumber());
  * @invar  checkNationalNumber(getLeftNumber(), getMiddleNumber(), getRightNumber());
  */
-public final class NationalNumber extends ImmutableValue {
+public final class NationalNumber extends AbstractImmutableValue {
 
   /*<section name="Meta Information">*/
   //------------------------------------------------------------------

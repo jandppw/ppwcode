@@ -21,7 +21,7 @@ import java.util.Date;
 import org.ppwcode.value_III.time.DateHelpers;
 import org.ppwcode.value_III.time.InvalidPeriodException;
 import org.ppwcode.value_III.time.StartEndPeriod;
-import org.ppwcode.vernacular.value_III.MutableValue;
+import org.ppwcode.vernacular.value_III.AbstractMutableValue;
 
 
 /**
@@ -57,7 +57,7 @@ import org.ppwcode.vernacular.value_III.MutableValue;
  * @invar     (getStartDate() != null && getEndDate() != null)
  *                ? ! getStartDate().after(getEndDate());
  */
-public class DayPeriod extends MutableValue implements Comparable {
+public class DayPeriod extends AbstractMutableValue implements Comparable {
 
   /*<section name="Meta Information">*/
   //------------------------------------------------------------------

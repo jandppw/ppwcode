@@ -19,7 +19,7 @@ package org.ppwcode.value_III.legacy;
 
 import java.util.regex.Pattern;
 
-import org.ppwcode.vernacular.value_III.ImmutableValue;
+import org.ppwcode.vernacular.value_III.AbstractImmutableValue;
 
 
 /**
@@ -37,7 +37,7 @@ import org.ppwcode.vernacular.value_III.ImmutableValue;
  * @invar  Pattern.matches(RIGHT_PATTERN, getRightNumber());
  * @invar  checkRSZNumber(getLeftNumber(), getMiddleNumber(), getRightNumber());
  */
-public final class RSZNumber extends ImmutableValue {
+public final class RSZNumber extends AbstractImmutableValue {
 
   /*<section name="Meta Information">*/
   //------------------------------------------------------------------

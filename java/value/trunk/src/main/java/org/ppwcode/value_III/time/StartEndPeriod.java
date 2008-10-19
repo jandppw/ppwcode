@@ -25,7 +25,7 @@ import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.value_III.legacy.DayPeriod;
-import org.ppwcode.vernacular.value_III.MutableValue;
+import org.ppwcode.vernacular.value_III.AbstractMutableValue;
 
 
 /**
@@ -55,7 +55,7 @@ import org.ppwcode.vernacular.value_III.MutableValue;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-public class StartEndPeriod extends MutableValue implements Comparable {
+public class StartEndPeriod extends AbstractMutableValue implements Comparable {
 
 
   /*<construction>*/
