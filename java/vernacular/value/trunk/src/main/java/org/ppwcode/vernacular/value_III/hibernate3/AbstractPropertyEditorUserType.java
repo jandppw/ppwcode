@@ -41,6 +41,7 @@ import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.Invars;
 import org.toryt.annotations_I.MethodContract;
 
+
 /**
  * MUDO UNFINISHED
  *
@@ -134,10 +135,6 @@ public abstract class AbstractPropertyEditorUserType implements UserType {
     return value;
   }
 
-  /**
-   * @return false;
-   *         EnumerationValue implements ImmutableValue
-   */
   public final boolean isMutable() {
     return MutableValue.class.isAssignableFrom(returnedClass());
   }
