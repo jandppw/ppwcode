@@ -155,7 +155,7 @@ import org.toryt.annotations_I.MethodContract;
   @Expression("VALUES.values().contains(this)"),
   @Expression("this.equals(VALUES.get(toString()))")
 })
-public abstract class EnumerationValue extends ImmutableValue {
+public abstract class EnumerationValue extends AbstractImmutableValue {
 
   /*<construction>*/
   //------------------------------------------------------------------
