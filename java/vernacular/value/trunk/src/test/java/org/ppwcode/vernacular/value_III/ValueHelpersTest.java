@@ -23,7 +23,7 @@ import java.beans.PropertyEditorManager;
 
 import org.junit.Test;
 import org.ppwcode.vernacular.value_III.stubs.StubEnum;
-import org.ppwcode.vernacular.value_III.stubs.StubValue;
+import org.ppwcode.vernacular.value_III.stubs.StubAbstractValue;
 
 
 public class ValueHelpersTest {
@@ -37,14 +37,14 @@ public class ValueHelpersTest {
 
   @Test
   public void testEqn2() {
-    Object one = new StubValue();
-    Object other = new StubValue();
+    Object one = new StubAbstractValue();
+    Object other = new StubAbstractValue();
     testEqn(one, other);
   }
 
   @Test
   public void testEqn3() {
-    Object one = new StubValue();
+    Object one = new StubAbstractValue();
     testEqn(one, one);
   }
 
@@ -75,13 +75,13 @@ public class ValueHelpersTest {
 
   @Test
   public void testEqn8() {
-    Object one = new StubValue();
+    Object one = new StubAbstractValue();
     testEqn(one, null);
   }
 
   @Test
   public void testEqn9() {
-    Object other = new StubValue();
+    Object other = new StubAbstractValue();
     testEqn(null, other);
   }
 
