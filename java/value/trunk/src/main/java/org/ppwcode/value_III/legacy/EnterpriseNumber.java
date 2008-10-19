@@ -19,7 +19,7 @@ package org.ppwcode.value_III.legacy;
 
 import java.util.regex.Pattern;
 
-import org.ppwcode.vernacular.value_III.ImmutableValue;
+import org.ppwcode.vernacular.value_III.AbstractImmutableValue;
 
 
 /**
@@ -45,7 +45,7 @@ import org.ppwcode.vernacular.value_III.ImmutableValue;
  * @invar  Pattern.matches(RIGHT_PATTERN, getRightNumber());
  * @invar  checkEnterpriseNumber(getLeftNumber(), getMiddleNumber(), getRightNumber());
  */
-public final class EnterpriseNumber extends ImmutableValue {
+public final class EnterpriseNumber extends AbstractImmutableValue {
 
   /*<section name="Meta Information">*/
   //------------------------------------------------------------------

@@ -20,7 +20,7 @@ package org.ppwcode.value_III.legacy;
 import java.io.Serializable;
 
 import org.ppwcode.value_III.location.Country;
-import org.ppwcode.vernacular.value_III.MutableValue;
+import org.ppwcode.vernacular.value_III.AbstractMutableValue;
 
 
 /**
@@ -41,7 +41,7 @@ import org.ppwcode.vernacular.value_III.MutableValue;
  * @deprecated
  */
 @Deprecated
-public class Address extends MutableValue implements Serializable {
+public class Address extends AbstractMutableValue implements Serializable {
 
   /* <section name="Meta Information"> */
   //------------------------------------------------------------------
