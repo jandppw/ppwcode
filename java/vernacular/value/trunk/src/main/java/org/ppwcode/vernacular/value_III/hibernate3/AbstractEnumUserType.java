@@ -106,7 +106,7 @@ public class AbstractEnumUserType<_Enum_ extends Enum<_Enum_>> implements UserTy
 
   /**
    * @return false;
-   *         Enum implements ImmutableValue
+   *         Enum is kind of an ImmutableValue
    */
   public final boolean isMutable() {
     return false;
