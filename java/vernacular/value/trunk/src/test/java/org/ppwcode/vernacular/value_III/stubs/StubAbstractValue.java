@@ -16,10 +16,10 @@ limitations under the License.
 
 package org.ppwcode.vernacular.value_III.stubs;
 
-import org.ppwcode.vernacular.value_III.Value;
+import org.ppwcode.vernacular.value_III.AbstractValue;
 
-// needed for AbstractValueEditor test
-public class StubAbstractValue extends Value {
+
+public class StubAbstractValue extends AbstractValue {
 
   @Override
   public int hashCode() {
