@@ -16,10 +16,10 @@ limitations under the License.
 
 package org.ppwcode.vernacular.value_III.stubs;
 
-import org.ppwcode.vernacular.value_III.ImmutableValue;
+import org.ppwcode.vernacular.value_III.AbstractMutableValue;
 
 
-public class StubImmutableValue extends ImmutableValue {
+public class StubAbstractMutableValue extends AbstractMutableValue {
 
   @Override
   public int hashCode() {
