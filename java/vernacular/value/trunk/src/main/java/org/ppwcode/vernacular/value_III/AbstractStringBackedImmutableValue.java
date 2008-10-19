@@ -40,7 +40,7 @@ import org.toryt.annotations_I.MethodContract;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision: 2509 $",
          date     = "$Date: 2008-08-31 15:29:42 +0200 (Sun, 31 Aug 2008) $")
-public abstract class AbstractStringBackedImmutableValue extends ImmutableValue {
+public abstract class AbstractStringBackedImmutableValue extends AbstractImmutableValue {
 
   /*<construction>*/
   //------------------------------------------------------------------
