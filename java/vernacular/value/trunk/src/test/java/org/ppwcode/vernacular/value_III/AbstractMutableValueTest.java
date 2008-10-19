@@ -17,7 +17,6 @@ limitations under the License.
 package org.ppwcode.vernacular.value_III;
 
 
-import static org.junit.Assert.assertEquals;
 import static org.ppwcode.util.test.contract.Contract.contractFor;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
 
@@ -25,26 +24,27 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.ppwcode.util.test.contract.NoSuchContractException;
-import org.ppwcode.vernacular.value_III.stubs.StubValue;
+import org.ppwcode.vernacular.value_III.stubs.StubAbstractMutableValue;
+import org.ppwcode.vernacular.value_III.stubs.StubAbstractValue;
 
 
-public class ValueTest {
+public class AbstractMutableValueTest {
 
-  public static _Contract_Value CONTRACT;
+  public static _Contract_MutableValue CONTRACT;
   static {
     try {
-      CONTRACT = (_Contract_Value)contractFor(Value.class);
+      CONTRACT = (_Contract_MutableValue)contractFor(MutableValue.class);
     }
     catch (NoSuchContractException exc) {
       unexpectedException(exc);
     }
   }
 
-  private StubValue $subject;
+  private StubAbstractMutableValue $subject;
 
   @Before
   public void setUp() throws Exception {
-    $subject = new StubValue();
+    $subject = new StubAbstractMutableValue();
   }
 
   @After
@@ -53,8 +53,8 @@ public class ValueTest {
   }
 
   @Test
-  public void testValue() {
-    Value subject = new StubValue();
+  public void testMutableValue() {
+    AbstractMutableValue subject = new StubAbstractMutableValue();
     CONTRACT.assertInvariants(subject);
   }
 
@@ -72,7 +72,13 @@ public class ValueTest {
 
   @Test
   public void testEqualsObject3() {
-    Object other = new StubValue();
+    Object other = new StubAbstractValue();
+    testEquals_Object(other);
+  }
+
+  @Test
+  public void testEqualsObject3a() {
+    Object other = new StubAbstractMutableValue();
     testEquals_Object(other);
   }
 
@@ -82,35 +88,17 @@ public class ValueTest {
     testEquals_Object(other);
   }
 
-  @Test
-  public void testEmptyString1() {
-    testEmpty("");
-  }
-
-  @Test
-  public void testEmptyString2() {
-    testEmpty(null);
-  }
-
-  @Test
-  public void testEmptyString3() {
-    testEmpty(" ");
-  }
-
-  @Test
-  public void testEmptyString4() {
-    testEmpty("Just a string");
-  }
-
-  private void testEmpty(String s) {
-    boolean expected = s == null || s.equals("");
-    boolean result = ValueHelpers.empty(s);
-    assertEquals(expected, result);
-  }
-
   private void testEquals_Object(Object other) {
     boolean result = $subject.equals(other);
     CONTRACT.assertEqualsObject($subject, other, result);
+    CONTRACT.assertInvariants($subject);
+  }
+
+  @Test
+  public void testClone() {
+    AbstractMutableValue mv = $subject.clone();
+    CONTRACT.assertClone($subject, mv);
+    CONTRACT.assertInvariants(mv);
     CONTRACT.assertInvariants($subject);
   }
 

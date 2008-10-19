@@ -24,11 +24,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.ppwcode.util.test.contract.NoSuchContractException;
-import org.ppwcode.vernacular.value_III.stubs.StubImmutableValue;
-import org.ppwcode.vernacular.value_III.stubs.StubValue;
+import org.ppwcode.vernacular.value_III.stubs.StubAbstractImmutableValue;
+import org.ppwcode.vernacular.value_III.stubs.StubAbstractValue;
 
 
-public class ImmutableValueTest {
+public class AbstractImmutableValueTest {
 
   public static _Contract_ImmutableValue CONTRACT;
   static {
@@ -40,11 +40,11 @@ public class ImmutableValueTest {
     }
   }
 
-  private StubImmutableValue $subject;
+  private StubAbstractImmutableValue $subject;
 
   @Before
   public void setUp() throws Exception {
-    $subject = new StubImmutableValue();
+    $subject = new StubAbstractImmutableValue();
   }
 
   @After
@@ -54,7 +54,7 @@ public class ImmutableValueTest {
 
   @Test
   public void testImmutableValue() {
-    ImmutableValue subject = new StubImmutableValue();
+    AbstractImmutableValue subject = new StubAbstractImmutableValue();
     CONTRACT.assertInvariants(subject);
   }
 
@@ -72,13 +72,13 @@ public class ImmutableValueTest {
 
   @Test
   public void testEqualsObject3() {
-    Object other = new StubValue();
+    Object other = new StubAbstractValue();
     testEquals_Object(other);
   }
 
   @Test
   public void testEqualsObject3a() {
-    Object other = new StubImmutableValue();
+    Object other = new StubAbstractImmutableValue();
     testEquals_Object(other);
   }
 
