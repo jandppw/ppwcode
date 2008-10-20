@@ -100,39 +100,44 @@ public class JpaBTest {
   }
 
   @Test
+  public void displayMessage() {
+    System.out.println();
+    System.out.println();
+    System.out.println("TESTS WITH MODIFIED SERIALIZATION");
+    System.out.println("=================================");
+    System.out.println("Master-Detail uses new serialization methods.  Constraint is that there cannot be any cyclic references");
+    System.out.println("in the object graph.  During the tests, detached objects should be serialized and deserialized before");
+    System.out.println("any operations or assertions.");
+    System.out.println();
+    System.out.println();
+  }
+
+  @Test
   public void checkDates() {
     assertFalse(DETAIL_DATE_A.equals(DETAIL_DATE_B));
   }
 
   @Test
-  public void hypothesis1() {
+  public void hypothesis1a() throws FileNotFoundException, IOException, ClassNotFoundException {
     displayTest("RETRIEVE MASTER WITHOUT DETAILS",
-        "hypothesis1 (master without detail, saved with merge)");
+        "hypothesis1a (master without detail, saved with merge)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
-
     EntityTransaction tx = em.getTransaction();
     tx.begin();
     Master e = createMaster0();
     assertFalse(em.contains(e));
     Master persistedE = em.merge(e);
     assertFalse(em.contains(e));
-    LOGGER.fine("NOTE THAT original master IS NOT IN entity manager AFTER MERGE");
     assertTrue(em.contains(persistedE));
-    LOGGER.fine("NOTE THAT MERGEd master IS IN entity manager AFTER MERGE");
     tx.commit();
     assertFalse(em.contains(e));
-    LOGGER.fine("NOTE THAT original master IS NOT IN entity manager AFTER COMMIT");
     assertTrue(em.contains(persistedE));
-    LOGGER.fine("NOTE THAT MERGEd master IS STILL IN entity manager AFTER COMMIT");
     em.close();
     tx = null;
     em = null;
 
     Integer eId = persistedE.getPersistenceId();
-    LOGGER.fine("id of MERGEd master: " + eId);
-    LOGGER.fine("original RAM master:\n\t" + e);
-    LOGGER.fine("MERGEd version of original RAM master:\n\t" + persistedE);
     assertNotSame(e, persistedE);
 
     em = emf.createEntityManager();
@@ -143,50 +148,42 @@ public class JpaBTest {
     em.close();
     tx = null;
     em = null;
-    assertMaster0(eId, fromDbE);
-    assertNotSame(persistedE, fromDbE);
-    LOGGER.fine("master retrieved from DB:\n\t" + fromDbE);
-    LOGGER.fine("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
-    LOGGER.fine("$details of master retrieved from DB:\n\t" + fromDbE.$details);
-    assertNull(fromDbE.$details); // ok; set is not initialized
-    LOGGER.fine("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
-    assertNull(fromDbE.getDetails());
-    LOGGER.fine("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
+
+    Master m = serAndDeserMaster(fromDbE);
+
+    assertMaster0(eId, m);
+    assertNotSame(persistedE, m);
+    assertNotNull(m.$details);
+    assertTrue(m.$details.size() == 0);
+    assertNotNull(m.getDetails());
+    assertTrue(m.getDetails().size() == 0);
   }
 
   @Test
-  public void hypothesis1a() {
+  public void hypothesis1b() throws FileNotFoundException, IOException, ClassNotFoundException {
     displayTest("RETRIEVE MASTER WITHOUT DETAILS",
-      "hypothesis1a (master without detail, saved with persist --> we also have primary key)");
+      "hypothesis1b (master without detail, saved with persist)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
-
     EntityTransaction tx = em.getTransaction();
     tx.begin();
     Master e = createMaster0();
     assertFalse(em.contains(e));
-    LOGGER.fine("RAM master:\n\t" + e);
     assertNull(e.getPersistenceId());
     assertNull(e.getPersistenceVersion());
-    // using persist here
     em.persist(e);
     assertTrue(em.contains(e));
     assertNotNull(e.getPersistenceId());
     assertNull(e.getPersistenceVersion());
-    LOGGER.fine("RAM master, persisted, uncommitted:\n\t" + e);
     tx.commit();
     tx = null;
     assertTrue(em.contains(e));
-    LOGGER.fine("NOTE THAT master IS STILL IN entity manager AFTER COMMIT");
-    LOGGER.fine("RAM master, persisted, committed:\n\t" + e);
     em.close();
     em = null;
+
     assertNotNull(e.getPersistenceId());
     assertNotNull(e.getPersistenceVersion());
-    LOGGER.fine("RAM master, persisted, committed, detached:\n\t" + e);
-
     Integer eId = e.getPersistenceId();
-    LOGGER.fine("id of persisted master: " + eId);
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
@@ -197,99 +194,72 @@ public class JpaBTest {
     tx.commit();
     tx = null;
     assertTrue(em.contains(fromDbE));
-    LOGGER.fine("NOTE THAT entity manager STILL CONTAINS RETRIEVED master AFTER COMMIT");
     em.close();
     em = null;
-    assertMaster0(eId, fromDbE);
-    assertNotSame(e, fromDbE);
-    assertNull(fromDbE.$details); // ok; set is not initialized
-    LOGGER.fine("master retrieved from DB:\n\t" + fromDbE);
-    LOGGER.fine("$details of master retrieved from DB:\n\t" + fromDbE.$details);
-    assertNull(fromDbE.$details);
-    LOGGER.fine("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
-    assertNull(fromDbE.getDetails());
-    LOGGER.fine("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
+
+    Master m = serAndDeserMaster(fromDbE);
+
+    assertMaster0(eId, m);
+    assertNotSame(e, m);
+    assertNotNull(m.$details);
+    assertTrue(m.$details.size() == 0);
+    assertNotNull(m.getDetails());
+    assertTrue(m.getDetails().size() == 0);
   }
 
   @Test
-  public void hypothesis1b() throws IOException, ClassNotFoundException {
+  public void hypothesis1c() throws FileNotFoundException, IOException, ClassNotFoundException {
     displayTest("RETRIEVE MASTER WITHOUT DETAILS",
-        "hypothesis1b  (master without detail, saved with persist, serialized and deserialized)");
+      "hypothesis1b (master without detail, saved with persist, touch detail)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
-
     EntityTransaction tx = em.getTransaction();
     tx.begin();
     Master e = createMaster0();
-    LOGGER.fine("original RAM master:\n\t" + e);
+    assertFalse(em.contains(e));
     assertNull(e.getPersistenceId());
     assertNull(e.getPersistenceVersion());
-    assertNotNull(e.$details);
-    LOGGER.fine("NOTE THAT $details for original RAM master is NOT NULL: "+e.$details);
-    assertNotNull(e.getDetails());
-    LOGGER.fine("NOTE THAT details for original RAM master is NOT NULL: "+e.getDetails());
     em.persist(e);
+    assertTrue(em.contains(e));
     assertNotNull(e.getPersistenceId());
     assertNull(e.getPersistenceVersion());
-    LOGGER.fine("original RAM master, after PERSIST:\n\t" + e);
     tx.commit();
     tx = null;
+    assertTrue(em.contains(e));
     em.close();
     em = null;
+
     assertNotNull(e.getPersistenceId());
     assertNotNull(e.getPersistenceVersion());
-    LOGGER.fine("original RAM master, after commit and detach:\n\t" + e);
-
     Integer eId = e.getPersistenceId();
-    LOGGER.fine("id of persisted master: " + eId);
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
+    assertFalse(em.contains(e));
     Master fromDbE = em.find(Master.class, eId);
+    assertTrue(em.contains(fromDbE));
+    fromDbE.getDetails();
     tx.commit();
     tx = null;
+    assertTrue(em.contains(fromDbE));
     em.close();
     em = null;
-    assertMaster0(eId, fromDbE);
-    assertNotSame(e, fromDbE);
-    LOGGER.fine("master retrieved from DB:\n\t" + fromDbE);
-    assertNull(fromDbE.$details); // ok; set is not initialized
-    LOGGER.fine("$details of master retrieved from DB:\n\t" + fromDbE.$details);
-    assertNull(fromDbE.getDetails());
-    LOGGER.fine("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
 
-    // serialization and deserialization of original master
-    Master deserE = serAndDeserMaster(e);
+    Master m = serAndDeserMaster(fromDbE);
 
-    assertMaster0(eId, deserE);
-    assertNotSame(e, deserE);
-    LOGGER.fine("original master from ser file:\n\t" + deserE);
-    assertNotNull(deserE.$details);
-    LOGGER.fine("$details of original master from ser file:\n\t" + deserE.$details);
-    LOGGER.fine("type of $details of original master from ser file:\n\t" + deserE.$details.getClass());
-    LOGGER.fine("NOTE THAT AFTER SERIALIZATION+DESERIALIZATION, $details IS NOT NULL");
-    assertNotNull(deserE.getDetails());
-    LOGGER.fine("details of master from ser file:\n\t" + deserE.getDetails());
-    assertTrue(deserE.getDetails().isEmpty());
-
-    // serialization and deserialization of master from db
-    Master deserFromDbE = serAndDeserMaster(fromDbE);
-
-    assertMaster0(eId, deserFromDbE);
-    assertNotSame(e, deserFromDbE);
-    LOGGER.fine("master from db from ser file:\n\t" + deserFromDbE);
-    assertNull(deserFromDbE.$details);
-    LOGGER.fine("$details of master from db from ser file:\n\t" + deserFromDbE.$details);
-    LOGGER.fine("NOTE THAT AFTER SERIALIZATION+DESERIALIZATION, $details IS NULL");
-    assertNull(deserFromDbE.getDetails());
-    LOGGER.fine("details of master from db from ser file:\n\t" + deserFromDbE.getDetails());
+    assertMaster0(eId, m);
+    assertNotSame(e, m);
+    assertNotNull(m.$details);
+    assertTrue(m.$details.size() == 0);
+    assertNotNull(m.getDetails());
+    assertTrue(m.getDetails().size() == 0);
   }
 
   @Test
   public void hypothesis2a() throws FileNotFoundException, IOException, ClassNotFoundException {
     displayTest("RETRIEVE MASTER WITH DETAILS",
-        "hypothesis2a (master with 2 details, created using persist, serialized outside transaction and deserialized)");
+        "hypothesis2a (master with 2 details, created using persist)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
 
@@ -305,68 +275,41 @@ public class JpaBTest {
     tx = null;
     em.close();
     em = null;
-    LOGGER.fine("master after persist:\n\t" + e);
-    LOGGER.fine("detail A after persist:\n\t" + slcA);
-    LOGGER.fine("detail B after persist:\n\t" + slcB);
 
     Integer eId = e.getPersistenceId();
 
     assertMaster0(eId, e);
-    assertNotNull(e.$details); // ok; set is not initialized
-    LOGGER.fine("$details of master after persist:\n\t" + e.$details);
-    LOGGER.fine("details of master after persist:\n\t" + e.getDetails());
-    assertNotNull(e.$details); // set is not initialized: working with detached objects
-    assertNotNull(e.getDetails()); // set is not initialized: working with detached objects
-    LOGGER.fine("master after persist: keeps the details set during persist");
-
-    Master deserEe = serAndDeserMaster(e);
-
-    assertMaster0(eId, deserEe);
-    assertNotSame(e, deserEe);
-    LOGGER.fine("master from original ser:\n\t" + deserEe);
-    assertNotNull(deserEe.$details);
-    LOGGER.fine("$details of master from original ser file:\n\t" + deserEe.$details);
-    LOGGER.fine("NOTE THAT AFTER SERIALIZATION+DESERIALIZATION, $details IS NOT NULL");
-    LOGGER.fine("details from master from original ser:\n\t" + deserEe.getDetails());
-    assertNotNull(deserEe.$details);
-    assertNotNull(deserEe.getDetails());
+    assertNotNull(e.$details);
+    assertTrue(e.$details.size()==2);
+    assertNotNull(e.getDetails());
+    assertTrue(e.getDetails().size()==2);
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
-    Master fromDbE = em.find(Master.class, eId);
     assertFalse(em.contains(e));
+    Master fromDbE = em.find(Master.class, eId);
+    assertTrue(em.contains(fromDbE));
     tx.commit();
     tx = null;
+    assertTrue(em.contains(fromDbE));
     em.close();
     em = null;
 
-    assertMaster0(eId, fromDbE);
-    LOGGER.fine("master retrieved from DB:\n\t" + fromDbE);
-    assertNull(fromDbE.$details); // ok; set is not initialized
-    LOGGER.fine("$details of master retrieved from DB:\n\t" + fromDbE.$details);
-    LOGGER.fine("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
-    assertNull(fromDbE.$details); // set is not initialized: working with detached objects
-    assertNull(fromDbE.getDetails()); // set is not initialized: working with detached objects
-    LOGGER.fine("master retrieved from DB: lazy loading of attached details");
+    Master deserEe = serAndDeserMaster(fromDbE);
 
-    Master deserE = serAndDeserMaster(fromDbE);
-
-    assertMaster0(eId, deserE);
-    assertNotSame(fromDbE, deserE);
-    LOGGER.fine("master from ser:\n\t" + deserE);
-    assertNull(deserE.$details);
-    LOGGER.fine("$details of master from ser file:\n\t" + deserE.$details);
-    LOGGER.fine("NOTE THAT AFTER SERIALIZATION+DESERIALIZATION, $details IS STILL NULL");
-    LOGGER.fine("details from master from ser:\n\t" + deserE.getDetails());
-    assertNull(deserE.$details);
-    assertNull(deserE.getDetails());
+    assertMaster0(eId, deserEe);
+    assertNotSame(e, deserEe);
+    assertNotNull(deserEe.$details);
+    assertTrue(deserEe.$details.size() == 0);
+    assertNotNull(deserEe.getDetails());
+    assertTrue(deserEe.getDetails().size() == 0);
   }
 
   @Test
   public void hypothesis2b() throws FileNotFoundException, IOException, ClassNotFoundException {
     displayTest("RETRIEVE MASTER WITH DETAILS",
-        "hypothesis2b (master with 2 details, created using persist, serialized inside transaction and deserialized)");
+        "hypothesis2b (master with 2 details, created using persist, details touched)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
 
@@ -382,209 +325,41 @@ public class JpaBTest {
     tx = null;
     em.close();
     em = null;
-    LOGGER.fine("master after persist:\n\t" + e);
-    LOGGER.fine("detail A after persist:\n\t" + slcA);
-    LOGGER.fine("detail B after persist:\n\t" + slcB);
 
     Integer eId = e.getPersistenceId();
+
+    assertMaster0(eId, e);
+    assertNotNull(e.$details);
+    assertTrue(e.$details.size()==2);
+    assertNotNull(e.getDetails());
+    assertTrue(e.getDetails().size()==2);
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
-    Master fromDbE = em.find(Master.class, eId);
     assertFalse(em.contains(e));
-    serMaster(fromDbE);
-    tx.commit();
-    tx = null;
-    em.close();
-    em = null;
-    LOGGER.fine("master from DB:\n\t" + fromDbE);
-    assertNull(fromDbE.$details); // ok; set is not initialized
-    LOGGER.fine("$details of master retrieved from DB:\n\t" + fromDbE.$details);
-    LOGGER.fine("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
-    assertNull(fromDbE.$details);
-    assertNull(fromDbE.getDetails());
-
-    Master deserE = deserMaster();
-
-    assertMaster0(eId, deserE);
-    assertNotSame(fromDbE, deserE);
-    LOGGER.fine("master from ser:\n\t" + deserE);
-    assertNull(deserE.$details);
-    LOGGER.fine("$details of master from ser file:\n\t" + deserE.$details);
-    LOGGER.fine("NOTE THAT AFTER SERIALIZATION+DESERIALIZATION, $details IS STILL NULL");
-    LOGGER.fine("details from master from ser:\n\t" + deserE.getDetails());
-    assertNull(deserE.getDetails());
-  }
-
-  @Test
-  public void hypothesis2c() throws FileNotFoundException, IOException, ClassNotFoundException {
-    displayTest("RETRIEVE MASTER WITH DETAILS",
-        "hypothesis2c (master with 2 details, created using persist, serialized and deserialized outside transaction)");
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-    EntityManager em = emf.createEntityManager();
-
-    EntityTransaction tx = em.getTransaction();
-    tx.begin();
-    Master e = createMaster0();
-    Detail slcA = createDetailA(e);
-    Detail slcB = createDetailB(e);
-    em.persist(e);
-    em.persist(slcA); // note: persist works in creation, merge does not
-    em.persist(slcB);
-    tx.commit();
-    tx = null;
-    em.close();
-    em = null;
-    LOGGER.fine("master after persist:\n\t" + e);
-    LOGGER.fine("detail A after persist:\n\t" + slcA);
-    LOGGER.fine("detail B after persist:\n\t" + slcB);
-
-    Integer eId = e.getPersistenceId();
-
-    em = emf.createEntityManager();
-    tx = em.getTransaction();
-    tx.begin();
     Master fromDbE = em.find(Master.class, eId);
-    assertFalse(em.contains(e));
-    tx.commit();
-    tx = null;
-    em.close();
-    em = null;
-    LOGGER.fine("master from DB:\n\t" + fromDbE);
-    assertNull(fromDbE.$details); // ok; set is not initialized
-    LOGGER.fine("$details of master retrieved from DB:\n\t" + fromDbE.$details);
-    LOGGER.fine("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
-    assertNull(fromDbE.$details);
-    assertNull(fromDbE.getDetails());
-
-    Master deserE = serAndDeserMaster(fromDbE);
-
-    assertMaster0(eId, deserE);
-    assertNotSame(fromDbE, deserE);
-    LOGGER.fine("master from ser:\n\t" + deserE);
-    assertNull(deserE.$details);
-    LOGGER.fine("$details of master from ser file:\n\t" + deserE.$details);
-    LOGGER.fine("NOTE THAT AFTER SERIALIZATION+DESERIALIZATION, $details IS STILL NULL");
-    LOGGER.fine("details from master from ser:\n\t" + deserE.getDetails());
-    assertNull(deserE.getDetails());
-  }
-
-  @Test
-  public void hypothesis2d() throws FileNotFoundException, IOException, ClassNotFoundException {
-    displayTest("RETRIEVE MASTER WITH DETAILS",
-        "hypothesis2d (master with 2 details, created using persist, details touched, serialized and deserialized outside transaction)");
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-    EntityManager em = emf.createEntityManager();
-
-    EntityTransaction tx = em.getTransaction();
-    tx.begin();
-    Master e = createMaster0();
-    Detail slcA = createDetailA(e);
-    Detail slcB = createDetailB(e);
-    em.persist(e);
-    em.persist(slcA); // note: persist works in creation, merge does not
-    em.persist(slcB);
-    tx.commit();
-    tx = null;
-    em.close();
-    em = null;
-    LOGGER.fine("master after persist:\n\t" + e);
-    LOGGER.fine("detail A after persist:\n\t" + slcA);
-    LOGGER.fine("detail B after persist:\n\t" + slcB);
-
-    Integer eId = e.getPersistenceId();
-
-    em = emf.createEntityManager();
-    tx = em.getTransaction();
-    tx.begin();
-    Master fromDbE = em.find(Master.class, eId);
-    assertFalse(em.contains(e));
+    assertTrue(em.contains(fromDbE));
     fromDbE.getDetails();
     tx.commit();
     tx = null;
+    assertTrue(em.contains(fromDbE));
     em.close();
     em = null;
-    LOGGER.fine("master from DB:\n\t" + fromDbE);
-    assertNotNull(fromDbE.$details); // set should be initialized
-    LOGGER.fine("$details of master retrieved from DB:\n\t" + fromDbE.$details);
-    assertNotNull(fromDbE.getDetails());
-    LOGGER.fine("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
 
-    Master deserE = serAndDeserMaster(fromDbE);
+    Master deserEe = serAndDeserMaster(fromDbE);
 
-    assertMaster0(eId, deserE);
-    assertNotSame(fromDbE, deserE);
-    LOGGER.fine("master from ser:\n\t" + deserE);
-    assertNotNull(deserE.$details);
-    LOGGER.fine("$details of master from ser file:\n\t" + deserE.$details);
-    assertNotNull(deserE.getDetails());
-    LOGGER.fine("details from master from ser:\n\t" + deserE.getDetails());
+    assertMaster0(eId, deserEe);
+    assertNotSame(e, deserEe);
+    assertNotNull(deserEe.$details);
+    assertTrue(deserEe.$details.size() == 0);
+    assertNotNull(deserEe.getDetails());
+    assertTrue(deserEe.getDetails().size() == 0);
   }
 
-  @Test
-  public void hypothesis2e() throws FileNotFoundException, IOException, ClassNotFoundException {
-    displayTest("RETRIEVE MASTER WITH DETAILS",
-        "hypothesis2e (master with 2 details, created using persist, touching details on managed entities)");
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-    EntityManager em = emf.createEntityManager();
-
-    EntityTransaction tx = em.getTransaction();
-    tx.begin();
-    Master e = createMaster0();
-    Detail slcA = createDetailA(e);
-    Detail slcB = createDetailB(e);
-    em.persist(e);
-    em.persist(slcA); // note: persist works in creation, merge does not
-    em.persist(slcB);
-    tx.commit();
-    tx = null;
-    em.close();
-    em = null;
-    LOGGER.fine("master after persist:\n\t" + e);
-    LOGGER.fine("detail A after persist:\n\t" + slcA);
-    LOGGER.fine("detail B after persist:\n\t" + slcB);
-
-    Integer eId = e.getPersistenceId();
-
-    em = emf.createEntityManager();
-    tx = em.getTransaction();
-    tx.begin();
-    Master fromDbE = em.find(Master.class, eId);
-    assertFalse(em.contains(e));
-    tx.commit();
-    tx = null;
-
-    LOGGER.fine("managed master from DB:\n\t" + fromDbE);
-    assertNull(fromDbE.$details); // ok; set is not initialized
-    LOGGER.fine("$details of managed master:\n\t" + fromDbE.$details);
-    assertNotNull(fromDbE.getDetails());
-    LOGGER.fine("details of managed master:\n\t" + fromDbE.getDetails());
-    assertNotNull(fromDbE.$details);
-    LOGGER.fine("$details of managed master:\n\t" + fromDbE.$details);
-    LOGGER.fine("BEFORE: $DETAILS IS NOT INITIALIZED AND NULL");
-    LOGGER.fine("GETDETAILS: GETDETAILS IS INITIALIZED AND NOT NULL");
-    LOGGER.fine("AFTER: $DETAILS IS INITIALIZED AND NOT NULL");
-    LOGGER.fine("THIS MEANS WITHOUT A DOUBT THAT JPA FIDLES WITH THE BODY OF GETDETAILS!!!!!!");
-    LOGGER.fine("JUST BY CALLING getDetails(), and not $details !!!! the collection gets initialized");
-
-    em.close();
-    em = null;
-
-    Master deserE = serAndDeserMaster(fromDbE);
-
-    assertMaster0(eId, deserE);
-    assertNotSame(fromDbE, deserE);
-    LOGGER.fine("master from ser:\n\t" + deserE);
-    assertNotNull(deserE.$details);
-    LOGGER.fine("$details of master from ser file:\n\t" + deserE.$details);
-    LOGGER.fine("NOTE THAT AFTER SERIALIZATION+DESERIALIZATION, $details IS NOT NULL: reason: touch of getDetails!!!!");
-    LOGGER.fine("details from master from ser:\n\t" + deserE.getDetails());
-    assertNotNull(deserE.getDetails());
-  }
 
   @Test
-  public void hypothesis3a() {
+  public void hypothesis3a() throws FileNotFoundException, IOException, ClassNotFoundException {
     displayTest("MASTER WITHOUT DETAILS: FIELD CHANGE",
         "hypothesis3a (master without detail, created with PERSIST, field change on managed master in transaction)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
@@ -593,21 +368,14 @@ public class JpaBTest {
     EntityTransaction tx = em.getTransaction();
     tx.begin();
     Master e = createMaster0();
-    assertFalse(em.contains(e));
     em.persist(e);
-    assertTrue(em.contains(e));
-    LOGGER.fine("NOTE THAT original master IS IN entity manager AFTER PERSIST");
     tx.commit();
-    assertTrue(em.contains(e));
-    LOGGER.fine("NOTE THAT original master IS IN entity manager AFTER COMMIT");
     tx = null;
     em.close();
     em = null;
 
     Integer eId = e.getPersistenceId();
     Integer eVersion = e.getPersistenceVersion();
-    LOGGER.fine("id of PERSISTed master: " + eId);
-    LOGGER.fine("version of PERSISTed master: " + eVersion);
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
@@ -628,46 +396,37 @@ public class JpaBTest {
     em.close();
     em = null;
 
-    assertMaster1(eId, fromDbE);
-    assertNotSame(e, fromDbE);
-    LOGGER.fine("master retrieved from DB:\n\t" + fromDbE);
-    LOGGER.fine("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
-    LOGGER.fine("$details of master retrieved from DB:\n\t" + fromDbE.$details);
-    assertNull(fromDbE.$details); // ok; set is not initialized
-    LOGGER.fine("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
-    assertNull(fromDbE.getDetails());
-    LOGGER.fine("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
-    LOGGER.fine("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())<0));
-    assertTrue(eVersion + 1 == fromDbE.getPersistenceVersion());
-    LOGGER.fine("PERSISTENCE VERSION INCREASES WITH 1 AFTER FIELD CHANGE");
+    Master deserEe = serAndDeserMaster(fromDbE);
+
+    assertMaster1(eId, deserEe);
+    assertNotSame(e, deserEe);
+    assertNotNull(deserEe.$details);
+    assertTrue(deserEe.$details.size() == 0);
+    assertNotNull(deserEe.getDetails());
+    assertTrue(deserEe.getDetails().size() == 0);
+    assertTrue(eVersion.compareTo(deserEe.getPersistenceVersion()) < 0);
+
     System.out.println("master without details successfully modified and persistence version incremented");
   }
 
   @Test
-  public void hypothesis3b() {
+  public void hypothesis3b() throws FileNotFoundException, IOException, ClassNotFoundException {
     displayTest("MASTER WITHOUT DETAILS: FIELD CHANGE",
-        "hypothesis3b (master without detail, created with PERSIST, field change to same value on managed master in transaction)");
+        "hypothesis3b (master without detail, created with PERSIST, field change on managed master in transaction)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
 
     EntityTransaction tx = em.getTransaction();
     tx.begin();
     Master e = createMaster0();
-    assertFalse(em.contains(e));
     em.persist(e);
-    assertTrue(em.contains(e));
-    LOGGER.fine("NOTE THAT original master IS IN entity manager AFTER PERSIST");
     tx.commit();
-    assertTrue(em.contains(e));
-    LOGGER.fine("NOTE THAT original master IS IN entity manager AFTER COMMIT");
     tx = null;
     em.close();
     em = null;
 
     Integer eId = e.getPersistenceId();
     Integer eVersion = e.getPersistenceVersion();
-    LOGGER.fine("id of PERSISTed master: " + eId);
-    LOGGER.fine("version of PERSISTed master: " + eVersion);
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
@@ -688,46 +447,37 @@ public class JpaBTest {
     em.close();
     em = null;
 
-    assertMaster0(eId, fromDbE);
-    assertNotSame(e, fromDbE);
-    LOGGER.fine("master retrieved from DB:\n\t" + fromDbE);
-    LOGGER.fine("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
-    LOGGER.fine("$details of master retrieved from DB:\n\t" + fromDbE.$details);
-    assertNull(fromDbE.$details); // ok; set is not initialized
-    LOGGER.fine("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
-    assertNull(fromDbE.getDetails());
-    LOGGER.fine("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
-    LOGGER.fine("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())<0));
-    assertTrue(eVersion.compareTo(fromDbE.getPersistenceVersion())==0);
-    LOGGER.fine("PERSISTENCE VERSION DOES NOT CHANGE WHEN SAME VALUE IS EXPLICITLY SET ON FIELD");
-    System.out.println("master without details remains the same and persistence version not incremented");
+    Master deserEe = serAndDeserMaster(fromDbE);
+
+    assertMaster0(eId, deserEe);
+    assertNotSame(e, deserEe);
+    assertNotNull(deserEe.$details);
+    assertTrue(deserEe.$details.size() == 0);
+    assertNotNull(deserEe.getDetails());
+    assertTrue(deserEe.getDetails().size() == 0);
+    assertTrue(eVersion.compareTo(deserEe.getPersistenceVersion()) == 0);
+
+    System.out.println("master without details successfully modified and persistence version incremented");
   }
 
   @Test
-  public void hypothesis3c() {
+  public void hypothesis3c() throws FileNotFoundException, IOException, ClassNotFoundException {
     displayTest("MASTER WITHOUT DETAILS: FIELD CHANGE",
-        "hypothesis3c (master without detail, created with PERSIST, field change on detached master, master merged back)");
+        "hypothesis3c (master without detail, created with PERSIST, field change on detached master)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
 
     EntityTransaction tx = em.getTransaction();
     tx.begin();
     Master e = createMaster0();
-    assertFalse(em.contains(e));
     em.persist(e);
-    assertTrue(em.contains(e));
-    LOGGER.fine("NOTE THAT original master IS IN entity manager AFTER PERSIST");
     tx.commit();
-    assertTrue(em.contains(e));
-    LOGGER.fine("NOTE THAT original master IS IN entity manager AFTER COMMIT");
     tx = null;
     em.close();
     em = null;
 
     Integer eId = e.getPersistenceId();
     Integer eVersion = e.getPersistenceVersion();
-    LOGGER.fine("id of PERSISTed master: " + eId);
-    LOGGER.fine("version of PERSISTed master: " + eVersion);
 
     e.setName(MASTER_NAME_1);
 
@@ -749,46 +499,37 @@ public class JpaBTest {
     em.close();
     em = null;
 
-    assertMaster1(eId, fromDbE);
-    assertNotSame(e, fromDbE);
-    LOGGER.fine("master retrieved from DB:\n\t" + fromDbE);
-    LOGGER.fine("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
-    LOGGER.fine("$details of master retrieved from DB:\n\t" + fromDbE.$details);
-    assertNull(fromDbE.$details); // ok; set is not initialized
-    LOGGER.fine("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
-    assertNull(fromDbE.getDetails());
-    LOGGER.fine("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
-    LOGGER.fine("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())<0));
-    assertTrue(eVersion + 1 == fromDbE.getPersistenceVersion());
-    LOGGER.fine("PERSISTENCE VERSION INCREASES WITH 1 AFTER (DETACHED) FIELD CHANGE AND SUBSEQUENT MERGE");
-    System.out.println("master without details successfully modified and persistence version incremented");
+    Master deserEe = serAndDeserMaster(fromDbE);
+
+    assertMaster1(eId, deserEe);
+    assertNotSame(e, deserEe);
+    assertNotNull(deserEe.$details);
+    assertTrue(deserEe.$details.size() == 0);
+    assertNotNull(deserEe.getDetails());
+    assertTrue(deserEe.getDetails().size() == 0);
+    assertTrue(eVersion.compareTo(deserEe.getPersistenceVersion()) < 0);
+
+    System.out.println("master without details successfully modified in detached state and persistence version incremented");
   }
 
   @Test
-  public void hypothesis3d() {
+  public void hypothesis3d() throws FileNotFoundException, IOException, ClassNotFoundException {
     displayTest("MASTER WITHOUT DETAILS: FIELD CHANGE",
-        "hypothesis3d (master without detail, created with PERSIST, field change to same value on detached master, master merged back)");
+        "hypothesis3d (master without detail, created with PERSIST, field change with same value on detached master)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
 
     EntityTransaction tx = em.getTransaction();
     tx.begin();
     Master e = createMaster0();
-    assertFalse(em.contains(e));
     em.persist(e);
-    assertTrue(em.contains(e));
-    LOGGER.fine("NOTE THAT original master IS IN entity manager AFTER PERSIST");
     tx.commit();
-    assertTrue(em.contains(e));
-    LOGGER.fine("NOTE THAT original master IS IN entity manager AFTER COMMIT");
     tx = null;
     em.close();
     em = null;
 
     Integer eId = e.getPersistenceId();
     Integer eVersion = e.getPersistenceVersion();
-    LOGGER.fine("id of PERSISTed master: " + eId);
-    LOGGER.fine("version of PERSISTed master: " + eVersion);
 
     e.setName(MASTER_NAME_0);
 
@@ -810,19 +551,17 @@ public class JpaBTest {
     em.close();
     em = null;
 
-    assertMaster0(eId, fromDbE);
-    assertNotSame(e, fromDbE);
-    LOGGER.fine("master retrieved from DB:\n\t" + fromDbE);
-    LOGGER.fine("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
-    LOGGER.fine("$details of master retrieved from DB:\n\t" + fromDbE.$details);
-    assertNull(fromDbE.$details); // ok; set is not initialized
-    LOGGER.fine("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
-    assertNull(fromDbE.getDetails());
-    LOGGER.fine("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
-    LOGGER.fine("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())<0));
-    assertTrue(eVersion.compareTo(fromDbE.getPersistenceVersion())==0);
-    LOGGER.fine("PERSISTENCE VERSION DOES NOT CHANGE WHEN SAME VALUE IS EXPLICITLY SET ON (DETACHED) FIELD AND SUBSEQUENT MERGE");
-    System.out.println("master without details remains the same and persistence version not incremented");
+    Master deserEe = serAndDeserMaster(fromDbE);
+
+    assertMaster0(eId, deserEe);
+    assertNotSame(e, deserEe);
+    assertNotNull(deserEe.$details);
+    assertTrue(deserEe.$details.size() == 0);
+    assertNotNull(deserEe.getDetails());
+    assertTrue(deserEe.getDetails().size() == 0);
+    assertTrue(eVersion.compareTo(deserEe.getPersistenceVersion()) == 0);
+
+    System.out.println("master without details successfully modified with same value in detached state and persistence version stays the same");
   }
 
   @Test
