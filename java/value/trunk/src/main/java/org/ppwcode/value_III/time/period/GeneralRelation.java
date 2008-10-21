@@ -16,6 +16,7 @@ limitations under the License.
 
 package org.ppwcode.value_III.time.period;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -265,6 +266,69 @@ public final class GeneralRelation {
       }
     }
     return acc;
+  }
+
+  public static GeneralRelation ompare(Period p1, Period p2) {
+    Date p1Begin = p1.getStartDate();
+    Date p1End   = p1.getEndDate();
+    Date p2Begin = p2.getStartDate();
+    Date p2End   = p2.getEndDate();
+    GeneralRelation result = FULL;
+    if (p1Begin != null) {
+      if (p2Begin != null) {
+        if (p1Begin.before(p2Begin)) {
+          result = min(result, BEGINS_EARLIER.complement());
+        }
+        else if (p1Begin.equals(p2Begin)) {
+          result = min(result, BEGIN_TOGETHER.complement());
+        }
+        else {
+          assert p1Begin.after(p2Begin);
+          result = min(result, BEGINS_LATER.complement());
+        }
+      }
+      if (p2End != null) {
+        if (p1Begin.before(p2End)) { // pmoFDseSdfO, not MP; begins before end
+          result = min(result, MET_BY);
+          result = min(result, PRECEDED_BY);
+        }
+        else if (p1Begin.equals(p2End)) {
+          return MET_BY;
+        }
+        else {
+          assert p1Begin.after(p2End);
+          return PRECEDED_BY;
+        }
+      }
+    }
+    if (p1End != null) {
+      if (p2Begin != null) {
+        if (p1End.before(p2Begin)) {
+          return PRECEDES;
+        }
+        else if (p1End.equals(p2Begin)) {
+          return MEETS;
+        }
+        else {
+          assert p1End.after(p2Begin); // not pm, oFDseSdfOMP, ends after begin
+          result = min(result, PRECEDES);
+          result = min(result, MEETS);
+        }
+      }
+      if (p2End != null) {
+        if (p1End.before(p2End)) {
+          result = min(result, ENDS_EARLIER.complement());
+        }
+        else if (p1End.equals(p2End)) {
+          result = min(result, END_TOGETHER.complement());
+        }
+        else {
+          assert p1End.after(p2End);
+          result = min(result, ENDS_LATER);
+        }
+      }
+    }
+    return result;
   }
 
 }
