@@ -845,7 +845,7 @@ public class JpaBTest {
   }
 
   @Test
-  public void hypothesis6a() {
+  public void hypothesis6a() throws FileNotFoundException, IOException, ClassNotFoundException {
     displayTest("DELETE MASTER WITHOUT DETAILS",
         "hypothesis6a (master without details, created using persist, remove managed master)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
@@ -856,9 +856,7 @@ public class JpaBTest {
     Master e = createMaster0();
     em.persist(e);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     Integer eId = e.getPersistenceId();
     assertNotNull(eId);
@@ -867,27 +865,32 @@ public class JpaBTest {
     tx = em.getTransaction();
     tx.begin();
     Master fromDbE = em.find(Master.class, eId);
+    tx.commit();
+    em.close();
+
+    Master deserEe = serAndDeserMaster(fromDbE);
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    fromDbE = em.find(Master.class, deserEe.getPersistenceId());
     em.remove(fromDbE);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
     fromDbE = em.find(Master.class, eId);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     assertNull(fromDbE);
     System.out.println("master without details is removed");
 }
 
   @Test
-  public void hypothesis6b() {
+  public void hypothesis6b() throws FileNotFoundException, IOException, ClassNotFoundException {
     displayTest("DELETE MASTER WITHOUT DETAILS",
         "hypothesis6b (master without details, created using merge, remove managed master)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
@@ -898,9 +901,7 @@ public class JpaBTest {
     Master e = createMaster0();
     Master mergedE = em.merge(e);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     Integer eId = mergedE.getPersistenceId();
     assertNotNull(eId);
@@ -909,20 +910,25 @@ public class JpaBTest {
     tx = em.getTransaction();
     tx.begin();
     Master fromDbE = em.find(Master.class, eId);
+    tx.commit();
+    em.close();
+
+    Master deserEe = serAndDeserMaster(fromDbE);
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    fromDbE = em.find(Master.class, deserEe.getPersistenceId());
     em.remove(fromDbE);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
     fromDbE = em.find(Master.class, eId);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     assertNull(fromDbE);
     System.out.println("master without details is removed");
@@ -940,9 +946,7 @@ public class JpaBTest {
     Master e = createMaster0();
     em.persist(e);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     Integer eId = e.getPersistenceId();
     assertNotNull(eId);
@@ -953,22 +957,8 @@ public class JpaBTest {
     tx.begin();
     em.remove(e);
     tx.commit();
+    em.close();
     System.out.println("EntityManager DID NOT THROW AN ARGUMENTEXCEPTION");
-    tx = null;
-    em.close();
-    em = null;
-
-    em = emf.createEntityManager();
-    tx = em.getTransaction();
-    tx.begin();
-    Master fromDbE = em.find(Master.class, eId);
-    tx.commit();
-    tx = null;
-    em.close();
-    em = null;
-
-    assertNull(fromDbE);
-    System.out.println("master is removed");
 }
 
   @Test(expected=ArgumentException.class)
@@ -983,9 +973,7 @@ public class JpaBTest {
     Master e = createMaster0();
     Master mergedE = em.merge(e);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     Integer eId = mergedE.getPersistenceId();
     assertNotNull(eId);
@@ -996,22 +984,8 @@ public class JpaBTest {
     tx.begin();
     em.remove(mergedE);
     tx.commit();
+    em.close();
     System.out.println("EntityManager DID NOT THROW AN ARGUMENTEXCEPTION");
-    tx = null;
-    em.close();
-    em = null;
-
-    em = emf.createEntityManager();
-    tx = em.getTransaction();
-    tx.begin();
-    Master fromDbE = em.find(Master.class, eId);
-    tx.commit();
-    tx = null;
-    em.close();
-    em = null;
-
-    assertNull(fromDbE);
-    System.out.println("master is removed");
   }
 
   @Test(expected=PersistenceException.class)
