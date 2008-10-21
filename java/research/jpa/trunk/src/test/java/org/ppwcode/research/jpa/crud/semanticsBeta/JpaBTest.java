@@ -134,8 +134,6 @@ public class JpaBTest {
     assertFalse(em.contains(e));
     assertTrue(em.contains(persistedE));
     em.close();
-    tx = null;
-    em = null;
 
     Integer eId = persistedE.getPersistenceId();
     assertNotSame(e, persistedE);
@@ -146,8 +144,6 @@ public class JpaBTest {
     Master fromDbE = em.find(Master.class, eId);
     tx.commit();
     em.close();
-    tx = null;
-    em = null;
 
     Master m = serAndDeserMaster(fromDbE);
 
@@ -176,10 +172,8 @@ public class JpaBTest {
     assertNotNull(e.getPersistenceId());
     assertNull(e.getPersistenceVersion());
     tx.commit();
-    tx = null;
     assertTrue(em.contains(e));
     em.close();
-    em = null;
 
     assertNotNull(e.getPersistenceId());
     assertNotNull(e.getPersistenceVersion());
@@ -192,10 +186,8 @@ public class JpaBTest {
     Master fromDbE = em.find(Master.class, eId);
     assertTrue(em.contains(fromDbE));
     tx.commit();
-    tx = null;
     assertTrue(em.contains(fromDbE));
     em.close();
-    em = null;
 
     Master m = serAndDeserMaster(fromDbE);
 
@@ -224,10 +216,8 @@ public class JpaBTest {
     assertNotNull(e.getPersistenceId());
     assertNull(e.getPersistenceVersion());
     tx.commit();
-    tx = null;
     assertTrue(em.contains(e));
     em.close();
-    em = null;
 
     assertNotNull(e.getPersistenceId());
     assertNotNull(e.getPersistenceVersion());
@@ -241,10 +231,8 @@ public class JpaBTest {
     assertTrue(em.contains(fromDbE));
     fromDbE.getDetails();
     tx.commit();
-    tx = null;
     assertTrue(em.contains(fromDbE));
     em.close();
-    em = null;
 
     Master m = serAndDeserMaster(fromDbE);
 
@@ -272,9 +260,7 @@ public class JpaBTest {
     em.persist(slcA); // note: persist works in creation, merge does not
     em.persist(slcB);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     Integer eId = e.getPersistenceId();
 
@@ -291,10 +277,8 @@ public class JpaBTest {
     Master fromDbE = em.find(Master.class, eId);
     assertTrue(em.contains(fromDbE));
     tx.commit();
-    tx = null;
     assertTrue(em.contains(fromDbE));
     em.close();
-    em = null;
 
     Master deserEe = serAndDeserMaster(fromDbE);
 
@@ -322,9 +306,7 @@ public class JpaBTest {
     em.persist(slcA); // note: persist works in creation, merge does not
     em.persist(slcB);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     Integer eId = e.getPersistenceId();
 
@@ -342,10 +324,8 @@ public class JpaBTest {
     assertTrue(em.contains(fromDbE));
     fromDbE.getDetails();
     tx.commit();
-    tx = null;
     assertTrue(em.contains(fromDbE));
     em.close();
-    em = null;
 
     Master deserEe = serAndDeserMaster(fromDbE);
 
@@ -370,9 +350,7 @@ public class JpaBTest {
     Master e = createMaster0();
     em.persist(e);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     Integer eId = e.getPersistenceId();
     Integer eVersion = e.getPersistenceVersion();
@@ -383,18 +361,14 @@ public class JpaBTest {
     Master fromDbE = em.find(Master.class, eId);
     fromDbE.setName(MASTER_NAME_1);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
     fromDbE = em.find(Master.class, eId);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     Master deserEe = serAndDeserMaster(fromDbE);
 
@@ -404,7 +378,7 @@ public class JpaBTest {
     assertTrue(deserEe.$details.size() == 0);
     assertNotNull(deserEe.getDetails());
     assertTrue(deserEe.getDetails().size() == 0);
-    assertTrue(eVersion.compareTo(deserEe.getPersistenceVersion()) < 0);
+    assertTrue(eVersion + 1 == deserEe.getPersistenceVersion());
 
     System.out.println("master without details successfully modified and persistence version incremented");
   }
@@ -421,9 +395,7 @@ public class JpaBTest {
     Master e = createMaster0();
     em.persist(e);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     Integer eId = e.getPersistenceId();
     Integer eVersion = e.getPersistenceVersion();
@@ -434,18 +406,14 @@ public class JpaBTest {
     Master fromDbE = em.find(Master.class, eId);
     fromDbE.setName(MASTER_NAME_0);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
     fromDbE = em.find(Master.class, eId);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     Master deserEe = serAndDeserMaster(fromDbE);
 
@@ -455,7 +423,7 @@ public class JpaBTest {
     assertTrue(deserEe.$details.size() == 0);
     assertNotNull(deserEe.getDetails());
     assertTrue(deserEe.getDetails().size() == 0);
-    assertTrue(eVersion.compareTo(deserEe.getPersistenceVersion()) == 0);
+    assertTrue(eVersion + 0 == deserEe.getPersistenceVersion());
 
     System.out.println("master without details successfully modified and persistence version incremented");
   }
@@ -472,9 +440,7 @@ public class JpaBTest {
     Master e = createMaster0();
     em.persist(e);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     Integer eId = e.getPersistenceId();
     Integer eVersion = e.getPersistenceVersion();
@@ -486,18 +452,14 @@ public class JpaBTest {
     tx.begin();
     em.merge(e);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
     Master fromDbE = em.find(Master.class, eId);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     Master deserEe = serAndDeserMaster(fromDbE);
 
@@ -507,7 +469,7 @@ public class JpaBTest {
     assertTrue(deserEe.$details.size() == 0);
     assertNotNull(deserEe.getDetails());
     assertTrue(deserEe.getDetails().size() == 0);
-    assertTrue(eVersion.compareTo(deserEe.getPersistenceVersion()) < 0);
+    assertTrue(eVersion + 1 == deserEe.getPersistenceVersion());
 
     System.out.println("master without details successfully modified in detached state and persistence version incremented");
   }
@@ -524,9 +486,7 @@ public class JpaBTest {
     Master e = createMaster0();
     em.persist(e);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     Integer eId = e.getPersistenceId();
     Integer eVersion = e.getPersistenceVersion();
@@ -538,18 +498,14 @@ public class JpaBTest {
     tx.begin();
     em.merge(e);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
     Master fromDbE = em.find(Master.class, eId);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     Master deserEe = serAndDeserMaster(fromDbE);
 
@@ -559,13 +515,13 @@ public class JpaBTest {
     assertTrue(deserEe.$details.size() == 0);
     assertNotNull(deserEe.getDetails());
     assertTrue(deserEe.getDetails().size() == 0);
-    assertTrue(eVersion.compareTo(deserEe.getPersistenceVersion()) == 0);
+    assertTrue(eVersion + 0 == deserEe.getPersistenceVersion());
 
     System.out.println("master without details successfully modified with same value in detached state and persistence version stays the same");
   }
 
   @Test
-  public void hypothesis4a() {
+  public void hypothesis4a() throws FileNotFoundException, IOException, ClassNotFoundException {
     displayTest("MASTER WITH DETAILS: FIELD CHANGE",
         "hypothesis4a (master with 2 details, created using persist, field change on managed master in transaction)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
@@ -577,20 +533,13 @@ public class JpaBTest {
     Detail slcA = createDetailA(e);
     Detail slcB = createDetailB(e);
     em.persist(e);
-    em.persist(slcA); // note: persist works in creation, merge does not
+    em.persist(slcA);
     em.persist(slcB);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
-    LOGGER.fine("master after persist:\n\t" + e);
-    LOGGER.fine("detail A after persist:\n\t" + slcA);
-    LOGGER.fine("detail B after persist:\n\t" + slcB);
 
     Integer eId = e.getPersistenceId();
     Integer eVersion = e.getPersistenceVersion();
-    LOGGER.fine("id of PERSISTed master: " + eId);
-    LOGGER.fine("version of PERSISTed master: " + eVersion);
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
@@ -598,37 +547,31 @@ public class JpaBTest {
     Master fromDbE = em.find(Master.class, eId);
     fromDbE.setName(MASTER_NAME_1);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
     fromDbE = em.find(Master.class, eId);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
-    assertMaster1(eId, fromDbE);
-    assertNotSame(e, fromDbE);
-    LOGGER.fine("master retrieved from DB:\n\t" + fromDbE);
-    LOGGER.fine("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
-    LOGGER.fine("$details of master retrieved from DB:\n\t" + fromDbE.$details);
-    assertNull(fromDbE.$details); // ok; set is not initialized
-    LOGGER.fine("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
-    assertNull(fromDbE.getDetails());
-    LOGGER.fine("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
-    LOGGER.fine("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())<0));
-    assertTrue(eVersion + 1 == fromDbE.getPersistenceVersion());
-    LOGGER.fine("PERSISTENCE VERSION INCREASES WITH 1 AFTER FIELD CHANGE");
+    Master deserEe = serAndDeserMaster(fromDbE);
+
+    assertMaster1(eId, deserEe);
+    assertNotSame(e, deserEe);
+    assertNotNull(deserEe.$details);
+    assertTrue(deserEe.$details.size() == 0);
+    assertNotNull(deserEe.getDetails());
+    assertTrue(deserEe.getDetails().size() == 0);
+    assertTrue(eVersion + 1 == deserEe.getPersistenceVersion());
+
     System.out.println("master with details successfully modified and persistence version incremented");
   }
 
 
   @Test
-  public void hypothesis4b() {
+  public void hypothesis4b() throws FileNotFoundException, IOException, ClassNotFoundException {
     displayTest("MASTER WITH DETAILS: FIELD CHANGE",
         "hypothesis4b (master with 2 details, created using persist, field change to same value on managed master in transaction)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
@@ -640,20 +583,13 @@ public class JpaBTest {
     Detail slcA = createDetailA(e);
     Detail slcB = createDetailB(e);
     em.persist(e);
-    em.persist(slcA); // note: persist works in creation, merge does not
+    em.persist(slcA);
     em.persist(slcB);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
-    LOGGER.fine("master after persist:\n\t" + e);
-    LOGGER.fine("detail A after persist:\n\t" + slcA);
-    LOGGER.fine("detail B after persist:\n\t" + slcB);
 
     Integer eId = e.getPersistenceId();
     Integer eVersion = e.getPersistenceVersion();
-    LOGGER.fine("id of PERSISTed master: " + eId);
-    LOGGER.fine("version of PERSISTed master: " + eVersion);
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
@@ -661,38 +597,32 @@ public class JpaBTest {
     Master fromDbE = em.find(Master.class, eId);
     fromDbE.setName(MASTER_NAME_0);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
     fromDbE = em.find(Master.class, eId);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
-    assertMaster0(eId, fromDbE);
-    assertNotSame(e, fromDbE);
-    LOGGER.fine("master retrieved from DB:\n\t" + fromDbE);
-    LOGGER.fine("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
-    LOGGER.fine("$details of master retrieved from DB:\n\t" + fromDbE.$details);
-    assertNull(fromDbE.$details); // ok; set is not initialized
-    LOGGER.fine("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
-    assertNull(fromDbE.getDetails());
-    LOGGER.fine("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
-    LOGGER.fine("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())==0));
-    assertTrue(eVersion.compareTo(fromDbE.getPersistenceVersion())==0);
-    LOGGER.fine("PERSISTENCE VERSION DOES NOT CHANGE WHEN SAME VALUE IS EXPLICITLY SET ON FIELD");
-    System.out.println("master with details remains the same and persistence version not incremented");
+    Master deserEe = serAndDeserMaster(fromDbE);
+
+    assertMaster0(eId, deserEe);
+    assertNotSame(e, deserEe);
+    assertNotNull(deserEe.$details);
+    assertTrue(deserEe.$details.size() == 0);
+    assertNotNull(deserEe.getDetails());
+    assertTrue(deserEe.getDetails().size() == 0);
+    assertTrue(eVersion + 0 == deserEe.getPersistenceVersion());
+
+    System.out.println("master with details successfully modified and persistence version incremented");
   }
 
   @Test
-  public void hypothesis4c() {
+  public void hypothesis4c() throws FileNotFoundException, IOException, ClassNotFoundException {
     displayTest("MASTER WITH DETAILS: FIELD CHANGE",
-        "hypothesis4c (master with 2 details, created using persist, field change on detached master, master merged)");
+    "hypothesis4c (master with 2 details, created using persist, field change on detached master, master merged)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
 
@@ -702,20 +632,13 @@ public class JpaBTest {
     Detail slcA = createDetailA(e);
     Detail slcB = createDetailB(e);
     em.persist(e);
-    em.persist(slcA); // note: persist works in creation, merge does not
+    em.persist(slcA);
     em.persist(slcB);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
-    LOGGER.fine("master after persist:\n\t" + e);
-    LOGGER.fine("detail A after persist:\n\t" + slcA);
-    LOGGER.fine("detail B after persist:\n\t" + slcB);
 
     Integer eId = e.getPersistenceId();
     Integer eVersion = e.getPersistenceVersion();
-    LOGGER.fine("id of PERSISTed master: " + eId);
-    LOGGER.fine("version of PERSISTed master: " + eVersion);
 
     e.setName(MASTER_NAME_1);
 
@@ -724,39 +647,32 @@ public class JpaBTest {
     tx.begin();
     em.merge(e);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
     Master fromDbE = em.find(Master.class, eId);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
-    assertMaster1(eId, fromDbE);
-    assertNotSame(e, fromDbE);
-    LOGGER.fine("master retrieved from DB:\n\t" + fromDbE);
-    LOGGER.fine("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
-    LOGGER.fine("$details of master retrieved from DB:\n\t" + fromDbE.$details);
-    assertNull(fromDbE.$details); // ok; set is not initialized
-    LOGGER.fine("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
-    assertNull(fromDbE.getDetails());
-    LOGGER.fine("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
-    LOGGER.fine("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())<0));
-    assertTrue(eVersion + 1 == fromDbE.getPersistenceVersion());
-    LOGGER.fine("PERSISTENCE VERSION INCREASES WITH 1 AFTER FIELD CHANGE");
+    Master deserEe = serAndDeserMaster(fromDbE);
+
+    assertMaster1(eId, deserEe);
+    assertNotSame(e, deserEe);
+    assertNotNull(deserEe.$details);
+    assertTrue(deserEe.$details.size() == 0);
+    assertNotNull(deserEe.getDetails());
+    assertTrue(deserEe.getDetails().size() == 0);
+    assertTrue(eVersion + 1 == deserEe.getPersistenceVersion());
+
     System.out.println("master with details successfully modified and persistence version incremented");
   }
 
-
   @Test
-  public void hypothesis4d() {
+  public void hypothesis4d() throws FileNotFoundException, IOException, ClassNotFoundException {
     displayTest("MASTER WITH DETAILS: FIELD CHANGE",
-        "hypothesis4d (master with 2 details, created using persist, field change to same value on detached master, master merged)");
+    "hypothesis4d (master with 2 details, created using persist, field change to same value on detached master, master merged)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
 
@@ -766,20 +682,13 @@ public class JpaBTest {
     Detail slcA = createDetailA(e);
     Detail slcB = createDetailB(e);
     em.persist(e);
-    em.persist(slcA); // note: persist works in creation, merge does not
+    em.persist(slcA);
     em.persist(slcB);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
-    LOGGER.fine("master after persist:\n\t" + e);
-    LOGGER.fine("detail A after persist:\n\t" + slcA);
-    LOGGER.fine("detail B after persist:\n\t" + slcB);
 
     Integer eId = e.getPersistenceId();
     Integer eVersion = e.getPersistenceVersion();
-    LOGGER.fine("id of PERSISTed master: " + eId);
-    LOGGER.fine("version of PERSISTed master: " + eVersion);
 
     e.setName(MASTER_NAME_0);
 
@@ -788,38 +697,32 @@ public class JpaBTest {
     tx.begin();
     em.merge(e);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
     Master fromDbE = em.find(Master.class, eId);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
-    assertMaster0(eId, fromDbE);
-    assertNotSame(e, fromDbE);
-    LOGGER.fine("master retrieved from DB:\n\t" + fromDbE);
-    LOGGER.fine("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
-    LOGGER.fine("$details of master retrieved from DB:\n\t" + fromDbE.$details);
-    assertNull(fromDbE.$details); // ok; set is not initialized
-    LOGGER.fine("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
-    assertNull(fromDbE.getDetails());
-    LOGGER.fine("BOTH ARE NULL AS EXPECTED: LAZY LOADING DOES NOT WORK ON DETACHED OBJECTS");
-    LOGGER.fine("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())==0));
-    assertTrue(eVersion.compareTo(fromDbE.getPersistenceVersion())==0);
-    LOGGER.fine("PERSISTENCE VERSION DOES NOT CHANGE WHEN SAME VALUE IS EXPLICITLY SET ON FIELD");
+    Master deserEe = serAndDeserMaster(fromDbE);
+
+    assertMaster0(eId, deserEe);
+    assertNotSame(e, deserEe);
+    assertNotNull(deserEe.$details);
+    assertTrue(deserEe.$details.size() == 0);
+    assertNotNull(deserEe.getDetails());
+    assertTrue(deserEe.getDetails().size() == 0);
+    assertTrue(eVersion + 0 == deserEe.getPersistenceVersion());
+
     System.out.println("master with details remains the same and persistence version not incremented");
   }
 
   @Test
-  public void hypothesis4e() {
+  public void hypothesis4e() throws FileNotFoundException, IOException, ClassNotFoundException {
     displayTest("MASTER WITH DETAILS: FIELD CHANGE",
-        "hypothesis4a (master with 2 details, created using persist, field change on managed master in transaction, details touched)");
+        "hypothesis4e (master with 2 details, created using persist, field change on managed master in transaction, details touched)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
 
@@ -829,20 +732,13 @@ public class JpaBTest {
     Detail slcA = createDetailA(e);
     Detail slcB = createDetailB(e);
     em.persist(e);
-    em.persist(slcA); // note: persist works in creation, merge does not
+    em.persist(slcA);
     em.persist(slcB);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
-    LOGGER.fine("master after persist:\n\t" + e);
-    LOGGER.fine("detail A after persist:\n\t" + slcA);
-    LOGGER.fine("detail B after persist:\n\t" + slcB);
 
     Integer eId = e.getPersistenceId();
     Integer eVersion = e.getPersistenceVersion();
-    LOGGER.fine("id of PERSISTed master: " + eId);
-    LOGGER.fine("version of PERSISTed master: " + eVersion);
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
@@ -850,9 +746,7 @@ public class JpaBTest {
     Master fromDbE = em.find(Master.class, eId);
     fromDbE.setName(MASTER_NAME_1);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
@@ -860,26 +754,18 @@ public class JpaBTest {
     fromDbE = em.find(Master.class, eId);
     fromDbE.getDetails();
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
-    assertMaster1(eId, fromDbE);
-    assertNotSame(e, fromDbE);
-    LOGGER.fine("master retrieved from DB:\n\t" + fromDbE);
-    LOGGER.fine("$details of master retrieved from DB is null?: " + (fromDbE.$details == null));
-    LOGGER.fine("$details of master retrieved from DB:\n\t" + fromDbE.$details);
-    assertNotNull(fromDbE.$details); // ok; set is not initialized
-    LOGGER.fine("details of master retrieved from DB:\n\t" + fromDbE.getDetails());
-    assertNotNull(fromDbE.getDetails());
-    assertTrue(fromDbE.getDetails().size()==2);
-    for (Detail d : fromDbE.getDetails()) {
-      assertTrue((d.getPersistenceId().compareTo(slcA.getPersistenceId())==0)||
-          (d.getPersistenceId().compareTo(slcB.getPersistenceId())==0));
-    }
-    LOGGER.fine("Persistence version increased?: "+ (eVersion.compareTo(fromDbE.getPersistenceVersion())<0));
-    assertTrue(eVersion + 1 == fromDbE.getPersistenceVersion());
-    LOGGER.fine("PERSISTENCE VERSION INCREASES WITH 1 AFTER FIELD CHANGE");
+    Master deserEe = serAndDeserMaster(fromDbE);
+
+    assertMaster1(eId, deserEe);
+    assertNotSame(e, deserEe);
+    assertNotNull(deserEe.$details);
+    assertTrue(deserEe.$details.size() == 0);
+    assertNotNull(deserEe.getDetails());
+    assertTrue(deserEe.getDetails().size() == 0);
+    assertTrue(eVersion + 1 == deserEe.getPersistenceVersion());
+
     System.out.println("master with details successfully modified and persistence version incremented");
   }
 
