@@ -771,7 +771,7 @@ public class JpaBTest {
 
 
   @Test
-  public void hypothesis5a() {
+  public void hypothesis5a() throws FileNotFoundException, IOException, ClassNotFoundException {
     displayTest("CREATE NEW MASTER",
         "hypothesis5a (master without details, created using persist)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
@@ -782,9 +782,7 @@ public class JpaBTest {
     Master e = createMaster0();
     em.persist(e);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     Integer eId = e.getPersistenceId();
     assertNotNull(eId);
@@ -794,16 +792,23 @@ public class JpaBTest {
     tx.begin();
     Master fromDbE = em.find(Master.class, eId);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
-    assertMaster0(eId, fromDbE);
+    Master deserEe = serAndDeserMaster(fromDbE);
+
+    assertMaster0(eId, deserEe);
+    assertNotSame(fromDbE, deserEe);
+    assertNotSame(e, deserEe);
+    assertNotNull(deserEe.$details);
+    assertTrue(deserEe.$details.size() == 0);
+    assertNotNull(deserEe.getDetails());
+    assertTrue(deserEe.getDetails().size() == 0);
+
     System.out.println("master without details successfully created with persist");
   }
 
   @Test
-  public void hypothesis5b() {
+  public void hypothesis5b() throws FileNotFoundException, IOException, ClassNotFoundException {
     displayTest("CREATE NEW MASTER",
         "hypothesis5b (master without details, created using merge)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
@@ -814,9 +819,7 @@ public class JpaBTest {
     Master e = createMaster0();
     Master mergedE = em.merge(e);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     Integer eId = mergedE.getPersistenceId();
     assertNotNull(eId);
@@ -826,11 +829,18 @@ public class JpaBTest {
     tx.begin();
     Master fromDbE = em.find(Master.class, eId);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
-    assertMaster0(eId, fromDbE);
+    Master deserEe = serAndDeserMaster(fromDbE);
+
+    assertMaster0(eId, deserEe);
+    assertNotSame(fromDbE, deserEe);
+    assertNotSame(mergedE, deserEe);
+    assertNotNull(deserEe.$details);
+    assertTrue(deserEe.$details.size() == 0);
+    assertNotNull(deserEe.getDetails());
+    assertTrue(deserEe.getDetails().size() == 0);
+
     System.out.println("master without details successfully created with merge");
   }
 
