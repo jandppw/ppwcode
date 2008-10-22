@@ -16,10 +16,15 @@ limitations under the License.
 
 package org.ppwcode.value_III.time.interval;
 
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.pre;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotNull;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers;
+import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.Invars;
 import org.toryt.annotations_I.MethodContract;
@@ -65,6 +70,7 @@ public final class AllenRelation {
   //------------------------------------------------------------------
 
   // with these bit patterns, converse is reverse of 13-bit pattern
+
   private final static int EMPTY_BIT_PATTERN          =    0;   // 0000000000000
   private final static int PRECEDES_BIT_PATTERN       =    1;   // 0000000000001 p
   private final static int MEETS_BIT_PATTERN          =    2;   // 0000000000010 m
@@ -85,9 +91,10 @@ public final class AllenRelation {
    * This empty relation is not a true Allen relation. It does not express a
    * relational condition between intervals. Yet, it is needed for
    * consistencey with some operations on Allen relations.
+   * The converse of the empty relation is the empty relation itself.
    */
-  @Invars(@Expression("for (AllenRelation basic : BASIC_RELATIONS) {! EMPTY.implies(basic)}"))
-  public final static AllenRelation EMPTY         = VALUES[EMPTY_BIT_PATTERN];
+  @Invars(@Expression("for (AllenRelation basic : BASIC_RELATIONS) {! EMPTY.CONTAINS(basic)}"))
+  public final static AllenRelation EMPTY = VALUES[EMPTY_BIT_PATTERN];
 
   /**
    * A <strong>basic</strong> Allen relation that says that an interval
@@ -96,10 +103,10 @@ public final class AllenRelation {
    * <pre>
    *   (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I1.end &lt; I2.begin)
    * </pre>
-   * <img style="text-align: center;"
-   * src="doc-files/AllenRelation-precedes.png">
+   * <img style="text-align: center;" src="doc-files/AllenRelation-precedes.png">
+   * The converse of this relation is {@link #PRECEDED_BY}.
    */
-  public final static AllenRelation PRECEDES      = VALUES[PRECEDES_BIT_PATTERN];
+  public final static AllenRelation PRECEDES = VALUES[PRECEDES_BIT_PATTERN];
 
   /**
    * A <strong>basic</strong> Allen relation that says that an interval
@@ -109,8 +116,9 @@ public final class AllenRelation {
    *   (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I1.end == I2.begin)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-meets.png">
+   * The converse of this relation is {@link #MET_BY}.
    */
-  public final static AllenRelation MEETS         = VALUES[MEETS_BIT_PATTERN];
+  public final static AllenRelation MEETS = VALUES[MEETS_BIT_PATTERN];
 
   /**
    * A <strong>basic</strong> Allen relation that says that an interval
@@ -122,10 +130,10 @@ public final class AllenRelation {
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin &lt; I2.begin) &amp;&amp; (I1.end &gt; I2.begin) &amp;&amp; (I1.end &lt; I2.end)
    * </pre>
-   * <img style="text-align: center;"
-   * src="doc-files/AllenRelation-overlaps.png">
+   * <img style="text-align: center;" src="doc-files/AllenRelation-overlaps.png">
+   * The converse of this relation is {@link #OVERLAPPED_BY}.
    */
-  public final static AllenRelation OVERLAPS      = VALUES[OVERLAPS_BIT_PATTERN];
+  public final static AllenRelation OVERLAPS = VALUES[OVERLAPS_BIT_PATTERN];
 
   /**
    * A <strong>basic</strong> Allen relation that says that an interval
@@ -136,10 +144,10 @@ public final class AllenRelation {
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin &lt; I2.begin) &amp;&amp; (I1.end == I2.end)
    * </pre>
-   * <img style="text-align: center;"
-   * src="doc-files/AllenRelation-finishedBy.png">
+   * <img style="text-align: center;" src="doc-files/AllenRelation-finishedBy.png">
+   * The converse of this relation is {@link #FINISHED_BY}.
    */
-  public final static AllenRelation FINISHED_BY   = VALUES[FINISHED_BY_BIT_PATTERN];
+  public final static AllenRelation FINISHED_BY = VALUES[FINISHED_BY_BIT_PATTERN];
 
   /**
    * A <strong>basic</strong> Allen relation that says that an interval
@@ -150,10 +158,10 @@ public final class AllenRelation {
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin &lt; I2.begin) &amp;&amp; (I1.end &gt; I2.end)
    * </pre>
-   * <img style="text-align: center;"
-   * src="doc-files/AllenRelation-contains.png">
+   * <img style="text-align: center;" src="doc-files/AllenRelation-contains.png">
+   * The converse of this relation is {@link #DURING}.
    */
-  public final static AllenRelation CONTAINS      = VALUES[CONTAINS_BIT_PATTERN];
+  public final static AllenRelation CONTAINS = VALUES[CONTAINS_BIT_PATTERN];
 
   /**
    * A <strong>basic</strong> Allen relation that says that an interval
@@ -165,8 +173,9 @@ public final class AllenRelation {
    *     (I1.begin == I2.begin) &amp;&amp; (I1.end &lt; I2.end)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-starts.png">
+   * The converse of this relation is {@link #STARTED_BY}.
    */
-  public final static AllenRelation STARTS        = VALUES[STARTS_BIT_PATTERN];
+  public final static AllenRelation STARTS = VALUES[STARTS_BIT_PATTERN];
 
   /**
    * A <strong>basic</strong> Allen relation that says that an interval
@@ -178,8 +187,9 @@ public final class AllenRelation {
    *     (I1.begin == I2.begin) &amp;&amp; (I1.end == I2.end)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-equals.png">
+   * The converse of this relation is itself.
    */
-  public final static AllenRelation EQUALS        = VALUES[EQUALS_BIT_PATTERN];
+  public final static AllenRelation EQUALS = VALUES[EQUALS_BIT_PATTERN];
 
   /**
    * A <strong>basic</strong> Allen relation that says that an interval
@@ -190,10 +200,10 @@ public final class AllenRelation {
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin == I2.begin) &amp;&amp; (I1.end &gt; I2.end)
    * </pre>
-   * <img style="text-align: center;"
-   * src="doc-files/AllenRelation-startedBy.png">
+   * <img style="text-align: center;" src="doc-files/AllenRelation-startedBy.png">
+   * The converse of this relation is {@link #STARTS}.
    */
-  public final static AllenRelation STARTED_BY    = VALUES[STARTED_BY_BIT_PATTERN];
+  public final static AllenRelation STARTED_BY = VALUES[STARTED_BY_BIT_PATTERN];
 
   /**
    * A <strong>basic</strong> Allen relation that says that an interval
@@ -205,8 +215,9 @@ public final class AllenRelation {
    *     (I1.begin &gt; I2.begin) &amp;&amp; (I1.end &lt; I2.end)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-during.png">
+   * The converse of this relation is {@link #CONTAINS}.
    */
-  public final static AllenRelation DURING        = VALUES[DURING_BIT_PATTERN];
+  public final static AllenRelation DURING = VALUES[DURING_BIT_PATTERN];
 
   /**
    * A <strong>basic</strong> Allen relation that says that an interval
@@ -217,10 +228,10 @@ public final class AllenRelation {
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin &gt; I2.begin) &amp;&amp; (I1.end == I2.end)
    * </pre>
-   * <img style="text-align: center;"
-   * src="doc-files/AllenRelation-finishes.png">
+   * <img style="text-align: center;" src="doc-files/AllenRelation-finishes.png">
+   * The converse of this relation is {@link #FINISHES}.
    */
-  public final static AllenRelation FINISHES      = VALUES[FINISHES_BIT_PATTERN];
+  public final static AllenRelation FINISHES = VALUES[FINISHES_BIT_PATTERN];
 
   /**
    * A <strong>basic</strong> Allen relation that says that an interval
@@ -232,8 +243,8 @@ public final class AllenRelation {
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin &gt; I2.begin) &amp;&amp; (I1.begin &lt; I2.end) &amp;&amp; (I1.end &gt; I2.end)
    * </pre>
-   * <img style="text-align: center;"
-   * src="doc-files/AllenRelation-overlappedBy.png">
+   * <img style="text-align: center;" src="doc-files/AllenRelation-overlappedBy.png">
+   * The converse of this relation is {@link #OVERLAPS}.
    */
   public final static AllenRelation OVERLAPPED_BY = VALUES[OVERLAPPED_BY_BIT_PATTERN];
 
@@ -245,8 +256,9 @@ public final class AllenRelation {
    *   (I1.begin != null) &amp;&amp; (I2.end != null) &amp;&amp; (I1.begin == I2.end)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-metBy.png">
+   * The converse of this relation is {@link #MEETS}.
    */
-  public final static AllenRelation MET_BY        = VALUES[MET_BY_BIT_PATTERN];
+  public final static AllenRelation MET_BY = VALUES[MET_BY_BIT_PATTERN];
 
   /**
    * A <strong>basic</strong> Allen relation that says that an interval
@@ -255,17 +267,18 @@ public final class AllenRelation {
    * <pre>
    *   (I1.begin != null) &amp;&amp; (I2.end != null) &amp;&amp; (I1.begin &gt; I2.end)
    * </pre>
-   * <img style="text-align: center;"
-   * src="doc-files/AllenRelation-precededBy.png">
+   * <img style="text-align: center;" src="doc-files/AllenRelation-precededBy.png">
+   * The converse of this relation is {@link #PRECEDES}.
    */
-  public final static AllenRelation PRECEDED_BY   = VALUES[PRECEDED_BY_BIT_PATTERN];
+  public final static AllenRelation PRECEDED_BY = VALUES[PRECEDED_BY_BIT_PATTERN];
 
   /**
    * The full Allen relation, which expresses that nothing definite can be
    * said about the relationship between 2 periods.
+   * The converse of this relation is the relation itself.
    */
   @Invars(@Expression("FULL == or(PRECEDES, MEETS, OVERLAPS, FINISHED_BY, CONTAINS, STARTS, EQUALS, STARTED_BY, DURING, FINISHES, OVERLAPPED_BY, MET_BY, PRECEDED_BY"))
-  public final static AllenRelation FULL          = VALUES[FULL_BIT_PATTERN];
+  public final static AllenRelation FULL = VALUES[FULL_BIT_PATTERN];
 
   /**
    * The set of all 13 basic Allen relations. That they are presented here in
@@ -323,7 +336,7 @@ public final class AllenRelation {
    * This relation is introduced because it is the possible result of the composition of 2 basic relations.
    */
   @Invars(@Expression("CONCURS_WITH == or(OVERLAPS, FINISHED_BY, CONTAINS, STARTS, EQUALS, STARTED_BY, DURING, FINISHES, OVERLAPPED_BY)"))
-  public final static AllenRelation CONCURS_WITH                     = or(OVERLAPS, FINISHED_BY, CONTAINS, STARTS, EQUALS, STARTED_BY, DURING, FINISHES, OVERLAPPED_BY);
+  public final static AllenRelation CONCURS_WITH = or(OVERLAPS, FINISHED_BY, CONTAINS, STARTS, EQUALS, STARTED_BY, DURING, FINISHES, OVERLAPPED_BY);
 
   /**
    * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
@@ -334,7 +347,7 @@ public final class AllenRelation {
    * This relation is introduced because it is the possible result of the composition of 2 basic relations.
    */
   @Invars(@Expression("BEGINS_EARLIER == or(PRECEDES, MEETS, OVERLAPS, FINISHED_BY, CONTAINS)"))
-  public static final AllenRelation BEGINS_EARLIER                   = or(PRECEDES, MEETS, OVERLAPS, FINISHED_BY, CONTAINS);
+  public static final AllenRelation BEGINS_EARLIER = or(PRECEDES, MEETS, OVERLAPS, FINISHED_BY, CONTAINS);
 
   /**
    * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
@@ -345,7 +358,7 @@ public final class AllenRelation {
    * This relation is introduced because it is the possible result of the composition of 2 basic relations.
    */
   @Invars(@Expression("BEGIN_TOGETHER == or(STARTS, EQUALS, STARTED_BY)"))
-  public static final AllenRelation BEGIN_TOGETHER                   = or(STARTS, EQUALS, STARTED_BY);
+  public static final AllenRelation BEGIN_TOGETHER = or(STARTS, EQUALS, STARTED_BY);
 
   /**
    * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
@@ -356,7 +369,7 @@ public final class AllenRelation {
    * This relation is introduced because it is the possible result of the composition of 2 basic relations.
    */
   @Invars(@Expression("BEGINS_LATER == or(DURING, FINISHES, OVERLAPPED_BY, MET_BY, PRECEDED_BY)"))
-  public static final AllenRelation BEGINS_LATER                     = or(DURING, FINISHES, OVERLAPPED_BY, MET_BY, PRECEDED_BY);
+  public static final AllenRelation BEGINS_LATER = or(DURING, FINISHES, OVERLAPPED_BY, MET_BY, PRECEDED_BY);
 
   /**
    * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
@@ -367,7 +380,7 @@ public final class AllenRelation {
    * This relation is introduced because it is the possible result of the composition of 2 basic relations.
    */
   @Invars(@Expression("BEGINS_IN == or(DURING, FINISHES, OVERLAPPED_BY)"))
-  public static final AllenRelation BEGINS_IN                        = or(DURING, FINISHES, OVERLAPPED_BY);
+  public static final AllenRelation BEGINS_IN = or(DURING, FINISHES, OVERLAPPED_BY);
 
   /**
    * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
@@ -389,7 +402,7 @@ public final class AllenRelation {
    * This relation is introduced because it is the possible result of the composition of 2 basic relations.
    */
   @Invars(@Expression("BEGINS_LATER_AND_ENDS_LATER == or(OVERLAPPED_BY, MET_BY, PRECEDED_BY)"))
-  public static final AllenRelation BEGINS_LATER_AND_ENDS_LATER      = or(OVERLAPPED_BY, MET_BY, PRECEDED_BY);
+  public static final AllenRelation BEGINS_LATER_AND_ENDS_LATER = or(OVERLAPPED_BY, MET_BY, PRECEDED_BY);
 
   /**
    * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
@@ -400,7 +413,7 @@ public final class AllenRelation {
    * This relation is introduced because it is the possible result of the composition of 2 basic relations.
    */
   @Invars(@Expression("ENDS_EARLIER == or(PRECEDES, MEETS, OVERLAPS, STARTS, DURING)"))
-  private static final AllenRelation ENDS_EARLIER                    = or(PRECEDES, MEETS, OVERLAPS, STARTS, DURING);
+  private static final AllenRelation ENDS_EARLIER = or(PRECEDES, MEETS, OVERLAPS, STARTS, DURING);
 
   /**
    * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
@@ -411,7 +424,7 @@ public final class AllenRelation {
    * This relation is introduced because it is the possible result of the composition of 2 basic relations.
    */
   @Invars(@Expression("ENDS_IN == or(OVERLAPS, STARTS, DURING)"))
-  public static final AllenRelation ENDS_IN                          = or(OVERLAPS, STARTS, DURING);
+  public static final AllenRelation ENDS_IN = or(OVERLAPS, STARTS, DURING);
 
   /**
    * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
@@ -422,7 +435,7 @@ public final class AllenRelation {
    * This relation is introduced because it is the possible result of the composition of 2 basic relations.
    */
   @Invars(@Expression("END_TOGETHER == or(FINISHED_BY, EQUALS, FINISHES)"))
-  public static final AllenRelation END_TOGETHER                     = or(FINISHED_BY, EQUALS, FINISHES);
+  public static final AllenRelation END_TOGETHER = or(FINISHED_BY, EQUALS, FINISHES);
 
   /**
    * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
@@ -433,7 +446,7 @@ public final class AllenRelation {
    * This relation is introduced because it is the possible result of the composition of 2 basic relations.
    */
   @Invars(@Expression("ENDS_LATER == or(CONTAINS, STARTED_BY, OVERLAPPED_BY, MET_BY, PRECEDED_BY)"))
-  public static final AllenRelation ENDS_LATER                       = or(CONTAINS, STARTED_BY, OVERLAPPED_BY, MET_BY, PRECEDED_BY);
+  public static final AllenRelation ENDS_LATER = or(CONTAINS, STARTED_BY, OVERLAPPED_BY, MET_BY, PRECEDED_BY);
 
   /**
    * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
@@ -444,7 +457,7 @@ public final class AllenRelation {
    * This relation is introduced because it is the possible result of the composition of 2 basic relations.
    */
   @Invars(@Expression("CONTAINS_BEGIN == or(OVERLAPS, FINISHED_BY, CONTAINS)"))
-  public static final AllenRelation CONTAINS_BEGIN                   = or(OVERLAPS, FINISHED_BY, CONTAINS);
+  public static final AllenRelation CONTAINS_BEGIN = or(OVERLAPS, FINISHED_BY, CONTAINS);
 
   /**
    * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
@@ -455,7 +468,7 @@ public final class AllenRelation {
    * This relation is introduced because it is the possible result of the composition of 2 basic relations.
    */
   @Invars(@Expression("CONTAINS_END == or(CONTAINS, STARTED_BY, OVERLAPPED_BY)"))
-  public static final AllenRelation CONTAINS_END                     = or(CONTAINS, STARTED_BY, OVERLAPPED_BY);
+  public static final AllenRelation CONTAINS_END = or(CONTAINS, STARTED_BY, OVERLAPPED_BY);
 
   /*</section>*/
 
@@ -469,13 +482,11 @@ public final class AllenRelation {
    * any disjunction of the basic relations, you can use any relation in the argument
    * list.
    */
-  @MethodContract(
-    post = {
-      @Expression("for (AllenRelation br : BASIC_RELATIONS) {exists (AllenRelation ar : gr) {gr.implies(br)} ?? result.implies(br)}")
-    }
-  )
+  @MethodContract(post = {
+    @Expression("for (AllenRelation br : BASIC_RELATIONS) {exists (AllenRelation ar : _gr) {ar.CONTAINS(br)} ?? result.CONTAINS(br)}")
+  })
   public static AllenRelation or(AllenRelation... gr) {
-    int acc = 0;
+    int acc = EMPTY.$bitPattern;
     for (AllenRelation allenRelation : gr) {
       acc |= allenRelation.$bitPattern;
     }
@@ -493,20 +504,36 @@ public final class AllenRelation {
    * There is only 1 private constructor, that constructs the wrapper object
    * around the bitpattern. This is used exclusively in {@link #VALUES} initialization code.
    */
+  @MethodContract(
+    pre  = {
+      @Expression("_bitPattern >= EMPTY_BIT_PATTERN"),
+      @Expression("_bitPattern <= FULL_BIT_PATTERN")
+    },
+    post = @Expression("$bitpattern == bitPattern")
+  )
   private AllenRelation(int bitPattern) {
+    assert pre(bitPattern > EMPTY_BIT_PATTERN);
+    assert pre(bitPattern > FULL_BIT_PATTERN);
     $bitPattern = bitPattern;
   }
 
   /*</construction>*/
 
+
+
   /**
    * Only the 13 lowest bits are used. The other (32 - 13 = 19 bits) are 0.
    */
+  @Invars({
+    @Expression("$bitPattern >= EMPTY_BIT_PATTERN"),
+    @Expression("$bitPattern <= FULL_BIT_PATTERN")
+  })
   private final int $bitPattern;
 
 
 
-
+  /*<section name="instance operations">*/
+  //------------------------------------------------------------------
 
   /**
    * This is a basic Allen relation.
@@ -516,6 +543,9 @@ public final class AllenRelation {
     return isBasicBitPattern($bitPattern);
   }
 
+  /**
+   * A basic relation is expressed by a single bit in the bit pattern.
+   */
   private static boolean isBasicBitPattern(int bitPattern) {
 //    return Integer.bitCount($bitPattern) == 1;
     /* http://graphics.stanford.edu/~seander/bithacks.html
@@ -530,8 +560,82 @@ public final class AllenRelation {
     return ((bitPattern & (bitPattern - 1)) == 0) && (bitPattern != 0);
   }
 
+  /**
+   * The <dfn>converse</dfn> of an Allen relation from an interval <var>I1</var> to an interval <var>I2</var>
+   * is the relation from the interval <var>I2</var> to the interval <var>I1</var>:
+   * <pre>
+   *   compare(I1, I2).converse() == compare(I2, I1)
+   * </pre>
+   * The converse of a basic Allen relation is defined. The converse of a general Allen relation <var>A</var>
+   * is the disjunction of the converse relations of the basic relations that are implied by <var>A</var>.
+   */
+  @MethodContract(post = {
+    @Expression("converse().converse() == this"),
+    @Expression("this == PRECEDES ? converse() == PRECEDED_BY"),
+    @Expression("this == MEETS ? converse() == MET_BY"),
+    @Expression("this == OVERLAPS ? converse() == OVERLAPPED_BY"),
+    @Expression("this == FINISHED_BY ? converse() == FINISHES"),
+    @Expression("this == CONTAINS ? converse() == DURING"),
+    @Expression("this == STARTS ? converse() == STARTED_BY"),
+    @Expression("this == EQUALS ? converse() == EQUALS"),
+    @Expression("this == STARTED_BY ? converse() == STARTS"),
+    @Expression("this == DURING ? converse() == CONTAINS"),
+    @Expression("this == FINISHES ? converse() == FINISHED_BY"),
+    @Expression("this == OVERLAPPED_BY ? converse() == OVERLAPS"),
+    @Expression("this == MET_BY ? converse() == MEETS"),
+    @Expression("this == PRECEDED_BY ? converse() == PRECEDES"),
+    @Expression("for (AllenRelation br : BASIC_RELATIONS) {CONTAINS(br) ?? converse().CONTAINS(br.converse())}")
+  })
+  public final AllenRelation converse() {
+    /*
+     * Given the current order in which the basic relations occur in the bit pattern,
+     * the converse is the reverse bit pattern (read the bit pattern from left to right
+     * instead of right to left). We need to add a 19 bit shift to compensate for the fact
+     * that we store the 13 bit bitpattern in a 32 bit int.
+     */
+    int pattern = Integer.reverse($bitPattern);
+    pattern >>>= 19; // 32 - 13 = 19
+    return VALUES[pattern];
+  }
 
+  /**
+   * The complement of an Allen relation is the logic negation of the condition the Allen relation expresses.
+   * The complement of a basic Allen relation is the disjunction of all the other basic Allen relations.
+   * The complement of a general Allen relation is the disjunction of all basic Allen relations that are
+   * not implied by the general Allen relation. NIEt KLAAR
+   * <pre>
+   *   R.CONTAINS(A) ?? ! R.CONTAINS(A.complement())
+   * </pre>
+   */
+  @MethodContract(post = {
+    @Expression("for (AllenRelation br : BASIC_RELATIONS) {" +
+                  "(CONTAINS(br) ?? ! complement().CONTAINS(br)) && (! CONTAINS(br) ?? complement().CONTAINS(br))" +
+                "}")
+  })
+  public final AllenRelation complement() {
+    /*
+     * implemented as the XOR of the FULL bit pattern with this bit pattern;
+     * this simply replaces 0 with 1 and 1 with 0.
+     */
+    int full = FULL.$bitPattern;
+    int result = full ^ $bitPattern;
+    return VALUES[result];
+  }
 
+  @Basic(
+    pre = @Expression("_gr != null"),
+    invars = {
+      @Expression("CONTAINS(this)"),
+      @Expression("basic ? for (AllenRelation br : BASIC_RELATIONS) : {br != this ? ! CONTAINS(br)}"),
+      @Expression("for (AllenRelation ar) {CONTAINS(ar) == for (AllenRelation br : BASIC_RELATIONS) : {ar.CONTAINS(br) ? CONTAINS(br)}")
+    }
+  )
+  public final boolean CONTAINS(AllenRelation gr) {
+    assert preArgumentNotNull(gr, "gr");
+    return (($bitPattern & gr.$bitPattern) == gr.$bitPattern) || ($bitPattern == 0);
+  }
+
+  /*</section>*/
 
   /*</section>*/
 
@@ -541,25 +645,7 @@ public final class AllenRelation {
   //------------------------------------------------------------------
 
 
-  public final boolean implies(AllenRelation gr) {
-    return (($bitPattern & gr.$bitPattern) == gr.$bitPattern) ||
-     ($bitPattern == 0);
-  }
 
-  public final AllenRelation complement() {
-    int full = FULL.$bitPattern;
-    int result = full ^ $bitPattern;
-    return VALUES[result];
-  }
-
-  /**
-   * compare(p1, p2).converse() == compare(p2, p1)
-   */
-  public final AllenRelation converse() {
-    int pattern = Integer.reverse($bitPattern);
-    pattern >>>= 19; // 32 - 13 = 19
-    return VALUES[pattern];
-  }
 
   /**
    * Union
@@ -610,10 +696,10 @@ public final class AllenRelation {
   public static AllenRelation compose(AllenRelation gr1, AllenRelation gr2) {
     AllenRelation acc = EMPTY;
     for (AllenRelation br1 : BASIC_RELATIONS) {
-      if (gr1.implies(br1)) {
+      if (gr1.CONTAINS(br1)) {
   int p1 = Integer.numberOfTrailingZeros(br1.hashCode());
   for (AllenRelation br2 : BASIC_RELATIONS) {
-    if (gr2.implies(br2)) {
+    if (gr2.CONTAINS(br2)) {
       int p2 = Integer.numberOfTrailingZeros(br2.hashCode());
       acc = or(acc, BASIC_COMPOSITIONS[p1][p2]);
     }
@@ -623,7 +709,7 @@ public final class AllenRelation {
     return acc;
   }
 
-  public static AllenRelation ompare(TimeInterval p1, TimeInterval p2) {
+  public static AllenRelation compare(TimeInterval p1, TimeInterval p2) {
     Date p1Begin = p1.getBegin();
     Date p1End   = p1.getEnd();
     Date p2Begin = p2.getBegin();
@@ -709,7 +795,7 @@ public final class AllenRelation {
     }
     else {
       for (int i = 0; i < BASIC_CODES.length; i++) {
-        if (implies(BASIC_RELATIONS.get(i))) {
+        if (CONTAINS(BASIC_RELATIONS.get(i))) {
           result.append(BASIC_CODES[i]);
         }
       }
