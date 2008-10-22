@@ -989,7 +989,7 @@ public class JpaBTest {
   }
 
   @Test(expected=PersistenceException.class)
-  public void hypothesis7a() {
+  public void hypothesis7a() throws FileNotFoundException, IOException, ClassNotFoundException {
     displayTest("DELETE MASTER WITH DETAILS",
         "hypothesis7a (master with 2 details, created using persist, remove managed master in transaction)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
@@ -1004,26 +1004,18 @@ public class JpaBTest {
     em.persist(slcA); // note: persist works in creation, merge does not
     em.persist(slcB);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
-    LOGGER.fine("master after persist:\n\t" + e);
-    LOGGER.fine("detail A after persist:\n\t" + slcA);
-    LOGGER.fine("detail B after persist:\n\t" + slcB);
 
     Integer eId = e.getPersistenceId();
-    LOGGER.fine("id of PERSISTed master: " + eId);
+    assertNotNull(eId);
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
     Master fromDbE = em.find(Master.class, eId);
     fromDbE.getDetails();
-    LOGGER.fine("details : "+fromDbE.getDetails());
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     assertMaster0(eId, fromDbE);
     assertNotSame(e, fromDbE);
@@ -1037,49 +1029,24 @@ public class JpaBTest {
     tx = em.getTransaction();
     tx.begin();
     fromDbE = em.find(Master.class, eId);
+    tx.commit();
+    em.close();
+
+    Master deserEe = serAndDeserMaster(fromDbE);
+
+    em = emf.createEntityManager();
+    tx = em.getTransaction();
+    tx.begin();
+    fromDbE = em.find(Master.class, deserEe.getPersistenceId());
     em.remove(fromDbE);
     System.out.println("EntityManager.remove() will throw a PersistenceException because foreign key constraints will be violated.");
     tx.commit();
+    em.close();
     System.out.println("EntityManager DID NOT THROW AN PERSISTENCEEXCEPTION");
-    tx = null;
-    em.close();
-    em = null;
-
-    em = emf.createEntityManager();
-    tx = em.getTransaction();
-    tx.begin();
-    fromDbE = em.find(Master.class, eId);
-    tx.commit();
-    tx = null;
-    em.close();
-    em = null;
-
-    assertNull(fromDbE);
-    System.out.println("master is removed");
-
-    em = emf.createEntityManager();
-    tx = em.getTransaction();
-    tx.begin();
-    System.out.println(slcA.getPersistenceId());
-    System.out.println(slcB.getPersistenceId());
-    Detail a = em.find(Detail.class, slcA.getPersistenceId());
-    Detail b = em.find(Detail.class, slcB.getPersistenceId());
-    LOGGER.fine("detail A after remove:\n\t" + a);
-    LOGGER.fine("detail B after remove:\n\t" + b);
-    System.out.println("detail A after remove:\n\t" + a);
-    System.out.println("detail B after remove:\n\t" + b);
-
-    assertNull(a);
-    assertNull(b);
-
-    tx.commit();
-    tx = null;
-    em.close();
-    em = null;
   }
 
   @Test
-  public void hypothesis7b() {
+  public void hypothesis7b() throws FileNotFoundException, IOException, ClassNotFoundException {
     displayTest("DELETE MASTER WITH DETAILS",
         "hypothesis7b (master with 2 details, created using persist, first remove details then remove managed master in transaction)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
@@ -1094,26 +1061,18 @@ public class JpaBTest {
     em.persist(slcA); // note: persist works in creation, merge does not
     em.persist(slcB);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
-    LOGGER.fine("master after persist:\n\t" + e);
-    LOGGER.fine("detail A after persist:\n\t" + slcA);
-    LOGGER.fine("detail B after persist:\n\t" + slcB);
 
     Integer eId = e.getPersistenceId();
-    LOGGER.fine("id of PERSISTed master: " + eId);
+    assertNotNull(eId);
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
     Master fromDbE = em.find(Master.class, eId);
     fromDbE.getDetails();
-    LOGGER.fine("details : "+fromDbE.getDetails());
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     assertMaster0(eId, fromDbE);
     assertNotSame(e, fromDbE);
@@ -1128,44 +1087,44 @@ public class JpaBTest {
     tx.begin();
     slcA = em.find(Detail.class, slcA.getPersistenceId());
     slcB = em.find(Detail.class, slcB.getPersistenceId());
-    em.remove(slcA);
-    em.remove(slcB);
     fromDbE = em.find(Master.class, eId);
-    em.remove(fromDbE);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
+
+    Detail deserA = serAndDeserDetail(slcA);
+    Detail deserB = serAndDeserDetail(slcB);
+    Master deserE = serAndDeserMaster(fromDbE);
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
-    fromDbE = em.find(Master.class, eId);
+    slcA = em.find(Detail.class, deserA.getPersistenceId());
+    slcB = em.find(Detail.class, deserB.getPersistenceId());
+    fromDbE = em.find(Master.class, deserE.getPersistenceId());
+    em.remove(slcA);
+    em.remove(slcB);
+    em.remove(fromDbE);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
-
-    assertNull(fromDbE);
-    System.out.println("master is removed");
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
     Detail a = em.find(Detail.class, slcA.getPersistenceId());
     Detail b = em.find(Detail.class, slcB.getPersistenceId());
+    Master m = em.find(Master.class, fromDbE.getPersistenceId());
+    tx.commit();
+    em.close();
 
     assertNull(a);
     assertNull(b);
+    assertNull(m);
 
-    tx.commit();
-    tx = null;
-    em.close();
-    em = null;
+    System.out.println("Master is removed after removing its details first.");
   }
 
   @Test
-  public void hypothesis8a() {
+  public void hypothesis8a() throws FileNotFoundException, IOException, ClassNotFoundException {
     displayTest("RETRIEVE DETAIL",
         "hypothesis8a (master with 2 details, created using persist, retrieve detail)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
@@ -1180,38 +1139,34 @@ public class JpaBTest {
     em.persist(slcA); // note: persist works in creation, merge does not
     em.persist(slcB);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
-    LOGGER.fine("master after persist:\n\t" + e);
-    LOGGER.fine("detail A after persist:\n\t" + slcA);
-    LOGGER.fine("detail B after persist:\n\t" + slcB);
 
     Integer aId = slcA.getPersistenceId();
-    LOGGER.fine("id of PERSISTed detail A: " + aId);
+    assertNotNull(aId);
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
     Detail fromDbA = em.find(Detail.class, aId);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
-    assertNotNull(fromDbA);
-    assertDetailA(aId, fromDbA);
-    assertNotSame(slcA, fromDbA);
-    assertNotNull(fromDbA.getMaster());
-    assertMaster0(e.getPersistenceId(), fromDbA.getMaster());
-    assertNull(fromDbA.getMaster().$details);
-    assertNull(fromDbA.getMaster().getDetails());
+    Detail deserA = serAndDeserDetail(fromDbA);
 
-    System.out.println("detail successfully retrieved, with master attached (master.getDetails() is null)");
+    assertDetailA(aId, deserA);
+    assertNotSame(deserA, fromDbA);
+    assertNotNull(deserA.getMaster());
+    assertMaster0(e.getPersistenceId(), deserA.getMaster());
+    assertNotNull(deserA.getMaster().$details);
+    assertTrue(deserA.getMaster().$details.size() == 0);
+    assertNotNull(deserA.getMaster().getDetails());
+    assertTrue(deserA.getMaster().getDetails().size() == 0);
+
+    System.out.println("detail successfully retrieved, with master attached (master.getDetails() is empty set)");
   }
 
   @Test
-  public void hypothesis8b() {
+  public void hypothesis8b() throws FileNotFoundException, IOException, ClassNotFoundException {
     displayTest("RETRIEVE DETAIL",
         "hypothesis8b (master with 2 details, created using persist, retrieve detail, touch master.getDetails())");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
@@ -1226,15 +1181,10 @@ public class JpaBTest {
     em.persist(slcA); // note: persist works in creation, merge does not
     em.persist(slcB);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
-    LOGGER.fine("master after persist:\n\t" + e);
-    LOGGER.fine("detail A after persist:\n\t" + slcA);
-    LOGGER.fine("detail B after persist:\n\t" + slcB);
 
     Integer aId = slcA.getPersistenceId();
-    LOGGER.fine("id of PERSISTed detail A: " + aId);
+    assertNotNull(aId);
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
@@ -1242,155 +1192,29 @@ public class JpaBTest {
     Detail fromDbA = em.find(Detail.class, aId);
     fromDbA.getMaster().getDetails();
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
-    assertNotNull(fromDbA);
-    assertDetailA(aId, fromDbA);
-    assertNotSame(slcA, fromDbA);
-    assertNotNull(fromDbA.getMaster());
-    assertMaster0(e.getPersistenceId(), fromDbA.getMaster());
-    assertNotNull(fromDbA.getMaster().$details);
-    assertNotNull(fromDbA.getMaster().getDetails());
-    assertTrue(fromDbA.getMaster().getDetails().size()==2);
-    for (Detail d : fromDbA.getMaster().getDetails()) {
-      assertTrue((d.getPersistenceId().compareTo(slcA.getPersistenceId())==0)||
-          (d.getPersistenceId().compareTo(slcB.getPersistenceId())==0));
-    }
+    Detail deserA = serAndDeserDetail(fromDbA);
+
+    assertDetailA(aId, deserA);
+    assertNotSame(deserA, fromDbA);
+    assertNotNull(deserA.getMaster());
+    assertMaster0(e.getPersistenceId(), deserA.getMaster());
+    assertNotNull(deserA.getMaster().$details);
+    assertTrue(deserA.getMaster().$details.size() == 0);
+    assertNotNull(deserA.getMaster().getDetails());
+    assertTrue(deserA.getMaster().getDetails().size() == 0);
 
     System.out.println("detail successfully retrieved, with master attached " +
-        "(master.getDetails() was touched and contains correct details)");
+        "(master.getDetails() was touched, but after serialization and deserialization getDetails() " +
+        "is an empty set)");
   }
 
   @Test
-  public void hypothesis8c() throws FileNotFoundException, IOException, ClassNotFoundException {
-    displayTest("RETRIEVE DETAIL",
-        "hypothesis8c (master with 2 details, created using persist, retrieve detail, serialize and deserialize)");
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-    EntityManager em = emf.createEntityManager();
-
-    EntityTransaction tx = em.getTransaction();
-    tx.begin();
-    Master e = createMaster0();
-    Detail slcA = createDetailA(e);
-    Detail slcB = createDetailB(e);
-    em.persist(e);
-    em.persist(slcA); // note: persist works in creation, merge does not
-    em.persist(slcB);
-    tx.commit();
-    tx = null;
-    em.close();
-    em = null;
-    LOGGER.fine("master after persist:\n\t" + e);
-    LOGGER.fine("detail A after persist:\n\t" + slcA);
-    LOGGER.fine("detail B after persist:\n\t" + slcB);
-
-    Integer aId = slcA.getPersistenceId();
-    LOGGER.fine("id of PERSISTed detail A: " + aId);
-
-    em = emf.createEntityManager();
-    tx = em.getTransaction();
-    tx.begin();
-    Detail fromDbA = em.find(Detail.class, aId);
-    tx.commit();
-    tx = null;
-    em.close();
-    em = null;
-
-    assertNotNull(fromDbA);
-    assertDetailA(aId, fromDbA);
-    assertNotSame(slcA, fromDbA);
-    assertNotNull(fromDbA.getMaster());
-    assertMaster0(e.getPersistenceId(), fromDbA.getMaster());
-    assertNull(fromDbA.getMaster().$details);
-    assertNull(fromDbA.getMaster().getDetails());
-
-    Detail deserDA = serAndDeserDetail(fromDbA);
-    assertNotNull(deserDA);
-    assertDetailA(aId, deserDA);
-    assertNotSame(slcA, deserDA);
-    assertNotNull(deserDA.getMaster());
-    assertMaster0(e.getPersistenceId(), deserDA.getMaster());
-    assertNull(deserDA.getMaster().$details);
-    assertNull(deserDA.getMaster().getDetails());
-
-    System.out.println("detail successfully retrieved, with master attached (master.getDetails() is null," +
-        " serialization succeeded)");
-  }
-
-  @Test
-  public void hypothesis8d() throws FileNotFoundException, IOException, ClassNotFoundException {
-    displayTest("RETRIEVE DETAIL",
-        "hypothesis8d (master with 2 details, created using persist, retrieve detail, touch master.getDetails()," +
-        " serialize and deserialize)");
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-    EntityManager em = emf.createEntityManager();
-
-    EntityTransaction tx = em.getTransaction();
-    tx.begin();
-    Master e = createMaster0();
-    Detail slcA = createDetailA(e);
-    Detail slcB = createDetailB(e);
-    em.persist(e);
-    em.persist(slcA); // note: persist works in creation, merge does not
-    em.persist(slcB);
-    tx.commit();
-    tx = null;
-    em.close();
-    em = null;
-    LOGGER.fine("master after persist:\n\t" + e);
-    LOGGER.fine("detail A after persist:\n\t" + slcA);
-    LOGGER.fine("detail B after persist:\n\t" + slcB);
-
-    Integer aId = slcA.getPersistenceId();
-    LOGGER.fine("id of PERSISTed detail A: " + aId);
-
-    em = emf.createEntityManager();
-    tx = em.getTransaction();
-    tx.begin();
-    Detail fromDbA = em.find(Detail.class, aId);
-    fromDbA.getMaster().getDetails();
-    tx.commit();
-    tx = null;
-    em.close();
-    em = null;
-
-    assertNotNull(fromDbA);
-    assertDetailA(aId, fromDbA);
-    assertNotSame(slcA, fromDbA);
-    assertNotNull(fromDbA.getMaster());
-    assertMaster0(e.getPersistenceId(), fromDbA.getMaster());
-    assertNotNull(fromDbA.getMaster().$details);
-    assertNotNull(fromDbA.getMaster().getDetails());
-    assertTrue(fromDbA.getMaster().getDetails().size()==2);
-    for (Detail d : fromDbA.getMaster().getDetails()) {
-      assertTrue((d.getPersistenceId().compareTo(slcA.getPersistenceId())==0)||
-          (d.getPersistenceId().compareTo(slcB.getPersistenceId())==0));
-    }
-
-    Detail deserDA = serAndDeserDetail(fromDbA);
-    assertNotNull(deserDA);
-    assertDetailA(aId, deserDA);
-    assertNotSame(slcA, deserDA);
-    assertNotNull(deserDA.getMaster());
-    assertMaster0(e.getPersistenceId(), deserDA.getMaster());
-    assertNotNull(deserDA.getMaster().$details);
-    assertNotNull(deserDA.getMaster().getDetails());
-    assertTrue(deserDA.getMaster().getDetails().size()==2);
-    for (Detail d : deserDA.getMaster().getDetails()) {
-      assertTrue((d.getPersistenceId().compareTo(slcA.getPersistenceId())==0)||
-          (d.getPersistenceId().compareTo(slcB.getPersistenceId())==0));
-    }
-
-    System.out.println("detail successfully retrieved, with master attached (master.getDetails() was touched and" +
-        " contains correct details, serialization succeeded)");
-  }
-
-  @Test
-  public void hypothesis9a() {
+  public void hypothesis9a() throws FileNotFoundException, IOException, ClassNotFoundException {
     displayTest("MODIFY DETAIL: FIELD CHANGE",
-        "hypothesis9a (master with 2 details, created using persist, retrieve, modify and merge detail, using managed detail)");
+        "hypothesis9a (master with 2 details, created using persist, retrieve, modify" +
+        " and merge detail, using managed detail)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     EntityManager em = emf.createEntityManager();
 
@@ -1403,19 +1227,16 @@ public class JpaBTest {
     em.persist(slcA); // note: persist works in creation, merge does not
     em.persist(slcB);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
-    LOGGER.fine("master after persist:\n\t" + e);
-    LOGGER.fine("detail A after persist:\n\t" + slcA);
-    LOGGER.fine("detail B after persist:\n\t" + slcB);
 
     Integer aId = slcA.getPersistenceId();
-    LOGGER.fine("id of PERSISTed detail A: " + aId);
+    assertNotNull(aId);
     Integer aVersion = slcA.getPersistenceVersion();
-    LOGGER.fine("version of PERSISTed detail A: " + aVersion);
-
+    assertNotNull(aVersion);
+    Integer eId = e.getPersistenceId();
+    assertNotNull(eId);
     Integer mVersion = e.getPersistenceVersion();
+    assertNotNull(mVersion);
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
@@ -1423,26 +1244,24 @@ public class JpaBTest {
     Detail fromDbA = em.find(Detail.class, aId);
     fromDbA.setDate(DETAIL_DATE_B);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
     fromDbA = em.find(Detail.class, aId);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
-    assertNotNull(fromDbA);
-    assertDetailB(aId, fromDbA);
-    assertNotSame(slcA, fromDbA);
-    assertNotNull(fromDbA.getMaster());
-    assertMaster0(e.getPersistenceId(), fromDbA.getMaster());
-    assertNull(fromDbA.getMaster().$details);
-    assertNull(fromDbA.getMaster().getDetails());
+    Detail deserA = serAndDeserDetail(fromDbA);
+
+    assertNotNull(deserA);
+    assertDetailB(aId, deserA);
+    assertNotSame(deserA, fromDbA);
+    assertNotNull(deserA.getMaster());
+    assertMaster0(eId, deserA.getMaster());
+    assertNull(deserA.getMaster().$details);
+    assertNull(deserA.getMaster().getDetails());
 
     assertTrue(aVersion + 1 == fromDbA.getPersistenceVersion());
     assertTrue(mVersion.equals(fromDbA.getMaster().getPersistenceVersion()));
