@@ -93,7 +93,7 @@ public interface TimeInterval extends ImmutableValue {
 
   Duration getDuration();
 
-  GeneralRelation compareTo(TimeInterval other);
+  AllenRelation compareTo(TimeInterval other);
 
   // equals method is EQUAL, or same things null
 
