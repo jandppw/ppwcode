@@ -1663,7 +1663,7 @@ public class JpaBTest {
   }
 
   @Test
-  public void hypothesis11a() {
+  public void hypothesis11a() throws FileNotFoundException, IOException, ClassNotFoundException {
     displayTest("CREATE DETAIL AND ATTACH IT TO A MASTER",
         "hypothesis11a (master without details, created using persist, create detail and attach to master, using managed master)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
@@ -1674,10 +1674,7 @@ public class JpaBTest {
     Master e = createMaster0();
     em.persist(e);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
-    LOGGER.fine("master after persist:\n\t" + e);
 
     Integer mId = e.getPersistenceId();
     Integer mVersion = e.getPersistenceVersion();
@@ -1689,35 +1686,27 @@ public class JpaBTest {
     Detail a = createDetailA(fromDbM);
     em.persist(a);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     Integer aId = a.getPersistenceId();
 
-    em = emf.createEntityManager();
-    tx = em.getTransaction();
-    tx.begin();
-    Detail fromDbA = em.find(Detail.class, aId);
-    tx.commit();
-    tx = null;
-    em.close();
-    em = null;
+    Detail deserA = serAndDeserDetail(a);
 
-    assertNotNull(fromDbA);
-    assertDetailA(aId, fromDbA);
-    assertNotNull(fromDbA.getMaster());
-    assertMaster0(e.getPersistenceId(), fromDbA.getMaster());
-    assertNull(fromDbA.getMaster().$details);
-    assertNull(fromDbA.getMaster().getDetails());
+    assertNotNull(deserA);
+    assertDetailA(aId, deserA);
+    assertNotSame(deserA, a);
+    assertNotNull(deserA.getMaster());
+    assertMaster0(mId, deserA.getMaster());
+    assertNotNull(deserA.getMaster().$details);
+    assertNotNull(deserA.getMaster().getDetails());
 
-    assertTrue(mVersion + 1 == fromDbA.getMaster().getPersistenceVersion());
+    assertTrue(mVersion + 1 == deserA.getMaster().getPersistenceVersion());
 
     System.out.println("detail created successfully, persistence version of master incremented with 1");
   }
 
   @Test
-  public void hypothesis11b() {
+  public void hypothesis11b() throws FileNotFoundException, IOException, ClassNotFoundException {
     displayTest("CREATE DETAIL AND ATTACH IT TO A MASTER",
         "hypothesis11b (master without details, created using persist, create detail and attach to master (touch master.getDetails()), using detached master)");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
@@ -1728,10 +1717,7 @@ public class JpaBTest {
     Master e = createMaster0();
     em.persist(e);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
-    LOGGER.fine("master after persist:\n\t" + e);
 
     Integer mId = e.getPersistenceId();
     Integer mVersion = e.getPersistenceVersion();
@@ -1742,40 +1728,32 @@ public class JpaBTest {
     Master fromDbM = em.find(Master.class, mId);
     fromDbM.getDetails();
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
-    Detail a = createDetailA(fromDbM);
+    Master m = serAndDeserMaster(fromDbM);
+
+    Detail a = createDetailA(m);
 
     em = emf.createEntityManager();
     tx = em.getTransaction();
     tx.begin();
     em.persist(a);
     tx.commit();
-    tx = null;
     em.close();
-    em = null;
 
     Integer aId = a.getPersistenceId();
 
-    em = emf.createEntityManager();
-    tx = em.getTransaction();
-    tx.begin();
-    Detail fromDbA = em.find(Detail.class, aId);
-    tx.commit();
-    tx = null;
-    em.close();
-    em = null;
+    Detail deserA = serAndDeserDetail(a);
 
-    assertNotNull(fromDbA);
-    assertDetailA(aId, fromDbA);
-    assertNotNull(fromDbA.getMaster());
-    assertMaster0(e.getPersistenceId(), fromDbA.getMaster());
-    assertNull(fromDbA.getMaster().$details);
-    assertNull(fromDbA.getMaster().getDetails());
+    assertNotNull(deserA);
+    assertDetailA(aId, deserA);
+    assertNotSame(deserA, a);
+    assertNotNull(deserA.getMaster());
+    assertMaster0(mId, deserA.getMaster());
+    assertNotNull(deserA.getMaster().$details);
+    assertNotNull(deserA.getMaster().getDetails());
 
-    assertTrue(mVersion + 0 == fromDbA.getMaster().getPersistenceVersion());
+    assertTrue(mVersion + 0 == deserA.getMaster().getPersistenceVersion());
 
     System.out.println("detail created successfully, persistence version of master stays the same");
   }
