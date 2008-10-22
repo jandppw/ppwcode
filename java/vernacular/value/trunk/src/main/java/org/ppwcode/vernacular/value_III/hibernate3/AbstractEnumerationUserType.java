@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2004 - $Date: 2008-08-29 21:48:16 +0200 (Fri, 29 Aug 2008) $ by PeopleWare n.v..
+Copyright 2004 - $Date$ by PeopleWare n.v..
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -56,10 +56,10 @@ import org.toryt.annotations_I.Invars;
  * @idea currently no unit tests; but used in practice a lot in the previous version for hibernate 2
  * @mudo UNFINISHED
  */
-@Copyright("2004 - $Date: 2008-09-22 00:19:50 +0200 (Mon, 22 Sep 2008) $, PeopleWare n.v.")
+@Copyright("2004 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 2595 $",
-         date     = "$Date: 2008-09-22 00:19:50 +0200 (Mon, 22 Sep 2008) $")
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 @Invars(@Expression("enumerationValueEditor() != null"))
 public class AbstractEnumerationUserType<_Value_> implements UserType {
 

@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <!--
-    Copyright 2004 - $Date: 2008-08-03 00:36:57 +0200 (Sun, 03 Aug 2008) $ by PeopleWare n.v.
+    Copyright 2004 - $Date$ by PeopleWare n.v.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -17,9 +17,9 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 
-    $Date: 2008-08-03 00:36:57 +0200 (Sun, 03 Aug 2008) $
-    $Revision: 2090 $
-    $HeadURL: https://ppwcode.googlecode.com/svn/java/vernacular/semantics/trunk/pom.xml $
+    $Date$
+    $Revision$
+    $HeadURL$
   -->
 
 
