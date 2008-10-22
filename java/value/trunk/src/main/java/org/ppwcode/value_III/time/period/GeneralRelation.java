@@ -268,7 +268,7 @@ public final class GeneralRelation {
     return acc;
   }
 
-  public static GeneralRelation ompare(Period p1, Period p2) {
+  public static GeneralRelation ompare(TimeInterval p1, TimeInterval p2) {
     Date p1Begin = p1.getStartDate();
     Date p1End   = p1.getEndDate();
     Date p2Begin = p2.getStartDate();
