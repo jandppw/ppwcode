@@ -50,41 +50,245 @@ public final class AllenRelation {
     }
   }
 
+  /**
+   * This empty relation is not a true Allen relation. It does not express a
+   * relational condition between intervals. Yet, it is needed for
+   * consistencey with some operations on Allen relations.
+   */
   public final static AllenRelation EMPTY         = VALUES[EMPTY_BIT_PATTERN];
+
+  /**
+   * A <strong>basic</strong> Allen relation that says that an interval
+   * <var>I1</var> <dfn>precedes</dfn> an interval <var>I2</var>, i.e., the
+   * end of <var>I1</var> is before the begin of <var>I2</var>:
+   * <pre>
+   *   (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I1.end &lt; I2.begin)
+   * </pre>
+   * <img style="text-align: center;" src="doc-files/AllenRelation-precedes.png">
+   */
   public final static AllenRelation PRECEDES      = VALUES[PRECEDES_BIT_PATTERN];
+
+  /**
+   * A <strong>basic</strong> Allen relation that says that an interval
+   * <var>I1</var> <dfn>meets</dfn> an interval <var>I2</var>, i.e., the end
+   * of <var>I1</var> is the begin of <var>I2</var>:
+   * <pre>
+   *   (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I1.end == I2.begin)
+   * </pre>
+   * <img style="text-align: center;" src="doc-files/AllenRelation-meets.png">
+   */
   public final static AllenRelation MEETS         = VALUES[MEETS_BIT_PATTERN];
+
+  /**
+   * A <strong>basic</strong> Allen relation that says that an interval
+   * <var>I1</var> <dfn>overlaps</dfn> an interval <var>I2</var>, i.e., the
+   * begin of <var>I1</var> is earlier than the begin of <var>I2</var>, and
+   * the end of <var>I1</var> is later than the begin of <var>I2</var> and
+   * earlier than the end of <var>I2</var>:
+   * <pre>
+   *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
+   *     (I1.begin &lt; I2.begin) &amp;&amp; (I1.end &gt; I2.begin) &amp;&amp; (I1.end &lt; I2.end)
+   * </pre>
+   * <img style="text-align: center;" src="doc-files/AllenRelation-overlaps.png">
+   */
   public final static AllenRelation OVERLAPS      = VALUES[OVERLAPS_BIT_PATTERN];
+
+  /**
+   * A <strong>basic</strong> Allen relation that says that an interval
+   * <var>I1</var> <dfn>is finished by</dfn> an interval <var>I2</var>, i.e.,
+   * the begin of <var>I1</var> is earlier than the begin of <var>I2</var>,
+   * and the end of <var>I1</var> is the end of <var>I2</var>:
+   * <pre>
+   *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
+   *     (I1.begin &lt; I2.begin) &amp;&amp; (I1.end == I2.end)
+   * </pre>
+   * <img style="text-align: center;" src="doc-files/AllenRelation-finishedBy.png">
+   */
   public final static AllenRelation FINISHED_BY   = VALUES[FINISHED_BY_BIT_PATTERN];
+
+  /**
+   * A <strong>basic</strong> Allen relation that says that an interval
+   * <var>I1</var> <dfn>contains</dfn> an interval <var>I2</var>, i.e., the
+   * begin of <var>I1</var> is earlier than the begin of <var>I2</var>, and
+   * the end of <var>I1</var> is later than the end of <var>I2</var>:
+   * <pre>
+   *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
+   *     (I1.begin &lt; I2.begin) &amp;&amp; (I1.end &gt; I2.end)
+   * </pre>
+   * <img style="text-align: center;" src="doc-files/AllenRelation-contains.png">
+   */
   public final static AllenRelation CONTAINS      = VALUES[CONTAINS_BIT_PATTERN];
+
+  /**
+   * A <strong>basic</strong> Allen relation that says that an interval
+   * <var>I1</var> <dfn>starts</dfn> an interval <var>I2</var>, i.e., the
+   * begin of <var>I1</var> is the begin of <var>I2</var>, and the end of
+   * <var>I1</var> is earlier than the end of <var>I2</var>:
+   * <pre>
+   *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
+   *     (I1.begin == I2.begin) &amp;&amp; (I1.end &lt; I2.end)
+   * </pre>
+   * <img style="text-align: center;" src="doc-files/AllenRelation-starts.png">
+   */
   public final static AllenRelation STARTS        = VALUES[STARTS_BIT_PATTERN];
+
+  /**
+   * A <strong>basic</strong> Allen relation that says that an interval
+   * <var>I1</var> <dfn>is equal to</dfn> an interval <var>I2</var>, i.e., the
+   * begin of <var>I1</var> is the begin of <var>I2</var>, and the end of
+   * <var>I1</var> is the end of <var>I2</var>:
+   * <pre>
+   *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
+   *     (I1.begin == I2.begin) &amp;&amp; (I1.end == I2.end)
+   * </pre>
+   * <img style="text-align: center;" src="doc-files/AllenRelation-equals.png">
+   */
   public final static AllenRelation EQUALS        = VALUES[EQUALS_BIT_PATTERN];
+
+  /**
+   * A <strong>basic</strong> Allen relation that says that an interval
+   * <var>I1</var> <dfn>is started by</dfn> an interval <var>I2</var>, i.e.,
+   * the begin of <var>I1</var> is the begin of <var>I2</var>, and the end of
+   * <var>I1</var> is later than the end of <var>I2</var>:
+   * <pre>
+   *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
+   *     (I1.begin == I2.begin) &amp;&amp; (I1.end &gt; I2.end)
+   * </pre>
+   * <img style="text-align: center;" src="doc-files/AllenRelation-startedBy.png">
+   */
   public final static AllenRelation STARTED_BY    = VALUES[STARTED_BY_BIT_PATTERN];
+
+  /**
+   * A <strong>basic</strong> Allen relation that says that an interval
+   * <var>I1</var> <dfn>is during</dfn> an interval <var>I2</var>, i.e., the
+   * begin of <var>I1</var> is later than the begin of <var>I2</var>, and the
+   * end of <var>I1</var> is earlier than the end of <var>I2</var>:
+   * <pre>
+   *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
+   *     (I1.begin &gt; I2.begin) &amp;&amp; (I1.end &lt; I2.end)
+   * </pre>
+   * <img style="text-align: center;" src="doc-files/AllenRelation-during.png">
+   */
   public final static AllenRelation DURING        = VALUES[DURING_BIT_PATTERN];
+
+  /**
+   * A <strong>basic</strong> Allen relation that says that an interval
+   * <var>I1</var> <dfn>finishes</dfn> an interval <var>I2</var>, i.e., the
+   * begin of <var>I1</var> is later than the begin of <var>I2</var>, and the
+   * end of <var>I1</var> is the end of <var>I2</var>:
+   * <pre>
+   *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
+   *     (I1.begin &gt; I2.begin) &amp;&amp; (I1.end == I2.end)
+   * </pre>
+   * <img style="text-align: center;" src="doc-files/AllenRelation-finishes.png">
+   */
   public final static AllenRelation FINISHES      = VALUES[FINISHES_BIT_PATTERN];
+
+  /**
+   * A <strong>basic</strong> Allen relation that says that an interval
+   * <var>I1</var> <dfn>is overlapped by</dfn> an interval <var>I2</var>,
+   * i.e., the begin of <var>I1</var> is later than the begin of <var>I2</var>
+   * and earlier than the end of <var>I2</var>, and the end of <var>I1</var>
+   * is later than the end of <var>I2</var>:
+   * <pre>
+   *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
+   *     (I1.begin &gt; I2.begin) &amp;&amp; (I1.begin &lt; I2.end) &amp;&amp; (I1.end &gt; I2.end)
+   * </pre>
+   * <img style="text-align: center;" src="doc-files/AllenRelation-overlappedBy.png">
+   */
   public final static AllenRelation OVERLAPPED_BY = VALUES[OVERLAPPED_BY_BIT_PATTERN];
+
+  /**
+   * A <strong>basic</strong> Allen relation that says that an interval
+   * <var>I1</var> <dfn>is met by</dfn> an interval <var>I2</var>, i.e., the
+   * begin of <var>I1</var> is the end of <var>I2</var>:
+   * <pre>
+   *   (I1.begin != null) &amp;&amp; (I2.end != null) &amp;&amp; (I1.begin == I2.end)
+   * </pre>
+   * <img style="text-align: center;" src="doc-files/AllenRelation-metBy.png">
+   */
   public final static AllenRelation MET_BY        = VALUES[MET_BY_BIT_PATTERN];
+
+  /**
+   * A <strong>basic</strong> Allen relation that says that an interval
+   * <var>I1</var> <dfn>is preceded by</dfn> an interval <var>I2</var>, i.e.,
+   * the begin of <var>I1</var> is later than the end of <var>I2</var>:
+   * <pre>
+   *   (I1.begin != null) &amp;&amp; (I2.end != null) &amp;&amp; (I1.begin &gt; I2.end)
+   * </pre>
+   * <img style="text-align: center;" src="doc-files/AllenRelation-precededBy.png">
+   */
   public final static AllenRelation PRECEDED_BY   = VALUES[PRECEDED_BY_BIT_PATTERN];
+
+  /**
+   * An interval
+   */
   public final static AllenRelation FULL          = VALUES[FULL_BIT_PATTERN];
 
-
+  /**
+   * An interval
+   */
   public final static AllenRelation  CONCURS_WITH = or(OVERLAPS, FINISHED_BY, CONTAINS, STARTS, EQUALS, STARTED_BY, DURING, FINISHES, OVERLAPPED_BY);
 
+  /**
+   * An interval
+   */
   private static final AllenRelation ENDS_EARLIER                    = or(PRECEDES, MEETS, OVERLAPS, STARTS, DURING);
+
+  /**
+   * An interval
+   */
   private static final AllenRelation BEGINS_EARLIER_AND_ENDS_EARLIER = or(PRECEDES, MEETS, OVERLAPS);
-  private static final AllenRelation ENDS_IN                         = or(OVERLAPS, STARTS, DURING);
 
-  private static final AllenRelation BEGINS_EARLIER                  = or(PRECEDES, MEETS, OVERLAPS, FINISHED_BY, CONTAINS);
-  private static final AllenRelation CONTAINS_BEGIN                  = or(OVERLAPS, FINISHED_BY, CONTAINS);
+  /**
+   * An interval
+   */
+  public static final AllenRelation ENDS_IN                         = or(OVERLAPS, STARTS, DURING);
 
-  private static final AllenRelation ENDS_LATER                      = or(CONTAINS, STARTED_BY, OVERLAPPED_BY, MET_BY, PRECEDED_BY);
-  private static final AllenRelation CONTAINS_END                    = or(CONTAINS, STARTED_BY, OVERLAPPED_BY);
-  private static final AllenRelation BEGINS_LATER_AND_ENDS_LATER     = or(OVERLAPPED_BY, MET_BY, PRECEDED_BY);
+  /**
+   * An interval
+   */
+  public static final AllenRelation BEGINS_EARLIER                  = or(PRECEDES, MEETS, OVERLAPS, FINISHED_BY, CONTAINS);
 
-  private static final AllenRelation BEGINS_LATER                    = or(DURING, FINISHES, OVERLAPPED_BY, MET_BY, PRECEDED_BY);
-  private static final AllenRelation BEGINS_IN                       = or(DURING, FINISHES, OVERLAPPED_BY);
+  /**
+   * An interval
+   */
+  public static final AllenRelation CONTAINS_BEGIN                  = or(OVERLAPS, FINISHED_BY, CONTAINS);
 
-  private static final AllenRelation END_TOGETHER                    = or(FINISHED_BY, EQUALS, FINISHES);
-  private static final AllenRelation BEGIN_TOGETHER                  = or(STARTS, EQUALS, STARTED_BY);
+  /**
+   * An interval
+   */
+  public static final AllenRelation ENDS_LATER                      = or(CONTAINS, STARTED_BY, OVERLAPPED_BY, MET_BY, PRECEDED_BY);
+
+  /**
+   * An interval
+   */
+  public static final AllenRelation CONTAINS_END                    = or(CONTAINS, STARTED_BY, OVERLAPPED_BY);
+
+  /**
+   * An interval
+   */
+  public static final AllenRelation BEGINS_LATER_AND_ENDS_LATER     = or(OVERLAPPED_BY, MET_BY, PRECEDED_BY);
+
+  /**
+   * An interval
+   */
+  public static final AllenRelation BEGINS_LATER                    = or(DURING, FINISHES, OVERLAPPED_BY, MET_BY, PRECEDED_BY);
+
+  /**
+   * An interval
+   */
+  public static final AllenRelation BEGINS_IN                       = or(DURING, FINISHES, OVERLAPPED_BY);
+
+  /**
+   * An interval
+   */
+  public static final AllenRelation END_TOGETHER                    = or(FINISHED_BY, EQUALS, FINISHES);
+
+  /**
+   * An interval
+   */
+  public static final AllenRelation BEGIN_TOGETHER                  = or(STARTS, EQUALS, STARTED_BY);
 
 
   public final static Set<AllenRelation> BASIC_RELATIONS = new HashSet<AllenRelation>(13);
@@ -188,7 +392,7 @@ public final class AllenRelation {
 
   public final boolean implies(AllenRelation gr) {
     return (($bitPattern & gr.$bitPattern) == gr.$bitPattern) ||
-           ($bitPattern == 0);
+     ($bitPattern == 0);
   }
 
   public final AllenRelation complement() {
@@ -256,76 +460,76 @@ public final class AllenRelation {
     AllenRelation acc = EMPTY;
     for (AllenRelation br1 : BASIC_RELATIONS) {
       if (gr1.implies(br1)) {
-        int p1 = Integer.numberOfTrailingZeros(br1.hashCode());
-        for (AllenRelation br2 : BASIC_RELATIONS) {
-          if (gr2.implies(br2)) {
-            int p2 = Integer.numberOfTrailingZeros(br2.hashCode());
-            acc = or(acc, BASIC_COMPOSITIONS[p1][p2]);
-          }
-        }
+  int p1 = Integer.numberOfTrailingZeros(br1.hashCode());
+  for (AllenRelation br2 : BASIC_RELATIONS) {
+    if (gr2.implies(br2)) {
+      int p2 = Integer.numberOfTrailingZeros(br2.hashCode());
+      acc = or(acc, BASIC_COMPOSITIONS[p1][p2]);
+    }
+  }
       }
     }
     return acc;
   }
 
   public static AllenRelation ompare(TimeInterval p1, TimeInterval p2) {
-    Date p1Begin = p1.getStartDate();
-    Date p1End   = p1.getEndDate();
-    Date p2Begin = p2.getStartDate();
-    Date p2End   = p2.getEndDate();
+    Date p1Begin = p1.getBegin();
+    Date p1End   = p1.getEnd();
+    Date p2Begin = p2.getBegin();
+    Date p2End   = p2.getEnd();
     AllenRelation result = FULL;
     if (p1Begin != null) {
       if (p2Begin != null) {
-        if (p1Begin.before(p2Begin)) {
-          result = min(result, BEGINS_EARLIER.complement());
-        }
-        else if (p1Begin.equals(p2Begin)) {
-          result = min(result, BEGIN_TOGETHER.complement());
-        }
-        else {
-          assert p1Begin.after(p2Begin);
-          result = min(result, BEGINS_LATER.complement());
-        }
+  if (p1Begin.before(p2Begin)) {
+    result = min(result, BEGINS_EARLIER.complement());
+  }
+  else if (p1Begin.equals(p2Begin)) {
+    result = min(result, BEGIN_TOGETHER.complement());
+  }
+  else {
+    assert p1Begin.after(p2Begin);
+    result = min(result, BEGINS_LATER.complement());
+  }
       }
       if (p2End != null) {
-        if (p1Begin.before(p2End)) { // pmoFDseSdfO, not MP; begins before end
-          result = min(result, MET_BY);
-          result = min(result, PRECEDED_BY);
-        }
-        else if (p1Begin.equals(p2End)) {
-          return MET_BY;
-        }
-        else {
-          assert p1Begin.after(p2End);
-          return PRECEDED_BY;
-        }
+  if (p1Begin.before(p2End)) { // pmoFDseSdfO, not MP; begins before end
+    result = min(result, MET_BY);
+    result = min(result, PRECEDED_BY);
+  }
+  else if (p1Begin.equals(p2End)) {
+    return MET_BY;
+  }
+  else {
+    assert p1Begin.after(p2End);
+    return PRECEDED_BY;
+  }
       }
     }
     if (p1End != null) {
       if (p2Begin != null) {
-        if (p1End.before(p2Begin)) {
-          return PRECEDES;
-        }
-        else if (p1End.equals(p2Begin)) {
-          return MEETS;
-        }
-        else {
-          assert p1End.after(p2Begin); // not pm, oFDseSdfOMP, ends after begin
-          result = min(result, PRECEDES);
-          result = min(result, MEETS);
-        }
+  if (p1End.before(p2Begin)) {
+    return PRECEDES;
+  }
+  else if (p1End.equals(p2Begin)) {
+    return MEETS;
+  }
+  else {
+    assert p1End.after(p2Begin); // not pm, oFDseSdfOMP, ends after begin
+    result = min(result, PRECEDES);
+    result = min(result, MEETS);
+  }
       }
       if (p2End != null) {
-        if (p1End.before(p2End)) {
-          result = min(result, ENDS_EARLIER.complement());
-        }
-        else if (p1End.equals(p2End)) {
-          result = min(result, END_TOGETHER.complement());
-        }
-        else {
-          assert p1End.after(p2End);
-          result = min(result, ENDS_LATER);
-        }
+  if (p1End.before(p2End)) {
+    result = min(result, ENDS_EARLIER.complement());
+  }
+  else if (p1End.equals(p2End)) {
+    result = min(result, END_TOGETHER.complement());
+  }
+  else {
+    assert p1End.after(p2End);
+    result = min(result, ENDS_LATER);
+  }
       }
     }
     return result;
