@@ -39,10 +39,10 @@ import org.toryt.annotations_I.MethodContract;
  * @author Jan Dockx
  * @author PeopleWare n.v.
  */
-@Copyright("2004 - $Date: 2008-09-29 18:21:16 +0200 (Mon, 29 Sep 2008) $, PeopleWare n.v.")
+@Copyright("2004 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 2727 $",
-         date     = "$Date: 2008-09-29 18:21:16 +0200 (Mon, 29 Sep 2008) $")
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 @Invars(@Expression("message == null"))
 public abstract class KeyException extends ResourceBundleException {
 
