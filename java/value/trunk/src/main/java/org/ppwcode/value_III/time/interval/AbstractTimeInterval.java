@@ -40,8 +40,8 @@ import org.ppwcode.vernacular.value_III.ImmutableValue;
          date     = "$Date: 2008-10-19 00:39:45 +0200 (Sun, 19 Oct 2008) $")
 public abstract class AbstractTimeInterval implements TimeInterval {
 
-  public final GeneralRelation compareTo(TimeInterval other) {
-    GeneralRelation result = GeneralRelation.FULL;
+  public final AllenRelation compareTo(TimeInterval other) {
+    AllenRelation result = AllenRelation.FULL;
 
 
     return result;
