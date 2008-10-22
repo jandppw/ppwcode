@@ -63,10 +63,10 @@ import org.ppwcode.vernacular.value_III.ImmutableValue;
  * <h3>Algebra</h3>
  * <p>For reasoning with periods, it is important to understand <a
  * href="http://www.isr.uci.edu/~alspaugh/foundations/allen.html">Allen's
- * Interval Algebra</a>. The {@code Period} type supports the 13 basic
+ * Interval Algebra</a>. The {@code TimeInterval} type supports the 13 basic
  * relations and 8192 general relationships.
  * <h3>Implementations</h3>
- * <p>This package offers many subtypes of {@code Period}. We believe it is,
+ * <p>This package offers many subtypes of {@code TimeInterval}. We believe it is,
  * in this case, more appropriate to introduce different subtypes for
  * different constraints on periods, instead of limiting a general period
  * implementation in the use code. This way, we can add specialized user
@@ -85,7 +85,7 @@ import org.ppwcode.vernacular.value_III.ImmutableValue;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision: 3187 $",
    date     = "$Date: 2008-10-19 00:39:45 +0200 (Sun, 19 Oct 2008) $")
-public interface Period extends ImmutableValue {
+public interface TimeInterval extends ImmutableValue {
 
   Date getStartDate();
 
@@ -93,7 +93,7 @@ public interface Period extends ImmutableValue {
 
   Duration getDuration();
 
-  GeneralRelation compareTo(Period other);
+  GeneralRelation compareTo(TimeInterval other);
 
   // equals method is EQUAL, or same things null
 

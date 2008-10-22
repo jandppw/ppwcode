@@ -55,7 +55,7 @@ import org.ppwcode.vernacular.value_III.AbstractMutableValue;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-public class StartEndPeriod extends AbstractMutableValue implements Comparable {
+public class BeginEndTimeInterval extends AbstractMutableValue implements Comparable {
 
 
   /*<construction>*/
@@ -67,7 +67,7 @@ public class StartEndPeriod extends AbstractMutableValue implements Comparable {
    * @post    getStartDate() == null;
    * @post    getEndDate() == null;
    */
-  public StartEndPeriod() {
+  public BeginEndTimeInterval() {
     // Since we demand of subtypes of MutableValue that they implement
     // {@link java.io.Serializable}, a default constructor is mandatory.
     // NOP
@@ -93,7 +93,7 @@ public class StartEndPeriod extends AbstractMutableValue implements Comparable {
 
   /**
    * @param     startDate
-   *            The start date to set for this StartEndPeriod.
+   *            The start date to set for this BeginEndTimeInterval.
    * @post      (startDate == null)
    *               ? new.getStartDate() == null
    *               : new.getStartDate().equals(startDate);
@@ -146,7 +146,7 @@ public class StartEndPeriod extends AbstractMutableValue implements Comparable {
 
   /**
    * @param     endDate
-   *            The end date to set for this StartEndPeriod.
+   *            The end date to set for this BeginEndTimeInterval.
    * @post      (endDate == null)
    *               ? new.getEndDate() == null
    *               : new.getEndDate().equals(endDate);
@@ -182,7 +182,7 @@ public class StartEndPeriod extends AbstractMutableValue implements Comparable {
   /*</property>*/
 
   /**
-   * @return  result instanceof StartEndPeriod
+   * @return  result instanceof BeginEndTimeInterval
    *          &&
    *          (getStartDate() == null)
    *              ? result.getStartDate() == null
@@ -192,8 +192,8 @@ public class StartEndPeriod extends AbstractMutableValue implements Comparable {
    *              ? result.getEndDate() == null
    *              : result.getEndDate().equals(getEndDate());
    */
-  public StartEndPeriod clone() {
-    StartEndPeriod result = new StartEndPeriod();
+  public BeginEndTimeInterval clone() {
+    BeginEndTimeInterval result = new BeginEndTimeInterval();
     try {
       result.setStartDate(getStartDate());
       result.setEndDate(getEndDate());
@@ -205,7 +205,7 @@ public class StartEndPeriod extends AbstractMutableValue implements Comparable {
   }
 
   /**
-   * @return  o instanceof StartEndPeriod &&
+   * @return  o instanceof BeginEndTimeInterval &&
    *          (getStartDate() == null)
    *             ? o.getStartDate() == null
    *             : getStartDate().equals(o.getStartDate())
@@ -215,10 +215,10 @@ public class StartEndPeriod extends AbstractMutableValue implements Comparable {
    *             : getEndDate().equals(o.getEndDate());
    */
   public boolean equals(final Object o) {
-    if (!(o instanceof StartEndPeriod)) {
+    if (!(o instanceof BeginEndTimeInterval)) {
       return false;
     }
-    StartEndPeriod other = (StartEndPeriod) o;
+    BeginEndTimeInterval other = (BeginEndTimeInterval) o;
     return
       ((getStartDate() == null)
           ? (other.getStartDate() == null)
@@ -306,17 +306,17 @@ public class StartEndPeriod extends AbstractMutableValue implements Comparable {
   /**
    * Compares this object with the specified object for order.
    *
-   * @result  getStartDate() == null && ((StartEndPeriod)o).getStartDate() == null
+   * @result  getStartDate() == null && ((BeginEndTimeInterval)o).getStartDate() == null
    *            ==> result == 0;
-   * @result  getStartDate() == null && ((StartEndPeriod)o).getStartDate() != null
+   * @result  getStartDate() == null && ((BeginEndTimeInterval)o).getStartDate() != null
    *            ==> result == -1;
-   * @result  getStartDate() != null && ((StartEndPeriod)o).getStartDate() == null
+   * @result  getStartDate() != null && ((BeginEndTimeInterval)o).getStartDate() == null
    *            ==> result == 1;
-   * @result  getStartDate() != null && ((StartEndPeriod)o).getStartDate() != null
-   *            ==> getStartDate().compareTo(((StartEndPeriod)o).getStartDate());
+   * @result  getStartDate() != null && ((BeginEndTimeInterval)o).getStartDate() != null
+   *            ==> getStartDate().compareTo(((BeginEndTimeInterval)o).getStartDate());
    */
   public int compareTo(final Object o) {
-    StartEndPeriod p = (StartEndPeriod)o; // ClassCastException ok
+    BeginEndTimeInterval p = (BeginEndTimeInterval)o; // ClassCastException ok
     if (getStartDate() == null) {
       if (p.getStartDate() == null) { // NullPointerException ok
         return 0;

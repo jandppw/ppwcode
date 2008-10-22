@@ -38,9 +38,9 @@ import org.ppwcode.vernacular.value_III.ImmutableValue;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision: 3187 $",
          date     = "$Date: 2008-10-19 00:39:45 +0200 (Sun, 19 Oct 2008) $")
-public abstract class AbstractPeriod implements Period {
+public abstract class AbstractTimeInterval implements TimeInterval {
 
-  public final GeneralRelation compareTo(Period other) {
+  public final GeneralRelation compareTo(TimeInterval other) {
     GeneralRelation result = GeneralRelation.FULL;
 
 
