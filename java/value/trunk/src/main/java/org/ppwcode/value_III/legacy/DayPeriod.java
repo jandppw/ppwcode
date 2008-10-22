@@ -19,14 +19,14 @@ package org.ppwcode.value_III.legacy;
 import java.util.Date;
 
 import org.ppwcode.value_III.time.DateHelpers;
-import org.ppwcode.value_III.time.InvalidPeriodException;
-import org.ppwcode.value_III.time.StartEndPeriod;
+import org.ppwcode.value_III.time.interval.BeginEndTimeInterval;
+import org.ppwcode.value_III.time.interval.InvalidPeriodException;
 import org.ppwcode.vernacular.value_III.AbstractMutableValue;
 
 
 /**
  * A period with start and end dates, which are only meaningful
- * to the level of the day. This is different from {@link StartEndPeriod}
+ * to the level of the day. This is different from {@link BeginEndTimeInterval}
  * in this respect, that human semantics differ between working
  * with a more accurate time description, or only on the level
  * of days. If you say &quot;we have meeting from 2 to 4&quot;,
@@ -46,8 +46,8 @@ import org.ppwcode.vernacular.value_III.AbstractMutableValue;
  * you should depend on the time part that is more accurate than
  * the day level in dates returned from instances of this class.
  *
- * This class has the same interface as {@link StartEndPeriod}, except
- * for <code>StartEndPeriod.containsLeftInclusive(Date)}</code>.
+ * This class has the same interface as {@link BeginEndTimeInterval}, except
+ * for <code>BeginEndTimeInterval.containsLeftInclusive(Date)}</code>.
  *
  * @author    Jan Dockx
  * @author    Peopleware NV
@@ -107,7 +107,7 @@ public class DayPeriod extends AbstractMutableValue implements Comparable {
 
   /**
    * @param     startDate
-   *            The start date to set for this StartEndPeriod.
+   *            The start date to set for this BeginEndTimeInterval.
    * @post      startDate == null ? new.getStartDate() == null : new.getStartDate().equals(DateHelpers.dayDate(startDate));
    * @throws    InvalidPeriodException pExc
    *            ( startDate != null
@@ -156,7 +156,7 @@ public class DayPeriod extends AbstractMutableValue implements Comparable {
 
   /**
    * @param     endDate
-   *            The end date to set for this StartEndPeriod.
+   *            The end date to set for this BeginEndTimeInterval.
    * @post      endDate == null ? new.getEndDate() == null : new.getEndDate().equals(DateHelpers.dayDate(endDate));
    * @throws    InvalidPeriodException pExc
    *            ( getStartDate() != null
@@ -281,14 +281,14 @@ public class DayPeriod extends AbstractMutableValue implements Comparable {
   /**
    * Compares this object with the specified object for order.
    *
-   * @result  getStartDate() == null && ((StartEndPeriod)o).getStartDate() == null
+   * @result  getStartDate() == null && ((BeginEndTimeInterval)o).getStartDate() == null
    *            ==> result == 0;
-   * @result  getStartDate() == null && ((StartEndPeriod)o).getStartDate() != null
+   * @result  getStartDate() == null && ((BeginEndTimeInterval)o).getStartDate() != null
    *            ==> result == -1;
-   * @result  getStartDate() != null && ((StartEndPeriod)o).getStartDate() == null
+   * @result  getStartDate() != null && ((BeginEndTimeInterval)o).getStartDate() == null
    *            ==> result == 1;
-   * @result  getStartDate() != null && ((StartEndPeriod)o).getStartDate() != null
-   *            ==> getStartDate().compareTo(((StartEndPeriod)o).getStartDate());
+   * @result  getStartDate() != null && ((BeginEndTimeInterval)o).getStartDate() != null
+   *            ==> getStartDate().compareTo(((BeginEndTimeInterval)o).getStartDate());
    */
   public int compareTo(final Object o) {
     DayPeriod p = (DayPeriod)o; // ClassCastException ok
