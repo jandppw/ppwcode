@@ -7,27 +7,27 @@
 package org.ppwcode.value_III.time.interval;
 
 import static org.junit.Assert.*;
-import static org.ppwcode.value_III.time.interval.GeneralRelation.CONCURS_WITH;
-import static org.ppwcode.value_III.time.interval.GeneralRelation.CONTAINS;
-import static org.ppwcode.value_III.time.interval.GeneralRelation.DURING;
-import static org.ppwcode.value_III.time.interval.GeneralRelation.EMPTY;
-import static org.ppwcode.value_III.time.interval.GeneralRelation.EQUALS;
-import static org.ppwcode.value_III.time.interval.GeneralRelation.FINISHED_BY;
-import static org.ppwcode.value_III.time.interval.GeneralRelation.FINISHES;
-import static org.ppwcode.value_III.time.interval.GeneralRelation.FULL;
-import static org.ppwcode.value_III.time.interval.GeneralRelation.MEETS;
-import static org.ppwcode.value_III.time.interval.GeneralRelation.MET_BY;
-import static org.ppwcode.value_III.time.interval.GeneralRelation.OVERLAPPED_BY;
-import static org.ppwcode.value_III.time.interval.GeneralRelation.OVERLAPS;
-import static org.ppwcode.value_III.time.interval.GeneralRelation.PRECEDED_BY;
-import static org.ppwcode.value_III.time.interval.GeneralRelation.PRECEDES;
-import static org.ppwcode.value_III.time.interval.GeneralRelation.STARTED_BY;
-import static org.ppwcode.value_III.time.interval.GeneralRelation.STARTS;
+import static org.ppwcode.value_III.time.interval.AllenRelation.CONCURS_WITH;
+import static org.ppwcode.value_III.time.interval.AllenRelation.CONTAINS;
+import static org.ppwcode.value_III.time.interval.AllenRelation.DURING;
+import static org.ppwcode.value_III.time.interval.AllenRelation.EMPTY;
+import static org.ppwcode.value_III.time.interval.AllenRelation.EQUALS;
+import static org.ppwcode.value_III.time.interval.AllenRelation.FINISHED_BY;
+import static org.ppwcode.value_III.time.interval.AllenRelation.FINISHES;
+import static org.ppwcode.value_III.time.interval.AllenRelation.FULL;
+import static org.ppwcode.value_III.time.interval.AllenRelation.MEETS;
+import static org.ppwcode.value_III.time.interval.AllenRelation.MET_BY;
+import static org.ppwcode.value_III.time.interval.AllenRelation.OVERLAPPED_BY;
+import static org.ppwcode.value_III.time.interval.AllenRelation.OVERLAPS;
+import static org.ppwcode.value_III.time.interval.AllenRelation.PRECEDED_BY;
+import static org.ppwcode.value_III.time.interval.AllenRelation.PRECEDES;
+import static org.ppwcode.value_III.time.interval.AllenRelation.STARTED_BY;
+import static org.ppwcode.value_III.time.interval.AllenRelation.STARTS;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.ppwcode.value_III.time.interval.GeneralRelation;
+import org.ppwcode.value_III.time.interval.AllenRelation;
 
 
 
@@ -53,7 +53,7 @@ public class GeneralRelationTest {
     show(CONCURS_WITH);
   }
 
-  private void show(GeneralRelation gr) {
+  private void show(AllenRelation gr) {
     System.out.println(Integer.toBinaryString(gr.hashCode()) + " (" + gr.hashCode() + ") (position = " + Integer.numberOfTrailingZeros(gr.hashCode()) + ")");
   }
 
@@ -120,12 +120,12 @@ public class GeneralRelationTest {
 
   @Test
   public void testConverse() {
-    for (int i = 0; i < GeneralRelation.NR_OF_RELATIONS; i++) {
-      GeneralRelation subject = GeneralRelation.VALUES[i];
-      GeneralRelation result = subject.converse();
+    for (int i = 0; i < AllenRelation.NR_OF_RELATIONS; i++) {
+      AllenRelation subject = AllenRelation.VALUES[i];
+      AllenRelation result = subject.converse();
       assertNotNull(result);
-      for (GeneralRelation br : GeneralRelation.BASIC_RELATIONS) {
-        GeneralRelation converseBr = br.converse();
+      for (AllenRelation br : AllenRelation.BASIC_RELATIONS) {
+        AllenRelation converseBr = br.converse();
         if (subject.implies(br)) {
           assertTrue(result.implies(converseBr));
         }
@@ -138,12 +138,12 @@ public class GeneralRelationTest {
 
   @Test
   public void testCompose() {
-    for (GeneralRelation br1 : GeneralRelation.BASIC_RELATIONS) {
-      for (GeneralRelation br2 : GeneralRelation.BASIC_RELATIONS) {
-        GeneralRelation result = GeneralRelation.compose(br1, br2);
+    for (AllenRelation br1 : AllenRelation.BASIC_RELATIONS) {
+      for (AllenRelation br2 : AllenRelation.BASIC_RELATIONS) {
+        AllenRelation result = AllenRelation.compose(br1, br2);
         int p1 = Integer.numberOfTrailingZeros(br1.hashCode());
         int p2 = Integer.numberOfTrailingZeros(br2.hashCode());
-        GeneralRelation expected = GeneralRelation.BASIC_COMPOSITIONS[p1][p2];
+        AllenRelation expected = AllenRelation.BASIC_COMPOSITIONS[p1][p2];
         assertEquals(expected, result);
       }
     }
