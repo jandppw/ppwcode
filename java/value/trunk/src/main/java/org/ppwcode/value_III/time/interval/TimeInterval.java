@@ -87,9 +87,9 @@ import org.ppwcode.vernacular.value_III.ImmutableValue;
    date     = "$Date: 2008-10-19 00:39:45 +0200 (Sun, 19 Oct 2008) $")
 public interface TimeInterval extends ImmutableValue {
 
-  Date getStartDate();
+  Date getBegin();
 
-  Date getEndDate();
+  Date getEnd();
 
   Duration getDuration();
 

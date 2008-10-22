@@ -36,7 +36,7 @@ import org.ppwcode.vernacular.value_III.AbstractMutableValue;
  * (right half-open interval).
  *
  * The {@link #compareTo(Object) compare method} compares the
- * {@link #getStartDate()}.
+ * {@link #getBegin()}.
  *
  * @author    nsmeets
  * @author    Peopleware NV
@@ -76,23 +76,23 @@ public class BeginEndTimeInterval extends AbstractMutableValue implements Compar
   /*</construction>*/
 
 
-  /*<property name="startDate">*/
+  /*<property name="begin">*/
   //------------------------------------------------------------------
 
   /**
    * @basic
    */
-  public Date getStartDate() {
-    if ($startDate == null) {
+  public Date getBegin() {
+    if ($begin == null) {
       return null;
     }
     else {
-      return (Date) $startDate.clone();
+      return (Date) $begin.clone();
     }
   }
 
   /**
-   * @param     startDate
+   * @param     begin
    *            The start date to set for this BeginEndTimeInterval.
    * @post      (startDate == null)
    *               ? new.getStartDate() == null
@@ -111,41 +111,43 @@ public class BeginEndTimeInterval extends AbstractMutableValue implements Compar
    *              && pExc.getMessage()
    *                    .equals("The given start date is not before the current end date.");
    */
-  public void setStartDate(final Date startDate) throws InvalidPeriodException {
-    if (startDate != null
-            && getEndDate() != null
-            && !startDate.before(getEndDate())
+  public void setBegin(final Date begin) throws InvalidPeriodException {
+    if (begin != null
+            && getEnd() != null
+            && !begin.before(getEnd())
     ) {
       InvalidPeriodException ipe = new InvalidPeriodException(
-          startDate, getEndDate(),
+          begin, getEnd(),
           "The given start date is not before the current end date."
       );
       throw ipe;
     }
-    $startDate = startDate;
+    $begin = begin;
   }
 
-  private Date $startDate;
+  private Date $begin;
 
   /*</property>*/
 
-  /*<property name="endDate">*/
+
+
+  /*<property name="end">*/
   //------------------------------------------------------------------
 
   /**
    * @basic
    */
-  public Date getEndDate() {
-    if ($endDate == null) {
+  public Date getEnd() {
+    if ($end == null) {
       return null;
     }
     else {
-      return (Date) $endDate.clone();
+      return (Date) $end.clone();
     }
   }
 
   /**
-   * @param     endDate
+   * @param     end
    *            The end date to set for this BeginEndTimeInterval.
    * @post      (endDate == null)
    *               ? new.getEndDate() == null
@@ -164,20 +166,20 @@ public class BeginEndTimeInterval extends AbstractMutableValue implements Compar
    *              && pExc.getMessage()
    *                    .equals("The current start date is not before the given end date.");
    */
-  public void setEndDate(final Date endDate) throws InvalidPeriodException {
-    if (getStartDate() != null
-          && endDate != null
-          && !getStartDate().before(endDate)
+  public void setEnd(final Date end) throws InvalidPeriodException {
+    if (getBegin() != null
+          && end != null
+          && !getBegin().before(end)
     ) {
       throw new InvalidPeriodException(
-          getStartDate(), endDate,
+          getBegin(), end,
           "The current start date is not before the given end date."
       );
     }
-    $endDate = endDate;
+    $end = end;
   }
 
-  private Date $endDate;
+  private Date $end;
 
   /*</property>*/
 
@@ -195,8 +197,8 @@ public class BeginEndTimeInterval extends AbstractMutableValue implements Compar
   public BeginEndTimeInterval clone() {
     BeginEndTimeInterval result = new BeginEndTimeInterval();
     try {
-      result.setStartDate(getStartDate());
-      result.setEndDate(getEndDate());
+      result.setBegin(getBegin());
+      result.setEnd(getEnd());
     }
     catch (InvalidPeriodException PExc) {
       assert false : "InvalidPeriodException on clone cannot happen.";
@@ -220,14 +222,14 @@ public class BeginEndTimeInterval extends AbstractMutableValue implements Compar
     }
     BeginEndTimeInterval other = (BeginEndTimeInterval) o;
     return
-      ((getStartDate() == null)
-          ? (other.getStartDate() == null)
-          : (getStartDate().equals(other.getStartDate()))
+      ((getBegin() == null)
+          ? (other.getBegin() == null)
+          : (getBegin().equals(other.getBegin()))
       )
       &&
-      ((getEndDate() == null)
-          ? (other.getEndDate() == null)
-          : (getEndDate().equals(other.getEndDate()))
+      ((getEnd() == null)
+          ? (other.getEnd() == null)
+          : (getEnd().equals(other.getEnd()))
       );
   }
 
@@ -244,14 +246,14 @@ public class BeginEndTimeInterval extends AbstractMutableValue implements Compar
    */
   public int hashCode() {
     return
-      ((getStartDate() == null)
+      ((getBegin() == null)
          ? 0
-         : getStartDate().hashCode()
+         : getBegin().hashCode()
       )
       +
-      ((getEndDate() == null)
+      ((getEnd() == null)
          ? 0
-         : getEndDate().hashCode()
+         : getEnd().hashCode()
       );
   }
 
@@ -263,8 +265,8 @@ public class BeginEndTimeInterval extends AbstractMutableValue implements Compar
    *          ((getEndDate() == null) ? "???" : getEndDate().toString());
    */
   public String toString() {
-    String start = (getStartDate() == null) ? "???" : getStartDate().toString();
-    String end = (getEndDate() == null) ? "???" : getEndDate().toString();
+    String start = (getBegin() == null) ? "???" : getBegin().toString();
+    String end = (getEnd() == null) ? "???" : getEnd().toString();
     return start + " - " + end;
   }
 
@@ -284,8 +286,8 @@ public class BeginEndTimeInterval extends AbstractMutableValue implements Compar
    * @deprecated You probably want to use {@link DayPeriod}.
    */
   public long getNbDaysInPeriod() {
-    Date startDate = getStartDate();
-    Date endDate = getEndDate();
+    Date startDate = getBegin();
+    Date endDate = getEnd();
     if (startDate != null && endDate != null) {
         long differenceInMillis =
           endDate.getTime() - startDate.getTime();
@@ -317,19 +319,19 @@ public class BeginEndTimeInterval extends AbstractMutableValue implements Compar
    */
   public int compareTo(final Object o) {
     BeginEndTimeInterval p = (BeginEndTimeInterval)o; // ClassCastException ok
-    if (getStartDate() == null) {
-      if (p.getStartDate() == null) { // NullPointerException ok
+    if (getBegin() == null) {
+      if (p.getBegin() == null) { // NullPointerException ok
         return 0;
       }
       else {
         return -1;
       }
     }
-    else if (p.getStartDate() == null) {
+    else if (p.getBegin() == null) {
       return 1;
     }
     else {
-      return getStartDate().compareTo(p.getStartDate());
+      return getBegin().compareTo(p.getBegin());
     }
   }
 
@@ -342,11 +344,11 @@ public class BeginEndTimeInterval extends AbstractMutableValue implements Compar
    * @deprecated Use new class {@link DayPeriod}.
    */
   public final boolean containsInclusive(final Date date) {
-    if ((date == null) || (getStartDate() == null) || (getEndDate() == null)) {
+    if ((date == null) || (getBegin() == null) || (getEnd() == null)) {
       return false;
     }
     else {
-      return (!date.before(getStartDate())) && (!date.after(getEndDate()));
+      return (!date.before(getBegin())) && (!date.after(getEnd()));
     }
   }
 
@@ -359,11 +361,11 @@ public class BeginEndTimeInterval extends AbstractMutableValue implements Compar
    * @deprecated User {@link #contains(Date)} instead.
    */
   public final boolean containsLeftInclusive(final Date date) {
-    if ((date == null) || (getStartDate() == null) || (getEndDate() == null)) {
+    if ((date == null) || (getBegin() == null) || (getEnd() == null)) {
       return false;
     }
     else {
-      return (!date.before(getStartDate())) && date.before(getEndDate());
+      return (!date.before(getBegin())) && date.before(getEnd());
     }
   }
 
