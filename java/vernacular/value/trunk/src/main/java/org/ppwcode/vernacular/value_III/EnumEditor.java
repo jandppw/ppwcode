@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2004 - $Date: 2008-08-31 16:12:37 +0200 (Sun, 31 Aug 2008) $ by PeopleWare n.v..
+Copyright 2004 - $Date$ by PeopleWare n.v..
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -51,10 +51,10 @@ import org.toryt.annotations_I.Throw;
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
  */
-@Copyright("2004 - $Date: 2008-08-31 16:12:37 +0200 (Sun, 31 Aug 2008) $, PeopleWare n.v.")
+@Copyright("2004 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 2511 $",
-         date     = "$Date: 2008-08-31 16:12:37 +0200 (Sun, 31 Aug 2008) $")
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 @Invars({
   @Expression("enumType != null"),
   @Expression("asText != null ?? enumType.isInstance(value)"),
