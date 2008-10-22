@@ -4,29 +4,30 @@
   TO SELECTED PARTIES.
 </license>*/
 
-package org.ppwcode.value_III.time.period;
+package org.ppwcode.value_III.time.interval;
 
 import static org.junit.Assert.*;
-import static org.ppwcode.value_III.time.period.GeneralRelation.CONCURS_WITH;
-import static org.ppwcode.value_III.time.period.GeneralRelation.CONTAINS;
-import static org.ppwcode.value_III.time.period.GeneralRelation.DURING;
-import static org.ppwcode.value_III.time.period.GeneralRelation.EMPTY;
-import static org.ppwcode.value_III.time.period.GeneralRelation.EQUALS;
-import static org.ppwcode.value_III.time.period.GeneralRelation.FINISHED_BY;
-import static org.ppwcode.value_III.time.period.GeneralRelation.FINISHES;
-import static org.ppwcode.value_III.time.period.GeneralRelation.FULL;
-import static org.ppwcode.value_III.time.period.GeneralRelation.MEETS;
-import static org.ppwcode.value_III.time.period.GeneralRelation.MET_BY;
-import static org.ppwcode.value_III.time.period.GeneralRelation.OVERLAPPED_BY;
-import static org.ppwcode.value_III.time.period.GeneralRelation.OVERLAPS;
-import static org.ppwcode.value_III.time.period.GeneralRelation.PRECEDED_BY;
-import static org.ppwcode.value_III.time.period.GeneralRelation.PRECEDES;
-import static org.ppwcode.value_III.time.period.GeneralRelation.STARTED_BY;
-import static org.ppwcode.value_III.time.period.GeneralRelation.STARTS;
+import static org.ppwcode.value_III.time.interval.GeneralRelation.CONCURS_WITH;
+import static org.ppwcode.value_III.time.interval.GeneralRelation.CONTAINS;
+import static org.ppwcode.value_III.time.interval.GeneralRelation.DURING;
+import static org.ppwcode.value_III.time.interval.GeneralRelation.EMPTY;
+import static org.ppwcode.value_III.time.interval.GeneralRelation.EQUALS;
+import static org.ppwcode.value_III.time.interval.GeneralRelation.FINISHED_BY;
+import static org.ppwcode.value_III.time.interval.GeneralRelation.FINISHES;
+import static org.ppwcode.value_III.time.interval.GeneralRelation.FULL;
+import static org.ppwcode.value_III.time.interval.GeneralRelation.MEETS;
+import static org.ppwcode.value_III.time.interval.GeneralRelation.MET_BY;
+import static org.ppwcode.value_III.time.interval.GeneralRelation.OVERLAPPED_BY;
+import static org.ppwcode.value_III.time.interval.GeneralRelation.OVERLAPS;
+import static org.ppwcode.value_III.time.interval.GeneralRelation.PRECEDED_BY;
+import static org.ppwcode.value_III.time.interval.GeneralRelation.PRECEDES;
+import static org.ppwcode.value_III.time.interval.GeneralRelation.STARTED_BY;
+import static org.ppwcode.value_III.time.interval.GeneralRelation.STARTS;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.ppwcode.value_III.time.interval.GeneralRelation;
 
 
 

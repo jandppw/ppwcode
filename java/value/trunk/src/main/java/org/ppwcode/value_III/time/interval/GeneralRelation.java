@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.value_III.time.period;
+package org.ppwcode.value_III.time.interval;
 
 import java.util.Date;
 import java.util.HashSet;
