@@ -23,6 +23,9 @@ import java.util.Set;
 
 public final class AllenRelation {
 
+  /**
+   * The total number of possible Allen relations <strong>= {@value}</strong> (i.e., <code>2<sup>13</sup></code>).
+   */
   public final static int NR_OF_RELATIONS    = 8192;
 
   // with these bit patterns, converse is reverse of 13-bit pattern
@@ -42,7 +45,9 @@ public final class AllenRelation {
   private final static int PRECEDED_BY_BIT_PATTERN    = 4096;   // 1000000000000 P
   private final static int FULL_BIT_PATTERN           = 8191;   // 1111111111111 pmoFDseSdfOMP
 
-
+  /**
+   * All possible Allen relations.
+   */
   public final static AllenRelation[] VALUES = new AllenRelation[NR_OF_RELATIONS];
   static {
     for (int i = 0; i < NR_OF_RELATIONS; i++) {
