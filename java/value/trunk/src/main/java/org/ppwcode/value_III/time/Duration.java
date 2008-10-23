@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2004 - $Date: 2008-10-19 00:39:45 +0200 (Sun, 19 Oct 2008) $ by PeopleWare n.v..
+Copyright 2004 - $Date$ by PeopleWare n.v..
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -51,10 +51,10 @@ import org.ppwcode.vernacular.value_III.AbstractImmutableValue;
  *
  * @see http://en.wikipedia.org/wiki/Allen's_Interval_Algebra Allen's Interval Algebra
  */
-@Copyright("2008 - $Date: 2008-10-19 00:39:45 +0200 (Sun, 19 Oct 2008) $, PeopleWare n.v.")
+@Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 3187 $",
-         date     = "$Date: 2008-10-19 00:39:45 +0200 (Sun, 19 Oct 2008) $")
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public class Duration extends AbstractImmutableValue {
 
   public static enum Unit {
