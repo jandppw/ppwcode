@@ -617,7 +617,7 @@ public final class AllenRelation {
    * This relation is introduced because it is the possible result of the composition of 2 basic relations.
    */
   @Invars(@Expression("BEGINS_EARLIER_AND_ENDS_EARLIER == or(PRECEDES, MEETS, OVERLAPS)"))
-  private static final AllenRelation BEGINS_EARLIER_AND_ENDS_EARLIER = or(PRECEDES, MEETS, OVERLAPS);
+  public static final AllenRelation BEGINS_EARLIER_AND_ENDS_EARLIER = or(PRECEDES, MEETS, OVERLAPS);
 
   /**
    * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
@@ -639,7 +639,7 @@ public final class AllenRelation {
    * This relation is introduced because it is the possible result of the composition of 2 basic relations.
    */
   @Invars(@Expression("ENDS_EARLIER == or(PRECEDES, MEETS, OVERLAPS, STARTS, DURING)"))
-  private static final AllenRelation ENDS_EARLIER = or(PRECEDES, MEETS, OVERLAPS, STARTS, DURING);
+  public static final AllenRelation ENDS_EARLIER = or(PRECEDES, MEETS, OVERLAPS, STARTS, DURING);
 
   /**
    * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
@@ -715,7 +715,10 @@ public final class AllenRelation {
   public static AllenRelation or(AllenRelation... gr) {
     int acc = EMPTY_BIT_PATTERN;
     for (AllenRelation allenRelation : gr) {
+//      System.out.print("  *[acc = " + acc + "; bitpattern = " + allenRelation.$bitPattern);
+//      System.out.println("; acc | bitpattern = " + (acc | allenRelation.$bitPattern));
       acc |= allenRelation.$bitPattern;
+//      System.out.println("; acc |= " + acc + "]*");
     }
     return VALUES[acc];
   }
@@ -896,8 +899,8 @@ public final class AllenRelation {
     post = @Expression("$bitpattern == bitPattern")
   )
   private AllenRelation(int bitPattern) {
-    assert pre(bitPattern > EMPTY_BIT_PATTERN);
-    assert pre(bitPattern > FULL_BIT_PATTERN);
+    assert pre(bitPattern >= EMPTY_BIT_PATTERN);
+    assert pre(bitPattern <= FULL_BIT_PATTERN);
     $bitPattern = bitPattern;
   }
 
@@ -1109,7 +1112,7 @@ public final class AllenRelation {
   )
   public final boolean impliedBy(AllenRelation gr) {
     assert preArgumentNotNull(gr, "gr");
-    return (($bitPattern & gr.$bitPattern) == gr.$bitPattern) || ($bitPattern == 0);
+    return ($bitPattern & gr.$bitPattern) == gr.$bitPattern;
   }
 
   /**
@@ -1122,7 +1125,7 @@ public final class AllenRelation {
   )
   public final boolean implies(AllenRelation gr) {
     assert preArgumentNotNull(gr, "gr");
-    return ((gr.$bitPattern & $bitPattern) == $bitPattern) || (gr.$bitPattern == 0);
+    return (gr.$bitPattern & $bitPattern) == $bitPattern;
   }
 
   /*</section>*/
