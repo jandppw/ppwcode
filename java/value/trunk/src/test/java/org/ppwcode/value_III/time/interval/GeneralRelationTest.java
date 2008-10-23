@@ -6,7 +6,10 @@
 
 package org.ppwcode.value_III.time.interval;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.ppwcode.value_III.time.interval.AllenRelation.CONCURS_WITH;
 import static org.ppwcode.value_III.time.interval.AllenRelation.CONTAINS;
 import static org.ppwcode.value_III.time.interval.AllenRelation.DURING;
@@ -24,10 +27,7 @@ import static org.ppwcode.value_III.time.interval.AllenRelation.PRECEDES;
 import static org.ppwcode.value_III.time.interval.AllenRelation.STARTED_BY;
 import static org.ppwcode.value_III.time.interval.AllenRelation.STARTS;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.ppwcode.value_III.time.interval.AllenRelation;
 
 
 
@@ -78,21 +78,21 @@ public class GeneralRelationTest {
 
   @Test
   public void testContains() {
-    assertTrue(FULL.implies(EMPTY));
-    assertTrue(FULL.implies(PRECEDES));
-    assertTrue(FULL.implies(MEETS));
-    assertTrue(FULL.implies(OVERLAPS));
-    assertTrue(FULL.implies(FINISHED_BY));
-    assertTrue(FULL.implies(CONTAINS));
-    assertTrue(FULL.implies(STARTS));
-    assertTrue(FULL.implies(EQUALS));
-    assertTrue(FULL.implies(STARTED_BY));
-    assertTrue(FULL.implies(DURING));
-    assertTrue(FULL.implies(FINISHES));
-    assertTrue(FULL.implies(OVERLAPPED_BY));
-    assertTrue(FULL.implies(MET_BY));
-    assertTrue(FULL.implies(PRECEDED_BY));
-    assertTrue(FULL.implies(FULL));
+    assertTrue(FULL.impliedBy(EMPTY));
+    assertTrue(FULL.impliedBy(PRECEDES));
+    assertTrue(FULL.impliedBy(MEETS));
+    assertTrue(FULL.impliedBy(OVERLAPS));
+    assertTrue(FULL.impliedBy(FINISHED_BY));
+    assertTrue(FULL.impliedBy(CONTAINS));
+    assertTrue(FULL.impliedBy(STARTS));
+    assertTrue(FULL.impliedBy(EQUALS));
+    assertTrue(FULL.impliedBy(STARTED_BY));
+    assertTrue(FULL.impliedBy(DURING));
+    assertTrue(FULL.impliedBy(FINISHES));
+    assertTrue(FULL.impliedBy(OVERLAPPED_BY));
+    assertTrue(FULL.impliedBy(MET_BY));
+    assertTrue(FULL.impliedBy(PRECEDED_BY));
+    assertTrue(FULL.impliedBy(FULL));
   }
 
   @Test
@@ -112,10 +112,6 @@ public class GeneralRelationTest {
     show(MET_BY.complement());
     show(PRECEDED_BY.complement());
     show(FULL.complement());
-  }
-
-  @Test
-  public void testOr() {
   }
 
   @Test
