@@ -18,7 +18,11 @@ limitations under the License.
 package org.ppwcode.value_III.time.interval;
 
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
 import static org.ppwcode.value_III.time.interval.AllenRelation.BASIC_RELATIONS;
 import static org.ppwcode.value_III.time.interval.AllenRelation.BEGINS_EARLIER;
 import static org.ppwcode.value_III.time.interval.AllenRelation.BEGINS_EARLIER_AND_ENDS_EARLIER;
@@ -42,7 +46,6 @@ import static org.ppwcode.value_III.time.interval.AllenRelation.FINISHES;
 import static org.ppwcode.value_III.time.interval.AllenRelation.FULL;
 import static org.ppwcode.value_III.time.interval.AllenRelation.MEETS;
 import static org.ppwcode.value_III.time.interval.AllenRelation.MET_BY;
-import static org.ppwcode.value_III.time.interval.AllenRelation.NR_OF_RELATIONS;
 import static org.ppwcode.value_III.time.interval.AllenRelation.OVERLAPPED_BY;
 import static org.ppwcode.value_III.time.interval.AllenRelation.OVERLAPS;
 import static org.ppwcode.value_III.time.interval.AllenRelation.PRECEDED_BY;
@@ -59,8 +62,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 
@@ -103,6 +104,7 @@ public class AllenRelationTest {
     }
   }
 
+  @SuppressWarnings("unused")
   private String fullBitPattern(AllenRelation ar) {
     int bitpattern = ar.hashCode();
     String bitString = Integer.toBinaryString(bitpattern);
