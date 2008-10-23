@@ -776,9 +776,14 @@ public final class AllenRelation {
     };
 
   /**
-   * Given 3 time intervals <code><var>I1</var></code>, <code><var>I2</var></code> and <code><var>I3</var></code>, given
-   * <code>gr1 == allenRelation(<var>I1</var>, <var>I2</var>)</code> and <code>gr2 == allenRelation(<var>I2</var>, <var>I3</var>)</code>,
-   * <code>compose(gr1, gr2) == allenRelation(<var>I1</var>, <var>I3</var>)</code>.
+   * <p>Given 3 time intervals <code><var>I1</var></code>, <code><var>I2</var></code> and <code><var>I3</var></code>,
+   *   given <code>gr1 == allenRelation(<var>I1</var>, <var>I2</var>)</code> and <code>gr2 ==
+   *   allenRelation(<var>I2</var>, <var>I3</var>)</code>, <code>compose(gr1, gr2) == allenRelation(<var>I1</var>,
+   *   <var>I3</var>)</code>.</p>
+   * <p>Although this method is not NP-complete, like inference concerning time intervals in general is,
+   *   <strong>note that this method is of <em>O(n<super>3</super>)</em>, making it significantly more CPU intensive than all
+   *   the other methods in this class</strong>, which are either of constant time (<em>O(1)</em>) or linear
+   *   (<em>O(n)</em>).</p>
    */
   @MethodContract(
     pre  = {
@@ -976,8 +981,8 @@ public final class AllenRelation {
       return Float.NaN;
     }
     count--;
-    count /= 12;
-    return count;
+    float result = count / 12.0F;
+    return result;
   }
 
   /**
@@ -1104,7 +1109,7 @@ public final class AllenRelation {
     invars = {
       @Expression("impliedBy(this)"),
       @Expression("basic ? for (AllenRelation br : BASIC_RELATIONS) : {br != this ? ! impliedBy(br)}"),
-      @Expression("for (AllenRelation ar) {impliedBy(ar) == for (AllenRelation br : BASIC_RELATIONS) : {ar.impliedBy(br) ? impliedBy(br)}")
+      @Expression("for (AllenRelation gr) {impliedBy(gr) == for (AllenRelation br : BASIC_RELATIONS) : {gr.impliedBy(br) ? impliedBy(br)}")
     }
   )
   public final boolean impliedBy(AllenRelation gr) {
