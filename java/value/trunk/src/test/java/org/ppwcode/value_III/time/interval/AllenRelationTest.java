@@ -50,6 +50,7 @@ import static org.ppwcode.value_III.time.interval.AllenRelation.PRECEDES;
 import static org.ppwcode.value_III.time.interval.AllenRelation.STARTED_BY;
 import static org.ppwcode.value_III.time.interval.AllenRelation.STARTS;
 import static org.ppwcode.value_III.time.interval.AllenRelation.VALUES;
+import static org.ppwcode.value_III.time.interval.AllenRelation.and;
 import static org.ppwcode.value_III.time.interval.AllenRelation.or;
 
 import java.util.Random;
@@ -95,10 +96,6 @@ public class AllenRelationTest {
       for (int j = i + 1; j < VALUES.length; j++) {
         assertNotSame(ar, VALUES[j]);
       }
-//      System.out.println(fullBitPattern(ar) + "  " + ar.hashCode());
-//      if (i % 25 == 0) {
-//        Thread.sleep(2000);
-//      }
     }
   }
 
@@ -160,13 +157,10 @@ public class AllenRelationTest {
     for (AllenRelation ar1 : BASIC_RELATIONS) {
       for (AllenRelation ar2 : BASIC_RELATIONS) {
         AllenRelation result = or(ar1, ar2);
-//        System.out.println("or(" + ar1 + ", " + ar2 + ") == " + result);
         for (AllenRelation br : BASIC_RELATIONS) {
-//          System.out.print(br + " ");
           assertTrue(ar1.impliedBy(br) || ar2.impliedBy(br) ? result.impliedBy(br) : true);
           assertTrue(result.impliedBy(br) ? ar1.impliedBy(br) || ar2.impliedBy(br) : true);
         }
-//        System.out.println();
       }
     }
   }
@@ -181,9 +175,7 @@ public class AllenRelationTest {
     for (AllenRelation ar1 : subjects) {
       for (AllenRelation ar2 : subjects) {
         AllenRelation result = or(ar1, ar2);
-//        System.out.println("or(" + ar1 + ", " + ar2 + ") == " + result);
         for (AllenRelation br : BASIC_RELATIONS) {
-//          System.out.print(br + " ");
           assertTrue(ar1.impliedBy(br) || ar2.impliedBy(br) ? result.impliedBy(br) : true);
           assertTrue(result.impliedBy(br) ? ar1.impliedBy(br) || ar2.impliedBy(br) : true);
         }
@@ -192,7 +184,6 @@ public class AllenRelationTest {
         if (count % 100000 == 0) {
           System.out.println("  progress: " + count + " / " + total + " done (" + percentage + "%)");
         }
-//        System.out.println();
       }
     }
   }
@@ -203,9 +194,47 @@ public class AllenRelationTest {
     assertEquals(FULL, result);
   }
 
+
   @Test
-  public void testAnd() {
-    fail("Not yet implemented");
+  public void testAnd0() {
+    for (AllenRelation ar1 : BASIC_RELATIONS) {
+      for (AllenRelation ar2 : BASIC_RELATIONS) {
+        AllenRelation result = and(ar1, ar2);
+        for (AllenRelation br : BASIC_RELATIONS) {
+          assertTrue(ar1.impliedBy(br) && ar2.impliedBy(br) ? result.impliedBy(br) : true);
+          assertTrue(result.impliedBy(br) ? ar1.impliedBy(br) && ar2.impliedBy(br) : true);
+        }
+      }
+    }
+  }
+
+  @Test
+  public void testAnd1() {
+    AllenRelation[] subjects = values();
+    int subjectsCount = subjects.length;
+    long total = subjectsCount * subjectsCount;
+    System.out.println("Starting test over " + total + " cases");
+    long count = 0;
+    for (AllenRelation ar1 : subjects) {
+      for (AllenRelation ar2 : subjects) {
+        AllenRelation result = and(ar1, ar2);
+        for (AllenRelation br : BASIC_RELATIONS) {
+          assertTrue(ar1.impliedBy(br) && ar2.impliedBy(br) ? result.impliedBy(br) : true);
+          assertTrue(result.impliedBy(br) ? ar1.impliedBy(br) && ar2.impliedBy(br) : true);
+        }
+        count++;
+        float percentage = ((float)count / total) * 100;
+        if (count % 100000 == 0) {
+          System.out.println("  progress: " + count + " / " + total + " done (" + percentage + "%)");
+        }
+      }
+    }
+  }
+
+  @Test
+  public void testAnd2() {
+    AllenRelation result = and(VALUES);
+    assertEquals(EMPTY, result);
   }
 
   @Test
