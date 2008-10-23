@@ -67,9 +67,9 @@ import org.toryt.annotations_I.MethodContract;
  *   we also often employ indeterminate relations, such as
  *   <code><var>I1</var> ({@link #PRECEDES} || {@link #MEETS}) <var>I2</var></code>. This is comparable to
  *   reasoning with <code>&le;</code>, <code>&ge;</code> and <code>!=</code> with time instances.
- *   For time intervals, given 13 basic relations, we get 8192 (== 2<super>13</super>) possible <em>general
+ *   For time intervals, given 13 basic relations, we get 8192 (== 2<sup>13</sup>) possible <em>general
  *   relations</em>. This includes the {@link #EMPTY empty relationship} for algebraic reasons, and the
- *   {@link #FULL full relationship} (comparable to <code>&lt; || == || &gt;</code> with time instances)},
+ *   {@link #FULL full relationship} (comparable to <code>&lt; || == || &gt;</code> with time instances),
  *   which expresses the maximal uncertainty about the relation between 2 time intervals.</p>
  *
  * <h3>Interval constraints</h3>
@@ -98,7 +98,7 @@ import org.toryt.annotations_I.MethodContract;
  * </pre>
  * <p>{@link #CONCURS_WITH} being {@code (oFDseSdfO)}, <code>CONCURS_WITH.complement() == (pmMP)</code>.
  *  If the actual relation results in {@code (e)}, e.g., the constraint is clearly not satisfied. If
- *  the actual relation results in {@code OMP} for example, it means that it is possible that the relation
+ *  the actual relation results in {@code (OMP)} for example, it means that it is possible that the relation
  *  is satisfied, but there is also a chance that it is not (if <code><var>I1</var></code> begins before
  *  <code><var>I2</var></code> ends).</p>
  * <p>In code then, we often want to throw an exception to interrupt an algorithm that would violate the
@@ -140,7 +140,7 @@ import org.toryt.annotations_I.MethodContract;
  * == (e).implies((oFDseSdfO))
  * == true
  * </pre>
- * <p>But in the case where the actual relation results in {@code OMP}
+ * <p>But in the case where the actual relation results in {@code (OMP)},
  *   {@code ! allenRelation(i1, i2).implies(CONCURS_WITH.complement())} evaluates to</p>
  * <pre>
  *    ! allenRelation(i1, i2).implies(CONCURS_WITH.complement())
@@ -327,7 +327,7 @@ public final class AllenRelation {
    *   (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I1.end &lt; I2.begin)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-precedes.png">
-   * <p>The conventional sort representation of this Allen relation is &quot;<code><strong>p</strong></code>&quot;.</p>
+   * <p>The conventional short representation of this Allen relation is &quot;<code><strong>p</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #PRECEDED_BY}.</p>
    */
   public final static AllenRelation PRECEDES = VALUES[PRECEDES_BIT_PATTERN];
@@ -340,7 +340,7 @@ public final class AllenRelation {
    *   (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I1.end == I2.begin)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-meets.png">
-   * <p>The conventional sort representation of this Allen relation is &quot;<code><strong>m</strong></code>&quot;.</p>
+   * <p>The conventional short representation of this Allen relation is &quot;<code><strong>m</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #MET_BY}.</p>
    */
   public final static AllenRelation MEETS = VALUES[MEETS_BIT_PATTERN];
@@ -356,7 +356,7 @@ public final class AllenRelation {
    *     (I1.begin &lt; I2.begin) &amp;&amp; (I1.end &gt; I2.begin) &amp;&amp; (I1.end &lt; I2.end)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-overlaps.png">
-   * <p>The conventional sort representation of this Allen relation is &quot;<code><strong>o</strong></code>&quot;.</p>
+   * <p>The conventional short representation of this Allen relation is &quot;<code><strong>o</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #OVERLAPPED_BY}.</p>
    */
   public final static AllenRelation OVERLAPS = VALUES[OVERLAPS_BIT_PATTERN];
@@ -371,7 +371,7 @@ public final class AllenRelation {
    *     (I1.begin &lt; I2.begin) &amp;&amp; (I1.end == I2.end)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-finishedBy.png">
-   * <p>The conventional sort representation of this Allen relation is &quot;<code><strong>F</strong></code>&quot;.</p>
+   * <p>The conventional short representation of this Allen relation is &quot;<code><strong>F</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #FINISHED_BY}.</p>
    */
   public final static AllenRelation FINISHED_BY = VALUES[FINISHED_BY_BIT_PATTERN];
@@ -386,7 +386,7 @@ public final class AllenRelation {
    *     (I1.begin &lt; I2.begin) &amp;&amp; (I1.end &gt; I2.end)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-contains.png">
-   * <p>The conventional sort representation of this Allen relation is &quot;<code><strong>D</strong></code>&quot;.</p>
+   * <p>The conventional short representation of this Allen relation is &quot;<code><strong>D</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #DURING}.</p>
    */
   public final static AllenRelation CONTAINS = VALUES[CONTAINS_BIT_PATTERN];
@@ -401,7 +401,7 @@ public final class AllenRelation {
    *     (I1.begin == I2.begin) &amp;&amp; (I1.end &lt; I2.end)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-starts.png">
-   * <p>The conventional sort representation of this Allen relation is &quot;<code><strong>s</strong></code>&quot;.</p>
+   * <p>The conventional short representation of this Allen relation is &quot;<code><strong>s</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #STARTED_BY}.</p>
    */
   public final static AllenRelation STARTS = VALUES[STARTS_BIT_PATTERN];
@@ -416,7 +416,7 @@ public final class AllenRelation {
    *     (I1.begin == I2.begin) &amp;&amp; (I1.end == I2.end)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-equals.png">
-   * <p>The conventional sort representation of this Allen relation is &quot;<code><strong>e</strong></code>&quot;.</p>
+   * <p>The conventional short representation of this Allen relation is &quot;<code><strong>e</strong></code>&quot;.</p>
    * <p>The converse of this relation is itself.
    */
   public final static AllenRelation EQUALS = VALUES[EQUALS_BIT_PATTERN];
@@ -431,7 +431,7 @@ public final class AllenRelation {
    *     (I1.begin == I2.begin) &amp;&amp; (I1.end &gt; I2.end)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-startedBy.png">
-   * <p>The conventional sort representation of this Allen relation is &quot;<code><strong>S</strong></code>&quot;.</p>
+   * <p>The conventional short representation of this Allen relation is &quot;<code><strong>S</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #STARTS}.</p>
    */
   public final static AllenRelation STARTED_BY = VALUES[STARTED_BY_BIT_PATTERN];
@@ -446,7 +446,7 @@ public final class AllenRelation {
    *     (I1.begin &gt; I2.begin) &amp;&amp; (I1.end &lt; I2.end)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-during.png">
-   * <p>The conventional sort representation of this Allen relation is &quot;<code><strong>d</strong></code>&quot;.</p>
+   * <p>The conventional short representation of this Allen relation is &quot;<code><strong>d</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #CONTAINS}.</p>
    */
   public final static AllenRelation DURING = VALUES[DURING_BIT_PATTERN];
@@ -461,7 +461,7 @@ public final class AllenRelation {
    *     (I1.begin &gt; I2.begin) &amp;&amp; (I1.end == I2.end)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-finishes.png">
-   * <p>The conventional sort representation of this Allen relation is &quot;<code><strong>f</strong></code>&quot;.</p>
+   * <p>The conventional short representation of this Allen relation is &quot;<code><strong>f</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #FINISHES}.</p>
    */
   public final static AllenRelation FINISHES = VALUES[FINISHES_BIT_PATTERN];
@@ -477,7 +477,7 @@ public final class AllenRelation {
    *     (I1.begin &gt; I2.begin) &amp;&amp; (I1.begin &lt; I2.end) &amp;&amp; (I1.end &gt; I2.end)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-overlappedBy.png">
-   * <p>The conventional sort representation of this Allen relation is &quot;<code><strong>O</strong></code>&quot;.</p>
+   * <p>The conventional short representation of this Allen relation is &quot;<code><strong>O</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #OVERLAPS}.</p>
    */
   public final static AllenRelation OVERLAPPED_BY = VALUES[OVERLAPPED_BY_BIT_PATTERN];
@@ -490,7 +490,7 @@ public final class AllenRelation {
    *   (I1.begin != null) &amp;&amp; (I2.end != null) &amp;&amp; (I1.begin == I2.end)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-metBy.png">
-   * <p>The conventional sort representation of this Allen relation is &quot;<code><strong>M</strong></code>&quot;.</p>
+   * <p>The conventional short representation of this Allen relation is &quot;<code><strong>M</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #MEETS}.</p>
    */
   public final static AllenRelation MET_BY = VALUES[MET_BY_BIT_PATTERN];
@@ -503,7 +503,7 @@ public final class AllenRelation {
    *   (I1.begin != null) &amp;&amp; (I2.end != null) &amp;&amp; (I1.begin &gt; I2.end)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-precededBy.png">
-   * <p>The conventional sort representation of this Allen relation is &quot;<code><strong>P</strong></code>&quot;.</p>
+   * <p>The conventional short representation of this Allen relation is &quot;<code><strong>P</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #PRECEDES}.</p>
    */
   public final static AllenRelation PRECEDED_BY = VALUES[PRECEDED_BY_BIT_PATTERN];
