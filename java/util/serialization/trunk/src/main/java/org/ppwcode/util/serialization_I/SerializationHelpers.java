@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2008 - $Date: 2008-10-01 23:01:20 +0200 (Wed, 01 Oct 2008) $ by PeopleWare n.v..
+Copyright 2008 - $Date$ by PeopleWare n.v..
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -38,10 +38,10 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
  */
-@Copyright("2008 - $Date: 2008-10-01 23:01:20 +0200 (Wed, 01 Oct 2008) $, PeopleWare n.v.")
+@Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 2821 $",
-         date     = "$Date: 2008-10-01 23:01:20 +0200 (Wed, 01 Oct 2008) $")
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public final class SerializationHelpers {
 
   /**
