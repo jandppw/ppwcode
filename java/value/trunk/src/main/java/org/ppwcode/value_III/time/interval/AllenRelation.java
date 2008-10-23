@@ -715,10 +715,7 @@ public final class AllenRelation {
   public static AllenRelation or(AllenRelation... gr) {
     int acc = EMPTY_BIT_PATTERN;
     for (AllenRelation allenRelation : gr) {
-//      System.out.print("  *[acc = " + acc + "; bitpattern = " + allenRelation.$bitPattern);
-//      System.out.println("; acc | bitpattern = " + (acc | allenRelation.$bitPattern));
       acc |= allenRelation.$bitPattern;
-//      System.out.println("; acc |= " + acc + "]*");
     }
     return VALUES[acc];
   }
