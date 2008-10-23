@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2008 - $Date: 2008-09-29 16:35:07 +0200 (Mon, 29 Sep 2008) $ by PeopleWare n.v.
+Copyright 2008 - $Date$ by PeopleWare n.v.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -45,10 +45,10 @@ import org.toryt.annotations_I.MethodContract;
  */
 @Entity
 @Table(name="org_ppwcode_research_jpa_crud_semanticsalpha_master")
-@Copyright("2008 - $Date: 2008-09-29 18:21:16 +0200 (Mon, 29 Sep 2008) $, PeopleWare n.v.")
+@Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 2727 $",
-         date     = "$Date: 2008-09-29 18:21:16 +0200 (Mon, 29 Sep 2008) $")
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public class Master extends AbstractIntegerIdVersionedPersistentBean {
 
 
