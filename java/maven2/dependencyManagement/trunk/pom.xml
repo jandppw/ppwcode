@@ -304,6 +304,11 @@
         <version>2.2.2</version>
         <classifier>jdk15</classifier>
       </dependency>
+      <dependency>
+        <groupId>org.apache.openjpa</groupId>
+        <artifactId>openjpa</artifactId>
+        <version>1.2.0</version>
+      </dependency>
 
     </dependencies>
   </dependencyManagement>
