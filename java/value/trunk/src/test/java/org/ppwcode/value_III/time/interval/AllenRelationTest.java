@@ -51,8 +51,12 @@ import static org.ppwcode.value_III.time.interval.AllenRelation.STARTED_BY;
 import static org.ppwcode.value_III.time.interval.AllenRelation.STARTS;
 import static org.ppwcode.value_III.time.interval.AllenRelation.VALUES;
 import static org.ppwcode.value_III.time.interval.AllenRelation.and;
+import static org.ppwcode.value_III.time.interval.AllenRelation.compose;
+import static org.ppwcode.value_III.time.interval.AllenRelation.min;
 import static org.ppwcode.value_III.time.interval.AllenRelation.or;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import org.junit.After;
@@ -64,7 +68,7 @@ public class AllenRelationTest {
 
   public final static boolean FULL_TESTS = false;
 
-  public final static int NR_OF_RANDOM_VALUES = 500;
+  public final static int NR_OF_RANDOM_VALUES = 300;
 
   public final static AllenRelation[] values() {
     if (FULL_TESTS) {
@@ -157,11 +161,15 @@ public class AllenRelationTest {
     for (AllenRelation ar1 : BASIC_RELATIONS) {
       for (AllenRelation ar2 : BASIC_RELATIONS) {
         AllenRelation result = or(ar1, ar2);
-        for (AllenRelation br : BASIC_RELATIONS) {
-          assertTrue(ar1.impliedBy(br) || ar2.impliedBy(br) ? result.impliedBy(br) : true);
-          assertTrue(result.impliedBy(br) ? ar1.impliedBy(br) || ar2.impliedBy(br) : true);
-        }
+        validateOr(ar1, ar2, result);
       }
+    }
+  }
+
+  private void validateOr(AllenRelation ar1, AllenRelation ar2, AllenRelation result) {
+    for (AllenRelation br : BASIC_RELATIONS) {
+      assertTrue(ar1.impliedBy(br) || ar2.impliedBy(br) ? result.impliedBy(br) : true);
+      assertTrue(result.impliedBy(br) ? ar1.impliedBy(br) || ar2.impliedBy(br) : true);
     }
   }
 
@@ -175,10 +183,7 @@ public class AllenRelationTest {
     for (AllenRelation ar1 : subjects) {
       for (AllenRelation ar2 : subjects) {
         AllenRelation result = or(ar1, ar2);
-        for (AllenRelation br : BASIC_RELATIONS) {
-          assertTrue(ar1.impliedBy(br) || ar2.impliedBy(br) ? result.impliedBy(br) : true);
-          assertTrue(result.impliedBy(br) ? ar1.impliedBy(br) || ar2.impliedBy(br) : true);
-        }
+        validateOr(ar1, ar2, result);
         count++;
         float percentage = ((float)count / total) * 100;
         if (count % 100000 == 0) {
@@ -194,17 +199,20 @@ public class AllenRelationTest {
     assertEquals(FULL, result);
   }
 
-
   @Test
   public void testAnd0() {
     for (AllenRelation ar1 : BASIC_RELATIONS) {
       for (AllenRelation ar2 : BASIC_RELATIONS) {
         AllenRelation result = and(ar1, ar2);
-        for (AllenRelation br : BASIC_RELATIONS) {
-          assertTrue(ar1.impliedBy(br) && ar2.impliedBy(br) ? result.impliedBy(br) : true);
-          assertTrue(result.impliedBy(br) ? ar1.impliedBy(br) && ar2.impliedBy(br) : true);
-        }
+        validateAnd(ar1, ar2, result);
       }
+    }
+  }
+
+  private void validateAnd(AllenRelation ar1, AllenRelation ar2, AllenRelation result) {
+    for (AllenRelation br : BASIC_RELATIONS) {
+      assertTrue(ar1.impliedBy(br) && ar2.impliedBy(br) ? result.impliedBy(br) : true);
+      assertTrue(result.impliedBy(br) ? ar1.impliedBy(br) && ar2.impliedBy(br) : true);
     }
   }
 
@@ -218,10 +226,7 @@ public class AllenRelationTest {
     for (AllenRelation ar1 : subjects) {
       for (AllenRelation ar2 : subjects) {
         AllenRelation result = and(ar1, ar2);
-        for (AllenRelation br : BASIC_RELATIONS) {
-          assertTrue(ar1.impliedBy(br) && ar2.impliedBy(br) ? result.impliedBy(br) : true);
-          assertTrue(result.impliedBy(br) ? ar1.impliedBy(br) && ar2.impliedBy(br) : true);
-        }
+        validateAnd(ar1, ar2, result);
         count++;
         float percentage = ((float)count / total) * 100;
         if (count % 100000 == 0) {
@@ -238,18 +243,98 @@ public class AllenRelationTest {
   }
 
   @Test
-  public void testMin() {
-    fail("Not yet implemented");
+  public void testMin0() {
+    for (AllenRelation base : BASIC_RELATIONS) {
+      for (AllenRelation term : BASIC_RELATIONS) {
+        AllenRelation result = min(base, term);
+        validateMin(base, term, result);
+      }
+    }
+  }
+
+  private void validateMin(AllenRelation base, AllenRelation term, AllenRelation result) {
+    for (AllenRelation br : BASIC_RELATIONS) {
+      assertTrue(br.implies(result) ? br.implies(base) && (! br.implies(term)) : true);
+      assertTrue(br.implies(base) && (! br.implies(term)) ? br.implies(result) : true);
+    }
   }
 
   @Test
-  public void testCompose() {
-    fail("Not yet implemented");
+  public void testMin1() {
+    AllenRelation[] subjects = values();
+    int subjectsCount = subjects.length;
+    long total = subjectsCount * subjectsCount;
+    System.out.println("Starting test over " + total + " cases");
+    long count = 0;
+    for (AllenRelation base : subjects) {
+      for (AllenRelation term : subjects) {
+        AllenRelation result = min(base, term);
+        validateMin(base, term, result);
+        count++;
+        float percentage = ((float)count / total) * 100;
+        if (count % 100000 == 0) {
+          System.out.println("  progress: " + count + " / " + total + " done (" + percentage + "%)");
+        }
+      }
+    }
   }
+
+  @Test
+  public void testMin2() {
+    AllenRelation result = min(FULL, EMPTY);
+    assertEquals(FULL, result);
+  }
+
+  @Test
+  public void testMin3() {
+    AllenRelation result = min(EMPTY, FULL);
+    assertEquals(EMPTY, result);
+  }
+
+  @Test
+  public void testCompose0() {
+    for (AllenRelation gr1 : BASIC_RELATIONS) {
+      for (AllenRelation gr2 : BASIC_RELATIONS) {
+        AllenRelation result = compose(gr1, gr2);
+        validateCompose(gr1, gr2, result);
+      }
+    }
+  }
+
+  private void validateCompose(AllenRelation gr1, AllenRelation gr2, AllenRelation result) {
+    for (AllenRelation br1 : BASIC_RELATIONS) {
+      for (AllenRelation br2 : BASIC_RELATIONS) {
+        assertTrue(br1.implies(gr1) && br2.implies(gr2) ?
+                     result.impliedBy(AllenRelation.BASIC_COMPOSITIONS[br1.basicRelationOrdinal()][br2.basicRelationOrdinal()]) :
+                     true);
+      }
+    }
+  }
+
+  @Test
+  public void testCompose1() {
+    AllenRelation[] subjects = values();
+    int subjectsCount = subjects.length;
+    long total = subjectsCount * subjectsCount;
+    System.out.println("Starting test over " + total + " cases; warning: this method is O(n3)");
+    long count = 0;
+    for (AllenRelation gr1 : subjects) {
+      for (AllenRelation gr2 : subjects) {
+        AllenRelation result = compose(gr1, gr2);
+        validateCompose(gr1, gr2, result);
+        count++;
+        float percentage = ((float)count / total) * 100;
+        if (count % 10000 == 0) {
+          System.out.println("  progress: " + count + " / " + total + " done (" + percentage + "%)");
+        }
+      }
+    }
+  }
+
 
   @Test
   public void testAllenRelation() {
-    fail("Not yet implemented");
+    // MUDO unit test missing
   }
 
   @Test
@@ -262,42 +347,154 @@ public class AllenRelationTest {
 
   @Test
   public void testBasicRelationOrdinal() {
-    fail("Not yet implemented");
+    for (AllenRelation ar : BASIC_RELATIONS) {
+      int result = ar.basicRelationOrdinal();
+      assertTrue(result >= 0);
+      assertTrue(result < 13);
+    }
   }
 
   @Test
   public void testIsBasic() {
-    fail("Not yet implemented");
+    List<AllenRelation> basicRelations = Arrays.asList(BASIC_RELATIONS);
+    for (AllenRelation ar : VALUES) {
+      boolean result = ar.isBasic();
+      assertEquals(basicRelations.contains(ar), result);
+    }
   }
 
   @Test
   public void testUncertainty() {
-    fail("Not yet implemented");
+    for (AllenRelation ar : VALUES) {
+      float result = ar.uncertainty();
+//      System.out.println(ar + "  -- " + result);
+      if (ar != EMPTY) {
+        int count = 0;
+        for (AllenRelation br : BASIC_RELATIONS) {
+          if (br.implies(ar)) {
+            count++;
+          }
+        }
+        double expected = (float)(count - 1) / 12;
+        assertEquals(expected, result, 1E-5);
+      }
+      else {
+        assertEquals(Float.NaN, result, 0);
+      }
+    }
   }
 
   @Test
-  public void testConverse() {
-    fail("Not yet implemented");
+  public void testConverse0() {
+    assertEquals(PRECEDED_BY, PRECEDES.converse());
+    assertEquals(MET_BY, MEETS.converse());
+    assertEquals(OVERLAPPED_BY, OVERLAPS.converse());
+    assertEquals(FINISHES, FINISHED_BY.converse());
+    assertEquals(DURING, CONTAINS.converse());
+    assertEquals(STARTED_BY, STARTS.converse());
+    assertEquals(EQUALS, EQUALS.converse());
+    assertEquals(STARTS, STARTED_BY.converse());
+    assertEquals(CONTAINS, DURING.converse());
+    assertEquals(FINISHED_BY, FINISHES.converse());
+    assertEquals(OVERLAPS, OVERLAPPED_BY.converse());
+    assertEquals(MEETS, MET_BY.converse());
+    assertEquals(PRECEDES, PRECEDED_BY.converse());
   }
 
   @Test
-  public void testComplement() {
-    fail("Not yet implemented");
+  public void testConverse1() {
+    for (AllenRelation ar : VALUES) {
+      AllenRelation resultA = ar.converse();
+      for (AllenRelation br : BASIC_RELATIONS) {
+        assertTrue(ar.impliedBy(br) ? ar.converse().impliedBy(br.converse()) : true);
+        assertTrue(ar.converse().impliedBy(br.converse()) ? ar.impliedBy(br) : true);
+      }
+      AllenRelation resultB = resultA.converse();
+      assertEquals(ar, resultB);
+    }
+  }
+
+  @Test
+  public void testComplement1() {
+    for (AllenRelation ar : VALUES) {
+      AllenRelation resultA = ar.complement();
+      for (AllenRelation br : BASIC_RELATIONS) {
+        assertTrue(ar.impliedBy(br) ? ! resultA.impliedBy(br) : true);
+        assertTrue(! resultA.impliedBy(br) ? ar.impliedBy(br) : true);
+        assertTrue(! ar.impliedBy(br) ? resultA.impliedBy(br) : true);
+        assertTrue(resultA.impliedBy(br) ? ! ar.impliedBy(br) : true);
+      }
+      AllenRelation resultB = resultA.complement();
+      assertEquals(ar, resultB);
+    }
+  }
+
+  @Test
+  public void testComplement2() {
+    assertEquals(EMPTY, FULL.complement());
+    assertEquals(FULL, EMPTY.complement());
   }
 
   @Test
   public void testImpliedBy() {
-    fail("Not yet implemented");
+    AllenRelation[] subjects = values();
+    int subjectsCount = subjects.length;
+    long total = subjectsCount * subjectsCount;
+    System.out.println("Starting test over " + total + " cases");
+    long count = 0;
+    for (AllenRelation subject : values()) {
+      assertEquals(true, subject.impliedBy(subject));
+      if (subject.isBasic()) {
+        for (AllenRelation br : BASIC_RELATIONS) {
+          assertTrue(br != subject ? ! subject.impliedBy(br) : true);
+        }
+      }
+      for (AllenRelation gr : values()) {
+        boolean result = subject.impliedBy(gr);
+        boolean expected = true;
+        for (AllenRelation br : BASIC_RELATIONS) {
+          if (gr.impliedBy(br) && ! subject.impliedBy(br)) {
+            expected = false;
+            break;
+          }
+        }
+        assertEquals(expected, result);
+        count++;
+        float percentage = ((float)count / total) * 100;
+        if (count % 100000 == 0) {
+          System.out.println("  progress: " + count + " / " + total + " done (" + percentage + "%)");
+        }
+      }
+    }
   }
 
   @Test
   public void testImplies() {
-    fail("Not yet implemented");
+    AllenRelation[] subjects = values();
+    int subjectsCount = subjects.length;
+    long total = subjectsCount * subjectsCount;
+    System.out.println("Starting test over " + total + " cases");
+    long count = 0;
+    for (AllenRelation subject : values()) {
+      for (AllenRelation gr : values()) {
+        boolean result = subject.implies(gr);
+        assertEquals(gr.impliedBy(subject), result);
+        count++;
+        float percentage = ((float)count / total) * 100;
+        if (count % 100000 == 0) {
+          System.out.println("  progress: " + count + " / " + total + " done (" + percentage + "%)");
+        }
+      }
+    }
   }
 
   @Test
   public void testToString() {
-    fail("Not yet implemented");
+    for (AllenRelation ar : VALUES) {
+      String result = ar.toString();
+      assertNotNull(result);
+//      System.out.println(result);
+    }
   }
 
 }
