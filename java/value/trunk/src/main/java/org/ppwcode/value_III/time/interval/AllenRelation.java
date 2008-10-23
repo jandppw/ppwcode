@@ -31,7 +31,7 @@ import org.toryt.annotations_I.MethodContract;
 /**
  * <p>Support for reasoning about relations between time intervals and constraints on time intervals.
  *   <strong>We highly advise to use this class when working with relations between time intervals.
- *   Reasoning about relations between time intervals is treacherously difficult.</p>
+ *   Reasoning about relations between time intervals is treacherously difficult.</strong></p>
  * <p>When working with time intervals, we often want to express constraints (invariants) that limit
  *   acceptable intervals. Expressing this correctly proves extremely difficult in practice. Falling
  *   back to working with isolated begin and end dates, and reasoning about their relations, in
@@ -92,7 +92,7 @@ import org.toryt.annotations_I.MethodContract;
  * </pre>
  * <p>This is often the form of an invariant. Note that this can fail, on the one hand because the actual
  *   relation is not acceptable, but also because <em>we cannot be 100% sure that the actual relationship
- *   satisfies the condition. In our example, we would have:</p>
+ *   satisfies the condition</em>. In our example, we would have:</p>
  * <pre>
  *   allenRelation(<var>I1</var>, <var>I2</var>).implies(CONCURS_WITH.complement())
  * </pre>
@@ -320,198 +320,198 @@ public final class AllenRelation {
   public final static AllenRelation EMPTY = VALUES[EMPTY_BIT_PATTERN];
 
   /**
-   * A <strong>basic</strong> Allen relation that says that an interval
+   * <p>A <strong>basic</strong> Allen relation that says that an interval
    * <var>I1</var> <dfn>precedes</dfn> an interval <var>I2</var>, i.e., the
-   * end of <var>I1</var> is before the begin of <var>I2</var>:
+   * end of <var>I1</var> is before the begin of <var>I2</var>:</p>
    * <pre>
    *   (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I1.end &lt; I2.begin)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-precedes.png">
-   * The conventional sort representation of this Allen relation is &quot;<code><strong>p</strong></code>&quot;.
-   * The converse of this relation is {@link #PRECEDED_BY}.
+   * <p>The conventional sort representation of this Allen relation is &quot;<code><strong>p</strong></code>&quot;.</p>
+   * <p>The converse of this relation is {@link #PRECEDED_BY}.</p>
    */
   public final static AllenRelation PRECEDES = VALUES[PRECEDES_BIT_PATTERN];
 
   /**
-   * A <strong>basic</strong> Allen relation that says that an interval
+   * <p>A <strong>basic</strong> Allen relation that says that an interval
    * <var>I1</var> <dfn>meets</dfn> an interval <var>I2</var>, i.e., the end
-   * of <var>I1</var> is the begin of <var>I2</var>:
+   * of <var>I1</var> is the begin of <var>I2</var>:</p>
    * <pre>
    *   (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I1.end == I2.begin)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-meets.png">
-   * The conventional sort representation of this Allen relation is &quot;<code><strong>m</strong></code>&quot;.
-   * The converse of this relation is {@link #MET_BY}.
+   * <p>The conventional sort representation of this Allen relation is &quot;<code><strong>m</strong></code>&quot;.</p>
+   * <p>The converse of this relation is {@link #MET_BY}.</p>
    */
   public final static AllenRelation MEETS = VALUES[MEETS_BIT_PATTERN];
 
   /**
-   * A <strong>basic</strong> Allen relation that says that an interval
+   * <p>A <strong>basic</strong> Allen relation that says that an interval
    * <var>I1</var> <dfn>overlaps</dfn> an interval <var>I2</var>, i.e., the
    * begin of <var>I1</var> is earlier than the begin of <var>I2</var>, and
    * the end of <var>I1</var> is later than the begin of <var>I2</var> and
-   * earlier than the end of <var>I2</var>:
+   * earlier than the end of <var>I2</var>:</p>
    * <pre>
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin &lt; I2.begin) &amp;&amp; (I1.end &gt; I2.begin) &amp;&amp; (I1.end &lt; I2.end)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-overlaps.png">
-   * The conventional sort representation of this Allen relation is &quot;<code><strong>o</strong></code>&quot;.
-   * The converse of this relation is {@link #OVERLAPPED_BY}.
+   * <p>The conventional sort representation of this Allen relation is &quot;<code><strong>o</strong></code>&quot;.</p>
+   * <p>The converse of this relation is {@link #OVERLAPPED_BY}.</p>
    */
   public final static AllenRelation OVERLAPS = VALUES[OVERLAPS_BIT_PATTERN];
 
   /**
-   * A <strong>basic</strong> Allen relation that says that an interval
+   * <p>A <strong>basic</strong> Allen relation that says that an interval
    * <var>I1</var> <dfn>is finished by</dfn> an interval <var>I2</var>, i.e.,
    * the begin of <var>I1</var> is earlier than the begin of <var>I2</var>,
-   * and the end of <var>I1</var> is the end of <var>I2</var>:
+   * and the end of <var>I1</var> is the end of <var>I2</var>:</p>
    * <pre>
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin &lt; I2.begin) &amp;&amp; (I1.end == I2.end)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-finishedBy.png">
-   * The conventional sort representation of this Allen relation is &quot;<code><strong>F</strong></code>&quot;.
-   * The converse of this relation is {@link #FINISHED_BY}.
+   * <p>The conventional sort representation of this Allen relation is &quot;<code><strong>F</strong></code>&quot;.</p>
+   * <p>The converse of this relation is {@link #FINISHED_BY}.</p>
    */
   public final static AllenRelation FINISHED_BY = VALUES[FINISHED_BY_BIT_PATTERN];
 
   /**
-   * A <strong>basic</strong> Allen relation that says that an interval
+   * <p>A <strong>basic</strong> Allen relation that says that an interval
    * <var>I1</var> <dfn>contains</dfn> an interval <var>I2</var>, i.e., the
    * begin of <var>I1</var> is earlier than the begin of <var>I2</var>, and
-   * the end of <var>I1</var> is later than the end of <var>I2</var>:
+   * the end of <var>I1</var> is later than the end of <var>I2</var>:</p>
    * <pre>
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin &lt; I2.begin) &amp;&amp; (I1.end &gt; I2.end)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-contains.png">
-   * The conventional sort representation of this Allen relation is &quot;<code><strong>D</strong></code>&quot;.
-   * The converse of this relation is {@link #DURING}.
+   * <p>The conventional sort representation of this Allen relation is &quot;<code><strong>D</strong></code>&quot;.</p>
+   * <p>The converse of this relation is {@link #DURING}.</p>
    */
   public final static AllenRelation CONTAINS = VALUES[CONTAINS_BIT_PATTERN];
 
   /**
-   * A <strong>basic</strong> Allen relation that says that an interval
+   * <p>A <strong>basic</strong> Allen relation that says that an interval
    * <var>I1</var> <dfn>starts</dfn> an interval <var>I2</var>, i.e., the
    * begin of <var>I1</var> is the begin of <var>I2</var>, and the end of
-   * <var>I1</var> is earlier than the end of <var>I2</var>:
+   * <var>I1</var> is earlier than the end of <var>I2</var>:</p>
    * <pre>
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin == I2.begin) &amp;&amp; (I1.end &lt; I2.end)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-starts.png">
-   * The conventional sort representation of this Allen relation is &quot;<code><strong>s</strong></code>&quot;.
-   * The converse of this relation is {@link #STARTED_BY}.
+   * <p>The conventional sort representation of this Allen relation is &quot;<code><strong>s</strong></code>&quot;.</p>
+   * <p>The converse of this relation is {@link #STARTED_BY}.</p>
    */
   public final static AllenRelation STARTS = VALUES[STARTS_BIT_PATTERN];
 
   /**
-   * A <strong>basic</strong> Allen relation that says that an interval
+   * <p>A <strong>basic</strong> Allen relation that says that an interval
    * <var>I1</var> <dfn>is equal to</dfn> an interval <var>I2</var>, i.e., the
    * begin of <var>I1</var> is the begin of <var>I2</var>, and the end of
-   * <var>I1</var> is the end of <var>I2</var>:
+   * <var>I1</var> is the end of <var>I2</var>:</p>
    * <pre>
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin == I2.begin) &amp;&amp; (I1.end == I2.end)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-equals.png">
-   * The conventional sort representation of this Allen relation is &quot;<code><strong>e</strong></code>&quot;.
-   * The converse of this relation is itself.
+   * <p>The conventional sort representation of this Allen relation is &quot;<code><strong>e</strong></code>&quot;.</p>
+   * <p>The converse of this relation is itself.
    */
   public final static AllenRelation EQUALS = VALUES[EQUALS_BIT_PATTERN];
 
   /**
-   * A <strong>basic</strong> Allen relation that says that an interval
+   * <p>A <strong>basic</strong> Allen relation that says that an interval
    * <var>I1</var> <dfn>is started by</dfn> an interval <var>I2</var>, i.e.,
    * the begin of <var>I1</var> is the begin of <var>I2</var>, and the end of
-   * <var>I1</var> is later than the end of <var>I2</var>:
+   * <var>I1</var> is later than the end of <var>I2</var>:</p>
    * <pre>
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin == I2.begin) &amp;&amp; (I1.end &gt; I2.end)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-startedBy.png">
-   * The conventional sort representation of this Allen relation is &quot;<code><strong>S</strong></code>&quot;.
-   * The converse of this relation is {@link #STARTS}.
+   * <p>The conventional sort representation of this Allen relation is &quot;<code><strong>S</strong></code>&quot;.</p>
+   * <p>The converse of this relation is {@link #STARTS}.</p>
    */
   public final static AllenRelation STARTED_BY = VALUES[STARTED_BY_BIT_PATTERN];
 
   /**
-   * A <strong>basic</strong> Allen relation that says that an interval
+   * <p>A <strong>basic</strong> Allen relation that says that an interval
    * <var>I1</var> <dfn>is during</dfn> an interval <var>I2</var>, i.e., the
    * begin of <var>I1</var> is later than the begin of <var>I2</var>, and the
-   * end of <var>I1</var> is earlier than the end of <var>I2</var>:
+   * end of <var>I1</var> is earlier than the end of <var>I2</var>:</p>
    * <pre>
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin &gt; I2.begin) &amp;&amp; (I1.end &lt; I2.end)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-during.png">
-   * The conventional sort representation of this Allen relation is &quot;<code><strong>d</strong></code>&quot;.
-   * The converse of this relation is {@link #CONTAINS}.
+   * <p>The conventional sort representation of this Allen relation is &quot;<code><strong>d</strong></code>&quot;.</p>
+   * <p>The converse of this relation is {@link #CONTAINS}.</p>
    */
   public final static AllenRelation DURING = VALUES[DURING_BIT_PATTERN];
 
   /**
-   * A <strong>basic</strong> Allen relation that says that an interval
+   * <p>A <strong>basic</strong> Allen relation that says that an interval
    * <var>I1</var> <dfn>finishes</dfn> an interval <var>I2</var>, i.e., the
    * begin of <var>I1</var> is later than the begin of <var>I2</var>, and the
-   * end of <var>I1</var> is the end of <var>I2</var>:
+   * end of <var>I1</var> is the end of <var>I2</var>:</p>
    * <pre>
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin &gt; I2.begin) &amp;&amp; (I1.end == I2.end)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-finishes.png">
-   * The conventional sort representation of this Allen relation is &quot;<code><strong>f</strong></code>&quot;.
-   * The converse of this relation is {@link #FINISHES}.
+   * <p>The conventional sort representation of this Allen relation is &quot;<code><strong>f</strong></code>&quot;.</p>
+   * <p>The converse of this relation is {@link #FINISHES}.</p>
    */
   public final static AllenRelation FINISHES = VALUES[FINISHES_BIT_PATTERN];
 
   /**
-   * A <strong>basic</strong> Allen relation that says that an interval
+   * <p>A <strong>basic</strong> Allen relation that says that an interval
    * <var>I1</var> <dfn>is overlapped by</dfn> an interval <var>I2</var>,
    * i.e., the begin of <var>I1</var> is later than the begin of <var>I2</var>
    * and earlier than the end of <var>I2</var>, and the end of <var>I1</var>
-   * is later than the end of <var>I2</var>:
+   * is later than the end of <var>I2</var>:</p>
    * <pre>
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin &gt; I2.begin) &amp;&amp; (I1.begin &lt; I2.end) &amp;&amp; (I1.end &gt; I2.end)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-overlappedBy.png">
-   * The conventional sort representation of this Allen relation is &quot;<code><strong>O</strong></code>&quot;.
-   * The converse of this relation is {@link #OVERLAPS}.
+   * <p>The conventional sort representation of this Allen relation is &quot;<code><strong>O</strong></code>&quot;.</p>
+   * <p>The converse of this relation is {@link #OVERLAPS}.</p>
    */
   public final static AllenRelation OVERLAPPED_BY = VALUES[OVERLAPPED_BY_BIT_PATTERN];
 
   /**
-   * A <strong>basic</strong> Allen relation that says that an interval
+   * <p>A <strong>basic</strong> Allen relation that says that an interval
    * <var>I1</var> <dfn>is met by</dfn> an interval <var>I2</var>, i.e., the
-   * begin of <var>I1</var> is the end of <var>I2</var>:
+   * begin of <var>I1</var> is the end of <var>I2</var>:</p>
    * <pre>
    *   (I1.begin != null) &amp;&amp; (I2.end != null) &amp;&amp; (I1.begin == I2.end)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-metBy.png">
-   * The conventional sort representation of this Allen relation is &quot;<code><strong>M</strong></code>&quot;.
-   * The converse of this relation is {@link #MEETS}.
+   * <p>The conventional sort representation of this Allen relation is &quot;<code><strong>M</strong></code>&quot;.</p>
+   * <p>The converse of this relation is {@link #MEETS}.</p>
    */
   public final static AllenRelation MET_BY = VALUES[MET_BY_BIT_PATTERN];
 
   /**
-   * A <strong>basic</strong> Allen relation that says that an interval
+   * <p>A <strong>basic</strong> Allen relation that says that an interval
    * <var>I1</var> <dfn>is preceded by</dfn> an interval <var>I2</var>, i.e.,
-   * the begin of <var>I1</var> is later than the end of <var>I2</var>:
+   * the begin of <var>I1</var> is later than the end of <var>I2</var>:</p>
    * <pre>
    *   (I1.begin != null) &amp;&amp; (I2.end != null) &amp;&amp; (I1.begin &gt; I2.end)
    * </pre>
    * <img style="text-align: center;" src="doc-files/AllenRelation-precededBy.png">
-   * The conventional sort representation of this Allen relation is &quot;<code><strong>P</strong></code>&quot;.
-   * The converse of this relation is {@link #PRECEDES}.
+   * <p>The conventional sort representation of this Allen relation is &quot;<code><strong>P</strong></code>&quot;.</p>
+   * <p>The converse of this relation is {@link #PRECEDES}.</p>
    */
   public final static AllenRelation PRECEDED_BY = VALUES[PRECEDED_BY_BIT_PATTERN];
 
   /**
    * The full Allen relation, which expresses that nothing definite can be
    * said about the relationship between 2 periods.
-   * The converse of this relation is the relation itself.
+   * <p>The converse of this relation is the relation itself.
    */
   @Invars(@Expression("FULL == or(PRECEDES, MEETS, OVERLAPS, FINISHED_BY, CONTAINS, STARTS, EQUALS, STARTED_BY, DURING, FINISHES, OVERLAPPED_BY, MET_BY, PRECEDED_BY"))
   public final static AllenRelation FULL = VALUES[FULL_BIT_PATTERN];
