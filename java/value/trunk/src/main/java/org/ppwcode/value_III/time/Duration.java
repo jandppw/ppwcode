@@ -36,7 +36,7 @@ import org.ppwcode.vernacular.value_III.AbstractImmutableValue;
  * (right half-open interval).
  *
  * The {@link #compareTo(Object) compare method} compares the
- * {@link #getStartDate()}.
+ * {@link #getBegin()}.
  *
  * @author    nsmeets
  * @author    Peopleware NV

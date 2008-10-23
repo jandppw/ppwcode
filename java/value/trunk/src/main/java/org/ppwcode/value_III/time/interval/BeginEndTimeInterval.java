@@ -25,6 +25,7 @@ import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.value_III.legacy.DayPeriod;
+import org.ppwcode.value_III.time.Duration;
 import org.ppwcode.vernacular.value_III.AbstractMutableValue;
 
 
@@ -55,11 +56,24 @@ import org.ppwcode.vernacular.value_III.AbstractMutableValue;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-public class BeginEndTimeInterval extends AbstractMutableValue implements Comparable {
+public class BeginEndTimeInterval extends AbstractMutableValue implements TimeInterval {
+
 
 
   /*<construction>*/
   //------------------------------------------------------------------
+
+  /**
+   * Create a new empty period object.
+   *
+   * @post    getStartDate() == null;
+   * @post    getEndDate() == null;
+   */
+  public BeginEndTimeInterval(Date begin, Date end) {
+    // Since we demand of subtypes of MutableValue that they implement
+    // {@link java.io.Serializable}, a default constructor is mandatory.
+    // NOP
+  }
 
   /**
    * Create a new empty period object.
@@ -379,6 +393,16 @@ public class BeginEndTimeInterval extends AbstractMutableValue implements Compar
   public boolean contains(final Date date) {
     return containsInclusive(date);
 
+  }
+
+  public AllenRelation compareTo(TimeInterval other) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  public Duration getDuration() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }
