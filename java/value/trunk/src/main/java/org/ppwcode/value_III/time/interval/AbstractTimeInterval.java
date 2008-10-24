@@ -18,18 +18,17 @@ package org.ppwcode.value_III.time.interval;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-
-import java.util.Arrays;
-import java.util.Date;
+import static org.ppwcode.value_III.time.interval.AllenRelation.EQUALS;
+import static org.ppwcode.value_III.time.interval.AllenRelation.allenRelation;
 
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.value_III.time.Duration;
-import org.ppwcode.vernacular.value_III.ImmutableValue;
+import org.ppwcode.vernacular.value_III.AbstractImmutableValue;
 
 
 /**
+ * General supporting code for time interval implementations.
  *
  * @author Jan Dockx
  * @author Peopleware n.v.
@@ -38,13 +37,30 @@ import org.ppwcode.vernacular.value_III.ImmutableValue;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-public abstract class AbstractTimeInterval implements TimeInterval {
+public abstract class AbstractTimeInterval extends AbstractImmutableValue implements TimeInterval {
 
-  public final AllenRelation compareTo(TimeInterval other) {
-    AllenRelation result = AllenRelation.FULL;
+  @Override
+  public final boolean equals(Object other) {
+    return super.equals(other) && allenRelation(this, (TimeInterval)other) == EQUALS;
+  }
 
-
+  @Override
+  public final int hashCode() {
+    int result = 0;
+    if (getBegin() != null) {
+      result += getBegin().hashCode();
+    }
+    if (getEnd() != null) {
+      result += getEnd().hashCode();
+    }
+    /* since we need to be consistent with equals, we can only take into account properties
+       that are used by allenRelation, i.e., begin and end */
     return result;
+  }
+
+  @Override
+  public final String toString() {
+    return "[" + getBegin() + ", " + getEnd() + "]\u0394(" + getDuration() + ")"; // \u0394 is Greek capital delta
   }
 
 }
