@@ -36,10 +36,10 @@ import org.toryt.annotations_I.MethodContract;
  * @author Jan Dockx
  * @author PeopleWare n.v.
  */
-@Copyright("2008 - $Date: 2008-10-24 14:26:00 +0200 (Fri, 24 Oct 2008) $, PeopleWare n.v.")
+@Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 3282 $",
-         date     = "$Date: 2008-10-24 14:26:00 +0200 (Fri, 24 Oct 2008) $")
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public class IllegalIntervalException extends SemanticValueException {
 
 
