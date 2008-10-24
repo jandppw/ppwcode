@@ -16,8 +16,8 @@ limitations under the License.
 
 package org.ppwcode.vernacular.value_III;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.ppwcode.util.test.contract.Contract;
 
@@ -43,7 +43,7 @@ public class _Contract_Value extends Contract<Value> {
   public void assertEqualsObject(Value v, Object other, boolean result) {
     if (result) {
       assertNotNull(other);
-      assertEquals(v.getClass(), other.getClass());
+      assertTrue(v.getClass().isInstance(other));
     }
   }
 
