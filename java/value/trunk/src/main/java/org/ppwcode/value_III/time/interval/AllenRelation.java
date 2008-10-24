@@ -46,20 +46,74 @@ import org.toryt.annotations_I.MethodContract;
  *
  * <h3>Quick overview</h3>
  * <p>Allen found that there are 13 <em>basic relations</em> possible between 2 definite time intervals:</p>
+ * <table>
+ *   <tr>
+ *     <td><code><var>I1</var> {@link #PRECEDES} <var>I2</var></code> </td>
+ *     <td><img src="doc-files/AllenRelation-precedes.png" width="148" /></td>
+ *     <td><b>p</b></td>
+ *   </tr>
+ *   <tr>
+ *     <td><code><var>I1</var> {@link #MEETS} <var>I2</var></code></td>
+ *     <td><img src="doc-files/AllenRelation-meets.png" width="148" /></td>
+ *     <td><b>m</b></td>
+ *   </tr>
+ *   <tr>
+ *     <td><code><var>I1</var> {@link #OVERLAPS} <var>I2</var></code></td>
+ *     <td><img src="doc-files/AllenRelation-overlaps.png" width="148" /></td>
+ *     <td><b>o</b></td>
+ *   </tr>
+ *   <tr>
+ *     <td><code><var>I1</var> {@link #FINISHED_BY} <var>I2</var></code></td>
+ *     <td><img src="doc-files/AllenRelation-finishedBy.png" width="148" /></td>
+ *     <td><b>F</b></td>
+ *   </tr>
+ *   <tr>
+ *     <td><code><var>I1</var> {@link #CONTAINS} <var>I2</var></code></td>
+ *     <td><img src="doc-files/AllenRelation-contains.png" width="148" /></td>
+ *     <td><b>D</b></td>
+ *   </tr>
+ *   <tr>
+ *     <td><code><var>I1</var> {@link #STARTS} <var>I2</var></code></td>
+ *     <td><img src="doc-files/AllenRelation-starts.png" width="148" /></td>
+ *     <td><b>s</b></td>
+ *   </tr>
+ *   <tr>
+ *     <td><code><var>I1</var> {@link #EQUALS} <var>I2</var></code></td>
+ *     <td><img src="doc-files/AllenRelation-equals.png" width="148" /></td>
+ *     <td><b>e</b></td>
+ *   </tr>
+ *   <tr>
+ *     <td><code><var>I1</var> {@link #STARTED_BY} <var>I2</var></code></td>
+ *     <td><img src="doc-files/AllenRelation-startedBy.png" width="148" /></td>
+ *     <td><b>S</b></td>
+ *   </tr>
+ *   <tr>
+ *     <td><code><var>I1</var> {@link #DURING} <var>I2</var></code></td>
+ *     <td><img src="doc-files/AllenRelation-during.png" width="148" /></td>
+ *     <td><b>d</b></td>
+ *   </tr>
+ *   <tr>
+ *     <td><code><var>I1</var> {@link #FINISHES} <var>I2</var></code></td>
+ *     <td><img src="doc-files/AllenRelation-finishes.png" width="148" /></td>
+ *     <td><b>f</b></td>
+ *   </tr>
+ *   <tr>
+ *     <td><code><var>I1</var> {@link #OVERLAPPED_BY} <var>I2</var></code></td>
+ *     <td><img src="doc-files/AllenRelation-overlappedBy.png" width="148" /></td>
+ *     <td><b>O</b></td>
+ *   </tr>
+ *   <tr>
+ *     <td><code><var>I1</var> {@link #MET_BY} <var>I2</var></code></td>
+ *     <td><img src="doc-files/AllenRelation-metBy.png" width="148" /></td>
+ *     <td><b>M</b></td>
+ *   </tr>
+ *   <tr>
+ *     <td><code><var>I1</var> {@link #PRECEDED_BY} <var>I2</var></code></td>
+ *     <td><img src="doc-files/AllenRelation-precededBy.png" width="148" /></td>
+ *     <td><b>P</b></td>
+ *   </tr>
+ * </table>
  * <ul>
- *   <li><code><var>I1</var> {@link #PRECEDES} <var>I2</var></code>,</li>
- *   <li><code><var>I1</var> {@link #MEETS} <var>I2</var></code>,</li>
- *   <li><code><var>I1</var> {@link #OVERLAPS} <var>I2</var></code>,</li>
- *   <li><code><var>I1</var> {@link #FINISHED_BY} <var>I2</var></code>,</li>
- *   <li><code><var>I1</var> {@link #CONTAINS} <var>I2</var></code>,</li>
- *   <li><code><var>I1</var> {@link #STARTS} <var>I2</var></code>,</li>
- *   <li><code><var>I1</var> {@link #EQUALS} <var>I2</var></code>,</li>
- *   <li><code><var>I1</var> {@link #STARTED_BY} <var>I2</var></code>,</li>
- *   <li><code><var>I1</var> {@link #DURING} <var>I2</var></code>,</li>
- *   <li><code><var>I1</var> {@link #FINISHES} <var>I2</var></code>,</li>
- *   <li><code><var>I1</var> {@link #OVERLAPPED_BY} <var>I2</var></code>,</li>
- *   <li><code><var>I1</var> {@link #MET_BY} <var>I2</var></code>, or</li>
- *   <li><code><var>I1</var> {@link #PRECEDED_BY} <var>I2</var></code>.</li>
  * </ul>
  * <p>These basic relations can be compared to <code>&lt;</code>, <code>==</code> and <code>></code>
  *   with time instances.</p>
@@ -160,7 +214,7 @@ import org.toryt.annotations_I.MethodContract;
  *   exception if] <em>it is guaranteed that <code><var>i1</var></code> and <code><var>i2</var></code> do
  *   concur</em>. <strong>These 2 phrases are not equivalent.</strong></p>
  *
- * <h3>Reasoning with unknown but constrained begin and end dates</h3>
+ * <h3 id="constrainedDates">Reasoning with unknown but constrained begin and end dates</h3>
  * <p>In time intervals, the begin or end end can be {@code null}. The semantics of this is in general that
  *  the begin date, respectively the end date, is unknown. Comparing such an interval with another interval
  *  results in a relatively broad Allen relation, expression an amount of uncertainty.</p>
