@@ -19,7 +19,6 @@ package org.ppwcode.value_III.time.interval;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
-import java.util.Arrays;
 import java.util.Date;
 
 import org.ppwcode.metainfo_I.Copyright;
@@ -27,74 +26,87 @@ import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.value_III.time.Duration;
 import org.ppwcode.vernacular.value_III.ImmutableValue;
+import org.toryt.annotations_I.Basic;
+import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.Invars;
+import org.toryt.annotations_I.MethodContract;
 
 
 /**
- * <p>A period is a time interval between 2 points in time.
- * <p>Time in general, and periods in particular, are treacherously difficult.
- * For periods, we impose a few choices that, in our experience, are good
- * choices.
+ * <p>A time interval is a duration between 2 points in time. <strong>Time in general, and intervals in particular,
+ *   are treacherously difficult to reason a about. Beware.</strong> Experience shows that falling back to
+ *   the begin and end dates as separated dates and reasoning about them does not solve the complexity, and results
+ *   in even more difficult reasonings and is even more error prone.</p>
+ * <p><em>We strongly suggest that you use {@link AllenRelation} for reasoning about time intervals.</em></p>
+ * <p>For time intervals, we impose a few choices that, in our experience, are good choices.</p>
+ *
  * <h3>Interval</h3>
- * <p>We choose for all periods to express <em>half, right-open</em> time
- * intervals. A consistent half-open interval helps in avoiding awkward border
- * conditions. We have chosen to always use half, <em>right</em>-open
- * intervals for several reasons, stemming from philosophy, the similarity
- * between limitations in physics due to the finite speed of light and
- * processing and remote communication, the similarity between the
- * impossibility to express simultaneity of events in physics due to
- * relativity (see <a
- * href="http://www.amazon.com/About-Time-Einsteins-Unfinished-Revolution/dp/0684818221/ref=sr_1_1?ie=UTF8&amp;s=books&amp;qid=1224448626&amp;sr=1-1">About
- * Time: Einstein's Unfinished Revolution; <cite>Paul Davies</cite></a>) and
- * the drift of clocks in different computers in distributed systems, and
- * other half-baked (or half-drunk) reflections. If you bring a bottle, we can
- * talk about this.
+ * <p>We choose for all time intervals to express <em>half, right-open</em> time intervals. A consistent half-open
+ *   interval helps in avoiding awkward border conditions. We have chosen to always use half, <em>right</em>-open
+ *   intervals for several reasons, stemming from philosophy, the similarity between limitations in physics due to
+ *   the finite speed of light and processing and remote communication, the similarity between the impossibility to
+ *   express simultaneity of events in physics due to relativity (see
+ *   <a href="http://www.amazon.com/About-Time-Einsteins-Unfinished-Revolution/dp/0684818221/ref=sr_1_1?ie=UTF8&amp;s=books&amp;qid=1224448626&amp;sr=1-1">About
+ *   Time: Einstein's Unfinished Revolution; <cite>Paul Davies</cite></a>) and the drift of clocks in different
+ *   computers in distributed systems, and other half-baked (or half-drunk) reflections. If you bring a bottle, we
+ *   can talk about this.<p>
+ *
  * <h3>Three properties and incomplete data</h3>
- * <p>A period has a start time, and end time, and a duration, wich are
- * interrelated. The interface does not define which of the 2 of those 3
- * should be stored, and which should be calculated.
- * <p>The start date, the end date and the duration can be {@code null}. The
- * semantics of this is to be defined by the user case by case. When one basic
- * property is {@code null}, there can be no calculations, and the derived
- * property will be {@code null} also. We often encounter the use case of
- * open-ended periods: an employment spans a period of time, but during most
- * of that period, only the start time is known. In such cases, a mandatory
- * start date, and an unknown end date and duration is used, until the end
- * date is decided on.
- * <h3>Algebra</h3>
- * <p>For reasoning with periods, it is important to understand <a
- * href="http://www.isr.uci.edu/~alspaugh/foundations/allen.html">Allen's
- * Interval Algebra</a>. The {@code TimeInterval} type supports the 13 basic
- * relations and 8192 general relationships.
+ * <p>A time interval has a {@link #getBegin() begin time}, an {@link #getEnd() end time}, and a
+ *   {@link #getDuration() duration}, which are interrelated. The interface does not define which of the 2 of those
+ *   3 should be stored, and which should be calculated.</p>
+ * <p>The begin date, the end date and the duration can be {@code null}. The semantics of this is to be defined by
+ *   the user case by case. We often encounter the use case of open-ended time intervals: an employment spans a time
+ *   interval of time, but during most of that time interval, only the begin time is known. In such cases, a
+ *   mandatory begin date, and an unknown end date and duration is used, until the end date is decided on. How to deal
+ *   with unknown or constrained begin and end times is described in {@link AllenRelation}.</p>
+ * <p>When one basic property is {@code null}, there can be no calculations, and the derived property will be
+ *   {@code null} also.</p>
+ *
  * <h3>Implementations</h3>
- * <p>This package offers many subtypes of {@code TimeInterval}. We believe it is,
- * in this case, more appropriate to introduce different subtypes for
- * different constraints on periods, instead of limiting a general period
- * implementation in the use code. This way, we can add specialized user
- * interfaces, that are tweaked to specific constraints. E.g., a period that
- * uses days as a time quant, will have a simpler user interface than a period
- * that needs a user interface that is precise to the millisecond.
+ * <p>This package offers many subtypes of {@code TimeInterval}. We believe it is, in this case, more appropriate to
+ *   introduce different subtypes for different constraints on time intervals, instead of limiting a general time
+ *   interval implementation in the use code. This way, we can add specialized user interfaces, Hibernate user types,
+ *   JPA value handlers, etcetera, that are tweaked to specific constraints. E.g., a time interval that uses days as
+ *   a time quant, will have a simpler user interface than a time interval that needs a user interface that is precise
+ *   to the millisecond.</p>
+ * <p>Since this is an {@link ImmutableValue}, implementations should offer a good public constructor, and should
+ *   be declared {@code final}.
  *
  * @author Nele Smeets
  * @author Jan Dockx
  * @author Peopleware n.v.
- *
- * @invar (getStartDate() != null &amp;&amp;
- * getEndDate() != null) ? getStartDate().before(getEndDate()) : true;
  */
 @Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
    date     = "$Date$")
+@Invars({@Expression("be(begin, end"),
+         @Expression("duration = delta(begin, end)")})
 public interface TimeInterval extends ImmutableValue {
 
+  /**
+   * This time interval begins at this time, inclusive. This can be {@code null},
+   * with semantics to be determined by the user.
+   */
+  @Basic
   Date getBegin();
 
+  /**
+   * This time interval ends at this time, exclusive. This can be {@code null},
+   * with semantics to be determined by the user.
+   */
+  @Basic
   Date getEnd();
 
+  /**
+   * The duration of this time interval. This can be {@code null},
+   * with semantics to be determined by the user.
+   */
+  @Basic
   Duration getDuration();
 
-  AllenRelation compareTo(TimeInterval other);
-
-  // equals method is EQUAL, or same things null
+  @MethodContract(post = @Expression("other != null && other instanceof Period && AllenRelation.allenRelation(this, other) == EQUALS"))
+  boolean equals(Object other);
 
 }
