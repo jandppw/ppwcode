@@ -58,7 +58,7 @@ import org.toryt.annotations_I.Invars;
  *   for serializability. It should create a default value. Since there is no need to make copies of immutable values,
  *   there is no need for cloning functionality. Thus, an immutable type <strong>may not</strong> implement
  *   {@link java.lang.Cloneable}. A copy constructor can be handy, but is often never used.
- *   The {@link #equals(Object)} and {@link #hashCode()} method <strong>must</strong> be overridden.</p>
+ *   The {@link #equals(Object)} and {@link Object#hashCode()} method <strong>must</strong> be overridden.</p>
  * <p>Actual immutable value types <strong>must</strong> be declared final. This is the only way immutability can be
  *   enforced (otherwise, a subclass might always introduce mutators). As a result, if there is a copy constructor, the
  *   cloning functionality will also not be missed.</p>
