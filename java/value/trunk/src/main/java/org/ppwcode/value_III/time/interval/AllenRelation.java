@@ -49,67 +49,67 @@ import org.toryt.annotations_I.MethodContract;
  * <table>
  *   <tr>
  *     <td><code><var>I1</var> {@link #PRECEDES} <var>I2</var></code> </td>
- *     <td><img src="doc-files/AllenRelation-precedes.png" width="148" /></td>
+ *     <td><img src="doc-files/AllenRelation-precedes.png" width="296" /></td>
  *     <td><b>p</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #MEETS} <var>I2</var></code></td>
- *     <td><img src="doc-files/AllenRelation-meets.png" width="148" /></td>
+ *     <td><img src="doc-files/AllenRelation-meets.png" width="296" /></td>
  *     <td><b>m</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #OVERLAPS} <var>I2</var></code></td>
- *     <td><img src="doc-files/AllenRelation-overlaps.png" width="148" /></td>
+ *     <td><img src="doc-files/AllenRelation-overlaps.png" width="296" /></td>
  *     <td><b>o</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #FINISHED_BY} <var>I2</var></code></td>
- *     <td><img src="doc-files/AllenRelation-finishedBy.png" width="148" /></td>
+ *     <td><img src="doc-files/AllenRelation-finishedBy.png" width="296" /></td>
  *     <td><b>F</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #CONTAINS} <var>I2</var></code></td>
- *     <td><img src="doc-files/AllenRelation-contains.png" width="148" /></td>
+ *     <td><img src="doc-files/AllenRelation-contains.png" width="296" /></td>
  *     <td><b>D</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #STARTS} <var>I2</var></code></td>
- *     <td><img src="doc-files/AllenRelation-starts.png" width="148" /></td>
+ *     <td><img src="doc-files/AllenRelation-starts.png" width="296" /></td>
  *     <td><b>s</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #EQUALS} <var>I2</var></code></td>
- *     <td><img src="doc-files/AllenRelation-equals.png" width="148" /></td>
+ *     <td><img src="doc-files/AllenRelation-equals.png" width="296" /></td>
  *     <td><b>e</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #STARTED_BY} <var>I2</var></code></td>
- *     <td><img src="doc-files/AllenRelation-startedBy.png" width="148" /></td>
+ *     <td><img src="doc-files/AllenRelation-startedBy.png" width="296" /></td>
  *     <td><b>S</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #DURING} <var>I2</var></code></td>
- *     <td><img src="doc-files/AllenRelation-during.png" width="148" /></td>
+ *     <td><img src="doc-files/AllenRelation-during.png" width="296" /></td>
  *     <td><b>d</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #FINISHES} <var>I2</var></code></td>
- *     <td><img src="doc-files/AllenRelation-finishes.png" width="148" /></td>
+ *     <td><img src="doc-files/AllenRelation-finishes.png" width="296" /></td>
  *     <td><b>f</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #OVERLAPPED_BY} <var>I2</var></code></td>
- *     <td><img src="doc-files/AllenRelation-overlappedBy.png" width="148" /></td>
+ *     <td><img src="doc-files/AllenRelation-overlappedBy.png" width="296" /></td>
  *     <td><b>O</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #MET_BY} <var>I2</var></code></td>
- *     <td><img src="doc-files/AllenRelation-metBy.png" width="148" /></td>
+ *     <td><img src="doc-files/AllenRelation-metBy.png" width="296" /></td>
  *     <td><b>M</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #PRECEDED_BY} <var>I2</var></code></td>
- *     <td><img src="doc-files/AllenRelation-precededBy.png" width="148" /></td>
+ *     <td><img src="doc-files/AllenRelation-precededBy.png" width="296" /></td>
  *     <td><b>P</b></td>
  *   </tr>
  * </table>
