@@ -74,7 +74,7 @@ public interface Value extends Serializable {
    * </pre>
    * Remember that the {@link Object#hashCode()} must be consistent with <code>equals</code>.
    */
-  @MethodContract(post = @Expression("result ? ((other != null) && (other.class == this.class))"))
+  @MethodContract(post = @Expression("result ? ((other != null) && (this.class.isInstance(other)))"))
   boolean equals(final Object other);
 
 }
