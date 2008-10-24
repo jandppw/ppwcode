@@ -219,6 +219,14 @@
     </dependency>
     <dependency>
       <groupId>org.ppwcode.vernacular</groupId>
+      <artifactId>ppwcode-vernacular-value-III</artifactId>
+      <type>jar</type>
+      <classifier>tests</classifier>
+      <version>dev-SNAPSHOT</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.ppwcode.vernacular</groupId>
       <artifactId>ppwcode-vernacular-exception-II</artifactId>
     </dependency>
     <dependency>

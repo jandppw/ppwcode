@@ -81,7 +81,7 @@ import org.toryt.annotations_I.MethodContract;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
    date     = "$Date$")
-@Invars({@Expression("be(begin, end"),
+@Invars({@Expression("end != null ? le(begin, end)"),
          @Expression("duration = delta(begin, end)")})
 public interface TimeInterval extends ImmutableValue {
 
@@ -109,7 +109,7 @@ public interface TimeInterval extends ImmutableValue {
   /**
    * Equals as defined by {@link AllenRelation#allenRelation(TimeInterval, TimeInterval)} and {@link AllenRelation#EQUALS}.
    */
-  @MethodContract(post = @Expression("other != null && other instanceof Period && AllenRelation.allenRelation(this, other) == EQUALS"))
+  @MethodContract(post = @Expression("AllenRelation.allenRelation(this, other) == EQUALS"))
   boolean equals(Object other);
 
 }
