@@ -31,9 +31,9 @@ import org.toryt.annotations_I.MethodContract;
 
 /**
  * <p>A super type for all classes that emulate <em>algebras</em>, i.e., value types.</p>
- * <p>Value types <strong>must</strong> override {@link #equals(Object)} and {@link #hashCode()}, so that
+ * <p>Value types <strong>must</strong> override {@link #equals(Object)} and {@link Object#hashCode()}, so that
  *   different objects that represent the same value are considered equal. Value types <strong>must</strong>
- *   override {@link #toString()} to return a textual representation of the value they represent, that does
+ *   override {@link Object#toString()} to return a textual representation of the value they represent, that does
  *   not mention object identity. Value types <strong>must</strong> be {@link Serializable}, and thus always
  *   should have a public default constructor.</p>
  * <p>According to this vernacular, value types <em>should</em> come with a {@link java.beans.PropertyEditor}
@@ -72,7 +72,7 @@ public interface Value extends Serializable {
    *       return super.equals(other) &amp;&amp; <var>local conditions</var>;
    *     }
    * </pre>
-   * Remember that the {@link #hashCode()} must be consistent with <code>equals</code>.
+   * Remember that the {@link Object#hashCode()} must be consistent with <code>equals</code>.
    */
   @MethodContract(post = @Expression("result ? ((other != null) && (other.class == this.class))"))
   boolean equals(final Object other);
