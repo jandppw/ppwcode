@@ -88,6 +88,12 @@ public class DateHelpersTest {
 
   @Test
   public void testLe4() {
+    Calendar c = new GregorianCalendar(2008, 9, 18, 23, 55, 35);
+    testLe(null, c.getTime());
+  }
+
+  @Test
+  public void testLe5() {
     testLe(null, null);
   }
 

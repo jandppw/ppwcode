@@ -84,7 +84,7 @@ public class Duration extends AbstractImmutableValue {
   }
 
   public Duration(int d, Unit unit) {
-    $millis = d * unit.asMilliseconds();
+    $millis = (d == 0) ? 0 : d * unit.asMilliseconds();
   }
 
   public final float as(Unit unit) {

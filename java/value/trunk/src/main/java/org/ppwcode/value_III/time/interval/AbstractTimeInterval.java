@@ -21,6 +21,9 @@ import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.value_III.time.interval.AllenRelation.EQUALS;
 import static org.ppwcode.value_III.time.interval.AllenRelation.allenRelation;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
@@ -41,7 +44,29 @@ public abstract class AbstractTimeInterval extends AbstractImmutableValue implem
 
   @Override
   public final boolean equals(Object other) {
-    return super.equals(other) && allenRelation(this, (TimeInterval)other) == EQUALS;
+//    if (other != null && other instanceof TimeInterval && getBegin() != null &&
+//        getEnd() != null && ((TimeInterval)other).getBegin() != null &&
+//        ((TimeInterval)other).getEnd() != null) {
+//      GregorianCalendar gcB1 = new GregorianCalendar();
+//      gcB1.setTime(getBegin());
+//      GregorianCalendar gcE1 = new GregorianCalendar();
+//      gcE1.setTime(getEnd());
+//      GregorianCalendar gcB2 = new GregorianCalendar();
+//      gcB2.setTime(((TimeInterval)other).getBegin());
+//      GregorianCalendar gcE2 = new GregorianCalendar();
+//      gcE2.setTime(((TimeInterval)other).getEnd());
+//      if ((gcB1.get(Calendar.YEAR) == 2000)  && (gcE1.get(Calendar.YEAR) == 2122) &&
+//          (gcB2.get(Calendar.YEAR) == 2000) && (gcE2.get(Calendar.YEAR) == 2122) &&
+//          ((TimeInterval)other).getDuration() != null) {
+//        System.out.println("IT'S A HIT");
+//      }
+//    }
+    /* we cannot call super.equals(other) in this case; that checks whether
+     * other has the same class as this. In this case that will never happen,
+     * since we are abstract. Furthermore we want to compare all TimeIntervals
+     * to each other, via the interface.
+     */
+    return (other != null) && (other instanceof TimeInterval) && allenRelation(this, (TimeInterval)other) == EQUALS;
   }
 
   @Override
@@ -60,7 +85,7 @@ public abstract class AbstractTimeInterval extends AbstractImmutableValue implem
 
   @Override
   public final String toString() {
-    return "[" + getBegin() + ", " + getEnd() + "]\u0394(" + getDuration() + ")"; // \u0394 is Greek capital delta
+    return "[" + getBegin() + ", " + getEnd() + "[\u0394(" + getDuration() + ")"; // \u0394 is Greek capital delta
   }
 
 }
