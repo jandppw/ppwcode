@@ -22,7 +22,6 @@ import static org.ppwcode.util.reflect_I.MethodHelpers.hasPublicMethod;
 import static org.ppwcode.util.reflect_I.MethodHelpers.isPublic;
 import static org.ppwcode.util.reflect_I.MethodHelpers.method;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.pre;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotNull;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
 
 import java.lang.reflect.InvocationTargetException;
@@ -73,25 +72,26 @@ public final class CloneHelpers {
   }
 
   /**
-   * Clone {@code kloneable} if it implements {@link Cloneable} and features a public {@code clone()} method.
-   * In contrast to the standard {@code clone()} method (in most cases) this method is type safe.
-   * If {@code kloneable} does not implement {@link Cloneable} or does not feature a public
-   * {@code clone()} method, this is considered a programming error.
-   *
-   * The method is called {@code klone} with a &quot;k&quot; to avoid naming conflicts in using classes, where
-   * we would want to work with a static import {@code import static org.ppwcode.util.reflect_I.CloneHelpers.clone;}.
-   * This conflicts with the inherited {@link Object#clone()} method.
+   * <p>Clone {@code kloneable} if it implements {@link Cloneable} and features a public {@code clone()} method.
+   *   In contrast to the standard {@code clone()} method (in most cases) this method is type safe.
+   *   If {@code kloneable} does not implement {@link Cloneable} or does not feature a public
+   *   {@code clone()} method, this is considered a programming error. This method also can handle {@code null}.</p>
+   * <p>
+   * <p>The method is called {@code klone} with a &quot;k&quot; to avoid naming conflicts in using classes, where
+   *   we would want to work with a static import {@code import static org.ppwcode.util.reflect_I.CloneHelpers.clone;}.
+   *   This conflicts with the inherited {@link Object#clone()} method.</p>
    */
   @MethodContract(
     pre  = {
-      @Expression("_kloneable != null"),
-      @Expression("isKloneable(_kloneable.class)")
+      @Expression("_kloneable != null ? isKloneable(_kloneable.class)")
     },
-    post = @Expression("_kloneable.clone()")
+    post = @Expression("_kloneable != null ? _kloneable.clone() : null")
   )
   public static <_T_> _T_ klone(_T_ kloneable) {
-    preArgumentNotNull(kloneable, "kloneable");
-    pre(isKloneable(kloneable.getClass()));
+    pre(kloneable != null ? isKloneable(kloneable.getClass()) : true);
+    if (kloneable == null) {
+      return null;
+    }
     Method cm = method(kloneable.getClass(), CLONE_SIGNATURE);
     assert cm != null;
     assert isPublic(cm);

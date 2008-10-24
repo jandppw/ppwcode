@@ -26,6 +26,7 @@ import static org.ppwcode.util.reflect_I.CloneHelpers.safeReference;
 
 import java.util.Date;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.ppwcode.util.reflect_I.teststubs.CloneableStubClassA;
 import org.ppwcode.util.reflect_I.teststubs.CloneableStubClassB;
@@ -89,6 +90,12 @@ public class CloneHelpersTest {
   public void testClone_T_3() {
     StubClass stub = new StubClass();
     klone(stub);
+  }
+
+  @Test
+  public void testClone_T_4() {
+    CloneableStubClassB klone = klone(null);
+    Assert.assertNull(klone);
   }
 
   @Test
