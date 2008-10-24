@@ -247,6 +247,8 @@ import org.toryt.annotations_I.MethodContract;
  * <p>The {@link Object#equals(Object)} is not overridden, because we want to use this type with reference equality.
  *   {@link #hashCode()} is overridden nevertheless, to guarantee a better spread (it also happens to give a peek inside
  *   the encapsulation, for people who know the implementation details).</p>
+ * <p>All methods in this class are O(n), i.e., work in constant time, although {@link #compose(AllenRelation, AllenRelation)}
+ *   takes a significant longer constant time than the other methods.
  */
 public final class AllenRelation {
 
@@ -780,10 +782,9 @@ public final class AllenRelation {
    *   given <code>gr1 == allenRelation(<var>I1</var>, <var>I2</var>)</code> and <code>gr2 ==
    *   allenRelation(<var>I2</var>, <var>I3</var>)</code>, <code>compose(gr1, gr2) == allenRelation(<var>I1</var>,
    *   <var>I3</var>)</code>.</p>
-   * <p>Although this method is not NP-complete, like inference concerning time intervals in general is,
-   *   <strong>note that this method is of <em>O(n<super>3</super>)</em>, making it significantly more CPU intensive than all
-   *   the other methods in this class</strong>, which are either of constant time (<em>O(1)</em>) or linear
-   *   (<em>O(n)</em>).</p>
+   * <p>Although this method is still, like most other methods in this class, of constant time (<em>O(n)</em>), it
+   *   takes a significant longer constant time, namely ~ 13<sup>2</sup>. During unit tests we saw that 100 000 calls
+   *   take over a second on a 2.4GHz dual core processor.</p>
    */
   @MethodContract(
     pre  = {
