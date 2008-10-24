@@ -106,6 +106,9 @@ public interface TimeInterval extends ImmutableValue {
   @Basic
   Duration getDuration();
 
+  /**
+   * Equals as defined by {@link AllenRelation#allenRelation(TimeInterval, TimeInterval)} and {@link AllenRelation#EQUALS}.
+   */
   @MethodContract(post = @Expression("other != null && other instanceof Period && AllenRelation.allenRelation(this, other) == EQUALS"))
   boolean equals(Object other);
 
