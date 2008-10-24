@@ -23,6 +23,7 @@ import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.Invars;
+import org.toryt.annotations_I.MethodContract;
 
 
 /**
@@ -61,7 +62,15 @@ import org.toryt.annotations_I.Invars;
  *   The {@link #equals(Object)} and {@link Object#hashCode()} method <strong>must</strong> be overridden.</p>
  * <p>Actual immutable value types <strong>must</strong> be declared final. This is the only way immutability can be
  *   enforced (otherwise, a subclass might always introduce mutators). As a result, if there is a copy constructor, the
- *   cloning functionality will also not be missed.</p>
+ *   cloning functionality will also not be missed. Because immutable value types must be final, if you have a type
+ *   hierarchy (e.g., a general immutable value {@code A} defined as an interface or an abstract class, with concrete
+ *   subtypes {@code A1}, {@code A2} and {@code A3} that are declared final) for some reason, properties also
+ *   <strong>must</strong> be defined statically of one of the final types ({@code A1}, {@code A2} or {@code A3})
+ *   and <strong>not</strong> be of a more general type ({@code A}). If you would define a property of the more
+ *   general type, which is not final itself, anybody could define a new sub type ({@code A<sub>hack</sub>}) that
+ *   still is mutable, and use it as a property value. Type hierarchies may still be interesting for outside
+ *   code reuse. As a result, {@link #equals(Object)} can only be affirmative when the other object is of the
+ *   exact same type.</p>
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
@@ -73,6 +82,20 @@ import org.toryt.annotations_I.Invars;
 @Invars(@Expression("!Cloneable.class.isAssignableFrom(this.class)"))
 public interface ImmutableValue extends Value {
 
-  // NOP
+  /**
+   * {@inheritDoc}
+   * Since immutable values have to be declared final,
+   * This method should be overwritten by actual value types with extra conditions that actually do compare internal
+   * values. The following idiom can be used:
+   * <pre>
+   *     &#x40;MethodContract(post = &#x40;Expression(&quot;<var>local conditions</var>&quot))
+   *     public boolean equals(Object other) {
+   *       return super.equals(other) &amp;&amp; <var>local conditions</var>;
+   *     }
+   * </pre>
+   * Remember that the {@link Object#hashCode()} must be consistent with <code>equals</code>.
+   */
+  @MethodContract(post = @Expression("result ? this.class.isInstance(other)"))
+  boolean equals(final Object other);
 
 }

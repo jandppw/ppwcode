@@ -16,6 +16,8 @@ limitations under the License.
 
 package org.ppwcode.vernacular.value_III;
 
+import static org.junit.Assert.assertTrue;
+
 import org.ppwcode.util.test.contract.Contract;
 
 
@@ -35,6 +37,9 @@ public class _Contract_ImmutableValue extends Contract<ImmutableValue> {
   public void assertEqualsObject(ImmutableValue v, Object other, boolean result) {
     _Contract_Value cValue = (_Contract_Value)getDirectSuperContracts().get(Value.class);
     cValue.assertEqualsObject(v, other, result);
+    if (result) {
+      assertTrue(v.getClass().isInstance(other));
+    }
   }
 
 }
