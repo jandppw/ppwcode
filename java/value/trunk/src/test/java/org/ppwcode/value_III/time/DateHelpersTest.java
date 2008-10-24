@@ -80,6 +80,16 @@ public class DateHelpersTest {
     testLe(c.getTime(), c.getTime());
   }
 
+  @Test
+  public void testLe3() {
+    Calendar c = new GregorianCalendar(2008, 9, 18, 23, 55, 35);
+    testLe(c.getTime(), null);
+  }
+
+  @Test
+  public void testLe4() {
+    testLe(null, null);
+  }
 
   @Test
   public void testSameDay1a() {
