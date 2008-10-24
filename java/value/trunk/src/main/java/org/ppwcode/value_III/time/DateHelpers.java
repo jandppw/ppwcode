@@ -56,6 +56,16 @@ public class DateHelpers {
 
 
 
+  /**
+   * {@code d1} is <em>before or equal</em> to {@code d2}.
+   * This method also deals with {@code null} dates.
+   * {@code null} dates are always earlier.
+   */
+  @MethodContract(post = @Expression("d1 == null || (d2 != null && d1.before(d2)) || d1.equals(d2)"))
+  public static boolean le(Date d1, Date d2) {
+    return d1 == null || (d2 != null && d1.before(d2)) || d1.equals(d2);
+  }
+
   @MethodContract(post = @Expression("(date1 == null) ? (date2 == null) : dayDate(date1) == dayDate(date2)"))
   public static boolean sameDay(Date date1, Date date2) {
     if ((date1 != null) && (date2 != null)) {

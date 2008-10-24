@@ -20,6 +20,7 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.ppwcode.value_III.time.DateHelpers.isDayDate;
+import static org.ppwcode.value_III.time.DateHelpers.le;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -30,6 +31,55 @@ import org.junit.Test;
 
 
 public class DateHelpersTest {
+
+
+  public void testLe(Date d1, Date d2) {
+    boolean result = le(d1, d2);
+    boolean expected = d1 == null || (d2 != null && d1.before(d2)) || d1.equals(d2);
+    assertEquals(expected, result);
+  }
+
+  @Test
+  public void testLe1a() {
+    Calendar c1 = new GregorianCalendar(2008, 9, 18, 23, 55, 35);
+    Calendar c2 = new GregorianCalendar(2008, 9, 18);
+    testLe(c1.getTime(), c2.getTime());
+  }
+
+  @Test
+  public void testLe1b() {
+    Calendar c1 = new GregorianCalendar(2008, 9, 18, 23, 55, 35);
+    Calendar c2 = new GregorianCalendar(2008, 9, 19);
+    testLe(c1.getTime(), c2.getTime());
+  }
+
+  @Test
+  public void testLe1c() {
+    Calendar c1 = new GregorianCalendar(2008, 9, 18, 23, 55, 35);
+    Calendar c2 = new GregorianCalendar(2008, 10, 18);
+    testLe(c1.getTime(), c2.getTime());
+  }
+
+  @Test
+  public void testLe1d() {
+    Calendar c1 = new GregorianCalendar(2008, 9, 18, 23, 55, 35);
+    Calendar c2 = new GregorianCalendar(2009, 9, 18);
+    testLe(c1.getTime(), c2.getTime());
+  }
+
+  @Test
+  public void testLe1e() {
+    Calendar c1 = new GregorianCalendar(2008, 9, 18, 23, 55, 35);
+    Calendar c2 = new GregorianCalendar(2008, 9, 18, 23, 55, 35);
+    testLe(c1.getTime(), c2.getTime());
+  }
+
+  @Test
+  public void testLe2() {
+    Calendar c = new GregorianCalendar(2008, 9, 18, 23, 55, 35);
+    testLe(c.getTime(), c.getTime());
+  }
+
 
   @Test
   public void testSameDay1a() {
