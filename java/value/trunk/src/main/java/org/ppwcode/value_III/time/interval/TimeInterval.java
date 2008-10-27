@@ -37,7 +37,7 @@ import org.toryt.annotations_I.MethodContract;
  *   are treacherously difficult to reason a about. Beware.</strong> Experience shows that falling back to
  *   the begin and end dates as separated dates and reasoning about them does not solve the complexity, and results
  *   in even more difficult reasonings and is even more error prone.</p>
- * <p><em>We strongly suggest that you use {@link AllenRelation} for reasoning about time intervals.</em></p>
+ * <p><em>We strongly suggest that you use {@link TimeIntervalRelation} for reasoning about time intervals.</em></p>
  * <p>For time intervals, we impose a few choices that, in our experience, are good choices.</p>
  *
  * <h3>Interval</h3>
@@ -59,7 +59,7 @@ import org.toryt.annotations_I.MethodContract;
  *   the user case by case. We often encounter the use case of open-ended time intervals: an employment spans a time
  *   interval of time, but during most of that time interval, only the begin time is known. In such cases, a
  *   mandatory begin date, and an unknown end date and duration is used, until the end date is decided on. How to deal
- *   with unknown or constrained begin and end times is described in {@link AllenRelation}.</p>
+ *   with unknown or constrained begin and end times is described in {@link TimeIntervalRelation}.</p>
  * <p>When one basic property is {@code null}, there can be no calculations, and the derived property will be
  *   {@code null} also.</p>
  *
@@ -107,9 +107,9 @@ public interface TimeInterval extends ImmutableValue {
   Duration getDuration();
 
   /**
-   * Equals as defined by {@link AllenRelation#allenRelation(TimeInterval, TimeInterval)} and {@link AllenRelation#EQUALS}.
+   * Equals as defined by {@link TimeIntervalRelation#timeIntervalRelation(TimeInterval, TimeInterval)} and {@link TimeIntervalRelation#EQUALS}.
    */
-  @MethodContract(post = @Expression("AllenRelation.allenRelation(this, other) == EQUALS"))
+  @MethodContract(post = @Expression("TimeIntervalRelation.allenRelation(this, other) == EQUALS"))
   boolean equals(Object other);
 
 }

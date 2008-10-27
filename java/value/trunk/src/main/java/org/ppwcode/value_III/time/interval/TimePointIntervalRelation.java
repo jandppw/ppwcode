@@ -37,7 +37,7 @@ import org.toryt.annotations_I.MethodContract;
  *   that limit acceptable combinations. Expressing this correctly proves extremely difficult in practice.
  *   Falling back to working with isolated begin and end dates, and reasoning about their relations with
  *   the time point, in practice proves to be even much more difficult and error prone.</p>
- * <p>This class is developed following the example of {@link AllenRelation Allen relations}.</p>
+ * <p>This class is developed following the example of {@link TimeIntervalRelation Allen relations}.</p>
  *
  * <h3>Quick overview</h3>
  * <p>We find that there are 5 <em>basic relations</em> possible between a point in time and a definite time
@@ -209,7 +209,7 @@ import org.toryt.annotations_I.MethodContract;
  *   interval is a constant that can be determined by reasoning. E.g., for our open ended contract, that lasts
  *   at least longer than today (<code>[I<sub>begin</sub>, &gt; now[</code>, supposing <code>I<sub>begin</sub> &le;
  *   yesterday</code>), we can say that its relation to the determinate interval <code>[I<sub>begin</sub>, now[</code> is
- *   {@code (s)} ({@link AllenRelation#STARTS}). Suppose
+ *   {@code (s)} ({@link TimeIntervalRelation#STARTS}). Suppose
  *   <code>timePointIntervalRelation(<var>t</var>, <var>I<sub>determinate</sub></var>) == (&gt;&lt;)</code> (say
  *   <code><var>t</var> == <var>yesterday</var></code>), we can now say
  *   that <code>timePointIntervalRelation(<var>t</var>, <var>I<sub>constrained</sub></var>) == (s).(&gt;&tl;) == (&gt;&lt;)</code>.
@@ -245,7 +245,7 @@ import org.toryt.annotations_I.MethodContract;
  *   class is loaded, and it is impossible for a user of the class to create new instances. This means that reference
  *   equality (&quot;{@code ==}&quot;) can be used to compare time point-interval relations, Instances are to be obtained
  *   using the constants this class offers, or using the combination methods {@link #or(TimePointIntervalRelation...)},
- *   {@link #and(TimePointIntervalRelation...)}, {@link #compose(TimePointIntervalRelation, AllenRelation)}, and
+ *   {@link #and(TimePointIntervalRelation...)}, {@link #compose(TimePointIntervalRelation, TimeIntervalRelation)}, and
  *   {@link #min(TimePointIntervalRelation, TimePointIntervalRelation)}, and the unary method {@link #complement()}.
  *   Also, an TimePointIntervalRelation can be determined {@link #timePointIntervalRelation(Date, TimeInterval) based on a point
  *   in time and a time interval}.
@@ -253,7 +253,7 @@ import org.toryt.annotations_I.MethodContract;
  * <p>The {@link Object#equals(Object)} is not overridden, because we want to use this type with reference equality.
  *   {@link #hashCode()} is overridden nevertheless, to guarantee a better spread (it also happens to give a peek inside
  *   the encapsulation, for people who know the implementation details).</p>
- * <p>All methods in this class are O(n), i.e., work in constant time, although {@link #compose(TimePointIntervalRelation, AllenRelation)}
+ * <p>All methods in this class are O(n), i.e., work in constant time, although {@link #compose(TimePointIntervalRelation, TimeIntervalRelation)}
  *   takes a significant longer constant time than the other methods.
  */
 public final class TimePointIntervalRelation {
@@ -502,7 +502,7 @@ public final class TimePointIntervalRelation {
 
   /**
    * This matrix holds the compositions of basic time point-interval relations with Allen relations. These are part
-   * of the given semantics, and cannot be calculated. See {@link #compose(TimePointIntervalRelation, AllenRelation)}.
+   * of the given semantics, and cannot be calculated. See {@link #compose(TimePointIntervalRelation, TimeIntervalRelation)}.
    */
   public final static TimePointIntervalRelation[][] BASIC_COMPOSITIONS =
     {
@@ -525,17 +525,17 @@ public final class TimePointIntervalRelation {
       @Expression("_ar != null")
     },
     post = {
-      @Expression("for (TimePointIntervalRelation bTpir : BASIC_RELATIONS) {for (AllenRelation bAr: AllenRelation.BASIC_RELATIONS) {" +
+      @Expression("for (TimePointIntervalRelation bTpir : BASIC_RELATIONS) {for (TimeIntervalRelation bAr: TimeIntervalRelation.BASIC_RELATIONS) {" +
                     "bTpir.implies(_tpir) && bAr.implies(_ar) ? result.impliedBy(BASIC_COMPOSITIONS[btPir.basicRelationOrdinal()][bAr.basicRelationOrdinal()])" +
                   "}}")
   })
-  public static TimePointIntervalRelation compose(TimePointIntervalRelation tpir, AllenRelation ar) {
+  public static TimePointIntervalRelation compose(TimePointIntervalRelation tpir, TimeIntervalRelation ar) {
     assert preArgumentNotNull(tpir, "tpir");
     assert preArgumentNotNull(ar, "ar");
     TimePointIntervalRelation acc = EMPTY;
     for (TimePointIntervalRelation bTpir : BASIC_RELATIONS) {
       if (tpir.impliedBy(tpir)) {
-        for (AllenRelation bAr : AllenRelation.BASIC_RELATIONS) {
+        for (TimeIntervalRelation bAr : TimeIntervalRelation.BASIC_RELATIONS) {
           if (ar.impliedBy(bAr)) {
             acc = or(acc, BASIC_COMPOSITIONS[bTpir.basicRelationOrdinal()][bAr.basicRelationOrdinal()]);
           }

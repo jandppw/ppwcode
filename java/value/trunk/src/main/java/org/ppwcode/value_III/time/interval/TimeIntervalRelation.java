@@ -49,67 +49,67 @@ import org.toryt.annotations_I.MethodContract;
  * <table>
  *   <tr>
  *     <td><code><var>I1</var> {@link #PRECEDES} <var>I2</var></code> </td>
- *     <td><img src="doc-files/AllenRelation-precedes.png" width="296" /></td>
+ *     <td><img src="doc-files/TimeIntervalRelation-precedes.png" width="296" /></td>
  *     <td><b>p</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #MEETS} <var>I2</var></code></td>
- *     <td><img src="doc-files/AllenRelation-meets.png" width="296" /></td>
+ *     <td><img src="doc-files/TimeIntervalRelation-meets.png" width="296" /></td>
  *     <td><b>m</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #OVERLAPS} <var>I2</var></code></td>
- *     <td><img src="doc-files/AllenRelation-overlaps.png" width="296" /></td>
+ *     <td><img src="doc-files/TimeIntervalRelation-overlaps.png" width="296" /></td>
  *     <td><b>o</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #FINISHED_BY} <var>I2</var></code></td>
- *     <td><img src="doc-files/AllenRelation-finishedBy.png" width="296" /></td>
+ *     <td><img src="doc-files/TimeIntervalRelation-finishedBy.png" width="296" /></td>
  *     <td><b>F</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #CONTAINS} <var>I2</var></code></td>
- *     <td><img src="doc-files/AllenRelation-contains.png" width="296" /></td>
+ *     <td><img src="doc-files/TimeIntervalRelation-contains.png" width="296" /></td>
  *     <td><b>D</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #STARTS} <var>I2</var></code></td>
- *     <td><img src="doc-files/AllenRelation-starts.png" width="296" /></td>
+ *     <td><img src="doc-files/TimeIntervalRelation-starts.png" width="296" /></td>
  *     <td><b>s</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #EQUALS} <var>I2</var></code></td>
- *     <td><img src="doc-files/AllenRelation-equals.png" width="296" /></td>
+ *     <td><img src="doc-files/TimeIntervalRelation-equals.png" width="296" /></td>
  *     <td><b>e</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #STARTED_BY} <var>I2</var></code></td>
- *     <td><img src="doc-files/AllenRelation-startedBy.png" width="296" /></td>
+ *     <td><img src="doc-files/TimeIntervalRelation-startedBy.png" width="296" /></td>
  *     <td><b>S</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #DURING} <var>I2</var></code></td>
- *     <td><img src="doc-files/AllenRelation-during.png" width="296" /></td>
+ *     <td><img src="doc-files/TimeIntervalRelation-during.png" width="296" /></td>
  *     <td><b>d</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #FINISHES} <var>I2</var></code></td>
- *     <td><img src="doc-files/AllenRelation-finishes.png" width="296" /></td>
+ *     <td><img src="doc-files/TimeIntervalRelation-finishes.png" width="296" /></td>
  *     <td><b>f</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #OVERLAPPED_BY} <var>I2</var></code></td>
- *     <td><img src="doc-files/AllenRelation-overlappedBy.png" width="296" /></td>
+ *     <td><img src="doc-files/TimeIntervalRelation-overlappedBy.png" width="296" /></td>
  *     <td><b>O</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #MET_BY} <var>I2</var></code></td>
- *     <td><img src="doc-files/AllenRelation-metBy.png" width="296" /></td>
+ *     <td><img src="doc-files/TimeIntervalRelation-metBy.png" width="296" /></td>
  *     <td><b>M</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #PRECEDED_BY} <var>I2</var></code></td>
- *     <td><img src="doc-files/AllenRelation-precededBy.png" width="296" /></td>
+ *     <td><img src="doc-files/TimeIntervalRelation-precededBy.png" width="296" /></td>
  *     <td><b>P</b></td>
  *   </tr>
  * </table>
@@ -138,7 +138,7 @@ import org.toryt.annotations_I.MethodContract;
  *  as precisely as possible. If both <code><var>I1</var></code> and <code><var>I2</var></code> are completely
  *  determined, i.e., neither their begin date nor their end date is {@code null}, the result will be a
  *  {@link #BASIC_RELATIONS basic relation}. Otherwise, the result will be a less certain relation. To determine
- *  this relationship, use {@link #allenRelation(TimeInterval, TimeInterval)}. See below for dealing
+ *  this relationship, use {@link #timeIntervalRelation(TimeInterval, TimeInterval)}. See below for dealing
  *  with constrained begin and end dates.</p>
  * <p>The idiom for the assertion we want to express is then:</p>
  * <pre>
@@ -161,8 +161,8 @@ import org.toryt.annotations_I.MethodContract;
  *   ...
  *   TimeInterval i1 = ...;
  *   TimeInterval i2 = ...;
- *   AllenRelation condition = ...;
- *   AllenRelation actual = allenRelation(i1, i2);
+ *   TimeIntervalRelation condition = ...;
+ *   TimeIntervalRelation actual = allenRelation(i1, i2);
  *   if (! actual.implies(condition)) {
  *     throw new ....
  *   }
@@ -293,18 +293,18 @@ import org.toryt.annotations_I.MethodContract;
  * <p>Allen relations follow the &quot;8192-fold singleton pattern&quot;. All possible instances are created when this
  *   class is loaded, and it is impossible for a user of the class to create new instances. This means that  reference
  *   equality (&quot;{@code ==}&quot;) can be used to compare Allen relations, Instances are to be obtained
- *   using the constants this class offers, or using the combination methods {@link #or(AllenRelation...)},
- *   {@link #and(AllenRelation...)}, {@link #compose(AllenRelation, AllenRelation)}, and
- *   {@link #min(AllenRelation, AllenRelation)}, and the unary methods {@link #complement()} and {@link #converse()}.
- *   Also, an AllenRelation can be determined {@link #allenRelation(TimeInterval, TimeInterval) based on 2 time intervals}.
+ *   using the constants this class offers, or using the combination methods {@link #or(TimeIntervalRelation...)},
+ *   {@link #and(TimeIntervalRelation...)}, {@link #compose(TimeIntervalRelation, TimeIntervalRelation)}, and
+ *   {@link #min(TimeIntervalRelation, TimeIntervalRelation)}, and the unary methods {@link #complement()} and {@link #converse()}.
+ *   Also, an TimeIntervalRelation can be determined {@link #timeIntervalRelation(TimeInterval, TimeInterval) based on 2 time intervals}.
  *   {@link #VALUES} lists all possible Allen relations.</p>
  * <p>The {@link Object#equals(Object)} is not overridden, because we want to use this type with reference equality.
  *   {@link #hashCode()} is overridden nevertheless, to guarantee a better spread (it also happens to give a peek inside
  *   the encapsulation, for people who know the implementation details).</p>
- * <p>All methods in this class are O(n), i.e., work in constant time, although {@link #compose(AllenRelation, AllenRelation)}
+ * <p>All methods in this class are O(n), i.e., work in constant time, although {@link #compose(TimeIntervalRelation, TimeIntervalRelation)}
  *   takes a significant longer constant time than the other methods.
  */
-public final class AllenRelation {
+public final class TimeIntervalRelation {
 
   /*
    * Implementation note:
@@ -331,14 +331,14 @@ public final class AllenRelation {
    */
   @Invars({
     @Expression("VALUES != null"),
-    @Expression("for (AllenRelation ar : VALUES) {ar != null}"),
+    @Expression("for (TimeIntervalRelation ar : VALUES) {ar != null}"),
     @Expression("for (int i : 0 .. VALUES.length) {for (int j : i + 1 .. VALUES.length) {VALUES[i] != VALUES[j]}}"),
-    @Expression("for (AllenRelation ar) {VALUES.contains(ar)}")
+    @Expression("for (TimeIntervalRelation ar) {VALUES.contains(ar)}")
   })
-  public final static AllenRelation[] VALUES = new AllenRelation[NR_OF_RELATIONS];
+  public final static TimeIntervalRelation[] VALUES = new TimeIntervalRelation[NR_OF_RELATIONS];
   static {
     for (int i = 0; i < NR_OF_RELATIONS; i++) {
-      VALUES[i] = new AllenRelation(i);
+      VALUES[i] = new TimeIntervalRelation(i);
     }
   }
 
@@ -372,8 +372,8 @@ public final class AllenRelation {
    * consistencey with some operations on Allen relations.
    * The converse of the empty relation is the empty relation itself.
    */
-  @Invars(@Expression("for (AllenRelation basic : BASIC_RELATIONS) {! EMPTY.impliedBy(basic)}"))
-  public final static AllenRelation EMPTY = VALUES[EMPTY_BIT_PATTERN];
+  @Invars(@Expression("for (TimeIntervalRelation basic : BASIC_RELATIONS) {! EMPTY.impliedBy(basic)}"))
+  public final static TimeIntervalRelation EMPTY = VALUES[EMPTY_BIT_PATTERN];
 
   /**
    * <p>A <strong>basic</strong> Allen relation that says that an interval
@@ -382,11 +382,11 @@ public final class AllenRelation {
    * <pre>
    *   (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I1.end &lt; I2.begin)
    * </pre>
-   * <img style="text-align: center;" src="doc-files/AllenRelation-precedes.png">
+   * <img style="text-align: center;" src="doc-files/TimeIntervalRelation-precedes.png">
    * <p>The conventional short representation of this Allen relation is &quot;<code><strong>p</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #PRECEDED_BY}.</p>
    */
-  public final static AllenRelation PRECEDES = VALUES[PRECEDES_BIT_PATTERN];
+  public final static TimeIntervalRelation PRECEDES = VALUES[PRECEDES_BIT_PATTERN];
 
   /**
    * <p>A <strong>basic</strong> Allen relation that says that an interval
@@ -395,11 +395,11 @@ public final class AllenRelation {
    * <pre>
    *   (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I1.end == I2.begin)
    * </pre>
-   * <img style="text-align: center;" src="doc-files/AllenRelation-meets.png">
+   * <img style="text-align: center;" src="doc-files/TimeIntervalRelation-meets.png">
    * <p>The conventional short representation of this Allen relation is &quot;<code><strong>m</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #MET_BY}.</p>
    */
-  public final static AllenRelation MEETS = VALUES[MEETS_BIT_PATTERN];
+  public final static TimeIntervalRelation MEETS = VALUES[MEETS_BIT_PATTERN];
 
   /**
    * <p>A <strong>basic</strong> Allen relation that says that an interval
@@ -411,11 +411,11 @@ public final class AllenRelation {
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin &lt; I2.begin) &amp;&amp; (I1.end &gt; I2.begin) &amp;&amp; (I1.end &lt; I2.end)
    * </pre>
-   * <img style="text-align: center;" src="doc-files/AllenRelation-overlaps.png">
+   * <img style="text-align: center;" src="doc-files/TimeIntervalRelation-overlaps.png">
    * <p>The conventional short representation of this Allen relation is &quot;<code><strong>o</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #OVERLAPPED_BY}.</p>
    */
-  public final static AllenRelation OVERLAPS = VALUES[OVERLAPS_BIT_PATTERN];
+  public final static TimeIntervalRelation OVERLAPS = VALUES[OVERLAPS_BIT_PATTERN];
 
   /**
    * <p>A <strong>basic</strong> Allen relation that says that an interval
@@ -426,11 +426,11 @@ public final class AllenRelation {
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin &lt; I2.begin) &amp;&amp; (I1.end == I2.end)
    * </pre>
-   * <img style="text-align: center;" src="doc-files/AllenRelation-finishedBy.png">
+   * <img style="text-align: center;" src="doc-files/TimeIntervalRelation-finishedBy.png">
    * <p>The conventional short representation of this Allen relation is &quot;<code><strong>F</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #FINISHED_BY}.</p>
    */
-  public final static AllenRelation FINISHED_BY = VALUES[FINISHED_BY_BIT_PATTERN];
+  public final static TimeIntervalRelation FINISHED_BY = VALUES[FINISHED_BY_BIT_PATTERN];
 
   /**
    * <p>A <strong>basic</strong> Allen relation that says that an interval
@@ -441,11 +441,11 @@ public final class AllenRelation {
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin &lt; I2.begin) &amp;&amp; (I1.end &gt; I2.end)
    * </pre>
-   * <img style="text-align: center;" src="doc-files/AllenRelation-contains.png">
+   * <img style="text-align: center;" src="doc-files/TimeIntervalRelation-contains.png">
    * <p>The conventional short representation of this Allen relation is &quot;<code><strong>D</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #DURING}.</p>
    */
-  public final static AllenRelation CONTAINS = VALUES[CONTAINS_BIT_PATTERN];
+  public final static TimeIntervalRelation CONTAINS = VALUES[CONTAINS_BIT_PATTERN];
 
   /**
    * <p>A <strong>basic</strong> Allen relation that says that an interval
@@ -456,11 +456,11 @@ public final class AllenRelation {
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin == I2.begin) &amp;&amp; (I1.end &lt; I2.end)
    * </pre>
-   * <img style="text-align: center;" src="doc-files/AllenRelation-starts.png">
+   * <img style="text-align: center;" src="doc-files/TimeIntervalRelation-starts.png">
    * <p>The conventional short representation of this Allen relation is &quot;<code><strong>s</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #STARTED_BY}.</p>
    */
-  public final static AllenRelation STARTS = VALUES[STARTS_BIT_PATTERN];
+  public final static TimeIntervalRelation STARTS = VALUES[STARTS_BIT_PATTERN];
 
   /**
    * <p>A <strong>basic</strong> Allen relation that says that an interval
@@ -471,11 +471,11 @@ public final class AllenRelation {
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin == I2.begin) &amp;&amp; (I1.end == I2.end)
    * </pre>
-   * <img style="text-align: center;" src="doc-files/AllenRelation-equals.png">
+   * <img style="text-align: center;" src="doc-files/TimeIntervalRelation-equals.png">
    * <p>The conventional short representation of this Allen relation is &quot;<code><strong>e</strong></code>&quot;.</p>
    * <p>The converse of this relation is itself.
    */
-  public final static AllenRelation EQUALS = VALUES[EQUALS_BIT_PATTERN];
+  public final static TimeIntervalRelation EQUALS = VALUES[EQUALS_BIT_PATTERN];
 
   /**
    * <p>A <strong>basic</strong> Allen relation that says that an interval
@@ -486,11 +486,11 @@ public final class AllenRelation {
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin == I2.begin) &amp;&amp; (I1.end &gt; I2.end)
    * </pre>
-   * <img style="text-align: center;" src="doc-files/AllenRelation-startedBy.png">
+   * <img style="text-align: center;" src="doc-files/TimeIntervalRelation-startedBy.png">
    * <p>The conventional short representation of this Allen relation is &quot;<code><strong>S</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #STARTS}.</p>
    */
-  public final static AllenRelation STARTED_BY = VALUES[STARTED_BY_BIT_PATTERN];
+  public final static TimeIntervalRelation STARTED_BY = VALUES[STARTED_BY_BIT_PATTERN];
 
   /**
    * <p>A <strong>basic</strong> Allen relation that says that an interval
@@ -501,11 +501,11 @@ public final class AllenRelation {
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin &gt; I2.begin) &amp;&amp; (I1.end &lt; I2.end)
    * </pre>
-   * <img style="text-align: center;" src="doc-files/AllenRelation-during.png">
+   * <img style="text-align: center;" src="doc-files/TimeIntervalRelation-during.png">
    * <p>The conventional short representation of this Allen relation is &quot;<code><strong>d</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #CONTAINS}.</p>
    */
-  public final static AllenRelation DURING = VALUES[DURING_BIT_PATTERN];
+  public final static TimeIntervalRelation DURING = VALUES[DURING_BIT_PATTERN];
 
   /**
    * <p>A <strong>basic</strong> Allen relation that says that an interval
@@ -516,11 +516,11 @@ public final class AllenRelation {
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin &gt; I2.begin) &amp;&amp; (I1.end == I2.end)
    * </pre>
-   * <img style="text-align: center;" src="doc-files/AllenRelation-finishes.png">
+   * <img style="text-align: center;" src="doc-files/TimeIntervalRelation-finishes.png">
    * <p>The conventional short representation of this Allen relation is &quot;<code><strong>f</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #FINISHES}.</p>
    */
-  public final static AllenRelation FINISHES = VALUES[FINISHES_BIT_PATTERN];
+  public final static TimeIntervalRelation FINISHES = VALUES[FINISHES_BIT_PATTERN];
 
   /**
    * <p>A <strong>basic</strong> Allen relation that says that an interval
@@ -532,11 +532,11 @@ public final class AllenRelation {
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin &gt; I2.begin) &amp;&amp; (I1.begin &lt; I2.end) &amp;&amp; (I1.end &gt; I2.end)
    * </pre>
-   * <img style="text-align: center;" src="doc-files/AllenRelation-overlappedBy.png">
+   * <img style="text-align: center;" src="doc-files/TimeIntervalRelation-overlappedBy.png">
    * <p>The conventional short representation of this Allen relation is &quot;<code><strong>O</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #OVERLAPS}.</p>
    */
-  public final static AllenRelation OVERLAPPED_BY = VALUES[OVERLAPPED_BY_BIT_PATTERN];
+  public final static TimeIntervalRelation OVERLAPPED_BY = VALUES[OVERLAPPED_BY_BIT_PATTERN];
 
   /**
    * <p>A <strong>basic</strong> Allen relation that says that an interval
@@ -545,11 +545,11 @@ public final class AllenRelation {
    * <pre>
    *   (I1.begin != null) &amp;&amp; (I2.end != null) &amp;&amp; (I1.begin == I2.end)
    * </pre>
-   * <img style="text-align: center;" src="doc-files/AllenRelation-metBy.png">
+   * <img style="text-align: center;" src="doc-files/TimeIntervalRelation-metBy.png">
    * <p>The conventional short representation of this Allen relation is &quot;<code><strong>M</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #MEETS}.</p>
    */
-  public final static AllenRelation MET_BY = VALUES[MET_BY_BIT_PATTERN];
+  public final static TimeIntervalRelation MET_BY = VALUES[MET_BY_BIT_PATTERN];
 
   /**
    * <p>A <strong>basic</strong> Allen relation that says that an interval
@@ -558,11 +558,11 @@ public final class AllenRelation {
    * <pre>
    *   (I1.begin != null) &amp;&amp; (I2.end != null) &amp;&amp; (I1.begin &gt; I2.end)
    * </pre>
-   * <img style="text-align: center;" src="doc-files/AllenRelation-precededBy.png">
+   * <img style="text-align: center;" src="doc-files/TimeIntervalRelation-precededBy.png">
    * <p>The conventional short representation of this Allen relation is &quot;<code><strong>P</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #PRECEDES}.</p>
    */
-  public final static AllenRelation PRECEDED_BY = VALUES[PRECEDED_BY_BIT_PATTERN];
+  public final static TimeIntervalRelation PRECEDED_BY = VALUES[PRECEDED_BY_BIT_PATTERN];
 
   /**
    * The full Allen relation, which expresses that nothing definite can be
@@ -570,7 +570,7 @@ public final class AllenRelation {
    * <p>The converse of this relation is the relation itself.
    */
   @Invars(@Expression("FULL == or(PRECEDES, MEETS, OVERLAPS, FINISHED_BY, CONTAINS, STARTS, EQUALS, STARTED_BY, DURING, FINISHES, OVERLAPPED_BY, MET_BY, PRECEDED_BY"))
-  public final static AllenRelation FULL = VALUES[FULL_BIT_PATTERN];
+  public final static TimeIntervalRelation FULL = VALUES[FULL_BIT_PATTERN];
 
   /**
    * The set of all 13 basic Allen relations. That they are presented here in
@@ -597,7 +597,7 @@ public final class AllenRelation {
     @Expression("BASIC_RELATIONS[11] == MET_BY"),
     @Expression("BASIC_RELATIONS[12] == PRECEDED_BY")
   })
-  public final static AllenRelation[] BASIC_RELATIONS = {PRECEDES, MEETS, OVERLAPS, FINISHED_BY, CONTAINS, STARTS,
+  public final static TimeIntervalRelation[] BASIC_RELATIONS = {PRECEDES, MEETS, OVERLAPS, FINISHED_BY, CONTAINS, STARTS,
                                                          EQUALS,
                                                          STARTED_BY, DURING, FINISHES, OVERLAPPED_BY, MET_BY, PRECEDED_BY};
 
@@ -618,7 +618,7 @@ public final class AllenRelation {
    * This relation is introduced because it is the possible result of the composition of 2 basic relations.
    */
   @Invars(@Expression("CONCURS_WITH == or(OVERLAPS, FINISHED_BY, CONTAINS, STARTS, EQUALS, STARTED_BY, DURING, FINISHES, OVERLAPPED_BY)"))
-  public final static AllenRelation CONCURS_WITH = or(OVERLAPS, FINISHED_BY, CONTAINS, STARTS, EQUALS, STARTED_BY, DURING, FINISHES, OVERLAPPED_BY);
+  public final static TimeIntervalRelation CONCURS_WITH = or(OVERLAPS, FINISHED_BY, CONTAINS, STARTS, EQUALS, STARTED_BY, DURING, FINISHES, OVERLAPPED_BY);
 
   /**
    * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
@@ -629,7 +629,7 @@ public final class AllenRelation {
    * This relation is introduced because it is the possible result of the composition of 2 basic relations.
    */
   @Invars(@Expression("BEGINS_EARLIER == or(PRECEDES, MEETS, OVERLAPS, FINISHED_BY, CONTAINS)"))
-  public static final AllenRelation BEGINS_EARLIER = or(PRECEDES, MEETS, OVERLAPS, FINISHED_BY, CONTAINS);
+  public static final TimeIntervalRelation BEGINS_EARLIER = or(PRECEDES, MEETS, OVERLAPS, FINISHED_BY, CONTAINS);
 
   /**
    * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
@@ -640,7 +640,7 @@ public final class AllenRelation {
    * This relation is introduced because it is the possible result of the composition of 2 basic relations.
    */
   @Invars(@Expression("BEGIN_TOGETHER == or(STARTS, EQUALS, STARTED_BY)"))
-  public static final AllenRelation BEGIN_TOGETHER = or(STARTS, EQUALS, STARTED_BY);
+  public static final TimeIntervalRelation BEGIN_TOGETHER = or(STARTS, EQUALS, STARTED_BY);
 
   /**
    * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
@@ -651,7 +651,7 @@ public final class AllenRelation {
    * This relation is introduced because it is the possible result of the composition of 2 basic relations.
    */
   @Invars(@Expression("BEGINS_LATER == or(DURING, FINISHES, OVERLAPPED_BY, MET_BY, PRECEDED_BY)"))
-  public static final AllenRelation BEGINS_LATER = or(DURING, FINISHES, OVERLAPPED_BY, MET_BY, PRECEDED_BY);
+  public static final TimeIntervalRelation BEGINS_LATER = or(DURING, FINISHES, OVERLAPPED_BY, MET_BY, PRECEDED_BY);
 
   /**
    * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
@@ -662,7 +662,7 @@ public final class AllenRelation {
    * This relation is introduced because it is the possible result of the composition of 2 basic relations.
    */
   @Invars(@Expression("BEGINS_IN == or(DURING, FINISHES, OVERLAPPED_BY)"))
-  public static final AllenRelation BEGINS_IN = or(DURING, FINISHES, OVERLAPPED_BY);
+  public static final TimeIntervalRelation BEGINS_IN = or(DURING, FINISHES, OVERLAPPED_BY);
 
   /**
    * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
@@ -673,7 +673,7 @@ public final class AllenRelation {
    * This relation is introduced because it is the possible result of the composition of 2 basic relations.
    */
   @Invars(@Expression("BEGINS_EARLIER_AND_ENDS_EARLIER == or(PRECEDES, MEETS, OVERLAPS)"))
-  public static final AllenRelation BEGINS_EARLIER_AND_ENDS_EARLIER = or(PRECEDES, MEETS, OVERLAPS);
+  public static final TimeIntervalRelation BEGINS_EARLIER_AND_ENDS_EARLIER = or(PRECEDES, MEETS, OVERLAPS);
 
   /**
    * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
@@ -684,7 +684,7 @@ public final class AllenRelation {
    * This relation is introduced because it is the possible result of the composition of 2 basic relations.
    */
   @Invars(@Expression("BEGINS_LATER_AND_ENDS_LATER == or(OVERLAPPED_BY, MET_BY, PRECEDED_BY)"))
-  public static final AllenRelation BEGINS_LATER_AND_ENDS_LATER = or(OVERLAPPED_BY, MET_BY, PRECEDED_BY);
+  public static final TimeIntervalRelation BEGINS_LATER_AND_ENDS_LATER = or(OVERLAPPED_BY, MET_BY, PRECEDED_BY);
 
   /**
    * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
@@ -695,7 +695,7 @@ public final class AllenRelation {
    * This relation is introduced because it is the possible result of the composition of 2 basic relations.
    */
   @Invars(@Expression("ENDS_EARLIER == or(PRECEDES, MEETS, OVERLAPS, STARTS, DURING)"))
-  public static final AllenRelation ENDS_EARLIER = or(PRECEDES, MEETS, OVERLAPS, STARTS, DURING);
+  public static final TimeIntervalRelation ENDS_EARLIER = or(PRECEDES, MEETS, OVERLAPS, STARTS, DURING);
 
   /**
    * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
@@ -706,7 +706,7 @@ public final class AllenRelation {
    * This relation is introduced because it is the possible result of the composition of 2 basic relations.
    */
   @Invars(@Expression("ENDS_IN == or(OVERLAPS, STARTS, DURING)"))
-  public static final AllenRelation ENDS_IN = or(OVERLAPS, STARTS, DURING);
+  public static final TimeIntervalRelation ENDS_IN = or(OVERLAPS, STARTS, DURING);
 
   /**
    * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
@@ -717,7 +717,7 @@ public final class AllenRelation {
    * This relation is introduced because it is the possible result of the composition of 2 basic relations.
    */
   @Invars(@Expression("END_TOGETHER == or(FINISHED_BY, EQUALS, FINISHES)"))
-  public static final AllenRelation END_TOGETHER = or(FINISHED_BY, EQUALS, FINISHES);
+  public static final TimeIntervalRelation END_TOGETHER = or(FINISHED_BY, EQUALS, FINISHES);
 
   /**
    * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
@@ -728,7 +728,7 @@ public final class AllenRelation {
    * This relation is introduced because it is the possible result of the composition of 2 basic relations.
    */
   @Invars(@Expression("ENDS_LATER == or(CONTAINS, STARTED_BY, OVERLAPPED_BY, MET_BY, PRECEDED_BY)"))
-  public static final AllenRelation ENDS_LATER = or(CONTAINS, STARTED_BY, OVERLAPPED_BY, MET_BY, PRECEDED_BY);
+  public static final TimeIntervalRelation ENDS_LATER = or(CONTAINS, STARTED_BY, OVERLAPPED_BY, MET_BY, PRECEDED_BY);
 
   /**
    * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
@@ -739,7 +739,7 @@ public final class AllenRelation {
    * This relation is introduced because it is the possible result of the composition of 2 basic relations.
    */
   @Invars(@Expression("CONTAINS_BEGIN == or(OVERLAPS, FINISHED_BY, CONTAINS)"))
-  public static final AllenRelation CONTAINS_BEGIN = or(OVERLAPS, FINISHED_BY, CONTAINS);
+  public static final TimeIntervalRelation CONTAINS_BEGIN = or(OVERLAPS, FINISHED_BY, CONTAINS);
 
   /**
    * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
@@ -750,7 +750,7 @@ public final class AllenRelation {
    * This relation is introduced because it is the possible result of the composition of 2 basic relations.
    */
   @Invars(@Expression("CONTAINS_END == or(CONTAINS, STARTED_BY, OVERLAPPED_BY)"))
-  public static final AllenRelation CONTAINS_END = or(CONTAINS, STARTED_BY, OVERLAPPED_BY);
+  public static final TimeIntervalRelation CONTAINS_END = or(CONTAINS, STARTED_BY, OVERLAPPED_BY);
 
   /*</section>*/
 
@@ -766,12 +766,12 @@ public final class AllenRelation {
    * as sets of basic relations.
    */
   @MethodContract(post = {
-    @Expression("for (AllenRelation br : BASIC_RELATIONS) {exists (AllenRelation ar : _gr) {ar.impliedBy(br)} ?? result.impliedBy(br)}")
+    @Expression("for (TimeIntervalRelation br : BASIC_RELATIONS) {exists (TimeIntervalRelation ar : _gr) {ar.impliedBy(br)} ?? result.impliedBy(br)}")
   })
-  public static AllenRelation or(AllenRelation... gr) {
+  public static TimeIntervalRelation or(TimeIntervalRelation... gr) {
     int acc = EMPTY_BIT_PATTERN;
-    for (AllenRelation allenRelation : gr) {
-      acc |= allenRelation.$bitPattern;
+    for (TimeIntervalRelation tir : gr) {
+      acc |= tir.$bitPattern;
     }
     return VALUES[acc];
   }
@@ -782,12 +782,12 @@ public final class AllenRelation {
    * as sets of basic relations.
    */
   @MethodContract(post = {
-    @Expression("for (AllenRelation br : BASIC_RELATIONS) {for (AllenRelation ar : _gr) {ar.impliedBy(br)} ?? result.impliedBy(br)}")
+    @Expression("for (TimeIntervalRelation br : BASIC_RELATIONS) {for (TimeIntervalRelation ar : _gr) {ar.impliedBy(br)} ?? result.impliedBy(br)}")
   })
-  public static AllenRelation and(AllenRelation... gr) {
+  public static TimeIntervalRelation and(TimeIntervalRelation... gr) {
     int acc = FULL_BIT_PATTERN;
-    for (AllenRelation allenRelation : gr) {
-      acc &= allenRelation.$bitPattern;
+    for (TimeIntervalRelation tir : gr) {
+      acc &= tir.$bitPattern;
     }
     return VALUES[acc];
   }
@@ -800,9 +800,9 @@ public final class AllenRelation {
       @Expression("_base != null"),
       @Expression("_term != null")
     },
-    post = @Expression("for (AllenRelation br : BASIC_RELATIONS) {br.implies(result) ?? br.implies(_base) && ! br.implies(_term)}")
+    post = @Expression("for (TimeIntervalRelation br : BASIC_RELATIONS) {br.implies(result) ?? br.implies(_base) && ! br.implies(_term)}")
   )
-  public static AllenRelation min(AllenRelation base, AllenRelation term) {
+  public static TimeIntervalRelation min(TimeIntervalRelation base, TimeIntervalRelation term) {
     assert preArgumentNotNull(base, "base");
     assert preArgumentNotNull(term, "term");
     int xor = base.$bitPattern ^ term.$bitPattern;
@@ -812,9 +812,9 @@ public final class AllenRelation {
 
   /**
    * This matrix holds the compositions of basic Allen relations. These are part of the given semantics, and cannot be
-   * calculated. See {@link #compose(AllenRelation, AllenRelation)}.
+   * calculated. See {@link #compose(TimeIntervalRelation, TimeIntervalRelation)}.
    */
-  public final static AllenRelation[][] BASIC_COMPOSITIONS =
+  public final static TimeIntervalRelation[][] BASIC_COMPOSITIONS =
     {
       {PRECEDES,PRECEDES,PRECEDES,PRECEDES,PRECEDES,PRECEDES,PRECEDES,PRECEDES,ENDS_EARLIER,ENDS_EARLIER,ENDS_EARLIER,ENDS_EARLIER,FULL},
       {PRECEDES,PRECEDES,PRECEDES,PRECEDES,PRECEDES,MEETS,MEETS,MEETS,ENDS_IN,ENDS_IN,ENDS_IN,END_TOGETHER,ENDS_LATER},
@@ -846,17 +846,17 @@ public final class AllenRelation {
       @Expression("_gr2 != null")
     },
     post = {
-      @Expression("for (AllenRelation br1 : BASIC_RELATIONS) {for (AllenRelation br2: BASIC_RELATIONS) {" +
+      @Expression("for (TimeIntervalRelation br1 : BASIC_RELATIONS) {for (TimeIntervalRelation br2: BASIC_RELATIONS) {" +
                     "br1.implies(_gr1) && br2.implies(_gr2) ? result.impliedBy(BASIC_COMPOSITIONS[br1.basicRelationOrdinal()][br2.basicRelationOrdinal()])" +
                   "}}")
   })
-  public static AllenRelation compose(AllenRelation gr1, AllenRelation gr2) {
+  public static TimeIntervalRelation compose(TimeIntervalRelation gr1, TimeIntervalRelation gr2) {
     assert preArgumentNotNull(gr1, "gr1");
     assert preArgumentNotNull(gr2, "gr2");
-    AllenRelation acc = EMPTY;
-    for (AllenRelation br1 : BASIC_RELATIONS) {
+    TimeIntervalRelation acc = EMPTY;
+    for (TimeIntervalRelation br1 : BASIC_RELATIONS) {
       if (gr1.impliedBy(br1)) {
-        for (AllenRelation br2 : BASIC_RELATIONS) {
+        for (TimeIntervalRelation br2 : BASIC_RELATIONS) {
           if (gr2.impliedBy(br2)) {
             acc = or(acc, BASIC_COMPOSITIONS[br1.basicRelationOrdinal()][br2.basicRelationOrdinal()]);
           }
@@ -874,12 +874,12 @@ public final class AllenRelation {
    *
    * @mudo contract
    */
-  public static AllenRelation allenRelation(TimeInterval i1, TimeInterval i2) {
+  public static TimeIntervalRelation timeIntervalRelation(TimeInterval i1, TimeInterval i2) {
     Date i1Begin = i1.getBegin();
     Date i1End = i1.getEnd();
     Date i2Begin = i2.getBegin();
     Date i2End = i2.getEnd();
-    AllenRelation result = FULL;
+    TimeIntervalRelation result = FULL;
     if (i1Begin != null) {
       if (i2Begin != null) {
         if (i1Begin.before(i2Begin)) {
@@ -955,7 +955,7 @@ public final class AllenRelation {
     },
     post = @Expression("$bitpattern == bitPattern")
   )
-  private AllenRelation(int bitPattern) {
+  private TimeIntervalRelation(int bitPattern) {
     assert pre(bitPattern >= EMPTY_BIT_PATTERN);
     assert pre(bitPattern <= FULL_BIT_PATTERN);
     $bitPattern = bitPattern;
@@ -1027,7 +1027,7 @@ public final class AllenRelation {
    * {@link Float#NaN} as value for {@link #EMPTY}.
    */
   @MethodContract(post = {
-    @Expression("this != EMPTY ? result == count (AllenRelation br : BASIC_RELATIONS) {br.implies(this)} - 1) / 12"),
+    @Expression("this != EMPTY ? result == count (TimeIntervalRelation br : BASIC_RELATIONS) {br.implies(this)} - 1) / 12"),
     @Expression("this == EMPTY ? result == Float.NaN")
   })
   public float uncertainty() {
@@ -1064,9 +1064,9 @@ public final class AllenRelation {
     @Expression("this == OVERLAPPED_BY ? converse() == OVERLAPS"),
     @Expression("this == MET_BY ? converse() == MEETS"),
     @Expression("this == PRECEDED_BY ? converse() == PRECEDES"),
-    @Expression("for (AllenRelation br : BASIC_RELATIONS) {impliedBy(br) ?? converse().impliedBy(br.converse())}")
+    @Expression("for (TimeIntervalRelation br : BASIC_RELATIONS) {impliedBy(br) ?? converse().impliedBy(br.converse())}")
   })
-  public final AllenRelation converse() {
+  public final TimeIntervalRelation converse() {
     /*
      * Given the current order in which the basic relations occur in the bit pattern,
      * the converse is the reverse bit pattern (read the bit pattern from left to right
@@ -1088,8 +1088,8 @@ public final class AllenRelation {
    *   ...
    *   TimeInterval i1 = ...;
    *   TimeInterval i2 = ...;
-   *   AllenRelation condition = ...;
-   *   AllenRelation actual = allenRelation(i1, i2);
+   *   TimeIntervalRelation condition = ...;
+   *   TimeIntervalRelation actual = allenRelation(i1, i2);
    *   if (! actual.implies(condition)) {
    *     throw new ....
    *   }
@@ -1141,11 +1141,11 @@ public final class AllenRelation {
    * <p>Note that it is exactly this counter-intuitivity that makes reasoning with time intervals so difficult.</p>
    */
   @MethodContract(post = {
-    @Expression("for (AllenRelation br : BASIC_RELATIONS) {" +
+    @Expression("for (TimeIntervalRelation br : BASIC_RELATIONS) {" +
                   "(impliedBy(br) ?? ! complement().impliedBy(br)) && (! impliedBy(br) ?? complement().impliedBy(br))" +
                 "}")
   })
-  public final AllenRelation complement() {
+  public final TimeIntervalRelation complement() {
     /*
      * implemented as the XOR of the FULL bit pattern with this bit pattern;
      * this simply replaces 0 with 1 and 1 with 0.
@@ -1163,11 +1163,11 @@ public final class AllenRelation {
     pre = @Expression("_gr != null"),
     invars = {
       @Expression("impliedBy(this)"),
-      @Expression("basic ? for (AllenRelation br : BASIC_RELATIONS) : {br != this ? ! impliedBy(br)}"),
-      @Expression("for (AllenRelation gr) {impliedBy(gr) == for (AllenRelation br : BASIC_RELATIONS) : {gr.impliedBy(br) ? impliedBy(br)}")
+      @Expression("basic ? for (TimeIntervalRelation br : BASIC_RELATIONS) : {br != this ? ! impliedBy(br)}"),
+      @Expression("for (TimeIntervalRelation gr) {impliedBy(gr) == for (TimeIntervalRelation br : BASIC_RELATIONS) : {gr.impliedBy(br) ? impliedBy(br)}")
     }
   )
-  public final boolean impliedBy(AllenRelation gr) {
+  public final boolean impliedBy(TimeIntervalRelation gr) {
     assert preArgumentNotNull(gr, "gr");
     return ($bitPattern & gr.$bitPattern) == gr.$bitPattern;
   }
@@ -1180,7 +1180,7 @@ public final class AllenRelation {
     pre = @Expression("_gr != null"),
     invars = @Expression("_gr.impliedBy(this)")
   )
-  public final boolean implies(AllenRelation gr) {
+  public final boolean implies(TimeIntervalRelation gr) {
     assert preArgumentNotNull(gr, "gr");
     return (gr.$bitPattern & $bitPattern) == $bitPattern;
   }
