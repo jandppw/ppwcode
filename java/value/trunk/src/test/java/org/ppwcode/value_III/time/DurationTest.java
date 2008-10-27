@@ -17,7 +17,8 @@ limitations under the License.
 package org.ppwcode.value_III.time;
 
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.ppwcode.util.test.contract.Contract.contractFor;
 import static org.ppwcode.value_III.time.Duration.Unit.CENTURY;
 import static org.ppwcode.value_III.time.Duration.Unit.DAY;
@@ -34,6 +35,7 @@ import static org.ppwcode.value_III.time.Duration.Unit.YEAR;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -42,24 +44,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.ppwcode.util.test.contract.NoSuchContractException;
 import org.ppwcode.value_III.time.Duration.Unit;
-import org.ppwcode.value_III.time.interval.AbstractTimeInterval;
-import org.ppwcode.value_III.time.interval.TimeInterval;
-import org.ppwcode.value_III.time.interval._Contract_TimeInterval;
 import org.ppwcode.vernacular.value_III.ImmutableValue;
 import org.ppwcode.vernacular.value_III._Contract_ImmutableValue;
 
 
 public class DurationTest {
-
-  private List<AbstractTimeInterval> $subjects;
-
-  @Before
-  public void setUp() throws Exception {
-  }
-
-  @After
-  public void tearDown() throws Exception {
-  }
 
   @Test
   public void demo() {
@@ -117,6 +106,26 @@ public class DurationTest {
 
   public final static long[] LONGS = {0L, 1L, 10L, 1000L, 3600000L, MILLENNIUM.asMilliseconds(), Long.MAX_VALUE};
 
+  public List<Duration> $subjects;
+
+  @Before
+  public void before() {
+    $subjects = new ArrayList<Duration>();
+    for (long lS : LONGS) {
+      for (Duration.Unit uS : Duration.Unit.values()) {
+        if (lS < uS.maxDuration()) {
+          Duration subject = new Duration(lS, uS);
+          $subjects.add(subject);
+        }
+      }
+    }
+  }
+
+  @After
+  public void after() {
+    $subjects = null;
+  }
+
   private void assertInvariants(Duration subject) {
 //    NumberFormat nf = NumberFormat.getNumberInstance(new Locale("nl", "BE"));
 //    System.out.println("  subject = " + subject);
@@ -170,48 +179,51 @@ public class DurationTest {
 
   @Test
   public void testEqualsObject() {
-    for (long lS : LONGS) {
-      for (Duration.Unit uS : Duration.Unit.values()) {
-        if (lS < uS.maxDuration()) {
-          Duration subject = new Duration(lS, uS);
-          testEqualsObject(subject, null);
-          testEqualsObject(subject, new Object());
-          for (long lO : LONGS) {
-            for (Duration.Unit uO : Duration.Unit.values()) {
-              if (lO < uO.maxDuration()) {
-                Duration other = new Duration(lO, uO);
-                testEqualsObject(subject, other);
-              }
-            }
-          }
-        }
+    for (Duration subject : $subjects) {
+      testEqualsObject(subject, null);
+      testEqualsObject(subject, new Object());
+      for (Duration other : $subjects) {
+        testEqualsObject(subject, other);
       }
     }
   }
 
   @Test
   public void testHashCode() {
-    fail("Not yet implemented");
-  }
-
-  @Test
-  public void testDuration() {
-    fail("Not yet implemented");
-  }
-
-  @Test
-  public void testAs() {
-    fail("Not yet implemented");
+    for (Duration subject : $subjects) {
+      subject.hashCode();
+      CONTRACT.assertInvariants(subject);
+    }
   }
 
   @Test
   public void testToString() {
-    fail("Not yet implemented");
+    for (Duration subject : $subjects) {
+      subject.toString();
+      CONTRACT.assertInvariants(subject);
+    }
   }
 
   @Test
   public void testCompareTo() {
-    fail("Not yet implemented");
+    for (Duration subject : $subjects) {
+      testCompareTo(subject, null);
+      for (Duration other : $subjects) {
+        testCompareTo(subject, other);
+      }
+    }
+  }
+
+  private void testCompareTo(Duration subject, Duration other) {
+    int result = subject.compareTo(other);
+    assertTrue(result == 0 ? subject.equals(other) : true);
+    int expected = ((other == null || subject.as(MILLISECOND) < other.as(MILLISECOND)) ? -1 :
+                      (subject.as(MILLISECOND) == other.as(MILLISECOND) ? 0 : +1));
+    assertEquals(expected, result);
+    CONTRACT.assertInvariants(subject);
+    if (other != null) {
+      CONTRACT.assertInvariants(other);
+    }
   }
 
 }
