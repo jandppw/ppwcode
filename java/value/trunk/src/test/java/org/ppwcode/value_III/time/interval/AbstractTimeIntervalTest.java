@@ -104,13 +104,17 @@ public class AbstractTimeIntervalTest {
     $subjects = null;
   }
 
+  protected void assertInvariants(AbstractTimeInterval subject) {
+    CONTRACT.assertInvariants(subject);
+  }
+
   public void testEqualsObject(AbstractTimeInterval subject, Object other) {
     boolean result = subject.equals(other);
 //    System.out.println(subject + ".equals(" + other + ") == " + result);
     CONTRACT.assertEqualsObject(subject, other, result);
-    CONTRACT.assertInvariants(subject);
+    assertInvariants(subject);
     if (other instanceof TimeInterval) {
-      CONTRACT.assertInvariants((TimeInterval)other);
+      assertInvariants((AbstractTimeInterval)other);
     }
   }
 
@@ -118,9 +122,13 @@ public class AbstractTimeIntervalTest {
   public void testEqualsObject() {
     for (AbstractTimeInterval subject : subjects()) {
       testEqualsObject(subject, null);
+      assertInvariants(subject);
       testEqualsObject(subject, new Object());
+      assertInvariants(subject);
       for (AbstractTimeInterval other : subjects()) {
         testEqualsObject(subject, other);
+        assertInvariants(subject);
+        assertInvariants(other);
       }
     }
   }
@@ -130,7 +138,7 @@ public class AbstractTimeIntervalTest {
     for (AbstractTimeInterval subject : subjects()) {
       int result = subject.hashCode();
       CONTRACT.assertHashCode(subject, result);
-      CONTRACT.assertInvariants(subject);
+      assertInvariants(subject);
     }
   }
 
@@ -140,7 +148,7 @@ public class AbstractTimeIntervalTest {
       String result = subject.toString();
 //      System.out.println(result);
       CONTRACT.assertToString(subject, result);
-      CONTRACT.assertInvariants(subject);
+      assertInvariants(subject);
     }
   }
 
@@ -155,7 +163,7 @@ public class AbstractTimeIntervalTest {
   private void testDeterminateBegin(AbstractTimeInterval subject, Date d) {
     Date result = subject.determinateBegin(d);
     CONTRACT.assertDeterminateBegin(subject, d, result);
-    CONTRACT.assertInvariants(subject);
+    assertInvariants(subject);
   }
 
   @Test
@@ -169,7 +177,7 @@ public class AbstractTimeIntervalTest {
   private void testDeterminateEnd(AbstractTimeInterval subject, Date d) {
     Date result = subject.determinateEnd(d);
     CONTRACT.assertDeterminateEnd(subject, d, result);
-    CONTRACT.assertInvariants(subject);
+    assertInvariants(subject);
   }
 
 }

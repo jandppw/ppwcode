@@ -44,7 +44,10 @@ import org.toryt.annotations_I.Throw;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-@Invars(@Expression("dayDate(_begin) == dayDate(_end)"))
+@Invars({
+  @Expression("begin == null || isDayDate(begin)"),
+  @Expression("end == null || isDayDate(end)")
+})
 public final class DayDateBeginEndTimeInterval extends AbstractBeginEndTimeInterval {
 
   @MethodContract(

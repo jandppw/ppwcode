@@ -69,6 +69,12 @@ public class DayDateBeginEndTimeIntervalTest extends AbstractBeginEndTimeInterva
     $dates = null;
   }
 
+  protected void assertInvariants(DayDateBeginEndTimeInterval subject) {
+    super.assertInvariants(subject);
+    assertTrue(subject.getBegin() == null || isDayDate(subject.getBegin()));
+    assertTrue(subject.getEnd() == null || isDayDate(subject.getEnd()));
+  }
+
   @Test
   public void testDayDateBeginEndTimeInterval() {
     for (Date d1 : $dates) {
@@ -77,6 +83,7 @@ public class DayDateBeginEndTimeIntervalTest extends AbstractBeginEndTimeInterva
           DayDateBeginEndTimeInterval subject = new DayDateBeginEndTimeInterval(d1, d2);
           assertEquals(d1, subject.getBegin());
           assertEquals(d2, subject.getEnd());
+          assertInvariants(subject);
         }
         catch (IllegalIntervalException exc) {
           assertTrue(! le(d1, d2) || (d1 != null && ! isDayDate(d1)) || (d2 != null && ! isDayDate(d2)));
@@ -97,7 +104,7 @@ public class DayDateBeginEndTimeIntervalTest extends AbstractBeginEndTimeInterva
           catch (IllegalIntervalException exc) {
             CONTRACT.assertDeterminate(subject, d1, d2, null, exc);
           }
-          CONTRACT.assertInvariants(subject);
+          assertInvariants(subject);
         }
       }
     }

@@ -64,6 +64,10 @@ public class AbstractBeginEndTimeIntervalTest extends AbstractTimeIntervalTest {
     $subjects = s;
   }
 
+  protected void assertInvariants(AbstractBeginEndTimeInterval subject) {
+    super.assertInvariants(subject);
+  }
+
   @Test
   public void testGetDuration() {
     for (AbstractBeginEndTimeInterval subject : subjects()) {
@@ -71,7 +75,7 @@ public class AbstractBeginEndTimeIntervalTest extends AbstractTimeIntervalTest {
       Duration expected = subject.getBegin() == null || subject.getEnd() == null ? null :
         delta(subject.getBegin(), subject.getEnd());
       assertEquals(expected, result);
-      CONTRACT.assertInvariants(subject);
+      assertInvariants(subject);
     }
   }
 
@@ -87,6 +91,7 @@ public class AbstractBeginEndTimeIntervalTest extends AbstractTimeIntervalTest {
           AbstractBeginEndTimeInterval subject = new StubAbstractBeginEndTimeInterval(d1, d2);
           assertEquals(d1, subject.getBegin());
           assertEquals(d2, subject.getEnd());
+          assertInvariants(subject);
         }
         catch (IllegalIntervalException exc) {
           assertTrue(! le(d1, d2));
