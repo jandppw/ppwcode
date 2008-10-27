@@ -28,7 +28,6 @@ import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.value_III.time.DateHelpers;
 import org.ppwcode.value_III.time.Duration;
-import org.ppwcode.vernacular.value_III.AbstractImmutableValue;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
@@ -45,7 +44,7 @@ import org.toryt.annotations_I.Throw;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-public abstract class AbstractBeginEndTimeInterval extends AbstractImmutableValue implements TimeInterval {
+public abstract class AbstractBeginEndTimeInterval extends AbstractTimeInterval {
 
   @MethodContract(
     post = {
