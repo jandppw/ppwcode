@@ -19,6 +19,7 @@ package org.ppwcode.value_III.time.interval;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.value_III.time.DateHelpers.dayDate;
+import static org.ppwcode.value_III.time.DateHelpers.sameDay;
 
 import java.util.Date;
 
@@ -45,7 +46,8 @@ import org.toryt.annotations_I.Throw;
          date     = "$Date$")
 @Invars({
   @Expression("begin != null"),
-  @Expression("end != null")
+  @Expression("end != null"),
+  @Expression("sameDay(_begin, _end)")
 })
 public final class DeterminateIntradayTimeInterval extends AbstractBeginEndTimeInterval {
 
@@ -58,7 +60,7 @@ public final class DeterminateIntradayTimeInterval extends AbstractBeginEndTimeI
       @Throw(type = IllegalIntervalException.class, cond = @Expression("! le(_begin, _end")),
       @Throw(type = IllegalIntervalException.class, cond = @Expression("_begin == null")),
       @Throw(type = IllegalIntervalException.class, cond = @Expression("_end == null")),
-      @Throw(type = IllegalIntervalException.class, cond = @Expression("dayDate(_begin) == dayDate(_end)"))
+      @Throw(type = IllegalIntervalException.class, cond = @Expression("sameDay(_begin, _end)"))
     }
   )
   public DeterminateIntradayTimeInterval(Date begin, Date end) throws IllegalIntervalException {
@@ -66,9 +68,12 @@ public final class DeterminateIntradayTimeInterval extends AbstractBeginEndTimeI
     if (begin == null || end == null) {
       throw new IllegalIntervalException(begin, end, "BEGIN_AND_END_MANDATORY");
     }
+    if (! sameDay(begin, end)) {
+      throw new IllegalIntervalException(begin, end, "NOT_INSIDE_ONE_DAY");
+    }
   }
 
-  public DeterminateIntradayTimeInterval determinate(Date stubBegin, Date stubEnd) throws IllegalIntervalException {
+  public DeterminateIntradayTimeInterval determinate(Date stubBegin, Date stubEnd) {
     return this; // we are determinate ourselfs
   }
 
