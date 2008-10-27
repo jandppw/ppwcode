@@ -37,12 +37,12 @@ import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.value_III.time.interval.BeginEndTimeInterval;
-import org.ppwcode.value_III.time.interval.DayDateBeginEndTimeInterval;
+import org.ppwcode.value_III.time.interval.DayDateTimeInterval;
 import org.ppwcode.value_III.time.interval.IllegalIntervalException;
 
 
 /**
- * A OpenJPA value handler for {@link DayDateBeginEndTimeInterval}. Begin and end are stored in 2
+ * A OpenJPA value handler for {@link DayDateTimeInterval}. Begin and end are stored in 2
  * columns in the database as {@code DATE}.
  *
  * @author Jan Dockx

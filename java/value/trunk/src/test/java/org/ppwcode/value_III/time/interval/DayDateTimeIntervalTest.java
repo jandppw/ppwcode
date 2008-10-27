@@ -23,33 +23,33 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class DayDateBeginEndTimeIntervalTest extends AbstractBeginEndTimeIntervalTest {
+public class DayDateTimeIntervalTest extends AbstractBeginEndTimeIntervalTest {
 
 
   @SuppressWarnings("unchecked")
   @Override
-  public List<? extends DayDateBeginEndTimeInterval> subjects() {
-    return (List<? extends DayDateBeginEndTimeInterval>)$subjects;
+  public List<? extends DayDateTimeInterval> subjects() {
+    return (List<? extends DayDateTimeInterval>)$subjects;
   }
 
   @Override
   @Before
   public void setUp() throws IllegalIntervalException {
-    List<DayDateBeginEndTimeInterval> s = new ArrayList<DayDateBeginEndTimeInterval>();
-    DayDateBeginEndTimeInterval subject = new DayDateBeginEndTimeInterval(null, null);
+    List<DayDateTimeInterval> s = new ArrayList<DayDateTimeInterval>();
+    DayDateTimeInterval subject = new DayDateTimeInterval(null, null);
     s.add(subject);
     final Date now = dayDate(new Date());
-    subject = new DayDateBeginEndTimeInterval(now, null);
+    subject = new DayDateTimeInterval(now, null);
     s.add(subject);
-    subject = new DayDateBeginEndTimeInterval(null, now);
+    subject = new DayDateTimeInterval(null, now);
     s.add(subject);
-    subject = new DayDateBeginEndTimeInterval(now, now);
+    subject = new DayDateTimeInterval(now, now);
     s.add(subject);
     final GregorianCalendar gcB = new GregorianCalendar(2000, 0, 1);
     final GregorianCalendar gcE = new GregorianCalendar(2122, 11, 31);
     final Date b = gcB.getTime();
     final Date e = gcE.getTime();
-    subject = new DayDateBeginEndTimeInterval(b, e);
+    subject = new DayDateTimeInterval(b, e);
     s.add(subject);
     $subjects = s;
   }
@@ -69,7 +69,7 @@ public class DayDateBeginEndTimeIntervalTest extends AbstractBeginEndTimeInterva
     $dates = null;
   }
 
-  protected void assertInvariants(DayDateBeginEndTimeInterval subject) {
+  protected void assertInvariants(DayDateTimeInterval subject) {
     super.assertInvariants(subject);
     assertTrue(subject.getBegin() == null || isDayDate(subject.getBegin()));
     assertTrue(subject.getEnd() == null || isDayDate(subject.getEnd()));
@@ -80,7 +80,7 @@ public class DayDateBeginEndTimeIntervalTest extends AbstractBeginEndTimeInterva
     for (Date d1 : $dates) {
       for (Date d2 : $dates) {
         try {
-          DayDateBeginEndTimeInterval subject = new DayDateBeginEndTimeInterval(d1, d2);
+          DayDateTimeInterval subject = new DayDateTimeInterval(d1, d2);
           assertEquals(d1, subject.getBegin());
           assertEquals(d2, subject.getEnd());
           assertInvariants(subject);
@@ -94,11 +94,11 @@ public class DayDateBeginEndTimeIntervalTest extends AbstractBeginEndTimeInterva
 
   @Test
   public void testDeterminate() {
-    for (DayDateBeginEndTimeInterval subject : subjects()) {
+    for (DayDateTimeInterval subject : subjects()) {
       for (Date d1 : $dates) {
         for (Date d2 : $dates) {
           try {
-            DayDateBeginEndTimeInterval result = subject.determinate(d1, d2);
+            DayDateTimeInterval result = subject.determinate(d1, d2);
             CONTRACT.assertDeterminate(subject, d1, d2, result, null);
           }
           catch (IllegalIntervalException exc) {
