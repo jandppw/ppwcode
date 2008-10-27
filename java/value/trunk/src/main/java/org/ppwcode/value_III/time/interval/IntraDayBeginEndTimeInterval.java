@@ -19,6 +19,7 @@ package org.ppwcode.value_III.time.interval;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.value_III.time.DateHelpers.dayDate;
+import static org.ppwcode.value_III.time.DateHelpers.sameDay;
 
 import java.util.Date;
 
@@ -45,7 +46,7 @@ import org.toryt.annotations_I.Throw;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision: 3285 $",
          date     = "$Date: 2008-10-24 16:52:32 +0200 (Fri, 24 Oct 2008) $")
-@Invars(@Expression("dayDate(_begin) == dayDate(_end)"))
+@Invars(@Expression("sameDay_begin, _end)"))
 public final class IntraDayBeginEndTimeInterval extends AbstractBeginEndTimeInterval {
 
   @MethodContract(
@@ -55,15 +56,13 @@ public final class IntraDayBeginEndTimeInterval extends AbstractBeginEndTimeInte
     },
     exc  = {
       @Throw(type = IllegalIntervalException.class, cond = @Expression("! le(_begin, _end")),
-      @Throw(type = IllegalIntervalException.class, cond = @Expression("dayDate(_begin) == dayDate(_end)"))
+      @Throw(type = IllegalIntervalException.class, cond = @Expression("! sameDay(_begin, _end)"))
     }
   )
   public IntraDayBeginEndTimeInterval(Date begin, Date end) throws IllegalIntervalException {
     super(begin, end);
     if (begin != null && end != null) {
-      Date beginDay = dayDate(begin);
-      Date endDay = dayDate(end);
-      if (! beginDay.equals(endDay)) {
+      if (! sameDay(begin, end)) {
         throw new IllegalIntervalException(begin, end, "NOT_INSIDE_ONE_DAY");
       }
     }
@@ -71,6 +70,19 @@ public final class IntraDayBeginEndTimeInterval extends AbstractBeginEndTimeInte
 
   public IntraDayBeginEndTimeInterval determinate(Date stubBegin, Date stubEnd) throws IllegalIntervalException {
     return new IntraDayBeginEndTimeInterval(determinateBegin(stubBegin), determinateEnd(stubEnd));
+  }
+
+  @MethodContract(post = @Expression("begin != null ? dayDate(begin) : end != null ? dayDate(end) : null"))
+  public final Date getDay() {
+    if (getBegin() != null) {
+      return dayDate(getBegin());
+    }
+    else if (getEnd() != null) {
+      return dayDate(getEnd());
+    }
+    else {
+      return null;
+    }
   }
 
 }
