@@ -106,7 +106,7 @@ public final class IntradayBeginEndTimeIntervalValueHandler implements ValueHand
     try {
       Object[] dates = (Date[])fromDb;
       Date day = (Date)dates[0];
-      assert isDayDate(day);
+      assert day == null || isDayDate(day);
       Date beginTime = (Date)dates[1];
       beginTime = addTime(day, beginTime);
       Date endTime = (Date)dates[2];
@@ -128,9 +128,12 @@ public final class IntradayBeginEndTimeIntervalValueHandler implements ValueHand
     return null; // make compiler happy
   }
 
-  private Date addTime(Date day, Date beginTime) {
+  private Date addTime(Date day, Date time) {
+    if (day == null || time == null) {
+      return null;
+    }
     long millies = day.getTime();
-    millies += beginTime.getTime();
+    millies += time.getTime();
     Date result = new Date(millies);
     return result;
   }
