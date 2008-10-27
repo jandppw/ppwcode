@@ -115,6 +115,7 @@ public class DateHelpers {
     cal.clear(Calendar.SECOND);
     cal.clear(Calendar.MILLISECOND);
     Date result = cal.getTime();
+    assert result != date;
     return result;
   }
 
