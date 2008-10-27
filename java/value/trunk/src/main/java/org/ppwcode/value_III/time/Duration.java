@@ -36,6 +36,11 @@ import org.toryt.annotations_I.MethodContract;
 
 /**
  * A duration of time. The smallest unit we can work with are <em>ms</em>.
+ *
+ * @note This class is "under design". This is a first version, but we lack use cases to
+ *       validate better implementations. If you have better code, please submit it.
+ *       The current maximal duration is approx. 292 471 200 years. The age of the universe
+ *       is approx. 14 000 000 000 years.
  */
 @Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
@@ -55,17 +60,17 @@ public final class Duration extends AbstractImmutableValue implements Comparable
     SECOND      (1000),
 
     @Invars(@Expression("MINUTE.asMilliseconds() == 60 * 1000"))
-    MINUTE      (60 * 1000),
+    MINUTE      (60L * 1000L),
 
     @Invars(@Expression("HOUR.asMilliseconds() == 60 * 60 * 1000"))
-    HOUR        (60 * 60 * 1000),
+    HOUR        (60L * 60L * 1000L),
 
     /**
      * The duration of one day. Note that calculations with this duration
      * are off if the actual day you are talking about contains a leap second.
      */
     @Invars(@Expression("DAY.asMilliseconds() == 24 * 60 * 60 * 1000"))
-    DAY         (24 * 60 * 60 * 1000),
+    DAY         (24L * 60L * 60L * 1000L),
 
     /**
      * The duration of 7 days. Note that calculations with this duration
@@ -73,7 +78,7 @@ public final class Duration extends AbstractImmutableValue implements Comparable
      * leap second.
      */
     @Invars(@Expression("WEEK.asMilliseconds() == 7 * 24 * 60 * 60 * 1000"))
-    WEEK        (7 * 24 * 60 * 60 * 1000),
+    WEEK        (7L * 24L * 60L * 60L * 1000L),
 
     /**
      * The duration of 30 days. Note that calculations with this duration
@@ -82,7 +87,7 @@ public final class Duration extends AbstractImmutableValue implements Comparable
      * months with 28, 29, 30 or 31 days.
      */
     @Invars(@Expression("MONTH.asMilliseconds() == 30 * 24 * 60 * 60 * 1000"))
-    MONTH       (30 * 24 * 60 * 60 * 1000),
+    MONTH       (30L * 24L * 60L * 60L * 1000L),
 
     /**
      * The duration of 90 days. Note that calculations with this duration
@@ -91,14 +96,14 @@ public final class Duration extends AbstractImmutableValue implements Comparable
      * months with 28, 29, 30 or 31 days.
      */
     @Invars(@Expression("QUARTER.asMilliseconds() == 90 * 24 * 60 * 60 * 1000"))
-    QUARTER     (3 * 30 * 24 * 60 * 60 * 1000),
+    QUARTER     (3L * 30L * 24L * 60L * 60L * 1000L),
 
     /**
      * The duration of 365 days. Note that calculations with this duration
      * are off if the actual year contains a leap day or a day with a leap second.
      */
     @Invars(@Expression("YEAR.asMilliseconds() == 365 * 24 * 60 * 60 * 1000"))
-    YEAR        (365 * 24 * 60 * 60 * 1000),
+    YEAR        (365L * 24L * 60L * 60L * 1000L),
 
     /**
      * 10 years. In every decennium, there are 2 leap years. Note that calculations
@@ -106,7 +111,7 @@ public final class Duration extends AbstractImmutableValue implements Comparable
      * years on century breaks (or exceptions on that on milbreaks).
      */
     @Invars(@Expression("DECENNIUM.asMilliseconds() == ((10 * 365) + 2) * 24 * 60 * 60 * 1000"))
-    DECENNIUM   (((10 * 365) + 2) * 24 * 60 * 60 * 1000),
+    DECENNIUM   (((10L * 365L) + 2L) * 24L * 60L * 60L * 1000L),
 
     /**
      * 100 years. In every century, there are 24 leap years (100 / 4, minus the
@@ -115,7 +120,7 @@ public final class Duration extends AbstractImmutableValue implements Comparable
      * a century break that is also a millennium break indeed is a leap year.
      */
     @Invars(@Expression("CENTURY.asMilliseconds() == ((100 * 365) + 24) * 24 * 60 * 60 * 1000"))
-    CENTURY     (((100 * 365) + 24) * 24 * 60 * 60 * 1000),
+    CENTURY     (((100L * 365L) + 24L) * 24L * 60L * 60L * 1000L),
 
     /**
      * 1000 years. In every century, there are 241 leap years (the leap years in a century (24)
@@ -123,42 +128,67 @@ public final class Duration extends AbstractImmutableValue implements Comparable
      * does not take into account leap seconds.
      */
     @Invars(@Expression("MILLENNNIUM.asMilliseconds() == ((1000 * 365) + 241) * 24 * 60 * 60 * 1000"))
-    MILLENNIUM   (((1000 * 365) + 241) * 24 * 60 * 60 * 1000);
+    MILLENNIUM   (((1000L * 365L) + 241L) * 24L * 60L * 60L * 1000L);
 
-    private Unit(int milliseconds) {
+    private Unit(long milliseconds) {
       $milliseconds = milliseconds;
+      $maxDuration = Long.MAX_VALUE / milliseconds;
     }
 
     /**
      * The factor <code>{@link #MILLISECOND} / this</code>}.
      */
-    @Basic
-    public int asMilliseconds() {
+    @Basic(invars = @Expression("asMilliseconds() > 0"))
+    public long asMilliseconds() {
       return $milliseconds;
     }
 
-    private int $milliseconds;
+    private long $milliseconds;
+
+    /**
+     * The maximum duration expressed in this unit.
+     */
+    @Basic(invars = @Expression("maxDuration() == Long.MAX_VALUE / asMilliseconds()"))
+    public long maxDuration() {
+      return $maxDuration;
+    }
+
+    private long $maxDuration;
 
   }
+
+
+
+  /**
+   * The maximal duration supported. This is 9 223 372 036 854 776 000 milliseconds, which is
+   * approx. 292 471 200 years.
+   */
+  public final static Duration MAX_VALUE = new Duration(Long.MAX_VALUE, MILLISECOND);
 
   @MethodContract(
     pre  = {
       @Expression("d >= 0"),
-      @Expression("d != 0 ? unit != null")
+      @Expression("d != 0 ? unit != null"),
+      @Expression("d != 0 ? d <= unit.maxDuration()")
     },
     post = @Expression("as(MILLISECOND) == d * unit.asMilliseconds()")
   )
   public Duration(long d, Unit unit) {
-    pre(d >= 0, "d >= 0");
-    pre(d != 0 ? unit != null : true, "unit != null");
+    assert pre(d >= 0, "d >= 0");
+    assert pre(d != 0 ? unit != null : true, "unit != null");
+    pre(d != 0 ? d <= unit.maxDuration() : true); // this is deliberately not put after an assert; this we want to validate ALWAYS
     $millis = (d == 0) ? 0 : d * unit.asMilliseconds();
   }
 
+  /**
+   * This duration expressed in the unit {@code unit}. Expect accurary to 5 decimals.
+   */
   @Basic(pre = @Expression("unit != null"),
          invars = @Expression("for (Unit u : Unit.values()) {as(u) >= 0}"))
   public final float as(Unit unit) {
     preArgumentNotNull(unit, "unit");
-    return $millis / unit.asMilliseconds();
+//    System.out.println("      unit = " + unit.asMilliseconds() + "ms");
+    return ((float)$millis) / unit.asMilliseconds();
   }
 
   @Invars(@Expression("$millis >= 0"))
