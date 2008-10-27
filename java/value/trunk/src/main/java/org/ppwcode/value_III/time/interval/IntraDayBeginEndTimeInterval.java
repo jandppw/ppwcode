@@ -47,7 +47,7 @@ import org.toryt.annotations_I.Throw;
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
 @Invars(@Expression("sameDay_begin, _end)"))
-public final class IntraDayBeginEndTimeInterval extends AbstractBeginEndTimeInterval {
+public final class IntradayBeginEndTimeInterval extends AbstractBeginEndTimeInterval {
 
   @MethodContract(
     post = {
@@ -59,7 +59,7 @@ public final class IntraDayBeginEndTimeInterval extends AbstractBeginEndTimeInte
       @Throw(type = IllegalIntervalException.class, cond = @Expression("! sameDay(_begin, _end)"))
     }
   )
-  public IntraDayBeginEndTimeInterval(Date begin, Date end) throws IllegalIntervalException {
+  public IntradayBeginEndTimeInterval(Date begin, Date end) throws IllegalIntervalException {
     super(begin, end);
     if (begin != null && end != null) {
       if (! sameDay(begin, end)) {
@@ -68,8 +68,8 @@ public final class IntraDayBeginEndTimeInterval extends AbstractBeginEndTimeInte
     }
   }
 
-  public IntraDayBeginEndTimeInterval determinate(Date stubBegin, Date stubEnd) throws IllegalIntervalException {
-    return new IntraDayBeginEndTimeInterval(determinateBegin(stubBegin), determinateEnd(stubEnd));
+  public IntradayBeginEndTimeInterval determinate(Date stubBegin, Date stubEnd) throws IllegalIntervalException {
+    return new IntradayBeginEndTimeInterval(determinateBegin(stubBegin), determinateEnd(stubEnd));
   }
 
   @MethodContract(post = @Expression("begin != null ? dayDate(begin) : end != null ? dayDate(end) : null"))
