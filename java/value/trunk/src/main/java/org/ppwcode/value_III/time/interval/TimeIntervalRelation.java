@@ -49,67 +49,67 @@ import org.toryt.annotations_I.MethodContract;
  * <table>
  *   <tr>
  *     <td><code><var>I1</var> {@link #PRECEDES} <var>I2</var></code> </td>
- *     <td><img src="doc-files/TimeIntervalRelation-precedes.png" width="296" /></td>
+ *     <td><img src="doc-files/AllenRelation-precedes.png" width="296" /></td>
  *     <td><b>p</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #MEETS} <var>I2</var></code></td>
- *     <td><img src="doc-files/TimeIntervalRelation-meets.png" width="296" /></td>
+ *     <td><img src="doc-files/AllenRelation-meets.png" width="296" /></td>
  *     <td><b>m</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #OVERLAPS} <var>I2</var></code></td>
- *     <td><img src="doc-files/TimeIntervalRelation-overlaps.png" width="296" /></td>
+ *     <td><img src="doc-files/AllenRelation-overlaps.png" width="296" /></td>
  *     <td><b>o</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #FINISHED_BY} <var>I2</var></code></td>
- *     <td><img src="doc-files/TimeIntervalRelation-finishedBy.png" width="296" /></td>
+ *     <td><img src="doc-files/AllenRelation-finishedBy.png" width="296" /></td>
  *     <td><b>F</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #CONTAINS} <var>I2</var></code></td>
- *     <td><img src="doc-files/TimeIntervalRelation-contains.png" width="296" /></td>
+ *     <td><img src="doc-files/AllenRelation-contains.png" width="296" /></td>
  *     <td><b>D</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #STARTS} <var>I2</var></code></td>
- *     <td><img src="doc-files/TimeIntervalRelation-starts.png" width="296" /></td>
+ *     <td><img src="doc-files/AllenRelation-starts.png" width="296" /></td>
  *     <td><b>s</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #EQUALS} <var>I2</var></code></td>
- *     <td><img src="doc-files/TimeIntervalRelation-equals.png" width="296" /></td>
+ *     <td><img src="doc-files/AllenRelation-equals.png" width="296" /></td>
  *     <td><b>e</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #STARTED_BY} <var>I2</var></code></td>
- *     <td><img src="doc-files/TimeIntervalRelation-startedBy.png" width="296" /></td>
+ *     <td><img src="doc-files/AllenRelation-startedBy.png" width="296" /></td>
  *     <td><b>S</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #DURING} <var>I2</var></code></td>
- *     <td><img src="doc-files/TimeIntervalRelation-during.png" width="296" /></td>
+ *     <td><img src="doc-files/AllenRelation-during.png" width="296" /></td>
  *     <td><b>d</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #FINISHES} <var>I2</var></code></td>
- *     <td><img src="doc-files/TimeIntervalRelation-finishes.png" width="296" /></td>
+ *     <td><img src="doc-files/AllenRelation-finishes.png" width="296" /></td>
  *     <td><b>f</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #OVERLAPPED_BY} <var>I2</var></code></td>
- *     <td><img src="doc-files/TimeIntervalRelation-overlappedBy.png" width="296" /></td>
+ *     <td><img src="doc-files/AllenRelation-overlappedBy.png" width="296" /></td>
  *     <td><b>O</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #MET_BY} <var>I2</var></code></td>
- *     <td><img src="doc-files/TimeIntervalRelation-metBy.png" width="296" /></td>
+ *     <td><img src="doc-files/AllenRelation-metBy.png" width="296" /></td>
  *     <td><b>M</b></td>
  *   </tr>
  *   <tr>
  *     <td><code><var>I1</var> {@link #PRECEDED_BY} <var>I2</var></code></td>
- *     <td><img src="doc-files/TimeIntervalRelation-precededBy.png" width="296" /></td>
+ *     <td><img src="doc-files/AllenRelation-precededBy.png" width="296" /></td>
  *     <td><b>P</b></td>
  *   </tr>
  * </table>
@@ -127,7 +127,7 @@ import org.toryt.annotations_I.MethodContract;
  *   which expresses the maximal uncertainty about the relation between 2 time intervals.</p>
  *
  * <h3>Interval constraints</h3>
- * <p>Allen relations will most often be used in business code to constrain relations between time intervals.
+ * <p>Time interval relations will most often be used in business code to constrain relations between time intervals.
  *  This is notoriously, treacherously difficult. It is for this reason that you should use code like this,
  *  that at least forces you to think things trough, and tries to offers tools to ease reasoning. The idiom
  *  todo this is explained next.</p>
@@ -142,13 +142,13 @@ import org.toryt.annotations_I.MethodContract;
  *  with constrained begin and end dates.</p>
  * <p>The idiom for the assertion we want to express is then:</p>
  * <pre>
- *   allenRelation(<var>I1</var>, <var>I2</var>).implies(<var>cond</var>)
+ *   timeIntervalRelation(<var>I1</var>, <var>I2</var>).implies(<var>cond</var>)
  * </pre>
  * <p>This is often the form of an invariant. Note that this can fail, on the one hand because the actual
  *   relation is not acceptable, but also because <em>we cannot be 100% sure that the actual relationship
  *   satisfies the condition</em>. In our example, we would have:</p>
  * <pre>
- *   allenRelation(<var>I1</var>, <var>I2</var>).implies(CONCURS_WITH.complement())
+ *   timeIntervalRelation(<var>I1</var>, <var>I2</var>).implies(CONCURS_WITH.complement())
  * </pre>
  * <p>{@link #CONCURS_WITH} being {@code (oFDseSdfO)}, <code>CONCURS_WITH.complement() == (pmMP)</code>.
  *  If the actual relation results in {@code (e)}, e.g., the constraint is clearly not satisfied. If
@@ -162,7 +162,7 @@ import org.toryt.annotations_I.MethodContract;
  *   TimeInterval i1 = ...;
  *   TimeInterval i2 = ...;
  *   TimeIntervalRelation condition = ...;
- *   TimeIntervalRelation actual = allenRelation(i1, i2);
+ *   TimeIntervalRelation actual = timeIntervalRelation(i1, i2);
  *   if (! actual.implies(condition)) {
  *     throw new ....
  *   }
@@ -173,7 +173,7 @@ import org.toryt.annotations_I.MethodContract;
  *   ...
  *   TimeInterval i1 = ...;
  *   TimeInterval i2 = ...;
- *   if (! allenRelation(i1, i2).implies(CONCURS_WITH.complement())) {
+ *   if (! timeIntervalRelation(i1, i2).implies(CONCURS_WITH.complement())) {
  *     throw new ....
  *   }
  *   ...
@@ -181,98 +181,98 @@ import org.toryt.annotations_I.MethodContract;
  * <p><strong>Note that in general {@code (! actual.implies(condition))} is <em>not equivalent</em> with
  *   {@code actual.implies(condition.complement())} (see {@link #complement()}).</strong> In our example
  *   this is already clear. If the actual relation results in {@code (e)},
- *   {@code ! allenRelation(i1, i2).implies(CONCURS_WITH.complement())} evaluates to</p>
+ *   {@code ! timeIntervalRelation(i1, i2).implies(CONCURS_WITH.complement())} evaluates to</p>
  * <pre>
- *    ! allenRelation(i1, i2).implies(CONCURS_WITH.complement())
+ *    ! timeIntervalRelation(i1, i2).implies(CONCURS_WITH.complement())
  * == ! (e).implies((pmMP))
  * == ! false
  * == true
  * </pre>
- * <p>and {@code allenRelation(i1, i2).implies(CONCURS_WITH)} evaluates to</p>
+ * <p>and {@code timeIntervalRelation(i1, i2).implies(CONCURS_WITH)} evaluates to</p>
  * <pre>
- *    allenRelation(i1, i2).implies(CONCURS_WITH)
+ *    timeIntervalRelation(i1, i2).implies(CONCURS_WITH)
  * == (e).implies((oFDseSdfO))
  * == true
  * </pre>
  * <p>But in the case where the actual relation results in {@code (OMP)},
- *   {@code ! allenRelation(i1, i2).implies(CONCURS_WITH.complement())} evaluates to</p>
+ *   {@code ! timeIntervalRelation(i1, i2).implies(CONCURS_WITH.complement())} evaluates to</p>
  * <pre>
- *    ! allenRelation(i1, i2).implies(CONCURS_WITH.complement())
+ *    ! timeIntervalRelation(i1, i2).implies(CONCURS_WITH.complement())
  * == ! (OMP).implies((pmMP))
  * == ! false
  * == true
  * </pre>
- * <p>and {@code allenRelation(i1, i2).implies(CONCURS_WITH)} evaluates to</p>
+ * <p>and {@code timeIntervalRelation(i1, i2).implies(CONCURS_WITH)} evaluates to</p>
  * <pre>
- *    allenRelation(i1, i2).implies(CONCURS_WITH)
+ *    timeIntervalRelation(i1, i2).implies(CONCURS_WITH)
  * == (OMP).implies((oFDseSdfO))
  * == <strong>false</strong>
  * </pre>
- * <p>{@code ! allenRelation(i1, i2).implies(CONCURS_WITH.complement())} expresses that [we want to throw an
+ * <p>{@code ! timeIntervalRelation(i1, i2).implies(CONCURS_WITH.complement())} expresses that [we want to throw an
  *   exception if] <em>it is not guaranteed that <code><var>i1</var></code> and <code><var>i2</var></code> do
- *   not concur</em>. {@code allenRelation(i1, i2).implies(CONCURS_WITH)} expresses that [we want to throw an
+ *   not concur</em>. {@code timeIntervalRelation(i1, i2).implies(CONCURS_WITH)} expresses that [we want to throw an
  *   exception if] <em>it is guaranteed that <code><var>i1</var></code> and <code><var>i2</var></code> do
  *   concur</em>. <strong>These 2 phrases are not equivalent.</strong></p>
  *
  * <h3 id="constrainedDates">Reasoning with unknown but constrained begin and end dates</h3>
  * <p>In time intervals, the begin or end end can be {@code null}. The semantics of this is in general that
  *  the begin date, respectively the end date, is unknown. Comparing such an interval with another interval
- *  results in a relatively broad Allen relation, expression an amount of uncertainty.</p>
+ *  results in a relatively broad time interval relation, expression an amount of uncertainty.</p>
  * <p>In several use cases however, we do no know a definite begin or end date, but we do know that the
  *  begin or end date have constraints. E.g., consider contracts that have a definite begin date, but are
  *  open ended. The contract interval thus is incompletely known. However, since at the moment of our reasoning
  *  no definite end date is set, we know that the end date is at least later than {@code now}. In comparing
  *  this contract interval with another interval, this constraint can be of use to limit the extend, i.e., the
- *  uncertainty, of the Allen relation. The same applies, e.g., with contracts that will start once payment is
+ *  uncertainty, of the time interval relation. The same applies, e.g., with contracts that will start once payment is
  *  received. Since it is not received yet at the moment of our evaluation, we know that the begin date is at
  *  least later than or equal to {@code now}.</p>
  * <p>In such cases, the interval object <code><var>I</var></code> we are focusing on can be interpreted in
  *  another way. Suppose we are comparing <code><var>I</var></code> with <code><var>Other</var></code>. We are
- *  actually not interested in <code>allenRelation(<var>I</var>, <var>Other</var>)</code>, but rather in
- *  <code>allenRelation(<var>I<sub>constrained</sub></var>, <var>Other</var>)</code>. Sadly, there is no easy
+ *  actually not interested in <code>timeIntervalRelation(<var>I</var>, <var>Other</var>)</code>, but rather in
+ *  <code>timeIntervalRelation(<var>I<sub>constrained</sub></var>, <var>Other</var>)</code>. Sadly, there is no easy
  *  syntax (or code) to express <code><var>I<sub>constrained</sub></var></code>. What we can express is an
  *  <var>I<sub>determinate</sub></var>, where the border times are filled out in place of the unknown begin
- *  date or end date. <code>allenRelation(<var>I<sub>determinate</sub></var>, <var>Other</var>)</code>
+ *  date or end date. <code>timeIntervalRelation(<var>I<sub>determinate</sub></var>, <var>Other</var>)</code>
  *  can be calculated, and will be much less uncertain than
- *  <code>allenRelation(<var>I</var>, <var>Other</var>)</code>. If now can determine the Allen relation from
+ *  <code>timeIntervalRelation(<var>I</var>, <var>Other</var>)</code>. If now can determine the time interval relation from
  *  <code><var>I<sub>constrained</sub></var></code> to <code><var>I<sub>determinate</sub></var></code>,
- *  we can find <code>allenRelation(<var>I<sub>constrained</sub></var>, <var>Other</var>)</code> as:</p>
+ *  we can find <code>timeIntervalRelation(<var>I<sub>constrained</sub></var>, <var>Other</var>)</code> as:</p>
  * <pre>
- *   allenRelation(<var>I<sub>constrained</sub></var>, <var>Other</var>) ==
- *     compose(allenRelation(<var>I<sub>constrained</sub></var>, <var>I<sub>determinate</sub></var>), allenRelation(<var>I<sub>determinate</sub></var>, <var>Other</var>))
+ *   timeIntervalRelation(<var>I<sub>constrained</sub></var>, <var>Other</var>) ==
+ *     compose(timeIntervalRelation(<var>I<sub>constrained</sub></var>, <var>I<sub>determinate</sub></var>), timeIntervalRelation(<var>I<sub>determinate</sub></var>, <var>Other</var>))
  * </pre>
- * <p>The Allen relation from an interval we are focusing on with constrained semantics to a determinate
+ * <p>The time interval relation from an interval we are focusing on with constrained semantics to a determinate
  *   interval is a constant that can be determined by reasoning. E.g., for our open ended contract, that lasts
  *   at least longer than today (<code>[I<sub>begin</sub>, &gt; now[</code>, supposing <code>I<sub>begin</sub> &le;
  *   yesterday</code>), we can say that its relation to the determinate interval <code>[I<sub>begin</sub>, now[</code> is
  *   {@code (S)} ({@link #STARTED_BY}). Suppose
- *   <code>allenRelation(<var>I<sub>determinate</sub></var>, <var>Other</var>) == (o)</code> (say
+ *   <code>timeIntervalRelation(<var>I<sub>determinate</sub></var>, <var>Other</var>) == (o)</code> (say
  *   <code><var>Other</var> == [<var>yesterday</var>, <var>next year</var>[</code>), we can now say
- *   that <code>allenRelation(<var>I<sub>constrained</sub></var>, <var>Other</var>) == (S).(o) == (oFD)</code>.
+ *   that <code>timeIntervalRelation(<var>I<sub>constrained</sub></var>, <var>Other</var>) == (S).(o) == (oFD)</code>.
  *   The comparison of the indeterminate interval with <code><var>Other</var></code>,
- *   <code>allenRelation(<var>I</var>, <var>Other</var>)</code>, would have resulted in:</p>
+ *   <code>timeIntervalRelation(<var>I</var>, <var>Other</var>)</code>, would have resulted in:</p>
  * <pre>
- *    allenRelation(<var>I</var>, <var>Other</var>)
- * == allenRelation([I<sub>begin</sub>, null[, [<var>yesterday</var>, <var>next year</var>[)
+ *    timeIntervalRelation(<var>I</var>, <var>Other</var>)
+ * == timeIntervalRelation([I<sub>begin</sub>, null[, [<var>yesterday</var>, <var>next year</var>[)
  * == (pmoFD)
  * </pre>
- * <p>If you reason directly about <code>allenRelation(<var>I<sub>constrained</sub></var>, <var>Other</var>)</code></p>
+ * <p>If you reason directly about <code>timeIntervalRelation(<var>I<sub>constrained</sub></var>, <var>Other</var>)</code></p>
  * <pre>
- *    allenRelation(<var>I<sub>constrained</sub></var>, <var>Other</var>)
- * == allenRelation([I<sub>begin</sub>, &gt; now[, [<var>yesterday</var>, <var>next year</var>[)
+ *    timeIntervalRelation(<var>I<sub>constrained</sub></var>, <var>Other</var>)
+ * == timeIntervalRelation([I<sub>begin</sub>, &gt; now[, [<var>yesterday</var>, <var>next year</var>[)
  * == (oFD)
  * </pre>
  * <p>you will see that {@code (oFD)} is  indeed the most certain answer.
  * <p>Be aware that in a number of cases, the non-determinate character of <code><var>I</var></code> doesn't matter.
  *   If you suppose in the previous example that
- *   <code>allenRelation(<var>I<sub>determinate</sub></var>, <var>Other</var>) == (p)</code> (say
+ *   <code>timeIntervalRelation(<var>I<sub>determinate</sub></var>, <var>Other</var>) == (p)</code> (say
  *   <code><var>Other</var> == [<var>next year</var>, Other<sub>end</sub>[</code>),
- *   <code>allenRelation(<var>I<sub>constrained</sub></var>, <var>Other</var>) == (S).(p) == (pmoFD)</code>.
+ *   <code>timeIntervalRelation(<var>I<sub>constrained</sub></var>, <var>Other</var>) == (S).(p) == (pmoFD)</code>.
  *   The comparison of the indeterminate interval with <code><var>Other</var></code>,
- *   <code>allenRelation(<var>I</var>, <var>Other</var>)</code>, in this case, results in the same Allen relation:</p>
+ *   <code>timeIntervalRelation(<var>I</var>, <var>Other</var>)</code>, in this case, results in the same time interval relation:</p>
  * <pre>
- *    allenRelation(<var>I</var>, <var>Other</var>)
- * == allenRelation([I<sub>begin</sub>, null[, [<var>next year</var>, Other<sub>end</sub>[)
+ *    timeIntervalRelation(<var>I</var>, <var>Other</var>)
+ * == timeIntervalRelation([I<sub>begin</sub>, null[, [<var>next year</var>, Other<sub>end</sub>[)
  * == (pmoFD)
  * </pre>
  *
@@ -288,16 +288,16 @@ import org.toryt.annotations_I.MethodContract;
  * <p>We have chosen to introduce a full-featured type for working with Allen relations, to make encapsulation as
  *   good as possible. This has a slight performance overhead, but we believe that this is worth it, considering the
  *   immense complexity of reasoning about relations between time intervals.</p>
- * <p>Allen relations are not implemented as a value according to the ppwcode value vernacular, although they do form
- *   an algebra. We presume Allen relations are never shown to end users as values.</p>
- * <p>Allen relations follow the &quot;8192-fold singleton pattern&quot;. All possible instances are created when this
+ * <p>Time interval relations are not implemented as a value according to the ppwcode value vernacular, although they do form
+ *   an algebra. We presume time interval relations are never shown to end users as values.</p>
+ * <p>Time interval relations follow the &quot;8192-fold singleton pattern&quot;. All possible instances are created when this
  *   class is loaded, and it is impossible for a user of the class to create new instances. This means that  reference
- *   equality (&quot;{@code ==}&quot;) can be used to compare Allen relations, Instances are to be obtained
+ *   equality (&quot;{@code ==}&quot;) can be used to compare time interval relations, Instances are to be obtained
  *   using the constants this class offers, or using the combination methods {@link #or(TimeIntervalRelation...)},
  *   {@link #and(TimeIntervalRelation...)}, {@link #compose(TimeIntervalRelation, TimeIntervalRelation)}, and
  *   {@link #min(TimeIntervalRelation, TimeIntervalRelation)}, and the unary methods {@link #complement()} and {@link #converse()}.
  *   Also, an TimeIntervalRelation can be determined {@link #timeIntervalRelation(TimeInterval, TimeInterval) based on 2 time intervals}.
- *   {@link #VALUES} lists all possible Allen relations.</p>
+ *   {@link #VALUES} lists all possible time interval relations.</p>
  * <p>The {@link Object#equals(Object)} is not overridden, because we want to use this type with reference equality.
  *   {@link #hashCode()} is overridden nevertheless, to guarantee a better spread (it also happens to give a peek inside
  *   the encapsulation, for people who know the implementation details).</p>
@@ -309,7 +309,7 @@ public final class TimeIntervalRelation {
   /*
    * Implementation note:
    *
-   * Allen relations are implemented as a 13-bit bit pattern, stored in the 13 least significant bits of a 32-bit int.
+   * Time interval relations are implemented as a 13-bit bit pattern, stored in the 13 least significant bits of a 32-bit int.
    * Each of those 13 bits represents a basic relation, being in the general relation ({@code 1}) or not being in the
    * general relation ({@code 0}).
    * The order of the basic relations in the bit pattern is important for some of the algorithms. There is some
@@ -321,13 +321,13 @@ public final class TimeIntervalRelation {
   //------------------------------------------------------------------
 
   /**
-   * The total number of possible Allen relations <strong>= {@value}</strong>
+   * The total number of possible time interval relations <strong>= {@value}</strong>
    * (i.e., <code>2<sup>13</sup></code>).
    */
   public final static int NR_OF_RELATIONS    = 8192;
 
   /**
-   * All possible Allen relations.
+   * All possible time interval relations.
    */
   @Invars({
     @Expression("VALUES != null"),
@@ -367,42 +367,42 @@ public final class TimeIntervalRelation {
   private final static int FULL_BIT_PATTERN           = 8191;   // 1111111111111 pmoFDseSdfOMP
 
   /**
-   * This empty relation is not a true Allen relation. It does not express a
+   * This empty relation is not a true time interval relation. It does not express a
    * relational condition between intervals. Yet, it is needed for
-   * consistencey with some operations on Allen relations.
+   * consistencey with some operations on time interval relations.
    * The converse of the empty relation is the empty relation itself.
    */
   @Invars(@Expression("for (TimeIntervalRelation basic : BASIC_RELATIONS) {! EMPTY.impliedBy(basic)}"))
   public final static TimeIntervalRelation EMPTY = VALUES[EMPTY_BIT_PATTERN];
 
   /**
-   * <p>A <strong>basic</strong> Allen relation that says that an interval
+   * <p>A <strong>basic</strong> time interval relation that says that an interval
    * <var>I1</var> <dfn>precedes</dfn> an interval <var>I2</var>, i.e., the
    * end of <var>I1</var> is before the begin of <var>I2</var>:</p>
    * <pre>
    *   (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I1.end &lt; I2.begin)
    * </pre>
-   * <img style="text-align: center;" src="doc-files/TimeIntervalRelation-precedes.png">
+   * <img style="text-align: center;" src="doc-files/AllenRelation-precedes.png">
    * <p>The conventional short representation of this Allen relation is &quot;<code><strong>p</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #PRECEDED_BY}.</p>
    */
   public final static TimeIntervalRelation PRECEDES = VALUES[PRECEDES_BIT_PATTERN];
 
   /**
-   * <p>A <strong>basic</strong> Allen relation that says that an interval
+   * <p>A <strong>basic</strong> time interval relation that says that an interval
    * <var>I1</var> <dfn>meets</dfn> an interval <var>I2</var>, i.e., the end
    * of <var>I1</var> is the begin of <var>I2</var>:</p>
    * <pre>
    *   (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I1.end == I2.begin)
    * </pre>
-   * <img style="text-align: center;" src="doc-files/TimeIntervalRelation-meets.png">
+   * <img style="text-align: center;" src="doc-files/AllenRelation-meets.png">
    * <p>The conventional short representation of this Allen relation is &quot;<code><strong>m</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #MET_BY}.</p>
    */
   public final static TimeIntervalRelation MEETS = VALUES[MEETS_BIT_PATTERN];
 
   /**
-   * <p>A <strong>basic</strong> Allen relation that says that an interval
+   * <p>A <strong>basic</strong> time interval relation that says that an interval
    * <var>I1</var> <dfn>overlaps</dfn> an interval <var>I2</var>, i.e., the
    * begin of <var>I1</var> is earlier than the begin of <var>I2</var>, and
    * the end of <var>I1</var> is later than the begin of <var>I2</var> and
@@ -411,14 +411,14 @@ public final class TimeIntervalRelation {
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin &lt; I2.begin) &amp;&amp; (I1.end &gt; I2.begin) &amp;&amp; (I1.end &lt; I2.end)
    * </pre>
-   * <img style="text-align: center;" src="doc-files/TimeIntervalRelation-overlaps.png">
+   * <img style="text-align: center;" src="doc-files/AllenRelation-overlaps.png">
    * <p>The conventional short representation of this Allen relation is &quot;<code><strong>o</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #OVERLAPPED_BY}.</p>
    */
   public final static TimeIntervalRelation OVERLAPS = VALUES[OVERLAPS_BIT_PATTERN];
 
   /**
-   * <p>A <strong>basic</strong> Allen relation that says that an interval
+   * <p>A <strong>basic</strong> time interval relation that says that an interval
    * <var>I1</var> <dfn>is finished by</dfn> an interval <var>I2</var>, i.e.,
    * the begin of <var>I1</var> is earlier than the begin of <var>I2</var>,
    * and the end of <var>I1</var> is the end of <var>I2</var>:</p>
@@ -426,14 +426,14 @@ public final class TimeIntervalRelation {
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin &lt; I2.begin) &amp;&amp; (I1.end == I2.end)
    * </pre>
-   * <img style="text-align: center;" src="doc-files/TimeIntervalRelation-finishedBy.png">
+   * <img style="text-align: center;" src="doc-files/AllenRelation-finishedBy.png">
    * <p>The conventional short representation of this Allen relation is &quot;<code><strong>F</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #FINISHED_BY}.</p>
    */
   public final static TimeIntervalRelation FINISHED_BY = VALUES[FINISHED_BY_BIT_PATTERN];
 
   /**
-   * <p>A <strong>basic</strong> Allen relation that says that an interval
+   * <p>A <strong>basic</strong> time interval relation that says that an interval
    * <var>I1</var> <dfn>contains</dfn> an interval <var>I2</var>, i.e., the
    * begin of <var>I1</var> is earlier than the begin of <var>I2</var>, and
    * the end of <var>I1</var> is later than the end of <var>I2</var>:</p>
@@ -441,14 +441,14 @@ public final class TimeIntervalRelation {
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin &lt; I2.begin) &amp;&amp; (I1.end &gt; I2.end)
    * </pre>
-   * <img style="text-align: center;" src="doc-files/TimeIntervalRelation-contains.png">
+   * <img style="text-align: center;" src="doc-files/AllenRelation-contains.png">
    * <p>The conventional short representation of this Allen relation is &quot;<code><strong>D</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #DURING}.</p>
    */
   public final static TimeIntervalRelation CONTAINS = VALUES[CONTAINS_BIT_PATTERN];
 
   /**
-   * <p>A <strong>basic</strong> Allen relation that says that an interval
+   * <p>A <strong>basic</strong> time interval relation that says that an interval
    * <var>I1</var> <dfn>starts</dfn> an interval <var>I2</var>, i.e., the
    * begin of <var>I1</var> is the begin of <var>I2</var>, and the end of
    * <var>I1</var> is earlier than the end of <var>I2</var>:</p>
@@ -456,14 +456,14 @@ public final class TimeIntervalRelation {
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin == I2.begin) &amp;&amp; (I1.end &lt; I2.end)
    * </pre>
-   * <img style="text-align: center;" src="doc-files/TimeIntervalRelation-starts.png">
+   * <img style="text-align: center;" src="doc-files/AllenRelation-starts.png">
    * <p>The conventional short representation of this Allen relation is &quot;<code><strong>s</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #STARTED_BY}.</p>
    */
   public final static TimeIntervalRelation STARTS = VALUES[STARTS_BIT_PATTERN];
 
   /**
-   * <p>A <strong>basic</strong> Allen relation that says that an interval
+   * <p>A <strong>basic</strong> time interval relation that says that an interval
    * <var>I1</var> <dfn>is equal to</dfn> an interval <var>I2</var>, i.e., the
    * begin of <var>I1</var> is the begin of <var>I2</var>, and the end of
    * <var>I1</var> is the end of <var>I2</var>:</p>
@@ -471,14 +471,14 @@ public final class TimeIntervalRelation {
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin == I2.begin) &amp;&amp; (I1.end == I2.end)
    * </pre>
-   * <img style="text-align: center;" src="doc-files/TimeIntervalRelation-equals.png">
+   * <img style="text-align: center;" src="doc-files/AllenRelation-equals.png">
    * <p>The conventional short representation of this Allen relation is &quot;<code><strong>e</strong></code>&quot;.</p>
    * <p>The converse of this relation is itself.
    */
   public final static TimeIntervalRelation EQUALS = VALUES[EQUALS_BIT_PATTERN];
 
   /**
-   * <p>A <strong>basic</strong> Allen relation that says that an interval
+   * <p>A <strong>basic</strong> time interval relation that says that an interval
    * <var>I1</var> <dfn>is started by</dfn> an interval <var>I2</var>, i.e.,
    * the begin of <var>I1</var> is the begin of <var>I2</var>, and the end of
    * <var>I1</var> is later than the end of <var>I2</var>:</p>
@@ -486,14 +486,14 @@ public final class TimeIntervalRelation {
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin == I2.begin) &amp;&amp; (I1.end &gt; I2.end)
    * </pre>
-   * <img style="text-align: center;" src="doc-files/TimeIntervalRelation-startedBy.png">
+   * <img style="text-align: center;" src="doc-files/AllenRelation-startedBy.png">
    * <p>The conventional short representation of this Allen relation is &quot;<code><strong>S</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #STARTS}.</p>
    */
   public final static TimeIntervalRelation STARTED_BY = VALUES[STARTED_BY_BIT_PATTERN];
 
   /**
-   * <p>A <strong>basic</strong> Allen relation that says that an interval
+   * <p>A <strong>basic</strong> time interval relation that says that an interval
    * <var>I1</var> <dfn>is during</dfn> an interval <var>I2</var>, i.e., the
    * begin of <var>I1</var> is later than the begin of <var>I2</var>, and the
    * end of <var>I1</var> is earlier than the end of <var>I2</var>:</p>
@@ -501,14 +501,14 @@ public final class TimeIntervalRelation {
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin &gt; I2.begin) &amp;&amp; (I1.end &lt; I2.end)
    * </pre>
-   * <img style="text-align: center;" src="doc-files/TimeIntervalRelation-during.png">
+   * <img style="text-align: center;" src="doc-files/AllenRelation-during.png">
    * <p>The conventional short representation of this Allen relation is &quot;<code><strong>d</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #CONTAINS}.</p>
    */
   public final static TimeIntervalRelation DURING = VALUES[DURING_BIT_PATTERN];
 
   /**
-   * <p>A <strong>basic</strong> Allen relation that says that an interval
+   * <p>A <strong>basic</strong> time interval relation that says that an interval
    * <var>I1</var> <dfn>finishes</dfn> an interval <var>I2</var>, i.e., the
    * begin of <var>I1</var> is later than the begin of <var>I2</var>, and the
    * end of <var>I1</var> is the end of <var>I2</var>:</p>
@@ -516,14 +516,14 @@ public final class TimeIntervalRelation {
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin &gt; I2.begin) &amp;&amp; (I1.end == I2.end)
    * </pre>
-   * <img style="text-align: center;" src="doc-files/TimeIntervalRelation-finishes.png">
+   * <img style="text-align: center;" src="doc-files/AllenRelation-finishes.png">
    * <p>The conventional short representation of this Allen relation is &quot;<code><strong>f</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #FINISHES}.</p>
    */
   public final static TimeIntervalRelation FINISHES = VALUES[FINISHES_BIT_PATTERN];
 
   /**
-   * <p>A <strong>basic</strong> Allen relation that says that an interval
+   * <p>A <strong>basic</strong> time interval relation that says that an interval
    * <var>I1</var> <dfn>is overlapped by</dfn> an interval <var>I2</var>,
    * i.e., the begin of <var>I1</var> is later than the begin of <var>I2</var>
    * and earlier than the end of <var>I2</var>, and the end of <var>I1</var>
@@ -532,40 +532,40 @@ public final class TimeIntervalRelation {
    *   (I1.begin != null) &amp;&amp; (I1.end != null) &amp;&amp; (I2.begin != null) &amp;&amp; (I2.end != null) &amp;&amp;
    *     (I1.begin &gt; I2.begin) &amp;&amp; (I1.begin &lt; I2.end) &amp;&amp; (I1.end &gt; I2.end)
    * </pre>
-   * <img style="text-align: center;" src="doc-files/TimeIntervalRelation-overlappedBy.png">
+   * <img style="text-align: center;" src="doc-files/AllenRelation-overlappedBy.png">
    * <p>The conventional short representation of this Allen relation is &quot;<code><strong>O</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #OVERLAPS}.</p>
    */
   public final static TimeIntervalRelation OVERLAPPED_BY = VALUES[OVERLAPPED_BY_BIT_PATTERN];
 
   /**
-   * <p>A <strong>basic</strong> Allen relation that says that an interval
+   * <p>A <strong>basic</strong> time interval relation that says that an interval
    * <var>I1</var> <dfn>is met by</dfn> an interval <var>I2</var>, i.e., the
    * begin of <var>I1</var> is the end of <var>I2</var>:</p>
    * <pre>
    *   (I1.begin != null) &amp;&amp; (I2.end != null) &amp;&amp; (I1.begin == I2.end)
    * </pre>
-   * <img style="text-align: center;" src="doc-files/TimeIntervalRelation-metBy.png">
+   * <img style="text-align: center;" src="doc-files/AllenRelation-metBy.png">
    * <p>The conventional short representation of this Allen relation is &quot;<code><strong>M</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #MEETS}.</p>
    */
   public final static TimeIntervalRelation MET_BY = VALUES[MET_BY_BIT_PATTERN];
 
   /**
-   * <p>A <strong>basic</strong> Allen relation that says that an interval
+   * <p>A <strong>basic</strong> time interval relation that says that an interval
    * <var>I1</var> <dfn>is preceded by</dfn> an interval <var>I2</var>, i.e.,
    * the begin of <var>I1</var> is later than the end of <var>I2</var>:</p>
    * <pre>
    *   (I1.begin != null) &amp;&amp; (I2.end != null) &amp;&amp; (I1.begin &gt; I2.end)
    * </pre>
-   * <img style="text-align: center;" src="doc-files/TimeIntervalRelation-precededBy.png">
+   * <img style="text-align: center;" src="doc-files/AllenRelation-precededBy.png">
    * <p>The conventional short representation of this Allen relation is &quot;<code><strong>P</strong></code>&quot;.</p>
    * <p>The converse of this relation is {@link #PRECEDES}.</p>
    */
   public final static TimeIntervalRelation PRECEDED_BY = VALUES[PRECEDED_BY_BIT_PATTERN];
 
   /**
-   * The full Allen relation, which expresses that nothing definite can be
+   * The full time interval relation, which expresses that nothing definite can be
    * said about the relationship between 2 periods.
    * <p>The converse of this relation is the relation itself.
    */
@@ -573,7 +573,7 @@ public final class TimeIntervalRelation {
   public final static TimeIntervalRelation FULL = VALUES[FULL_BIT_PATTERN];
 
   /**
-   * The set of all 13 basic Allen relations. That they are presented here in
+   * The set of all 13 basic time interval relations. That they are presented here in
    * a particular order, is a pleasant side note, but in general not relevant
    * for the user. The list is ordered, first on the first interval beginning
    * before the second (<code><var>I1</var>.begin [&lt;, ==, &gt;]
@@ -611,7 +611,7 @@ public final class TimeIntervalRelation {
   //------------------------------------------------------------------
 
   /**
-   * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
+   * A non-basic time interval relation that is often handy to use, which expresses that an interval <var>I1</var>
    * and an interval <var>I2</var> are concurrent in some way.
    * Thus, <var>I1</var> does <em>not</em> precede <var>I2</var>, <var>I1</var> does <em>not</em> meet <var>I2</var>,
    * <var>I1</var> is <em>not</em> met be <var>I2</var>, and <var>I1</var> is <em>not</em> preceded by <var>I2</var>.
@@ -621,7 +621,7 @@ public final class TimeIntervalRelation {
   public final static TimeIntervalRelation CONCURS_WITH = or(OVERLAPS, FINISHED_BY, CONTAINS, STARTS, EQUALS, STARTED_BY, DURING, FINISHES, OVERLAPPED_BY);
 
   /**
-   * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
+   * A non-basic time interval relation that is often handy to use, which expresses that an interval <var>I1</var>
    * begins earlier than an interval <var>I2</var> begins:
    * <pre>
    *   (I1.begin != null) && (I2.begin != null) && (I1.begin &lt; I2.begin)
@@ -632,7 +632,7 @@ public final class TimeIntervalRelation {
   public static final TimeIntervalRelation BEGINS_EARLIER = or(PRECEDES, MEETS, OVERLAPS, FINISHED_BY, CONTAINS);
 
   /**
-   * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
+   * A non-basic time interval relation that is often handy to use, which expresses that an interval <var>I1</var>
    * and an interval <var>I2</var> begin at the same time:
    * <pre>
    *   (I1.begin != null) && (I2.begin != null) && (I1.begin == I2.begin)
@@ -643,7 +643,7 @@ public final class TimeIntervalRelation {
   public static final TimeIntervalRelation BEGIN_TOGETHER = or(STARTS, EQUALS, STARTED_BY);
 
   /**
-   * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
+   * A non-basic time interval relation that is often handy to use, which expresses that an interval <var>I1</var>
    * begins later than an interval <var>I2</var> begins:
    * <pre>
    *   (I1.begin != null) && (I2.begin != null) && (I1.begin &gt; I2.begin)
@@ -654,7 +654,7 @@ public final class TimeIntervalRelation {
   public static final TimeIntervalRelation BEGINS_LATER = or(DURING, FINISHES, OVERLAPPED_BY, MET_BY, PRECEDED_BY);
 
   /**
-   * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
+   * A non-basic time interval relation that is often handy to use, which expresses that an interval <var>I1</var>
    * begins inside an interval <var>I2</var>:
    * <pre>
    *   (I1.begin != null) && (I2.begin != null) && (I2.end != null) && (I1.begin &gt; I2.begin) && (I1.begin &lt; I2.end)
@@ -665,7 +665,7 @@ public final class TimeIntervalRelation {
   public static final TimeIntervalRelation BEGINS_IN = or(DURING, FINISHES, OVERLAPPED_BY);
 
   /**
-   * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
+   * A non-basic time interval relation that is often handy to use, which expresses that an interval <var>I1</var>
    * begins earlier and ends earlier than an interval <var>I2</var> begins and ends:
    * <pre>
    *   (I1.begin != null) && (I2.begin != null) && (I1.end != null) && (I2.end != null) && (I1.begin &lt; I2.begin) && (I1.end &lt; I2.end)
@@ -676,7 +676,7 @@ public final class TimeIntervalRelation {
   public static final TimeIntervalRelation BEGINS_EARLIER_AND_ENDS_EARLIER = or(PRECEDES, MEETS, OVERLAPS);
 
   /**
-   * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
+   * A non-basic time interval relation that is often handy to use, which expresses that an interval <var>I1</var>
    * begins later and ends later than an interval <var>I2</var> begins and ends:
    * <pre>
    *   (I1.begin != null) && (I2.begin != null) && (I1.end != null) && (I2.end != null) && (I1.begin &gt; I2.begin) && (I1.end &gt; I2.end)
@@ -687,7 +687,7 @@ public final class TimeIntervalRelation {
   public static final TimeIntervalRelation BEGINS_LATER_AND_ENDS_LATER = or(OVERLAPPED_BY, MET_BY, PRECEDED_BY);
 
   /**
-   * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
+   * A non-basic time interval relation that is often handy to use, which expresses that an interval <var>I1</var>
    * ends earlier than an interval <var>I2</var> ends:
    * <pre>
    *   (I1.end != null) && (I2.end != null) && (I1.end &lt; I2.end)
@@ -698,7 +698,7 @@ public final class TimeIntervalRelation {
   public static final TimeIntervalRelation ENDS_EARLIER = or(PRECEDES, MEETS, OVERLAPS, STARTS, DURING);
 
   /**
-   * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
+   * A non-basic time interval relation that is often handy to use, which expresses that an interval <var>I1</var>
    * ends inside an interval <var>I2</var>:
    * <pre>
    *   (I1.end != null) && (I2.begin != null) && (I2.end != null) && (I1.end &gt; I2.begin) && (I1.end &lt; I2.end)
@@ -709,7 +709,7 @@ public final class TimeIntervalRelation {
   public static final TimeIntervalRelation ENDS_IN = or(OVERLAPS, STARTS, DURING);
 
   /**
-   * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
+   * A non-basic time interval relation that is often handy to use, which expresses that an interval <var>I1</var>
    * and an interval <var>I2</var> end at the same time.
    * <pre>
    *   (I1.end != null) && (I2.end != null) && (I1.end == I2.end)
@@ -720,7 +720,7 @@ public final class TimeIntervalRelation {
   public static final TimeIntervalRelation END_TOGETHER = or(FINISHED_BY, EQUALS, FINISHES);
 
   /**
-   * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
+   * A non-basic time interval relation that is often handy to use, which expresses that an interval <var>I1</var>
    * ends later than an interval <var>I2</var> ends:
    * <pre>
    *   (I1.end != null) && (I2.end != null) && (I1.end &gt; I2.end)
@@ -731,7 +731,7 @@ public final class TimeIntervalRelation {
   public static final TimeIntervalRelation ENDS_LATER = or(CONTAINS, STARTED_BY, OVERLAPPED_BY, MET_BY, PRECEDED_BY);
 
   /**
-   * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
+   * A non-basic time interval relation that is often handy to use, which expresses that an interval <var>I1</var>
    * contains the begin of an interval <var>I2</var>:
    * <pre>
    *   (I1.begin != null) && (I1.end != null) && (I2.begin != null) && (I1.begin &lt; I2.begin) && (I1.end &gt; I2.begin)
@@ -742,7 +742,7 @@ public final class TimeIntervalRelation {
   public static final TimeIntervalRelation CONTAINS_BEGIN = or(OVERLAPS, FINISHED_BY, CONTAINS);
 
   /**
-   * A non-basic Allen relation that is often handy to use, which expresses that an interval <var>I1</var>
+   * A non-basic time interval relation that is often handy to use, which expresses that an interval <var>I1</var>
    * contains the end of an interval <var>I2</var>:
    * <pre>
    *   (I1.begin != null) && (I1.end != null) && (I2.end != null) && (I1.begin &lt; I2.end) && (I1.end &gt; I2.end)
@@ -762,7 +762,7 @@ public final class TimeIntervalRelation {
   /**
    * The main factory method for AllenRelations. Although this is intended to create
    * any disjunction of the basic relations, you can use any relation in the argument
-   * list. This is the union of all Allen relations in {@code gr}, when they are considered
+   * list. This is the union of all time interval relations in {@code gr}, when they are considered
    * as sets of basic relations.
    */
   @MethodContract(post = {
@@ -777,8 +777,8 @@ public final class TimeIntervalRelation {
   }
 
   /**
-   * The conjunction of the Allen relations in {@code gr}.
-   * This is the intersection of all Allen relations in {@code gr}, when they are considered
+   * The conjunction of the time interval relations in {@code gr}.
+   * This is the intersection of all time interval relations in {@code gr}, when they are considered
    * as sets of basic relations.
    */
   @MethodContract(post = {
@@ -811,7 +811,7 @@ public final class TimeIntervalRelation {
   }
 
   /**
-   * This matrix holds the compositions of basic Allen relations. These are part of the given semantics, and cannot be
+   * This matrix holds the compositions of basic time interval relations. These are part of the given semantics, and cannot be
    * calculated. See {@link #compose(TimeIntervalRelation, TimeIntervalRelation)}.
    */
   public final static TimeIntervalRelation[][] BASIC_COMPOSITIONS =
@@ -833,8 +833,8 @@ public final class TimeIntervalRelation {
 
   /**
    * <p>Given 3 time intervals <code><var>I1</var></code>, <code><var>I2</var></code> and <code><var>I3</var></code>,
-   *   given <code>gr1 == allenRelation(<var>I1</var>, <var>I2</var>)</code> and <code>gr2 ==
-   *   allenRelation(<var>I2</var>, <var>I3</var>)</code>, <code>compose(gr1, gr2) == allenRelation(<var>I1</var>,
+   *   given <code>gr1 == timeIntervalRelation(<var>I1</var>, <var>I2</var>)</code> and <code>gr2 ==
+   *   timeIntervalRelation(<var>I2</var>, <var>I3</var>)</code>, <code>compose(gr1, gr2) == timeIntervalRelation(<var>I1</var>,
    *   <var>I3</var>)</code>.</p>
    * <p>Although this method is still, like most other methods in this class, of constant time (<em>O(n)</em>), it
    *   takes a significant longer constant time, namely ~ 13<sup>2</sup>. During unit tests we saw that 100 000 calls
@@ -994,7 +994,7 @@ public final class TimeIntervalRelation {
   }
 
   /**
-   * This is a basic Allen relation.
+   * This is a basic time interval relation.
    */
   @MethodContract(post = @Expression("BASIC_RELATIONS.contains(this)"))
   public final boolean isBasic() {
@@ -1019,7 +1019,7 @@ public final class TimeIntervalRelation {
   }
 
   /**
-   * A measure about the uncertainty this Allen relation expresses.
+   * A measure about the uncertainty this time interval relation expresses.
    * This is the fraction of the 13 basic relations that imply this general relation.
    * {@link #FULL} is complete uncertainty, and returns {@code 1}.
    * A basic relation is complete certainty, and returns {@code 0}.
@@ -1041,12 +1041,12 @@ public final class TimeIntervalRelation {
   }
 
   /**
-   * The <dfn>converse</dfn> of an Allen relation from an interval <var>I1</var> to an interval <var>I2</var>
+   * The <dfn>converse</dfn> of an time interval relation from an interval <var>I1</var> to an interval <var>I2</var>
    * is the relation from the interval <var>I2</var> to the interval <var>I1</var>:
    * <pre>
    *   compare(I1, I2).converse() == compare(I2, I1)
    * </pre>
-   * The converse of a basic Allen relation is defined. The converse of a general Allen relation <var>A</var>
+   * The converse of a basic time interval relation is defined. The converse of a general time interval relation <var>A</var>
    * is the disjunction of the converse relations of the basic relations that are implied by <var>A</var>.
    */
   @MethodContract(post = {
@@ -1079,27 +1079,27 @@ public final class TimeIntervalRelation {
   }
 
   /**
-   * <p>The complement of an Allen relation is the logic negation of the condition the Allen relation expresses.
-   *   The complement of a basic Allen relation is the disjunction of all the other basic Allen relations.
-   *   The complement of a general Allen relation is the disjunction of all basic Allen relations that are
-   *   not implied by the general Allen relation.</p>
+   * <p>The complement of an time interval relation is the logic negation of the condition the time interval relation expresses.
+   *   The complement of a basic time interval relation is the disjunction of all the other basic time interval relations.
+   *   The complement of a general time interval relation is the disjunction of all basic time interval relations that are
+   *   not implied by the general time interval relation.</p>
    * <p>This method is key to validating semantic constraints on time intervals, using the following idiom:</p>
    * <pre>
    *   ...
    *   TimeInterval i1 = ...;
    *   TimeInterval i2 = ...;
    *   TimeIntervalRelation condition = ...;
-   *   TimeIntervalRelation actual = allenRelation(i1, i2);
+   *   TimeIntervalRelation actual = timeIntervalRelation(i1, i2);
    *   if (! actual.implies(condition)) {
    *     throw new ....
    *   }
    *   ...
    * </pre>
    * <p><strong>Be aware that the complement has in general not the same meaning as a logic negation.</strong>
-   *   For a basic relation <var>br</var> and a general Allen relation <var>cond</var>, it is true that</p>
+   *   For a basic relation <var>br</var> and a general time interval relation <var>cond</var>, it is true that</p>
    * <p><code><var>br</var>.implies(<var>cond</var>)</code> &hArr;
    *   <code>! <var>br</var>.implies(<var>cond</var>.complement())</code></p>
-   * <p><strong>This is however not so for non-basic, and thus general Allen relations</strong>, as the following
+   * <p><strong>This is however not so for non-basic, and thus general time interval relations</strong>, as the following
    *   counterexample proofs. Suppose a condition is that, for a general relation <var>gr</var>:</p>
    * <pre><var>gr</var>.implies(<var>cond</var>)</pre>
    * <p>Suppose <code><var>gr</var> == (mFO)</code>. Then we can rewrite in the following way:</p>
@@ -1123,7 +1123,7 @@ public final class TimeIntervalRelation {
    *   &hArr; <code>! ((m &isin; <var>cond</var>.complement()) && (F &isin; <var>cond</var>.complement()) &&
    *   (O &isin; <var>cond</var>.complement()))</code> (2)</p>
    * <p>It is clear that (1) is incompatible with (2), except for the case where the initial relation is basic.</p>
-   * <p>In the reverse case, for a basic relation <var>br</var> and a general Allen relation <var>actual</var>, nothing
+   * <p>In the reverse case, for a basic relation <var>br</var> and a general time interval relation <var>actual</var>, nothing
    *   special can be said about the complement of <var>actual</var>, as the following reasoning illustrates:</p>
    * <p>&nbsp;&nbsp;&nbsp;<code><var>actual</var>.implies(<var>br</var>)</code><br />
    *   &hArr;<code><var>actual</var> &sube; <var>br</var></code><br />
@@ -1193,7 +1193,7 @@ public final class TimeIntervalRelation {
   public final int hashCode() {
     /*
      * this returns the internal representation of this object: it is a way for people
-     * that know about the implementation to see the bit pattern of this Allen relation
+     * that know about the implementation to see the bit pattern of this time interval relation
      */
     return $bitPattern;
   }
