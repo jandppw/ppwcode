@@ -41,7 +41,7 @@ import org.ppwcode.value_III.time.interval.IllegalIntervalException;
 
 /**
  * A OpenJPA value handler for {@link BeginEndTimeInterval}. Begin and end are stored in 2
- * columns in the database as {@code DATETIME}.
+ * columns in the database as {@code TIMESTAMP}.
  *
  * @author Jan Dockx
  * @author Peopleware n.v.
