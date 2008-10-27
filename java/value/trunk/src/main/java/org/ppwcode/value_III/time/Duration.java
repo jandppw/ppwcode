@@ -24,6 +24,7 @@ import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArg
 
 import java.text.NumberFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.ppwcode.metainfo_I.Copyright;
@@ -288,6 +289,26 @@ public final class Duration extends AbstractImmutableValue implements Comparable
     assert preArgumentNotNull(d1, "d1");
     assert preArgumentNotNull(d2, "d2");
     long result = Math.abs(d1.asMillisecond() - d2.asMillisecond());
+    return new Duration(result, MILLISECOND);
+  }
+
+  /**
+   * The time difference between 2 dates. Order is unimportant.
+   */
+  @MethodContract(
+    pre  = {
+      @Expression("d1 != null"),
+      @Expression("d2 != null")
+    },
+    post = {
+      @Expression("result != null"),
+      @Expression("result.asMillisecond() == Math.abs(d1.getTime() - d2.getTime())")
+    }
+  )
+  public static Duration delta(Date d1, Date d2) {
+    assert preArgumentNotNull(d1, "d1");
+    assert preArgumentNotNull(d2, "d2");
+    long result = Math.abs(d1.getTime() - d2.getTime());
     return new Duration(result, MILLISECOND);
   }
 
