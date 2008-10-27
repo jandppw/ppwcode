@@ -18,8 +18,11 @@ package org.ppwcode.value_III.time;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.ppwcode.util.test.contract.Contract.contractFor;
+import static org.ppwcode.value_III.time.Duration.delta;
+import static org.ppwcode.value_III.time.Duration.sum;
 import static org.ppwcode.value_III.time.Duration.Unit.CENTURY;
 import static org.ppwcode.value_III.time.Duration.Unit.DAY;
 import static org.ppwcode.value_III.time.Duration.Unit.DECENNIUM;
@@ -113,7 +116,7 @@ public class DurationTest {
     $subjects = new ArrayList<Duration>();
     for (long lS : LONGS) {
       for (Duration.Unit uS : Duration.Unit.values()) {
-        if (lS < uS.maxDuration()) {
+        if (lS <= uS.maxDuration()) {
           Duration subject = new Duration(lS, uS);
           $subjects.add(subject);
         }
@@ -178,6 +181,16 @@ public class DurationTest {
   }
 
   @Test
+  public void testAsMillisecond() {
+    for (Duration subject : $subjects) {
+      long result = subject.asMillisecond();
+      float expected = subject.as(MILLISECOND);
+      assertEquals(expected, result, expected / 1E6);
+      CONTRACT.assertInvariants(subject);
+    }
+  }
+
+  @Test
   public void testEqualsObject() {
     for (Duration subject : $subjects) {
       testEqualsObject(subject, null);
@@ -223,6 +236,72 @@ public class DurationTest {
     CONTRACT.assertInvariants(subject);
     if (other != null) {
       CONTRACT.assertInvariants(other);
+    }
+  }
+
+  @Test
+  public void testSum() {
+    Duration result1 = Duration.sum();
+    assertNotNull(result1);
+    assertEquals(0, result1.asMillisecond());
+    for (Duration subject : $subjects) {
+      Duration result2 = sum(subject);
+      assertNotNull(result2);
+      assertEquals(subject, result2);
+      for (Duration other : $subjects) {
+        if (subject.asMillisecond() <= Long.MAX_VALUE - other.asMillisecond()) {
+          Duration result3 =  sum(subject, other);
+          assertNotNull(result3);
+          long expected = subject.asMillisecond() + other.asMillisecond();
+          assertEquals(expected, result3.asMillisecond());
+        }
+      }
+    }
+  }
+
+  @Test
+  public void testDelta() {
+    for (Duration subject : $subjects) {
+      for (Duration other : $subjects) {
+        testDelta(subject, other);
+        testDelta(other, subject);
+      }
+    }
+  }
+
+  private void testDelta(Duration subject, Duration other) {
+    Duration result =  delta(subject, other);
+    assertNotNull(result);
+    long expected = Math.abs(subject.asMillisecond() - other.asMillisecond());
+    assertEquals(expected, result.asMillisecond());
+  }
+
+  @Test
+  public void testTimes() {
+    for (Duration subject : $subjects) {
+      for (long l : LONGS) {
+        if ((l < Integer.MAX_VALUE) && (l >= 0) &&
+            (l == 0 || subject.asMillisecond() <= Long.MAX_VALUE / l)) {
+          Duration result = subject.times((int)l);
+          assertNotNull(result);
+          long expected = subject.asMillisecond() * l;
+          assertEquals(expected, result.asMillisecond());
+        }
+      }
+    }
+  }
+
+  @Test
+  public void testDiv() {
+    for (Duration subject : $subjects) {
+      for (long l : LONGS) {
+        if ((l < Integer.MAX_VALUE) && (l > 0)) {
+          Duration result = subject.div((int)l);
+          assertNotNull(result);
+          long expected = subject.asMillisecond() / l;
+          assertEquals(expected, result.asMillisecond());
+        }
+      }
     }
   }
 
