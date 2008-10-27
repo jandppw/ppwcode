@@ -30,7 +30,8 @@ import org.toryt.annotations_I.Throw;
 
 
 /**
- * General supporting code for time interval implementations that store a begin and and end, and calculate a duration.
+ * An actual time interval, that is constructed using a begin and an end date, and has no further
+ * restrictions.
  *
  * @author Jan Dockx
  * @author Peopleware n.v.
