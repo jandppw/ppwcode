@@ -54,13 +54,13 @@ public final class DayDateBeginEndTimeInterval extends AbstractBeginEndTimeInter
     },
     exc  = {
       @Throw(type = IllegalIntervalException.class, cond = @Expression("! le(_begin, _end")),
-      @Throw(type = IllegalIntervalException.class, cond = @Expression("! isDayDate(_begin)")),
-      @Throw(type = IllegalIntervalException.class, cond = @Expression("! isDayDate(_end)"))
+      @Throw(type = IllegalIntervalException.class, cond = @Expression("begin != null && ! isDayDate(_begin)")),
+      @Throw(type = IllegalIntervalException.class, cond = @Expression("end != null && ! isDayDate(_end)"))
     }
   )
   public DayDateBeginEndTimeInterval(Date begin, Date end) throws IllegalIntervalException {
     super(begin, end);
-    if (! isDayDate(begin) || ! isDayDate(end)) {
+    if ((begin != null && ! isDayDate(begin)) || (end != null &&! isDayDate(end))) {
       throw new IllegalIntervalException(begin, end, "BEGIN_AND_END_MUST_BE_DAYDATE");
     }
   }
