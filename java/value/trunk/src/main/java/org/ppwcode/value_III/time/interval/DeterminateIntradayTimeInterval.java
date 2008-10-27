@@ -18,7 +18,6 @@ package org.ppwcode.value_III.time.interval;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.value_III.time.DateHelpers.isDayDate;
 
 import java.util.Date;
 
@@ -32,8 +31,7 @@ import org.toryt.annotations_I.Throw;
 
 
 /**
- * An effective time interval, that takes a begin date and an end date as constructor parameters,
- * but does not keep the time within a day. Begin and end are mere dates, not times.
+ * An effective intra-day time interval, for which begin and end are mandatory to be determinate.
  *
  * @author Jan Dockx
  * @author Peopleware n.v.
@@ -45,10 +43,10 @@ import org.toryt.annotations_I.Throw;
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
 @Invars({
-  @Expression("begin == null || isDayDate(begin)"),
-  @Expression("end == null || isDayDate(end)")
+  @Expression("begin != null"),
+  @Expression("end != null")
 })
-public final class DayDateBeginEndTimeInterval extends AbstractBeginEndTimeInterval {
+public final class DeterminateIntradayTimeInterval extends AbstractBeginEndTimeInterval {
 
   @MethodContract(
     post = {
@@ -57,19 +55,20 @@ public final class DayDateBeginEndTimeInterval extends AbstractBeginEndTimeInter
     },
     exc  = {
       @Throw(type = IllegalIntervalException.class, cond = @Expression("! le(_begin, _end")),
-      @Throw(type = IllegalIntervalException.class, cond = @Expression("begin != null && ! isDayDate(_begin)")),
-      @Throw(type = IllegalIntervalException.class, cond = @Expression("end != null && ! isDayDate(_end)"))
+      @Throw(type = IllegalIntervalException.class, cond = @Expression("_begin == null")),
+      @Throw(type = IllegalIntervalException.class, cond = @Expression("_end == null")),
+      @Throw(type = IllegalIntervalException.class, cond = @Expression("dayDate(_begin) == dayDate(_end)"))
     }
   )
-  public DayDateBeginEndTimeInterval(Date begin, Date end) throws IllegalIntervalException {
+  public DeterminateIntradayTimeInterval(Date begin, Date end) throws IllegalIntervalException {
     super(begin, end);
-    if ((begin != null && ! isDayDate(begin)) || (end != null &&! isDayDate(end))) {
-      throw new IllegalIntervalException(begin, end, "BEGIN_AND_END_MUST_BE_DAYDATE");
+    if (begin == null || end == null) {
+      throw new IllegalIntervalException(begin, end, "BEGIN_AND_END_MANDATORY");
     }
   }
 
-  public DayDateBeginEndTimeInterval determinate(Date stubBegin, Date stubEnd) throws IllegalIntervalException {
-    return new DayDateBeginEndTimeInterval(determinateBegin(stubBegin), determinateEnd(stubEnd));
+  public DeterminateIntradayTimeInterval determinate(Date stubBegin, Date stubEnd) throws IllegalIntervalException {
+    return this; // we are determinate ourselfs
   }
 
 }

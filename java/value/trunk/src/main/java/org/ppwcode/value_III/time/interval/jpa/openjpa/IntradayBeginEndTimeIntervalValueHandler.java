@@ -36,13 +36,13 @@ import org.apache.openjpa.meta.JavaTypes;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.value_III.time.interval.DayDateBeginEndTimeInterval;
+import org.ppwcode.value_III.time.interval.DayDateTimeInterval;
 import org.ppwcode.value_III.time.interval.IllegalIntervalException;
-import org.ppwcode.value_III.time.interval.IntradayBeginEndTimeInterval;
+import org.ppwcode.value_III.time.interval.IntradayTimeInterval;
 
 
 /**
- * A OpenJPA value handler for {@link DayDateBeginEndTimeInterval}. Begin and end are stored in 2
+ * A OpenJPA value handler for {@link DayDateTimeInterval}. Begin and end are stored in 2
  * columns in the database as {@code DATE}.
  *
  * @author Jan Dockx
@@ -89,7 +89,7 @@ public final class IntradayBeginEndTimeIntervalValueHandler implements ValueHand
 
   public Object toDataStoreValue(ValueMapping vm, Object val, JDBCStore store) {
     try {
-      IntradayBeginEndTimeInterval beTi = (IntradayBeginEndTimeInterval)val;
+      IntradayTimeInterval beTi = (IntradayTimeInterval)val;
       Date day = beTi.getDay();
       Date beginTime = beTi.getBegin();
       Date endTime = beTi.getEnd();
@@ -111,7 +111,7 @@ public final class IntradayBeginEndTimeIntervalValueHandler implements ValueHand
       beginTime = addTime(day, beginTime);
       Date endTime = (Date)dates[2];
       endTime = addTime(day, endTime);
-      return new IntradayBeginEndTimeInterval(beginTime, endTime);
+      return new IntradayTimeInterval(beginTime, endTime);
     }
     catch (NullPointerException exc) {
       unexpectedException(exc, "data received from database is not as expected: we can't deal with null");
@@ -123,7 +123,7 @@ public final class IntradayBeginEndTimeIntervalValueHandler implements ValueHand
       unexpectedException(exc, "data received from database is not as expected: expected an array of 3 dates");
     }
     catch (IllegalIntervalException exc) {
-      unexpectedException(exc, "data received from database did violate invariants for " + IntradayBeginEndTimeInterval.class);
+      unexpectedException(exc, "data received from database did violate invariants for " + IntradayTimeInterval.class);
     }
     return null; // make compiler happy
   }
