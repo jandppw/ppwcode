@@ -36,9 +36,9 @@ import org.apache.openjpa.meta.JavaTypes;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.value_III.time.interval.BeginEndTimeInterval;
 import org.ppwcode.value_III.time.interval.DayDateTimeInterval;
 import org.ppwcode.value_III.time.interval.IllegalIntervalException;
+import org.ppwcode.value_III.time.interval.IntradayTimeInterval;
 
 
 /**
@@ -52,16 +52,24 @@ import org.ppwcode.value_III.time.interval.IllegalIntervalException;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision: 3326 $",
          date     = "$Date: 2008-10-27 20:52:26 +0100 (Mon, 27 Oct 2008) $")
-public final class DayDateBeginEndTimeIntervalValueHandler implements ValueHandler {
+public final class IntradayTimeIntervalValueHandler implements ValueHandler {
 
   public final Column[] map(ValueMapping vm, String name, ColumnIO io, boolean adapt) {
-    return new Column[] {dateColumn(name + "_begin"), dateColumn(name + "_end")};
+    return new Column[] {dayColumn(name), timeColumn(name + "_begin"), timeColumn(name + "_end")};
   }
 
-  private Column dateColumn(String name) {
+  private Column dayColumn(String name) {
+    Column c = new Column();
+    c.setName(name + "_day");
+    c.setType(Types.DATE);
+    c.setJavaType(JavaTypes.DATE);
+    return c;
+  }
+
+  private Column timeColumn(String name) {
     Column c = new Column();
     c.setName(name);
-    c.setType(Types.DATE);
+    c.setType(Types.TIME);
     c.setJavaType(JavaTypes.DATE);
     return c;
   }
@@ -81,12 +89,15 @@ public final class DayDateBeginEndTimeIntervalValueHandler implements ValueHandl
 
   public Object toDataStoreValue(ValueMapping vm, Object val, JDBCStore store) {
     try {
-      BeginEndTimeInterval beTi = (BeginEndTimeInterval)val;
-      return new Date[] {beTi.getBegin(), beTi.getEnd()};
+      IntradayTimeInterval beTi = (IntradayTimeInterval)val;
+      Date day = beTi.getDay();
+      Date beginTime = beTi.getBegin();
+      Date endTime = beTi.getEnd();
+      return new Date[] {day, beginTime, endTime};
     }
     catch (ClassCastException exc) {
       unexpectedException(exc, "trying to handle " + val + " with " +
-                          DayDateBeginEndTimeIntervalValueHandler.class.getName() + ", but that can't handle that type");
+                          IntradayTimeIntervalValueHandler.class.getName() + ", but that can't handle that type");
     }
     return null; // make compiler happy
   }
@@ -94,11 +105,13 @@ public final class DayDateBeginEndTimeIntervalValueHandler implements ValueHandl
   public Object toObjectValue(ValueMapping vm, Object fromDb) {
     try {
       Object[] dates = (Date[])fromDb;
-      Date begin = (Date)dates[0];
-      assert begin == null || isDayDate(begin);
-      Date end = (Date)dates[1];
-      assert end == null || isDayDate(end);
-      return new BeginEndTimeInterval(begin, end);
+      Date day = (Date)dates[0];
+      assert day == null || isDayDate(day);
+      Date beginTime = (Date)dates[1];
+      beginTime = addTime(day, beginTime);
+      Date endTime = (Date)dates[2];
+      endTime = addTime(day, endTime);
+      return new IntradayTimeInterval(beginTime, endTime);
     }
     catch (NullPointerException exc) {
       unexpectedException(exc, "data received from database is not as expected: we can't deal with null");
@@ -107,12 +120,22 @@ public final class DayDateBeginEndTimeIntervalValueHandler implements ValueHandl
       unexpectedException(exc, "data received from database is not as expected: expected array of 2 values");
     }
     catch (ClassCastException exc) {
-      unexpectedException(exc, "data received from database is not as expected: expected an array of 2 dates");
+      unexpectedException(exc, "data received from database is not as expected: expected an array of 3 dates");
     }
     catch (IllegalIntervalException exc) {
-      unexpectedException(exc, "data received from database did violate invariants for " + BeginEndTimeInterval.class);
+      unexpectedException(exc, "data received from database did violate invariants for " + IntradayTimeInterval.class);
     }
     return null; // make compiler happy
+  }
+
+  private Date addTime(Date day, Date time) {
+    if (day == null || time == null) {
+      return null;
+    }
+    long millies = day.getTime();
+    millies += time.getTime();
+    Date result = new Date(millies);
+    return result;
   }
 
   /**
