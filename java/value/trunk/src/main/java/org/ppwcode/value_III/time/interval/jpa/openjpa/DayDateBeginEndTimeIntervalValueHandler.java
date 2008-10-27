@@ -95,9 +95,9 @@ public final class DayDateBeginEndTimeIntervalValueHandler implements ValueHandl
     try {
       Object[] dates = (Date[])fromDb;
       Date begin = (Date)dates[0];
-      assert isDayDate(begin);
+      assert begin == null || isDayDate(begin);
       Date end = (Date)dates[1];
-      assert isDayDate(end);
+      assert end == null || isDayDate(end);
       return new BeginEndTimeInterval(begin, end);
     }
     catch (NullPointerException exc) {
