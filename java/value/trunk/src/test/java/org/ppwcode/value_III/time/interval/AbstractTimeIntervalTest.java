@@ -50,6 +50,10 @@ public class AbstractTimeIntervalTest {
     public Date getEnd() {return $end;}
 
     public Duration getDuration() {return $duration;}
+
+    public TimeInterval determinate(Date stubBegin, Date stubEnd) {
+      return null;
+    }
   }
 
   public static _Contract_TimeInterval CONTRACT;
