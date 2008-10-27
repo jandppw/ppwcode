@@ -18,6 +18,7 @@ package org.ppwcode.value_III.time.interval;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+import static org.ppwcode.value_III.time.DateHelpers.dayDate;
 
 import java.util.Date;
 
@@ -69,6 +70,19 @@ public final class DeterminateIntradayTimeInterval extends AbstractBeginEndTimeI
 
   public DeterminateIntradayTimeInterval determinate(Date stubBegin, Date stubEnd) throws IllegalIntervalException {
     return this; // we are determinate ourselfs
+  }
+
+  @MethodContract(post = @Expression("begin != null ? dayDate(begin) : end != null ? dayDate(end) : null"))
+  public final Date getDay() {
+    if (getBegin() != null) {
+      return dayDate(getBegin());
+    }
+    else if (getEnd() != null) {
+      return dayDate(getEnd());
+    }
+    else {
+      return null;
+    }
   }
 
 }
