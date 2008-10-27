@@ -23,9 +23,7 @@ import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpe
 
 import java.sql.SQLException;
 import java.sql.Types;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import org.apache.openjpa.jdbc.kernel.JDBCFetchConfiguration;
 import org.apache.openjpa.jdbc.kernel.JDBCStore;
@@ -38,9 +36,9 @@ import org.apache.openjpa.meta.JavaTypes;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.value_III.time.interval.BeginEndTimeInterval;
 import org.ppwcode.value_III.time.interval.DayDateBeginEndTimeInterval;
 import org.ppwcode.value_III.time.interval.IllegalIntervalException;
+import org.ppwcode.value_III.time.interval.IntradayBeginEndTimeInterval;
 
 
 /**
