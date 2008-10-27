@@ -46,7 +46,7 @@ import org.toryt.annotations_I.Throw;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-@Invars(@Expression("sameDay_begin, _end)"))
+@Invars(@Expression("sameDay(_begin, _end)"))
 public final class IntradayTimeInterval extends AbstractBeginEndTimeInterval {
 
   @MethodContract(

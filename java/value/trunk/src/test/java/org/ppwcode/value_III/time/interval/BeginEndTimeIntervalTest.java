@@ -96,10 +96,10 @@ public class BeginEndTimeIntervalTest extends AbstractBeginEndTimeIntervalTest {
           BeginEndTimeInterval result;
           try {
             result = subject.determinate(d1, d2);
-            CONTRACT.assertDeterminate(subject, d1, d2, result, null);
+            CONTRACT.assertDeterminate(subject, d1, d2, result);
           }
           catch (IllegalIntervalException exc) {
-            CONTRACT.assertDeterminate(subject, d1, d2, null, exc);
+            assertTrue(! le(subject.determinateBegin(d1), subject.determinateEnd(d2)));
           }
           assertInvariants(subject);
         }
