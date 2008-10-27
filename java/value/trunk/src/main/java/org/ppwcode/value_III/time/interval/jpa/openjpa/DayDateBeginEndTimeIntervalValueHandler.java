@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2004 - $Date$ by PeopleWare n.v..
+Copyright 2004 - $Date: 2008-10-27 20:52:26 +0100 (Mon, 27 Oct 2008) $ by PeopleWare n.v..
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package org.ppwcode.value_III.time.interval.jpa.openjpa;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+import static org.ppwcode.value_III.time.DateHelpers.isDayDate;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
 
 import java.sql.SQLException;
@@ -36,30 +37,31 @@ import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.value_III.time.interval.BeginEndTimeInterval;
+import org.ppwcode.value_III.time.interval.DayDateBeginEndTimeInterval;
 import org.ppwcode.value_III.time.interval.IllegalIntervalException;
 
 
 /**
- * A OpenJPA value handler for {@link BeginEndTimeInterval}. Begin and end are stored in 2
- * columns in the database as {@code TIMESTAMP}.
+ * A OpenJPA value handler for {@link DayDateBeginEndTimeInterval}. Begin and end are stored in 2
+ * columns in the database as {@code DATE}.
  *
  * @author Jan Dockx
  * @author Peopleware n.v.
  */
-@Copyright("2008 - $Date$, PeopleWare n.v.")
+@Copyright("2008 - $Date: 2008-10-27 20:52:26 +0100 (Mon, 27 Oct 2008) $, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision$",
-         date     = "$Date$")
-public final class BeginEndTimeIntervalValueHandler implements ValueHandler {
+@SvnInfo(revision = "$Revision: 3326 $",
+         date     = "$Date: 2008-10-27 20:52:26 +0100 (Mon, 27 Oct 2008) $")
+public final class DayDateBeginEndTimeIntervalValueHandler implements ValueHandler {
 
   public final Column[] map(ValueMapping vm, String name, ColumnIO io, boolean adapt) {
-    return new Column[] {timestampColumn(name + "_begin"), timestampColumn(name + "_end")};
+    return new Column[] {dateColumn(name + "_begin"), dateColumn(name + "_end")};
   }
 
-  private Column timestampColumn(String name) {
+  private Column dateColumn(String name) {
     Column c = new Column();
     c.setName(name);
-    c.setType(Types.TIMESTAMP);
+    c.setType(Types.DATE);
     c.setJavaType(JavaTypes.DATE);
     return c;
   }
@@ -84,7 +86,7 @@ public final class BeginEndTimeIntervalValueHandler implements ValueHandler {
     }
     catch (ClassCastException exc) {
       unexpectedException(exc, "trying to handle " + val + " with " +
-                          BeginEndTimeIntervalValueHandler.class.getName() + ", but that can't handle that type");
+                          DayDateBeginEndTimeIntervalValueHandler.class.getName() + ", but that can't handle that type");
     }
     return null; // make compiler happy
   }
@@ -93,7 +95,9 @@ public final class BeginEndTimeIntervalValueHandler implements ValueHandler {
     try {
       Object[] dates = (Date[])fromDb;
       Date begin = (Date)dates[0];
+      assert isDayDate(begin);
       Date end = (Date)dates[1];
+      assert isDayDate(end);
       return new BeginEndTimeInterval(begin, end);
     }
     catch (NullPointerException exc) {
