@@ -30,6 +30,7 @@ import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.Invars;
 import org.toryt.annotations_I.MethodContract;
+import org.toryt.annotations_I.Throw;
 
 
 /**
@@ -113,6 +114,18 @@ public interface TimeInterval extends ImmutableValue {
   boolean equals(Object other);
 
   /**
+   * Return a determinate begin. If we don't have one, return {@code stubBegin}.
+   */
+  @MethodContract(post = @Expression("begin != null ? begin : _stubBegin"))
+  Date determinateBegin(Date stubBegin);
+
+  /**
+   * Return a determinate end. If we don't have one, return {@code stubEnd}.
+   */
+  @MethodContract(post = @Expression("end != null ? end : _stubEnd"))
+  Date determinateEnd(Date stubEnd);
+
+  /**
    * Return a (more) determinate time interval than this, i.e., replace a {@code null}
    * begin and end by {@code stubBegin} and {@code stubEnd}.
    * This is introduced in support of reasoning with unknown but constrained begin and end dates.
@@ -122,10 +135,12 @@ public interface TimeInterval extends ImmutableValue {
   @MethodContract(
     post = {
       @Expression("result != null"),
-      @Expression("'begin != null ? result.begin == 'begin : result.begin == _stubBegin"),
-      @Expression("'end != null ? result.end == 'end : result.end == _stubEnd")
-    }
+      @Expression("result.begin == determinateBegin(_stubBegin)"),
+      @Expression("result.end == determinateEnd(_stubEnd)")
+    },
+    exc  = @Throw(type = IllegalIntervalException.class,
+                  cond = @Expression("! le(determinateBegin(_stubBegin), determinateEnd(_stubEnd))"))
   )
-  TimeInterval determinate(Date stubBegin, Date stubEnd);
+  TimeInterval determinate(Date stubBegin, Date stubEnd) throws IllegalIntervalException;
 
 }

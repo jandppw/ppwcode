@@ -21,6 +21,8 @@ import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.value_III.time.interval.TimeIntervalRelation.EQUALS;
 import static org.ppwcode.value_III.time.interval.TimeIntervalRelation.timeIntervalRelation;
 
+import java.util.Date;
+
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
@@ -83,6 +85,14 @@ public abstract class AbstractTimeInterval extends AbstractImmutableValue implem
   @Override
   public final String toString() {
     return "[" + getBegin() + ", " + getEnd() + "[\u0394(" + getDuration() + ")"; // \u0394 is Greek capital delta
+  }
+
+  public final Date determinateBegin(Date stubBegin) {
+    return getBegin() != null ? getBegin() : stubBegin;
+  }
+
+  public final Date determinateEnd(Date stubEnd) {
+    return getEnd() != null ? getEnd() : stubEnd;
   }
 
 }
