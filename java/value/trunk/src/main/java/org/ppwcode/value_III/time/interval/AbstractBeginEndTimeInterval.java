@@ -39,6 +39,8 @@ import org.toryt.annotations_I.Throw;
  *
  * @author Jan Dockx
  * @author Peopleware n.v.
+ *
+ * @mudo unit test
  */
 @Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
