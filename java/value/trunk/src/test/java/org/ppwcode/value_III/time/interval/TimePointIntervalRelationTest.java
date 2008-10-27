@@ -240,16 +240,16 @@ public class TimePointIntervalRelationTest {
   @Test
   public void testCompose0() {
     for (TimePointIntervalRelation tpir : BASIC_RELATIONS) {
-      for (AllenRelation ar : AllenRelation.BASIC_RELATIONS) {
+      for (TimeIntervalRelation ar : TimeIntervalRelation.BASIC_RELATIONS) {
         TimePointIntervalRelation result = compose(tpir, ar);
         validateCompose(tpir, ar, result);
       }
     }
   }
 
-  private void validateCompose(TimePointIntervalRelation tpir, AllenRelation ar, TimePointIntervalRelation result) {
+  private void validateCompose(TimePointIntervalRelation tpir, TimeIntervalRelation ar, TimePointIntervalRelation result) {
     for (TimePointIntervalRelation bTpir : BASIC_RELATIONS) {
-      for (AllenRelation bAr : AllenRelation.BASIC_RELATIONS) {
+      for (TimeIntervalRelation bAr : TimeIntervalRelation.BASIC_RELATIONS) {
         assertTrue(bTpir.implies(tpir) && bAr.implies(ar) ?
                      result.impliedBy(BASIC_COMPOSITIONS[bTpir.basicRelationOrdinal()][bAr.basicRelationOrdinal()]) :
                      true);
@@ -260,12 +260,12 @@ public class TimePointIntervalRelationTest {
   @Test
   public void testCompose1() {
     TimePointIntervalRelation[] subjects1 = values();
-    AllenRelation[] subjects2 = AllenRelation.VALUES;
+    TimeIntervalRelation[] subjects2 = TimeIntervalRelation.VALUES;
     long total = subjects1.length * subjects2.length;
     System.out.println("Starting test over " + total + " cases; warning: this method is O(n3)");
     long count = 0;
     for (TimePointIntervalRelation tpir : subjects1) {
-      for (AllenRelation ar : subjects2) {
+      for (TimeIntervalRelation ar : subjects2) {
         TimePointIntervalRelation result = compose(tpir, ar);
         validateCompose(tpir, ar, result);
         count++;

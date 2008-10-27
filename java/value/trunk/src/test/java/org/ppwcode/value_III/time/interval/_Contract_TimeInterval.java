@@ -20,8 +20,8 @@ package org.ppwcode.value_III.time.interval;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.ppwcode.value_III.time.DateHelpers.le;
-import static org.ppwcode.value_III.time.interval.AllenRelation.EQUALS;
-import static org.ppwcode.value_III.time.interval.AllenRelation.allenRelation;
+import static org.ppwcode.value_III.time.interval.TimeIntervalRelation.EQUALS;
+import static org.ppwcode.value_III.time.interval.TimeIntervalRelation.timeIntervalRelation;
 
 import org.ppwcode.util.test.contract.Contract;
 import org.ppwcode.vernacular.value_III.ImmutableValue;
@@ -46,7 +46,7 @@ public class _Contract_TimeInterval extends Contract<TimeInterval> {
     _Contract_ImmutableValue cValue = (_Contract_ImmutableValue)getDirectSuperContracts().get(ImmutableValue.class);
     cValue.assertEqualsObject(ti, other, result);
     if ((other != null) && (other instanceof TimeInterval)) {
-      boolean expected = allenRelation(ti, (TimeInterval)other) == EQUALS;
+      boolean expected = timeIntervalRelation(ti, (TimeInterval)other) == EQUALS;
       assertEquals(expected, result);
     }
   }
