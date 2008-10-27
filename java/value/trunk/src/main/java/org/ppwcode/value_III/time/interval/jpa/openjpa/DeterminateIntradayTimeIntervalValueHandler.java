@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2004 - $Date: 2008-10-27 20:52:26 +0100 (Mon, 27 Oct 2008) $ by PeopleWare n.v..
+Copyright 2004 - $Date$ by PeopleWare n.v..
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -48,10 +48,10 @@ import org.ppwcode.value_III.time.interval.IntradayTimeInterval;
  * @author Jan Dockx
  * @author Peopleware n.v.
  */
-@Copyright("2008 - $Date: 2008-10-27 20:52:26 +0100 (Mon, 27 Oct 2008) $, PeopleWare n.v.")
+@Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 3326 $",
-         date     = "$Date: 2008-10-27 20:52:26 +0100 (Mon, 27 Oct 2008) $")
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public final class DeterminateIntradayTimeIntervalValueHandler implements ValueHandler {
 
   public final Column[] map(ValueMapping vm, String name, ColumnIO io, boolean adapt) {
