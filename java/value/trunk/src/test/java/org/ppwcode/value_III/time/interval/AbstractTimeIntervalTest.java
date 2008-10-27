@@ -86,7 +86,7 @@ public class AbstractTimeIntervalTest {
     final Date e = gcE.getTime();
     subject = new StubAbstractTimeInterval(b, e, null);
     $subjects.add(subject);
-    subject = new StubAbstractTimeInterval(b, e, new Duration((int)(gcE.getTimeInMillis() - gcB.getTimeInMillis()), Duration.Unit.MILLISECOND));
+    subject = new StubAbstractTimeInterval(b, e, new Duration((gcE.getTimeInMillis() - gcB.getTimeInMillis()), Duration.Unit.MILLISECOND));
     $subjects.add(subject);
   }
 
