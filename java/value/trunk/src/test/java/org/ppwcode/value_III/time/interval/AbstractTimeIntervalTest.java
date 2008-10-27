@@ -139,5 +139,33 @@ public class AbstractTimeIntervalTest {
     }
   }
 
+  @Test
+  public void testDeterminateBeginDate() {
+    for (AbstractTimeInterval subject : $subjects) {
+      testDeterminateBegin(subject, null);
+      testDeterminateBegin(subject, new Date());
+    }
+  }
+
+  private void testDeterminateBegin(AbstractTimeInterval subject, Date d) {
+    Date result = subject.determinateBegin(d);
+    CONTRACT.assertDeterminateBegin(subject, d, result);
+    CONTRACT.assertInvariants(subject);
+  }
+
+  @Test
+  public void testDeterminateEndDate() {
+    for (AbstractTimeInterval subject : $subjects) {
+      testDeterminateEnd(subject, null);
+      testDeterminateEnd(subject, new Date());
+    }
+  }
+
+  private void testDeterminateEnd(AbstractTimeInterval subject, Date d) {
+    Date result = subject.determinateEnd(d);
+    CONTRACT.assertDeterminateEnd(subject, d, result);
+    CONTRACT.assertInvariants(subject);
+  }
+
 }
 

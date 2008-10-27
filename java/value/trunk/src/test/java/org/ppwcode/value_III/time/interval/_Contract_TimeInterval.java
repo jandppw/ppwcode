@@ -18,10 +18,13 @@ package org.ppwcode.value_III.time.interval;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.ppwcode.value_III.time.DateHelpers.le;
 import static org.ppwcode.value_III.time.interval.TimeIntervalRelation.EQUALS;
 import static org.ppwcode.value_III.time.interval.TimeIntervalRelation.timeIntervalRelation;
+
+import java.util.Date;
 
 import org.ppwcode.util.test.contract.Contract;
 import org.ppwcode.vernacular.value_III.ImmutableValue;
@@ -57,6 +60,26 @@ public class _Contract_TimeInterval extends Contract<TimeInterval> {
 
   public void assertToString(TimeInterval ti, String result) {
 //    _Contract_ImmutableValue cValue = (_Contract_ImmutableValue)getDirectSuperContracts().get(ImmutableValue.class);
+  }
+
+  public void assertDeterminateBegin(TimeInterval ti, Date stubBegin, Date result) {
+    assertEquals(ti.getBegin() != null ? ti.getBegin() : stubBegin, result);
+  }
+
+  public void assertDeterminateEnd(TimeInterval ti, Date stubEnd, Date result) {
+    assertEquals(ti.getEnd() != null ? ti.getEnd() : stubEnd, result);
+  }
+
+  public void assertDeterminate(TimeInterval subject, Date stubBegin, Date stubEnd,
+                                TimeInterval result, IllegalIntervalException iiExc) {
+    if (iiExc == null) {
+      assertNotNull(result);
+      assertEquals(subject.determinateBegin(stubBegin), result.getBegin());
+      assertEquals(subject.determinateEnd(stubEnd), result.getEnd());
+    }
+    else {
+      assertTrue(! le(subject.determinateBegin(stubBegin), subject.determinateEnd(stubEnd)));
+    }
   }
 
 }
