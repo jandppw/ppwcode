@@ -51,7 +51,7 @@ public final class IntraDayBeginEndTimeInterval extends AbstractBeginEndTimeInte
   @MethodContract(
     post = {
       @Expression("begin == _begin"),
-      @Expression("end == _end"),
+      @Expression("end == _end")
     },
     exc  = {
       @Throw(type = IllegalIntervalException.class, cond = @Expression("! le(_begin, _end")),
