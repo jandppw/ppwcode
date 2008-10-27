@@ -50,7 +50,7 @@ public final class DayDateBeginEndTimeInterval extends AbstractBeginEndTimeInter
   @MethodContract(
     post = {
       @Expression("begin == _begin"),
-      @Expression("end == _end"),
+      @Expression("end == _end")
     },
     exc  = {
       @Throw(type = IllegalIntervalException.class, cond = @Expression("! le(_begin, _end")),
