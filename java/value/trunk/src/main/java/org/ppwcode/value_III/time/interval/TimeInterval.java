@@ -112,4 +112,20 @@ public interface TimeInterval extends ImmutableValue {
   @MethodContract(post = @Expression("TimeIntervalRelation.allenRelation(this, other) == EQUALS"))
   boolean equals(Object other);
 
+  /**
+   * Return a (more) determinate time interval than this, i.e., replace a {@code null}
+   * begin and end by {@code stubBegin} and {@code stubEnd}.
+   * This is introduced in support of reasoning with unknown but constrained begin and end dates.
+   * See {@link TimeIntervalRelation}, &quot;Reasoning with unknown but constrained begin and end dates&quot;
+   * for more information.
+   */
+  @MethodContract(
+    post = {
+      @Expression("result != null"),
+      @Expression("'begin != null ? result.begin == 'begin : result.begin == _stubBegin"),
+      @Expression("'end != null ? result.end == 'end : result.end == _stubEnd")
+    }
+  )
+  TimeInterval determinate(Date stubBegin, Date stubEnd);
+
 }
