@@ -23,6 +23,8 @@ import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.pre;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotNull;
 
 import java.text.NumberFormat;
+import java.util.Arrays;
+import java.util.List;
 
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
@@ -180,6 +182,11 @@ public final class Duration extends AbstractImmutableValue implements Comparable
     $millis = (d == 0) ? 0 : d * unit.asMilliseconds();
   }
 
+  @MethodContract(post = @Expression("as(MILLISECOND)"))
+  public final long asMillisecond() {
+    return $millis;
+  }
+
   /**
    * This duration expressed in the unit {@code unit}. Expect accurary to 5 decimals.
    */
@@ -230,6 +237,95 @@ public final class Duration extends AbstractImmutableValue implements Comparable
         return 1;
       }
     }
+  }
+
+  /**
+   * The sum of the durations in {@code d}.
+   */
+  @MethodContract(
+    pre  = {
+      @Expression("for (int i = 0 .. d.length) {d[i] != null}"),
+      @Expression("sum (Duration aD : d) {d.asMillisecond()} <= Long.MAX_VALUE")
+    },
+    post = {
+      @Expression("result != null"),
+      @Expression("d.length == 0 ? result.asMillisecond() == 0"),
+      @Expression("d.length != 0 ? result.asMillisecond() == sum(d[1..d.length]) + d[0].asMillisecond()")
+    }
+  )
+  public static Duration sum(Duration... d) {
+    preSum(d);
+    long result = 0;
+    for (Duration aD : d) {
+      result += aD.asMillisecond();
+    }
+    return new Duration(result, MILLISECOND);
+  }
+
+  private static void preSum(Duration[] d) {
+    if (d.length > 1) {
+      List<Duration> dList = Arrays.asList(d);
+      List<Duration> dCdrList = dList.subList(1, dList.size());
+      Duration[] dCdr = dCdrList.toArray(new Duration[dCdrList.size()]);
+      pre(sum(dCdr).asMillisecond() <= Long.MAX_VALUE - d[0].asMillisecond());
+    }
+  }
+
+  /**
+   * The difference between 2 durations. Order is unimportant.
+   */
+  @MethodContract(
+    pre  = {
+      @Expression("d1 != null"),
+      @Expression("d2 != null")
+    },
+    post = {
+      @Expression("result != null"),
+      @Expression("result.asMillisecond() == Math.abs(d1.asMillisecond() - d2.asMillisecond())")
+    }
+  )
+  public static Duration delta(Duration d1, Duration d2) {
+    assert preArgumentNotNull(d1, "d1");
+    assert preArgumentNotNull(d2, "d2");
+    long result = Math.abs(d1.asMillisecond() - d2.asMillisecond());
+    return new Duration(result, MILLISECOND);
+  }
+
+  /**
+   * A duration {@code n} times as long as this duration.
+   */
+  @MethodContract(
+    pre  = {
+      @Expression("n >= 0"),
+      @Expression("n * asMillisecond() <= Long.MAX_VALUE")
+    },
+    post = {
+      @Expression("result != null"),
+      @Expression("result.asMilliseconde() == asMillisecond() * n")
+    }
+  )
+  public Duration times(int n) {
+    pre(n >= 0);
+    pre(n == 0 || $millis <= Long.MAX_VALUE / n);
+    return new Duration($millis * n, MILLISECOND);
+  }
+
+
+  /**
+   * A duration that is the {@code n}th part as long as this duration.
+   */
+  @MethodContract(
+    pre  = {
+      @Expression("n > 0")
+    },
+    post = {
+      @Expression("result != null"),
+      @Expression("result.asMilliseconde() == asMillisecond() / n")
+    }
+  )
+  public Duration div(int n) {
+    pre(n > 0);
+    return new Duration($millis / n, MILLISECOND);
   }
 
 }
