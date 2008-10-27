@@ -39,6 +39,8 @@ import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpe
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -273,6 +275,26 @@ public class DurationTest {
     Duration result =  delta(subject, other);
     assertNotNull(result);
     long expected = Math.abs(subject.asMillisecond() - other.asMillisecond());
+    assertEquals(expected, result.asMillisecond());
+  }
+
+  @Test
+  public void testDeltaDateDate() {
+    GregorianCalendar past = new GregorianCalendar(1995, 3, 24);
+    Date now = new Date();
+    GregorianCalendar future = new GregorianCalendar(2223, 4, 13);
+    Date[] dates = new Date[] {past.getTime(), now, future.getTime()};
+    for (Date d1 : dates) {
+      for (Date d2 : dates) {
+        testDeltaDateDate(d1, d2);
+      }
+    }
+  }
+
+  private void testDeltaDateDate(Date d1, Date d2) {
+    Duration result =  delta(d1, d2);
+    assertNotNull(result);
+    long expected = Math.abs(d1.getTime() - d2.getTime());
     assertEquals(expected, result.asMillisecond());
   }
 
