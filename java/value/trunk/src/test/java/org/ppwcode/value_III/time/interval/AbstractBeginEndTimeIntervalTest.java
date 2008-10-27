@@ -36,6 +36,12 @@ public class AbstractBeginEndTimeIntervalTest extends AbstractTimeIntervalTest {
 
   }
 
+  @SuppressWarnings("unchecked")
+  @Override
+  public List<? extends AbstractBeginEndTimeInterval> subjects() {
+    return (List<? extends AbstractBeginEndTimeInterval>)$subjects;
+  }
+
   @Override
   @Before
   public void setUp() throws IllegalIntervalException {
@@ -60,7 +66,7 @@ public class AbstractBeginEndTimeIntervalTest extends AbstractTimeIntervalTest {
 
   @Test
   public void testGetDuration() {
-    for (AbstractTimeInterval subject : subjects()) {
+    for (AbstractBeginEndTimeInterval subject : subjects()) {
       Duration result = subject.getDuration();
       Duration expected = subject.getBegin() == null || subject.getEnd() == null ? null :
         delta(subject.getBegin(), subject.getEnd());
