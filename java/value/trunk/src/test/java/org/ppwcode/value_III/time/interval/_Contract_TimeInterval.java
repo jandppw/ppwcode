@@ -70,16 +70,10 @@ public class _Contract_TimeInterval extends Contract<TimeInterval> {
     assertEquals(ti.getEnd() != null ? ti.getEnd() : stubEnd, result);
   }
 
-  public void assertDeterminate(TimeInterval subject, Date stubBegin, Date stubEnd,
-                                TimeInterval result, IllegalIntervalException iiExc) {
-    if (iiExc == null) {
-      assertNotNull(result);
-      assertEquals(subject.determinateBegin(stubBegin), result.getBegin());
-      assertEquals(subject.determinateEnd(stubEnd), result.getEnd());
-    }
-    else {
-      assertTrue(! le(subject.determinateBegin(stubBegin), subject.determinateEnd(stubEnd)));
-    }
+  public void assertDeterminate(TimeInterval subject, Date stubBegin, Date stubEnd, TimeInterval result) {
+    assertNotNull(result);
+    assertEquals(subject.determinateBegin(stubBegin), result.getBegin());
+    assertEquals(subject.determinateEnd(stubEnd), result.getEnd());
   }
 
 }
