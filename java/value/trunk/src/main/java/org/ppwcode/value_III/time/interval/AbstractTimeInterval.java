@@ -18,8 +18,8 @@ package org.ppwcode.value_III.time.interval;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.value_III.time.interval.AllenRelation.EQUALS;
-import static org.ppwcode.value_III.time.interval.AllenRelation.allenRelation;
+import static org.ppwcode.value_III.time.interval.TimeIntervalRelation.EQUALS;
+import static org.ppwcode.value_III.time.interval.TimeIntervalRelation.timeIntervalRelation;
 
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
@@ -63,7 +63,7 @@ public abstract class AbstractTimeInterval extends AbstractImmutableValue implem
      * since we are abstract. Furthermore we want to compare all TimeIntervals
      * to each other, via the interface.
      */
-    return (other != null) && (getClass().isInstance(other)) && allenRelation(this, (TimeInterval)other) == EQUALS;
+    return (other != null) && (getClass().isInstance(other)) && timeIntervalRelation(this, (TimeInterval)other) == EQUALS;
   }
 
   @Override
