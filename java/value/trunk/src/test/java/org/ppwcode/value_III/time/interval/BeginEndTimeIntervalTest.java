@@ -67,6 +67,10 @@ public class BeginEndTimeIntervalTest extends AbstractBeginEndTimeIntervalTest {
     $dates = null;
   }
 
+  protected void assertInvariants(BeginEndTimeInterval subject) {
+    super.assertInvariants(subject);
+  }
+
   @Test
   public void testBeginEndTimeInterval() {
     for (Date d1 : $dates) {
@@ -75,6 +79,7 @@ public class BeginEndTimeIntervalTest extends AbstractBeginEndTimeIntervalTest {
           AbstractBeginEndTimeInterval subject = new BeginEndTimeInterval(d1, d2);
           assertEquals(d1, subject.getBegin());
           assertEquals(d2, subject.getEnd());
+          assertInvariants(subject);
         }
         catch (IllegalIntervalException exc) {
           assertTrue(! le(d1, d2));
@@ -96,7 +101,7 @@ public class BeginEndTimeIntervalTest extends AbstractBeginEndTimeIntervalTest {
           catch (IllegalIntervalException exc) {
             CONTRACT.assertDeterminate(subject, d1, d2, null, exc);
           }
-          CONTRACT.assertInvariants(subject);
+          assertInvariants(subject);
         }
       }
     }
