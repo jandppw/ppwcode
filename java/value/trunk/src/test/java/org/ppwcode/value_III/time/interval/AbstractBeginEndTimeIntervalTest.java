@@ -7,12 +7,19 @@
 package org.ppwcode.value_III.time.interval;
 
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.ppwcode.value_III.time.DateHelpers.le;
+import static org.ppwcode.value_III.time.Duration.delta;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Test;
+import org.ppwcode.value_III.time.Duration;
 
 
 public class AbstractBeginEndTimeIntervalTest extends AbstractTimeIntervalTest {
@@ -51,6 +58,36 @@ public class AbstractBeginEndTimeIntervalTest extends AbstractTimeIntervalTest {
     $subjects = s;
   }
 
+  @Test
+  public void testGetDuration() {
+    for (AbstractTimeInterval subject : subjects()) {
+      Duration result = subject.getDuration();
+      Duration expected = subject.getBegin() == null || subject.getEnd() == null ? null :
+        delta(subject.getBegin(), subject.getEnd());
+      assertEquals(expected, result);
+      CONTRACT.assertInvariants(subject);
+    }
+  }
+
+  @Test
+  public void testAbstractBeginEndTimeInterval() {
+    GregorianCalendar past = new GregorianCalendar(1995, 3, 24);
+    Date now = new Date();
+    GregorianCalendar future = new GregorianCalendar(2223, 4, 13);
+    Date[] dates = new Date[] {null, past.getTime(), now, future.getTime()};
+    for (Date d1 : dates) {
+      for (Date d2 : dates) {
+        try {
+          AbstractBeginEndTimeInterval subject = new StubAbstractBeginEndTimeInterval(d1, d2);
+          assertEquals(d1, subject.getBegin());
+          assertEquals(d2, subject.getEnd());
+        }
+        catch (IllegalIntervalException exc) {
+          assertTrue(! le(d1, d2));
+        }
+      }
+    }
+  }
 
 }
 
