@@ -19,8 +19,8 @@ package org.ppwcode.value_III.legacy;
 import java.util.Date;
 
 import org.ppwcode.value_III.time.DateHelpers;
-import org.ppwcode.value_III.time.interval.BeginEndTimeInterval;
-import org.ppwcode.value_III.time.interval.InvalidPeriodException;
+import org.ppwcode.value_III.time.interval.AbstractBeginEndTimeInterval;
+import org.ppwcode.value_III.time.interval.IllegalIntervalException;
 import org.ppwcode.vernacular.value_III.AbstractMutableValue;
 
 
@@ -57,7 +57,7 @@ import org.ppwcode.vernacular.value_III.AbstractMutableValue;
  * @invar     (getStartDate() != null && getEndDate() != null)
  *                ? ! getStartDate().after(getEndDate());
  */
-public class DayPeriod extends AbstractMutableValue implements Comparable {
+public class DayPeriod extends AbstractMutableValue {
 
   /*<section name="Meta Information">*/
   //------------------------------------------------------------------
@@ -119,12 +119,12 @@ public class DayPeriod extends AbstractMutableValue implements Comparable {
    *              && pExc.getMessage()
    *                    .equals("The given start date is not before the current end date.");
    */
-  public void setStartDate(final Date startDate) throws InvalidPeriodException {
+  public void setStartDate(final Date startDate) throws IllegalIntervalException {
     if (startDate != null
             && getEndDate() != null
             && startDate.after(getEndDate())
     ) {
-      InvalidPeriodException ipe = new InvalidPeriodException(
+      IllegalIntervalException ipe = new IllegalIntervalException(
           startDate, getEndDate(),
           "The given start date is not before the current end date."
       );
@@ -168,12 +168,12 @@ public class DayPeriod extends AbstractMutableValue implements Comparable {
    *              && pExc.getMessage()
    *                    .equals("The current start date is not before the given end date.");
    */
-  public void setEndDate(final Date endDate) throws InvalidPeriodException {
+  public void setEndDate(final Date endDate) throws IllegalIntervalException {
     if (getStartDate() != null
           && endDate != null
           && getStartDate().after(endDate)
     ) {
-      throw new InvalidPeriodException(
+      throw new IllegalIntervalException(
           getStartDate(), endDate,
           "The current start date is not before the given end date."
       );
