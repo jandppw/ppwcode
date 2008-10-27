@@ -415,10 +415,11 @@ public final class TimePointIntervalRelation {
   /**
    * A non-basic time point-interval relation that is often handy to use, which expresses that a time point <var>t</var>
    * and an interval <var>I</var> are concurrent in some way.
-   * Thus, <var>t</var> does <em>not</em> come before <var>I</var>, and <var>t</var> does <em>not</em> come after <var>I</var>.
+   * Thus, <var>t</var> does <em>not</em> come before <var>I</var>, <var>t</var> is not the end time of <var>I</var>,
+   * and <var>t</var> does <em>not</em> come after <var>I</var> (remember that we define time intervals as right half-open).
    */
-  @Invars(@Expression("CONCURS_WITH == or(BEGINS, IN, ENDS)"))
-  public final static TimePointIntervalRelation CONCURS_WITH = or(BEGINS, IN, ENDS);
+  @Invars(@Expression("CONCURS_WITH == or(BEGINS, IN)"))
+  public final static TimePointIntervalRelation CONCURS_WITH = or(BEGINS, IN);
 
   /**
    * A non-basic time point-interval relation that is often handy to use, which expresses that a time point <var>t</var>

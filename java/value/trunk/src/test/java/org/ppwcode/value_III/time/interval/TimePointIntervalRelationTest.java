@@ -97,7 +97,7 @@ public class TimePointIntervalRelationTest {
 
   @Test
   public void testSecondaryRelations() {
-    assertEquals(or(BEGINS, IN, ENDS), CONCURS_WITH);
+    assertEquals(or(BEGINS, IN), CONCURS_WITH);
     assertEquals(or(IN, ENDS, AFTER), AFTER_BEGIN);
     assertEquals(or(BEFORE, BEGINS, IN), BEFORE_END);
   }
