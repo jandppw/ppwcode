@@ -23,7 +23,9 @@ import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpe
 
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import org.apache.openjpa.jdbc.kernel.JDBCFetchConfiguration;
 import org.apache.openjpa.jdbc.kernel.JDBCStore;
@@ -89,11 +91,10 @@ public final class IntradayBeginEndTimeIntervalValueHandler implements ValueHand
 
   public Object toDataStoreValue(ValueMapping vm, Object val, JDBCStore store) {
     try {
-      BeginEndTimeInterval beTi = (BeginEndTimeInterval)val;
-      Date day
+      IntradayBeginEndTimeInterval beTi = (IntradayBeginEndTimeInterval)val;
+      Date day = beTi.getDay();
       Date beginTime = beTi.getBegin();
-      Date endTime = beTi.getEnd()
-
+      Date endTime = beTi.getEnd();
       return new Date[] {day, beginTime, endTime};
     }
     catch (ClassCastException exc) {
@@ -106,11 +107,13 @@ public final class IntradayBeginEndTimeIntervalValueHandler implements ValueHand
   public Object toObjectValue(ValueMapping vm, Object fromDb) {
     try {
       Object[] dates = (Date[])fromDb;
-      Date begin = (Date)dates[0];
-      assert isDayDate(begin);
-      Date end = (Date)dates[1];
-      assert isDayDate(end);
-      return new BeginEndTimeInterval(begin, end);
+      Date day = (Date)dates[0];
+      assert isDayDate(day);
+      Date beginTime = (Date)dates[1];
+      beginTime = addTime(day, beginTime);
+      Date endTime = (Date)dates[2];
+      endTime = addTime(day, endTime);
+      return new IntradayBeginEndTimeInterval(beginTime, endTime);
     }
     catch (NullPointerException exc) {
       unexpectedException(exc, "data received from database is not as expected: we can't deal with null");
@@ -119,12 +122,19 @@ public final class IntradayBeginEndTimeIntervalValueHandler implements ValueHand
       unexpectedException(exc, "data received from database is not as expected: expected array of 2 values");
     }
     catch (ClassCastException exc) {
-      unexpectedException(exc, "data received from database is not as expected: expected an array of 2 dates");
+      unexpectedException(exc, "data received from database is not as expected: expected an array of 3 dates");
     }
     catch (IllegalIntervalException exc) {
-      unexpectedException(exc, "data received from database did violate invariants for " + BeginEndTimeInterval.class);
+      unexpectedException(exc, "data received from database did violate invariants for " + IntradayBeginEndTimeInterval.class);
     }
     return null; // make compiler happy
+  }
+
+  private Date addTime(Date day, Date beginTime) {
+    long millies = day.getTime();
+    millies += beginTime.getTime();
+    Date result = new Date(millies);
+    return result;
   }
 
   /**
