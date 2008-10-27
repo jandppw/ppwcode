@@ -10,22 +10,22 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.ppwcode.value_III.time.interval.AllenRelation.CONCURS_WITH;
-import static org.ppwcode.value_III.time.interval.AllenRelation.CONTAINS;
-import static org.ppwcode.value_III.time.interval.AllenRelation.DURING;
-import static org.ppwcode.value_III.time.interval.AllenRelation.EMPTY;
-import static org.ppwcode.value_III.time.interval.AllenRelation.EQUALS;
-import static org.ppwcode.value_III.time.interval.AllenRelation.FINISHED_BY;
-import static org.ppwcode.value_III.time.interval.AllenRelation.FINISHES;
-import static org.ppwcode.value_III.time.interval.AllenRelation.FULL;
-import static org.ppwcode.value_III.time.interval.AllenRelation.MEETS;
-import static org.ppwcode.value_III.time.interval.AllenRelation.MET_BY;
-import static org.ppwcode.value_III.time.interval.AllenRelation.OVERLAPPED_BY;
-import static org.ppwcode.value_III.time.interval.AllenRelation.OVERLAPS;
-import static org.ppwcode.value_III.time.interval.AllenRelation.PRECEDED_BY;
-import static org.ppwcode.value_III.time.interval.AllenRelation.PRECEDES;
-import static org.ppwcode.value_III.time.interval.AllenRelation.STARTED_BY;
-import static org.ppwcode.value_III.time.interval.AllenRelation.STARTS;
+import static org.ppwcode.value_III.time.interval.TimeIntervalRelation.CONCURS_WITH;
+import static org.ppwcode.value_III.time.interval.TimeIntervalRelation.CONTAINS;
+import static org.ppwcode.value_III.time.interval.TimeIntervalRelation.DURING;
+import static org.ppwcode.value_III.time.interval.TimeIntervalRelation.EMPTY;
+import static org.ppwcode.value_III.time.interval.TimeIntervalRelation.EQUALS;
+import static org.ppwcode.value_III.time.interval.TimeIntervalRelation.FINISHED_BY;
+import static org.ppwcode.value_III.time.interval.TimeIntervalRelation.FINISHES;
+import static org.ppwcode.value_III.time.interval.TimeIntervalRelation.FULL;
+import static org.ppwcode.value_III.time.interval.TimeIntervalRelation.MEETS;
+import static org.ppwcode.value_III.time.interval.TimeIntervalRelation.MET_BY;
+import static org.ppwcode.value_III.time.interval.TimeIntervalRelation.OVERLAPPED_BY;
+import static org.ppwcode.value_III.time.interval.TimeIntervalRelation.OVERLAPS;
+import static org.ppwcode.value_III.time.interval.TimeIntervalRelation.PRECEDED_BY;
+import static org.ppwcode.value_III.time.interval.TimeIntervalRelation.PRECEDES;
+import static org.ppwcode.value_III.time.interval.TimeIntervalRelation.STARTED_BY;
+import static org.ppwcode.value_III.time.interval.TimeIntervalRelation.STARTS;
 
 import org.junit.Test;
 
@@ -53,7 +53,7 @@ public class GeneralRelationTest {
     show(CONCURS_WITH);
   }
 
-  private void show(AllenRelation gr) {
+  private void show(TimeIntervalRelation gr) {
     System.out.println(Integer.toBinaryString(gr.hashCode()) + " (" + gr.hashCode() + ") (position = " + Integer.numberOfTrailingZeros(gr.hashCode()) + ")");
   }
 
@@ -116,12 +116,12 @@ public class GeneralRelationTest {
 
   @Test
   public void testConverse() {
-    for (int i = 0; i < AllenRelation.NR_OF_RELATIONS; i++) {
-      AllenRelation subject = AllenRelation.VALUES[i];
-      AllenRelation result = subject.converse();
+    for (int i = 0; i < TimeIntervalRelation.NR_OF_RELATIONS; i++) {
+      TimeIntervalRelation subject = TimeIntervalRelation.VALUES[i];
+      TimeIntervalRelation result = subject.converse();
       assertNotNull(result);
-      for (AllenRelation br : AllenRelation.BASIC_RELATIONS) {
-        AllenRelation converseBr = br.converse();
+      for (TimeIntervalRelation br : TimeIntervalRelation.BASIC_RELATIONS) {
+        TimeIntervalRelation converseBr = br.converse();
         if (subject.implies(br)) {
           assertTrue(result.implies(converseBr));
         }
@@ -134,12 +134,12 @@ public class GeneralRelationTest {
 
   @Test
   public void testCompose() {
-    for (AllenRelation br1 : AllenRelation.BASIC_RELATIONS) {
-      for (AllenRelation br2 : AllenRelation.BASIC_RELATIONS) {
-        AllenRelation result = AllenRelation.compose(br1, br2);
+    for (TimeIntervalRelation br1 : TimeIntervalRelation.BASIC_RELATIONS) {
+      for (TimeIntervalRelation br2 : TimeIntervalRelation.BASIC_RELATIONS) {
+        TimeIntervalRelation result = TimeIntervalRelation.compose(br1, br2);
         int p1 = Integer.numberOfTrailingZeros(br1.hashCode());
         int p2 = Integer.numberOfTrailingZeros(br2.hashCode());
-        AllenRelation expected = AllenRelation.BASIC_COMPOSITIONS[p1][p2];
+        TimeIntervalRelation expected = TimeIntervalRelation.BASIC_COMPOSITIONS[p1][p2];
         assertEquals(expected, result);
       }
     }
