@@ -66,32 +66,37 @@ public class AbstractTimeIntervalTest {
     }
   }
 
-  private List<AbstractTimeInterval> $subjects;
+  public List<? extends AbstractTimeInterval> subjects() {
+    return $subjects;
+  }
+
+  protected List<? extends AbstractTimeInterval> $subjects;
 
   @Before
   public void setUp() throws Exception {
-    $subjects = new ArrayList<AbstractTimeInterval>();
+    List<AbstractTimeInterval> s = new ArrayList<AbstractTimeInterval>();
     AbstractTimeInterval subject = new StubAbstractTimeInterval(null, null, null);
-    $subjects.add(subject);
+    s.add(subject);
     final Date now = new Date();
     subject = new StubAbstractTimeInterval(now, null, null);
-    $subjects.add(subject);
+    s.add(subject);
     subject = new StubAbstractTimeInterval(null, now, null);
-    $subjects.add(subject);
+    s.add(subject);
     subject = new StubAbstractTimeInterval(now, null, new Duration(0, null));
-    $subjects.add(subject);
+    s.add(subject);
     subject = new StubAbstractTimeInterval(now, now, null);
-    $subjects.add(subject);
+    s.add(subject);
     subject = new StubAbstractTimeInterval(now, now, new Duration(0, null));
-    $subjects.add(subject);
+    s.add(subject);
     final GregorianCalendar gcB = new GregorianCalendar(2000, 0, 1);
     final GregorianCalendar gcE = new GregorianCalendar(2122, 11, 31);
     final Date b = gcB.getTime();
     final Date e = gcE.getTime();
     subject = new StubAbstractTimeInterval(b, e, null);
-    $subjects.add(subject);
+    s.add(subject);
     subject = new StubAbstractTimeInterval(b, e, new Duration((gcE.getTimeInMillis() - gcB.getTimeInMillis()), Duration.Unit.MILLISECOND));
-    $subjects.add(subject);
+    s.add(subject);
+    $subjects = s;
   }
 
   @After
@@ -101,7 +106,7 @@ public class AbstractTimeIntervalTest {
 
   public void testEqualsObject(AbstractTimeInterval subject, Object other) {
     boolean result = subject.equals(other);
-    System.out.println(subject + ".equals(" + other + ") == " + result);
+//    System.out.println(subject + ".equals(" + other + ") == " + result);
     CONTRACT.assertEqualsObject(subject, other, result);
     CONTRACT.assertInvariants(subject);
     if (other instanceof TimeInterval) {
@@ -111,10 +116,10 @@ public class AbstractTimeIntervalTest {
 
   @Test
   public void testEqualsObject() {
-    for (AbstractTimeInterval subject : $subjects) {
+    for (AbstractTimeInterval subject : subjects()) {
       testEqualsObject(subject, null);
       testEqualsObject(subject, new Object());
-      for (AbstractTimeInterval other : $subjects) {
+      for (AbstractTimeInterval other : subjects()) {
         testEqualsObject(subject, other);
       }
     }
@@ -122,7 +127,7 @@ public class AbstractTimeIntervalTest {
 
   @Test
   public void testHashCode() {
-    for (AbstractTimeInterval subject : $subjects) {
+    for (AbstractTimeInterval subject : subjects()) {
       int result = subject.hashCode();
       CONTRACT.assertHashCode(subject, result);
       CONTRACT.assertInvariants(subject);
@@ -131,7 +136,7 @@ public class AbstractTimeIntervalTest {
 
   @Test
   public void testToString() {
-    for (AbstractTimeInterval subject : $subjects) {
+    for (AbstractTimeInterval subject : subjects()) {
       String result = subject.toString();
 //      System.out.println(result);
       CONTRACT.assertToString(subject, result);
@@ -141,7 +146,7 @@ public class AbstractTimeIntervalTest {
 
   @Test
   public void testDeterminateBeginDate() {
-    for (AbstractTimeInterval subject : $subjects) {
+    for (AbstractTimeInterval subject : subjects()) {
       testDeterminateBegin(subject, null);
       testDeterminateBegin(subject, new Date());
     }
@@ -155,7 +160,7 @@ public class AbstractTimeIntervalTest {
 
   @Test
   public void testDeterminateEndDate() {
-    for (AbstractTimeInterval subject : $subjects) {
+    for (AbstractTimeInterval subject : subjects()) {
       testDeterminateEnd(subject, null);
       testDeterminateEnd(subject, new Date());
     }
