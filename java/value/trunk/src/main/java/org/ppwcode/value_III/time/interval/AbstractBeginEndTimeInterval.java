@@ -19,6 +19,7 @@ package org.ppwcode.value_III.time.interval;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.CloneHelpers.klone;
+import static org.ppwcode.value_III.time.DateHelpers.le;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -26,7 +27,6 @@ import java.util.GregorianCalendar;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.value_III.time.DateHelpers;
 import org.ppwcode.value_III.time.Duration;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
@@ -57,7 +57,7 @@ public abstract class AbstractBeginEndTimeInterval extends AbstractTimeInterval 
                   cond = @Expression("! le(_begin, _end"))
   )
   protected AbstractBeginEndTimeInterval(Date begin, Date end) throws IllegalIntervalException {
-    if (! DateHelpers.le(begin, end)) {
+    if (begin != null && end != null && ! le(begin, end)) {
       throw new IllegalIntervalException(begin, end, "NOT_BEGIN_LE_END");
     }
     $begin = klone(begin);
