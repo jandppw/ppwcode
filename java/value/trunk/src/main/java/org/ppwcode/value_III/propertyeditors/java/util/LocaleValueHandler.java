@@ -42,10 +42,10 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
  * An OpenJPA {@link ValueHandler} for {@link Locale}. We store the locale as its String representation
  * if a VARCHAR
  */
-@Copyright("2008 - $Date: 2008-10-23 13:57:57 +0200 (Thu, 23 Oct 2008) $, PeopleWare n.v.")
+@Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 3254 $",
-         date     = "$Date: 2008-10-23 13:57:57 +0200 (Thu, 23 Oct 2008) $")
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public class LocaleValueHandler extends AbstractValueHandler {
 
   public final static String SEPARATOR = "_";
