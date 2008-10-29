@@ -21,57 +21,27 @@ import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
 import java.util.Locale;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.value_III.localization.LocalizedString;
-import org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdVersionedPersistentBean;
+import org.ppwcode.vernacular.persistence_III.VersionedPersistentBean;
 
 /**
  * AnEnity
  */
-@Entity
-@Table(name="org_ppwcode_research_jpa_openjpa_valuehandlers_anentityvaluehandlerproperties")
 @Copyright("2008 - $Date: 2008-10-23 11:51:38 +0200 (Thu, 23 Oct 2008) $, PeopleWare n.v.")
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision: 3245 $",
          date     = "$Date: 2008-10-23 11:51:38 +0200 (Thu, 23 Oct 2008) $")
-public class AnEntityValueHandlerProperties extends AbstractIntegerIdVersionedPersistentBean implements AnEntity {
+public interface AnEntity extends VersionedPersistentBean<Integer, Integer> {
 
-  public final LocalizedString getLocalizedString() {
-    return $localizedString;
-  }
+  LocalizedString getLocalizedString();
 
-  public final void setLocalizedString(LocalizedString localizedString) {
-    $localizedString = localizedString;
-  }
+  void setLocalizedString(LocalizedString localizedString);
 
-  @Column(name="localizedstring")
-//  @Strategy("org.ppwcode.value_III.localization.LocalizedStringValueHandler")
-  private LocalizedString $localizedString;
+  Locale getLocale();
 
-
-
-
-
-
-
-
-
-
-  public final Locale getLocale() {
-    return $locale;
-  }
-
-  public final void setLocale(Locale locale) {
-    $locale = locale;
-  }
-
-  @Column(name="locale")
-  private Locale $locale;
+  void setLocale(Locale locale);
 
 }
