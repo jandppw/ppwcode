@@ -18,6 +18,7 @@
     <class>org.ppwcode.research.jpa.crud.semanticsBeta.Master</class>
     <class>org.ppwcode.research.jpa.crud.semanticsBeta.Detail</class>
     <class>org.ppwcode.research.jpa.openjpa.valuehandlers.AnEntitySerializableProperties</class>
+    <class>org.ppwcode.research.jpa.openjpa.valuehandlers.AnEntityValueHandlerProperties</class>
 
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
@@ -52,6 +53,7 @@
     <class>org.ppwcode.research.jpa.crud.semanticsBeta.Master</class>
     <class>org.ppwcode.research.jpa.crud.semanticsBeta.Detail</class>
     <class>org.ppwcode.research.jpa.openjpa.valuehandlers.AnEntitySerializableProperties</class>
+    <class>org.ppwcode.research.jpa.openjpa.valuehandlers.AnEntityValueHandlerProperties</class>
 
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
