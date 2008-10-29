@@ -64,7 +64,7 @@ public class ValueHandlersTest {
     Locale l = Locale.JAPANESE;
     AnEntitySerializableProperties ae = createAnEntity(emf, ls, l);
 
-    saveValidateInDbAndRetrieve(emf, ae, ls, l);
+    saveValidateInDbAndRetrieve(emf, "org_ppwcode_research_jpa_openjpa_valuehandlers_anentityserializableproperties", ae, ls, l);
   }
 
   private AnEntitySerializableProperties createAnEntity(EntityManagerFactory emf, LocalizedString ls, Locale l) {
@@ -89,10 +89,11 @@ public class ValueHandlersTest {
 
     AnEntitySerializableProperties ae = createAnEntity(emf, null, null);
 
-    saveValidateInDbAndRetrieve(emf, ae, null, null);
+    saveValidateInDbAndRetrieve(emf, "org_ppwcode_research_jpa_openjpa_valuehandlers_anentityserializableproperties", ae, null, null);
   }
 
   private void saveValidateInDbAndRetrieve(EntityManagerFactory emf,
+                                           String tableName,
                                            AnEntitySerializableProperties ae,
                                            LocalizedString ls,
                                            Locale l) throws SQLException {
@@ -103,7 +104,7 @@ public class ValueHandlersTest {
     OpenJPAEntityManager kem = OpenJPAPersistence.cast(em);
     Connection conn = (Connection)kem.getConnection();
     Statement st = conn.createStatement();
-    ResultSet rs = st.executeQuery("SELECT * FROM org_ppwcode_research_jpa_openjpa_valuehandlers_anentityserializableproperties");
+    ResultSet rs = st.executeQuery("SELECT * FROM " + tableName);
     ResultSetMetaData rsmd = rs.getMetaData();
     System.out.println("nr of columns: " + rsmd.getColumnCount());
     for (int i = 1; i <= rsmd.getColumnCount(); i++) {
@@ -117,8 +118,8 @@ public class ValueHandlersTest {
     while (rs.next()) {
       System.out.println("PERSISTENCEID           : " + rs.getInt("PERSISTENCEID"));
       System.out.println("PERSISTENCEVERSION      : " + rs.getInt("PERSISTENCEVERSION"));
-      byte[] serializedForm = rs.getBytes("LOCALIZEDSTRING");
-      System.out.println("LOCALIZEDSTRING         : " + byteArrayRepresentation(serializedForm));
+      String columnName = "LOCALIZEDSTRING";
+      printVARBINARYColumn(rs, columnName);
       System.out.println("LOCALE                  : " + rs.getObject("LOCALE"));
       Object idFromDb = rs.getObject("PERSISTENCEID");
       if (ae.getPersistenceId().equals(idFromDb)) {
@@ -138,6 +139,11 @@ public class ValueHandlersTest {
     assertNotSame(fromDb, ae);
     assertEquals(ls, fromDb.getLocalizedString());
     assertEquals(l, fromDb.getLocale());
+  }
+
+  private void printVARBINARYColumn(ResultSet rs, String columnName) throws SQLException {
+    byte[] serializedForm = rs.getBytes(columnName);
+    System.out.println(columnName + "         : " + byteArrayRepresentation(serializedForm));
   }
 
   private String byteArrayRepresentation(byte[] serializedForm) {
