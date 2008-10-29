@@ -273,6 +273,11 @@
       <artifactId>json-lib</artifactId>
       <classifier>jdk15</classifier>
     </dependency>
+    <dependency>
+      <groupId>org.ppwcode</groupId>
+      <artifactId>ppwcode-value-III</artifactId>
+      <version>dev-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 
 </project>
