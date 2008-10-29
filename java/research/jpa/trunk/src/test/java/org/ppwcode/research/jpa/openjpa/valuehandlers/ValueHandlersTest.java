@@ -38,6 +38,7 @@ import org.apache.openjpa.persistence.OpenJPAEntityManager;
 import org.apache.openjpa.persistence.OpenJPAPersistence;
 import org.junit.Assert;
 import org.junit.Test;
+import org.ppwcode.util.reflect_I.InstanceHelpers;
 import org.ppwcode.value_III.localization.LocalizedString;
 import org.ppwcode.vernacular.value_III.SemanticValueException;
 
@@ -57,28 +58,38 @@ public class ValueHandlersTest {
 
   @Test
   public void testSerializableProperties1() throws SemanticValueException, SQLException {
-    displayTest("Serializable properties, null locale", "");
+    displayTest("Serializable properties, null locale, null localized string", "");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 
-    AnEntitySerializableProperties ae = createAnEntity(emf, null, null);
+    AnEntitySerializableProperties ae = createAnEntity(emf, null, null, AnEntitySerializableProperties.class);
 
     saveValidateInDbAndRetrieve(emf, "org_ppwcode_research_jpa_openjpa_valuehandlers_anentityserializableproperties", ae, null, null);
   }
 
   @Test
   public void testSerializableProperties2() throws SemanticValueException, SQLException {
-    displayTest("Serializable properties, effective locale", "");
+    displayTest("Serializable properties, effective locale, effective localized string", "");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 
     LocalizedString ls = new LocalizedString(new Locale("nl"), "'t es moar een test");
     Locale l = Locale.JAPANESE;
-    AnEntitySerializableProperties ae = createAnEntity(emf, ls, l);
+    AnEntitySerializableProperties ae = createAnEntity(emf, ls, l, AnEntitySerializableProperties.class);
 
     saveValidateInDbAndRetrieve(emf, "org_ppwcode_research_jpa_openjpa_valuehandlers_anentityserializableproperties", ae, ls, l);
   }
 
-  private AnEntitySerializableProperties createAnEntity(EntityManagerFactory emf, LocalizedString ls, Locale l) {
-    AnEntitySerializableProperties ae = new AnEntitySerializableProperties();
+  @Test
+  public void testValueHandlerProperties1() throws SemanticValueException, SQLException {
+    displayTest("Value handler properties, null locale", "");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+
+    AnEntityValueHandlerProperties ae = createAnEntity(emf, null, null, AnEntityValueHandlerProperties.class);
+
+    saveValidateInDbAndRetrieve(emf, "org_ppwcode_research_jpa_openjpa_valuehandlers_anentityvaluehandlerproperties", ae, null, null);
+  }
+
+  private <_T_ extends AnEntity> _T_ createAnEntity(EntityManagerFactory emf, LocalizedString ls, Locale l, Class<_T_> type) {
+    _T_ ae = InstanceHelpers.newInstance(type);
     ae.setLocalizedString(ls);
     ae.setLocale(l);
     System.out.println("an entity: " + ae);
@@ -94,7 +105,7 @@ public class ValueHandlersTest {
 
   private void saveValidateInDbAndRetrieve(EntityManagerFactory emf,
                                            String tableName,
-                                           AnEntitySerializableProperties ae,
+                                           AnEntity ae,
                                            LocalizedString ls,
                                            Locale l) throws SQLException {
 
@@ -134,7 +145,7 @@ public class ValueHandlersTest {
     conn.close();
 
     em = emf.createEntityManager();
-    AnEntitySerializableProperties fromDb = em.find(AnEntitySerializableProperties.class, aeId);
+    AnEntity fromDb = em.find(ae.getClass(), aeId);
     System.out.println("fromDB: " + fromDb);
     assertNotSame(fromDb, ae);
     assertEquals(ls, fromDb.getLocalizedString());
@@ -164,53 +175,8 @@ public class ValueHandlersTest {
     return sb.toString();
   }
 
-  private String jpaDefaultStoredLocaleString(AnEntitySerializableProperties ae) {
+  private String jpaDefaultStoredLocaleString(AnEntity ae) {
     return ae.getLocale() == null ? null : ae.getLocale().getLanguage() + "_" + ae.getLocale().getCountry() + "_" + ae.getLocale().getVariant();
   }
-
-//  @Test
-//  public void valueHandlers2() throws SemanticValueException, SQLException {
-//    displayTest("Properties with value handlers", "");
-//    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-//
-//    AnEntityValueHandlerProperties ae = new AnEntityValueHandlerProperties();
-//    LocalizedString ls = new LocalizedString(new Locale("nl"), "'t es moar een test");
-//    ae.setLocalizedString(ls);
-//    System.out.println("an entity: " + ae);
-//
-//    EntityManager em = emf.createEntityManager();
-//    EntityTransaction tx = em.getTransaction();
-//    tx.begin();
-//    em.persist(ae);
-//    tx.commit();
-//    em.close();
-//    System.out.println("an entity after create in DB: " + ae);
-//
-//    Integer aeId = ae.getPersistenceId();
-//
-//    em = emf.createEntityManager();
-//    AnEntityValueHandlerProperties fromDb = em.find(AnEntityValueHandlerProperties.class, aeId);
-//    System.out.println("fromDB: " + fromDb);
-//
-//    OpenJPAEntityManager kem = OpenJPAPersistence.cast(em);
-//    Connection conn = (Connection)kem.getConnection();
-//    Statement st = conn.createStatement();
-//    ResultSet rs = st.executeQuery("SELECT * FROM org_ppwcode_research_jpa_openjpa_valuehandlers_anentityvaluehandlerproperties");
-//    ResultSetMetaData rsmd = rs.getMetaData();
-//    System.out.println("nr of columns: " + rsmd.getColumnCount());
-//    for (int i = 1; i <= rsmd.getColumnCount(); i++) {
-//      System.out.println(i + ": " + rsmd.getColumnName(i) + " " + rsmd.getColumnClassName(i) + " " + rsmd.getColumnTypeName(i));
-//    }
-//    assertEquals("PERSISTENCEID", rsmd.getColumnName(1));
-//    assertEquals("LOCALIZEDSTRING", rsmd.getColumnName(2));
-//    assertEquals("PERSISTENCEVERSION", rsmd.getColumnName(3));
-//    while (rs.next()) {
-//      System.out.println("PERSISTENCEID           : " + rs.getInt("PERSISTENCEID"));
-//      System.out.println("PERSISTENCEVERSION      : " + rs.getInt("PERSISTENCEVERSION"));
-//      System.out.println("LOCALIZEDSTRING         : " + rs.getObject("LOCALIZEDSTRING"));
-//      assertEquals(ae.getPersistenceId(), rs.getObject("PERSISTENCEID"));
-//      assertEquals(ae.getPersistenceVersion(), rs.getObject("PERSISTENCEVERSION"));
-//    }
-//  }
 
 }
