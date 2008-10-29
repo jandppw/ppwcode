@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2008 - $Date: 2008-10-23 11:51:38 +0200 (Thu, 23 Oct 2008) $ by PeopleWare n.v.
+Copyright 2008 - $Date$ by PeopleWare n.v.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -37,10 +37,10 @@ import org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdVersionedPers
  */
 @Entity
 @Table(name="org_ppwcode_research_jpa_openjpa_valuehandlers_anentityvaluehandlerproperties")
-@Copyright("2008 - $Date: 2008-10-23 11:51:38 +0200 (Thu, 23 Oct 2008) $, PeopleWare n.v.")
+@Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 3245 $",
-         date     = "$Date: 2008-10-23 11:51:38 +0200 (Thu, 23 Oct 2008) $")
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public class AnEntityValueHandlerProperties extends AbstractIntegerIdVersionedPersistentBean implements AnEntity {
 
   public final LocalizedString getLocalizedString() {
