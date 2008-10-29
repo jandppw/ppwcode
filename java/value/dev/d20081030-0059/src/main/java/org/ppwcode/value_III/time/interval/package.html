@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <title>org.ppwcode.value.time.intervals</title>
+  </head>
+  <body>
+    <p>Time intervals are dangerously and treacherously difficult to reason about.
+      Experience shows that falling back to the begin and end dates as separated dates and
+      reasoning about them does not solve the complexity, and results in even more difficult
+      reasonings and is even more error prone.</p>
+    <p>{@link org.ppwcode.value_III.time.interval.TimeInterval} is an interface where we define
+      the general rules for time intervals in our approach. This package offers several effective
+      implementations, that have different constraints that they adhere to. For each of these
+      implementations, persistence support and other translation support is offered.</p>
+    <p>Reasoning about time intervals should be done with Allen's Interval Algebra. This is
+      implemented in {@link org.ppwcode.value_III.time.interval.TimeIntervalRelation}. To reason
+      about the relation between time intervals and points in time, please use
+      {@link org.ppwcode.value_III.time.interval.TimePointIntervalRelation}.</p>
+    <h3>OpenJPA Value Handlers</h3>
+    <p>Sadly, JPA as a standard does not support &quot;user types&quot;
+      or &quot;custom types&quot; or &quot;value types&quot; as any
+      reasonable other technology does, from Hibernate over OpenJPA, but
+      also including Struts, JSF, dwr, json-lib, and many, many others.
+      Therefor, we introduce the OpenJPA solution, which can be used in OpenJPA
+      contexts, and other solutions for other contexts. In this package, you find value handler
+      implementations next to the different interval classes.</p>
+    <p>Note that {@link org.ppwcode.value_III.time.interval.DeterminateIntradayTimeInterval}
+      properties can use the
+      {@link org.ppwcode.value_III.time.interval.IntradayTimeIntervalValueHandler} too.</p>
+  </body>
+</html>
