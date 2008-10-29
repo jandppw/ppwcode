@@ -103,7 +103,7 @@ public class DurationTest {
     assertInvariants(YEAR, 365L * DAY.asMilliseconds());
     assertInvariants(DECENNIUM, 10L * YEAR.asMilliseconds() + 2L * DAY.asMilliseconds());
     assertInvariants(CENTURY, 100L * YEAR.asMilliseconds() + 24L *DAY.asMilliseconds());
-    assertInvariants(MILLENNIUM, 1000L * YEAR.asMilliseconds() + 241L * DAY.asMilliseconds());
+    assertInvariants(MILLENNIUM, 1000L * YEAR.asMilliseconds() + 242L * DAY.asMilliseconds());
   }
 
 
