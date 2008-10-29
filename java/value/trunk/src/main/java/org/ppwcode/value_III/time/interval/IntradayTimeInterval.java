@@ -36,6 +36,7 @@ import org.toryt.annotations_I.Throw;
  * An effective time interval, that takes a begin date and an end date as constructor parameters,
  * but is restricted to be an intra-day interval, i.e., the begin and end {@link Date} must express
  * times in the same day.
+ * It is not possible for both the bein and the end date to be {@code null}.
  *
  * @author Jan Dockx
  * @author Peopleware n.v.
@@ -46,7 +47,10 @@ import org.toryt.annotations_I.Throw;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-@Invars(@Expression("sameDay(_begin, _end)"))
+@Invars({
+  @Expression("! (begin == null && end == null)"),
+  @Expression("sameDay(_begin, _end)")
+})
 public final class IntradayTimeInterval extends AbstractBeginEndTimeInterval {
 
   @MethodContract(
@@ -55,6 +59,7 @@ public final class IntradayTimeInterval extends AbstractBeginEndTimeInterval {
       @Expression("end == _end")
     },
     exc  = {
+      @Throw(type = IllegalIntervalException.class, cond = @Expression("_begin == null && _end == null")),
       @Throw(type = IllegalIntervalException.class, cond = @Expression("! le(_begin, _end")),
       @Throw(type = IllegalIntervalException.class, cond = @Expression("! sameDay(_begin, _end)"))
     }

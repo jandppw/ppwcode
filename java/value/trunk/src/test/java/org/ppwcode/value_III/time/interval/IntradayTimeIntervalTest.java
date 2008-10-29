@@ -36,10 +36,8 @@ public class IntradayTimeIntervalTest extends AbstractBeginEndTimeIntervalTest {
   @Before
   public void setUp() throws IllegalIntervalException {
     List<IntradayTimeInterval> s = new ArrayList<IntradayTimeInterval>();
-    IntradayTimeInterval subject = new IntradayTimeInterval(null, null);
-    s.add(subject);
     final Date now = dayDate(new Date());
-    subject = new IntradayTimeInterval(now, null);
+    IntradayTimeInterval subject = new IntradayTimeInterval(now, null);
     s.add(subject);
     subject = new IntradayTimeInterval(null, now);
     s.add(subject);
@@ -87,7 +85,7 @@ public class IntradayTimeIntervalTest extends AbstractBeginEndTimeIntervalTest {
           assertInvariants(subject);
         }
         catch (IllegalIntervalException exc) {
-          assertTrue(! le(d1, d2) || ! sameDay(d1, d2));
+          assertTrue(! le(d1, d2) || ! sameDay(d1, d2) || (d1 == null && d2 == null));
         }
       }
     }
