@@ -50,7 +50,7 @@ public class JpaBTest {
   static final String PERSISTENCE_UNIT_NAME = "be_hdp_contracts_I_IBMOpenJPA_test";
   //static final String PERSISTENCE_UNIT_NAME = "be_hdp_contracts_I";
 
-  final static Logger LOGGER = Logger.getLogger("JpaBTest");
+  final static Logger LOGGER = Logger.getLogger("ValueHandlersTest");
 
   public final static String MASTER_NAME_0 = "HYPOTHESIS-NAME";
   public final static String MASTER_NAME_1 = "HYPOTHESIS-NEW-NAME";
