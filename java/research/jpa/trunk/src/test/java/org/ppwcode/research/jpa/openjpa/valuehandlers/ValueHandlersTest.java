@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
+import java.beans.PropertyEditorManager;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -40,14 +41,21 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.ppwcode.util.reflect_I.InstanceHelpers;
 import org.ppwcode.value_III.localization.LocalizedString;
+import org.ppwcode.value_III.propertyeditors.java.util.LocaleEditor;
 import org.ppwcode.vernacular.value_III.SemanticValueException;
 
 public class ValueHandlersTest {
+
+  private static final String TABLE_NAME_VALUEHANDLERPROPERTIES = "org_ppwcode_research_jpa_openjpa_valuehandlers_anentityvaluehandlerproperties";
+
+  private static final String TABLE_NAME_SERIALIZABLEPROPERTIES = "org_ppwcode_research_jpa_openjpa_valuehandlers_anentityserializableproperties";
 
   static final String PERSISTENCE_UNIT_NAME = "be_hdp_contracts_I_IBMOpenJPA_test";
   //static final String PERSISTENCE_UNIT_NAME = "be_hdp_contracts_I";
 
   final static Logger LOGGER = Logger.getLogger("ValueHandlersTest");
+
+  private static final Object EMPTY = "";
 
   private void displayTest(String msg1, String msg2) {
     System.out.println();
@@ -58,34 +66,47 @@ public class ValueHandlersTest {
 
   @Test
   public void testSerializableProperties1() throws SemanticValueException, SQLException {
-    displayTest("Serializable properties, null locale, null localized string", "");
+    displayTest("Serializable properties, null properties", "");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 
     AnEntitySerializableProperties ae = createAnEntity(emf, null, null, AnEntitySerializableProperties.class);
 
-    saveValidateInDbAndRetrieve(emf, "org_ppwcode_research_jpa_openjpa_valuehandlers_anentityserializableproperties", ae, null, null);
+    saveValidateInDbAndRetrieve(emf, TABLE_NAME_SERIALIZABLEPROPERTIES, ae);
   }
 
   @Test
   public void testSerializableProperties2() throws SemanticValueException, SQLException {
-    displayTest("Serializable properties, effective locale, effective localized string", "");
+    displayTest("Serializable properties, effective properties", "");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 
     LocalizedString ls = new LocalizedString(new Locale("nl"), "'t es moar een test");
     Locale l = Locale.JAPANESE;
     AnEntitySerializableProperties ae = createAnEntity(emf, ls, l, AnEntitySerializableProperties.class);
 
-    saveValidateInDbAndRetrieve(emf, "org_ppwcode_research_jpa_openjpa_valuehandlers_anentityserializableproperties", ae, ls, l);
+    saveValidateInDbAndRetrieve(emf, TABLE_NAME_SERIALIZABLEPROPERTIES, ae);
   }
 
   @Test
   public void testValueHandlerProperties1() throws SemanticValueException, SQLException {
-    displayTest("Value handler properties, null locale", "");
+    displayTest("Value handler properties, null properties", "");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 
     AnEntityValueHandlerProperties ae = createAnEntity(emf, null, null, AnEntityValueHandlerProperties.class);
 
-    saveValidateInDbAndRetrieve(emf, "org_ppwcode_research_jpa_openjpa_valuehandlers_anentityvaluehandlerproperties", ae, null, null);
+    saveValidateInDbAndRetrieve(emf, TABLE_NAME_VALUEHANDLERPROPERTIES, ae);
+  }
+
+  @Test
+  public void testValueHandlerProperties2() throws SemanticValueException, SQLException {
+    PropertyEditorManager.registerEditor(Locale.class, LocaleEditor.class);
+    displayTest("Value handler properties, effective properties", "");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+
+    LocalizedString ls = new LocalizedString(new Locale("nl"), "'t es moar een test");
+    Locale l = Locale.JAPANESE;
+    AnEntityValueHandlerProperties ae = createAnEntity(emf, ls, l, AnEntityValueHandlerProperties.class);
+
+    saveValidateInDbAndRetrieve(emf, TABLE_NAME_VALUEHANDLERPROPERTIES, ae);
   }
 
   private <_T_ extends AnEntity> _T_ createAnEntity(EntityManagerFactory emf, LocalizedString ls, Locale l, Class<_T_> type) {
@@ -105,10 +126,9 @@ public class ValueHandlersTest {
 
   private void saveValidateInDbAndRetrieve(EntityManagerFactory emf,
                                            String tableName,
-                                           AnEntity ae,
-                                           LocalizedString ls,
-                                           Locale l) throws SQLException {
-
+                                           AnEntity ae) throws SQLException {
+    Locale aeLocale =  ae.getLocale();
+    LocalizedString aeLocalizedString = ae.getLocalizedString();
     Integer aeId = ae.getPersistenceId();
 
     EntityManager em = emf.createEntityManager();
@@ -148,8 +168,8 @@ public class ValueHandlersTest {
     AnEntity fromDb = em.find(ae.getClass(), aeId);
     System.out.println("fromDB: " + fromDb);
     assertNotSame(fromDb, ae);
-    assertEquals(ls, fromDb.getLocalizedString());
-    assertEquals(l, fromDb.getLocale());
+    assertEquals(aeLocalizedString, fromDb.getLocalizedString());
+    assertEquals(aeLocale, fromDb.getLocale());
   }
 
   private void printVARBINARYColumn(ResultSet rs, String columnName) throws SQLException {
@@ -176,7 +196,36 @@ public class ValueHandlersTest {
   }
 
   private String jpaDefaultStoredLocaleString(AnEntity ae) {
-    return ae.getLocale() == null ? null : ae.getLocale().getLanguage() + "_" + ae.getLocale().getCountry() + "_" + ae.getLocale().getVariant();
+    String result = null;
+    Locale l = ae.getLocale();
+    System.out.println("DEBUG " + ae.getClass() + " " + (l != null ? l.getClass() : "") + " " + l);
+    if (l == null) {
+      result = null;
+    }
+    else if (ae instanceof AnEntitySerializableProperties) {
+      result = l.getLanguage() + "_" + l.getCountry() + "_" + l.getVariant();
+      System.out.println("DEBUG AnEntitySerializableProperties " + result);
+    }
+    else if (ae instanceof AnEntityValueHandlerProperties) {
+      result = l.toString();
+//      System.out.println("DEBUG AnEntityValueHandlerProperties");
+//      System.out.println("DEBUG AnEntityValueHandlerProperties languge = \"" + l.getLanguage() + "\"");
+//      System.out.println("DEBUG AnEntityValueHandlerProperties country = \"" + l.getCountry() + "\"");
+//      System.out.println("DEBUG AnEntityValueHandlerProperties variant = \"" + l.getVariant() + "\"");
+//      StringBuilder sb = new StringBuilder();
+//      sb.append(l.getLanguage());
+//      if (! l.getCountry().equals(EMPTY) || ! l.getVariant().equals(EMPTY)) {
+//        sb.append("_");
+//        sb.append(l.getCountry());
+//      }
+//      if (! l.getVariant().equals(EMPTY)) {
+//        sb.append("_");
+//        sb.append(l.getVariant());
+//      }
+//      result = sb.toString();
+//      System.out.println("DEBUG AnEntityValueHandlerProperties " + result);
+    }
+    return result;
   }
 
 }
