@@ -30,12 +30,15 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.value_III.time.Duration;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.Invars;
 import org.toryt.annotations_I.MethodContract;
 import org.toryt.annotations_I.Throw;
 
 
 /**
- * General supporting code for time interval implementations that store a begin and and end, and calculate a duration.
+ * General supporting code for time interval implementations that store a begin and and end,
+ * and calculate a duration. In this case, it is impossible for both the begin and end date
+ * to be {@code null}.
  *
  * @author Jan Dockx
  * @author Peopleware n.v.
@@ -46,6 +49,7 @@ import org.toryt.annotations_I.Throw;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
+@Invars(@Expression("! (begin == null && end == null)"))
 public abstract class AbstractBeginEndTimeInterval extends AbstractTimeInterval {
 
   @MethodContract(
@@ -53,10 +57,17 @@ public abstract class AbstractBeginEndTimeInterval extends AbstractTimeInterval 
       @Expression("begin == _begin"),
       @Expression("end == _end")
     },
-    exc  = @Throw(type = IllegalIntervalException.class,
-                  cond = @Expression("! le(_begin, _end"))
+    exc  = {
+      @Throw(type = IllegalIntervalException.class,
+             cond = @Expression("_begin == null && _end == null")),
+      @Throw(type = IllegalIntervalException.class,
+             cond = @Expression("! le(_begin, _end"))
+    }
   )
   protected AbstractBeginEndTimeInterval(Date begin, Date end) throws IllegalIntervalException {
+    if (begin == null && end == null) {
+      throw new IllegalIntervalException(begin, end, "NOT_BEGIN_AND_END_NULL");
+    }
     if (begin != null && end != null && ! le(begin, end)) {
       throw new IllegalIntervalException(begin, end, "NOT_BEGIN_LE_END");
     }

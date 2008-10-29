@@ -36,10 +36,8 @@ public class DayDateTimeIntervalTest extends AbstractBeginEndTimeIntervalTest {
   @Before
   public void setUp() throws IllegalIntervalException {
     List<DayDateTimeInterval> s = new ArrayList<DayDateTimeInterval>();
-    DayDateTimeInterval subject = new DayDateTimeInterval(null, null);
-    s.add(subject);
     final Date now = dayDate(new Date());
-    subject = new DayDateTimeInterval(now, null);
+    DayDateTimeInterval subject = new DayDateTimeInterval(now, null);
     s.add(subject);
     subject = new DayDateTimeInterval(null, now);
     s.add(subject);
@@ -86,7 +84,8 @@ public class DayDateTimeIntervalTest extends AbstractBeginEndTimeIntervalTest {
           assertInvariants(subject);
         }
         catch (IllegalIntervalException exc) {
-          assertTrue(! le(d1, d2) || (d1 != null && ! isDayDate(d1)) || (d2 != null && ! isDayDate(d2)));
+          assertTrue(! le(d1, d2) || (d1 != null && ! isDayDate(d1)) ||
+                     (d2 != null && ! isDayDate(d2)) || (d1 == null && d2 == null));
         }
       }
     }

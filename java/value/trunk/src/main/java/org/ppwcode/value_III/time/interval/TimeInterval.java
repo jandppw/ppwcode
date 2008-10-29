@@ -63,6 +63,8 @@ import org.toryt.annotations_I.Throw;
  *   with unknown or constrained begin and end times is described in {@link TimeIntervalRelation}.</p>
  * <p>When one basic property is {@code null}, there can be no calculations, and the derived property will be
  *   {@code null} also.</p>
+ * <p>{@code TimeInterval TimeIntervals} with all 3 properties {@code null} make no sense
+ *   and are prohibited.</p>
  *
  * <h3>Implementations</h3>
  * <p>This package offers many subtypes of {@code TimeInterval}. We believe it is, in this case, more appropriate to
@@ -83,7 +85,8 @@ import org.toryt.annotations_I.Throw;
 @SvnInfo(revision = "$Revision$",
    date     = "$Date$")
 @Invars({@Expression("end != null ? le(begin, end)"),
-         @Expression("duration = delta(begin, end)")})
+         @Expression("duration = delta(begin, end)"),
+         @Expression("! (begin == null && end == null && duration == null)")})
 public interface TimeInterval extends ImmutableValue {
 
   /**

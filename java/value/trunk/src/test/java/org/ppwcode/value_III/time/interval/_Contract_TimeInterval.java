@@ -18,6 +18,7 @@ package org.ppwcode.value_III.time.interval;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.ppwcode.value_III.time.DateHelpers.le;
@@ -43,6 +44,7 @@ public class _Contract_TimeInterval extends Contract<TimeInterval> {
     super.assertInvariants(ti);
     assertTrue(ti.getEnd() != null ? le(ti.getBegin(), ti.getEnd()) : true);
 //    assertEquals(delta(ti.getBegin(), ti.getEnd()), ti.getDuration()); MUDO
+    assertFalse(ti.getBegin() == null && ti.getEnd() == null && ti.getDuration() == null);
   }
 
   public void assertEqualsObject(TimeInterval ti, Object other, boolean result) {

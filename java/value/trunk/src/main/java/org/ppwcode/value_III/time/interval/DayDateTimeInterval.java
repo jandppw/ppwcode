@@ -34,17 +34,17 @@ import org.toryt.annotations_I.Throw;
 /**
  * An effective time interval, that takes a begin date and an end date as constructor parameters,
  * but does not keep the time within a day. Begin and end are mere dates, not times.
+ * It is not possible for both the bein and the end date to be {@code null}.
  *
  * @author Jan Dockx
  * @author Peopleware n.v.
- *
- * @mudo unit test
  */
 @Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
 @Invars({
+  @Expression("! (begin == null && end == null)"),
   @Expression("begin == null || isDayDate(begin)"),
   @Expression("end == null || isDayDate(end)")
 })
@@ -56,6 +56,7 @@ public final class DayDateTimeInterval extends AbstractBeginEndTimeInterval {
       @Expression("end == _end")
     },
     exc  = {
+      @Throw(type = IllegalIntervalException.class, cond = @Expression("_begin == null && _end == null")),
       @Throw(type = IllegalIntervalException.class, cond = @Expression("! le(_begin, _end")),
       @Throw(type = IllegalIntervalException.class, cond = @Expression("begin != null && ! isDayDate(_begin)")),
       @Throw(type = IllegalIntervalException.class, cond = @Expression("end != null && ! isDayDate(_end)"))

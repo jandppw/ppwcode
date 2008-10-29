@@ -75,10 +75,8 @@ public class AbstractTimeIntervalTest {
   @Before
   public void setUp() throws Exception {
     List<AbstractTimeInterval> s = new ArrayList<AbstractTimeInterval>();
-    AbstractTimeInterval subject = new StubAbstractTimeInterval(null, null, null);
-    s.add(subject);
     final Date now = new Date();
-    subject = new StubAbstractTimeInterval(now, null, null);
+    AbstractTimeInterval subject = new StubAbstractTimeInterval(now, null, null);
     s.add(subject);
     subject = new StubAbstractTimeInterval(null, now, null);
     s.add(subject);
