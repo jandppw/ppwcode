@@ -109,6 +109,7 @@ public class ValueHandlersTest {
   private <_T_ extends AnEntity> _T_ createAnEntity(EntityManagerFactory emf, LocalizedString ls, Locale l, Class<_T_> type) {
     _T_ ae = InstanceHelpers.newInstance(type);
     ae.setLocalizedString(ls);
+    ae.setLocalizedString2(ls);
     ae.setLocale(l);
     System.out.println("an entity: " + ae);
     EntityManager em = emf.createEntityManager();
@@ -167,12 +168,14 @@ public class ValueHandlersTest {
 
   private void printLocalizedStringFromSql(Class<? extends AnEntity> type, ResultSet rs) throws SQLException {
     if (type == AnEntitySerializableProperties.class) {
-      String columnName = "LOCALIZEDSTRING";
-      printVARBINARYColumn(rs, columnName);
+      printVARBINARYColumn(rs, "LOCALIZEDSTRING");
+      printVARBINARYColumn(rs, "LOCALIZEDSTRING2");
     }
     else if (type == AnEntityValueHandlerProperties.class) {
       System.out.println("$LOCALIZEDSTRING_LOCALE : " + rs.getString("$LOCALIZEDSTRING_LOCALE"));
       System.out.println("$LOCALIZEDSTRING_STRING : " + rs.getString("$LOCALIZEDSTRING_STRING"));
+      System.out.println("LOCALIZEDSTRING2_LOCALE : " + rs.getString("LOCALIZEDSTRING2_LOCALE"));
+      System.out.println("LOCALIZEDSTRING2_STRING : " + rs.getString("LOCALIZEDSTRING2_STRING"));
     }
   }
 
@@ -181,14 +184,17 @@ public class ValueHandlersTest {
       assertEquals("PERSISTENCEID", rsmd.getColumnName(1));
       assertEquals("LOCALE", rsmd.getColumnName(2));
       assertEquals("LOCALIZEDSTRING", rsmd.getColumnName(3));
-      assertEquals("PERSISTENCEVERSION", rsmd.getColumnName(4));
+      assertEquals("LOCALIZEDSTRING2", rsmd.getColumnName(4));
+      assertEquals("PERSISTENCEVERSION", rsmd.getColumnName(5));
     }
     else if (type == AnEntityValueHandlerProperties.class) {
       assertEquals("PERSISTENCEID", rsmd.getColumnName(1));
       assertEquals("LOCALE", rsmd.getColumnName(2));
       assertEquals("$LOCALIZEDSTRING_LOCALE", rsmd.getColumnName(3));
       assertEquals("$LOCALIZEDSTRING_STRING", rsmd.getColumnName(4));
-      assertEquals("PERSISTENCEVERSION", rsmd.getColumnName(5));
+      assertEquals("LOCALIZEDSTRING2_LOCALE", rsmd.getColumnName(5));
+      assertEquals("LOCALIZEDSTRING2_STRING", rsmd.getColumnName(6));
+      assertEquals("PERSISTENCEVERSION", rsmd.getColumnName(7));
     }
   }
 

@@ -40,6 +40,10 @@ public interface AnEntity extends VersionedPersistentBean<Integer, Integer> {
 
   void setLocalizedString(LocalizedString localizedString);
 
+  LocalizedString getLocalizedString2();
+
+  void setLocalizedString2(LocalizedString localizedString);
+
   Locale getLocale();
 
   void setLocale(Locale locale);

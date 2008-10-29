@@ -55,6 +55,17 @@ public class AnEntitySerializableProperties extends AbstractIntegerIdVersionedPe
 
 
 
+  public final LocalizedString getLocalizedString2() {
+    return $localizedString2;
+  }
+
+  public final void setLocalizedString2(LocalizedString localizedString) {
+    $localizedString2 = localizedString;
+  }
+
+  @Column(name="localizedstring2")
+  private LocalizedString $localizedString2;
+
 
 
 
