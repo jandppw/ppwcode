@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <title>org.ppwcode.value.time</title>
+  </head>
+  <body>
+    <p>Time is dangerously and treacherously difficult to reason about.
+      The classes supported by the Java SE API are a good start, but don't fully
+      do the subject justice. In this package and its sub packages we try to offer
+      some help.</p>
+    <p>{@link org.ppwcode.value_III.time.DateHelpers} offers some methods that are
+      often useful when working with {@link java.util.Date}. We want to continue working
+      with {@link java.util.Date}, because there is a lot of code out there that does
+      deal with {@link java.util.Date} that aids already a lot.</p>
+    <p>In this structure, we want to make an explicit difference between
+      <dfn>points in time</dfn>, for which we use {@link java.util.Date},
+      <dfn>time intervals</dfn> and <dfn>time durations</dfn>.</p>
+    <p>Time intervals and reasoning with time intervals is a very complex subject
+      matter. Support for working with time intervals is based around
+      Allen's Interval Algebra, and gathered in {@link org.ppwcode.value_III.time.interval}.
+      {@link org.ppwcode.value_III.time.Duration} is the abstraction you can use
+      when working with time durations.</p>
+  </body>
+</html>
