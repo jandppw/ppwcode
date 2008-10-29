@@ -25,6 +25,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.apache.openjpa.persistence.jdbc.Columns;
 import org.apache.openjpa.persistence.jdbc.Strategy;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
@@ -52,10 +53,27 @@ public class AnEntityValueHandlerProperties extends AbstractIntegerIdVersionedPe
   }
 
 //  @Column(name="localizedstring")
-  @Strategy("org.ppwcode.research.jpa.openjpa.valuehandlers.LocalizedStringValueHandler")
+
+  @Strategy("org.ppwcode.value_III.localization.LocalizedStringValueHandler")
   private LocalizedString $localizedString;
 
 
+
+
+  public final LocalizedString getLocalizedString2() {
+    return $localizedString2;
+  }
+
+  public final void setLocalizedString2(LocalizedString localizedString) {
+    $localizedString2 = localizedString;
+  }
+
+  @Columns({
+    @Column(name="localizedstring2_locale"),
+    @Column(name="localizedstring2_string")
+  })
+  @Strategy("org.ppwcode.value_III.localization.LocalizedStringValueHandler")
+  private LocalizedString $localizedString2;
 
 
 
