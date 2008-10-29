@@ -16,6 +16,7 @@ limitations under the License.
 
 package org.ppwcode.value_III.localization;
 
+
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
 
@@ -38,7 +39,8 @@ import org.ppwcode.vernacular.value_III.SemanticValueException;
 
 /**
  * A OpenJPA value handler for {@link LocalizedString}. The locale and string
- * are stored in 2 separate VARCHAR columns.
+ * are stored in 2 separate VARCHAR columns. {@code null} is stored as NULL in both
+ * columns. It is not possible that only one column is {@code null}.
  *
  * @author Jan Dockx
  * @author Peopleware n.v.
@@ -53,8 +55,8 @@ public final class LocalizedStringValueHandler extends AbstractValueHandler impl
 
   private final LocaleValueHandler $localeValueHandler = new LocaleValueHandler();
 
-  public final Column[] map(ValueMapping vm, String name, ColumnIO io, boolean adapt) {
-    return new Column[] {localeColumn(vm, name, io, adapt), stringColumn(name)};
+  public final Column[] map(ValueMapping vm, String propertyName, ColumnIO io, boolean adapt) {
+    return new Column[] {localeColumn(vm, propertyName, io, adapt), stringColumn(propertyName)};
   }
 
 
@@ -74,6 +76,9 @@ public final class LocalizedStringValueHandler extends AbstractValueHandler impl
   public Object toDataStoreValue(ValueMapping vm, Object val, JDBCStore store) {
     try {
       LocalizedString ls = (LocalizedString)val;
+      if (val == null) {
+        return new Object[] {null, null};
+      }
       Locale l = ls.getLocale();
       assert l != null;
       return new Object[] {$localeValueHandler.toDataStoreValue(vm, l, store), ls.getString()};
@@ -92,7 +97,12 @@ public final class LocalizedStringValueHandler extends AbstractValueHandler impl
       String lString = (String)data[0];
       Locale locale = (Locale)$localeValueHandler.toObjectValue(vm, lString);
       String string = (String)data[1];
-      return new LocalizedString(locale, string);
+      if (locale == null && string == null) {
+        return null;
+      }
+      else {
+        return new LocalizedString(locale, string);
+      }
     }
     catch (NullPointerException exc) {
       unexpectedException(exc, "data received from database is not as expected: we can't deal with null");
