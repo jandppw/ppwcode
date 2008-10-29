@@ -56,7 +56,17 @@ public class ValueHandlersTest {
   }
 
   @Test
-  public void valueHandlers1a() throws SemanticValueException, SQLException {
+  public void testSerializableProperties1() throws SemanticValueException, SQLException {
+    displayTest("Serializable properties, null locale", "");
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+
+    AnEntitySerializableProperties ae = createAnEntity(emf, null, null);
+
+    saveValidateInDbAndRetrieve(emf, "org_ppwcode_research_jpa_openjpa_valuehandlers_anentityserializableproperties", ae, null, null);
+  }
+
+  @Test
+  public void testSerializableProperties2() throws SemanticValueException, SQLException {
     displayTest("Serializable properties, effective locale", "");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 
@@ -80,16 +90,6 @@ public class ValueHandlersTest {
     em.close();
     System.out.println("an entity after create in DB: " + ae);
     return ae;
-  }
-
-  @Test
-  public void valueHandlers1b() throws SemanticValueException, SQLException {
-    displayTest("Serializable properties, null locale", "");
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-
-    AnEntitySerializableProperties ae = createAnEntity(emf, null, null);
-
-    saveValidateInDbAndRetrieve(emf, "org_ppwcode_research_jpa_openjpa_valuehandlers_anentityserializableproperties", ae, null, null);
   }
 
   private void saveValidateInDbAndRetrieve(EntityManagerFactory emf,
