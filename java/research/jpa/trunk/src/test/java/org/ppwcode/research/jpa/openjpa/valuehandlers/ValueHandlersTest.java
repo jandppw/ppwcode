@@ -51,7 +51,6 @@ public class ValueHandlersTest {
   private static final String TABLE_NAME_SERIALIZABLEPROPERTIES = "org_ppwcode_research_jpa_openjpa_valuehandlers_anentityserializableproperties";
 
   static final String PERSISTENCE_UNIT_NAME = "be_hdp_contracts_I_IBMOpenJPA_test";
-  //static final String PERSISTENCE_UNIT_NAME = "be_hdp_contracts_I";
 
   final static Logger LOGGER = Logger.getLogger("ValueHandlersTest");
 
@@ -198,32 +197,14 @@ public class ValueHandlersTest {
   private String jpaDefaultStoredLocaleString(AnEntity ae) {
     String result = null;
     Locale l = ae.getLocale();
-    System.out.println("DEBUG " + ae.getClass() + " " + (l != null ? l.getClass() : "") + " " + l);
     if (l == null) {
       result = null;
     }
     else if (ae instanceof AnEntitySerializableProperties) {
       result = l.getLanguage() + "_" + l.getCountry() + "_" + l.getVariant();
-      System.out.println("DEBUG AnEntitySerializableProperties " + result);
     }
     else if (ae instanceof AnEntityValueHandlerProperties) {
       result = l.toString();
-//      System.out.println("DEBUG AnEntityValueHandlerProperties");
-//      System.out.println("DEBUG AnEntityValueHandlerProperties languge = \"" + l.getLanguage() + "\"");
-//      System.out.println("DEBUG AnEntityValueHandlerProperties country = \"" + l.getCountry() + "\"");
-//      System.out.println("DEBUG AnEntityValueHandlerProperties variant = \"" + l.getVariant() + "\"");
-//      StringBuilder sb = new StringBuilder();
-//      sb.append(l.getLanguage());
-//      if (! l.getCountry().equals(EMPTY) || ! l.getVariant().equals(EMPTY)) {
-//        sb.append("_");
-//        sb.append(l.getCountry());
-//      }
-//      if (! l.getVariant().equals(EMPTY)) {
-//        sb.append("_");
-//        sb.append(l.getVariant());
-//      }
-//      result = sb.toString();
-//      System.out.println("DEBUG AnEntityValueHandlerProperties " + result);
     }
     return result;
   }
