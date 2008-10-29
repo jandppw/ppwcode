@@ -138,16 +138,12 @@ public class ValueHandlersTest {
     for (int i = 1; i <= rsmd.getColumnCount(); i++) {
       System.out.println(i + ": " + rsmd.getColumnName(i) + " " + rsmd.getColumnClassName(i) + " " + rsmd.getColumnTypeName(i));
     }
-    assertEquals("PERSISTENCEID", rsmd.getColumnName(1));
-    assertEquals("LOCALE", rsmd.getColumnName(2));
-    assertEquals("LOCALIZEDSTRING", rsmd.getColumnName(3));
-    assertEquals("PERSISTENCEVERSION", rsmd.getColumnName(4));
+    expectedColumns(ae.getClass(), rsmd);
     boolean foundOne = false;
     while (rs.next()) {
       System.out.println("PERSISTENCEID           : " + rs.getInt("PERSISTENCEID"));
       System.out.println("PERSISTENCEVERSION      : " + rs.getInt("PERSISTENCEVERSION"));
-      String columnName = "LOCALIZEDSTRING";
-      printVARBINARYColumn(rs, columnName);
+      printLocalizedStringFromSql(ae.getClass(), rs);
       System.out.println("LOCALE                  : " + rs.getObject("LOCALE"));
       Object idFromDb = rs.getObject("PERSISTENCEID");
       if (ae.getPersistenceId().equals(idFromDb)) {
@@ -167,6 +163,33 @@ public class ValueHandlersTest {
     assertNotSame(fromDb, ae);
     assertEquals(aeLocalizedString, fromDb.getLocalizedString());
     assertEquals(aeLocale, fromDb.getLocale());
+  }
+
+  private void printLocalizedStringFromSql(Class<? extends AnEntity> type, ResultSet rs) throws SQLException {
+    if (type == AnEntitySerializableProperties.class) {
+      String columnName = "LOCALIZEDSTRING";
+      printVARBINARYColumn(rs, columnName);
+    }
+    else if (type == AnEntityValueHandlerProperties.class) {
+      System.out.println("$LOCALIZEDSTRING_LOCALE : " + rs.getString("$LOCALIZEDSTRING_LOCALE"));
+      System.out.println("$LOCALIZEDSTRING_STRING : " + rs.getString("$LOCALIZEDSTRING_STRING"));
+    }
+  }
+
+  private void expectedColumns(Class<? extends AnEntity> type, ResultSetMetaData rsmd) throws SQLException {
+    if (type == AnEntitySerializableProperties.class) {
+      assertEquals("PERSISTENCEID", rsmd.getColumnName(1));
+      assertEquals("LOCALE", rsmd.getColumnName(2));
+      assertEquals("LOCALIZEDSTRING", rsmd.getColumnName(3));
+      assertEquals("PERSISTENCEVERSION", rsmd.getColumnName(4));
+    }
+    else if (type == AnEntityValueHandlerProperties.class) {
+      assertEquals("PERSISTENCEID", rsmd.getColumnName(1));
+      assertEquals("LOCALE", rsmd.getColumnName(2));
+      assertEquals("$LOCALIZEDSTRING_LOCALE", rsmd.getColumnName(3));
+      assertEquals("$LOCALIZEDSTRING_STRING", rsmd.getColumnName(4));
+      assertEquals("PERSISTENCEVERSION", rsmd.getColumnName(5));
+    }
   }
 
   private void printVARBINARYColumn(ResultSet rs, String columnName) throws SQLException {
