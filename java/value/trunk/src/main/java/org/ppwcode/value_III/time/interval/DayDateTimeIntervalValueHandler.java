@@ -21,17 +21,14 @@ import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.value_III.time.DateHelpers.isDayDate;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
 
-import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Date;
 
-import org.apache.openjpa.jdbc.kernel.JDBCFetchConfiguration;
 import org.apache.openjpa.jdbc.kernel.JDBCStore;
-import org.apache.openjpa.jdbc.meta.ValueHandler;
 import org.apache.openjpa.jdbc.meta.ValueMapping;
+import org.apache.openjpa.jdbc.meta.strats.AbstractValueHandler;
 import org.apache.openjpa.jdbc.schema.Column;
 import org.apache.openjpa.jdbc.schema.ColumnIO;
-import org.apache.openjpa.kernel.OpenJPAStateManager;
 import org.apache.openjpa.meta.JavaTypes;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
@@ -40,16 +37,18 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
 
 /**
  * A OpenJPA value handler for {@link DayDateTimeInterval}. Begin and end are stored in 2
- * columns in the database as {@code DATE}.
+ * columns in the database as {@code DATE}. {@code null} is represented by {@code null}
+ * in both columns. This is not a problem because both the begin and end being {@code null}
+ * is forbidden for {@link DayDateTimeInterval DayDateTimeIntervals}.
  *
  * @author Jan Dockx
- * @author Peopleware n.v.
+ * @author PeopleWare n.v.
  */
 @Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-public final class DayDateTimeIntervalValueHandler implements ValueHandler {
+public final class DayDateTimeIntervalValueHandler extends AbstractValueHandler {
 
   public final Column[] map(ValueMapping vm, String name, ColumnIO io, boolean adapt) {
     return new Column[] {dateColumn(name + "_begin"), dateColumn(name + "_end")};
@@ -63,23 +62,14 @@ public final class DayDateTimeIntervalValueHandler implements ValueHandler {
     return c;
   }
 
-  public final boolean isVersionable(ValueMapping vm) {
-    return false;
-  }
-
-  public final boolean objectValueRequiresLoad(ValueMapping vm) {
-    return false;
-  }
-
-  public Object getResultArgument(ValueMapping vm) {
-    return null;
-  }
-
-
-  public Object toDataStoreValue(ValueMapping vm, Object val, JDBCStore store) {
+  @Override
+  public Object[] toDataStoreValue(ValueMapping vm, Object val, JDBCStore store) {
     try {
       BeginEndTimeInterval beTi = (BeginEndTimeInterval)val;
-      return new Date[] {beTi.getBegin(), beTi.getEnd()};
+      if (beTi == null) {
+        return new Object[] {null, null};
+      }
+      return new Object[] {beTi.getBegin(), beTi.getEnd()};
     }
     catch (ClassCastException exc) {
       unexpectedException(exc, "trying to handle " + val + " with " +
@@ -88,17 +78,18 @@ public final class DayDateTimeIntervalValueHandler implements ValueHandler {
     return null; // make compiler happy
   }
 
+  @Override
   public Object toObjectValue(ValueMapping vm, Object fromDb) {
     try {
       Object[] dates = (Date[])fromDb;
       Date begin = (Date)dates[0];
-      assert begin == null || isDayDate(begin);
       Date end = (Date)dates[1];
-      assert end == null || isDayDate(end);
+      if (begin == null && end == null) {
+        return null;
+      }
+      assert isDayDate(begin);
+      assert isDayDate(end);
       return new BeginEndTimeInterval(begin, end);
-    }
-    catch (NullPointerException exc) {
-      unexpectedException(exc, "data received from database is not as expected: we can't deal with null");
     }
     catch (ArrayIndexOutOfBoundsException exc) {
       unexpectedException(exc, "data received from database is not as expected: expected array of 2 values");
@@ -110,17 +101,6 @@ public final class DayDateTimeIntervalValueHandler implements ValueHandler {
       unexpectedException(exc, "data received from database did violate invariants for " + BeginEndTimeInterval.class);
     }
     return null; // make compiler happy
-  }
-
-  /**
-   * Not used, since {@link #objectValueRequiresLoad(ValueMapping)} returns false.
-   */
-  public Object toObjectValue(ValueMapping arg0,
-                              Object arg1,
-                              OpenJPAStateManager arg2,
-                              JDBCStore arg3,
-                              JDBCFetchConfiguration arg4) throws SQLException {
-    return null;
   }
 
 }

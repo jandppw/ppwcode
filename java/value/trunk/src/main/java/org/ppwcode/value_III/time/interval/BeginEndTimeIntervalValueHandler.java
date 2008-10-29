@@ -41,7 +41,7 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
  * is forbidden for {@link BeginEndTimeInterval BeginEndTimeIntervals}.
  *
  * @author Jan Dockx
- * @author Peopleware n.v.
+ * @author PeopleWare n.v.
  */
 @Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
@@ -87,9 +87,6 @@ public final class BeginEndTimeIntervalValueHandler extends AbstractValueHandler
         return null;
       }
       return new BeginEndTimeInterval(begin, end);
-    }
-    catch (NullPointerException exc) {
-      unexpectedException(exc, "data received from database is not as expected: we can't deal with null");
     }
     catch (ArrayIndexOutOfBoundsException exc) {
       unexpectedException(exc, "data received from database is not as expected: expected array of 2 values");
