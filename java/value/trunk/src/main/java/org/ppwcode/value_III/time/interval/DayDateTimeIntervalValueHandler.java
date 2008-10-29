@@ -65,7 +65,7 @@ public final class DayDateTimeIntervalValueHandler extends AbstractValueHandler 
   @Override
   public Object[] toDataStoreValue(ValueMapping vm, Object val, JDBCStore store) {
     try {
-      BeginEndTimeInterval beTi = (BeginEndTimeInterval)val;
+      DayDateTimeInterval beTi = (DayDateTimeInterval)val;
       if (beTi == null) {
         return new Object[] {null, null};
       }
@@ -89,7 +89,7 @@ public final class DayDateTimeIntervalValueHandler extends AbstractValueHandler 
       }
       assert isDayDate(begin);
       assert isDayDate(end);
-      return new BeginEndTimeInterval(begin, end);
+      return new DayDateTimeInterval(begin, end);
     }
     catch (ArrayIndexOutOfBoundsException exc) {
       unexpectedException(exc, "data received from database is not as expected: expected array of 2 values");
