@@ -51,8 +51,8 @@ public class AnEntityValueHandlerProperties extends AbstractIntegerIdVersionedPe
     $localizedString = localizedString;
   }
 
-  @Column(name="localizedstring")
-//  @Strategy("org.ppwcode.value_III.localization.LocalizedStringValueHandler")
+//  @Column(name="localizedstring")
+  @Strategy("org.ppwcode.research.jpa.openjpa.valuehandlers.LocalizedStringValueHandler")
   private LocalizedString $localizedString;
 
 
