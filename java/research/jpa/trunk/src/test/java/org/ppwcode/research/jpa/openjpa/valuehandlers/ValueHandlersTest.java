@@ -59,14 +59,19 @@ public class ValueHandlersTest {
     displayTest("Serializable properties, effective locale", "");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 
-    AnEntitySerializableProperties ae = new AnEntitySerializableProperties();
     LocalizedString ls = new LocalizedString(new Locale("nl"), "'t es moar een test");
-    ae.setLocalizedString(ls);
     Locale l = Locale.JAPANESE;
-    ae.setLocale(l);
-    System.out.println("an entity: " + ae);
+    AnEntitySerializableProperties ae = createAnEntity(ls, l);
 
     saveValidateInDbAndRetrieve(emf, ae, ls, l);
+  }
+
+  private AnEntitySerializableProperties createAnEntity(LocalizedString ls, Locale l) {
+    AnEntitySerializableProperties ae = new AnEntitySerializableProperties();
+    ae.setLocalizedString(ls);
+    ae.setLocale(l);
+    System.out.println("an entity: " + ae);
+    return ae;
   }
 
   @Test
@@ -74,13 +79,9 @@ public class ValueHandlersTest {
     displayTest("Serializable properties, null locale", "");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 
-    AnEntitySerializableProperties ae = new AnEntitySerializableProperties();
-    LocalizedString ls = new LocalizedString(new Locale("nl"), "'t es moar een test");
-    ae.setLocalizedString(ls);
-    ae.setLocale(null);
-    System.out.println("an entity: " + ae);
+    AnEntitySerializableProperties ae = createAnEntity(null, null);
 
-    saveValidateInDbAndRetrieve(emf, ae, ls, null);
+    saveValidateInDbAndRetrieve(emf, ae, null, null);
   }
 
   private void saveValidateInDbAndRetrieve(EntityManagerFactory emf,
@@ -138,6 +139,9 @@ public class ValueHandlersTest {
   }
 
   private String byteArrayRepresentation(byte[] serializedForm) {
+    if (serializedForm == null) {
+      return null;
+    }
     StringBuilder sb = new StringBuilder();
     sb.append("0x");
     int i = 0;
