@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.value_III.time.interval.jpa.openjpa;
+package org.ppwcode.value_III.time.interval;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
@@ -36,9 +36,6 @@ import org.apache.openjpa.meta.JavaTypes;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.value_III.time.interval.DayDateTimeInterval;
-import org.ppwcode.value_III.time.interval.IllegalIntervalException;
-import org.ppwcode.value_III.time.interval.IntradayTimeInterval;
 
 
 /**
