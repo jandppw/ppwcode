@@ -25,6 +25,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.apache.openjpa.persistence.jdbc.Strategy;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
@@ -72,6 +73,7 @@ public class AnEntityValueHandlerProperties extends AbstractIntegerIdVersionedPe
   }
 
   @Column(name="locale")
+  @Strategy("org.ppwcode.value_III.propertyeditors.java.util.LocaleValueHandler")
   private Locale $locale;
 
 }
