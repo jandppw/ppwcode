@@ -26,7 +26,6 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Arrays;
 import java.util.Locale;
 import java.util.logging.Logger;
 
@@ -37,7 +36,6 @@ import javax.persistence.Persistence;
 
 import org.apache.openjpa.persistence.OpenJPAEntityManager;
 import org.apache.openjpa.persistence.OpenJPAPersistence;
-import org.junit.Assert;
 import org.junit.Test;
 import org.ppwcode.util.reflect_I.InstanceHelpers;
 import org.ppwcode.value_III.localization.LocalizedString;
@@ -54,7 +52,7 @@ public class ValueHandlersTest {
 
   final static Logger LOGGER = Logger.getLogger("ValueHandlersTest");
 
-  private static final Object EMPTY = "";
+//  private static final String EMPTY = "";
 
   private void displayTest(String msg1, String msg2) {
     System.out.println();
