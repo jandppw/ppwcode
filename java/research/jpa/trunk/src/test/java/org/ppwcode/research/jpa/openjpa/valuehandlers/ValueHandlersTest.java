@@ -17,6 +17,7 @@ limitations under the License.
 package org.ppwcode.research.jpa.openjpa.valuehandlers;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.Connection;
@@ -61,16 +62,23 @@ public class ValueHandlersTest {
 
     LocalizedString ls = new LocalizedString(new Locale("nl"), "'t es moar een test");
     Locale l = Locale.JAPANESE;
-    AnEntitySerializableProperties ae = createAnEntity(ls, l);
+    AnEntitySerializableProperties ae = createAnEntity(emf, ls, l);
 
     saveValidateInDbAndRetrieve(emf, ae, ls, l);
   }
 
-  private AnEntitySerializableProperties createAnEntity(LocalizedString ls, Locale l) {
+  private AnEntitySerializableProperties createAnEntity(EntityManagerFactory emf, LocalizedString ls, Locale l) {
     AnEntitySerializableProperties ae = new AnEntitySerializableProperties();
     ae.setLocalizedString(ls);
     ae.setLocale(l);
     System.out.println("an entity: " + ae);
+    EntityManager em = emf.createEntityManager();
+    EntityTransaction tx = em.getTransaction();
+    tx.begin();
+    em.persist(ae);
+    tx.commit();
+    em.close();
+    System.out.println("an entity after create in DB: " + ae);
     return ae;
   }
 
@@ -79,7 +87,7 @@ public class ValueHandlersTest {
     displayTest("Serializable properties, null locale", "");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 
-    AnEntitySerializableProperties ae = createAnEntity(null, null);
+    AnEntitySerializableProperties ae = createAnEntity(emf, null, null);
 
     saveValidateInDbAndRetrieve(emf, ae, null, null);
   }
@@ -88,17 +96,10 @@ public class ValueHandlersTest {
                                            AnEntitySerializableProperties ae,
                                            LocalizedString ls,
                                            Locale l) throws SQLException {
-    EntityManager em = emf.createEntityManager();
-    EntityTransaction tx = em.getTransaction();
-    tx.begin();
-    em.persist(ae);
-    tx.commit();
-    em.close();
-    System.out.println("an entity after create in DB: " + ae);
 
     Integer aeId = ae.getPersistenceId();
 
-    em = emf.createEntityManager();
+    EntityManager em = emf.createEntityManager();
     OpenJPAEntityManager kem = OpenJPAPersistence.cast(em);
     Connection conn = (Connection)kem.getConnection();
     Statement st = conn.createStatement();
@@ -134,6 +135,7 @@ public class ValueHandlersTest {
     em = emf.createEntityManager();
     AnEntitySerializableProperties fromDb = em.find(AnEntitySerializableProperties.class, aeId);
     System.out.println("fromDB: " + fromDb);
+    assertNotSame(fromDb, ae);
     assertEquals(ls, fromDb.getLocalizedString());
     assertEquals(l, fromDb.getLocale());
   }
