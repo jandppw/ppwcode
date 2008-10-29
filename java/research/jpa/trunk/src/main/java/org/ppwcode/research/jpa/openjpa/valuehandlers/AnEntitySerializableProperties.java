@@ -38,7 +38,7 @@ import org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdVersionedPers
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision: 3245 $",
          date     = "$Date: 2008-10-23 11:51:38 +0200 (Thu, 23 Oct 2008) $")
-public class AnEntity extends AbstractIntegerIdVersionedPersistentBean {
+public class AnEntitySerializableProperties extends AbstractIntegerIdVersionedPersistentBean {
 
   public final LocalizedString getLocalizedString() {
     return $localizedString;

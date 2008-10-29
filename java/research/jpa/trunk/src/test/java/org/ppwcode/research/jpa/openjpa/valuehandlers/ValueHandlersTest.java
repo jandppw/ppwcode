@@ -56,7 +56,7 @@ public class ValueHandlersTest {
     displayTest("Value handlers", "");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 
-    AnEntity ae = new AnEntity();
+    AnEntitySerializableProperties ae = new AnEntitySerializableProperties();
     LocalizedString ls = new LocalizedString(new Locale("nl"), "'t es moar een test");
     ae.setLocalizedString(ls);
     System.out.println("an entity: " + ae);
@@ -72,7 +72,7 @@ public class ValueHandlersTest {
     Integer aeId = ae.getPersistenceId();
 
     em = emf.createEntityManager();
-    AnEntity fromDb = em.find(AnEntity.class, aeId);
+    AnEntitySerializableProperties fromDb = em.find(AnEntitySerializableProperties.class, aeId);
     System.out.println("fromDB: " + fromDb);
 
     OpenJPAEntityManager kem = OpenJPAPersistence.cast(em);
