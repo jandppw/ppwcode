@@ -120,18 +120,19 @@ public final class Duration extends AbstractImmutableValue implements Comparable
      * 100 years. In every century, there are 24 leap years (100 / 4, minus the
      * non-leap year on the century break). Note that calculations with this duration
      * does not take into account leap seconds, nor the exception that
-     * a century break that is also a millennium break indeed is a leap year.
+     * a century break that is of a year divisible by 400 indeed is a leap year.
      */
     @Invars(@Expression("CENTURY.asMilliseconds() == ((100 * 365) + 24) * 24 * 60 * 60 * 1000"))
     CENTURY     (((100L * 365L) + 24L) * 24L * 60L * 60L * 1000L),
 
     /**
      * 1000 years. In every century, there are 241 leap years (the leap years in a century (24)
-     * plus the leap year of the millennium break). Note that calculations with this duration
-     * does not take into account leap seconds.
+     * plus the 2 leap years of years divisible by 400). Note that calculations with this duration
+     * does not take into account leap seconds, nor occasions where the millennium is divisible by
+     * 400 year.
      */
     @Invars(@Expression("MILLENNNIUM.asMilliseconds() == ((1000 * 365) + 241) * 24 * 60 * 60 * 1000"))
-    MILLENNIUM   (((1000L * 365L) + 241L) * 24L * 60L * 60L * 1000L);
+    MILLENNIUM   (((1000L * 365L) + 242L) * 24L * 60L * 60L * 1000L);
 
     private Unit(long milliseconds) {
       $milliseconds = milliseconds;
