@@ -19,12 +19,11 @@ package org.ppwcode.research.jpa.openjpa.valuehandlers;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
-import java.util.Locale;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.apache.openjpa.persistence.jdbc.Strategy;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
@@ -35,38 +34,23 @@ import org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdVersionedPers
  * AnEnity
  */
 @Entity
-@Table(name="org_ppwcode_research_jpa_openjpa_valuehandlers_anentityserializableproperties")
+@Table(name="org_ppwcode_research_jpa_openjpa_valuehandlers_anentityvaluehandlerproperties")
 @Copyright("2008 - $Date: 2008-10-23 11:51:38 +0200 (Thu, 23 Oct 2008) $, PeopleWare n.v.")
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision: 3245 $",
          date     = "$Date: 2008-10-23 11:51:38 +0200 (Thu, 23 Oct 2008) $")
-public class AnEntitySerializableProperties extends AbstractIntegerIdVersionedPersistentBean {
+public class AnEntityValueHandlerProperties extends AbstractIntegerIdVersionedPersistentBean {
 
-  public final LocalizedString getLocalizedString() {
-    return $localizedString;
-  }
-
-  public final void setLocalizedString(LocalizedString localizedString) {
-    $localizedString = localizedString;
-  }
-
-  @Column(name="localizedstring")
-  private LocalizedString $localizedString;
-
-
-
-
-
-
-  public final Locale getLocale() {
-    return $locale;
-  }
-
-  public final void setLocale(Locale locale) {
-    $locale = locale;
-  }
-
-  @Column(name="locale")
-  private Locale $locale;
+//  public final LocalizedString getLocalizedString() {
+//    return $localizedString;
+//  }
+//
+//  public final void setLocalizedString(LocalizedString localizedString) {
+//    $localizedString = localizedString;
+//  }
+//
+//  @Column(name="localizedstring")
+//  @Strategy("org.ppwcode.value_III.localization.LocalizedStringValueHandler")
+//  private LocalizedString $localizedString;
 
 }
