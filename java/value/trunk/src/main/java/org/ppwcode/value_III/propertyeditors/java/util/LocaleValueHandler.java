@@ -36,16 +36,16 @@ import org.apache.openjpa.meta.JavaTypes;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers;
 
 
 /**
- * An OpenJPA {@link ValueHandler} for {@link Locale}. We store the locale as its String representation
- * if a VARCHAR
+ * An OpenJPA {@link ValueHandler} for {@link Locale}. We store the locale as its String
+ * representation if a VARCHAR
  */
 @Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision$",
-         date     = "$Date$")
+@SvnInfo(revision = "$Revision$", date = "$Date$")
 public class LocaleValueHandler extends AbstractValueHandler {
 
   public final static String SEPARATOR = "_";
@@ -67,11 +67,22 @@ public class LocaleValueHandler extends AbstractValueHandler {
         return null;
       }
       PropertyEditor pe = PropertyEditorManager.findEditor(Locale.class);
+      if (pe == null) {
+        ProgrammingErrorHelpers.deadBranch("no property editor found for "
+                                           + Locale.class
+                                           + "; please register a property editor for this type with "
+                                           + "PropertyEditorManager.registerEditor(TARGET CLASS, EDITOR CLASS) "
+                                           + "or via another mechanism");
+      }
       pe.setValue(locale);
       return pe.getAsText();
     }
     catch (ClassCastException exc) {
-      unexpectedException(exc, "trying to handle " + val + " with " + getClass().getName() + ", but that can't handle that type");
+      unexpectedException(exc, "trying to handle "
+                               + val
+                               + " with "
+                               + getClass().getName()
+                               + ", but that can't handle that type");
     }
     return null; // keep compiler happy
   }
@@ -85,13 +96,13 @@ public class LocaleValueHandler extends AbstractValueHandler {
       }
       String[] valParts = stringVal.split(SEPARATOR);
       switch (valParts.length) {
-        case 1 :
+        case 1:
           return new Locale(valParts[0]);
-        case 2 :
+        case 2:
           return new Locale(valParts[0], valParts[1]);
-        case 3 :
+        case 3:
           return new Locale(valParts[0], valParts[1], valParts[2]);
-        default :
+        default:
           deadBranch("somebody hacked the database: locale string contains more than 3 parts");
       }
     }
