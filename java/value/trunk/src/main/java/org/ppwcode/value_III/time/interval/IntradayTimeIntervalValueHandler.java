@@ -45,6 +45,8 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
  *
  * @author Jan Dockx
  * @author PeopleWare n.v.
+ *
+ * @mudo generalize with DeterminateIntradayTimeIntervalValueHandler
  */
 @Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
