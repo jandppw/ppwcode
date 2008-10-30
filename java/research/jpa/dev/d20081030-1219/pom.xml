@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <!--
+    Copyright 2008 - $Date$ by PeopleWare n.v.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+    $Date$
+    $Revision$
+    $HeadURL$
+  -->
+
+
+  <!-- NOTE: you probably have to give Maven more memory:
+             export MAVEN_OPTS=-Xmx1024M -->
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.ppwcode</groupId>
+    <artifactId>ppwcode-ppwcode-library-parent-pom</artifactId>
+    <version>1.9.0</version>
+  </parent>
+
+  <properties>
+
+    <!-- OVERWRITE THESE PROPERTIES WITH SETTINGS APPROPRIATE TO YOUR PROJECT IN YOUR CHILD POM -->
+
+    <!-- The short artifact name. The real artifact name is calculated from the ppwcode.libraryKind,
+         this short name, and the ppwcode.markVersion -->
+    <ppwcode.shortArtifactName>jpa-research</ppwcode.shortArtifactName>
+    <!-- The mark version of the artifact. This part of the version becomes part of the artifactId.
+         For this pom, an empty mark version is used, which results in "double slash in paths", which works. -->
+    <ppwcode.markVersion></ppwcode.markVersion>
+
+    <ppwcode.libraryKind></ppwcode.libraryKind>
+    <ppwcode.inScmLocation>java/research/jpa</ppwcode.inScmLocation>
+
+  </properties>
+
+
+  <!-- GROUP ID, ARTIFACT ID, VERSION, PACKAGING, NAME & DESCRIPTION: OVERWRITE IN YOUR CHILD POM (know what you are doing :-) ) -->
+  <!-- for ppwcode projects, groupId and artifactId are calculated, and used in the magic mantra (see below);
+       for parent poms, we cannot do this (all hell breaks loose in the children) -->
+  <groupId>org.ppwcode.research</groupId>
+  <artifactId>ppwcode-research-jpa</artifactId>
+  <version>dev-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <name>ppwcode JPA research</name>
+  <description>Proof of concept, unit tests that are used during the development of the ppwcode JPA vernacular.</description>
+  <inceptionYear>2008</inceptionYear>
+
+  <!-- DEVELOPERS & CONTRIBUTORS: OVERWRITE IN YOUR CHILD POM -->
+  <developers>
+    <developer>
+      <name>Jan Dockx</name>
+      <id>jandockx</id>
+      <email>jandockx@gmail.com</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare s.a./n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Tom Mahieu</name>
+      <id>Tom.Mahieu</id>
+      <email>Tom.Mahieu@gmail.com</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare s.a./n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Ruben Vandeginste</name>
+      <id>Ruben.Vandeginste</id>
+      <email>Ruben.Vandeginste@gmail.com</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare s.a./n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+  </developers>
+  <contributors>
+    <contributor>
+      <organization>PeopleWare s.a./n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <timezone>+1</timezone>
+    </contributor>
+    <contributor>
+      <organization>AristA vzw</organization>
+      <organizationUrl>http://www.arista.be/</organizationUrl>
+      <timezone>+1</timezone>
+    </contributor>
+    <contributor>
+      <organization>HDP vzw</organization>
+      <organizationUrl>http://www.hdp.be/</organizationUrl>
+      <timezone>+1</timezone>
+    </contributor>
+  </contributors>
+
+  <!-- MAGIC MANTRA -->
+  <!-- The following entries need to be repeated, and can not sensibly be inherited.
+       The reason is, sadly, that Maven 2 has a built in, undocumented "feature" that appends the artifact id to a number of URL's and paths
+       if those URL's or paths are inherited. The reasoning behind that is he use of inheritance inside multi-module projects.
+       It seems that if you are using inheritance outside of multi-module projects, you are out of luck.
+       At least, we are :-(.
+       The entries here are calculated in the "calculation properties" higher. To avoid the inheritance
+       trap, the definitions below need to be repeated in each (consecutive) child, as a magic mantra.
+       -->
+  <url>${ppwcode.url}</url>
+  <scm>
+    <connection>${ppwcode.scm.connection}</connection>
+    <developerConnection>${ppwcode.scm.developerConnection}</developerConnection>
+    <url>${ppwcode.scm.url}</url>
+  </scm>
+  <distributionManagement>
+    <!-- The repository definition can be inherited from the parent pom for ppwcode projects:
+         the repository path is not changed for child poms, and it "happens" to be the same
+         for all our libraries as for our parent pom -->
+    <site>
+      <id>${ppwcode.distributionManagement.site.id}</id>
+      <name>${ppwcode.distributionManagement.site.name}</name>
+      <url>${ppwcode.distributionManagement.site.url}</url>
+    </site>
+  </distributionManagement>
+
+  <!-- THIS NEEDS TO BE COPIED IN ALL CHILD POMS, TO FIND THE PARENT -->
+  <repositories>
+    <repository>
+      <id>ppwcodeRepo</id>
+      <name>ppwcode Maven 2 repository</name>
+      <url>http://www.ppwcode.org/java/maven2repo</url>
+    </repository>
+    <repository>
+      <id>ppwcodeSnapshotRepo</id>
+      <!-- This needs to be copied in all child poms, to find the parent -->
+      <name>ppwcode Maven 2 snapshot repository</name>
+      <url>http://www.ppwcode.org/java/maven2snapshotrepo</url>
+    </repository>
+  </repositories>
+
+
+
+  <!-- PLUGINS AND SETTINGS FOR OPENJPA TESTS -->
+
+  <build>
+    <plugins>
+
+      <plugin>
+        <!-- Initialize directories for temporary files for in-memory DB for tests. -->
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>initialize</phase>
+            <configuration>
+              <tasks>
+                <mkdir dir="target/TestDB" />
+                <mkdir dir="target/log/jpa" />
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <!-- Make sure that during unit test entities are JPA enhanced by an agent.
+             This requires the agent in a certain location. -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <argLine>-javaagent:${basedir}/target/openjpa-1.2.0.jar</argLine>
+          <workingDirectory>${basedir}/target</workingDirectory>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <!-- Makes OpenJPA jar available in certain location for unit tests. -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.apache.openjpa</groupId>
+                  <artifactId>openjpa</artifactId>
+                  <version>1.2.0</version>
+                  <outputDirectory>${project.build.directory}</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+
+    </plugins>
+  </build>
+
+
+
+  <!-- DEPENDENCIES -->
+
+  <dependencies>
+
+    <!--  ppwcode -->
+    <dependency>
+      <groupId>org.ppwcode.vernacular</groupId>
+      <artifactId>ppwcode-vernacular-exception-II</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.ppwcode.vernacular</groupId>
+      <artifactId>ppwcode-vernacular-semantics-VI</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.ppwcode.vernacular</groupId>
+      <artifactId>ppwcode-vernacular-persistence-III</artifactId>
+    </dependency>
+
+    <!-- external -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.ejb</groupId>
+      <artifactId>ejb-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.persistence</groupId>
+      <artifactId>persistence-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.openjpa</groupId>
+      <artifactId>openjpa</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>net.sf.json-lib</groupId>
+      <artifactId>json-lib</artifactId>
+      <classifier>jdk15</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.ppwcode</groupId>
+      <artifactId>ppwcode-value-III</artifactId>
+      <version>dev-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+
+</project>
