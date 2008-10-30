@@ -83,7 +83,7 @@ public final class DayDateTimeIntervalValueHandler extends AbstractValueHandler 
   @Override
   public Object toObjectValue(ValueMapping vm, Object fromDb) {
     try {
-      Object[] dates = (Date[])fromDb;
+      Object[] dates = (Object[])fromDb;
       Date begin = (Date)dates[0];
       Date end = (Date)dates[1];
       if (begin == null && end == null) {
