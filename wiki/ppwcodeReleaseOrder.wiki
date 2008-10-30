@@ -39,21 +39,21 @@ NOTE: there should be a better way to describe this than a list
 
 = Dependency tree =
 
-  * licensetemplates
-  * checkstyle
+  * licensetemplates (snapshot)
+  * checkstyle (snapshot)
   * library parent pom
-  * dependency management
+  * dependency management (snapshot)
   * ppwcode library parent pom
   * metainfo
   * (toryt annotations - _outside of ppwcode, but we have "influence" to get a new build :-)_ )
   * vernacular parent pom
-  * vernacular exception
   * util parent pom
-  * util reflection
-  * util serialization
+  * vernacular exception (snapshot)
+  * util reflection (snapshot)
+  * util serialization (snapshot)
   * vernacular resourcebundle
-  * vernacular semantics
-  * vernacular persistence
-  * vernacular value
-  * value
-  * research jpa
+  * vernacular semantics (snapshot)
+  * vernacular persistence (snapshot)
+  * vernacular value (snapshot)
+  * value (snapshot)
+  * research jpa (snapshot)
