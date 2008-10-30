@@ -16,17 +16,24 @@ NOTE: there should be a better way to describe this than a list
     * checkstyle
   * maven2
     * library parent pom
+    * dependency management
   * ppwcode pom
     * ppwcode library parent pom
   * metainfo
   * util
     * parent pom
     * reflection
+    * serialization
   * vernacular
     * parent pom
     * exception
+    * resourcebundle
     * semantics
     * persistence
+    * value
+  * value
+  * research
+    * jpa
 
 
 
@@ -35,6 +42,7 @@ NOTE: there should be a better way to describe this than a list
   * licensetemplates
   * checkstyle
   * library parent pom
+  * dependency management
   * ppwcode library parent pom
   * metainfo
   * (toryt annotations - _outside of ppwcode, but we have "influence" to get a new build :-)_ )
@@ -42,5 +50,10 @@ NOTE: there should be a better way to describe this than a list
   * vernacular exception
   * util parent pom
   * util reflection
+  * util serialization
+  * vernacular resourcebundle
   * vernacular semantics
   * vernacular persistence
+  * vernacular value
+  * value
+  * research jpa
