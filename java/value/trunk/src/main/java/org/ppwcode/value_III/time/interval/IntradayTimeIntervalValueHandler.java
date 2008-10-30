@@ -94,7 +94,7 @@ public final class IntradayTimeIntervalValueHandler extends AbstractValueHandler
   @Override
   public Object toObjectValue(ValueMapping vm, Object fromDb) {
     try {
-      Object[] dates = (Date[])fromDb;
+      Object[] dates = (Object[])fromDb;
       Date day = (Date)dates[0];
       assert day == null || isDayDate(day);
       Date beginTime = (Date)dates[1];
