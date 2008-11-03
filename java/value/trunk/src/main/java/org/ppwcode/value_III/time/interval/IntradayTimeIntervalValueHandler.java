@@ -18,19 +18,23 @@ package org.ppwcode.value_III.time.interval;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+import static org.ppwcode.value_III.time.DateHelpers.compose;
 import static org.ppwcode.value_III.time.DateHelpers.isDayDate;
+import static org.ppwcode.value_III.time.DateHelpers.sqlDayDate;
+import static org.ppwcode.value_III.time.DateHelpers.sqlTimeOfDay;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.deadBranch;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
 
+import java.sql.Time;
 import java.sql.Types;
 import java.util.Date;
 
 import org.apache.openjpa.jdbc.kernel.JDBCStore;
+import org.apache.openjpa.jdbc.meta.JavaSQLTypes;
 import org.apache.openjpa.jdbc.meta.ValueMapping;
 import org.apache.openjpa.jdbc.meta.strats.AbstractValueHandler;
 import org.apache.openjpa.jdbc.schema.Column;
 import org.apache.openjpa.jdbc.schema.ColumnIO;
-import org.apache.openjpa.meta.JavaTypes;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
@@ -62,7 +66,7 @@ public final class IntradayTimeIntervalValueHandler extends AbstractValueHandler
     Column c = new Column();
     c.setName(name + "_day");
     c.setType(Types.DATE);
-    c.setJavaType(JavaTypes.DATE);
+    c.setJavaType(JavaSQLTypes.SQL_DATE);
     return c;
   }
 
@@ -70,7 +74,7 @@ public final class IntradayTimeIntervalValueHandler extends AbstractValueHandler
     Column c = new Column();
     c.setName(name);
     c.setType(Types.TIME);
-    c.setJavaType(JavaTypes.DATE);
+    c.setJavaType(JavaSQLTypes.TIME);
     return c;
   }
 
@@ -81,9 +85,9 @@ public final class IntradayTimeIntervalValueHandler extends AbstractValueHandler
       if (beTi == null) {
         return new Object[] {null, null, null};
       }
-      Date day = beTi.getDay();
-      Date beginTime = beTi.getBegin();
-      Date endTime = beTi.getEnd();
+      java.sql.Date day = sqlDayDate(beTi.getDay());
+      Time beginTime = sqlTimeOfDay(beTi.getBegin());
+      Time endTime = sqlTimeOfDay(beTi.getEnd());
       return new Object[] {day, beginTime, endTime};
     }
     catch (ClassCastException exc) {
@@ -97,19 +101,19 @@ public final class IntradayTimeIntervalValueHandler extends AbstractValueHandler
   public Object toObjectValue(ValueMapping vm, Object fromDb) {
     try {
       Object[] dates = (Object[])fromDb;
-      Date day = (Date)dates[0];
+      java.sql.Date day = (java.sql.Date)dates[0];
       assert day == null || isDayDate(day);
-      Date beginTime = (Date)dates[1];
-      Date endTime = (Date)dates[2];
+      Time beginTime = (Time)dates[1];
+      Time endTime = (Time)dates[2];
       if (day == null) {
         if (beginTime != null || endTime != null) {
           deadBranch("data received from database is not as expected: if the day is null, the times need to be null too");
         }
         return null;
       }
-      beginTime = addTime(day, beginTime);
-      endTime = addTime(day, endTime);
-      return new IntradayTimeInterval(beginTime, endTime);
+      Date intervalBeginTime = compose(day, beginTime);
+      Date intervalEndTime = compose(day, endTime);
+      return new IntradayTimeInterval(intervalBeginTime, intervalEndTime);
     }
     catch (ArrayIndexOutOfBoundsException exc) {
       unexpectedException(exc, "data received from database is not as expected: expected array of 3 values");
@@ -121,16 +125,6 @@ public final class IntradayTimeIntervalValueHandler extends AbstractValueHandler
       unexpectedException(exc, "data received from database did violate invariants for " + IntradayTimeInterval.class);
     }
     return null; // make compiler happy
-  }
-
-  private Date addTime(Date day, Date time) {
-    if (day == null || time == null) {
-      return null;
-    }
-    long millies = day.getTime();
-    millies += time.getTime();
-    Date result = new Date(millies);
-    return result;
   }
 
 }
