@@ -84,7 +84,7 @@ public abstract class AbstractTimeInterval extends AbstractImmutableValue implem
 
   @Override
   public final String toString() {
-    return "[" + getBegin() + ", " + getEnd() + "[\u0394(" + getDuration() + ")"; // \u0394 is Greek capital delta
+    return "[" + getBegin() + ", " + getEnd() + "[\u0394(" + getDuration().toRoughString() + ")"; // \u0394 is Greek capital delta
   }
 
   public final Date determinateBegin(Date stubBegin) {
