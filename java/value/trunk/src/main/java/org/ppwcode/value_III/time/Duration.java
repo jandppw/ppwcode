@@ -18,6 +18,15 @@ package org.ppwcode.value_III.time;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+import static org.ppwcode.value_III.time.Duration.Unit.MILLENNIUM;
+import static org.ppwcode.value_III.time.Duration.Unit.CENTURY;
+import static org.ppwcode.value_III.time.Duration.Unit.YEAR;
+import static org.ppwcode.value_III.time.Duration.Unit.MONTH;
+import static org.ppwcode.value_III.time.Duration.Unit.WEEK;
+import static org.ppwcode.value_III.time.Duration.Unit.DAY;
+import static org.ppwcode.value_III.time.Duration.Unit.HOUR;
+import static org.ppwcode.value_III.time.Duration.Unit.MINUTE;
+import static org.ppwcode.value_III.time.Duration.Unit.SECOND;
 import static org.ppwcode.value_III.time.Duration.Unit.MILLISECOND;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.pre;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotNull;
@@ -200,6 +209,16 @@ public final class Duration extends AbstractImmutableValue implements Comparable
     return ((float)$millis) / unit.asMilliseconds();
   }
 
+  /**
+   * This duration expressed in the unit {@code unit}, truncated to an integer.
+   */
+  @Basic(pre = @Expression("unit != null"),
+         invars = @Expression("for (Unit u : Unit.values()) {as(u) >= 0}"))
+  public final long asTruncated(Unit unit) {
+    preArgumentNotNull(unit, "unit");
+    return (long)Math.floor(as(unit));
+  }
+
   @Invars(@Expression("$millis >= 0"))
   private final long $millis;
 
@@ -217,7 +236,44 @@ public final class Duration extends AbstractImmutableValue implements Comparable
   @Override
   public String toString() {
     NumberFormat nf = NumberFormat.getIntegerInstance();
-    return nf.format($millis) + " ms";
+    return nf.format($millis) + "ms";
+  }
+
+  /**
+   * @todo move to a formatter-like class
+   */
+  public String toRoughString() {
+    NumberFormat nf = NumberFormat.getIntegerInstance();
+    if (asTruncated(MILLENNIUM) > 0) {
+      return nf.format(asTruncated(MILLENNIUM)) + " millennia";
+    }
+    else if (asTruncated(CENTURY) > 0) {
+      return nf.format(asTruncated(CENTURY)) + " centuries";
+    }
+    else if (asTruncated(YEAR) > 0) {
+      return nf.format(asTruncated(YEAR)) + " years";
+    }
+    else if (asTruncated(MONTH) > 0) {
+      return nf.format(asTruncated(MONTH)) + " months";
+    }
+    else if (asTruncated(WEEK) > 0) {
+      return nf.format(asTruncated(WEEK)) + " weeks";
+    }
+    else if (asTruncated(DAY) > 0) {
+      return nf.format(asTruncated(DAY)) + " days";
+    }
+    else if (asTruncated(HOUR) > 0) {
+      return nf.format(asTruncated(HOUR)) + "h";
+    }
+    else if (asTruncated(MINUTE) > 0) {
+      return nf.format(asTruncated(MINUTE)) + " minutes";
+    }
+    else if (asTruncated(SECOND) > 0) {
+      return nf.format(asTruncated(SECOND)) + "s";
+    }
+    else {
+      return nf.format(as(MILLISECOND)) + "ms";
+    }
   }
 
   @MethodContract(post = {
