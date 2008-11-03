@@ -19,6 +19,7 @@ package org.ppwcode.research.jpa.openjpa.valuehandlers;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
+import static org.ppwcode.value_III.time.DateHelpers.dayDate;
 
 import java.beans.PropertyEditorManager;
 import java.sql.Connection;
@@ -26,6 +27,9 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.logging.Logger;
 
@@ -40,9 +44,37 @@ import org.junit.Test;
 import org.ppwcode.util.reflect_I.InstanceHelpers;
 import org.ppwcode.value_III.localization.LocalizedString;
 import org.ppwcode.value_III.propertyeditors.java.util.LocaleEditor;
+import org.ppwcode.value_III.time.DateHelpers;
+import org.ppwcode.value_III.time.interval.BeginEndTimeInterval;
+import org.ppwcode.value_III.time.interval.DayDateTimeInterval;
+import org.ppwcode.value_III.time.interval.DeterminateIntradayTimeInterval;
+import org.ppwcode.value_III.time.interval.IllegalIntervalException;
+import org.ppwcode.value_III.time.interval.IntradayTimeInterval;
 import org.ppwcode.vernacular.value_III.SemanticValueException;
 
 public class ValueHandlersTest {
+
+
+
+  private Date addTime(Date day, Date time) {
+    if (day == null || time == null) {
+      return null;
+    }
+    long millies = day.getTime();
+    millies += time.getTime();
+    Date result = new Date(millies);
+    return result;
+  }
+
+//  @Test
+//  public void testAdd() {
+//    GregorianCalendar gc = new GregorianCalendar(2000, 0, 1);
+//    Time t = new Time(10, 10, 0);
+//    System.out.println(gc.getTime());
+//    System.out.println(t);
+//    Date d = addTime(gc.getTime(), t);
+//    System.out.println(d);
+//  }
 
   private static final String TABLE_NAME_VALUEHANDLERPROPERTIES = "org_ppwcode_research_jpa_openjpa_valuehandlers_anentityvaluehandlerproperties";
 
@@ -66,7 +98,7 @@ public class ValueHandlersTest {
     displayTest("Serializable properties, null properties", "");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 
-    AnEntitySerializableProperties ae = createAnEntity(emf, null, null, AnEntitySerializableProperties.class);
+    AnEntitySerializableProperties ae = createAnEntity(emf, null, null, null, null, null, null, AnEntitySerializableProperties.class);
 
     saveValidateInDbAndRetrieve(emf, TABLE_NAME_SERIALIZABLEPROPERTIES, ae);
   }
@@ -76,9 +108,7 @@ public class ValueHandlersTest {
     displayTest("Serializable properties, effective properties", "");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 
-    LocalizedString ls = new LocalizedString(new Locale("nl"), "'t es moar een test");
-    Locale l = Locale.JAPANESE;
-    AnEntitySerializableProperties ae = createAnEntity(emf, ls, l, AnEntitySerializableProperties.class);
+    AnEntitySerializableProperties ae = prepA(emf, AnEntitySerializableProperties.class);
 
     saveValidateInDbAndRetrieve(emf, TABLE_NAME_SERIALIZABLEPROPERTIES, ae);
   }
@@ -88,7 +118,7 @@ public class ValueHandlersTest {
     displayTest("Value handler properties, null properties", "");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 
-    AnEntityValueHandlerProperties ae = createAnEntity(emf, null, null, AnEntityValueHandlerProperties.class);
+    AnEntityValueHandlerProperties ae = createAnEntity(emf, null, null, null, null, null, null, AnEntityValueHandlerProperties.class);
 
     saveValidateInDbAndRetrieve(emf, TABLE_NAME_VALUEHANDLERPROPERTIES, ae);
   }
@@ -99,18 +129,41 @@ public class ValueHandlersTest {
     displayTest("Value handler properties, effective properties", "");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 
-    LocalizedString ls = new LocalizedString(new Locale("nl"), "'t es moar een test");
-    Locale l = Locale.JAPANESE;
-    AnEntityValueHandlerProperties ae = createAnEntity(emf, ls, l, AnEntityValueHandlerProperties.class);
+    AnEntityValueHandlerProperties ae = prepA(emf, AnEntityValueHandlerProperties.class);
 
     saveValidateInDbAndRetrieve(emf, TABLE_NAME_VALUEHANDLERPROPERTIES, ae);
   }
 
-  private <_T_ extends AnEntity> _T_ createAnEntity(EntityManagerFactory emf, LocalizedString ls, Locale l, Class<_T_> type) {
+  private <_T_ extends AnEntity> _T_ prepA(EntityManagerFactory emf, Class<_T_> type) throws SemanticValueException, IllegalIntervalException {
+    LocalizedString ls = new LocalizedString(new Locale("nl"), "'t es moar een test");
+    Locale l = Locale.JAPANESE;
+    GregorianCalendar gc = new GregorianCalendar(1995, 3, 12, 13, 45, 9);
+    Date now = new Date();
+    BeginEndTimeInterval beti = new BeginEndTimeInterval(gc.getTime(), now);
+    // MUDO add double null, left null, right null
+    Date pastDd = dayDate(gc.getTime());
+    Date today = dayDate(now);
+    DayDateTimeInterval ddti = new DayDateTimeInterval(pastDd, today);
+    // MUDO add double null, left null, right null
+    GregorianCalendar gc2 = new GregorianCalendar(1995, 3, 12, 23, 4, 56);
+    DeterminateIntradayTimeInterval diti = new DeterminateIntradayTimeInterval(gc.getTime(), gc2.getTime());
+    IntradayTimeInterval iti = new IntradayTimeInterval(gc.getTime(), gc2.getTime());
+    // MUDO add double null, left null, right null
+    _T_ ae = createAnEntity(emf, ls, l, beti, ddti, diti, iti, type);
+    return ae;
+  }
+
+  private <_T_ extends AnEntity> _T_ createAnEntity(EntityManagerFactory emf, LocalizedString ls, Locale l,
+                                                    BeginEndTimeInterval beti, DayDateTimeInterval ddti, DeterminateIntradayTimeInterval diti,
+                                                    IntradayTimeInterval iti, Class<_T_> type) {
     _T_ ae = InstanceHelpers.newInstance(type);
     ae.setLocalizedString(ls);
     ae.setLocalizedString2(ls);
     ae.setLocale(l);
+    ae.setBeginEndTimeInterval(beti);
+    ae.setDayDateTimeInterval(ddti);
+    ae.setDeterminateIntradayTimeInterval(diti);
+    ae.setIntradayTimeInterval(iti);
     System.out.println("an entity: " + ae);
     EntityManager em = emf.createEntityManager();
     EntityTransaction tx = em.getTransaction();
@@ -128,6 +181,10 @@ public class ValueHandlersTest {
     Locale aeLocale =  ae.getLocale();
     LocalizedString aeLocalizedString = ae.getLocalizedString();
     Integer aeId = ae.getPersistenceId();
+    BeginEndTimeInterval eaBeti = ae.getBeginEndTimeInterval();
+    DayDateTimeInterval eaDdti = ae.getDayDateTimeInterval();
+    IntradayTimeInterval eaIdti = ae.getIntradayTimeInterval();
+    DeterminateIntradayTimeInterval eaDiti = ae.getDeterminateIntradayTimeInterval();
 
     EntityManager em = emf.createEntityManager();
     OpenJPAEntityManager kem = OpenJPAPersistence.cast(em);
@@ -163,38 +220,80 @@ public class ValueHandlersTest {
     System.out.println("fromDB: " + fromDb);
     assertNotSame(fromDb, ae);
     assertEquals(aeLocalizedString, fromDb.getLocalizedString());
+    assertEquals(aeLocalizedString, fromDb.getLocalizedString2());
     assertEquals(aeLocale, fromDb.getLocale());
+    assertEquals(eaBeti, fromDb.getBeginEndTimeInterval());
+    assertEquals(eaDdti, fromDb.getDayDateTimeInterval());
+    assertEquals(eaIdti, fromDb.getIntradayTimeInterval());
+    assertEquals(eaDiti, fromDb.getDeterminateIntradayTimeInterval());
   }
 
   private void printLocalizedStringFromSql(Class<? extends AnEntity> type, ResultSet rs) throws SQLException {
     if (type == AnEntitySerializableProperties.class) {
       printVARBINARYColumn(rs, "LOCALIZEDSTRING");
       printVARBINARYColumn(rs, "LOCALIZEDSTRING2");
+      printVARBINARYColumn(rs, "BEGINENDTIMEINTERVAL");
+      printVARBINARYColumn(rs, "DAYDATETIMEINTERVAL");
+      printVARBINARYColumn(rs, "DETERMINATEINTRADAYTIMEINTERVAL");
+      printVARBINARYColumn(rs, "INTRADAYTIMEINTERVAL");
     }
     else if (type == AnEntityValueHandlerProperties.class) {
-      System.out.println("$LOCALIZEDSTRING_LOCALE : " + rs.getString("$LOCALIZEDSTRING_LOCALE"));
-      System.out.println("$LOCALIZEDSTRING_STRING : " + rs.getString("$LOCALIZEDSTRING_STRING"));
-      System.out.println("LOCALIZEDSTRING2_LOCALE : " + rs.getString("LOCALIZEDSTRING2_LOCALE"));
-      System.out.println("LOCALIZEDSTRING2_STRING : " + rs.getString("LOCALIZEDSTRING2_STRING"));
+      System.out.println("$LOCALIZEDSTRING_LOCALE                : " + rs.getString("$LOCALIZEDSTRING_LOCALE"));
+      System.out.println("$LOCALIZEDSTRING_STRING                : " + rs.getString("$LOCALIZEDSTRING_STRING"));
+      System.out.println("LOCALIZEDSTRING2_LOCALE                : " + rs.getString("LOCALIZEDSTRING2_LOCALE"));
+      System.out.println("LOCALIZEDSTRING2_STRING                : " + rs.getString("LOCALIZEDSTRING2_STRING"));
+      System.out.println("$BEGINENDTIMEINTERVAL_BEGIN            : " + rs.getTimestamp("$BEGINENDTIMEINTERVAL_BEGIN"));
+      System.out.println("$BEGINENDTIMEINTERVAL_END              : " + rs.getTimestamp("$BEGINENDTIMEINTERVAL_END"));
+      System.out.println("$DAYDATETIMEINTERVAL_BEGIN             : " + rs.getDate("$DAYDATETIMEINTERVAL_BEGIN"));
+      System.out.println("$DAYDATETIMEINTERVAL_END               : " + rs.getDate("$DAYDATETIMEINTERVAL_END"));
+//      System.out.println("$DETERMINATEINTRADAYTIMEINTERVAL_DAY   : " + rs.getDate("$DETERMINATEINTRADAYTIMEINTERVAL_DAY"));
+//      System.out.println("$DETERMINATEINTRADAYTIMEINTERVAL_BEGIN : " + rs.getTime("$DETERMINATEINTRADAYTIMEINTERVAL_BEGIN"));
+//      System.out.println("$DETERMINATEINTRADAYTIMEINTERVAL_END   : " + rs.getTime("$DETERMINATEINTRADAYTIMEINTERVAL_END"));
+      System.out.println("$INTRADAYTIMEINTERVAL_DAY              : " + rs.getDate("$INTRADAYTIMEINTERVAL_DAY"));
+      System.out.println("$INTRADAYTIMEINTERVAL_BEGIN            : " + rs.getTime("$INTRADAYTIMEINTERVAL_BEGIN"));
+      System.out.println("$INTRADAYTIMEINTERVAL_END              : " + rs.getTime("$INTRADAYTIMEINTERVAL_END"));
     }
   }
 
   private void expectedColumns(Class<? extends AnEntity> type, ResultSetMetaData rsmd) throws SQLException {
     if (type == AnEntitySerializableProperties.class) {
       assertEquals("PERSISTENCEID", rsmd.getColumnName(1));
-      assertEquals("LOCALE", rsmd.getColumnName(2));
-      assertEquals("LOCALIZEDSTRING", rsmd.getColumnName(3));
-      assertEquals("LOCALIZEDSTRING2", rsmd.getColumnName(4));
-      assertEquals("PERSISTENCEVERSION", rsmd.getColumnName(5));
+      assertEquals("BEGINENDTIMEINTERVAL", rsmd.getColumnName(2));
+      assertEquals("DAYDATETIMEINTERVAL", rsmd.getColumnName(3));
+      assertEquals("DETERMINATEINTRADAYTIMEINTERVAL", rsmd.getColumnName(4));
+      assertEquals("INTRADAYTIMEINTERVAL", rsmd.getColumnName(5));
+      assertEquals("LOCALE", rsmd.getColumnName(6));
+      assertEquals("LOCALIZEDSTRING", rsmd.getColumnName(7));
+      assertEquals("LOCALIZEDSTRING2", rsmd.getColumnName(8));
+      assertEquals("PERSISTENCEVERSION", rsmd.getColumnName(9));
     }
     else if (type == AnEntityValueHandlerProperties.class) {
       assertEquals("PERSISTENCEID", rsmd.getColumnName(1));
-      assertEquals("LOCALE", rsmd.getColumnName(2));
-      assertEquals("$LOCALIZEDSTRING_LOCALE", rsmd.getColumnName(3));
-      assertEquals("$LOCALIZEDSTRING_STRING", rsmd.getColumnName(4));
-      assertEquals("LOCALIZEDSTRING2_LOCALE", rsmd.getColumnName(5));
-      assertEquals("LOCALIZEDSTRING2_STRING", rsmd.getColumnName(6));
-      assertEquals("PERSISTENCEVERSION", rsmd.getColumnName(7));
+      assertEquals("$BEGINENDTIMEINTERVAL_BEGIN", rsmd.getColumnName(2));
+      assertEquals("$BEGINENDTIMEINTERVAL_END", rsmd.getColumnName(3));
+      assertEquals("$DAYDATETIMEINTERVAL_BEGIN", rsmd.getColumnName(4));
+      assertEquals("$DAYDATETIMEINTERVAL_END", rsmd.getColumnName(5));
+//      assertEquals("$DETERMINATEINTRADAYTIMEINTERVAL_DAY", rsmd.getColumnName(6));
+//      assertEquals("$DETERMINATEINTRADAYTIMEINTERVAL_BEGIN", rsmd.getColumnName(7));
+//      assertEquals("$DETERMINATEINTRADAYTIMEINTERVAL_END", rsmd.getColumnName(8));
+//      assertEquals("$INTRADAYTIMEINTERVAL_DAY", rsmd.getColumnName(9));
+//      assertEquals("$INTRADAYTIMEINTERVAL_BEGIN", rsmd.getColumnName(10));
+//      assertEquals("$INTRADAYTIMEINTERVAL_END", rsmd.getColumnName(11));
+//      assertEquals("LOCALE", rsmd.getColumnName(12));
+//      assertEquals("$LOCALIZEDSTRING_LOCALE", rsmd.getColumnName(13));
+//      assertEquals("$LOCALIZEDSTRING_STRING", rsmd.getColumnName(14));
+//      assertEquals("LOCALIZEDSTRING2_LOCALE", rsmd.getColumnName(15));
+//      assertEquals("LOCALIZEDSTRING2_STRING", rsmd.getColumnName(16));
+//      assertEquals("PERSISTENCEVERSION", rsmd.getColumnName(17));
+      assertEquals("$INTRADAYTIMEINTERVAL_DAY", rsmd.getColumnName(7));
+      assertEquals("$INTRADAYTIMEINTERVAL_BEGIN", rsmd.getColumnName(8));
+      assertEquals("$INTRADAYTIMEINTERVAL_END", rsmd.getColumnName(9));
+      assertEquals("LOCALE", rsmd.getColumnName(10));
+      assertEquals("$LOCALIZEDSTRING_LOCALE", rsmd.getColumnName(11));
+      assertEquals("$LOCALIZEDSTRING_STRING", rsmd.getColumnName(12));
+      assertEquals("LOCALIZEDSTRING2_LOCALE", rsmd.getColumnName(13));
+      assertEquals("LOCALIZEDSTRING2_STRING", rsmd.getColumnName(14));
+      assertEquals("PERSISTENCEVERSION", rsmd.getColumnName(15));
     }
   }
 
