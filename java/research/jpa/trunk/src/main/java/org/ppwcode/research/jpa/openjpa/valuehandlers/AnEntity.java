@@ -25,6 +25,10 @@ import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.value_III.localization.LocalizedString;
+import org.ppwcode.value_III.time.interval.BeginEndTimeInterval;
+import org.ppwcode.value_III.time.interval.DayDateTimeInterval;
+import org.ppwcode.value_III.time.interval.DeterminateIntradayTimeInterval;
+import org.ppwcode.value_III.time.interval.IntradayTimeInterval;
 import org.ppwcode.vernacular.persistence_III.VersionedPersistentBean;
 
 /**
@@ -40,12 +44,34 @@ public interface AnEntity extends VersionedPersistentBean<Integer, Integer> {
 
   void setLocalizedString(LocalizedString localizedString);
 
+
   LocalizedString getLocalizedString2();
 
   void setLocalizedString2(LocalizedString localizedString);
 
+
   Locale getLocale();
 
   void setLocale(Locale locale);
+
+
+  BeginEndTimeInterval getBeginEndTimeInterval();
+
+  void setBeginEndTimeInterval(BeginEndTimeInterval beti);
+
+
+  DayDateTimeInterval getDayDateTimeInterval();
+
+  void setDayDateTimeInterval(DayDateTimeInterval ddti);
+
+
+  IntradayTimeInterval getIntradayTimeInterval();
+
+  void setIntradayTimeInterval(IntradayTimeInterval iti);
+
+
+  DeterminateIntradayTimeInterval getDeterminateIntradayTimeInterval();
+
+  void setDeterminateIntradayTimeInterval(DeterminateIntradayTimeInterval diti);
 
 }

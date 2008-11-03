@@ -29,6 +29,10 @@ import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.value_III.localization.LocalizedString;
+import org.ppwcode.value_III.time.interval.BeginEndTimeInterval;
+import org.ppwcode.value_III.time.interval.DayDateTimeInterval;
+import org.ppwcode.value_III.time.interval.DeterminateIntradayTimeInterval;
+import org.ppwcode.value_III.time.interval.IntradayTimeInterval;
 import org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdVersionedPersistentBean;
 
 /**
@@ -55,6 +59,8 @@ public class AnEntitySerializableProperties extends AbstractIntegerIdVersionedPe
 
 
 
+
+
   public final LocalizedString getLocalizedString2() {
     return $localizedString2;
   }
@@ -69,6 +75,7 @@ public class AnEntitySerializableProperties extends AbstractIntegerIdVersionedPe
 
 
 
+
   public final Locale getLocale() {
     return $locale;
   }
@@ -79,5 +86,65 @@ public class AnEntitySerializableProperties extends AbstractIntegerIdVersionedPe
 
   @Column(name="locale")
   private Locale $locale;
+
+
+
+
+
+  public final BeginEndTimeInterval getBeginEndTimeInterval() {
+    return $beginEndTimeInterval;
+  }
+
+  public final void setBeginEndTimeInterval(BeginEndTimeInterval beti) {
+    $beginEndTimeInterval = beti;
+  }
+
+  @Column(name = "beginEndTimeInterval")
+  private BeginEndTimeInterval $beginEndTimeInterval;
+
+
+
+
+
+  public final DayDateTimeInterval getDayDateTimeInterval() {
+    return $dayDateTimeInterval;
+  }
+
+  public final void setDayDateTimeInterval(DayDateTimeInterval ddti) {
+    $dayDateTimeInterval = ddti;
+  }
+
+  @Column(name = "dayDateTimeInterval")
+  private DayDateTimeInterval $dayDateTimeInterval;
+
+
+
+
+
+  public final IntradayTimeInterval getIntradayTimeInterval() {
+    return $intradayTimeInterval;
+  }
+
+  public final void setIntradayTimeInterval(IntradayTimeInterval iti) {
+    $intradayTimeInterval = iti;
+  }
+
+  @Column(name = "intradayTimeInterval")
+  private IntradayTimeInterval $intradayTimeInterval;
+
+
+
+
+
+  public final DeterminateIntradayTimeInterval getDeterminateIntradayTimeInterval() {
+    return $determinateIntradayTimeInterval;
+  }
+
+  public final void setDeterminateIntradayTimeInterval(DeterminateIntradayTimeInterval diti) {
+    $determinateIntradayTimeInterval = diti;
+  }
+
+  @Column(name = "determinateIntradayTimeInterval")
+  private DeterminateIntradayTimeInterval $determinateIntradayTimeInterval;
 
 }
