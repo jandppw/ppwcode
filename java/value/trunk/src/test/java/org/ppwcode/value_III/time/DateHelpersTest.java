@@ -23,16 +23,16 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.ppwcode.value_III.time.DateHelpers.EPOCH;
-import static org.ppwcode.value_III.time.DateHelpers.UTC;
-import static org.ppwcode.value_III.time.DateHelpers.compose;
-import static org.ppwcode.value_III.time.DateHelpers.dayDate;
-import static org.ppwcode.value_III.time.DateHelpers.gregorianCalendar;
-import static org.ppwcode.value_III.time.DateHelpers.isDayDate;
-import static org.ppwcode.value_III.time.DateHelpers.le;
-import static org.ppwcode.value_III.time.DateHelpers.sameDay;
-import static org.ppwcode.value_III.time.DateHelpers.sqlDayDate;
-import static org.ppwcode.value_III.time.DateHelpers.sqlTimeOfDay;
+import static org.ppwcode.value_III.time.TimeHelpers.EPOCH;
+import static org.ppwcode.value_III.time.TimeHelpers.UTC;
+import static org.ppwcode.value_III.time.TimeHelpers.compose;
+import static org.ppwcode.value_III.time.TimeHelpers.dayDate;
+import static org.ppwcode.value_III.time.TimeHelpers.gregorianCalendar;
+import static org.ppwcode.value_III.time.TimeHelpers.isDayDate;
+import static org.ppwcode.value_III.time.TimeHelpers.le;
+import static org.ppwcode.value_III.time.TimeHelpers.sameDay;
+import static org.ppwcode.value_III.time.TimeHelpers.sqlDayDate;
+import static org.ppwcode.value_III.time.TimeHelpers.sqlTimeOfDay;
 
 import java.sql.Time;
 import java.util.Calendar;
@@ -69,14 +69,14 @@ public class DateHelpersTest {
 
   @Test
   public void testGregorianCalendar1() {
-    GregorianCalendar result = DateHelpers.gregorianCalendar(null, UTC);
+    GregorianCalendar result = TimeHelpers.gregorianCalendar(null, UTC);
     assertNull(result);
   }
 
   @Test
   public void testGregorianCalendar2() {
     Date now = new Date();
-    GregorianCalendar result = DateHelpers.gregorianCalendar(new Date(), UTC);
+    GregorianCalendar result = TimeHelpers.gregorianCalendar(new Date(), UTC);
     assertNotNull(result);
     assertEquals(UTC, result.getTimeZone());
     assertEquals(now, result.getTime());
@@ -267,7 +267,7 @@ public class DateHelpersTest {
 
   @Test
   public void demoSqlDayDate() {
-    java.sql.Date today = DateHelpers.sqlDayDate(new Date(), UTC);
+    java.sql.Date today = TimeHelpers.sqlDayDate(new Date(), UTC);
     TimeZone la = TimeZone.getTimeZone("America/Los_Angeles");
     TimeZone moscow = TimeZone.getTimeZone("Europe/Moscow");
 //    DateFormat df = DateFormat.getDateInstance(FULL);

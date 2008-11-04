@@ -18,8 +18,8 @@ package org.ppwcode.value_III.time.interval;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.value_III.time.DateHelpers.dayDate;
-import static org.ppwcode.value_III.time.DateHelpers.sameDay;
+import static org.ppwcode.value_III.time.TimeHelpers.dayDate;
+import static org.ppwcode.value_III.time.TimeHelpers.sameDay;
 
 import java.util.Date;
 

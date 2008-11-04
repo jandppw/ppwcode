@@ -9,7 +9,7 @@ package org.ppwcode.value_III.time.interval;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.ppwcode.value_III.time.DateHelpers.le;
+import static org.ppwcode.value_III.time.TimeHelpers.le;
 import static org.ppwcode.value_III.time.Duration.delta;
 
 import java.util.ArrayList;

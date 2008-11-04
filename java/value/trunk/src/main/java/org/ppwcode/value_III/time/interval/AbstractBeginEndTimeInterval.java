@@ -19,7 +19,7 @@ package org.ppwcode.value_III.time.interval;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.CloneHelpers.klone;
-import static org.ppwcode.value_III.time.DateHelpers.le;
+import static org.ppwcode.value_III.time.TimeHelpers.le;
 import static org.ppwcode.value_III.time.Duration.delta;
 
 import java.util.Date;
