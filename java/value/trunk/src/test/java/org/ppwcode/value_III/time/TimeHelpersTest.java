@@ -43,7 +43,7 @@ import java.util.TimeZone;
 import org.junit.Test;
 
 
-public class DateHelpersTest {
+public class TimeHelpersTest {
 
   @Test
   public void testUTC() {

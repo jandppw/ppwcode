@@ -39,7 +39,7 @@ import org.toryt.annotations_I.MethodContract;
  * Static methods for working with dates
  *
  * @author    Jan Dockx
- * @author    Peopleware NV
+ * @author    PeopleWare NV
  */
 @Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
