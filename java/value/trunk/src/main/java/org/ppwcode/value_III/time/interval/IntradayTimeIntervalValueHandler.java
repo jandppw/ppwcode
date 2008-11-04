@@ -18,10 +18,10 @@ package org.ppwcode.value_III.time.interval;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.value_III.time.DateHelpers.compose;
-import static org.ppwcode.value_III.time.DateHelpers.isDayDate;
-import static org.ppwcode.value_III.time.DateHelpers.sqlDayDate;
-import static org.ppwcode.value_III.time.DateHelpers.sqlTimeOfDay;
+import static org.ppwcode.value_III.time.TimeHelpers.compose;
+import static org.ppwcode.value_III.time.TimeHelpers.isDayDate;
+import static org.ppwcode.value_III.time.TimeHelpers.sqlDayDate;
+import static org.ppwcode.value_III.time.TimeHelpers.sqlTimeOfDay;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.deadBranch;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
 

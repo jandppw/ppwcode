@@ -18,7 +18,7 @@ package org.ppwcode.value_III.time.interval;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.value_III.time.DateHelpers.isDayDate;
+import static org.ppwcode.value_III.time.TimeHelpers.isDayDate;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
 
 import java.sql.Types;
