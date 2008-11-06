@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2004 - $Date: 2008-10-29 18:25:56 +0100 (Wed, 29 Oct 2008) $ by PeopleWare n.v..
+Copyright 2004 - $Date$ by PeopleWare n.v..
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -43,9 +43,9 @@ import org.ppwcode.vernacular.value_III.EnumerationValue;
  * An OpenJPA {@link ValueHandler} for concrete {@link EnumerationValue} types, for which a
  * {@link PropertyEditor} has been defined.
  */
-@Copyright("2008 - $Date: 2008-10-29 18:25:56 +0100 (Wed, 29 Oct 2008) $, PeopleWare n.v.")
+@Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 3375 $", date = "$Date: 2008-10-29 18:25:56 +0100 (Wed, 29 Oct 2008) $")
+@SvnInfo(revision = "$Revision$", date = "$Date$")
 public abstract class AbstractEnumerationValueValueHandler extends AbstractValueHandler {
 
   /*<construction>*/
