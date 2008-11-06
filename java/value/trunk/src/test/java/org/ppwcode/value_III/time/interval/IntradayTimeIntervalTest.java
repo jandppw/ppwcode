@@ -17,13 +17,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 
-public class IntradayTimeIntervalTest extends AbstractBeginEndTimeIntervalTest {
+public class IntradayTimeIntervalTest extends AbstractBeginEndTimeTimeZoneIntervalTest {
 
 
   @SuppressWarnings("unchecked")
@@ -36,19 +37,23 @@ public class IntradayTimeIntervalTest extends AbstractBeginEndTimeIntervalTest {
   @Before
   public void setUp() throws IllegalTimeIntervalException {
     List<IntradayTimeInterval> s = new ArrayList<IntradayTimeInterval>();
-    final Date now = dayDate(new Date());
-    IntradayTimeInterval subject = new IntradayTimeInterval(now, null);
-    s.add(subject);
-    subject = new IntradayTimeInterval(null, now);
-    s.add(subject);
-    subject = new IntradayTimeInterval(now, now);
-    s.add(subject);
     final GregorianCalendar gcB = new GregorianCalendar(2000, 0, 1, 14, 22, 2);
     final GregorianCalendar gcE = new GregorianCalendar(2000, 0, 1, 22, 34, 12);
+    final Date now = new Date();
     final Date b = gcB.getTime();
     final Date e = gcE.getTime();
-    subject = new IntradayTimeInterval(b, e);
-    s.add(subject);
+    for (TimeZone tz : TIMEZONES) {
+      IntradayTimeInterval subject = new IntradayTimeInterval(now, null, tz);
+      s.add(subject);
+      subject = new IntradayTimeInterval(null, now, tz);
+      s.add(subject);
+      subject = new IntradayTimeInterval(now, now, tz);
+      s.add(subject);
+      if (sameDay(b, e, tz)) {
+        subject = new IntradayTimeInterval(b, e, tz);
+        s.add(subject);
+      }
+    }
     $subjects = s;
   }
 
@@ -71,21 +76,24 @@ public class IntradayTimeIntervalTest extends AbstractBeginEndTimeIntervalTest {
 
   protected void assertInvariants(DayDateTimeInterval subject) {
     super.assertInvariants(subject);
-    assertTrue(sameDay(subject.getBegin(), subject.getEnd()));
+    assertTrue(sameDay(subject.getBegin(), subject.getEnd(), subject.getTimeZone()));
   }
 
   @Test
   public void testIntradayTimeInterval() {
     for (Date d1 : $dates) {
       for (Date d2 : $dates) {
-        try {
-          IntradayTimeInterval subject = new IntradayTimeInterval(d1, d2);
-          assertEquals(d1, subject.getBegin());
-          assertEquals(d2, subject.getEnd());
-          assertInvariants(subject);
-        }
-        catch (IllegalTimeIntervalException exc) {
-          assertTrue(! le(d1, d2) || ! sameDay(d1, d2) || (d1 == null && d2 == null));
+        for (TimeZone tz : TIMEZONES) {
+          try {
+            IntradayTimeInterval subject = new IntradayTimeInterval(d1, d2, tz);
+            assertEquals(d1, subject.getBegin());
+            assertEquals(d2, subject.getEnd());
+            assertEquals(tz, subject.getTimeZone());
+            assertInvariants(subject);
+          }
+          catch (IllegalTimeIntervalException exc) {
+            assertTrue(! le(d1, d2) || ! sameDay(d1, d2, tz) || (d1 == null && d2 == null));
+          }
         }
       }
     }
@@ -102,7 +110,7 @@ public class IntradayTimeIntervalTest extends AbstractBeginEndTimeIntervalTest {
           }
           catch (IllegalTimeIntervalException exc) {
             assertTrue(! le(subject.determinateBegin(d1), subject.determinateEnd(d2)) ||
-                       ! sameDay(subject.determinateBegin(d1), subject.determinateEnd(d2)));
+                       ! sameDay(subject.determinateBegin(d1), subject.determinateEnd(d2), subject.getTimeZone()));
           }
           assertInvariants(subject);
         }
@@ -114,8 +122,9 @@ public class IntradayTimeIntervalTest extends AbstractBeginEndTimeIntervalTest {
   public void testGetDay() {
     for (IntradayTimeInterval subject : subjects()) {
       Date result = subject.getDay();
-      Date expected = subject.getBegin() != null ? dayDate(subject.getBegin()) :
-                        (subject.getEnd() != null ? dayDate(subject.getEnd()) : null);
+      Date expected = subject.getBegin() != null ? dayDate(subject.getBegin(), subject.getTimeZone()) :
+                        (subject.getEnd() != null ? dayDate(subject.getEnd(), subject.getTimeZone()) :
+                          null);
       assertEquals(expected, result);
       assertInvariants(subject);
     }

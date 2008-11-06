@@ -74,6 +74,7 @@ public class _Contract_TimeInterval extends Contract<TimeInterval> {
 
   public void assertDeterminate(TimeInterval subject, Date stubBegin, Date stubEnd, TimeInterval result) {
     assertNotNull(result);
+    assertTrue(subject.getClass().isInstance(result));
     assertEquals(subject.determinateBegin(stubBegin), result.getBegin());
     assertEquals(subject.determinateEnd(stubEnd), result.getEnd());
   }

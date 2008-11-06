@@ -17,6 +17,7 @@ limitations under the License.
 package org.ppwcode.value_III.time.interval;
 
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.Date;
@@ -65,6 +66,7 @@ public class _Contract_TimeZoneTimeInterval extends Contract<TimeZoneTimeInterva
   public void assertDeterminate(TimeZoneTimeInterval subject, Date stubBegin, Date stubEnd, TimeInterval result) {
     _Contract_TimeInterval contract = (_Contract_TimeInterval)getDirectSuperContracts().get(TimeInterval.class);
     contract.assertDeterminate(subject, stubBegin, stubEnd, result);
+    assertEquals(subject.getTimeZone(), ((TimeZoneTimeInterval)result).getTimeZone());
   }
 
 }

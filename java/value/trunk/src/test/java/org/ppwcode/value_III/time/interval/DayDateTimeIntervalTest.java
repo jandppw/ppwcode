@@ -92,6 +92,7 @@ public class DayDateTimeIntervalTest extends AbstractBeginEndTimeTimeZoneInterva
             DayDateTimeInterval subject = new DayDateTimeInterval(d1, d2, tz);
             assertEquals(d1, subject.getBegin());
             assertEquals(d2, subject.getEnd());
+            assertEquals(tz, subject.getTimeZone());
             assertInvariants(subject);
           }
           catch (IllegalTimeIntervalException exc) {
