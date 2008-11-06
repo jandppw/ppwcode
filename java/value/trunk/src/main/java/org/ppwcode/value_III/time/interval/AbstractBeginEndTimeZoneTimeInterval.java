@@ -60,13 +60,13 @@ public abstract class AbstractBeginEndTimeZoneTimeInterval extends AbstractBegin
       @Expression("timeZone == _tz")
     },
     exc  = {
-      @Throw(type = IllegalIntervalException.class,
+      @Throw(type = IllegalTimeIntervalException.class,
              cond = @Expression("_begin == null && _end == null")),
-      @Throw(type = IllegalIntervalException.class,
+      @Throw(type = IllegalTimeIntervalException.class,
              cond = @Expression("! le(_begin, _end"))
     }
   )
-  protected AbstractBeginEndTimeZoneTimeInterval(Date begin, Date end, TimeZone tz) throws IllegalIntervalException {
+  protected AbstractBeginEndTimeZoneTimeInterval(Date begin, Date end, TimeZone tz) throws IllegalTimeIntervalException {
     super(begin, end);
     preArgumentNotNull(tz, "tz");
     $timeZone = tz;

@@ -26,7 +26,7 @@ public class AbstractBeginEndTimeIntervalTest extends AbstractTimeIntervalTest {
 
   private static final class StubAbstractBeginEndTimeInterval extends AbstractBeginEndTimeInterval {
 
-    public StubAbstractBeginEndTimeInterval(Date begin, Date end) throws IllegalIntervalException {
+    public StubAbstractBeginEndTimeInterval(Date begin, Date end) throws IllegalTimeIntervalException {
       super(begin, end);
     }
 
@@ -44,7 +44,7 @@ public class AbstractBeginEndTimeIntervalTest extends AbstractTimeIntervalTest {
 
   @Override
   @Before
-  public void setUp() throws IllegalIntervalException {
+  public void setUp() throws IllegalTimeIntervalException {
     List<AbstractBeginEndTimeInterval> s = new ArrayList<AbstractBeginEndTimeInterval>();
     final Date now = new Date();
     AbstractBeginEndTimeInterval subject = new StubAbstractBeginEndTimeInterval(now, null);
@@ -91,7 +91,7 @@ public class AbstractBeginEndTimeIntervalTest extends AbstractTimeIntervalTest {
           assertEquals(d2, subject.getEnd());
           assertInvariants(subject);
         }
-        catch (IllegalIntervalException exc) {
+        catch (IllegalTimeIntervalException exc) {
           assertTrue(! le(d1, d2) || (d1 == null && d2 == null));
         }
       }

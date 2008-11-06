@@ -99,7 +99,7 @@ public final class DayDateTimeIntervalValueHandler extends AbstractValueHandler 
     catch (ClassCastException exc) {
       unexpectedException(exc, "data received from database is not as expected: expected an array of 2 dates");
     }
-    catch (IllegalIntervalException exc) {
+    catch (IllegalTimeIntervalException exc) {
       unexpectedException(exc, "data received from database did violate invariants for " + BeginEndTimeInterval.class);
     }
     return null; // make compiler happy

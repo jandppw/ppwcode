@@ -51,15 +51,15 @@ public final class BeginEndTimeInterval extends AbstractBeginEndTimeInterval {
       @Expression("end == _end")
     },
     exc  = {
-      @Throw(type = IllegalIntervalException.class, cond = @Expression("_begin == null && _end == null")),
-      @Throw(type = IllegalIntervalException.class, cond = @Expression("! le(_begin, _end"))
+      @Throw(type = IllegalTimeIntervalException.class, cond = @Expression("_begin == null && _end == null")),
+      @Throw(type = IllegalTimeIntervalException.class, cond = @Expression("! le(_begin, _end"))
     }
   )
-  public BeginEndTimeInterval(Date begin, Date end) throws IllegalIntervalException {
+  public BeginEndTimeInterval(Date begin, Date end) throws IllegalTimeIntervalException {
     super(begin, end);
   }
 
-  public BeginEndTimeInterval determinate(Date stubBegin, Date stubEnd) throws IllegalIntervalException {
+  public BeginEndTimeInterval determinate(Date stubBegin, Date stubEnd) throws IllegalTimeIntervalException {
     return new BeginEndTimeInterval(determinateBegin(stubBegin), determinateEnd(stubEnd));
   }
 

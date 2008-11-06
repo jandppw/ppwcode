@@ -59,21 +59,21 @@ public final class IntradayTimeInterval extends AbstractBeginEndTimeInterval {
       @Expression("end == _end")
     },
     exc  = {
-      @Throw(type = IllegalIntervalException.class, cond = @Expression("_begin == null && _end == null")),
-      @Throw(type = IllegalIntervalException.class, cond = @Expression("! le(_begin, _end")),
-      @Throw(type = IllegalIntervalException.class, cond = @Expression("! sameDay(_begin, _end)"))
+      @Throw(type = IllegalTimeIntervalException.class, cond = @Expression("_begin == null && _end == null")),
+      @Throw(type = IllegalTimeIntervalException.class, cond = @Expression("! le(_begin, _end")),
+      @Throw(type = IllegalTimeIntervalException.class, cond = @Expression("! sameDay(_begin, _end)"))
     }
   )
-  public IntradayTimeInterval(Date begin, Date end) throws IllegalIntervalException {
+  public IntradayTimeInterval(Date begin, Date end) throws IllegalTimeIntervalException {
     super(begin, end);
     if (begin != null && end != null) {
       if (! sameDay(begin, end)) {
-        throw new IllegalIntervalException(begin, end, "NOT_INSIDE_ONE_DAY");
+        throw new IllegalTimeIntervalException(begin, end, "NOT_INSIDE_ONE_DAY");
       }
     }
   }
 
-  public IntradayTimeInterval determinate(Date stubBegin, Date stubEnd) throws IllegalIntervalException {
+  public IntradayTimeInterval determinate(Date stubBegin, Date stubEnd) throws IllegalTimeIntervalException {
     return new IntradayTimeInterval(determinateBegin(stubBegin), determinateEnd(stubEnd));
   }
 

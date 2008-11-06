@@ -40,7 +40,7 @@ import org.toryt.annotations_I.MethodContract;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-public class IllegalIntervalException extends SemanticValueException {
+public class IllegalTimeIntervalException extends SemanticValueException {
 
 
   @MethodContract(post = {
@@ -49,7 +49,7 @@ public class IllegalIntervalException extends SemanticValueException {
     @Expression("message == _messageKey"),
     @Expression("cause == null")
   })
-  public IllegalIntervalException(Date begin, Date end, String messageKey) {
+  public IllegalTimeIntervalException(Date begin, Date end, String messageKey) {
     super(messageKey, null);
     $begin = klone(begin);
     $end = klone(end);
