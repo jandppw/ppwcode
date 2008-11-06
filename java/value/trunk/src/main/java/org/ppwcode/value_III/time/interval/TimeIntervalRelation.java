@@ -899,7 +899,14 @@ public final class TimeIntervalRelation {
           result = min(result, PRECEDED_BY);
         }
         else if (i1Begin.equals(i2End)) {
-          return MET_BY;
+          if (i1End != null && i2Begin != null && i1End.equals(i2Begin)) {
+            assert i1Begin.equals(i1End);
+            assert i2Begin.equals(i2End);
+            return EQUALS;
+          }
+          else {
+            return MET_BY;
+          }
         }
         else {
           assert i1Begin.after(i2End);
@@ -913,6 +920,11 @@ public final class TimeIntervalRelation {
           return PRECEDES;
         }
         else if (i1End.equals(i2Begin)) {
+          if (i1Begin != null && i2End != null && i1Begin.equals(i2End)) {
+            assert i1Begin.equals(i1End);
+            assert i2Begin.equals(i2End);
+            return EQUALS;
+          }
           return MEETS;
         }
         else {
