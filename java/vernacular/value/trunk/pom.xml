@@ -250,6 +250,18 @@
       <optional>true</optional>
     </dependency>
 
+    <dependency>
+    <!--
+      <groupId>javax.persistence</groupId>
+      <artifactId>persistence-api</artifactId>
+      -->
+      <groupId>org.apache.openjpa</groupId>
+      <artifactId>openjpa</artifactId>
+      <version>1.0.3</version>
+      <scope>compile</scope>
+      <optional>true</optional>
+    </dependency>
+
   </dependencies>
 
 </project>
