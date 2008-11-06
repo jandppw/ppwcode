@@ -26,6 +26,7 @@ import java.util.Date;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.ppwcode.value_III.time.Duration;
 import org.ppwcode.vernacular.value_III.AbstractImmutableValue;
 
 
@@ -83,8 +84,17 @@ public abstract class AbstractTimeInterval extends AbstractImmutableValue implem
   }
 
   @Override
-  public final String toString() {
-    return "[" + getBegin() + ", " + getEnd() + "[\u0394(" + getDuration().toRoughString() + ")"; // \u0394 is Greek capital delta
+  public String toString() {
+    return "[" + toString(getBegin()) + ", " + toString(getEnd()) + "[\u0394(" + toStringDuration() + ")"; // \u0394 is Greek capital delta
+  }
+
+  private static String toString(Date d) {
+    return d == null ? "|?|" : d.toString();
+  }
+
+  private String toStringDuration() {
+    Duration d = getDuration();
+    return d == null ? "-?-" : d.toRoughString();
   }
 
   public final Date determinateBegin(Date stubBegin) {
