@@ -19,6 +19,7 @@ package org.ppwcode.value_III.time.interval;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
+import java.util.Date;
 import java.util.TimeZone;
 
 import org.ppwcode.metainfo_I.Copyright;
@@ -27,6 +28,7 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.Invars;
+import org.toryt.annotations_I.MethodContract;
 
 
 /**
@@ -51,5 +53,8 @@ public interface TimeZoneTimeInterval extends TimeInterval {
    */
   @Basic
   TimeZone getTimeZone();
+
+  @MethodContract(post = @Expression("result.timeZone == timeZone"))
+  TimeInterval determinate(Date stubBegin, Date stubEnd) throws IllegalTimeIntervalException;
 
 }

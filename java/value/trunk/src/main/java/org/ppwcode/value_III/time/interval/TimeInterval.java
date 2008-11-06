@@ -138,6 +138,7 @@ public interface TimeInterval extends ImmutableValue {
   @MethodContract(
     post = {
       @Expression("result != null"),
+      @Expression("result instanceof class"),
       @Expression("result.begin == determinateBegin(_stubBegin)"),
       @Expression("result.end == determinateEnd(_stubEnd)")
     },
