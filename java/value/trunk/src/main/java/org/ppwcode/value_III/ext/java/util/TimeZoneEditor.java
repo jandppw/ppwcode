@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.value_III.propertyeditors.java.util;
+package org.ppwcode.value_III.ext.java.util;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
