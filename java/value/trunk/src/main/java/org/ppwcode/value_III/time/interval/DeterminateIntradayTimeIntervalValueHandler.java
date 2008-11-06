@@ -39,7 +39,7 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
          date     = "$Date$")
 public final class DeterminateIntradayTimeIntervalValueHandler extends AbstractIntradayTimeIntervalValueHandler {
 
-  protected DeterminateIntradayTimeIntervalValueHandler() {
+  public DeterminateIntradayTimeIntervalValueHandler() {
     super(true);
   }
 
