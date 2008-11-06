@@ -102,7 +102,7 @@ public class AbstractTimeIntervalTest {
     $subjects = null;
   }
 
-  protected void assertInvariants(AbstractTimeInterval subject) {
+  protected void assertInvariants(TimeInterval subject) {
     TIMEINTERVAL_CONTRACT.assertInvariants(subject);
   }
 

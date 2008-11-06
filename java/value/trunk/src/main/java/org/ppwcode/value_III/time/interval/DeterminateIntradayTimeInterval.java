@@ -18,10 +18,9 @@ package org.ppwcode.value_III.time.interval;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.value_III.time.TimeHelpers.dayDate;
-import static org.ppwcode.value_III.time.TimeHelpers.sameDay;
 
 import java.util.Date;
+import java.util.TimeZone;
 
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
@@ -36,9 +35,7 @@ import org.toryt.annotations_I.Throw;
  * An effective intra-day time interval, for which begin and end are mandatory to be determinate.
  *
  * @author Jan Dockx
- * @author Peopleware n.v.
- *
- * @mudo unit test
+ * @author PeopleWare n.v.
  */
 @Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
@@ -49,45 +46,33 @@ import org.toryt.annotations_I.Throw;
   @Expression("end != null"),
   @Expression("sameDay(_begin, _end)")
 })
-public final class DeterminateIntradayTimeInterval extends AbstractBeginEndTimeInterval {
+public final class DeterminateIntradayTimeInterval extends AbstractIntradayTimeInterval {
 
   @MethodContract(
+    pre  = {
+      @Expression("_tz != null")
+    },
     post = {
       @Expression("begin == _begin"),
-      @Expression("end == _end")
+      @Expression("end == _end"),
+      @Expression("timeZone == _tz")
     },
     exc  = {
       @Throw(type = IllegalTimeIntervalException.class, cond = @Expression("! le(_begin, _end")),
       @Throw(type = IllegalTimeIntervalException.class, cond = @Expression("_begin == null")),
       @Throw(type = IllegalTimeIntervalException.class, cond = @Expression("_end == null")),
-      @Throw(type = IllegalTimeIntervalException.class, cond = @Expression("sameDay(_begin, _end)"))
+      @Throw(type = IllegalTimeZoneTimeIntervalException.class, cond = @Expression("! sameDay(_begin, _end, _tz)"))
     }
   )
-  public DeterminateIntradayTimeInterval(Date begin, Date end) throws IllegalTimeIntervalException {
-    super(begin, end);
+  public DeterminateIntradayTimeInterval(Date begin, Date end, TimeZone tz) throws IllegalTimeIntervalException {
+    super(begin, end, tz);
     if (begin == null || end == null) {
-      throw new IllegalTimeIntervalException(begin, end, "BEGIN_AND_END_MANDATORY");
-    }
-    if (! sameDay(begin, end)) {
-      throw new IllegalTimeIntervalException(begin, end, "NOT_INSIDE_ONE_DAY");
+      throw new IllegalTimeIntervalException(begin, end,"BEGIN_AND_END_MANDATORY");
     }
   }
 
   public DeterminateIntradayTimeInterval determinate(Date stubBegin, Date stubEnd) {
     return this; // we are determinate ourselfs
-  }
-
-  @MethodContract(post = @Expression("begin != null ? dayDate(begin) : end != null ? dayDate(end) : null"))
-  public final Date getDay() {
-    if (getBegin() != null) {
-      return dayDate(getBegin());
-    }
-    else if (getEnd() != null) {
-      return dayDate(getEnd());
-    }
-    else {
-      return null;
-    }
   }
 
 }

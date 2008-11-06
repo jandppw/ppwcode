@@ -77,14 +77,16 @@ public class DayDateTimeIntervalTest extends AbstractBeginEndTimeTimeZoneInterva
     $dates = null;
   }
 
-  protected void assertInvariants(DayDateTimeInterval subject) {
+  @Override
+  protected void assertInvariants(TimeInterval subject) {
     super.assertInvariants(subject);
-    assertTrue(subject.getBegin() == null || isDayDate(subject.getBegin(), subject.getTimeZone()));
-    assertTrue(subject.getEnd() == null || isDayDate(subject.getEnd(), subject.getTimeZone()));
+    assertTrue(subject.getBegin() == null || isDayDate(subject.getBegin(), ((DayDateTimeInterval)subject).getTimeZone()));
+    assertTrue(subject.getEnd() == null || isDayDate(subject.getEnd(), ((DayDateTimeInterval)subject).getTimeZone()));
   }
 
+  @Override
   @Test
-  public void testDayDateBeginEndTimeInterval() {
+  public void testCONSTRUCTOR() {
     for (Date d1 : $dates) {
       for (Date d2 : $dates) {
         for (TimeZone tz : TIMEZONES) {

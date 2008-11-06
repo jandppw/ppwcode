@@ -106,12 +106,14 @@ public class AbstractBeginEndTimeTimeZoneIntervalTest extends AbstractBeginEndTi
     $subjects = s;
   }
 
-  protected void assertInvariants(AbstractBeginEndTimeZoneTimeInterval subject) {
+  @Override
+  protected void assertInvariants(TimeInterval subject) {
     super.assertInvariants(subject);
   }
 
+  @Override
   @Test
-  public void testAbstractBeginEndTimeZoneTimeInterval() {
+  public void testCONSTRUCTOR() {
     GregorianCalendar past = new GregorianCalendar(1995, 3, 24);
     Date now = new Date();
     GregorianCalendar future = new GregorianCalendar(2223, 4, 13);
