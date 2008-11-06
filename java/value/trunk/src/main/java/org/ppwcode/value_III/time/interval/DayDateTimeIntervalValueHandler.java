@@ -23,6 +23,7 @@ import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpe
 
 import java.sql.Types;
 import java.util.Date;
+import java.util.TimeZone;
 
 import org.apache.openjpa.jdbc.kernel.JDBCStore;
 import org.apache.openjpa.jdbc.meta.ValueMapping;
@@ -33,18 +34,18 @@ import org.apache.openjpa.meta.JavaTypes;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.ppwcode.value_III.propertyeditors.java.util.TimeZoneValueHandler;
 
 
 /**
  * A OpenJPA value handler for {@link DayDateTimeInterval}. Begin and end are stored in 2
- * columns in the database as {@code DATE}. {@code null} is represented by {@code null}
- * in both columns. This is not a problem because both the begin and end being {@code null}
+ * columns in the database as {@code DATE}, and the time zone is stored using the
+ * {@link TimeZoneValueHandler}. {@code null} is represented by {@code null}
+ * in all 3 columns. This is not a problem because both the begin and end being {@code null}
  * is forbidden for {@link DayDateTimeInterval DayDateTimeIntervals}.
  *
  * @author Jan Dockx
  * @author PeopleWare n.v.
- *
- * @mudo generalize with BeginEndTimeIntervalValueHandler
  */
 @Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
@@ -52,8 +53,10 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
          date     = "$Date$")
 public final class DayDateTimeIntervalValueHandler extends AbstractValueHandler {
 
+  private final TimeZoneValueHandler $timeZoneValueHandler = new TimeZoneValueHandler();
+
   public final Column[] map(ValueMapping vm, String name, ColumnIO io, boolean adapt) {
-    return new Column[] {dateColumn(name + "_begin"), dateColumn(name + "_end")};
+    return new Column[] {dateColumn(name + "_begin"), dateColumn(name + "_end"), $timeZoneValueHandler.map(vm, name + "_timezone", io, false)[0]};
   }
 
   private Column dateColumn(String name) {
@@ -69,9 +72,9 @@ public final class DayDateTimeIntervalValueHandler extends AbstractValueHandler 
     try {
       DayDateTimeInterval beTi = (DayDateTimeInterval)val;
       if (beTi == null) {
-        return new Object[] {null, null};
+        return new Object[] {null, null, null};
       }
-      return new Object[] {beTi.getBegin(), beTi.getEnd()};
+      return new Object[] {beTi.getBegin(), beTi.getEnd(), $timeZoneValueHandler.toDataStoreValue(vm, beTi.getTimeZone(), store)};
     }
     catch (ClassCastException exc) {
       unexpectedException(exc, "trying to handle " + val + " with " +
@@ -83,15 +86,16 @@ public final class DayDateTimeIntervalValueHandler extends AbstractValueHandler 
   @Override
   public Object toObjectValue(ValueMapping vm, Object fromDb) {
     try {
-      Object[] dates = (Object[])fromDb;
-      Date begin = (Date)dates[0];
-      Date end = (Date)dates[1];
+      Object[] data = (Object[])fromDb;
+      Date begin = (Date)data[0];
+      Date end = (Date)data[1];
+      TimeZone tz = (TimeZone)$timeZoneValueHandler.toObjectValue(vm, data[2]);
       if (begin == null && end == null) {
         return null;
       }
-      assert isDayDate(begin);
-      assert isDayDate(end);
-      return new DayDateTimeInterval(begin, end);
+      assert isDayDate(begin, tz);
+      assert isDayDate(end, tz);
+      return new DayDateTimeInterval(begin, end, tz);
     }
     catch (ArrayIndexOutOfBoundsException exc) {
       unexpectedException(exc, "data received from database is not as expected: expected array of 2 values");
