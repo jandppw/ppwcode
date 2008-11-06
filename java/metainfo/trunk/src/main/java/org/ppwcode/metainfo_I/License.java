@@ -97,7 +97,7 @@ public @interface License {
     /**
      * This is not open source, but proprietary code.
      */
-    PROPIETARY   (null);
+    PROPRIETARY   (null);
 
     Type(String url) {
       if (url != null) {
