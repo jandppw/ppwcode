@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2004 - $Date: 2008-10-29 18:25:56 +0100 (Wed, 29 Oct 2008) $ by PeopleWare n.v..
+Copyright 2004 - $Date$ by PeopleWare n.v..
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -32,9 +32,9 @@ import org.ppwcode.vernacular.value_III.jpa.AbstractEnumerationValueValueHandler
  * An OpenJPA {@link ValueHandler} for {@link TimeZone}. We store the locale as its String
  * representation (ID) in a VARCHAR
  */
-@Copyright("2008 - $Date: 2008-10-29 18:25:56 +0100 (Wed, 29 Oct 2008) $, PeopleWare n.v.")
+@Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 3375 $", date = "$Date: 2008-10-29 18:25:56 +0100 (Wed, 29 Oct 2008) $")
+@SvnInfo(revision = "$Revision$", date = "$Date$")
 public class TimeZoneValueHandler extends AbstractEnumerationValueValueHandler {
 
   public TimeZoneValueHandler() {
