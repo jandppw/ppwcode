@@ -39,7 +39,7 @@ import org.apache.openjpa.jdbc.schema.ColumnIO;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.value_III.propertyeditors.java.util.TimeZoneValueHandler;
+import org.ppwcode.value_III.ext.java.util.TimeZoneValueHandler;
 
 
 /**
