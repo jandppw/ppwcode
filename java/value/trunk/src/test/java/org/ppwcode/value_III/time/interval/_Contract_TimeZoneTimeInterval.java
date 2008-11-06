@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2004 - $Date: 2008-11-04 23:11:14 +0100 (Tue, 04 Nov 2008) $ by PeopleWare n.v..
+Copyright 2004 - $Date$ by PeopleWare n.v..
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
