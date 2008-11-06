@@ -65,7 +65,8 @@ public class BeginEndTimeIntervalTest extends AbstractBeginEndTimeIntervalTest {
     $dates = null;
   }
 
-  protected void assertInvariants(BeginEndTimeInterval subject) {
+  @Override
+  protected void assertInvariants(TimeInterval subject) {
     super.assertInvariants(subject);
   }
 

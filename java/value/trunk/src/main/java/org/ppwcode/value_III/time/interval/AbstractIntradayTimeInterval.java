@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2004 - $Date$ by PeopleWare n.v..
+Copyright 2004 - $Date: 2008-11-06 15:27:53 +0100 (Thu, 06 Nov 2008) $ by PeopleWare n.v..
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -18,6 +18,8 @@ package org.ppwcode.value_III.time.interval;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+import static org.ppwcode.value_III.time.TimeHelpers.dayDate;
+import static org.ppwcode.value_III.time.TimeHelpers.sameDay;
 
 import java.util.Date;
 import java.util.TimeZone;
@@ -32,24 +34,23 @@ import org.toryt.annotations_I.Throw;
 
 
 /**
- * <p>An effective time interval, that takes a begin date and an end date as constructor parameters,
+ * <p>General code for time intervals that take a begin date and an end date as constructor parameters,
  *   but is restricted to be an intra-day interval, i.e., the begin and end {@link Date} must express
  *   times in the same day. This is dependent on the time zone, which is thus also needed.
  *   The time zone cannot be {@code null}.</p>
  * <p>It is not possible for both the begin and the end date to be {@code null}.</p>
  *
  * @author Jan Dockx
- * @author PeopleWare n.v.
+ * @author Peopleware n.v.
  */
-@Copyright("2008 - $Date$, PeopleWare n.v.")
+@Copyright("2008 - $Date: 2008-11-06 15:27:53 +0100 (Thu, 06 Nov 2008) $, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision$",
-         date     = "$Date$")
+@SvnInfo(revision = "$Revision: 3435 $",
+         date     = "$Date: 2008-11-06 15:27:53 +0100 (Thu, 06 Nov 2008) $")
 @Invars({
-  @Expression("! (begin == null && end == null)"),
-  @Expression("sameDay(begin, end, timeZone)")
+  @Expression("begin != null && end != null ? sameDay(begin, end, timeZone)")
 })
-public final class IntradayTimeInterval extends AbstractIntradayTimeInterval {
+public abstract class AbstractIntradayTimeInterval extends AbstractBeginEndTimeZoneTimeInterval {
 
   @MethodContract(
     pre  = {
@@ -66,18 +67,26 @@ public final class IntradayTimeInterval extends AbstractIntradayTimeInterval {
       @Throw(type = IllegalTimeZoneTimeIntervalException.class, cond = @Expression("! sameDay(_begin, _end, _tz)"))
     }
   )
-  public IntradayTimeInterval(Date begin, Date end, TimeZone tz) throws IllegalTimeIntervalException {
+  protected AbstractIntradayTimeInterval(Date begin, Date end, TimeZone tz) throws IllegalTimeIntervalException {
     super(begin, end, tz);
+    if (begin != null && end != null) {
+      if (! sameDay(begin, end, tz)) {
+        throw new IllegalTimeZoneTimeIntervalException(begin, end, tz, "NOT_INSIDE_ONE_DAY");
+      }
+    }
   }
 
-  @MethodContract(
-    post = {},
-    exc  = {
-      @Throw(type = IllegalTimeZoneTimeIntervalException.class, cond = @Expression("! sameDay(_begin, _end, _tz)"))
+  @MethodContract(post = @Expression("begin != null ? dayDate(begin) : end != null ? dayDate(end) : null"))
+  public final Date getDay() {
+    if (getBegin() != null) {
+      return dayDate(getBegin(), getTimeZone());
     }
-  )
-  public IntradayTimeInterval determinate(Date stubBegin, Date stubEnd) throws IllegalTimeIntervalException {
-    return new IntradayTimeInterval(determinateBegin(stubBegin), determinateEnd(stubEnd), getTimeZone());
+    else if (getEnd() != null) {
+      return dayDate(getEnd(), getTimeZone());
+    }
+    else {
+      return null;
+    }
   }
 
 }

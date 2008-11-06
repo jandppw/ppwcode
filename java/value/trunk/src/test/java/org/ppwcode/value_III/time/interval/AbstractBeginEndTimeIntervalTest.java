@@ -62,7 +62,8 @@ public class AbstractBeginEndTimeIntervalTest extends AbstractTimeIntervalTest {
     $subjects = s;
   }
 
-  protected void assertInvariants(AbstractBeginEndTimeInterval subject) {
+  @Override
+  protected void assertInvariants(TimeInterval subject) {
     super.assertInvariants(subject);
   }
 
@@ -78,7 +79,7 @@ public class AbstractBeginEndTimeIntervalTest extends AbstractTimeIntervalTest {
   }
 
   @Test
-  public void testAbstractBeginEndTimeInterval() {
+  public void testCONSTRUCTOR() {
     GregorianCalendar past = new GregorianCalendar(1995, 3, 24);
     Date now = new Date();
     GregorianCalendar future = new GregorianCalendar(2223, 4, 13);
