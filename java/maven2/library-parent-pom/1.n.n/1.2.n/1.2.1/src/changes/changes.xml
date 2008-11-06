@@ -1,0 +1,43 @@
+<document>
+
+  <!--
+  Copyright 2007 - $Date$ by PeopleWare n.v.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  $Date$
+  $Revision$
+  $HeadURL$
+  -->
+
+  <!-- see http://maven.apache.org/plugins/maven-changes-plugin/usage.html -->
+  <!-- action type  There are four valid values: add , fix , remove , update . -->
+
+  <properties>
+    <title>Version history of ppwcode library parent POM</title>
+    <author email="jandockx@gmail.com">Jan Dockx</author>
+  </properties>
+  <body>
+    <release version="1.0.1" date="2008-08-27" description="Fix: removed duplicate entry">
+      <action dev="jandockx" type="fix">
+        Removed duplicate entry in plugin management for surefire.
+      </action>
+    </release>
+    <release version="1.0.0" date="2008-08-27" description="First release">
+      <action dev="jandockx" type="add">
+        First version, long ago based on Beedraz parent pom
+        (http://www.beedraz.org/projects/parent/pom/) 1.0.0, snapshot.
+      </action>
+    </release>
+  </body>
+</document>
