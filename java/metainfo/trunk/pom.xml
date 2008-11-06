@@ -31,7 +31,7 @@
   <parent>
     <groupId>org.ppwcode</groupId>
     <artifactId>ppwcode-ppwcode-library-parent-pom</artifactId>
-    <version>1.0.1</version>
+    <version>1.9.1</version>
   </parent>
 
   <properties>
@@ -55,7 +55,7 @@
        for parent poms, we cannot do this (all hell breaks loose in the children) -->
   <groupId>org.ppwcode</groupId>
   <artifactId>ppwcode-${ppwcode.shortArtifactName}-${ppwcode.markVersion}</artifactId>
-  <version>2.0</version>
+  <version>2.1</version>
   <packaging>jar</packaging>
   <name>ppwcode metainfo</name>
   <description>Annotations for adding meta information to Java code, and transporting it into the class files and runtime.</description>
