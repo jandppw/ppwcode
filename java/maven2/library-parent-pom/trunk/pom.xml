@@ -38,7 +38,7 @@
   <!-- for the artifactId, see the magic mantra below -->
   <groupId>org.ppwcode</groupId>
   <artifactId>ppwcode-library-parent-pom</artifactId>
-  <version>1.2.0</version>
+  <version>1.2.1</version>
   <packaging>pom</packaging>
   <name>ppwcode library parent pom</name>
   <description>A parent pom for collections of libaries, or single libraries.
@@ -113,6 +113,17 @@
       <name>Tom Mahieu</name>
       <id>Tom.Mahieu</id>
       <email>Tom.Mahieu@gmail.com</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <name>Ruben Vandeginste</name>
+      <id>ruben.vandeginste</id>
+      <email>ruben.vandeginste@gmail.com</email>
       <timezone>+1</timezone>
       <organization>PeopleWare n.v.</organization>
       <organizationUrl>http://www.peopleware.be/</organizationUrl>
@@ -454,6 +465,10 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
+          <!-- always because this ensures that every test gets a clean environment to run in -->
+          <!-- this may slow down the maven test phase, but developers are still free to      -->
+          <!-- override this settings in project specific poms -->
+          <forkMode>always</forkMode>
           <argLine>-ea</argLine>
         </configuration>
       </plugin>
