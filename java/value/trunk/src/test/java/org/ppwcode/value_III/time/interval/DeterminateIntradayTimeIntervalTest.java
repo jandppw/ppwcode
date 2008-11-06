@@ -35,7 +35,7 @@ public class DeterminateIntradayTimeIntervalTest extends AbstractBeginEndTimeInt
 
   @Override
   @Before
-  public void setUp() throws IllegalIntervalException {
+  public void setUp() throws IllegalTimeIntervalException {
     List<DeterminateIntradayTimeInterval> s = new ArrayList<DeterminateIntradayTimeInterval>();
     final Date now = dayDate(new Date());
     DeterminateIntradayTimeInterval subject = new DeterminateIntradayTimeInterval(now, now);
@@ -83,7 +83,7 @@ public class DeterminateIntradayTimeIntervalTest extends AbstractBeginEndTimeInt
           assertEquals(d2, subject.getEnd());
           assertInvariants(subject);
         }
-        catch (IllegalIntervalException exc) {
+        catch (IllegalTimeIntervalException exc) {
           assertTrue(d1 == null || d2 == null || ! le(d1, d2) || ! sameDay(d1, d2));
         }
       }
@@ -96,7 +96,7 @@ public class DeterminateIntradayTimeIntervalTest extends AbstractBeginEndTimeInt
       for (Date d1 : $dates) {
         for (Date d2 : $dates) {
           DeterminateIntradayTimeInterval result = subject.determinate(d1, d2);
-          CONTRACT.assertDeterminate(subject, d1, d2, result);
+          TIMEINTERVAL_CONTRACT.assertDeterminate(subject, d1, d2, result);
           assertInvariants(subject);
         }
       }

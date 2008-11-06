@@ -56,18 +56,18 @@ public abstract class AbstractBeginEndTimeInterval extends AbstractTimeInterval 
       @Expression("end == _end")
     },
     exc  = {
-      @Throw(type = IllegalIntervalException.class,
+      @Throw(type = IllegalTimeIntervalException.class,
              cond = @Expression("_begin == null && _end == null")),
-      @Throw(type = IllegalIntervalException.class,
+      @Throw(type = IllegalTimeIntervalException.class,
              cond = @Expression("! le(_begin, _end"))
     }
   )
-  protected AbstractBeginEndTimeInterval(Date begin, Date end) throws IllegalIntervalException {
+  protected AbstractBeginEndTimeInterval(Date begin, Date end) throws IllegalTimeIntervalException {
     if (begin == null && end == null) {
-      throw new IllegalIntervalException(begin, end, "NOT_BEGIN_AND_END_NULL");
+      throw new IllegalTimeIntervalException(begin, end, "NOT_BEGIN_AND_END_NULL");
     }
     if (begin != null && end != null && ! le(begin, end)) {
-      throw new IllegalIntervalException(begin, end, "NOT_BEGIN_LE_END");
+      throw new IllegalTimeIntervalException(begin, end, "NOT_BEGIN_LE_END");
     }
     $begin = klone(begin);
     $end = klone(end);

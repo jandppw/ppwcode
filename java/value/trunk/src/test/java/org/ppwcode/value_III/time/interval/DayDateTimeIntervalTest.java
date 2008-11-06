@@ -16,14 +16,16 @@ import static org.ppwcode.value_III.time.TimeHelpers.le;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 
-public class DayDateTimeIntervalTest extends AbstractBeginEndTimeIntervalTest {
+public class DayDateTimeIntervalTest extends AbstractBeginEndTimeTimeZoneIntervalTest {
 
 
   @SuppressWarnings("unchecked")
@@ -34,32 +36,40 @@ public class DayDateTimeIntervalTest extends AbstractBeginEndTimeIntervalTest {
 
   @Override
   @Before
-  public void setUp() throws IllegalIntervalException {
+  public void setUp() throws IllegalTimeIntervalException {
     List<DayDateTimeInterval> s = new ArrayList<DayDateTimeInterval>();
-    final Date now = dayDate(new Date());
-    DayDateTimeInterval subject = new DayDateTimeInterval(now, null);
-    s.add(subject);
-    subject = new DayDateTimeInterval(null, now);
-    s.add(subject);
-    subject = new DayDateTimeInterval(now, now);
-    s.add(subject);
     final GregorianCalendar gcB = new GregorianCalendar(2000, 0, 1);
     final GregorianCalendar gcE = new GregorianCalendar(2122, 11, 31);
-    final Date b = gcB.getTime();
-    final Date e = gcE.getTime();
-    subject = new DayDateTimeInterval(b, e);
-    s.add(subject);
+    for (TimeZone tz : TIMEZONES) {
+      final Date now = dayDate(new Date(), tz);
+      final Date b = dayDate(gcB.getTime(), tz);
+      final Date e = dayDate(gcE.getTime(), tz);
+      DayDateTimeInterval subject = new DayDateTimeInterval(now, null, tz);
+      s.add(subject);
+      subject = new DayDateTimeInterval(null, now, tz);
+      s.add(subject);
+      subject = new DayDateTimeInterval(now, now, tz);
+      s.add(subject);
+      subject = new DayDateTimeInterval(b, e, tz);
+      s.add(subject);
+    }
     $subjects = s;
   }
 
-  private Date[] $dates;
+  private List<Date> $dates = new LinkedList<Date>();
 
   @Before
   public void initDates() {
+    $dates = new LinkedList<Date>();
+    $dates.add(null);
     GregorianCalendar past = new GregorianCalendar(1995, 3, 24);
-    Date now = dayDate(new Date());
+    Date now = new Date();
     GregorianCalendar future = new GregorianCalendar(2223, 4, 13);
-    $dates = new Date[] {null, past.getTime(), now, future.getTime()};
+    for (TimeZone tz : TIMEZONES) {
+      $dates.add(dayDate(past.getTime(), tz));
+      $dates.add(dayDate(now, tz));
+      $dates.add(dayDate(future.getTime(), tz));
+    }
   }
 
   @After
@@ -69,23 +79,25 @@ public class DayDateTimeIntervalTest extends AbstractBeginEndTimeIntervalTest {
 
   protected void assertInvariants(DayDateTimeInterval subject) {
     super.assertInvariants(subject);
-    assertTrue(subject.getBegin() == null || isDayDate(subject.getBegin()));
-    assertTrue(subject.getEnd() == null || isDayDate(subject.getEnd()));
+    assertTrue(subject.getBegin() == null || isDayDate(subject.getBegin(), subject.getTimeZone()));
+    assertTrue(subject.getEnd() == null || isDayDate(subject.getEnd(), subject.getTimeZone()));
   }
 
   @Test
   public void testDayDateBeginEndTimeInterval() {
     for (Date d1 : $dates) {
       for (Date d2 : $dates) {
-        try {
-          DayDateTimeInterval subject = new DayDateTimeInterval(d1, d2);
-          assertEquals(d1, subject.getBegin());
-          assertEquals(d2, subject.getEnd());
-          assertInvariants(subject);
-        }
-        catch (IllegalIntervalException exc) {
-          assertTrue(! le(d1, d2) || (d1 != null && ! isDayDate(d1)) ||
-                     (d2 != null && ! isDayDate(d2)) || (d1 == null && d2 == null));
+        for (TimeZone tz : TIMEZONES) {
+          try {
+            DayDateTimeInterval subject = new DayDateTimeInterval(d1, d2, tz);
+            assertEquals(d1, subject.getBegin());
+            assertEquals(d2, subject.getEnd());
+            assertInvariants(subject);
+          }
+          catch (IllegalTimeIntervalException exc) {
+            assertTrue(! le(d1, d2) || (d1 != null && ! isDayDate(d1, tz)) ||
+                       (d2 != null && ! isDayDate(d2, tz)) || (d1 == null && d2 == null));
+          }
         }
       }
     }
@@ -98,12 +110,12 @@ public class DayDateTimeIntervalTest extends AbstractBeginEndTimeIntervalTest {
         for (Date d2 : $dates) {
           try {
             DayDateTimeInterval result = subject.determinate(d1, d2);
-            CONTRACT.assertDeterminate(subject, d1, d2, result);
+            TIMEINTERVAL_CONTRACT.assertDeterminate(subject, d1, d2, result);
           }
-          catch (IllegalIntervalException exc) {
+          catch (IllegalTimeIntervalException exc) {
             assertTrue(! le(subject.determinateBegin(d1), subject.determinateEnd(d2)) ||
-                       (subject.determinateBegin(d1) != null && ! isDayDate(subject.determinateBegin(d1))) ||
-                       (subject.determinateBegin(d2) != null && ! isDayDate(subject.determinateBegin(d2))));
+                       (d1 != null && ! isDayDate(d1, subject.getTimeZone())) ||
+                       (d2 != null && ! isDayDate(d2, subject.getTimeZone())));
           }
           assertInvariants(subject);
         }

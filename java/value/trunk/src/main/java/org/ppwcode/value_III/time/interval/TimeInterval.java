@@ -141,9 +141,13 @@ public interface TimeInterval extends ImmutableValue {
       @Expression("result.begin == determinateBegin(_stubBegin)"),
       @Expression("result.end == determinateEnd(_stubEnd)")
     },
-    exc  = @Throw(type = IllegalIntervalException.class,
-                  cond = @Expression("! le(determinateBegin(_stubBegin), determinateEnd(_stubEnd))"))
+    exc  = {
+      @Throw(type = IllegalTimeIntervalException.class,
+             cond = @Expression("! le(determinateBegin(_stubBegin), determinateEnd(_stubEnd))")),
+      @Throw(type = IllegalTimeIntervalException.class,
+             cond = @Expression("true"))
+    }
   )
-  TimeInterval determinate(Date stubBegin, Date stubEnd) throws IllegalIntervalException;
+  TimeInterval determinate(Date stubBegin, Date stubEnd) throws IllegalTimeIntervalException;
 
 }

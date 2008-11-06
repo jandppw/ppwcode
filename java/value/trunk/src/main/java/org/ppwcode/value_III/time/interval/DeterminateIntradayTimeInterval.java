@@ -57,19 +57,19 @@ public final class DeterminateIntradayTimeInterval extends AbstractBeginEndTimeI
       @Expression("end == _end")
     },
     exc  = {
-      @Throw(type = IllegalIntervalException.class, cond = @Expression("! le(_begin, _end")),
-      @Throw(type = IllegalIntervalException.class, cond = @Expression("_begin == null")),
-      @Throw(type = IllegalIntervalException.class, cond = @Expression("_end == null")),
-      @Throw(type = IllegalIntervalException.class, cond = @Expression("sameDay(_begin, _end)"))
+      @Throw(type = IllegalTimeIntervalException.class, cond = @Expression("! le(_begin, _end")),
+      @Throw(type = IllegalTimeIntervalException.class, cond = @Expression("_begin == null")),
+      @Throw(type = IllegalTimeIntervalException.class, cond = @Expression("_end == null")),
+      @Throw(type = IllegalTimeIntervalException.class, cond = @Expression("sameDay(_begin, _end)"))
     }
   )
-  public DeterminateIntradayTimeInterval(Date begin, Date end) throws IllegalIntervalException {
+  public DeterminateIntradayTimeInterval(Date begin, Date end) throws IllegalTimeIntervalException {
     super(begin, end);
     if (begin == null || end == null) {
-      throw new IllegalIntervalException(begin, end, "BEGIN_AND_END_MANDATORY");
+      throw new IllegalTimeIntervalException(begin, end, "BEGIN_AND_END_MANDATORY");
     }
     if (! sameDay(begin, end)) {
-      throw new IllegalIntervalException(begin, end, "NOT_INSIDE_ONE_DAY");
+      throw new IllegalTimeIntervalException(begin, end, "NOT_INSIDE_ONE_DAY");
     }
   }
 

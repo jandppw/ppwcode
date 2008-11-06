@@ -117,7 +117,7 @@ public final class DeterminateIntradayTimeIntervalValueHandler extends AbstractV
     catch (ClassCastException exc) {
       unexpectedException(exc, "data received from database is not as expected: expected an array of 3 dates");
     }
-    catch (IllegalIntervalException exc) {
+    catch (IllegalTimeIntervalException exc) {
       unexpectedException(exc, "data received from database did violate invariants for " + DeterminateIntradayTimeInterval.class);
     }
     return null; // make compiler happy
