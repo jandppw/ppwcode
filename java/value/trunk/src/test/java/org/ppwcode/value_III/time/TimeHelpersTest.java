@@ -30,6 +30,7 @@ import static org.ppwcode.value_III.time.TimeHelpers.dayDate;
 import static org.ppwcode.value_III.time.TimeHelpers.gregorianCalendar;
 import static org.ppwcode.value_III.time.TimeHelpers.isDayDate;
 import static org.ppwcode.value_III.time.TimeHelpers.le;
+import static org.ppwcode.value_III.time.TimeHelpers.move;
 import static org.ppwcode.value_III.time.TimeHelpers.sameDay;
 import static org.ppwcode.value_III.time.TimeHelpers.sqlDayDate;
 import static org.ppwcode.value_III.time.TimeHelpers.sqlTimeOfDay;
@@ -409,6 +410,42 @@ public class TimeHelpersTest {
   @Test
   public void testCompose7() {
     testCompose(sqlDayDate(EPOCH, UTC), sqlTimeOfDay(EPOCH, DEFAULT_TZ), UTC);
+  }
+
+  public void testMove(Date d, TimeZone from, TimeZone to) {
+    Date result = move(d, from, to);
+    if (d == null) {
+      assertNull(result);
+    }
+    else {
+      assertNotNull(result);
+      GregorianCalendar fromGc = gregorianCalendar(d, from);
+      fromGc.setTime(d);
+      GregorianCalendar toGc = gregorianCalendar(d, to);
+      toGc.setTime(result);
+      assertEquals(fromGc.get(YEAR), toGc.get(YEAR));
+      assertEquals(fromGc.get(MONTH), toGc.get(MONTH));
+      assertEquals(fromGc.get(DAY_OF_MONTH), toGc.get(DAY_OF_MONTH));
+      assertEquals(fromGc.get(HOUR_OF_DAY), toGc.get(HOUR_OF_DAY));
+      assertEquals(fromGc.get(MINUTE), toGc.get(MINUTE));
+      assertEquals(fromGc.get(SECOND), toGc.get(SECOND));
+      assertEquals(fromGc.get(MILLISECOND), toGc.get(MILLISECOND));
+    }
+  }
+
+  public final static TimeZone[] TIMEZONES =
+      new TimeZone[] {UTC, DEFAULT_TZ, TimeZone.getTimeZone("America/Los_Angeles"), TimeZone.getTimeZone("Europe/Moscow")};
+
+  @Test
+  public void testMove1() {
+    for (TimeZone tzF : TIMEZONES) {
+      for (TimeZone tzT : TIMEZONES) {
+        testMove(null, tzF, tzT);
+        testMove(new Date(), tzF, tzT);
+        testMove(dayDate(new Date(), tzF), tzF, tzT);
+        testMove(dayDate(new Date(), tzT), tzF, tzT);
+      }
+    }
   }
 
 }
