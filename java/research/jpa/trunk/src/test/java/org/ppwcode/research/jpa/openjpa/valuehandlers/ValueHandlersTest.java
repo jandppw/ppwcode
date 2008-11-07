@@ -19,7 +19,7 @@ package org.ppwcode.research.jpa.openjpa.valuehandlers;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
-import static org.ppwcode.value_III.time.DateHelpers.dayDate;
+import static org.ppwcode.value_III.time.TimeHelpers.dayDate;
 
 import java.beans.PropertyEditorManager;
 import java.sql.Connection;
@@ -27,10 +27,10 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
@@ -40,41 +40,20 @@ import javax.persistence.Persistence;
 
 import org.apache.openjpa.persistence.OpenJPAEntityManager;
 import org.apache.openjpa.persistence.OpenJPAPersistence;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.ppwcode.util.reflect_I.InstanceHelpers;
+import org.ppwcode.value_III.ext.java.util.LocaleEditor;
+import org.ppwcode.value_III.ext.java.util.TimeZoneEditor;
 import org.ppwcode.value_III.localization.LocalizedString;
-import org.ppwcode.value_III.propertyeditors.java.util.LocaleEditor;
-import org.ppwcode.value_III.time.DateHelpers;
 import org.ppwcode.value_III.time.interval.BeginEndTimeInterval;
 import org.ppwcode.value_III.time.interval.DayDateTimeInterval;
 import org.ppwcode.value_III.time.interval.DeterminateIntradayTimeInterval;
-import org.ppwcode.value_III.time.interval.IllegalIntervalException;
+import org.ppwcode.value_III.time.interval.IllegalTimeIntervalException;
 import org.ppwcode.value_III.time.interval.IntradayTimeInterval;
 import org.ppwcode.vernacular.value_III.SemanticValueException;
 
 public class ValueHandlersTest {
-
-
-
-  private Date addTime(Date day, Date time) {
-    if (day == null || time == null) {
-      return null;
-    }
-    long millies = day.getTime();
-    millies += time.getTime();
-    Date result = new Date(millies);
-    return result;
-  }
-
-//  @Test
-//  public void testAdd() {
-//    GregorianCalendar gc = new GregorianCalendar(2000, 0, 1);
-//    Time t = new Time(10, 10, 0);
-//    System.out.println(gc.getTime());
-//    System.out.println(t);
-//    Date d = addTime(gc.getTime(), t);
-//    System.out.println(d);
-//  }
 
   private static final String TABLE_NAME_VALUEHANDLERPROPERTIES = "org_ppwcode_research_jpa_openjpa_valuehandlers_anentityvaluehandlerproperties";
 
@@ -84,13 +63,17 @@ public class ValueHandlersTest {
 
   final static Logger LOGGER = Logger.getLogger("ValueHandlersTest");
 
-//  private static final String EMPTY = "";
-
   private void displayTest(String msg1, String msg2) {
     System.out.println();
     System.out.println();
     System.out.println(msg1);
     System.out.println(msg2);
+  }
+
+  @BeforeClass
+  public static void registerPropertyEditors() {
+    PropertyEditorManager.registerEditor(Locale.class, LocaleEditor.class);
+    PropertyEditorManager.registerEditor(TimeZone.class, TimeZoneEditor.class);
   }
 
   @Test
@@ -125,7 +108,6 @@ public class ValueHandlersTest {
 
   @Test
   public void testValueHandlerProperties2() throws SemanticValueException, SQLException {
-    PropertyEditorManager.registerEditor(Locale.class, LocaleEditor.class);
     displayTest("Value handler properties, effective properties", "");
     EntityManagerFactory emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 
@@ -134,20 +116,33 @@ public class ValueHandlersTest {
     saveValidateInDbAndRetrieve(emf, TABLE_NAME_VALUEHANDLERPROPERTIES, ae);
   }
 
-  private <_T_ extends AnEntity> _T_ prepA(EntityManagerFactory emf, Class<_T_> type) throws SemanticValueException, IllegalIntervalException {
+  private <_T_ extends AnEntity> _T_ prepA(EntityManagerFactory emf, Class<_T_> type) throws SemanticValueException, IllegalTimeIntervalException {
     LocalizedString ls = new LocalizedString(new Locale("nl"), "'t es moar een test");
     Locale l = Locale.JAPANESE;
-    GregorianCalendar gc = new GregorianCalendar(1995, 3, 12, 13, 45, 9);
+    TimeZone tz = TimeZone.getTimeZone("Europe/Moscow");
+    GregorianCalendar gc = new GregorianCalendar(1995, 7, 12, 13, 45, 9);
+    gc.setTimeZone(tz);
     Date now = new Date();
     BeginEndTimeInterval beti = new BeginEndTimeInterval(gc.getTime(), now);
     // MUDO add double null, left null, right null
-    Date pastDd = dayDate(gc.getTime());
-    Date today = dayDate(now);
-    DayDateTimeInterval ddti = new DayDateTimeInterval(pastDd, today);
+    assert tz != null;
+    Date pastDd = dayDate(gc.getTime(), tz);
+    Date today = dayDate(now, tz);
+    DayDateTimeInterval ddti = new DayDateTimeInterval(pastDd, today, tz);
     // MUDO add double null, left null, right null
-    GregorianCalendar gc2 = new GregorianCalendar(1995, 3, 12, 23, 4, 56);
-    DeterminateIntradayTimeInterval diti = new DeterminateIntradayTimeInterval(gc.getTime(), gc2.getTime());
-    IntradayTimeInterval iti = new IntradayTimeInterval(gc.getTime(), gc2.getTime());
+    tz = TimeZone.getTimeZone("America/Los_Angeles");
+    GregorianCalendar gc2 = new GregorianCalendar(1995, 7, 12, 13, 45, 56);
+    gc2.setTimeZone(tz);
+    GregorianCalendar gc3 = new GregorianCalendar(1995, 7, 12, 23, 4, 56);
+    gc3.setTimeZone(tz);
+    assert tz != null;
+    DeterminateIntradayTimeInterval diti = new DeterminateIntradayTimeInterval(gc2.getTime(), gc3.getTime(), tz);
+    tz = TimeZone.getTimeZone("Europe/Moscow");
+    GregorianCalendar gc4 = new GregorianCalendar(1995, 7, 12, 13, 45, 56);
+    gc4.setTimeZone(tz);
+    GregorianCalendar gc5 = new GregorianCalendar(1995, 7, 12, 23, 4, 56);
+    gc5.setTimeZone(tz);
+    IntradayTimeInterval iti = new IntradayTimeInterval(gc4.getTime(), gc5.getTime(), tz);
     // MUDO add double null, left null, right null
     _T_ ae = createAnEntity(emf, ls, l, beti, ddti, diti, iti, type);
     return ae;
@@ -238,20 +233,23 @@ public class ValueHandlersTest {
       printVARBINARYColumn(rs, "INTRADAYTIMEINTERVAL");
     }
     else if (type == AnEntityValueHandlerProperties.class) {
-      System.out.println("$LOCALIZEDSTRING_LOCALE                : " + rs.getString("$LOCALIZEDSTRING_LOCALE"));
-      System.out.println("$LOCALIZEDSTRING_STRING                : " + rs.getString("$LOCALIZEDSTRING_STRING"));
-      System.out.println("LOCALIZEDSTRING2_LOCALE                : " + rs.getString("LOCALIZEDSTRING2_LOCALE"));
-      System.out.println("LOCALIZEDSTRING2_STRING                : " + rs.getString("LOCALIZEDSTRING2_STRING"));
-      System.out.println("$BEGINENDTIMEINTERVAL_BEGIN            : " + rs.getTimestamp("$BEGINENDTIMEINTERVAL_BEGIN"));
-      System.out.println("$BEGINENDTIMEINTERVAL_END              : " + rs.getTimestamp("$BEGINENDTIMEINTERVAL_END"));
-      System.out.println("$DAYDATETIMEINTERVAL_BEGIN             : " + rs.getDate("$DAYDATETIMEINTERVAL_BEGIN"));
-      System.out.println("$DAYDATETIMEINTERVAL_END               : " + rs.getDate("$DAYDATETIMEINTERVAL_END"));
-//      System.out.println("$DETERMINATEINTRADAYTIMEINTERVAL_DAY   : " + rs.getDate("$DETERMINATEINTRADAYTIMEINTERVAL_DAY"));
-//      System.out.println("$DETERMINATEINTRADAYTIMEINTERVAL_BEGIN : " + rs.getTime("$DETERMINATEINTRADAYTIMEINTERVAL_BEGIN"));
-//      System.out.println("$DETERMINATEINTRADAYTIMEINTERVAL_END   : " + rs.getTime("$DETERMINATEINTRADAYTIMEINTERVAL_END"));
-      System.out.println("$INTRADAYTIMEINTERVAL_DAY              : " + rs.getDate("$INTRADAYTIMEINTERVAL_DAY"));
-      System.out.println("$INTRADAYTIMEINTERVAL_BEGIN            : " + rs.getTime("$INTRADAYTIMEINTERVAL_BEGIN"));
-      System.out.println("$INTRADAYTIMEINTERVAL_END              : " + rs.getTime("$INTRADAYTIMEINTERVAL_END"));
+      System.out.println("$LOCALIZEDSTRING_LOCALE                   : " + rs.getString("$LOCALIZEDSTRING_LOCALE"));
+      System.out.println("$LOCALIZEDSTRING_STRING                   : " + rs.getString("$LOCALIZEDSTRING_STRING"));
+      System.out.println("LOCALIZEDSTRING2_LOCALE                   : " + rs.getString("LOCALIZEDSTRING2_LOCALE"));
+      System.out.println("LOCALIZEDSTRING2_STRING                   : " + rs.getString("LOCALIZEDSTRING2_STRING"));
+      System.out.println("$BEGINENDTIMEINTERVAL_BEGIN               : " + rs.getTimestamp("$BEGINENDTIMEINTERVAL_BEGIN"));
+      System.out.println("$BEGINENDTIMEINTERVAL_END                 : " + rs.getTimestamp("$BEGINENDTIMEINTERVAL_END"));
+      System.out.println("$DAYDATETIMEINTERVAL_BEGIN                : " + rs.getDate("$DAYDATETIMEINTERVAL_BEGIN"));
+      System.out.println("$DAYDATETIMEINTERVAL_END                  : " + rs.getDate("$DAYDATETIMEINTERVAL_END"));
+      System.out.println("$DAYDATETIMEINTERVAL_TIMEZONE             : " + rs.getString("$DAYDATETIMEINTERVAL_TIMEZONE"));
+      System.out.println("$DETERMINATEINTRADAYTIMEINTERVAL_DAY      : " + rs.getDate("$DETERMINATEINTRADAYTIMEINTERVAL_DAY"));
+      System.out.println("$DETERMINATEINTRADAYTIMEINTERVAL_BEGIN    : " + rs.getTime("$DETERMINATEINTRADAYTIMEINTERVAL_BEGIN"));
+      System.out.println("$DETERMINATEINTRADAYTIMEINTERVAL_END      : " + rs.getTime("$DETERMINATEINTRADAYTIMEINTERVAL_END"));
+      System.out.println("$DETERMINATEINTRADAYTIMEINTERVAL_TIMEZONE : " + rs.getString("$DETERMINATEINTRADAYTIMEINTERVAL_TIMEZONE"));
+      System.out.println("$INTRADAYTIMEINTERVAL_DAY                 : " + rs.getDate("$INTRADAYTIMEINTERVAL_DAY"));
+      System.out.println("$INTRADAYTIMEINTERVAL_BEGIN               : " + rs.getTime("$INTRADAYTIMEINTERVAL_BEGIN"));
+      System.out.println("$INTRADAYTIMEINTERVAL_END                 : " + rs.getTime("$INTRADAYTIMEINTERVAL_END"));
+      System.out.println("$INTRADAYTIMEINTERVAL_TIMEZONE            : " + rs.getString("$INTRADAYTIMEINTERVAL_TIMEZONE"));
     }
   }
 
@@ -268,32 +266,27 @@ public class ValueHandlersTest {
       assertEquals("PERSISTENCEVERSION", rsmd.getColumnName(9));
     }
     else if (type == AnEntityValueHandlerProperties.class) {
-      assertEquals("PERSISTENCEID", rsmd.getColumnName(1));
-      assertEquals("$BEGINENDTIMEINTERVAL_BEGIN", rsmd.getColumnName(2));
-      assertEquals("$BEGINENDTIMEINTERVAL_END", rsmd.getColumnName(3));
-      assertEquals("$DAYDATETIMEINTERVAL_BEGIN", rsmd.getColumnName(4));
-      assertEquals("$DAYDATETIMEINTERVAL_END", rsmd.getColumnName(5));
-//      assertEquals("$DETERMINATEINTRADAYTIMEINTERVAL_DAY", rsmd.getColumnName(6));
-//      assertEquals("$DETERMINATEINTRADAYTIMEINTERVAL_BEGIN", rsmd.getColumnName(7));
-//      assertEquals("$DETERMINATEINTRADAYTIMEINTERVAL_END", rsmd.getColumnName(8));
-//      assertEquals("$INTRADAYTIMEINTERVAL_DAY", rsmd.getColumnName(9));
-//      assertEquals("$INTRADAYTIMEINTERVAL_BEGIN", rsmd.getColumnName(10));
-//      assertEquals("$INTRADAYTIMEINTERVAL_END", rsmd.getColumnName(11));
-//      assertEquals("LOCALE", rsmd.getColumnName(12));
-//      assertEquals("$LOCALIZEDSTRING_LOCALE", rsmd.getColumnName(13));
-//      assertEquals("$LOCALIZEDSTRING_STRING", rsmd.getColumnName(14));
-//      assertEquals("LOCALIZEDSTRING2_LOCALE", rsmd.getColumnName(15));
-//      assertEquals("LOCALIZEDSTRING2_STRING", rsmd.getColumnName(16));
-//      assertEquals("PERSISTENCEVERSION", rsmd.getColumnName(17));
-      assertEquals("$INTRADAYTIMEINTERVAL_DAY", rsmd.getColumnName(7));
-      assertEquals("$INTRADAYTIMEINTERVAL_BEGIN", rsmd.getColumnName(8));
-      assertEquals("$INTRADAYTIMEINTERVAL_END", rsmd.getColumnName(9));
-      assertEquals("LOCALE", rsmd.getColumnName(10));
-      assertEquals("$LOCALIZEDSTRING_LOCALE", rsmd.getColumnName(11));
-      assertEquals("$LOCALIZEDSTRING_STRING", rsmd.getColumnName(12));
-      assertEquals("LOCALIZEDSTRING2_LOCALE", rsmd.getColumnName(13));
-      assertEquals("LOCALIZEDSTRING2_STRING", rsmd.getColumnName(14));
-      assertEquals("PERSISTENCEVERSION", rsmd.getColumnName(15));
+      int i = 1;
+      assertEquals("PERSISTENCEID", rsmd.getColumnName(i++));
+      assertEquals("$BEGINENDTIMEINTERVAL_BEGIN", rsmd.getColumnName(i++));
+      assertEquals("$BEGINENDTIMEINTERVAL_END", rsmd.getColumnName(i++));
+      assertEquals("$DAYDATETIMEINTERVAL_BEGIN", rsmd.getColumnName(i++));
+      assertEquals("$DAYDATETIMEINTERVAL_END", rsmd.getColumnName(i++));
+      assertEquals("$DAYDATETIMEINTERVAL_TIMEZONE", rsmd.getColumnName(i++));
+      assertEquals("$DETERMINATEINTRADAYTIMEINTERVAL_DAY", rsmd.getColumnName(i++));
+      assertEquals("$DETERMINATEINTRADAYTIMEINTERVAL_BEGIN", rsmd.getColumnName(i++));
+      assertEquals("$DETERMINATEINTRADAYTIMEINTERVAL_END", rsmd.getColumnName(i++));
+      assertEquals("$DETERMINATEINTRADAYTIMEINTERVAL_TIMEZONE", rsmd.getColumnName(i++));
+      assertEquals("$INTRADAYTIMEINTERVAL_DAY", rsmd.getColumnName(i++));
+      assertEquals("$INTRADAYTIMEINTERVAL_BEGIN", rsmd.getColumnName(i++));
+      assertEquals("$INTRADAYTIMEINTERVAL_END", rsmd.getColumnName(i++));
+      assertEquals("$INTRADAYTIMEINTERVAL_TIMEZONE", rsmd.getColumnName(i++));
+      assertEquals("LOCALE", rsmd.getColumnName(i++));
+      assertEquals("$LOCALIZEDSTRING_LOCALE", rsmd.getColumnName(i++));
+      assertEquals("$LOCALIZEDSTRING_STRING", rsmd.getColumnName(i++));
+      assertEquals("LOCALIZEDSTRING2_LOCALE", rsmd.getColumnName(i++));
+      assertEquals("LOCALIZEDSTRING2_STRING", rsmd.getColumnName(i++));
+      assertEquals("PERSISTENCEVERSION", rsmd.getColumnName(i++));
     }
   }
 
