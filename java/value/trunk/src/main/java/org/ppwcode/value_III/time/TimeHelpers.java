@@ -345,7 +345,7 @@ public class TimeHelpers {
     pre  = {
       @Expression("tz != null"),
       @Expression("day != null ? isDayDate(day, tz)"),
-      @Expression("time != null ? dayDate(day, UTC) == EPOCH"),
+      @Expression("time != null ? dayDate(day, UTC) == EPOCH")
     },
     post = {
       @Expression("date == null || time == null ? result == null"),
