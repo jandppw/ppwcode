@@ -82,6 +82,14 @@ public class TimeZoneEditor extends DisplayLocaleBasedEnumerationValueEditor<Tim
 
 
 
+  @Override
+  @MethodContract(post = @Expression("result = value.getID()"))
+  protected String objectToTag(Object value) throws ClassCastException {
+    return ((TimeZone)value).getID();
+  }
+
+
+
   /**
    * If this is <code>true</code>, the label will return the time zone
    * in a short format, and in a long format otherwise.
