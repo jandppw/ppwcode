@@ -19,6 +19,7 @@ package org.ppwcode.value_III.time.interval;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.value_III.time.TimeHelpers.dayDate;
+import static org.ppwcode.value_III.time.TimeHelpers.dayTime;
 import static org.ppwcode.value_III.time.TimeHelpers.sameDay;
 
 import java.util.Date;
@@ -76,6 +77,9 @@ public abstract class AbstractIntradayTimeInterval extends AbstractBeginEndTimeZ
     }
   }
 
+  /**
+   * Midnight in {@link #getTimeZone()} of the day of this time interval.
+   */
   @MethodContract(post = @Expression("begin != null ? dayDate(begin) : end != null ? dayDate(end) : null"))
   public final Date getDay() {
     if (getBegin() != null) {
@@ -87,6 +91,24 @@ public abstract class AbstractIntradayTimeInterval extends AbstractBeginEndTimeZ
     else {
       return null;
     }
+  }
+
+  /**
+   * The time of day of {@link #getBegin()}, but at the date of epoch (1/1/1970),
+   * in the time zone {@link #getTimeZone()}.
+   */
+  @MethodContract(post = @Expression("dayTime(begin, timeZone"))
+  public final Date getBeginTimeOfDay() {
+    return dayTime(getBegin(), getTimeZone());
+  }
+
+  /**
+   * The time of day of {@link #getBegin()}, but at the date of epoch (1/1/1970),
+   * in the time zone {@link #getTimeZone()}.
+   */
+  @MethodContract(post = @Expression("dayTime(end, timeZone"))
+  public final Date getEndTimeOfDay() {
+    return dayTime(getEnd(), getTimeZone());
   }
 
 }
