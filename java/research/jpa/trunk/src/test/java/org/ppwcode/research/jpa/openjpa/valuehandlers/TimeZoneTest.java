@@ -26,11 +26,10 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.ppwcode.value_III.time.Duration;
 import org.ppwcode.value_III.time.interval.BeginEndTimeInterval;
-import org.ppwcode.value_III.time.interval.IllegalIntervalException;
+import org.ppwcode.value_III.time.interval.IllegalTimeIntervalException;
 import org.ppwcode.value_III.time.interval.TimeInterval;
 
 public class TimeZoneTest {
@@ -70,7 +69,7 @@ public class TimeZoneTest {
 
 
   @Test
-  public void testTimeZoneOffset() throws IllegalIntervalException {
+  public void testTimeZoneOffset() throws IllegalTimeIntervalException {
     System.out.println();
     System.out.println();
     System.out.println();
@@ -177,6 +176,73 @@ public class TimeZoneTest {
     System.out.println("seconds = " + seconds + (" (now seconds passed since epoch = " + gc.get(Calendar.SECOND) + ")"));
     assertEquals(seconds, gc.get(Calendar.SECOND));
     System.out.println("rest seconds = " + restSeconds);
+  }
+
+  @Test
+  public void testSqlDate() {
+    System.out.println();
+    System.out.println();
+    System.out.println();
+    System.out.println("This test shows clearly that java.sql.Date _itself_ does _nothing_ to force a date. " +
+                       "Javadoc says a \"driver\" will set intraday time to 0, but this class does nothing " +
+                       "special.");
+    System.out.println("------------------------------------------------------------------------------------");
+    TimeZone tz = TimeZone.getTimeZone("America/Chicago");
+    GregorianCalendar gcNow = new GregorianCalendar(2008, Calendar.NOVEMBER, 3, 16, 55, 33);
+    System.out.println("now = " + gcNow.getTime());
+    System.out.println("now = " + gcNow);
+    gcNow.setTimeZone(tz);
+    System.out.println("now = " + gcNow);
+    System.out.println(gcNow.getTime().getTime());
+    gcNow.clear(Calendar.HOUR);
+    gcNow.clear(Calendar.HOUR_OF_DAY);
+    gcNow.clear(Calendar.AM_PM);
+    gcNow.clear(Calendar.MINUTE);
+    gcNow.clear(Calendar.SECOND);
+    gcNow.clear(Calendar.MILLISECOND);
+    long millis = gcNow.getTime().getTime();
+    System.out.println(millis);
+    System.out.println();
+    java.sql.Date sqlDate = new java.sql.Date(millis);
+    System.out.println(sqlDate);
+    System.out.println(sqlDate.getTime());
+    GregorianCalendar gc = new GregorianCalendar();
+    gc.setTime(sqlDate);
+    System.out.println(gc.get(Calendar.YEAR) + " " + gc.get(Calendar.MONTH) + " " + gc.get(Calendar.DAY_OF_MONTH) + " " +
+                       gc.get(Calendar.HOUR_OF_DAY) + " " + gc.get(Calendar.MINUTE) + " " + gc.get(Calendar.SECOND) + " " +
+                       gc.get(Calendar.MILLISECOND));
+    gc.setTimeZone(tz);
+    System.out.println(gc.get(Calendar.YEAR) + " " + gc.get(Calendar.MONTH) + " " + gc.get(Calendar.DAY_OF_MONTH) + " " +
+                       gc.get(Calendar.HOUR_OF_DAY) + " " + gc.get(Calendar.MINUTE) + " " + gc.get(Calendar.SECOND) + " " +
+                       gc.get(Calendar.MILLISECOND));
+
+    System.out.println();
+    sqlDate = new java.sql.Date(millis + 7);
+    System.out.println(sqlDate);
+    System.out.println(sqlDate.getTime());
+    gc = new GregorianCalendar();
+    gc.setTime(sqlDate);
+    System.out.println(gc.get(Calendar.YEAR) + " " + gc.get(Calendar.MONTH) + " " + gc.get(Calendar.DAY_OF_MONTH) + " " +
+                       gc.get(Calendar.HOUR_OF_DAY) + " " + gc.get(Calendar.MINUTE) + " " + gc.get(Calendar.SECOND) + " " +
+                       gc.get(Calendar.MILLISECOND));
+    gc.setTimeZone(tz);
+    System.out.println(gc.get(Calendar.YEAR) + " " + gc.get(Calendar.MONTH) + " " + gc.get(Calendar.DAY_OF_MONTH) + " " +
+                       gc.get(Calendar.HOUR_OF_DAY) + " " + gc.get(Calendar.MINUTE) + " " + gc.get(Calendar.SECOND) + " " +
+                       gc.get(Calendar.MILLISECOND));
+
+    System.out.println();
+    sqlDate = new java.sql.Date(millis + 1234567890);
+    System.out.println(sqlDate);
+    System.out.println(sqlDate.getTime());
+    gc = new GregorianCalendar();
+    gc.setTime(sqlDate);
+    System.out.println(gc.get(Calendar.YEAR) + " " + gc.get(Calendar.MONTH) + " " + gc.get(Calendar.DAY_OF_MONTH) + " " +
+                       gc.get(Calendar.HOUR_OF_DAY) + " " + gc.get(Calendar.MINUTE) + " " + gc.get(Calendar.SECOND) + " " +
+                       gc.get(Calendar.MILLISECOND));
+    gc.setTimeZone(tz);
+    System.out.println(gc.get(Calendar.YEAR) + " " + gc.get(Calendar.MONTH) + " " + gc.get(Calendar.DAY_OF_MONTH) + " " +
+                       gc.get(Calendar.HOUR_OF_DAY) + " " + gc.get(Calendar.MINUTE) + " " + gc.get(Calendar.SECOND) + " " +
+                       gc.get(Calendar.MILLISECOND));
   }
 
 }
