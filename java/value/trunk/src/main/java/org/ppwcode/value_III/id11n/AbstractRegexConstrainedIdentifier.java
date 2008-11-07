@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2004 - $Date: 2008-10-28 20:52:03 +0100 (Tue, 28 Oct 2008) $ by PeopleWare n.v..
+Copyright 2004 - $Date$ by PeopleWare n.v..
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -39,10 +39,10 @@ import org.toryt.annotations_I.Throw;
  * @author    Jan Dockx
  * @author    PeopleWare NV
  */
-@Copyright("2008 - $Date: 2008-10-28 20:52:03 +0100 (Tue, 28 Oct 2008) $, PeopleWare n.v.")
+@Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 3356 $",
-         date     = "$Date: 2008-10-28 20:52:03 +0100 (Tue, 28 Oct 2008) $")
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 @Invars({
   @Expression("isConstant(getClass(), REGEX_PATTERN_NAME)")
 //  @Expression("isConstant(getClass(), GROUP_NAMES_NAME)")
