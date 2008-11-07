@@ -22,6 +22,7 @@ import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.ppwcode.value_III.person.id11n.PersonIdentifier;
 import org.ppwcode.vernacular.value_III.ImmutableValue;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
@@ -51,6 +52,10 @@ import org.toryt.annotations_I.MethodContract;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
+@ConcreteIdentifierTypes(
+  subtypes = {PersonIdentifier.class}, // MUDO not a good idea at all: introduces a cyclic dependency with all other packages
+  concrete = {}
+)
 public interface Identifier extends ImmutableValue {
 
   /**
