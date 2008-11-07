@@ -17,6 +17,13 @@ limitations under the License.
 package org.ppwcode.value_III.time;
 
 
+import static java.util.Calendar.DAY_OF_MONTH;
+import static java.util.Calendar.HOUR_OF_DAY;
+import static java.util.Calendar.MILLISECOND;
+import static java.util.Calendar.MINUTE;
+import static java.util.Calendar.MONTH;
+import static java.util.Calendar.SECOND;
+import static java.util.Calendar.YEAR;
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.pre;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotNull;
@@ -105,7 +112,7 @@ public class TimeHelpers {
     }
   )
   public static GregorianCalendar gregorianCalendar(Date d, TimeZone tz) {
-    preArgumentNotNull(tz, "tz");
+    assert preArgumentNotNull(tz, "tz");
     if (d == null) {
       return null;
     }
@@ -144,7 +151,7 @@ public class TimeHelpers {
     post = @Expression("(_date1 == null) ? (_date2 == null) : dayDate(_date1, _tz) == dayDate(_date2, _tz)")
   )
   public static boolean sameDay(Date date1, Date date2, TimeZone tz) {
-    preArgumentNotNull(tz, "tz");
+    assert preArgumentNotNull(tz, "tz");
     if ((date1 != null) && (date2 != null)) {
       GregorianCalendar cal1 = new GregorianCalendar(tz);
       cal1.setTime(date1);
@@ -189,7 +196,7 @@ public class TimeHelpers {
     }
   )
   public static Date dayDate(Date date, TimeZone tz) {
-    preArgumentNotNull(tz, "tz");
+    assert preArgumentNotNull(tz, "tz");
     if (date == null) {
       return null;
     }
@@ -209,9 +216,43 @@ public class TimeHelpers {
 
   @MethodContract(
     pre  = @Expression("_tz != null"),
+    post = {
+      @Expression("gregorianCalendar(result, _tz).get(YEAR) == 0"),
+      @Expression("gregorianCalendar(result, _tz).get(MONTH) == 0"),
+      @Expression("gregorianCalendar(result, _tz).get(DAY_OF_MONTH) == 0"),
+      @Expression("gregorianCalendar(result, _tz).get(HOUR_OF_DAY) == gregorianCalendar(date, _tz).get(HOUR_OF_DAY)"),
+      @Expression("gregorianCalendar(result, _tz).get(MINUTE) == gregorianCalendar(date, _tz).get(MINUTE)"),
+      @Expression("gregorianCalendar(result, _tz).get(SECOND) == gregorianCalendar(date, _tz).get(SECOND)"),
+      @Expression("gregorianCalendar(result, _tz).get(MILLISECOND) == gregorianCalendar(date, _tz).get(MILLISECOND)")
+    }
+  )
+  public static Date dayTime(Date date, TimeZone tz) {
+    assert preArgumentNotNull(tz, "tz");
+    if (date == null) {
+      return null;
+    }
+    GregorianCalendar cal = new GregorianCalendar(tz);
+    cal.clear();
+    cal.setTime(date);
+    cal.clear(Calendar.ERA);
+    cal.clear(Calendar.YEAR);
+    cal.clear(Calendar.MONTH);
+    cal.clear(Calendar.WEEK_OF_MONTH);
+    cal.clear(Calendar.WEEK_OF_YEAR);
+    cal.clear(Calendar.DAY_OF_YEAR);
+    cal.clear(Calendar.DAY_OF_MONTH);
+    cal.clear(Calendar.DAY_OF_WEEK_IN_MONTH);
+    cal.clear(Calendar.DAY_OF_WEEK);
+    Date result = cal.getTime();
+    assert result != date;
+    return result;
+  }
+
+  @MethodContract(
+    pre  = @Expression("_tz != null"),
     post = {@Expression("(_date != null) && (_date == dayDate(_date, _tz))")})
   public static boolean isDayDate(Date date, TimeZone tz) {
-    preArgumentNotNull(tz, "tz");
+    assert preArgumentNotNull(tz, "tz");
     if (date == null) {
       return false;
     }
@@ -244,7 +285,7 @@ public class TimeHelpers {
     }
   )
   public static java.sql.Date sqlDayDate(Date d, TimeZone tz) {
-    preArgumentNotNull(tz, "tz");
+    assert preArgumentNotNull(tz, "tz");
     if (d == null) {
       return null;
     }
@@ -272,7 +313,7 @@ public class TimeHelpers {
     }
   )
   public static Time sqlTimeOfDay(Date d, TimeZone tz) {
-    preArgumentNotNull(tz, "tz");
+    assert preArgumentNotNull(tz, "tz");
     if (d == null) {
       return null;
     }
@@ -297,11 +338,14 @@ public class TimeHelpers {
    * the sense or nonsense of using {@link java.sql.Date} in the
    * <a href="package.html#java.sql.Date">package documentation.</a>). The given {@code day}
    * should represent midnight of the intended day in the given time zone {@code tz}.
+   * {@code time} must be represented in UTC. It uses the milliseconds since EPOCH
+   * as time of day.
    */
   @MethodContract(
     pre  = {
       @Expression("tz != null"),
-      @Expression("day != null ? isDayDate(day, tz)")
+      @Expression("day != null ? isDayDate(day, tz)"),
+      @Expression("time != null ? dayDate(day, UTC) == EPOCH"),
     },
     post = {
       @Expression("date == null || time == null ? result == null"),
@@ -314,12 +358,13 @@ public class TimeHelpers {
       @Expression("date != null && time != null ? gregorianCalendar(result, tz).get(MILLISECOND) == gregorianCalendar(time, UTC).get(MILLISECOND)")
     }
   )
-  public static Date compose(java.sql.Date day, Time time, TimeZone tz) {
-    preArgumentNotNull(tz, "tz");
+  public static Date compose(Date day, Date time, TimeZone tz) {
+    assert preArgumentNotNull(tz, "tz");
     if (day == null || time == null) {
       return null;
     }
-    pre(isDayDate(day, tz), "isDayDate(day, tz)");
+    assert pre(isDayDate(day, tz), "isDayDate(day, tz)");
+    assert pre(EPOCH.equals(dayDate(time, UTC)), "EPOCH.equals(dayDate(time, UTC)");
     long millies = day.getTime();
     millies += time.getTime();
     Date result = new Date(millies);
@@ -327,7 +372,7 @@ public class TimeHelpers {
   }
 
   private static boolean notSetOr0(Calendar cal, int field) {
-    assert cal != null;
+    assert preArgumentNotNull(cal, "cal");
     return (! cal.isSet(field)) || (cal.get(field) == 0);
   }
 
@@ -336,11 +381,52 @@ public class TimeHelpers {
    * be appropriately configured with a time zone each for comparison.
    */
   private static boolean fieldEqual(Calendar cal1, Calendar cal2, int field) {
-    assert cal1 != null;
-    assert cal2 != null;
+    assert preArgumentNotNull(cal1, "cal1");
+    assert preArgumentNotNull(cal2, "cal2");
     return (! cal1.isSet(field)) ?
              (! cal2.isSet(field)) :
              (cal2.isSet(field) && (cal1.get(field) == cal2.get(field)));
+  }
+
+  /**
+   * Express the same day date and day time as {@code d} is in the {@code from}
+   * {@link TimeZone}, in the {@code to} {@link TimeZone}.
+   */
+  @MethodContract(
+    pre  = {
+      @Expression("from != null"),
+      @Expression("to != null")
+    },
+    post = {
+      @Expression("d == null ? result == null"),
+      @Expression("d != null ? gregoriaCalendar(d, from).get(YEAR) == gregoriaCalendar(d, to).get(YEAR)"),
+      @Expression("d != null ? gregoriaCalendar(d, from).get(MONTH) == gregoriaCalendar(d, to).get(MONTH)"),
+      @Expression("d != null ? gregoriaCalendar(d, from).get(DAY_OF_MONTH) == gregoriaCalendar(d, to).get(DAY_OF_MONTH)"),
+      @Expression("d != null ? gregoriaCalendar(d, from).get(HOUR_OF_DAY) == gregoriaCalendar(d, to).get(HOUR_OF_DAY)"),
+      @Expression("d != null ? gregoriaCalendar(d, from).get(MINUTE) == gregoriaCalendar(d, to).get(MINUTE)"),
+      @Expression("d != null ? gregoriaCalendar(d, from).get(SECOND) == gregoriaCalendar(d, to).get(SECOND)"),
+      @Expression("d != null ? gregoriaCalendar(d, from).get(MILLISECOND) == gregoriaCalendar(d, to).get(MILLISECOND)")
+    }
+  )
+  public static Date move(Date d, TimeZone from, TimeZone to) {
+    assert preArgumentNotNull(from, "from");
+    assert preArgumentNotNull(to, "to");
+    if (d == null) {
+      return null;
+    }
+    GregorianCalendar fromC = new GregorianCalendar(from);
+    fromC.setTime(d);
+    int year = fromC.get(YEAR);
+    int month = fromC.get(MONTH);
+    int dayOfMonth = fromC.get(DAY_OF_MONTH);
+    int hour = fromC.get(HOUR_OF_DAY);
+    int minute = fromC.get(MINUTE);
+    int second = fromC.get(SECOND);
+    int millisecond = fromC.get(MILLISECOND);
+    GregorianCalendar toC = new GregorianCalendar(to);
+    toC.set(year, month, dayOfMonth, hour, minute, second);
+    toC.set(MILLISECOND, millisecond);
+    return toC.getTime();
   }
 
 }
