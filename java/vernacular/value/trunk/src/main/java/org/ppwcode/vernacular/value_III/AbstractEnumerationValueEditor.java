@@ -19,6 +19,7 @@ package org.ppwcode.vernacular.value_III;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.ConstantHelpers.constant;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotNull;
 
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorSupport;
@@ -140,12 +141,31 @@ public abstract class AbstractEnumerationValueEditor<_Value_> extends AbstractVa
    *       to do with a null value. When it turns out in use later that we cannot return
    *       null in {@code getAsText} for some reason, it would be better to return a meaningful
    *       {@code NULL} String or something than a space probably.
+   *
+   * @protected This method uses the method {@link #objectToTag(Object value)} to safely
+   *            translate a value into its tag. That method is implemented here to use
+   *            {@link Object#toString()} by default, but can be overridden in the actual
+   *            implementation.
    */
   @Override
   @MethodContract(post = @Expression("value == null ? null : value.toString()"))
-  public final String getAsText() {
-    String result = (getValue() == null) ? null : getValue().toString();
+  public final String getAsText() throws ClassCastException {
+    String result = (getValue() == null) ? null : objectToTag(getValue());
     return result;
+  }
+
+  @MethodContract(
+    pre  = @Expression("value != null"),
+    post = {
+      @Expression("result != null"),
+      @Expression(value = "result == value.toString()", scope = Scope.PROTECTED)
+    },
+    exc  = @Throw(type = ClassCastException.class,
+                  cond = @Expression(value = "true", description = "_value is not of a type we can handle"))
+  )
+  protected String objectToTag(Object value) throws ClassCastException {
+    assert preArgumentNotNull(value, "value");
+    return value.toString();
   }
 
   /**
