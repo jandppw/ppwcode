@@ -18,10 +18,12 @@ package org.ppwcode.value_III.ext.java.util;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.deadBranch;
 
 import java.util.Locale;
 
 import org.apache.openjpa.jdbc.meta.ValueHandler;
+import org.apache.openjpa.jdbc.meta.ValueMapping;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
@@ -39,6 +41,35 @@ public class LocaleValueHandler extends AbstractEnumerationValueValueHandler {
 
   public LocaleValueHandler() {
     super(Locale.class, 20);
+  }
+
+  public final static String SEPARATOR = "_";
+
+  /**
+   * Since not all locales possible are in the values map of the {@link LocaleEditor},
+   * we should recreate what we need ourselves.
+   */
+  @Override
+  public Object toObjectValue(ValueMapping vm, Object val) {
+    try {
+      return super.toObjectValue(vm, val);
+    }
+    catch (IllegalArgumentException iaExc) {
+      assert val instanceof String;
+      String stringVal = (String)val;
+      String[] valParts = stringVal.split(SEPARATOR);
+      switch (valParts.length) {
+        case 1:
+          return new Locale(valParts[0]);
+        case 2:
+          return new Locale(valParts[0], valParts[1]);
+        case 3:
+          return new Locale(valParts[0], valParts[1], valParts[2]);
+        default:
+          deadBranch("somebody hacked the database: locale string contains more than 3 parts");
+      }
+    }
+    return null; // keep compiler happy
   }
 
 }
