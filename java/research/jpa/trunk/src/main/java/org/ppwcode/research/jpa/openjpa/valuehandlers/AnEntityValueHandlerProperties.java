@@ -93,7 +93,7 @@ public class AnEntityValueHandlerProperties extends AbstractIntegerIdVersionedPe
   }
 
   @Column(name="locale")
-  @Strategy("org.ppwcode.value_III.propertyeditors.java.util.LocaleValueHandler")
+  @Strategy("org.ppwcode.value_III.ext.java.util.LocaleValueHandler")
   private Locale $locale;
 
 
@@ -154,7 +154,7 @@ public class AnEntityValueHandlerProperties extends AbstractIntegerIdVersionedPe
   }
 
 
-//  @Strategy("org.ppwcode.value_III.time.interval.DeterminateIntradayTimeIntervalValueHandler")
+  @Strategy("org.ppwcode.value_III.time.interval.DeterminateIntradayTimeIntervalValueHandler")
   private DeterminateIntradayTimeInterval $determinateIntradayTimeInterval;
 
 }
