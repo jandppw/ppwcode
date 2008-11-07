@@ -49,7 +49,7 @@ public @interface ConcreteIdentifierTypes {
   /**
    * Enumeration of the known direct subtype interfaces of this identifier type.
    */
-  Class<?>[] subtypes();
+  Class<?>[] subtypes() default {};
 
   /**
    * Enumeration of the known direct concrete classes that implement this identifier type.
