@@ -44,8 +44,8 @@ import org.toryt.annotations_I.Throw;
 @SvnInfo(revision = "$Revision: 3356 $",
          date     = "$Date: 2008-10-28 20:52:03 +0100 (Tue, 28 Oct 2008) $")
 @Invars({
-  @Expression("isConstant(getClass(), REGEX_PATTERN_NAME)"),
-  @Expression("isConstant(getClass(), GROUP_NAMES_NAME)")
+  @Expression("isConstant(getClass(), REGEX_PATTERN_NAME)")
+//  @Expression("isConstant(getClass(), GROUP_NAMES_NAME)")
 })
 public abstract class AbstractRegexConstrainedIdentifier extends AbstractIdentifier {
 
