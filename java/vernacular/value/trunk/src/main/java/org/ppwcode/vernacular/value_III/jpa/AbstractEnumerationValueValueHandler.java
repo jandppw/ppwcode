@@ -24,7 +24,6 @@ import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpe
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;
 import java.sql.Types;
-import java.util.TimeZone;
 
 import org.apache.openjpa.jdbc.kernel.JDBCStore;
 import org.apache.openjpa.jdbc.meta.ValueHandler;
@@ -89,9 +88,9 @@ public abstract class AbstractEnumerationValueValueHandler extends AbstractValue
   //------------------------------------------------------------------
 
   public final PropertyEditor getPropertyEditor() {
-    PropertyEditor pe = PropertyEditorManager.findEditor(TimeZone.class);
+    PropertyEditor pe = PropertyEditorManager.findEditor(getValueType());
     if (pe == null) {
-      deadBranch("no property editor found for " + TimeZone.class +
+      deadBranch("no property editor found for " + getValueType() +
                  "; please register a property editor for this type with " +
                  "PropertyEditorManager.registerEditor(TARGET CLASS, EDITOR CLASS) " +
                  "or via another mechanism");
@@ -134,13 +133,14 @@ public abstract class AbstractEnumerationValueValueHandler extends AbstractValue
     }
     catch (ClassCastException exc) {
       unexpectedException(exc, "trying to handle " + val + " with " + getClass().getName() +
-                               ", but that can't handle that type");
+                               ", but that can't handle that type; this value handler only " +
+                               "handles instance of " + getValueType());
     }
     return null; // keep compiler happy
   }
 
   @Override
-  public Object toObjectValue(ValueMapping vm, Object val) {
+  public Object toObjectValue(ValueMapping vm, Object val) throws IllegalArgumentException {
     try {
       String stringVal = (String)val;
       if (stringVal == null) {
