@@ -38,6 +38,7 @@ import org.ppwcode.value_III.person.id11n.state.be.BelgianPersonIdentificationNu
 @SvnInfo(revision = "$Revision: 3471 $",
          date     = "$Date: 2008-11-07 16:59:27 +0100 (Fri, 07 Nov 2008) $")
 @ConcreteIdentifierTypes(concrete = {BelgianPersonIdentificationNumber.class})
+// MUDO dependency of this package on subpackage: CYCLE
 public interface PersonIdentifier extends Identifier {
 
   // NOP
