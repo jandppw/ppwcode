@@ -6,6 +6,121 @@
 <p><strong>Id11n</strong> or <strong>identification</strong> is a package that gathers general
   interfaces and supporting code for value types that are used as identifiers of objects in
   reality. Examples are identifiers of persons, organizations, computers, goods for sale,
-  etcetera.</p>
+  etcetera. Note that this comes very close to the concept of a {@link java.net.URI Uniform Resource Identifier}, see <a href="http://www.ietf.org/rfc/rfc2396.txt">RFC 2369</a>.</p>
+<p>Identifiers for objects in reality have a long history. There are a number of reasons for their use:</p>
+<ul>
+  <li>to uniquely identify a certain real world object in an abstract context, either in a persistent storage (a classic 1890's paper file), or in communication</li>
+  <li>as a way to link data in different persistent storages together, when the data concerns a common real world object or a more abstract concept</li>
+  <li>as a way to find data in a persistent storage; for this, such identifiers are often structured in some way, or can be ordered</li>
+</ul>
+<p>Without a doubt, there are much more reasons to be listed for the use of identifiers. Note that certainly the first 2 reasons cited above are akin to the concept of
+  <dfn>reference semantics</dfn> or <dfn>handles</dfn> as known in computer science. Other needs are comparable to why we use <dfn>primary keys</dfn> in databases.</p>
+<p>A big difference with the era of computers is, that although we need some form of identification internally, there is less need to expose the internal, technical identifiers
+  to the end user. Before the advent of computers and powerful processors, it was necessary for people to work with the identifiers themselves. With computers and databases,
+  and powerful search algorithms, in this day and age, humans can make do with a description of the real world object to have the computer find the correct files.
+  E.g., a name, city, district, job description, ..., might suffice to quickly find the data concerning a certain person, without the need for a formalized identifier.
+  Such an approach is much more intuitive than having the end user type in un-human strings.</p>
+<p>Yet, for historical reasons, and to be able to link data in different persistent storages, in different organizations, to the same real world object, most business
+  applications still have to deal with this identifiers in some way. We observe that most identifier types follow a more or less common scheme, and have syntactic
+  limitations. Therefore, it is interesting to create a code base that supports such identifiers as much as possible, and implements the identifiers in common use
+  once and for all, even if we succeed in hiding them from the end user.</p>
+<h3>Practical requirements for the code</h3>
+<p>There are many existing schemes for identification. Sadly, it is difficult to find existing implementations in code that express these schemes. This project attempts to
+  offer such code, finished. For this, we take a highly practical point of view: we want code that works out of the box, that encapsulates all the knowledge and behavior
+  for a given identification scheme, for what we need in day to day projects. This encompasses internal code (reasoning, in RAM), persistence (representation of the identifier
+  in a database), and user interaction (UI components for end users to see and input identifiers). In each version, we limit ourselves to practical subsets we need now.
+  Over time, support may grow broader.</p>
+<p>The practical use of identifiers is necessary, but quite limited:</p>
+<ul>
+  <li>The main feature of an identifier is that it must be possible to express <dfn>equality</dfn>. Do 2 instances of an identifier express the same identifier?
+    Identifiers never exist in isolation. They are always the property of a larger set of data. Via identifier equality, we express that 2 sets of data concern
+    the same real world object. Furthermore, equality suffices for finding sets of data for a given real world object of which the identifier is known.</li>
+  <li>Most identifier schemes are alpha-numeric, but have a definition of well-formedness. Our code should at least offer support to validate identifiers
+    with respect to well-formedness, and not allow the existence of instances that are not well-formed.</li>
+  <li>Identifier schemes have a limited applicability. Different schemes exist for different types of real world objects. Our code must make it possible to restrict
+    of the use of a certain scheme to its applicable objects.</li>
+  <li>Many identifier schemes exist for a given type of real world object. Anybody can invent a scheme, and anybody surely has over the past 1000 years or more.
+    We must support the possibility to use different schemes for a given type of real world object, while the use is still restricted to schemes applicable
+    for that given type of real world object.</li>
+  <li>Furthermore, in general, it must be possible to use a collection of applicable identifiers for a given type of real world objects. Each different scheme
+    is invented by a different authority, and / or for a different context. It is often necessary in our projects to link a set of data through an identifier
+    in many different contexts, that each requires its own identifier scheme. Furthermore, it must be possible for such a collection to be open, so that
+    identifiers of new applicable schemes can be added when they become available without large code changes. And on the other hand, it must also be possible
+    to constrain such a collection to not accept particular applicable schemes, or to require at least elements of one or n particular applicable schemes.</li>
+  <li>From each identifier instance, in all circumstances, it must be possible to derive the scheme of which it is an instance. In user interfaces, this requirement
+    can be weakened from &quot;derive&quot; to &quot;know&quot;: if the property the user is shown or asked to interact with is constrained to one specific
+    identifier scheme, the user can be told via meta-information (label) what type is to be expected, and it is not necessary to demand of the end user to
+    manually express the scheme. In RAM and persistence storage however, because of the dynamic nature of the world we live in, an identifier should always
+    carry its type: we know from experience that scheme change and are added, and that it is extremely often a question which scheme a certain identifier expresses.
+    Extreme use cases must be presented to justify not doing this for reasons of performance, memory use or disk use.</li>
+  <li>The different types of identifier schemes, for a given applicability, must be enumerated. Since we do not endeavour to support all existing schemes, this
+    enumeration should be limited to those schemes that are supported.</li>
+  <li>The technology used to enumerate the supported identifier schemes should be dynamic. This must make it possible for users of a library of identifier schemes
+    to add support for new schemes outside the library, and use it in his application. The need for enumeration comes in the first place from a UI concern: when
+    an end user can add an identifier to a polymorph collection, he needs a UI mechanism such as a set of radio buttons or a combo box to select the type. This
+    requires an enumeration of supported types. Furthermore, such an enumeration can be used to implement limitations to the accepted schemes as required above.
+    Furthermore, such an enumeration can be used to implement factory code.</li>
+  <li>A reference should be kept, mainly for developers, to a formal description of the identifier scheme.</li>
+</ul>
+<p>An ordering for identifiers sometimes exists, but is largely irrelevant in our scope. Orderings for identifiers were introduced historically for retrieval of data sets
+  by humans in large data collections. Computers do that for us now transparently (also using an ordering, but not necessarily a semantically meaningful ordering; the
+  possible orderings of the underlying primitive representation suffices).</p>
+<p>The internal structure of an identifier scheme expresses sometimes embedded semantics. Properties of the real world object an identifier refers to are sometimes
+  embedded in the identifier. For us, this is in general irrelevant. We treat identifiers as pseudo keys, and not as natural keys. The implementation might offer
+  methods that expose properties derived from the internal structure of an identifier, but this is not a requirement. E.g., a first version does not need to offer
+  this feature, but it can be added in later versions. In any case, if such support is offered, in every case known to this writer, the information embedded in an
+  identifier can only be seen as indicative or probable. In every case known to this writer, when an identifier embeds semantic information about the real world
+  object the identifier refers to, there are exceptions to the rule. Thus, in general, such information should be mistrusted, and only used as a heuristic replacement
+  for missing information, or a default, never as authoritative information.</p>
+<p>The internal structure of an identifier scheme might be interesting internally for reasons of well-formedness validation or the extraction of semantic information,
+  but is irrelevant for use of the identifier in the computer. It should be encapsulated and hidden. Only in the user interface might it be interesting to expose
+  commonly known internal structure to ease end user interaction. There is no reason in general to expose the structure in persistent storage.</p>
+<h3>Actual scope of the code</h3>
+<p>In this version, we accept the following limitations:</p>
+<ul>
+  <li>all identifiers are alpha-numeric</li>
+  <li>all identifiers will be stored as String / VARCHAR</li>
+</ul>
+<h3>Design</h3>
+<p>This package contains the framework and general support code for identifiers. Actual concrete implementations of concrete identifier schemes for concrete
+  applicability domains are created in other packages aimed at the applicability domain. This text sketches the general design of this code. Detailed information
+  is to be found in the Javdoc of the particular classes and interfaces.</p>
+<p>Identifiers will be implemented as {@link org.ppwcode.vernacular.value_III.ImmutableValue immutable values}. Each scheme we support will be represented by a separate
+  (final Java) class, encapsulating the notion of equality and well-formedness. In this way, the language's strong typing can be used to limit the applicability of a
+  certain scheme, or, that is, the closest we can get, developers can expressly limit the identifier scheme they want to accept for a given property by declaring
+  the appropriate static identifier type for the property.</p>
+<p>Apart from the actual concrete classes expressing one concrete identifier scheme, interface hierarchies will be used to make polymorph use of several identifier
+  schemes possible, as well in a simple property, as in a multi-valued property. Hierarchies can exist per type of real world objects, per issuing authority, etcetera.
+  Multiple inheritance can be applied in this interface hierarchy freely.</p>
+<p>The concrete identifier instances will hold a String instance variable, which will be persisted in to a VARCHAR field, that expresses the identifier. This is
+  the programmatic representation, and it will hold no structure or optional separator characters.</p>
+<p>Concrete identifier classes will feature a constructor that takes a complete identifier String as input. A default constructor is not mandatory, and should only be
+  added if there is a true default element in the collection of identifiers allowed by the scheme. Other constructors that expose the possible internal structure of
+  the identifier may be added if applicable.</p>
+<p>The {@link Object#toString()} method of the identifier types will return the programmatic representation of the identifier instance, including an identification
+  of the scheme.</p>
+<p>Equality is implemented depending on the semantics of the identifier scheme (it is possible that schemes define equivalency beyond the literal alpha-numeric
+  pattern), but always includes the identifier scheme identity in its criteria.</p>
+<p>Class implementation inheritance will be used to inherit support for validation of well-formedness. This support is largely independent of the interface hierarchy
+  of applicability. In a high abstract super class, we support validation using grep patterns. Lower more specific abstract subclasses, with the help of static helper
+  methods and delegates, will implement support for more stringent validation, such as CRC checks, which are embedded in many identifier schemes.</p>
+<p>Although some different identifier schemes might be syntactically the same, still different concrete classes will be created for each scheme. This includes
+  different version of one identifier scheme: these are essentially different schemes. Common behavior can be exploited via implementation inheritance or
+  delegation.</p>
+<p>The programmatic representation, persistent storage, and interaction with the user, will always carry the complete identifier string. Non-identifying parts, such
+  as CRC fields, will <em>not</em> be filtered out of the programmatic representation, or out of the end user presentation.</p>
+<p>A concrete identifier class is bound to exactly one well-defined identifier scheme. There might be more than one implementation for one given identifier scheme.
+  As such, given an identifier object, we know exactly of which identifier scheme it is an instance, via the class it is an instance of. All identifier classes
+  feature a dynamic method that return a programmatic representation of the identifier scheme for which it is the implementation. We choose to use the FQCN of the
+  class for this, via <code><var>identifier</var>.getClass().getCanonicalName()</code>. This information is stored and transported with the actual identifier in
+  all circumstances. Notably, when we store an identifier in a database, apart from the VARCHAR column holding the identifier String, we also store this
+  identifier scheme identification in a second VARCHAR column.</p>
+<p>A URL where a formal description of the identifier scheme (preferably in English) can be found is provided for each identifier class in an annotation. A description
+  of the identifier type, aimed at developers, its applicability, and a reference to the issuing authority, is part of the Javadoc of the class.</p>
+<p>For each interface, created for a domain of applicability of identifiers, a list is created in a file that <dfn>enumerates</dfn> all known implementations.
+  This list only enumerates the delta with a super type, but also lists all known sub interfaces. This list is provided in each library, and is found via default
+  names, but can be extended or replaced when it is used. Support is offered to use these lists in a UI, to enable the end user to select the identifier scheme he
+  wants.</p>
+<p>Localized concise names for each identifier scheme are needed. They are provided via separate properties files.</p>
 </body>
 </html>
