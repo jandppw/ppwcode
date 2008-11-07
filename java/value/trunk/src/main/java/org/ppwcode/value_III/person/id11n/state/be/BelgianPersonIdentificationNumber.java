@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2004 - $Date: 2008-11-07 16:59:27 +0100 (Fri, 07 Nov 2008) $ by PeopleWare n.v..
+Copyright 2004 - $Date$ by PeopleWare n.v..
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -38,10 +38,10 @@ import org.toryt.annotations_I.Throw;
  * @author    Jan Dockx
  * @author    PeopleWare NV
  */
-@Copyright("2008 - $Date: 2008-11-07 16:59:27 +0100 (Fri, 07 Nov 2008) $, PeopleWare n.v.")
+@Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 3471 $",
-         date     = "$Date: 2008-11-07 16:59:27 +0100 (Fri, 07 Nov 2008) $")
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 @IdentifierIssuingAuthority(name = "Federal Public Service of the Interior", uri = "http://www.ibz.fgov.be/")
 @IdentifierSchemeDescription("http://www.ibz.rrn.fgov.be/fileadmin/user_upload/Registre/nl/instructies/onderrichtingen_080601.pdf")
 // starting from page 31
