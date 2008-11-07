@@ -39,10 +39,6 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
          date     = "$Date$")
 public final class IntradayTimeIntervalValueHandler extends AbstractIntradayTimeIntervalValueHandler {
 
-  public IntradayTimeIntervalValueHandler() {
-    super(false);
-  }
-
   @Override
   protected AbstractIntradayTimeInterval createFreshIntradayTimeInterval(Date beginTime, Date endTime, TimeZone tz)
       throws IllegalTimeIntervalException {
