@@ -18,10 +18,11 @@ package org.ppwcode.value_III.time.interval;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+import static org.ppwcode.value_III.time.TimeHelpers.UTC;
 import static org.ppwcode.value_III.time.TimeHelpers.compose;
 import static org.ppwcode.value_III.time.TimeHelpers.isDayDate;
+import static org.ppwcode.value_III.time.TimeHelpers.move;
 import static org.ppwcode.value_III.time.TimeHelpers.sqlDayDate;
-import static org.ppwcode.value_III.time.TimeHelpers.sqlTimeOfDay;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.deadBranch;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
 
@@ -49,6 +50,10 @@ import org.ppwcode.value_III.ext.java.util.TimeZoneValueHandler;
  * in all 4 columns. This is not a problem because both the begin and end being {@code null} is forbidden for
  * {@link IntradayTimeInterval IntradayTimeIntervals}.
  *
+ * Note that the columns cannot be made non-nullable in general here, even for the {@link DeterminateIntradayTimeInterval},
+ * since, although the begin and end (and thus date) and the time zone cannot be null, the property of this type
+ * as a whole, in general, can still be {@code null}. This value handler than sets all columns to {@code NUL}.
+ *
  * @author Jan Dockx
  * @author PeopleWare n.v.
  */
@@ -57,12 +62,6 @@ import org.ppwcode.value_III.ext.java.util.TimeZoneValueHandler;
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
 public abstract class AbstractIntradayTimeIntervalValueHandler extends AbstractValueHandler {
-
-  protected AbstractIntradayTimeIntervalValueHandler(boolean determinate) {
-    $determinate = determinate;
-  }
-
-  private final boolean $determinate;
 
   private final TimeZoneValueHandler $timeZoneValueHandler = new TimeZoneValueHandler();
 
@@ -75,7 +74,6 @@ public abstract class AbstractIntradayTimeIntervalValueHandler extends AbstractV
     Column c = new Column();
     c.setName(name + "_day");
     c.setType(Types.DATE);
-    c.setNotNull(true);
     c.setJavaType(JavaSQLTypes.SQL_DATE);
     return c;
   }
@@ -85,7 +83,6 @@ public abstract class AbstractIntradayTimeIntervalValueHandler extends AbstractV
     c.setName(name);
     c.setType(Types.TIME);
     c.setJavaType(JavaSQLTypes.TIME);
-    c.setNotNull($determinate);
     return c;
   }
 
@@ -102,10 +99,32 @@ public abstract class AbstractIntradayTimeIntervalValueHandler extends AbstractV
       if (beTi == null) {
         return new Object[] {null, null, null, null};
       }
-      java.sql.Date day = sqlDayDate(beTi.getDay(), beTi.getTimeZone());
-      Time beginTime = sqlTimeOfDay(beTi.getBegin(), beTi.getTimeZone());
-      Time endTime = sqlTimeOfDay(beTi.getEnd(), beTi.getTimeZone());
-      return new Object[] {day, beginTime, endTime,
+      /*
+       * BIG NOTE
+       * The day date effectively stored when we try to store d, is the date it is at
+       * the default time zone at time d.
+       * Thus, if d is midnight of day x in time zone tz, and tz is more to the east than the default time zone,
+       * the day date stored is x - 1!!.
+       * To fix this, we will correct what we pass in to be midnight of the date we want in the _default time zone_,
+       * although that point in time does not correspond most of the time with the point in time we actually want.
+       *
+       * BIG NOTE
+       * The day time effectively stored when we try to store t, is the time of day it is
+       * at the default time zone at time t UTC. To get the time in the database it is at time zone
+       * beTi.getTimeZone(), we thus need to store a java.sql.Time that expresses that same day time
+       * in the default time zone on the day date of EPOCH. If the default time zone is thus west of Greenwich,
+       * this is negative milliseconds.
+       */
+      TimeZone defaultTZ = TimeZone.getDefault();
+      // day time, in the default time zone, on 1/1/1970
+      Date beginDefaultTZ = move(beTi.getBeginTimeOfDay(), beTi.getTimeZone(), defaultTZ);
+      Date endDefaultTZ = move(beTi.getEndTimeOfDay(), beTi.getTimeZone(), defaultTZ);
+      /* the same day time, in the default time zone, on 1/1/1970, as a sql time;
+       * we copy the milliseconds since epoch UTC into the constructor
+       */
+      Time beginTime = new Time(beginDefaultTZ.getTime());
+      Time endTime = new Time(endDefaultTZ.getTime());
+      return new Object[] {midnightDefaultTZ(beTi.getDay(), beTi.getTimeZone()), beginTime, endTime,
                            $timeZoneValueHandler.toDataStoreValue(vm, beTi.getTimeZone(), store)};
     }
     catch (ClassCastException exc) {
@@ -113,6 +132,14 @@ public abstract class AbstractIntradayTimeIntervalValueHandler extends AbstractV
                           AbstractIntradayTimeIntervalValueHandler.class.getName() + ", but that can't handle that type");
     }
     return null; // make compiler happy
+  }
+
+  private static java.sql.Date midnightDefaultTZ(Date d, TimeZone tz) {
+    assert isDayDate(d, tz);
+    TimeZone defaultTz = TimeZone.getDefault();
+    Date moved = move(d, tz, defaultTz);
+    assert isDayDate(moved, defaultTz);
+    return sqlDayDate(moved, defaultTz);
   }
 
   @Override
@@ -123,15 +150,31 @@ public abstract class AbstractIntradayTimeIntervalValueHandler extends AbstractV
       Time beginTime = (Time)data[1];
       Time endTime = (Time)data[2];
       TimeZone tz = (TimeZone)$timeZoneValueHandler.toObjectValue(vm, data[3]);
-      assert day == null || isDayDate(day, tz);
       if (day == null) {
         if (beginTime != null || endTime != null || tz != null) {
           deadBranch("data received from database is not as expected: if the day is null, the times and timezone need to be null too");
         }
         return null;
       }
-      Date intervalBeginTime = compose(day, beginTime, tz);
-      Date intervalEndTime = compose(day, endTime, tz);
+      /*
+       * BIG NOTE
+       * What we get here, via OpenJPA, from the database, is a java.sql.Date that represents
+       * midnight of the effective day date in the database (DATE), expressed in the DEFAULT TIMEZONE,
+       * although we put it in in the timezone tz!
+       * So isDayDate(day, tz) are probably NOT true.
+       */
+      Date correctedDay = midnightTZ(day, tz);
+      /*
+       * BIG NOTE
+       * What we get here, via OpenJPA, from the database, is a java.sql.Time that represents
+       * the time of day in the database (TIME), on 1/1/1970, expressed in the DEFAULT TIMEZONE.
+       * We will move it to the time zone UTC before composing, while keeping the time of day.
+       */
+      TimeZone defaultTz = TimeZone.getDefault();
+      Date correctedBeginTime = move(beginTime, defaultTz, UTC);
+      Date correctedEndTime = move(endTime, defaultTz, UTC);
+      Date intervalBeginTime = compose(correctedDay, correctedBeginTime, tz);
+      Date intervalEndTime = compose(correctedDay, correctedEndTime, tz);
       return createFreshIntradayTimeInterval(intervalBeginTime, intervalEndTime, tz);
     }
     catch (ArrayIndexOutOfBoundsException exc) {
@@ -144,6 +187,14 @@ public abstract class AbstractIntradayTimeIntervalValueHandler extends AbstractV
       unexpectedException(exc, "data received from database did violate invariants for " + IntradayTimeInterval.class);
     }
     return null; // make compiler happy
+  }
+
+  private Date midnightTZ(Date d, TimeZone tz) {
+    TimeZone defaultTz = TimeZone.getDefault();
+    assert isDayDate(d, defaultTz);
+    Date moved = move(d, defaultTz, tz);
+    assert isDayDate(moved, tz);
+    return moved;
   }
 
   protected abstract AbstractIntradayTimeInterval createFreshIntradayTimeInterval(Date intervalBeginTime, Date intervalEndTime, TimeZone tz)
