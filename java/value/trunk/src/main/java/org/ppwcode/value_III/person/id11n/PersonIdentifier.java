@@ -22,9 +22,7 @@ import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.value_III.id11n.ConcreteIdentifierTypes;
 import org.ppwcode.value_III.id11n.Identifier;
-import org.ppwcode.value_III.person.id11n.state.be.BelgianPersonIdentificationNumber;
 
 
 /**
@@ -37,8 +35,6 @@ import org.ppwcode.value_III.person.id11n.state.be.BelgianPersonIdentificationNu
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-@ConcreteIdentifierTypes(concrete = {BelgianPersonIdentificationNumber.class})
-// MUDO dependency of this package on subpackage: CYCLE
 public interface PersonIdentifier extends Identifier {
 
   // NOP
