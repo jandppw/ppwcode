@@ -120,13 +120,9 @@ public class AbstractTimeIntervalTest {
   public void testEqualsObject() {
     for (AbstractTimeInterval subject : subjects()) {
       testEqualsObject(subject, null);
-      assertInvariants(subject);
       testEqualsObject(subject, new Object());
-      assertInvariants(subject);
       for (AbstractTimeInterval other : subjects()) {
         testEqualsObject(subject, other);
-        assertInvariants(subject);
-        assertInvariants(other);
       }
     }
   }
