@@ -47,7 +47,7 @@ import org.toryt.annotations_I.Throw;
   @Expression("isConstant(getClass(), REGEX_PATTERN_NAME)")
 //  @Expression("isConstant(getClass(), GROUP_NAMES_NAME)")
 })
-public abstract class AbstractRegexConstrainedIdentifier extends AbstractIdentifier {
+public abstract class AbstractRegexIdentifier extends AbstractIdentifier {
 
   @MethodContract(
     pre  = {
@@ -63,7 +63,7 @@ public abstract class AbstractRegexConstrainedIdentifier extends AbstractIdentif
              cond = @Expression("! regexPattern.matcher(identifier).matches()"))
     }
   )
-  protected AbstractRegexConstrainedIdentifier(String identifier)
+  protected AbstractRegexIdentifier(String identifier)
       throws IdentifierWellformednessException {
     super(identifier);
     Pattern regex = getRegexPattern();

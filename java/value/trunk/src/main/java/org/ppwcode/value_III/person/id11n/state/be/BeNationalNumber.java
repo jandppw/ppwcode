@@ -22,7 +22,7 @@ import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.value_III.id11n.AbstractRegexConstrainedIdentifier;
+import org.ppwcode.value_III.id11n.AbstractRegexIdentifier;
 import org.ppwcode.value_III.id11n.IdentifierIssuingAuthority;
 import org.ppwcode.value_III.id11n.IdentifierSchemeDescription;
 import org.ppwcode.value_III.id11n.IdentifierWellformednessException;
@@ -46,7 +46,7 @@ import org.toryt.annotations_I.Throw;
 @IdentifierIssuingAuthority(name = "Federal Public Service of the Interior", uri = "http://www.ibz.fgov.be/")
 @IdentifierSchemeDescription("http://www.ibz.rrn.fgov.be/fileadmin/user_upload/Registre/nl/instructies/onderrichtingen_080601.pdf")
 // starting from page 31
-public final class BeNationalNumber extends AbstractRegexConstrainedIdentifier implements PersonIdentifier {
+public final class BeNationalNumber extends AbstractRegexIdentifier implements PersonIdentifier {
 
 
   public final static String REGEX_PATTERN = "MUDO";
