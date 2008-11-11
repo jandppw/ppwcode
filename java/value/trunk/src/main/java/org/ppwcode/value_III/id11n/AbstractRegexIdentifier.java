@@ -28,7 +28,6 @@ import java.util.regex.Pattern;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.Invars;
 import org.toryt.annotations_I.MethodContract;
@@ -38,6 +37,11 @@ import org.toryt.annotations_I.Throw;
 /**
  * <p>General support for identifiers in which the identifier is constrained by a grep
  *  pattern. Groups in the pattern can be given a name and used as properties.</p>
+ *
+ * @protected
+ * <p>It is in general a bad idea for classes like this, which are serialized and send
+ *   over the wire often, which are persisted in databases often, to choose storing extra
+ *   data over small recalculations.</p>
  *
  * @author    Jan Dockx
  * @author    PeopleWare NV
@@ -161,7 +165,7 @@ public abstract class AbstractRegexIdentifier extends AbstractIdentifier {
       @Expression("regexPattern.matcher(identifier).group(groupIndex(_groupName))")
     }
   )
-  public final String getGroup(String groupName) {
+  public final String getPatternGroup(String groupName) {
     int groupIndex = groupIndex(groupName);
     return $matchGroups[groupIndex].get();
   }
