@@ -19,6 +19,8 @@ package org.ppwcode.value_III.id11n;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.ConstantHelpers.constant;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.deadBranch;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotEmpty;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,6 +28,7 @@ import java.util.regex.Pattern;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.Invars;
 import org.toryt.annotations_I.MethodContract;
@@ -63,8 +66,7 @@ public abstract class AbstractRegexIdentifier extends AbstractIdentifier {
              cond = @Expression("! regexPattern.matcher(identifier).matches()"))
     }
   )
-  protected AbstractRegexIdentifier(String identifier)
-      throws IdentifierWellformednessException {
+  protected AbstractRegexIdentifier(String identifier) throws IdentifierWellformednessException {
     super(identifier);
     Pattern regex = getRegexPattern();
     Matcher m = regex.matcher(identifier);
@@ -73,15 +75,15 @@ public abstract class AbstractRegexIdentifier extends AbstractIdentifier {
       throw new IdentifierWellformednessException(getClass(), getIdentifier(), "NOT_CONSISTENT_WITH_GREP_PATTERN", null);
     }
 /*
- * The code below looks interesting, but is untested and not needed (yet)
+ * MUDO The code below looks interesting, but is untested and not needed (yet)
  */
-//    else {
-//      $matchGroups = new MatchGroup[m.groupCount()];
-//      for (int i = 0; i < $matchGroups.length; i++) {
-//        int groupIndex = i + 1;
-//        $matchGroups[i] = new MatchGroup(m.start(groupIndex), m.end(groupIndex));
-//      }
-//    }
+    else {
+      $matchGroups = new MatchGroup[m.groupCount()];
+      for (int i = 0; i < $matchGroups.length; i++) {
+        int groupIndex = i + 1;
+        $matchGroups[i] = new MatchGroup(m.start(groupIndex), m.end(groupIndex));
+      }
+    }
   }
 
   /**
@@ -109,82 +111,82 @@ public abstract class AbstractRegexIdentifier extends AbstractIdentifier {
 /*
  * The code below looks interesting, but is untested and not needed (yet)
  */
-//  private class MatchGroup {
-//
-//    public MatchGroup(int s, int e) {
-//      start = s;
-//      end = e;
-//    }
-//
-//    public final int start;
-//
-//    public final int end;
-//
-//    public final String get() {
-//      return getIdentifier().substring(start, end);
-//    }
-//
-//  }
-//
-//  // IDEA let's make this transient, and recalculate on deserialization
-//  private final MatchGroup[] $matchGroups;
-//
-//
-//
-//  /**
-//   * The name of the required constant in each concrete subclass that
-//   * holds the names for groups defined in the regex expression (the
-//   * constant with name {@link #REGEX_PATTERN_NAME}..
-//   */
-//  public final static String GROUP_NAMES_NAME = "GROUP_NAMES";
-//
-//  /**
-//   * This method uses reflection to get the value of a constant (static final)
-//   * using dynamic binding.
-//   */
-//  @MethodContract(
-//    post = @Expression("constant(getClass(), GROUP_NAMES_NAME)")
-//  )
-//  public final String[] groupNames() {
-//    return constant(getClass(), GROUP_NAMES_NAME);
-//  }
-//
-//  @MethodContract(
-//    pre  = {
-//      @Expression("_groupName != null"),
-//      @Expression("_groupName != EMPTY"),
-//      @Expression("groupNames().contains(_groupName)")
-//    },
-//    post = {
-//      @Expression("regexPattern.matcher(identifier).group(groupIndex(_groupName))")
-//    }
-//  )
-//  public final String getGroup(String groupName) {
-//    int groupIndex = groupIndex(groupName);
-//    return $matchGroups[groupIndex].get();
-//  }
-//
-//
-//  @MethodContract(
-//    pre  = {
-//      @Expression("_groupName != null"),
-//      @Expression("_groupName != EMPTY"),
-//      @Expression("groupNames().contains(_groupName)")
-//    },
-//    post = {
-//      @Expression("groupNames()[result] == groupName")
-//    }
-//  )
-//  public int groupIndex(String groupName) {
-//    assert preArgumentNotEmpty(groupName, "groupName");
-//    String[] groupNames = groupNames();
-//    for (int i = 0; i < groupNames.length; i++) {
-//      if (groupNames[i].equals(groupName)) {
-//        return i;
-//      }
-//    }
-//    deadBranch("\"" + groupName + "\" is not defined as a group for instances of " + getClass());
-//    return -1; // keep compiler happy
-//  }
+  private class MatchGroup {
+
+    public MatchGroup(int s, int e) {
+      start = s;
+      end = e;
+    }
+
+    public final int start;
+
+    public final int end;
+
+    public final String get() {
+      return getIdentifier().substring(start, end);
+    }
+
+  }
+
+  // IDEA let's make this transient, and recalculate on deserialization
+  private final MatchGroup[] $matchGroups;
+
+
+
+  /**
+   * The name of the required constant in each concrete subclass that
+   * holds the names for groups defined in the regex expression (the
+   * constant with name {@link #REGEX_PATTERN_NAME}..
+   */
+  public final static String GROUP_NAMES_NAME = "GROUP_NAMES";
+
+  /**
+   * This method uses reflection to get the value of a constant (static final)
+   * using dynamic binding.
+   */
+  @MethodContract(
+    post = @Expression("constant(getClass(), GROUP_NAMES_NAME)")
+  )
+  public final String[] groupNames() {
+    return constant(getClass(), GROUP_NAMES_NAME);
+  }
+
+  @MethodContract(
+    pre  = {
+      @Expression("_groupName != null"),
+      @Expression("_groupName != EMPTY"),
+      @Expression("groupNames().contains(_groupName)")
+    },
+    post = {
+      @Expression("regexPattern.matcher(identifier).group(groupIndex(_groupName))")
+    }
+  )
+  public final String getGroup(String groupName) {
+    int groupIndex = groupIndex(groupName);
+    return $matchGroups[groupIndex].get();
+  }
+
+
+  @MethodContract(
+    pre  = {
+      @Expression("_groupName != null"),
+      @Expression("_groupName != EMPTY"),
+      @Expression("groupNames().contains(_groupName)")
+    },
+    post = {
+      @Expression("groupNames()[result] == groupName")
+    }
+  )
+  public int groupIndex(String groupName) {
+    assert preArgumentNotEmpty(groupName, "groupName");
+    String[] groupNames = groupNames();
+    for (int i = 0; i < groupNames.length; i++) {
+      if (groupNames[i].equals(groupName)) {
+        return i;
+      }
+    }
+    deadBranch("\"" + groupName + "\" is not defined as a group for instances of " + getClass());
+    return -1; // keep compiler happy
+  }
 
 }
