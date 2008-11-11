@@ -29,7 +29,7 @@ import org.ppwcode.value_III.id11n.Identifier;
  * <p>An identifier for natural persons.</p>
  *
  * @author    Jan Dockx
- * @author    Peopleware NV
+ * @author    PeopleWare NV
  */
 @Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
