@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2004 - $Date: 2008-11-09 15:31:55 +0100 (Sun, 09 Nov 2008) $ by PeopleWare n.v..
+Copyright 2004 - $Date$ by PeopleWare n.v..
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -31,10 +31,10 @@ import org.ppwcode.value_III.id11n.Identifier;
  * @author    Jan Dockx
  * @author    PeopleWare NV
  */
-@Copyright("2008 - $Date: 2008-11-09 15:31:55 +0100 (Sun, 09 Nov 2008) $, PeopleWare n.v.")
+@Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 3484 $",
-         date     = "$Date: 2008-11-09 15:31:55 +0100 (Sun, 09 Nov 2008) $")
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public interface OrganizationIdentifier extends Identifier {
 
   // NOP
