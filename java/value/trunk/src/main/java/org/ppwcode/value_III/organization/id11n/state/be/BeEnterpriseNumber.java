@@ -27,7 +27,6 @@ import org.ppwcode.value_III.id11n.IdentifierIssuingAuthority;
 import org.ppwcode.value_III.id11n.IdentifierSchemeDescription;
 import org.ppwcode.value_III.id11n.IdentifierWellformednessException;
 import org.ppwcode.value_III.organization.id11n.OrganizationIdentifier;
-import org.ppwcode.value_III.person.id11n.PersonIdentifier;
 import org.ppwcode.vernacular.value_III.SemanticValueException;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
@@ -92,7 +91,7 @@ public final class BeEnterpriseNumber extends AbstractRegexIdentifier implements
   }
 
   public final String getMainNumber() {
-    return getGroup("mainNumber");
+    return getPatternGroup("mainNumber");
   }
 
   public final int getMainAsInt() {
@@ -100,7 +99,7 @@ public final class BeEnterpriseNumber extends AbstractRegexIdentifier implements
   }
 
   public final String getControlNumber() {
-    return getGroup("controlNumber");
+    return getPatternGroup("controlNumber");
   }
 
   public final int getControlAsInt() {
@@ -108,7 +107,7 @@ public final class BeEnterpriseNumber extends AbstractRegexIdentifier implements
   }
 
   public final String getPrefixNumber() {
-    return getGroup("prefix");
+    return getPatternGroup("prefix");
   }
 
   public final boolean isOldVatNumberBased() {
@@ -119,7 +118,7 @@ public final class BeEnterpriseNumber extends AbstractRegexIdentifier implements
     if (! isOldVatNumberBased()) {
       throw new SemanticValueException("NOT_OLD_VAT_NUMBER_BASED", null);
     }
-    return getGroup("oldVatMainNumber") + getControlNumber();
+    return getPatternGroup("oldVatMainNumber") + getControlNumber();
   }
 
   @Override
