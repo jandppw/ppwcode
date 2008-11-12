@@ -18,8 +18,14 @@ package org.ppwcode.util.reflect_I;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+import static org.ppwcode.util.reflect_I.MethodHelpers.constructor;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.newAssertionError;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotNull;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
@@ -44,26 +50,99 @@ public class InstanceHelpers {
     // NOP
   }
 
-  // MUDO tests and contracts
-  public static <_Class_> _Class_ newInstance(Class<_Class_> clazz) {
+//  // MUDO tests and contracts
+//  public static <_Class_> _Class_ newInstance(Class<_Class_> clazz) {
+//    preArgumentNotNull(clazz, "clazz");
+//    _Class_ result = null;
+//    try {
+//      result = clazz.newInstance();
+//    }
+//    catch (InstantiationException exc) {
+//      unexpectedException(exc, "trying to instantiage " + clazz + " with default constructor");
+//    }
+//    catch (IllegalAccessException exc) {
+//      unexpectedException(exc, "trying to instantiage " + clazz + " with default constructor");
+//    }
+//    catch (ExceptionInInitializerError err) {
+//      unexpectedException(err, "trying to instantiage " + clazz + " with default constructor");
+//    }
+//    catch (SecurityException exc) {
+//      unexpectedException(exc, "trying to instantiage " + clazz + " with default constructor");
+//    }
+//    return result;
+//  }
+//
+//  // MUDO tests and contracts
+//  public static <_Class_> _Class_ robustNewInstance(Class<_Class_> clazz) {
+//    preArgumentNotNull(clazz, "clazz");
+//    _Class_ result = null;
+//    try {
+//      result = clazz.newInstance();
+//    }
+//    catch (InstantiationException exc) {
+//      unexpectedException(exc, "trying to instantiage " + clazz + " with default constructor");
+//    }
+//    catch (IllegalAccessException exc) {
+//      unexpectedException(exc, "trying to instantiage " + clazz + " with default constructor");
+//    }
+//    catch (ExceptionInInitializerError err) {
+//      unexpectedException(err, "trying to instantiage " + clazz + " with default constructor");
+//    }
+//    catch (SecurityException exc) {
+//      unexpectedException(exc, "trying to instantiage " + clazz + " with default constructor");
+//    }
+//    return result;
+//  }
+
+  /**
+   * Does not work currently with null argument. Try heuristic, based on number of arguments, etc...
+   *
+   * @throws InvocationTargetException The constructor throws an exception
+   *
+   * @mudo contract and unit test
+   */
+  public static <_Class_> _Class_ robustNewInstance(Class<_Class_> clazz, Object... arguments) throws InvocationTargetException {
     preArgumentNotNull(clazz, "clazz");
+    Class<?>[] parameterTypes = new Class<?>[arguments.length];
+    for (int i = 0; i < arguments.length; i++) {
+      if (arguments[i] == null) {
+        throw newAssertionError("MUDO cannot derive type from null; this has to be fixed in a next version", null);
+      }
+      parameterTypes[i] = arguments[i].getClass();
+    }
+    Constructor<_Class_> c = constructor(clazz, parameterTypes);
     _Class_ result = null;
     try {
-      result = clazz.newInstance();
-    }
-    catch (InstantiationException exc) {
-      unexpectedException(exc, "trying to instantiage " + clazz + " with default constructor");
+      result = c.newInstance(arguments);
     }
     catch (IllegalAccessException exc) {
-      unexpectedException(exc, "trying to instantiage " + clazz + " with default constructor");
+      unexpectedException(exc, "trying to instantiage " + clazz + " with constructor with arguments " + Arrays.deepToString(arguments));
+    }
+    catch (IllegalArgumentException exc) {
+      unexpectedException(exc, "trying to instantiage " + clazz + " with constructor with arguments " + Arrays.deepToString(arguments));
+    }
+    catch (InstantiationException exc) {
+      unexpectedException(exc, "trying to instantiage " + clazz + " with constructor with arguments " + Arrays.deepToString(arguments));
     }
     catch (ExceptionInInitializerError err) {
       unexpectedException(err, "trying to instantiage " + clazz + " with default constructor");
     }
-    catch (SecurityException exc) {
-      unexpectedException(exc, "trying to instantiage " + clazz + " with default constructor");
-    }
     return result;
+  }
+
+  /**
+   * Does not work currently with null argument. Try heuristic, based on number of arguments, etc...
+   *
+   * @mudo contract and unit test
+   */
+  public static <_Class_> _Class_ newInstance(Class<_Class_> clazz, Object... arguments) {
+    try {
+      return robustNewInstance(clazz, arguments);
+    }
+    catch (InvocationTargetException exc) {
+      unexpectedException(exc, "trying to instantiage " + clazz + " with constructor with arguments " + Arrays.deepToString(arguments));
+      return null; // keep compiler happy
+    }
   }
 
 }
