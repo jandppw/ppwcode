@@ -97,12 +97,14 @@ public class AbstractRegexIdentifierTest extends AbstractIdentifierTest {
 
   @Test
   public void testAbstractRegexIdentifier4() throws IdentifierWellformednessException {
-    new StubAbstractRegexIdentifier1("12345");
+    AbstractRegexIdentifier subject = new StubAbstractRegexIdentifier1("12345");
+    assertInvariants(subject);
   }
 
   @Test
   public void testAbstractRegexIdentifier5() throws IdentifierWellformednessException {
-    new StubAbstractRegexIdentifier2("ababa44y");
+    AbstractRegexIdentifier subject = new StubAbstractRegexIdentifier2("ababa44y");
+    assertInvariants(subject);
   }
 
   @Test
