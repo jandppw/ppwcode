@@ -18,6 +18,7 @@ package org.ppwcode.vernacular.value_III.hibernate3;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+import static org.ppwcode.util.reflect_I.CloneHelpers.safeReference;
 
 import java.io.Serializable;
 
@@ -103,6 +104,16 @@ public abstract class AbstractValueUserType implements UserType, LoggableUserTyp
   @MethodContract(post = @Expression("MutableValue.class.isAssignableFrom(returnedClass())"))
   public final boolean isMutable() {
     return MutableValue.class.isAssignableFrom(returnedClass());
+  }
+
+  /**
+   * Since {@link ImmutableValue} instances are immutable, we can return the original as is
+   * (and share it between detached and managed objects). For non-immutable values, we return
+   * a klone. In fact, if {@code original} is {@link Cloneable}, we do the clone.
+   */
+  @MethodContract(post = @Expression("safeReference(_original)"))
+  public final Object replace(Object original, Object target, Object owner) throws HibernateException {
+    return safeReference(original);
   }
 
   /**

@@ -53,13 +53,4 @@ public abstract class AbstractImmutableValueUserType extends AbstractValueUserTy
     return value;
   }
 
-  /**
-   * Since {@link ImmutableValue} instances are immutable, we can return the original as is
-   * (and share it between detached and managed objects).
-   */
-  @MethodContract(post = @Expression("_original"))
-  public final Object replace(Object original, Object target, Object owner) throws HibernateException {
-    return original;
-  }
-
 }
