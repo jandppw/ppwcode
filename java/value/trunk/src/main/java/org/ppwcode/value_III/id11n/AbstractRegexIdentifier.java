@@ -98,6 +98,7 @@ public abstract class AbstractRegexIdentifier extends AbstractIdentifier {
    *   holds the regex pattern.</p>
    * <p><code>REGEX_PATTERN_NAME == <strong>{@value}</strong></code>.</p>
    */
+  @Invars(@Expression("REGEX_PATTERN_NAME == 'REGEX_PATTERN'"))
   public final static String REGEX_PATTERN_NAME = "REGEX_PATTERN";
 
   /**
