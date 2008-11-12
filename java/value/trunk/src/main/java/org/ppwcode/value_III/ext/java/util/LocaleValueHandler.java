@@ -27,7 +27,7 @@ import org.apache.openjpa.jdbc.meta.ValueMapping;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.vernacular.value_III.jpa.AbstractEnumerationValueValueHandler;
+import org.ppwcode.vernacular.value_III.openjpa.AbstractEnumerationValueValueHandler;
 
 
 /**
