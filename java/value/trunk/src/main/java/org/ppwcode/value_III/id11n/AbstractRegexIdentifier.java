@@ -19,8 +19,8 @@ package org.ppwcode.value_III.id11n;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.ConstantHelpers.constant;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.deadBranch;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotEmpty;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.pre;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,9 +39,23 @@ import org.toryt.annotations_I.Throw;
  *  pattern. Groups in the pattern can be given a name and used as properties.</p>
  *
  * @protected
+ * <p>Subclasses must provide a String constant with name {@link #REGEX_PATTERN_NAME} of type
+ *   {@link Pattern}, containing the regex pattern that describes the identifier Strings that are acceptable.
+ *   The pattern should be defined using {@link Pattern#compile(String)} or {@link Pattern#compile(String, int)}.
+ *   In this pattern, regex groups can be defined, which can be retrieved using {@link #patternGroup(int)}.
+ *   If these groups, or derivations thereof, are of interest to users of the identifier,
+ *   they should be exposed with meaningful names in the subclass. Remember that, in selecting
+ *   a pattern group, group {@code 0} is the complete identifier, and actual groups start counting
+ *   at {@code 1}.</p>
+ * <p>A subclass should always provide a constructor that takes a candidate String as argument, and
+ *   calls the super constructor of this class with that candidate String. The constructor in this class
+ *   verifies the given candidate String against the pattern specified in the String constant with name
+ *   {@link #REGEX_PATTERN_NAME} defined in the subclass. After this call, the subclass may do further
+ *   verification if applicable.</p>
  * <p>It is in general a bad idea for classes like this, which are serialized and send
  *   over the wire often, which are persisted in databases often, to choose storing extra
- *   data over small recalculations.</p>
+ *   data over small recalculations. Therfor, {@link #patternGroup(int)} recalculates the match each time
+ *   it is used.</p>
  *
  * @author    Jan Dockx
  * @author    PeopleWare NV
@@ -52,7 +66,6 @@ import org.toryt.annotations_I.Throw;
          date     = "$Date$")
 @Invars({
   @Expression("isConstant(getClass(), REGEX_PATTERN_NAME)")
-//  @Expression("isConstant(getClass(), GROUP_NAMES_NAME)")
 })
 public abstract class AbstractRegexIdentifier extends AbstractIdentifier {
 
@@ -78,21 +91,12 @@ public abstract class AbstractRegexIdentifier extends AbstractIdentifier {
     if (! matches) {
       throw new IdentifierWellformednessException(getClass(), getIdentifier(), "NOT_CONSISTENT_WITH_GREP_PATTERN", null);
     }
-/*
- * MUDO The code below looks interesting, but is untested and not needed (yet)
- */
-    else {
-      $matchGroups = new MatchGroup[m.groupCount()];
-      for (int i = 0; i < $matchGroups.length; i++) {
-        int groupIndex = i + 1;
-        $matchGroups[i] = new MatchGroup(m.start(groupIndex), m.end(groupIndex));
-      }
-    }
   }
 
   /**
-   * The name of the required constant in each concrete subclass that
-   * holds the regex pattern.
+   * <p>The name of the required constant of type {@link Pattern} in each concrete subclass that
+   *   holds the regex pattern.</p>
+   * <p><code>REGEX_PATTERN_NAME == <strong>{@value}</strong></code>.</p>
    */
   public final static String REGEX_PATTERN_NAME = "REGEX_PATTERN";
 
@@ -111,86 +115,37 @@ public abstract class AbstractRegexIdentifier extends AbstractIdentifier {
     return constant(getClass(), REGEX_PATTERN_NAME);
   }
 
-
-/*
- * The code below looks interesting, but is untested and not needed (yet)
- */
-  private class MatchGroup {
-
-    public MatchGroup(int s, int e) {
-      start = s;
-      end = e;
-    }
-
-    public final int start;
-
-    public final int end;
-
-    public final String get() {
-      return getIdentifier().substring(start, end);
-    }
-
-  }
-
-  // IDEA let's make this transient, and recalculate on deserialization
-  private final MatchGroup[] $matchGroups;
-
-
-
   /**
-   * The name of the required constant in each concrete subclass that
-   * holds the names for groups defined in the regex expression (the
-   * constant with name {@link #REGEX_PATTERN_NAME}..
-   */
-  public final static String GROUP_NAMES_NAME = "GROUP_NAMES";
-
-  /**
-   * This method uses reflection to get the value of a constant (static final)
-   * using dynamic binding.
+   * The capturing group with index {@code patternGroupIndex} of {@link #getIdentifier()}
+   * defined in pattern {@link #getRegexPattern()}.
    */
   @MethodContract(
-    post = @Expression("constant(getClass(), GROUP_NAMES_NAME)")
-  )
-  public final String[] groupNames() {
-    return constant(getClass(), GROUP_NAMES_NAME);
-  }
-
-  @MethodContract(
     pre  = {
-      @Expression("_groupName != null"),
-      @Expression("_groupName != EMPTY"),
-      @Expression("groupNames().contains(_groupName)")
+      @Expression("_patternGroupIndex >= 0"),
+      @Expression("_patternGroupIndex <= regexPattern.matcher(identifier).groupCount()")
     },
     post = {
-      @Expression("regexPattern.matcher(identifier).group(groupIndex(_groupName))")
+      @Expression("regexPattern.matcher(identifier).group(_patternGroupIndex)")
     }
   )
-  public final String getPatternGroup(String groupName) {
-    int groupIndex = groupIndex(groupName);
-    return $matchGroups[groupIndex].get();
-  }
-
-
-  @MethodContract(
-    pre  = {
-      @Expression("_groupName != null"),
-      @Expression("_groupName != EMPTY"),
-      @Expression("groupNames().contains(_groupName)")
-    },
-    post = {
-      @Expression("groupNames()[result] == groupName")
+  public final String patternGroup(int patternGroupIndex) {
+    pre(patternGroupIndex >= 0, "patternGroupIndex >= 0");
+    Matcher m = getRegexPattern().matcher(getIdentifier());
+    boolean matchOk = m.matches();
+    pre(patternGroupIndex <= m.groupCount(), "patternGroupIndex <= m.groupCount()");
+    assert matchOk;
+    String result = null;
+    try {
+      result = m.group(patternGroupIndex);
     }
-  )
-  public int groupIndex(String groupName) {
-    assert preArgumentNotEmpty(groupName, "groupName");
-    String[] groupNames = groupNames();
-    for (int i = 0; i < groupNames.length; i++) {
-      if (groupNames[i].equals(groupName)) {
-        return i;
-      }
+    catch (IllegalStateException isExc) {
+      unexpectedException(isExc, "we just did a match");
     }
-    deadBranch("\"" + groupName + "\" is not defined as a group for instances of " + getClass());
-    return -1; // keep compiler happy
+    catch (IndexOutOfBoundsException ioobExc) {
+      unexpectedException(ioobExc, "there is no pattern group with index " +  patternGroupIndex +
+                                   " in regex patter " +  getRegexPattern().pattern());
+    }
+    return result;
   }
 
 }
