@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2004 - $Date: 2008-11-12 15:03:11 +0100 (Wed, 12 Nov 2008) $ by PeopleWare n.v..
+Copyright 2004 - $Date$ by PeopleWare n.v..
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -35,10 +35,10 @@ import org.toryt.annotations_I.MethodContract;
  * @author    Jan Dockx
  * @author    PeopleWare NV
  */
-@Copyright("2008 - $Date: 2008-11-12 15:03:11 +0100 (Wed, 12 Nov 2008) $, PeopleWare n.v.")
+@Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 3500 $",
-         date     = "$Date: 2008-11-12 15:03:11 +0100 (Wed, 12 Nov 2008) $")
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public abstract class AbstractImmutableValueUserType extends AbstractValueUserType {
 
   @Override
