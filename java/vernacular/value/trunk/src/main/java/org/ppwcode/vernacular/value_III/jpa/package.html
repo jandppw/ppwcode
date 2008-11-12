@@ -6,15 +6,14 @@
 </head>
 
 <body>
-<!-- MUDO UNFINISHED -->
-<p>Support to make the implementation of JPA {@link ??? ???}
-  easy for value types that follow our value vernacular.</p>
-<p>To persist objects emulating values using JPA, they have to be mapped to columns in a
-  {@link java.sql.PreparedStatement SQL update query} and from columns in a
-  {@link java.sql.ResultSet SQL result set}. In JPA, this is done through
-  ???, which have to be registered ???.
-  <!-- TODO add more descriptive text or a reference how exactly -->
-  This package adds support to make the implementation of such ???
-  easy for value types that follow our value vernacular, at least up to a point.</p>
+<p>Support to make the implementation of JPA easy for value types that follow our value vernacular.</p>
+<p>JPA does support dealing with custom value types in 2 ways: without any intervention, data of custom
+  types is stored in the database as the BLOB that results from serialization of the value instance.
+  Optionally, a custom value type can be defined <dfn>embeddable</dfn>, via annotations or xml declarative
+  definitions. For the latter, we need the value type to be a JavaBean, and thus a {@link org.ppwcode.vernacular.value_III.MutableValue},
+  which we rather not do in many cases. Sadly, neither approach suffices for the needs we perceive in our projects.</p>
+<p>Both OpenJPA and Hibernate, 2 JPA implementations one can use, define extra features. For controlling
+  how custom value types are persisted, in Hibernate, we can use <dfn>user types</dfn>. The equivalen concept in
+  OpenJPA are <dfn>value handlers</dfn>.</p>
 </body>
 </html>
