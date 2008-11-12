@@ -708,6 +708,42 @@ public class MethodHelpersTest {
   }
 
   @Test
+  public void testConstructorParameterTypes1() {
+    testConstructorParameterTypes(StubClass.class);
+    testConstructorParameterTypes(StubClass.class, Object.class);
+    testConstructorParameterTypes(StubClass.class, String.class);
+    testConstructorParameterTypes(StubClass.class, Integer.TYPE);
+    testConstructorParameterTypes(StubClass.class, Class.class);
+    testConstructorParameterTypes(StubClass.class, org.ppwcode.util.reflect_I.teststubs.StubClass.class);
+    testConstructorParameterTypes(StubClass.class, Integer.TYPE, Boolean.TYPE, Object.class, String.class);
+    testConstructorParameterTypes(StubClass.class, Object.class, Object.class, Float.TYPE);
+    testConstructorParameterTypes(StubClass.class, Serializable.class, Serializable.class, Float.TYPE);
+    testConstructorParameterTypes(StubClass.class, Date.class);
+    testConstructorParameterTypes(StubClass.class, Long.TYPE);
+    testConstructorParameterTypes(StubClass.class, Boolean.TYPE);
+    testConstructorParameterTypes(StubClass.class, Byte.TYPE);
+    testConstructorParameterTypes(AlternateStubClass.class);
+  }
+
+  //MUDO deal with [] array types
+//  @Test
+//  public void testConstructor12() throws _CannotParseSignatureException {
+//    testConstructor(StubClass.class, "StubClass(Object[])");
+//  }
+
+  @Test(expected = AssertionError.class)
+  public void testConstructorParameterTypes13() {
+    testConstructorParameterTypes(StubClass.class, StringBuffer.class, Date.class);
+  }
+
+  public <_T_> void testConstructorParameterTypes(Class<_T_> type, Class<?>... parameterTypes) {
+    Constructor<_T_> result = constructor(type, parameterTypes);
+    assertNotNull(result);
+    assertEquals(type, result.getDeclaringClass());
+    assertArrayEquals(parameterTypes, result.getParameterTypes());
+  }
+
+  @Test
   public void testInvokeClassQStringObject_1() {
     Object result = MethodHelpers.invoke(StubClass.class, "stubStaticMethod()");
     assertNull(result);
