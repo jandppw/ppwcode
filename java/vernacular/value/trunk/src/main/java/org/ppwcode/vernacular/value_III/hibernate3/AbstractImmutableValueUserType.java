@@ -46,14 +46,6 @@ public abstract class AbstractImmutableValueUserType extends AbstractValueUserTy
   public abstract Class<? extends ImmutableValue> returnedClass();
 
   /**
-   * {@link ImmutableValue} instances are ... immutable.
-   */
-  @MethodContract(post = @Expression("false"))
-  public final boolean isMutable() {
-    return false;
-  }
-
-  /**
    * Returns {@code value}, because this is an immutable value type.
    */
   @MethodContract(post = @Expression("_value"))

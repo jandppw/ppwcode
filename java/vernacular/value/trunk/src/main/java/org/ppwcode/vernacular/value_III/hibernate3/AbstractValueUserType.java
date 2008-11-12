@@ -28,6 +28,8 @@ import org.hibernate.usertype.UserType;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.ppwcode.vernacular.value_III.ImmutableValue;
+import org.ppwcode.vernacular.value_III.MutableValue;
 import org.ppwcode.vernacular.value_III.Value;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
@@ -93,6 +95,14 @@ public abstract class AbstractValueUserType implements UserType, LoggableUserTyp
   @MethodContract(post = @Expression("cached"))
   public final Object assemble(Serializable cached, Object owner) throws HibernateException {
     return cached;
+  }
+
+  /**
+   * {@link ImmutableValue} instances are ... immutable.
+   */
+  @MethodContract(post = @Expression("MutableValue.class.isAssignableFrom(returnedClass())"))
+  public final boolean isMutable() {
+    return MutableValue.class.isAssignableFrom(returnedClass());
   }
 
   /**
