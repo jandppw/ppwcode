@@ -440,10 +440,8 @@ public final class MethodHelpers {
   /**
    * <p>Return the constructor of class {@code type} with signature {@code signature}.
    *   If something goes wrong, this is considered a programming error (see {@link ProgrammingErrorHelpers}).</p>
-   * <p>{@code findMethod} returns any method (not only {@code public} methods as
-   *   {@link Class#getMethod(String, Class...)} does), but only methods declared exactly in {@code type},
-   *   like {@link Class#getDeclaredMethod(String, Class...)}, and unlike
-   *   {@link Class#getMethod(String, Class...)}: inherited methods do not apply.</p>
+   * <p>{@code constructor} returns any method (not only {@code public} methods as
+   *   {@link Class#getConstructor(Class...)} does).</p>
    * <p>Note that the name of a constructor in {@link Constructor} is the FQCN
    *   (see {@link Constructor#getName()}), while in our signature it is intended to be
    *   the short, simple name. If no constructor is defined in {@code type}, the default default constructor
@@ -491,6 +489,42 @@ public final class MethodHelpers {
     }
     catch (NoSuchMethodException exc) {
       unexpectedException(exc, "constructor " + signature + " not found in " + clazz.getName());
+    }
+    return result;
+  }
+
+  /**
+   * <p>Return the constructor of class {@code type} with argument types {@code parameterTypes}.
+   *   If something goes wrong, this is considered a programming error (see {@link ProgrammingErrorHelpers}).</p>
+   *
+   * @param clazz
+   *        The class to look for the method in.
+   * @param parameterTypes
+   *        The argument types in order of the constructor we want.
+   */
+  @MethodContract(
+    pre  = {
+      @Expression("_clazz != null"),
+      @Expression("! _clazz.isInterface()"),
+      @Expression("! _clazz.getDeclaredConstructor(_parameterTypes) throws")
+    },
+    post = {
+      @Expression("result != null"),
+      @Expression("result.declaringClass == _clazz"),
+      @Expression("Arrays.deepEquals(result.parameterTypes, _parameterTypes")
+    }
+  )
+  public static <_T_> Constructor<_T_> constructor(Class<_T_> clazz, Class<?>... parameterTypes) {
+    assert preArgumentNotNull(clazz, "clazz");
+    Constructor<_T_> result = null;
+    try {
+      result = clazz.getDeclaredConstructor(parameterTypes);
+    }
+    catch (SecurityException sExc) {
+      unexpectedException(sExc, "not allowed to access constructor of " + clazz);
+    }
+    catch (NoSuchMethodException exc) {
+      unexpectedException(exc, "constructor with given argument types not found in " + clazz.getName());
     }
     return result;
   }
