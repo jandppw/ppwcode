@@ -19,6 +19,8 @@ package org.ppwcode.value_III.organization.id11n.state.be;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
+import java.util.regex.Pattern;
+
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
@@ -29,6 +31,7 @@ import org.ppwcode.value_III.id11n.IdentifierWellformednessException;
 import org.ppwcode.value_III.organization.id11n.OrganizationIdentifier;
 import org.ppwcode.vernacular.value_III.SemanticValueException;
 import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.Invars;
 import org.toryt.annotations_I.MethodContract;
 import org.toryt.annotations_I.Throw;
 
@@ -54,19 +57,30 @@ import org.toryt.annotations_I.Throw;
 public final class BeEnterpriseNumber extends AbstractRegexIdentifier implements OrganizationIdentifier {
 
   /**
-   * The Belgian Enterprise Number consists of 10 digits.
-   * The first 8 digits are the <dfn>main number</dfn>. This is the old 7-digit VAT number, preceded
-   * by a {@code 0} for existing organizations that already do have a VAT number. New organizations
-   * get a 8 + 2 digit enterprise number immediately, that starts with {@code 1}.
-   * The last 2 digits are a <dfn>control number</dfn>, which is
-   * <code><var>control number</var> == 97 - <var>main number</var> % 97</code>.
+   * <p>The Belgian Enterprise Number consists of 10 digits.
+   *   The first 8 digits are the <dfn>main number</dfn>. This is the old 7-digit VAT number, preceded
+   *   by a {@code 0} for existing organizations that already do have a VAT number. New organizations
+   *   get a 8 + 2 digit enterprise number immediately, that starts with {@code 1}.
+   *   The last 2 digits are a <dfn>control number</dfn>, which is
+   *   <code><var>control number</var> == 97 - <var>main number</var> % 97</code>.</p>
+   * <p><code>REGEX_PATTERN_STRING == <strong>{@value}</strong></code></p>
    */
-  public final static String REGEX_PATTERN = "^((0|1)(\\d{7}))(\\d{2})$";
+  public final static String REGEX_PATTERN_STRING = "^((0|1)(\\d{7}))(\\d{2})$";
 
-  public final static String[] GROUP_NAMES = {"mainNumber", "prefix", "oldVatMainNumber", "controlNumber"};
+  /**
+   * The regex pattern describing a Belgian Enterprise Number.
+   */
+  @Invars(@Expression("REGEX_PATTERN.pattern() == REGEX_PATTERN_STRING"))
+  public final static Pattern REGEX_PATTERN = Pattern.compile(REGEX_PATTERN_STRING);
 
+  /**
+   * The constant used in calculating the control number in a Belgian Enterprise Number.
+   */
   public final static int CONTROL_CONSTANT = 97;
 
+  /**
+   * <p>The prefix used in a Belgian Enterprise Number that is derived from an old existing VAT number.</p>
+   */
   public final static String OLD_VAT_NUMBER_PREFIX = "0";
 
   @MethodContract(
@@ -80,6 +94,7 @@ public final class BeEnterpriseNumber extends AbstractRegexIdentifier implements
     exc  = {
       @Throw(type = IdentifierWellformednessException.class,
              cond = @Expression("! regexPattern.matcher(identifier).matches()"))
+             // MUDO mod 97
     }
   )
   public BeEnterpriseNumber(String identifier) throws IdentifierWellformednessException {
@@ -90,35 +105,43 @@ public final class BeEnterpriseNumber extends AbstractRegexIdentifier implements
     }
   }
 
-  public final String getMainNumber() {
-    return getPatternGroup("mainNumber");
+  @MethodContract(post = @Expression("patternGroup(1)"))
+  public final String getMain() {
+    return patternGroup(1);
   }
 
+  @MethodContract(post = @Expression("Integer.parseInt(main)"))
   public final int getMainAsInt() {
-    return Integer.parseInt(getMainNumber());
+    return Integer.parseInt(getMain());
   }
 
-  public final String getControlNumber() {
-    return getPatternGroup("controlNumber");
+  @MethodContract(post = @Expression("patternGroup(4)"))
+  public final String getControl() {
+    return patternGroup(4);
   }
 
+  @MethodContract(post = @Expression("Integer.parseInt(control)"))
   public final int getControlAsInt() {
-    return Integer.parseInt(getControlNumber());
+    return Integer.parseInt(getControl());
   }
 
-  public final String getPrefixNumber() {
-    return getPatternGroup("prefix");
+  @MethodContract(post = @Expression("patternGroup(2)"))
+  public final String getPrefix() {
+    return patternGroup(2);
   }
 
+  @MethodContract(post = @Expression("prefix == OLD_VAT_NUMBER_PREFIX"))
   public final boolean isOldVatNumberBased() {
-    return getPrefixNumber().equals(OLD_VAT_NUMBER_PREFIX);
+    return getPrefix().equals(OLD_VAT_NUMBER_PREFIX);
   }
 
+  @MethodContract(post = @Expression("patternGroup(3) + control"),
+                  exc  = @Throw(type = SemanticValueException.class, cond = @Expression("! isOldVatNumberBased()")))
   public final String getOldVatNumber() throws SemanticValueException {
     if (! isOldVatNumberBased()) {
       throw new SemanticValueException("NOT_OLD_VAT_NUMBER_BASED", null);
     }
-    return getPatternGroup("oldVatMainNumber") + getControlNumber();
+    return patternGroup(3) + getControl();
   }
 
   @Override
