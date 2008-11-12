@@ -479,16 +479,10 @@ public final class MethodHelpers {
     Constructor<_T_> result = null;
     try {
       MethodSignature sig = new MethodSignature(signature);
-      result = clazz.getDeclaredConstructor(sig.getParameterTypes());
+      result = constructor(clazz, sig.getParameterTypes());
     }
     catch (NullPointerException npExc) {
       unexpectedException(npExc);
-    }
-    catch (SecurityException sExc) {
-      unexpectedException(sExc, "not allowed to access " + signature);
-    }
-    catch (NoSuchMethodException exc) {
-      unexpectedException(exc, "constructor " + signature + " not found in " + clazz.getName());
     }
     return result;
   }
