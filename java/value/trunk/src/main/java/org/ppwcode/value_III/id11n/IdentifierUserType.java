@@ -67,11 +67,13 @@ public final class IdentifierUserType extends AbstractImmutableValueUserType {
     return Identifier.class;
   }
 
+  public final static int[] SQL_TYPES = {VARCHAR, VARCHAR};
+
   /**
    * We store the data of {@link Identifier Identifiers} in 2 VARCHAR columns.
    */
   public int[] sqlTypes() {
-    return new int[] {VARCHAR, VARCHAR};
+    return SQL_TYPES;
   }
 
   public void nullSafeSet(PreparedStatement st, Object value, int index) throws HibernateException, SQLException {
