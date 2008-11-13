@@ -32,6 +32,7 @@ import static org.ppwcode.util.reflect_I.MethodHelpers.methodHelper;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.net.Inet4Address;
 import java.util.Date;
 
 import org.junit.Test;
@@ -741,6 +742,36 @@ public class MethodHelpersTest {
     assertNotNull(result);
     assertEquals(type, result.getDeclaringClass());
     assertArrayEquals(parameterTypes, result.getParameterTypes());
+  }
+
+  static class X {
+    // NOP
+  }
+
+  @Test
+  public void testConstructorParameterTypesDynamic() throws SecurityException, NoSuchMethodException {
+    testConstructorParameterTypesDynamic(StubClass.class.getDeclaredConstructor(Object.class),
+                                         StubClass.class, X.class);
+    testConstructorParameterTypesDynamic(StubClass.class.getDeclaredConstructor(Object.class),
+                                         StubClass.class, Inet4Address.class);
+    testConstructorParameterTypesDynamic(StubClass.class.getDeclaredConstructor(Integer.TYPE, Boolean.TYPE, Object.class, String.class),
+                                         StubClass.class, Integer.TYPE, Boolean.TYPE, Inet4Address.class, String.class);
+    testConstructorParameterTypesDynamic(StubClass.class.getDeclaredConstructor(Object.class, Object.class, Float.TYPE),
+                                         StubClass.class, X.class, String.class, Float.TYPE);
+    testConstructorParameterTypesDynamic(StubClass.class.getDeclaredConstructor(Serializable.class, Serializable.class, Float.TYPE),
+                                         StubClass.class, Inet4Address.class, String.class, Float.TYPE);
+    testConstructorParameterTypesDynamic(StubClass.class.getDeclaredConstructor(Serializable.class, Serializable.class, Float.TYPE),
+                                         StubClass.class, String.class, Date.class, Float.TYPE);
+    testConstructorParameterTypesDynamic(StubClass.class.getDeclaredConstructor(Date.class),
+                                         StubClass.class, java.sql.Date.class);
+  }
+
+  public <_T_> void testConstructorParameterTypesDynamic(Constructor<_T_> expected, Class<_T_> type, Class<?>... parameterTypes) {
+    Constructor<_T_> result = constructor(type, parameterTypes);
+    assertNotNull(result);
+    assertEquals(type, result.getDeclaringClass());
+//    assertArrayEquals(expected.getParameterTypes(), result.getParameterTypes());
+    assertEquals(expected, result);
   }
 
   @Test
