@@ -19,7 +19,6 @@ package org.ppwcode.util.reflect_I;
 
 import static java.lang.reflect.Modifier.isAbstract;
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.util.reflect_I.TypeHelpers.objectsToTypes;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.newAssertionError;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.pre;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotEmpty;
@@ -492,11 +491,16 @@ public final class MethodHelpers {
   /**
    * <p>Return the constructor of class {@code type} with argument types {@code parameterTypes}.
    *   If something goes wrong, this is considered a programming error (see {@link ProgrammingErrorHelpers}).</p>
+   *   This is less than trivial if you consider that arguments can be {@code null} and the parameters are
+   *   polymorph: the dynamic type of the parameters can be a subtype of the declared type of the
+   *   constructor parameters</p>
    *
    * @param clazz
    *        The class to look for the method in.
    * @param parameterTypes
    *        The argument types in order of the constructor we want.
+   *
+   * @mudo contract and tests no longer ok: parameterTypes now can be null, and be dynamic types
    */
   @MethodContract(
     pre  = {
@@ -512,46 +516,6 @@ public final class MethodHelpers {
   )
   public static <_T_> Constructor<_T_> constructor(Class<_T_> clazz, Class<?>... parameterTypes) {
     assert preArgumentNotNull(clazz, "clazz");
-    Constructor<_T_> result = null;
-    try {
-      result = clazz.getDeclaredConstructor(parameterTypes);
-    }
-    catch (SecurityException sExc) {
-      unexpectedException(sExc, "not allowed to access constructor of " + clazz);
-    }
-    catch (NoSuchMethodException exc) {
-      unexpectedException(exc, "constructor with given argument types not found in " + clazz.getName());
-    }
-    return result;
-  }
-
-  /**
-   * <p>Return the constructor of class {@code type} that best matches the arguments {@code parameters}.
-   *   If something goes wrong, this is considered a programming error (see {@link ProgrammingErrorHelpers}).
-   *   This is less than trivial if you consider that arguments can be {@code null} and the parameters are
-   *   polymorph: the dynamic type of the parameters can be a subtype of the declared type of the
-   *   constructor parameters</p>
-   *
-   * @param clazz
-   *        The class to look for the method in.
-   * @param parameters
-   *        The arguments in the order of the constructor we want.
-   */
-  @MethodContract(
-    pre  = {
-      @Expression("_clazz != null"),
-      @Expression("! _clazz.isInterface()"),
-      @Expression("! _clazz.getDeclaredConstructor(_parameterTypes) throws")
-    },
-    post = {
-      @Expression("result != null"),
-      @Expression("result.declaringClass == _clazz"),
-      @Expression("Arrays.deepEquals(result.parameterTypes, _parameterTypes")
-    }
-  )
-  public static <_T_> Constructor<_T_> constructor(Class<_T_> clazz, Object... parameters) {
-    assert preArgumentNotNull(clazz, "clazz");
-    Class<?>[] parameterTypes = objectsToTypes(parameters);
     @SuppressWarnings("unchecked")
     Constructor<_T_>[] constructors = clazz.getDeclaredConstructors();
     int lowestDistanceUntilNow = Integer.MAX_VALUE;
@@ -566,12 +530,10 @@ public final class MethodHelpers {
         constructorWithLowestDistanceUntilNow = c;
       }
     }
-    if (constructorWithLowestDistanceUntilNow != null) {
-      return constructorWithLowestDistanceUntilNow;
-    }
-    else {
+    if (constructorWithLowestDistanceUntilNow == null) {
       throw newAssertionError("no matching constructor found", null);
     }
+    return constructorWithLowestDistanceUntilNow;
   }
 
   /**
