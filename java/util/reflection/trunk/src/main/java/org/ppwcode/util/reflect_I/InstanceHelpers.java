@@ -19,7 +19,7 @@ package org.ppwcode.util.reflect_I;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.MethodHelpers.constructor;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.newAssertionError;
+import static org.ppwcode.util.reflect_I.TypeHelpers.objectsToTypes;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotNull;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
 
@@ -103,13 +103,7 @@ public class InstanceHelpers {
    */
   public static <_Class_> _Class_ robustNewInstance(Class<_Class_> clazz, Object... arguments) throws InvocationTargetException {
     preArgumentNotNull(clazz, "clazz");
-    Class<?>[] parameterTypes = new Class<?>[arguments.length];
-    for (int i = 0; i < arguments.length; i++) {
-      if (arguments[i] == null) {
-        throw newAssertionError("MUDO cannot derive type from null; this has to be fixed in a next version", null);
-      }
-      parameterTypes[i] = arguments[i].getClass();
-    }
+    Class<?>[] parameterTypes = objectsToTypes(arguments);
     Constructor<_Class_> c = constructor(clazz, parameterTypes);
     _Class_ result = null;
     try {
