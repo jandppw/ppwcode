@@ -19,6 +19,8 @@ package org.ppwcode.util.reflect_I;
 
 import static java.lang.reflect.Modifier.isAbstract;
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+import static org.ppwcode.util.reflect_I.TypeHelpers.objectsToTypes;
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.newAssertionError;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.pre;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotEmpty;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotNull;
@@ -521,6 +523,88 @@ public final class MethodHelpers {
       unexpectedException(exc, "constructor with given argument types not found in " + clazz.getName());
     }
     return result;
+  }
+
+  /**
+   * <p>Return the constructor of class {@code type} that best matches the arguments {@code parameters}.
+   *   If something goes wrong, this is considered a programming error (see {@link ProgrammingErrorHelpers}).
+   *   This is less than trivial if you consider that arguments can be {@code null} and the parameters are
+   *   polymorph: the dynamic type of the parameters can be a subtype of the declared type of the
+   *   constructor parameters</p>
+   *
+   * @param clazz
+   *        The class to look for the method in.
+   * @param parameters
+   *        The arguments in the order of the constructor we want.
+   */
+  @MethodContract(
+    pre  = {
+      @Expression("_clazz != null"),
+      @Expression("! _clazz.isInterface()"),
+      @Expression("! _clazz.getDeclaredConstructor(_parameterTypes) throws")
+    },
+    post = {
+      @Expression("result != null"),
+      @Expression("result.declaringClass == _clazz"),
+      @Expression("Arrays.deepEquals(result.parameterTypes, _parameterTypes")
+    }
+  )
+  public static <_T_> Constructor<_T_> constructor(Class<_T_> clazz, Object... parameters) {
+    assert preArgumentNotNull(clazz, "clazz");
+    Class<?>[] parameterTypes = objectsToTypes(parameters);
+    @SuppressWarnings("unchecked")
+    Constructor<_T_>[] constructors = clazz.getDeclaredConstructors();
+    int lowestDistanceUntilNow = Integer.MAX_VALUE;
+    Constructor<_T_> constructorWithLowestDistanceUntilNow = null;
+    for (Constructor<_T_> c : constructors) {
+      int cD = distance(parameterTypes, c.getParameterTypes());
+      if (cD == 0) {
+        return c;
+      }
+      else if (cD < lowestDistanceUntilNow) {
+        lowestDistanceUntilNow = cD;
+        constructorWithLowestDistanceUntilNow = c;
+      }
+    }
+    if (constructorWithLowestDistanceUntilNow != null) {
+      return constructorWithLowestDistanceUntilNow;
+    }
+    else {
+      throw newAssertionError("no matching constructor found", null);
+    }
+  }
+
+  /**
+   * <p>The sum of the distance of each dynamic type to its respective static type. If the dynamic type equals
+   *   the static type, this counts for 0. If the static type is a direct super type of the dynamic type, this
+   *   counts for 1. If the dynamic type is not a subtype of the static type, the distance is infinite, expressed
+   *   by {@link Integer#MAX_VALUE}. The greater the distance, the less good the match is. The greater this sum
+   *   of all this distances is, the less good the match.</p>
+   * <p>Static types cannot be {@code null}. Dynamic parameter types can be {@code null}, expressing a
+   *   {@code null} actual parameter. These match with any static type, and are thus as good as when the static
+   *   types is the same as the dynamic type (distance 0).</p>
+   * <p>If the number of static parameters does not match the number of dynamic parameters, the match is impossible.
+   *   This is expressed by {@link Integer#MAX_VALUE}.</p>
+   *
+   * @idea use this for all method lookups
+   */
+  private static int distance(Class<?>[] dynamicParameterTypes, Class<?>[] staticParameterTypes) {
+    if (staticParameterTypes.length !=  dynamicParameterTypes.length) {
+      return Integer.MAX_VALUE;
+    }
+    else {
+      int d = 0;
+      for (int i = 0; i < staticParameterTypes.length; i++) {
+        if (dynamicParameterTypes[i] != null) {
+          int iD = TypeHelpers.distance(dynamicParameterTypes[i], staticParameterTypes[i]);
+          if (d >= Integer.MAX_VALUE - iD) {
+            return Integer.MAX_VALUE;
+          }
+          d += iD;
+        }
+      }
+      return d;
+    }
   }
 
   // IDEA hasConstructor for consistency, but better not to introduce code we don't need
