@@ -59,8 +59,8 @@ import org.toryt.annotations_I.Throw;
  *   {@link PropertyEditor} is sought for the type using the {@link PropertyEditorManager}.
  *   It is an error if the type does not exist or a property editor cannot be found for the type.
  *   Alternatively, you can supply the type for which the instance should work using
- *   {@link #AbstractPropertyEditorUserType(Class)}, or you can supply the type and the
- *   property editor using {@link #AbstractPropertyEditorUserType(Class, PropertyEditor)}.
+ *   {@link #PropertyEditorUserType(Class)}, or you can supply the type and the
+ *   property editor using {@link #PropertyEditorUserType(Class, PropertyEditor)}.
  *   You could also create a subtype using these constructors to fill out these properties.</p>
  * <p>In a Hibernate context, the easiest use is to define the user type using the {@code param}
  *   tag when definining the property of an entity:</p>
@@ -83,7 +83,7 @@ import org.toryt.annotations_I.Throw;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-public class AbstractPropertyEditorUserType extends AbstractValueUserType {
+public class PropertyEditorUserType extends AbstractValueUserType {
 
   /*<construction>*/
   //------------------------------------------------------------------
@@ -95,7 +95,7 @@ public class AbstractPropertyEditorUserType extends AbstractValueUserType {
     @Expression("returnedClass == null"),
     @Expression("propertyEditor == null")
   })
-  public AbstractPropertyEditorUserType() {
+  public PropertyEditorUserType() {
     // NOP
   }
 
@@ -108,7 +108,7 @@ public class AbstractPropertyEditorUserType extends AbstractValueUserType {
     @Expression("returnedClass == _valueType"),
     @Expression("propertyEditor == PropertyEditorManager.findEditor(_valueType)")
   })
-  public AbstractPropertyEditorUserType(Class<? extends Value> valueType) {
+  public PropertyEditorUserType(Class<? extends Value> valueType) {
     $valueType = valueType;
     initPropertyEditor();
   }
@@ -120,7 +120,7 @@ public class AbstractPropertyEditorUserType extends AbstractValueUserType {
     @Expression("returnedClass == _valueType"),
     @Expression("propertyEditor == _pe")
   })
-  public AbstractPropertyEditorUserType(Class<? extends Value> valueType, PropertyEditor pe) {
+  public PropertyEditorUserType(Class<? extends Value> valueType, PropertyEditor pe) {
     $valueType = valueType;
     $editor = pe;
   }
