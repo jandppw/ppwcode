@@ -26,6 +26,7 @@ import static org.ppwcode.util.reflect_I.TypeHelpers.PRIMITIVE_TYPES_BY_NAME;
 import static org.ppwcode.util.reflect_I.TypeHelpers.PRIMITIVE_TYPE_BINARY_NAMES;
 import static org.ppwcode.util.reflect_I.TypeHelpers.arrayType;
 import static org.ppwcode.util.reflect_I.TypeHelpers.directSuperTypes;
+import static org.ppwcode.util.reflect_I.TypeHelpers.distance;
 import static org.ppwcode.util.reflect_I.TypeHelpers.isAbstract;
 import static org.ppwcode.util.reflect_I.TypeHelpers.isFinal;
 import static org.ppwcode.util.reflect_I.TypeHelpers.isInnerType;
@@ -658,6 +659,22 @@ public class TypeHelpersTest {
     assertTrue(result.contains(StubInterfaceBeta.class));
     assertTrue(result.contains(StubInterfaceDelta.class));
     assertTrue(result.contains(StubInterfaceGamma.class));
+  }
+
+  @Test
+  public void testDistanceClassClass() {
+    assertEquals(0, distance(null, StubClass.class));
+    assertEquals(0, distance(StubClass.class, StubClass.class));
+    assertEquals(0, distance(SuperSuperStubInterfaceA.class, SuperSuperStubInterfaceA.class));
+    assertEquals(Integer.MAX_VALUE, distance(SuperSuperStubInterfaceA.class, SuperSuperStubInterfaceB.class));
+    assertEquals(4, distance(AbstractSubSubStubClass.class, SuperSuperStubClass.class));
+    assertEquals(5, distance(AbstractSubSubStubClass.class, Object.class));
+    assertEquals(Integer.MAX_VALUE, distance(SuperSuperStubClass.class, AbstractSubSubStubClass.class));
+    assertEquals(3, distance(AbstractSubSubStubClass.class, SuperSuperStubInterfaceA.class));
+    assertEquals(5, distance(AbstractSubSubStubClass.class, SuperSuperSuperStubInterface.class));
+    assertEquals(1, distance(AbstractSubSubStubClass.class, StubInterfaceDelta.class));
+    assertEquals(2, distance(AbstractSubSubStubClass.class, StubInterfaceBeta.class));
+    assertEquals(1, distance(StubInterfaceBeta.class, SuperSuperStubInterfaceA.class));
   }
 
 }
