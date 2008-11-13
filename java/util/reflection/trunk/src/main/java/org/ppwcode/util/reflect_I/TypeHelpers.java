@@ -602,5 +602,114 @@ public class TypeHelpers {
     return new HashSet<Class<? super _Type_>>(result.subList(1, result.size()));
   }
 
+  /**
+   * Transform an array of objects to an array of the dynamic types of those objects.
+   * {@code null} objects are transformed into {@code null}.
+   *
+   * @mudo contract and unit test
+   */
+  public static Class<?>[] objectsToTypes(Object... arguments) throws AssertionError {
+    Class<?>[] parameterTypes = new Class<?>[arguments.length];
+    for (int i = 0; i < arguments.length; i++) {
+      parameterTypes[i] = arguments[i] == null ? null : arguments[i].getClass();
+    }
+    return parameterTypes;
+  }
+
+  public static <_T_> int distance(Class<_T_> subType, Class<?> superType) {
+    preArgumentNotNull(superType, "superType");
+    if (subType == null || subType == superType) {
+      return 0;
+    }
+    else if (! superType.isAssignableFrom(subType)) {
+      return Integer.MAX_VALUE;
+    }
+    else if (! superType.isInterface()) {
+      return linearPathLength(subType, superType);
+    }
+    else {
+      // superType is an interface, reachable via super interfaces or super class of subType
+      // this is a directed graph, and requires Dijkstra's shortest path algorithm
+      return shortestPathLength(subType, superType);
+    }
+  }
+
+  private static <_T_> int linearPathLength(Class<_T_> subType, Class<?> superType) {
+    int count = 0;
+    Class<?> current = subType;
+    while (current != superType) {
+      current = current.getSuperclass();
+      count++;
+    }
+    return count;
+  }
+
+  private static <_T_> int shortestPathLength(Class<_T_> subType, Class<?> superType) {
+
+    class Node implements Comparable<Node> {
+
+      public Node(Class<? super _T_> t) {
+        type = t;
+      }
+
+      public final Class<? super _T_> type;
+
+      public int minimalKnownDistance = Integer.MAX_VALUE;
+
+      public boolean visited;
+
+      @Override
+      public boolean equals(Object other) {
+        return type == ((Node)other).type;
+      }
+
+      @Override
+      public int hashCode() {
+        return type.hashCode();
+      }
+
+      public int compareTo(Node o) {
+        return visited ? (o.visited ? 0 : + 1) :
+                         (o.visited ? -1 :
+                           (minimalKnownDistance < o.minimalKnownDistance ? -1 :
+                             (minimalKnownDistance == o.minimalKnownDistance ? 0 : +1)));
+      }
+
+    }
+
+    Map<Class<? super _T_>, Node> encountered = new HashMap<Class<? super _T_>, Node>();
+    Node subtypeNode = new Node(subType);
+    subtypeNode.minimalKnownDistance = 0;
+    encountered.put(subType, subtypeNode);
+    assert subtypeNode.type != superType;
+    while (true) {
+      Node current = Collections.min(encountered.values());
+      assert superType.isAssignableFrom(current.type);
+      current.visited = true;
+      Set<? extends Class<? super _T_>> dst = directSuperTypes(current.type);
+      int newCandidateDistance = current.minimalKnownDistance + 1;
+      for (Class<? super _T_> type : dst) {
+        if (type == superType) {
+          // found; this is it
+          return newCandidateDistance;
+        }
+        if (! superType.isAssignableFrom(type)) {
+          // path doesn't lead to super type; just skip
+          continue;
+        }
+        Node tNode = encountered.get(type);
+        if (tNode == null) { // not yet encountered
+          tNode = new Node(type);
+          encountered.put(type, tNode);
+        }
+        if ((! tNode.visited) && (tNode.minimalKnownDistance > newCandidateDistance)) {
+          tNode.minimalKnownDistance = newCandidateDistance;
+        }
+        /* else we already visited this node earlier, so this path is definitely longer than the previous one,
+         * and we don't care about it
+         */
+      }
+    }
+  }
 
 }
