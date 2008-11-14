@@ -17,19 +17,101 @@ limitations under the License.
 package org.ppwcode.vernacular.value_III;
 
 
+import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotNull;
+
 import org.ppwcode.vernacular.exception_II.SemanticException;
+import org.toryt.annotations_I.Basic;
+import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.Invars;
+import org.toryt.annotations_I.MethodContract;
 
 
 /**
  * A {@link SemanticException} for value types. This is thrown most often
  * by mutable value types, when a property is set in a way that doesn't agree
- * with the invariants.
+ * with the invariants. The exception always carries the type of the value for
+ * which the exception occured, and if possible, the value instance.
+ * The message of the exception should be, like with any {@code InternalException},
+ * a key with which a localized message can be retrieved from a properties file.
  */
 public class SemanticValueException extends SemanticException {
 
-  public SemanticValueException(String messageKey, Throwable cause) {
+  /*<construction>*/
+  //------------------------------------------------------------------
+
+  @MethodContract(
+    pre  = @Expression("_valueType != null"),
+    post = {
+      @Expression("valueType == _valueType"),
+      @Expression("value == null"),
+      @Expression("message == _messageKey"),
+      @Expression("cause == _cause;")
+    }
+  )
+  public SemanticValueException(Class<? extends Value> valueType, String messageKey, Throwable cause) {
     super(messageKey, cause);
+    assert preArgumentNotNull(valueType, "valueType");
+    $valueType = valueType;
+    $value = null;
   }
+
+  @MethodContract(
+    pre  = @Expression("_value != null"),
+    post = {
+      @Expression("value == _value"),
+      @Expression("valueType == _value.class"),
+      @Expression("message == _messageKey"),
+      @Expression("cause == _cause;")
+    }
+  )
+  public SemanticValueException(Value value, String messageKey, Throwable cause) {
+    super(messageKey, cause);
+    assert preArgumentNotNull(value, "value");
+    $value = value;
+    $valueType = value.getClass();
+  }
+
+  /*</construction>*/
+
+
+
+  /*<property name="value type">*/
+  //------------------------------------------------------------------
+
+  /**
+   * The type of value for which an exception occured. This is thrown
+   * by the value, or by code supporting the value, e.g., helper methods
+   * or transformation code.
+   */
+  @Basic(invars = @Expression("valueType != null"))
+  public final Class<? extends Value> getValueType() {
+    return $valueType;
+  }
+
+  @Invars(@Expression("$valueType != null"))
+  private final Class<? extends Value> $valueType;
+
+  /*</property>*/
+
+
+
+  /*<property name="value type">*/
+  //------------------------------------------------------------------
+
+  /**
+   * The value instance for which an exception occured. This is thrown
+   * by the value, or by code supporting the value, e.g., helper methods
+   * or transformation code. This can be {@code null}, e.g., when the exception
+   * occured during construction of a value.
+   */
+  @Basic
+  public final Value getValue() {
+    return $value;
+  }
+
+  private final Value $value;
+
+  /*</property>*/
 
 }
 
