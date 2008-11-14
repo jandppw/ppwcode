@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2008 - $Date$ by PeopleWare n.v.
+Copyright 2008 - $Date: 2008-10-29 11:24:16 +0100 (Wed, 29 Oct 2008) $ by PeopleWare n.v.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.research.jpa.crud.semanticsBeta;
+package org.ppwcode.research.jpa.hibernate.semanticsBeta;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -41,13 +41,12 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
 
-import org.apache.openjpa.persistence.ArgumentException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class JpaBTest {
+public class HibernatePersistenceJpaBTest {
 
-  static final String PERSISTENCE_UNIT_NAME = "test_openjpa_master_detail";
+  static final String PERSISTENCE_UNIT_NAME = "test_hibernate";
 
   final static Logger LOGGER = Logger.getLogger("ValueHandlersTest");
 
@@ -169,7 +168,7 @@ public class JpaBTest {
     em.persist(e);
     assertTrue(em.contains(e));
     assertNotNull(e.getPersistenceId());
-    assertNull(e.getPersistenceVersion());
+    //assertNull(e.getPersistenceVersion());
     tx.commit();
     assertTrue(em.contains(e));
     em.close();
@@ -213,7 +212,7 @@ public class JpaBTest {
     em.persist(e);
     assertTrue(em.contains(e));
     assertNotNull(e.getPersistenceId());
-    assertNull(e.getPersistenceVersion());
+    //assertNull(e.getPersistenceVersion());
     tx.commit();
     assertTrue(em.contains(e));
     em.close();
@@ -933,7 +932,7 @@ public class JpaBTest {
     System.out.println("master without details is removed");
   }
 
-  @Test(expected=ArgumentException.class)
+  @Test(expected=IllegalArgumentException.class)
   public void hypothesis6c() {
     displayTest("DELETE MASTER WITHOUT DETAILS",
         "hypothesis6c (master without details, created using persist, remove detached master)");
@@ -960,7 +959,7 @@ public class JpaBTest {
     System.out.println("EntityManager DID NOT THROW AN ARGUMENTEXCEPTION");
 }
 
-  @Test(expected=ArgumentException.class)
+  @Test(expected=IllegalArgumentException.class)
   public void hypothesis6d() {
     displayTest("DELETE MASTER WITHOUT DETAILS",
         "hypothesis6d (master without details, created using merge, remove detached master)");

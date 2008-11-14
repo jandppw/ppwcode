@@ -47,8 +47,7 @@ import org.junit.Test;
 
 public class JpaBTest {
 
-  static final String PERSISTENCE_UNIT_NAME = "be_hdp_contracts_I_IBMOpenJPA_test";
-  //static final String PERSISTENCE_UNIT_NAME = "be_hdp_contracts_I";
+  static final String PERSISTENCE_UNIT_NAME = "test_openjpa_master_detail";
 
   final static Logger LOGGER = Logger.getLogger("ValueHandlersTest");
 

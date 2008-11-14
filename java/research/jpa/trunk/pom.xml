@@ -278,6 +278,20 @@
       <artifactId>ppwcode-value-III</artifactId>
       <version>dev-SNAPSHOT</version>
     </dependency>
+
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate</artifactId>
+      <version>3.2.5.ga</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-entitymanager</artifactId>
+      <version>3.3.1.ga</version>
+    </dependency>
+
+
   </dependencies>
 
 </project>
