@@ -59,7 +59,7 @@ public class ValueHandlersTest {
 
   private static final String TABLE_NAME_SERIALIZABLEPROPERTIES = "org_ppwcode_research_jpa_openjpa_valuehandlers_anentityserializableproperties";
 
-  static final String PERSISTENCE_UNIT_NAME = "be_hdp_contracts_I_IBMOpenJPA_test";
+  static final String PERSISTENCE_UNIT_NAME = "test_openjpa_valuehandlers";
 
   final static Logger LOGGER = Logger.getLogger("ValueHandlersTest");
 
