@@ -17,8 +17,12 @@ limitations under the License.
 package org.ppwcode.vernacular.value_III;
 
 
+import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotNull;
 
+import org.ppwcode.metainfo_I.Copyright;
+import org.ppwcode.metainfo_I.License;
+import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.vernacular.exception_II.SemanticException;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
@@ -34,6 +38,10 @@ import org.toryt.annotations_I.MethodContract;
  * The message of the exception should be, like with any {@code InternalException},
  * a key with which a localized message can be retrieved from a properties file.
  */
+@Copyright("2004 - $Date$, PeopleWare n.v.")
+@License(APACHE_V2)
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public class SemanticValueException extends SemanticException {
 
   /*<construction>*/
