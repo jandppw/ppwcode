@@ -40,6 +40,7 @@ import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.vernacular.value_III.Value;
+import org.ppwcode.vernacular.value_III.ValueEditor;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.Invars;
@@ -60,7 +61,7 @@ import org.toryt.annotations_I.Throw;
  *   It is an error if the type does not exist or a property editor cannot be found for the type.
  *   Alternatively, you can supply the type for which the instance should work using
  *   {@link #PropertyEditorUserType(Class)}, or you can supply the type and the
- *   property editor using {@link #PropertyEditorUserType(Class, PropertyEditor)}.
+ *   property editor using {@link #PropertyEditorUserType(ValueEditor)}.
  *   You could also create a subtype using these constructors to fill out these properties.</p>
  * <p>In a Hibernate context, the easiest use is to define the user type using the {@code param}
  *   tag when definining the property of an entity:</p>
@@ -114,15 +115,15 @@ public class PropertyEditorUserType extends AbstractValueUserType {
   }
 
   /**
-   * An instance aimed to persist instances of {@code valueType} using {@code pe}.
+   * An instance aimed to persist instances of a value type using {@code ve}.
    */
   @MethodContract(post = {
     @Expression("returnedClass == _valueType"),
     @Expression("propertyEditor == _pe")
   })
-  public PropertyEditorUserType(Class<? extends Value> valueType, PropertyEditor pe) {
-    $valueType = valueType;
-    $editor = pe;
+  public PropertyEditorUserType(ValueEditor<? extends Value> ve) {
+    $editor = ve;
+    $valueType = ve.getValueType();
   }
 
   /*</construction>*/
