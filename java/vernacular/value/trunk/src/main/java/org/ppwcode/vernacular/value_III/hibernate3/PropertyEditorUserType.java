@@ -167,9 +167,6 @@ public class PropertyEditorUserType extends AbstractValueUserType {
 
 
 
-
-
-
   /*<property name="value type">*/
   //------------------------------------------------------------------
 
