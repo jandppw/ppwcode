@@ -43,7 +43,7 @@ public class AbstractEnumerationValueEditorTest {
     }
   }
 
-  List<AbstractEnumerationValueEditor<StubEnumerationValue>> $subjects;
+  protected List<AbstractEnumerationValueEditor<StubEnumerationValue>> $subjects;
 
   @Before
   public void setUp() throws Exception {
