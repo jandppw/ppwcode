@@ -18,7 +18,6 @@ package org.ppwcode.value_III.id11n;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotNull;
 
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
@@ -26,12 +25,18 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.vernacular.value_III.SemanticValueException;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.Invars;
 import org.toryt.annotations_I.MethodContract;
 
 
 /**
  * <p>Exception thrown when we detect that an identifier string is not
- *   well-formed according to the rules for a particular identifier scheme.</p>
+ *   well-formed according to the rules for a particular identifier scheme.
+ *   Since {@link Identifier Identifiers} are immutable objects, and
+ *   can only be configured using a constructor, and we may not expose a
+ *   partially created identifier object in any way, this exception never
+ *   carries an effective violating object. It does however always carry
+ *   the particular subclass for which the error occured.</p>
  *
  * @author    Jan Dockx
  * @author    Peopleware NV
@@ -40,32 +45,24 @@ import org.toryt.annotations_I.MethodContract;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
+@Invars(@Expression("value == null"))
 public class IdentifierWellformednessException extends SemanticValueException {
 
   @MethodContract(
     pre  = @Expression("_identifierClass != null"),
     post = {
-      @Expression("identifierClass == _identifierClass"),
+      @Expression("valueType == _identifierClass"),
       @Expression("identifier == _identifier"),
+      @Expression("value == null"),
       @Expression("message == _message"),
       @Expression("cause == _cause")
     }
   )
   public IdentifierWellformednessException(Class<? extends Identifier> identifierClass, String identifier,
                                            String message, Throwable cause) {
-    super(message, cause);
-    assert preArgumentNotNull(identifierClass, "identifierClass");
-    $identifierClass = identifierClass;
+    super(identifierClass, message, cause);
     $identifier = identifier;
   }
-
-
-  @Basic(invars = @Expression("identifierClass != null"))
-  public final Class<? extends Identifier> getIdentifierClass() {
-    return $identifierClass;
-  }
-
-  private final Class<? extends Identifier> $identifierClass;
 
 
 
