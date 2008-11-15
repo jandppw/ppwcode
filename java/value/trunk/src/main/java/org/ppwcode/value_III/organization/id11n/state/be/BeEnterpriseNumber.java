@@ -139,7 +139,7 @@ public final class BeEnterpriseNumber extends AbstractRegexIdentifier implements
                   exc  = @Throw(type = SemanticValueException.class, cond = @Expression("! isOldVatNumberBased()")))
   public final String getOldVatNumber() throws SemanticValueException {
     if (! isOldVatNumberBased()) {
-      throw new SemanticValueException("NOT_OLD_VAT_NUMBER_BASED", null);
+      throw new SemanticValueException(this, "NOT_OLD_VAT_NUMBER_BASED", null);
     }
     return patternGroup(3) + getControl();
   }
