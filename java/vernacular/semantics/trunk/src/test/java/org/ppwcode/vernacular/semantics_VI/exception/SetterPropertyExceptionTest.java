@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.ppwcode.util.reflect_I.PropertyHelpers.hasProperty;
-import static org.ppwcode.vernacular.exception_II.InternalException.DEFAULT_MESSAGE_KEY;
+import static org.ppwcode.vernacular.exception_III.ApplicationException.DEFAULT_MESSAGE_KEY;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Date;

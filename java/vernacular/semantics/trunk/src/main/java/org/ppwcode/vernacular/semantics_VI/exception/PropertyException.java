@@ -23,8 +23,8 @@ import static org.ppwcode.util.reflect_I.PropertyHelpers.hasProperty;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.vernacular.exception_II.InternalException;
-import org.ppwcode.vernacular.exception_II.SemanticException;
+import org.ppwcode.vernacular.exception_III.ApplicationException;
+import org.ppwcode.vernacular.exception_III.SemanticException;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.Invars;
@@ -57,7 +57,7 @@ import org.toryt.annotations_I.MethodContract;
  *   <code><var>this.getClass().getCanonicalName()</var>. If neither of these keys are found, we look in the properties file
  *   that comes with the exception for an entry with the key
  *   <var>{@link #getMessage()}</var>, and if that is not found, for an entry with key
- *   {@link InternalException#DEFAULT_MESSAGE_KEY}.</p>
+ *   {@link ApplicationException#DEFAULT_MESSAGE_KEY}.</p>
  * <p>The values in the properties files can use data from exception as parameters in the message. Available are:</p>
  * MUDO This feature is not implemented yet.
  * <ul>
