@@ -19,7 +19,7 @@ package org.ppwcode.util.serialization_I;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.InstanceHelpers.newInstance;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
+import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.unexpectedException;
 
 import java.io.InvalidObjectException;
 import java.io.Serializable;

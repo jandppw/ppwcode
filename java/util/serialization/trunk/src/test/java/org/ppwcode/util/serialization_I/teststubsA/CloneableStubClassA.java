@@ -17,7 +17,7 @@ limitations under the License.
 package org.ppwcode.util.serialization_I.teststubsA;
 
 
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
+import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.unexpectedException;
 
 
 
