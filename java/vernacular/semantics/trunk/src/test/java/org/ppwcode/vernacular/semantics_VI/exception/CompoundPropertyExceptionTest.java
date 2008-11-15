@@ -22,7 +22,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.ppwcode.vernacular.exception_II.InternalException.DEFAULT_MESSAGE_KEY;
+import static org.ppwcode.vernacular.exception_III.ApplicationException.DEFAULT_MESSAGE_KEY;
 
 import java.util.HashSet;
 import java.util.Map;
