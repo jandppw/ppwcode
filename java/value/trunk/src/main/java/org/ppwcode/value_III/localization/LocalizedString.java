@@ -71,9 +71,9 @@ public final class LocalizedString extends AbstractImmutableValue {
       @Expression("string == _string")
     },
     exc  = {
-      @Throw(type = SemanticValueException.class,
+      @Throw(type = LocaleException.class,
              cond = @Expression("_locale == null")),
-      @Throw(type = SemanticValueException.class,
+      @Throw(type = LocaleException.class,
              cond = @Expression("! Locale.getISOLanguages().contains(_locale.getLanguate())")),
       @Throw(type = SemanticValueException.class,
              cond = @Expression("_string == null")),
@@ -81,18 +81,18 @@ public final class LocalizedString extends AbstractImmutableValue {
              cond = @Expression("_string == EMPPTY"))
     }
   )
-  public LocalizedString(Locale locale, String string) throws SemanticValueException {
+  public LocalizedString(Locale locale, String string) throws LocaleException, SemanticValueException {
     if (locale == null) {
-      throw new SemanticValueException("LOCALE_IS_NULL", null);
+      throw new LocaleException(getClass(), locale, "LOCALE_IS_NULL", null);
     }
     if (! Arrays.asList(Locale.getISOLanguages()).contains(locale.getLanguage())) {
-      throw new SemanticValueException("UNKNOWN_LANGUAGE", null);
+      throw new LocaleException(getClass(), locale, "UNKNOWN_LANGUAGE", null);
     }
     if (string == null) {
-      throw new SemanticValueException("STRING_IS_NULL", null);
+      throw new SemanticValueException(getClass(), "STRING_IS_NULL", null);
     }
     if (string.equals(EMPTY)) {
-      throw new SemanticValueException("STRING_IS_EMPTY", null);
+      throw new SemanticValueException(getClass(), "STRING_IS_EMPTY", null);
     }
     $locale = locale;
     $string = string;
