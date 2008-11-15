@@ -36,7 +36,7 @@ package org.ppwcode.value_III.legacy;
  * @invar     getString() != null
  * @invar     getString().length() > getMaxLength();
  */
-public class TooLongException extends PropertyException {
+public class TooLongException extends Exception {
 
   /*<section name="Meta Information">*/
   //------------------------------------------------------------------
@@ -98,7 +98,7 @@ public class TooLongException extends PropertyException {
                           final int maxLength,
                           final String message,
                           final Throwable cause) {
-    super(origin, propertyName, message, cause);
+    super(/*origin, propertyName,*/ message, cause);
     $string = string;
     $maxLength = maxLength;
   }

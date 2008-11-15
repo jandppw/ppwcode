@@ -25,6 +25,7 @@ import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.vernacular.exception_II.InternalException;
 import org.ppwcode.vernacular.value_III.SemanticValueException;
+import org.ppwcode.vernacular.value_III.Value;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.Invars;
@@ -110,7 +111,7 @@ public class PropertyException extends SemanticValueException {
     }
   )
   protected PropertyException(final String message, final Throwable cause) {
-    super(message, cause);
+    super(Value.class, message, cause);
     assert (message == null) || (! message.equals(""));
   }
 
@@ -140,17 +141,13 @@ public class PropertyException extends SemanticValueException {
       @Expression("cause == _cause")
     }
   )
-  public PropertyException(final Object origin,
+  public PropertyException(final Value origin,
                            final String propertyName,
                            final String message,
                            final Throwable cause) {
-    super(message, cause);
-    assert origin != null;
-    assert ! (origin instanceof Class);
+    super(origin, message, cause);
     assert (propertyName == null) || hasProperty(origin.getClass(), propertyName);
     assert (message == null) || (! message.equals(""));
-    $origin = origin;
-    $originType = origin.getClass();
     $propertyName = propertyName;
   }
 
@@ -188,19 +185,14 @@ public class PropertyException extends SemanticValueException {
       @Expression("cause == _cause")
     }
   )
-  public PropertyException(final Object origin,
+  public PropertyException(final Value origin,
                            final boolean inOriginInitialization,
                            final String propertyName,
                            final String message,
                            final Throwable cause) {
-    super(message, cause);
-    assert origin != null;
+    super(origin, message, cause);
     assert (propertyName == null) || hasProperty(origin.getClass(), propertyName);
     assert (message == null) || (!message.equals(""));
-    if (!inOriginInitialization) {
-      $origin = origin;
-    }
-    $originType = origin.getClass();
     $propertyName = propertyName;
   }
 
@@ -233,60 +225,18 @@ public class PropertyException extends SemanticValueException {
       @Expression("cause == _cause")
     }
   )
-  public PropertyException(final Class<?> originType,
+  public PropertyException(final Class<? extends Value> originType,
                            final String propertyName,
                            final String message,
                            final Throwable cause) {
-    super(message, cause);
-    assert originType != null;
+    super(originType, message, cause);
     assert (propertyName == null) || hasProperty(originType, propertyName);
     assert (message == null) || (!message.equals(""));
-    $originType = originType;
     $propertyName = propertyName;
   }
 
   /*</construction>*/
 
-
-
-  /*<property name="origin">*/
-  //------------------------------------------------------------------
-
-  /**
-   * The bean that has thrown this exception.
-   */
-  @Basic(
-    invars = {
-      @Expression("originType != null"),
-      @Expression("origin != null ? originType == origin.class")
-    }
-  )
-  public final Object getOrigin() {
-    return $origin;
-  }
-
-  private Object $origin;
-
-  /*</property>*/
-
-
-
-  /*<property name="originType">*/
-  //------------------------------------------------------------------
-
-  /**
-   * The type of the bean that has thrown this exception.
-   */
-  @Basic(
-    invars = @Expression("originType != null")
-  )
-  public final Class<?> getOriginType() {
-    return $originType;
-  }
-
-  private Class<?> $originType;
-
-  /*</property>*/
 
 
 
@@ -341,8 +291,8 @@ public class PropertyException extends SemanticValueException {
   )
   public boolean like(PropertyException other) {
     return (other != null) && (other.getClass() == getClass()) &&
-           (other.getOrigin() == getOrigin()) &&
-           (other.getOriginType() == getOriginType()) &&
+           (other.getValue() == getValue()) &&
+           (other.getValueType() == getValueType()) &&
            eqn(other.getPropertyName(), getPropertyName()) &&
            eqn(other.getMessage(), getMessage()) &&
            (other.getCause() == getCause());

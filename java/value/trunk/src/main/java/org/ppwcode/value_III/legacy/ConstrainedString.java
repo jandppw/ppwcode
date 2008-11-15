@@ -131,12 +131,12 @@ public class ConstrainedString /*extends Delegate*/ implements Serializable {
       result = stringValue;
     }
     if (result.length() > getMaxLength()) {
-      throw new TooLongException(getDelegatingBean(),
-                                 getPropertyName(),
-                                 stringValue,
-                                 getMaxLength(),
-                                 "TOO_LONG", //$NON-NLS-1$
-                                 null);
+//      throw new TooLongException(this,
+//                                 getPropertyName(),
+//                                 stringValue,
+//                                 getMaxLength(),
+//                                 "TOO_LONG", //$NON-NLS-1$
+//                                 null);
     }
     $string = result;
   }
