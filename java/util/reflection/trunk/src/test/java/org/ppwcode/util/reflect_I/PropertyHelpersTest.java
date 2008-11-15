@@ -494,7 +494,7 @@ public class PropertyHelpersTest {
   public void testSetPropertyValue1() throws ApplicationException {
     StubClass subject = new StubClass();
     Object newValue = new Object();
-    PropertyHelpers.setPropertyValue(subject, "ApplicationExceptionProperty", newValue);
+    PropertyHelpers.setPropertyValue(subject, "applicationExceptionProperty", newValue);
     assertEquals(newValue, subject.getApplicationExceptionProperty());
   }
 
@@ -502,7 +502,7 @@ public class PropertyHelpersTest {
   public void testSetPropertyValue2() throws ApplicationException {
     StubClass subject = new StubClass();
     SemanticException newValue = new SemanticException("Semantic Exception message", null);
-    PropertyHelpers.setPropertyValue(subject, "ApplicationExceptionProperty", newValue);
+    PropertyHelpers.setPropertyValue(subject, "applicationExceptionProperty", newValue);
   }
 
 }
