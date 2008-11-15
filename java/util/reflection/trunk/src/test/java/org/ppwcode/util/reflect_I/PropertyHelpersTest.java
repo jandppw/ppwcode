@@ -46,8 +46,8 @@ import java.util.Set;
 import org.junit.Test;
 import org.ppwcode.util.reflect_I.teststubs.CloneableStubClassA;
 import org.ppwcode.util.reflect_I.teststubs.StubClass;
-import org.ppwcode.vernacular.exception_II.InternalException;
-import org.ppwcode.vernacular.exception_II.SemanticException;
+import org.ppwcode.vernacular.exception_III.ApplicationException;
+import org.ppwcode.vernacular.exception_III.SemanticException;
 
 
 public class PropertyHelpersTest {
@@ -491,18 +491,18 @@ public class PropertyHelpersTest {
 //  }
 
   @Test
-  public void testSetPropertyValue1() throws InternalException {
+  public void testSetPropertyValue1() throws ApplicationException {
     StubClass subject = new StubClass();
     Object newValue = new Object();
-    PropertyHelpers.setPropertyValue(subject, "internalExceptionProperty", newValue);
-    assertEquals(newValue, subject.getInternalExceptionProperty());
+    PropertyHelpers.setPropertyValue(subject, "ApplicationExceptionProperty", newValue);
+    assertEquals(newValue, subject.getApplicationExceptionProperty());
   }
 
   @Test(expected = SemanticException.class)
-  public void testSetPropertyValue2() throws InternalException {
+  public void testSetPropertyValue2() throws ApplicationException {
     StubClass subject = new StubClass();
     SemanticException newValue = new SemanticException("Semantic Exception message", null);
-    PropertyHelpers.setPropertyValue(subject, "internalExceptionProperty", newValue);
+    PropertyHelpers.setPropertyValue(subject, "ApplicationExceptionProperty", newValue);
   }
 
 }

@@ -20,10 +20,10 @@ package org.ppwcode.util.reflect_I;
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.InstanceHelpers.newInstance;
 import static org.ppwcode.util.reflect_I.TypeName.DOT_PATTERN;
-import static org.ppwcode.vernacular.exception_II.ExceptionHelpers.huntFor;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotEmpty;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotNull;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
+import static org.ppwcode.vernacular.exception_III.ExceptionHelpers.huntFor;
+import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.preArgumentNotEmpty;
+import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.preArgumentNotNull;
+import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.unexpectedException;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
@@ -36,7 +36,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.vernacular.exception_II.InternalException;
+import org.ppwcode.vernacular.exception_III.ApplicationException;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
 import org.toryt.annotations_I.Throw;
@@ -665,14 +665,14 @@ public final class PropertyHelpers {
   /**
    * Set the property {@code propertyName} of {@code bean} to {@code value}.
    * Anything that goes wrong is considered a programming error, except
-   * {@link InternalException InternalExceptions}.
+   * {@link ApplicationException ApplicationExceptions}.
    */
-  public static void setPropertyValue(Object bean, String propertyName, Object value) throws InternalException {
+  public static void setPropertyValue(Object bean, String propertyName, Object value) throws ApplicationException {
     try {
       PropertyUtils.setProperty(bean, propertyName, value);
     }
     catch (InvocationTargetException exc) {
-      InternalException internalExc = huntFor(exc, InternalException.class);
+      ApplicationException internalExc = huntFor(exc, ApplicationException.class);
       if (internalExc != null) {
         throw internalExc;
       }
