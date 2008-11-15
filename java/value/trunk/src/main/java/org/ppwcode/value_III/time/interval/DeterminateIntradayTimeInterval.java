@@ -67,7 +67,7 @@ public final class DeterminateIntradayTimeInterval extends AbstractIntradayTimeI
   public DeterminateIntradayTimeInterval(Date begin, Date end, TimeZone tz) throws IllegalTimeIntervalException {
     super(begin, end, tz);
     if (begin == null || end == null) {
-      throw new IllegalTimeIntervalException(begin, end,"BEGIN_AND_END_MANDATORY");
+      throw new IllegalTimeIntervalException(getClass(), begin, end,"BEGIN_AND_END_MANDATORY", null);
     }
   }
 

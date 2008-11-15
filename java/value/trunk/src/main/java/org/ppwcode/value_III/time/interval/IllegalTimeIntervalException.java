@@ -42,18 +42,44 @@ import org.toryt.annotations_I.MethodContract;
          date     = "$Date$")
 public class IllegalTimeIntervalException extends SemanticValueException {
 
+  /*<construction>*/
+  //------------------------------------------------------------------
 
-  @MethodContract(post = {
-    @Expression("begin == _begin"),
-    @Expression("end == _end"),
-    @Expression("message == _messageKey"),
-    @Expression("cause == null")
-  })
-  public IllegalTimeIntervalException(Date begin, Date end, String messageKey) {
-    super(messageKey, null);
+  @MethodContract(
+    pre  = @Expression("_iType != null"),
+    post = {
+      @Expression("value == null"),
+      @Expression("valueType == _tiType"),
+      @Expression("begin == _begin"),
+      @Expression("end == _end"),
+      @Expression("message == _messageKey"),
+      @Expression("cause == _cause")
+    }
+  )
+  public IllegalTimeIntervalException(Class<? extends TimeInterval> tiType, Date begin, Date end, String messageKey, Throwable cause) {
+    super(tiType, messageKey, cause);
     $begin = klone(begin);
     $end = klone(end);
   }
+
+  @MethodContract(
+    pre  = @Expression("_ti != null"),
+    post = {
+      @Expression("value == _ti"),
+      @Expression("valueType == _ti.class"),
+      @Expression("begin == _begin"),
+      @Expression("end == _end"),
+      @Expression("message == _messageKey"),
+      @Expression("cause == _cause")
+    }
+  )
+  public IllegalTimeIntervalException(TimeInterval ti, Date begin, Date end, String messageKey, Throwable cause) {
+    super(ti, messageKey, cause);
+    $begin = klone(begin);
+    $end = klone(end);
+  }
+
+  /*</construction>*/
 
 
 

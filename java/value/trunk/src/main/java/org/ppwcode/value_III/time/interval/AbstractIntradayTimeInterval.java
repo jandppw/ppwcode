@@ -42,7 +42,7 @@ import org.toryt.annotations_I.Throw;
  * <p>It is not possible for both the begin and the end date to be {@code null}.</p>
  *
  * @author Jan Dockx
- * @author Peopleware n.v.
+ * @author PeopleWare n.v.
  */
 @Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
@@ -72,7 +72,7 @@ public abstract class AbstractIntradayTimeInterval extends AbstractBeginEndTimeZ
     super(begin, end, tz);
     if (begin != null && end != null) {
       if (! sameDay(begin, end, tz)) {
-        throw new IllegalTimeZoneTimeIntervalException(begin, end, tz, "NOT_INSIDE_ONE_DAY");
+        throw new IllegalTimeZoneTimeIntervalException(getClass(), begin, end, tz, "NOT_INSIDE_ONE_DAY", null);
       }
     }
   }
