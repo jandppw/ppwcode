@@ -29,6 +29,7 @@ import java.util.Set;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.ppwcode.vernacular.value_III.Value;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.Invars;
@@ -126,7 +127,7 @@ public final class CompoundPropertyException extends PropertyException {
       @Expression("cause == _cause")
     }
   )
-  public CompoundPropertyException(final Object origin, final String propertyName, final String message, final Throwable cause) {
+  public CompoundPropertyException(final Value origin, final String propertyName, final String message, final Throwable cause) {
     super(origin, propertyName, message, cause);
   }
 
@@ -163,7 +164,7 @@ public final class CompoundPropertyException extends PropertyException {
       @Expression("cause == _cause")
     }
   )
-  public CompoundPropertyException(final Object origin,
+  public CompoundPropertyException(final Value origin,
                                    final boolean inOriginInitialization,
                                    final String propertyName,
                                    final String message,
@@ -199,7 +200,7 @@ public final class CompoundPropertyException extends PropertyException {
       @Expression("cause == _cause")
     }
   )
-  public CompoundPropertyException(final Class<?> originType, final String propertyName, final String message, final Throwable cause) {
+  public CompoundPropertyException(final Class<? extends Value> originType, final String propertyName, final String message, final Throwable cause) {
     super(originType, propertyName, message, cause);
   }
 
@@ -336,12 +337,12 @@ public final class CompoundPropertyException extends PropertyException {
     if ((getPropertyName() != null) && (!getPropertyName().equals(pExc.getPropertyName()))) {
       throw new IllegalArgumentException("only exceptions for property " + getPropertyName() + " are allowed");
     }
-    if ((getOrigin() != null) && (pExc.getOrigin() != getOrigin())) {
-      throw new IllegalArgumentException("only exceptions for origin " + getOrigin() + " are allowed");
-    }
-    if ((getOriginType() != null) && (getOrigin() == null) && (pExc.getOriginType() != getOriginType())) {
-      throw new IllegalArgumentException("only exceptions for origin type " + getOriginType() + " are allowed");
-    }
+//    if ((getOrigin() != null) && (pExc.getOrigin() != getOrigin())) {
+//      throw new IllegalArgumentException("only exceptions for origin " + getOrigin() + " are allowed");
+//    }
+//    if ((getOriginType() != null) && (getOrigin() == null) && (pExc.getOriginType() != getOriginType())) {
+//      throw new IllegalArgumentException("only exceptions for origin type " + getOriginType() + " are allowed");
+//    }
     Set<PropertyException> propertySet = $elementExceptions.get(pExc.getPropertyName());
     if (propertySet == null) {
       propertySet = new HashSet<PropertyException>();
