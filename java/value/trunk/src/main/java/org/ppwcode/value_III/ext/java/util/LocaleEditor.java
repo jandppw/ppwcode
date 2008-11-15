@@ -40,9 +40,16 @@ import org.toryt.annotations_I.MethodContract;
  *   is set, or in the language of the {@link #getValue()}
  *   displayed locale itself, if the {@link #getDisplayLocale()}
  *   is not set.</p>
+ * <p>A complete list of language codes can be found at
+ *   <a href="http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">wikipedia</a>
+ *   and contains 185 entries. This list does not contain country extensions or
+ *   variants. {@link Locale#getISOLanguages()} returns 188 entries, including some
+ *   duplicates. {@link Locale#getAvailableLocales()} gives 152 entries.</p>
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
+ *
+ * @idea create a mechanism so that the values map contains all possibilities that exist
  */
 @Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
