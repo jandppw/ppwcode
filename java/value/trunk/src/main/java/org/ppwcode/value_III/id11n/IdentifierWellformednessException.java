@@ -39,7 +39,7 @@ import org.toryt.annotations_I.MethodContract;
  *   the particular subclass for which the error occured.</p>
  *
  * @author    Jan Dockx
- * @author    Peopleware NV
+ * @author    PeopleWare NV
  */
 @Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
