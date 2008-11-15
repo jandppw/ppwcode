@@ -20,7 +20,7 @@ package org.ppwcode.util.reflect_I.teststubs;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.ppwcode.vernacular.exception_II.InternalException;
+import org.ppwcode.vernacular.exception_III.ApplicationException;
 
 
 public class StubClass extends SuperStubClass {
@@ -507,18 +507,18 @@ public class StubClass extends SuperStubClass {
 
 
 
-  public final Object getInternalExceptionProperty() {
-    return $internalExceptionProperty;
+  public final Object getApplicationExceptionProperty() {
+    return $ApplicationExceptionProperty;
   }
 
-  public final void setInternalExceptionProperty(Object o) throws InternalException {
-    if (o instanceof InternalException) {
-      throw (InternalException)o;
+  public final void setApplicationExceptionProperty(Object o) throws ApplicationException {
+    if (o instanceof ApplicationException) {
+      throw (ApplicationException)o;
     }
-    $internalExceptionProperty = o;
+    $ApplicationExceptionProperty = o;
   }
 
-  private Object $internalExceptionProperty;
+  private Object $ApplicationExceptionProperty;
 
   public final static String STUB_PROPERTY_STRING_VALUE = "String property stub";
 
