@@ -43,19 +43,42 @@ import org.toryt.annotations_I.MethodContract;
          date     = "$Date$")
 public class IllegalTimeZoneTimeIntervalException extends IllegalTimeIntervalException {
 
+  /*<construction>*/
+  //------------------------------------------------------------------
 
-  @MethodContract(post = {
-    @Expression("begin == _begin"),
-    @Expression("end == _end"),
-    @Expression("timeZone == _timeZone"),
-    @Expression("message == _messageKey"),
-    @Expression("cause == null")
-  })
-  public IllegalTimeZoneTimeIntervalException(Date begin, Date end, TimeZone timeZone, String messageKey) {
-    super(begin, end, messageKey);
+  @MethodContract(
+    pre  = @Expression("_iType != null"),
+    post = {
+      @Expression("value == null"),
+      @Expression("begin == _begin"),
+      @Expression("end == _end"),
+      @Expression("timeZone == _timeZone"),
+      @Expression("message == _messageKey"),
+      @Expression("cause == _cause")
+    }
+  )
+  public IllegalTimeZoneTimeIntervalException(Class<? extends TimeZoneTimeInterval> tiType, Date begin, Date end, TimeZone timeZone, String messageKey, Throwable cause) {
+    super(tiType, begin, end, messageKey, cause);
     $timeZone = klone(timeZone);
   }
 
+  @MethodContract(
+    pre  = @Expression("_tzti != null"),
+    post = {
+      @Expression("value == _tzti"),
+      @Expression("valueType == _tzti.class"),
+      @Expression("begin == _begin"),
+      @Expression("end == _end"),
+      @Expression("message == _messageKey"),
+      @Expression("cause == _cause")
+    }
+  )
+  public IllegalTimeZoneTimeIntervalException(TimeZoneTimeInterval tzti, Date begin, Date end, TimeZone timeZone, String messageKey, Throwable cause) {
+    super(tzti, begin, end, messageKey, cause);
+    $timeZone = klone(timeZone);
+  }
+
+  /*<construction>*/
 
 
   /*<property name="time zone">*/

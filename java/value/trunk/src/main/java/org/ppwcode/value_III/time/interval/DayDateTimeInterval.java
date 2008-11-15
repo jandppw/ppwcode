@@ -80,7 +80,7 @@ public final class DayDateTimeInterval extends AbstractBeginEndTimeZoneTimeInter
   public DayDateTimeInterval(Date begin, Date end, TimeZone tz) throws IllegalTimeIntervalException {
     super(begin, end, tz);
     if ((begin != null && ! isDayDate(begin, tz)) || (end != null &&! isDayDate(end, tz))) {
-      throw new IllegalTimeZoneTimeIntervalException(begin, end, tz, "BEGIN_AND_END_MUST_BE_DAYDATE");
+      throw new IllegalTimeZoneTimeIntervalException(getClass(), begin, end, tz, "BEGIN_AND_END_MUST_BE_DAYDATE", null);
     }
   }
 
@@ -96,7 +96,7 @@ public final class DayDateTimeInterval extends AbstractBeginEndTimeZoneTimeInter
   public DayDateTimeInterval determinate(Date stubBegin, Date stubEnd) throws IllegalTimeIntervalException {
     if ((stubBegin != null && ! isDayDate(stubBegin, getTimeZone())) ||
         (stubEnd != null &&! isDayDate(stubEnd, getTimeZone()))) {
-      throw new IllegalTimeZoneTimeIntervalException(stubBegin, stubEnd, getTimeZone(), "BEGIN_AND_END_MUST_BE_DAYDATE");
+      throw new IllegalTimeZoneTimeIntervalException(this, stubBegin, stubEnd, getTimeZone(), "BEGIN_AND_END_MUST_BE_DAYDATE", null);
       // TODO pass this into the exception?
     }
     return new DayDateTimeInterval(determinateBegin(stubBegin), determinateEnd(stubEnd), getTimeZone());

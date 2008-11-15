@@ -64,10 +64,10 @@ public abstract class AbstractBeginEndTimeInterval extends AbstractTimeInterval 
   )
   protected AbstractBeginEndTimeInterval(Date begin, Date end) throws IllegalTimeIntervalException {
     if (begin == null && end == null) {
-      throw new IllegalTimeIntervalException(begin, end, "NOT_BEGIN_AND_END_NULL");
+      throw new IllegalTimeIntervalException(getClass(), begin, end, "NOT_BEGIN_AND_END_NULL", null);
     }
     if (begin != null && end != null && ! le(begin, end)) {
-      throw new IllegalTimeIntervalException(begin, end, "NOT_BEGIN_LE_END");
+      throw new IllegalTimeIntervalException(getClass(), begin, end, "NOT_BEGIN_LE_END", null);
     }
     $begin = klone(begin);
     $end = klone(end);
