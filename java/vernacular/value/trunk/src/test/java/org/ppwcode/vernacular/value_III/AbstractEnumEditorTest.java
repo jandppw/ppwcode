@@ -16,8 +16,9 @@ limitations under the License.
 
 package org.ppwcode.vernacular.value_III;
 
+
+import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.unexpectedException;
 import static org.ppwcode.util.test.contract.Contract.contractFor;
-import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.unexpectedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,6 @@ import org.junit.Test;
 import org.ppwcode.util.test.contract.NoSuchContractException;
 import org.ppwcode.vernacular.value_III.stubs.StubEnum;
 import org.ppwcode.vernacular.value_III.stubs.StubEnumEditor;
-
 
 
 public class AbstractEnumEditorTest {

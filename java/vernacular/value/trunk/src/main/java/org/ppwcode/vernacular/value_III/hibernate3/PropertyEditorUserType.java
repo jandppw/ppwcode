@@ -20,10 +20,10 @@ package org.ppwcode.vernacular.value_III.hibernate3;
 import static java.sql.Types.VARCHAR;
 import static org.hibernate.Hibernate.STRING;
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.dependency;
+import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.newAssertionError;
 import static org.ppwcode.util.reflect_I.CloneHelpers.safeReference;
 import static org.ppwcode.util.reflect_I.TypeHelpers.type;
-import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.dependency;
-import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.newAssertionError;
 
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;
