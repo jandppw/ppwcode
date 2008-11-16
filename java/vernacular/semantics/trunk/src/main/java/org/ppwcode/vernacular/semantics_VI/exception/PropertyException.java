@@ -27,22 +27,23 @@ import org.ppwcode.vernacular.exception_III.ApplicationException;
 import org.ppwcode.vernacular.exception_III.SemanticException;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
-import org.toryt.annotations_I.Invars;
 import org.toryt.annotations_I.MethodContract;
 
 
 /**
- * <p>PropertyExceptions are exceptions that carry with them information about the property for which they occurred.
- *   They are usually thrown by a property setter during validation. If the property name is <code>null</code>, it
- *   means that the exception could not be attributed to a specific property of {@link #getOrigin()}.
+ * <p>{@code PropertyExceptions} are exceptions that carry with them information about the property for which they
+ *   occurred. They are usually thrown by a property setter during validation. If the property name is {@code null},
+ *   it means that the exception could not be attributed to a specific property of {@link #getOrigin()}.
  *   <em>The <code>origin</code> should not be <code>null</code></em>, except when the exception is thrown during
- *   construction of an object (or more objects are involved, see below), that could not be completed. In that case,
- *   the type should be filled out. Carrying the reference to the object would expose an incompletely initialized
- *   object, as the exception signals a failure to complete the initialization. <em>The <code>originType</code>
- *   should not be <code>null</code></em>, except when the exception is a compound that gathers validation
- *   information over many objects. Specific property exception subtypes will make these advises binding in most
- *   cases.</p>
- * MUDO move this discussion to l10n package
+ *   construction of an object, that could not be completed. In that case, the type should be filled out. Carrying
+ *   the reference to the object would expose an incompletely initialized object, as the exception signals a failure
+ *   to complete the initialization. <em>The <code>originType</code> should not be <code>null</code></em>.
+ *   A {@code PropertyException} reports on an issue with <em>one</em> object. If there is a need to communicate
+ *   an issue over more than one issue, use a {@link SemanticException}. Specific property exception subtypes will
+ *   make these advises binding in most cases.</p>
+ *
+ * MUDO move discussion below to l10n package
+ *
  * <p>Localized messages are sought in a <kbd>*.properties</kbd> file for {@link #getOriginType() originType} and its
  *   super types. The properties files should be in the directory next to the bean class, with name
  *   <kbd><var>{@link #getOrigin()}<code>.getClass().getName()</code></var>_<var>_locale_identification</var>.properties</kbd>.
@@ -79,40 +80,37 @@ import org.toryt.annotations_I.MethodContract;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-@Invars(
-  @Expression("message == null || ! message.equals(EMPTY)")
-)
 public class PropertyException extends SemanticException {
 
   /*<construction>*/
   //-------------------------------------------------------------------------
 
-  /**
-   * Specialized constructor for Compound subtype, without a property name, type
-   * or origin.
-   *
-   * @param     message
-   *            The message that describes the exceptional circumstance.
-   * @param     cause
-   *            The exception that occurred, causing this exception to be
-   *            thrown, if that is the case.
-   */
-  @MethodContract(
-    pre  = {
-      @Expression("_message == null || ! _message.equals(EMPTY)")
-    },
-    post = {
-      @Expression("origin == null"),
-      @Expression("originType == null"),
-      @Expression("propertyName == null"),
-      @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
-      @Expression("cause == _cause")
-    }
-  )
-  protected PropertyException(final String message, final Throwable cause) {
-    super(message, cause);
-    assert (message == null) || (! message.equals(""));
-  }
+//  /**
+//   * Specialized constructor for Compound subtype, without a property name, type
+//   * or origin.
+//   *
+//   * @param     message
+//   *            The message that describes the exceptional circumstance.
+//   * @param     cause
+//   *            The exception that occurred, causing this exception to be
+//   *            thrown, if that is the case.
+//   */
+//  @MethodContract(
+//    pre  = {
+//      @Expression("_message == null || ! _message.equals(EMPTY)")
+//    },
+//    post = {
+//      @Expression("origin == null"),
+//      @Expression("originType == null"),
+//      @Expression("propertyName == null"),
+//      @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
+//      @Expression("cause == _cause")
+//    }
+//  )
+//  protected PropertyException(final String message, final Throwable cause) {
+//    super(message, cause);
+//    assert (message == null) || (! message.equals(""));
+//  }
 
   /**
    * @param     origin
@@ -140,69 +138,65 @@ public class PropertyException extends SemanticException {
       @Expression("cause == _cause")
     }
   )
-  public PropertyException(final Object origin,
-                           final String propertyName,
-                           final String message,
-                           final Throwable cause) {
+  public PropertyException(Object origin, String propertyName, String message, Throwable cause) {
     super(message, cause);
     assert origin != null;
     assert ! (origin instanceof Class);
     assert (propertyName == null) || hasProperty(origin.getClass(), propertyName);
-    assert (message == null) || (! message.equals(""));
     $origin = origin;
     $originType = origin.getClass();
     $propertyName = propertyName;
   }
 
 
-  /**
-   * @param     origin
-   *            The bean that has thrown this exception.
-   * @param     inOriginInitialization
-   *            Set to <code>true</code> if this active
-   *            property is created during the origin initialization;
-   *            if so, an exception will not carry a reference
-   *            to the bean, but only to the bean type.
-   * @param     propertyName
-   *            The name of the property of which the setter has thrown
-   *            this exception because parameter validation failed.
-   * @param     message
-   *            The message that describes the exceptional circumstance.
-   * @param     cause
-   *            The exception that occurred, causing this exception to be
-   *            thrown, if that is the case.
-   *
-   * @since IV 1.1.0/1.0
-   */
-  @MethodContract(
-    pre  = {
-      @Expression("_origin != null"),
-      @Expression("_propertyName != null ? hasProperty(_origin.class, _propertyName)"),
-      @Expression("_message == null || ! _message.equals(EMPTY)")
-    },
-    post = {
-      @Expression("_inOriginInitialization ? origin == null : origin == _origin"),
-      @Expression("originType == _origin.class"),
-      @Expression("propertyName == _propertyName"),
-      @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
-      @Expression("cause == _cause")
-    }
-  )
-  public PropertyException(final Object origin,
-                           final boolean inOriginInitialization,
-                           final String propertyName,
-                           final String message,
-                           final Throwable cause) {
-    super(message, cause);
-    assert origin != null;
-    assert (propertyName == null) || hasProperty(origin.getClass(), propertyName);
-    assert (message == null) || (!message.equals(""));
-    if (!inOriginInitialization) {
-      $origin = origin;
-    }
-    $originType = origin.getClass();
-    $propertyName = propertyName;
-  }
+//  /**
+//   * @param     origin
+//   *            The bean that has thrown this exception.
+//   * @param     inOriginInitialization
+//   *            Set to <code>true</code> if this active
+//   *            property is created during the origin initialization;
+//   *            if so, an exception will not carry a reference
+//   *            to the bean, but only to the bean type.
+//   * @param     propertyName
+//   *            The name of the property of which the setter has thrown
+//   *            this exception because parameter validation failed.
+//   * @param     message
+//   *            The message that describes the exceptional circumstance.
+//   * @param     cause
+//   *            The exception that occurred, causing this exception to be
+//   *            thrown, if that is the case.
+//   *
+//   * @since IV 1.1.0/1.0
+//   */
+//  @MethodContract(
+//    pre  = {
+//      @Expression("_origin != null"),
+//      @Expression("_propertyName != null ? hasProperty(_origin.class, _propertyName)"),
+//      @Expression("_message == null || ! _message.equals(EMPTY)")
+//    },
+//    post = {
+//      @Expression("_inOriginInitialization ? origin == null : origin == _origin"),
+//      @Expression("originType == _origin.class"),
+//      @Expression("propertyName == _propertyName"),
+//      @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
+//      @Expression("cause == _cause")
+//    }
+//  )
+//  public PropertyException(final Object origin,
+//                           final boolean inOriginInitialization,
+//                           final String propertyName,
+//                           final String message,
+//                           final Throwable cause) {
+//    super(message, cause);
+//    assert origin != null;
+//    assert (propertyName == null) || hasProperty(origin.getClass(), propertyName);
+//    assert (message == null) || (!message.equals(""));
+//    if (!inOriginInitialization) {
+//      $origin = origin;
+//    }
+//    $originType = origin.getClass();
+//    $propertyName = propertyName;
+//  }
 
 
   /**
@@ -233,10 +227,7 @@ public class PropertyException extends SemanticException {
       @Expression("cause == _cause")
     }
   )
-  public PropertyException(final Class<?> originType,
-                           final String propertyName,
-                           final String message,
-                           final Throwable cause) {
+  public PropertyException(Class<?> originType, final String propertyName, String message, Throwable cause) {
     super(message, cause);
     assert originType != null;
     assert (propertyName == null) || hasProperty(originType, propertyName);
@@ -249,6 +240,23 @@ public class PropertyException extends SemanticException {
 
 
 
+  /*<property name="originType">*/
+  //------------------------------------------------------------------
+
+  /**
+   * The type of the bean that has thrown this exception.
+   */
+  @Basic(invars = @Expression("originType != null"))
+  public final Class<?> getOriginType() {
+    return $originType;
+  }
+
+  private Class<?> $originType;
+
+  /*</property>*/
+
+
+
   /*<property name="origin">*/
   //------------------------------------------------------------------
 
@@ -257,7 +265,6 @@ public class PropertyException extends SemanticException {
    */
   @Basic(
     invars = {
-      @Expression("originType != null"),
       @Expression("origin != null ? originType == origin.class")
     }
   )
@@ -271,34 +278,13 @@ public class PropertyException extends SemanticException {
 
 
 
-  /*<property name="originType">*/
-  //------------------------------------------------------------------
-
-  /**
-   * The type of the bean that has thrown this exception.
-   */
-  @Basic(
-    invars = @Expression("originType != null")
-  )
-  public final Class<?> getOriginType() {
-    return $originType;
-  }
-
-  private Class<?> $originType;
-
-  /*</property>*/
-
-
-
   /*<property name="propertyName">*/
   //------------------------------------------------------------------
 
   /**
    * The name of the property for which this
    */
-  @Basic(
-    invars = @Expression("propertyName != null ? hasProperty(originType, propertyName)")
-  )
+  @Basic(invars = @Expression("propertyName != null ? hasProperty(originType, propertyName)"))
   public final String getPropertyName() {
     return $propertyName;
   }
@@ -312,40 +298,17 @@ public class PropertyException extends SemanticException {
   /*<section name="comparison">*/
   //------------------------------------------------------------------
 
-  /**
-   * Compare {@code other} to this: is other of the the exact same
-   * type and does other have the exact same properties.
-   *
-   * This method is an alternative to {@link #equals(Object)}, which
-   * we cannot override, because we need to keep reference semantics
-   * for exceptions.
-   *
-   * This method is introduced mainly for use in contracts of methods
-   * that throw property exceptions, and in unit tests for those
-   * methods.
-   *
-   * This method must be overridden in every subclass that adds a property
-   * to include that property in the comparison.
-   *
-   * @note methods was formerly called {@code hasSameValues}, and now replaces
-   *       {@code hasSameValues}, 2 {@code contains} methods and 2 {@code reportsOn}
-   *       methods, which in practice did not fulfill their promise.
-   *
-   * @since VI
-   */
+  @Override
   @MethodContract(
-    post = @Expression("result ? (_other != null) && (_other.class = class) && " +
-                       "(origin == _other.origin) && (originType == _other.originType) && " +
-                       "(propertyName == _other.propertyName) && (message == _other.message) && " +
-                       "(cause == _other.cause)")
+    post = @Expression("result ? (origin == _other.origin) && " +
+                                "(originType == _other.originType) && (propertyName == _other.propertyName)")
   )
-  public boolean like(PropertyException other) {
-    return (other != null) && (other.getClass() == getClass()) &&
-           (other.getOrigin() == getOrigin()) &&
-           (other.getOriginType() == getOriginType()) &&
-           eqn(other.getPropertyName(), getPropertyName()) &&
-           eqn(other.getMessage(), getMessage()) &&
-           (other.getCause() == getCause());
+  public boolean like(ApplicationException other) {
+    System.out.println(other);
+    return super.like(other) &&
+           (((PropertyException)other).getOrigin() == getOrigin()) &&
+           (((PropertyException)other).getOriginType() == getOriginType()) &&
+           eqn(((PropertyException)other).getPropertyName(), getPropertyName());
   }
 
 }
