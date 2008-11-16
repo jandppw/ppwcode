@@ -23,6 +23,7 @@ import static org.ppwcode.util.reflect_I.CloneHelpers.safeReference;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.ppwcode.vernacular.exception_III.ApplicationException;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
@@ -40,6 +41,7 @@ import org.toryt.annotations_I.MethodContract;
  *   put into the exception and when they are returned out of the exception, we try to clone them. We expect
  *   mutable value types to be cloneable, and immutable value types and reference types not to be cloneable.
  *   This way, the actual value is guarded from change.</p>
+ * <p>This kind of exception cannot be used in a constructor.</p>
  *
  * @author    Jan Dockx
  * @author    PeopleWare n.v.
@@ -95,57 +97,57 @@ public class SetterPropertyException extends ValuePropertyException {
     $vetoedValue = safeReference(vetoedValue);
   }
 
-
-  /**
-   * @param     origin
-   *            The bean that has thrown this exception.
-   * @param     inOriginInitialization
-   *            Set to <code>true</code> if this active
-   *            property is created during the origin initialization;
-   *            if so, an exception will not carry a reference
-   *            to the bean, but only to the bean type.
-   * @param     propertyName
-   *            The name of the property of which the setter has thrown
-   *            this exception because parameter validation failed.
-   * @param     vetoedValue
-   *            The value that was tried to set on property {@code propertyName},
-   *            which is being vetoed by this exception.
-   * @param     message
-   *            The message that describes the exceptional circumstance.
-   * @param     cause
-   *            The exception that occurred, causing this exception to be
-   *            thrown, if that is the case.
-   *
-   * @since IV 1.1.0/1.0
-   */
-  @MethodContract(
-    pre  = {
-      @Expression("_origin != null"),
-      @Expression("_propertyName != null"),
-      @Expression("hasProperty(_origin.class, _propertyName)"),
-      @Expression("_message == null || ! _message.equals(EMPTY)")
-    },
-    post = {
-      @Expression("inOriginInitialization ? origin == null : origin == _origin"),
-      @Expression("originType == _origin.class"),
-      @Expression("propertyName == _propertyName"),
-      @Expression("propertyValue == (inOriginInitialization ? null : safeReference(_origin[_propertyName]))"),
-      @Expression("vetoedValue == safeReference(_vetoedValue)"),
-      @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
-      @Expression("cause == _cause")
-    }
-  )
-  public SetterPropertyException(final Object origin,
-                                 final boolean inOriginInitialization,
-                                 final String propertyName,
-                                 final Object vetoedValue,
-                                 final String message,
-                                 final Throwable cause) {
-    super(origin, inOriginInitialization, propertyName, message, cause);
-    $vetoedValue = safeReference(vetoedValue);
-  }
-
-
+//
+//  /**
+//   * @param     origin
+//   *            The bean that has thrown this exception.
+//   * @param     inOriginInitialization
+//   *            Set to <code>true</code> if this active
+//   *            property is created during the origin initialization;
+//   *            if so, an exception will not carry a reference
+//   *            to the bean, but only to the bean type.
+//   * @param     propertyName
+//   *            The name of the property of which the setter has thrown
+//   *            this exception because parameter validation failed.
+//   * @param     vetoedValue
+//   *            The value that was tried to set on property {@code propertyName},
+//   *            which is being vetoed by this exception.
+//   * @param     message
+//   *            The message that describes the exceptional circumstance.
+//   * @param     cause
+//   *            The exception that occurred, causing this exception to be
+//   *            thrown, if that is the case.
+//   *
+//   * @since IV 1.1.0/1.0
+//   */
+//  @MethodContract(
+//    pre  = {
+//      @Expression("_origin != null"),
+//      @Expression("_propertyName != null"),
+//      @Expression("hasProperty(_origin.class, _propertyName)"),
+//      @Expression("_message == null || ! _message.equals(EMPTY)")
+//    },
+//    post = {
+//      @Expression("inOriginInitialization ? origin == null : origin == _origin"),
+//      @Expression("originType == _origin.class"),
+//      @Expression("propertyName == _propertyName"),
+//      @Expression("propertyValue == (inOriginInitialization ? null : safeReference(_origin[_propertyName]))"),
+//      @Expression("vetoedValue == safeReference(_vetoedValue)"),
+//      @Expression("message == _message == null ? DEFAULT_MESSAGE_KEY : _message"),
+//      @Expression("cause == _cause")
+//    }
+//  )
+//  public SetterPropertyException(final Object origin,
+//                                 final boolean inOriginInitialization,
+//                                 final String propertyName,
+//                                 final Object vetoedValue,
+//                                 final String message,
+//                                 final Throwable cause) {
+//    super(origin, inOriginInitialization, propertyName, message, cause);
+//    $vetoedValue = safeReference(vetoedValue);
+//  }
+//
+//
 //  /**
 //   * @param     originType
 //   *            The bean that has thrown this exception.
@@ -225,7 +227,7 @@ public class SetterPropertyException extends ValuePropertyException {
   @MethodContract(
     post = @Expression("result ? other.vetoedValue == vetoedValue")
   )
-  public boolean like(PropertyException other) {
+  public boolean like(ApplicationException other) {
     return super.like(other) && eqn(((SetterPropertyException)other).getVetoedValue(), getVetoedValue());
   }
 
