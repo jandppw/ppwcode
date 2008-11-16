@@ -35,7 +35,7 @@ import static org.ppwcode.value_III.time.Duration.Unit.QUARTER;
 import static org.ppwcode.value_III.time.Duration.Unit.SECOND;
 import static org.ppwcode.value_III.time.Duration.Unit.WEEK;
 import static org.ppwcode.value_III.time.Duration.Unit.YEAR;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
+import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.unexpectedException;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;

@@ -19,7 +19,7 @@ package org.ppwcode.value_III.time.interval;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.CloneHelpers.klone;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotNull;
+import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.preArgumentNotNull;
 
 import java.util.Date;
 import java.util.TimeZone;
