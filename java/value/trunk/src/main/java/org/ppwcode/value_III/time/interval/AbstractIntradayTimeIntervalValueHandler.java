@@ -23,8 +23,8 @@ import static org.ppwcode.value_III.time.TimeHelpers.compose;
 import static org.ppwcode.value_III.time.TimeHelpers.isDayDate;
 import static org.ppwcode.value_III.time.TimeHelpers.move;
 import static org.ppwcode.value_III.time.TimeHelpers.sqlDayDate;
-import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.deadBranch;
-import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.unexpectedException;
+import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.deadBranch;
+import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.unexpectedException;
 
 import java.sql.Time;
 import java.sql.Types;

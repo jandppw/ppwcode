@@ -18,7 +18,7 @@ package org.ppwcode.value_III.ext.java.util;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.deadBranch;
+import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.deadBranch;
 
 import java.util.Locale;
 

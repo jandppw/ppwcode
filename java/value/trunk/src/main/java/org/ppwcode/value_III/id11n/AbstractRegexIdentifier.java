@@ -19,8 +19,8 @@ package org.ppwcode.value_III.id11n;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.ConstantHelpers.constant;
-import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.pre;
-import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.unexpectedException;
+import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.pre;
+import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.unexpectedException;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

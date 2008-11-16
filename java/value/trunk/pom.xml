@@ -214,6 +214,13 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>org.ppwcode.util</groupId>
+      <artifactId>ppwcode-util-exception-III</artifactId>
+    </dependency>    <dependency>
+      <groupId>org.ppwcode.vernacular</groupId>
+      <artifactId>ppwcode-vernacular-exception-III</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.ppwcode.vernacular</groupId>
       <artifactId>ppwcode-vernacular-value-III</artifactId>
     </dependency>
@@ -224,10 +231,6 @@
       <classifier>tests</classifier>
       <version>dev-SNAPSHOT</version>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.ppwcode.vernacular</groupId>
-      <artifactId>ppwcode-vernacular-exception-III</artifactId>
     </dependency>
     <dependency>
      <groupId>org.ppwcode.util</groupId>
