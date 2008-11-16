@@ -20,8 +20,6 @@ package org.ppwcode.util.serialization_I.teststubsA;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.ppwcode.vernacular.exception_III.ApplicationException;
-
 
 public class StubClass extends SuperStubClass {
 
@@ -503,22 +501,6 @@ public class StubClass extends SuperStubClass {
   }
 
   private Date $stubPropertyDate = new Date();
-
-
-
-
-  public final Object getInternalExceptionProperty() {
-    return $internalExceptionProperty;
-  }
-
-  public final void setInternalExceptionProperty(Object o) throws ApplicationException {
-    if (o instanceof ApplicationException) {
-      throw (ApplicationException)o;
-    }
-    $internalExceptionProperty = o;
-  }
-
-  private Object $internalExceptionProperty;
 
   public final static String STUB_PROPERTY_STRING_VALUE = "String property stub";
 
