@@ -20,8 +20,6 @@ package org.ppwcode.util.reflect_I.teststubs;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.ppwcode.vernacular.exception_III.ApplicationException;
-
 
 public class StubClass extends SuperStubClass {
 
@@ -505,20 +503,24 @@ public class StubClass extends SuperStubClass {
   private Date $stubPropertyDate = new Date();
 
 
+  public static class AnException extends Exception {
 
+    // NOP
 
-  public final Object getApplicationExceptionProperty() {
-    return $ApplicationExceptionProperty;
   }
 
-  public final void setApplicationExceptionProperty(Object o) throws ApplicationException {
-    if (o instanceof ApplicationException) {
-      throw (ApplicationException)o;
+  public final Object getExceptionProperty() {
+    return $exceptionProperty;
+  }
+
+  public final void setExceptionProperty(Object o) throws AnException {
+    if (o instanceof AnException) {
+      throw (AnException)o;
     }
-    $ApplicationExceptionProperty = o;
+    $exceptionProperty = o;
   }
 
-  private Object $ApplicationExceptionProperty;
+  private Object $exceptionProperty;
 
   public final static String STUB_PROPERTY_STRING_VALUE = "String property stub";
 
