@@ -60,6 +60,7 @@ NOTE: there should be a better way to describe this than a list
   * vernacular semantics (snapshot)
   * vernacular persistence (snapshot)
   * vernacular value (snapshot)
+
   * value (snapshot)
 
   * research jpa (snapshot)
