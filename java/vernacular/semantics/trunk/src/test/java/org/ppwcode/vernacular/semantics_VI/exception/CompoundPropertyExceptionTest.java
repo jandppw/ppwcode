@@ -131,26 +131,37 @@ public class CompoundPropertyExceptionTest {
 
   private Set<CompoundPropertyException> createSubjects() {
     Set<CompoundPropertyException> result = new HashSet<CompoundPropertyException>();
-    for (boolean inOriginInitialization : booleans) {
-      for (boolean closed : booleans) {
-        for (String message : messages) {
-          for (String propertyName : propertyNames) {
-            for (Throwable t : throwables) {
-              for (Set<PropertyException> elements : elementss) {
-                CompoundPropertyException subject = new CompoundPropertyException(originMock, inOriginInitialization, propertyName, message, t);
-                for (PropertyException element : elements) {
-                  try {
-                    subject.addElementException(element);
-                  }
-                  catch (Exception exc) {
-                    // NOP
-                  }
+    for (boolean closed : booleans) {
+      for (String message : messages) {
+        for (String propertyName : propertyNames) {
+          for (Throwable t : throwables) {
+            for (Set<PropertyException> elements : elementss) {
+              CompoundPropertyException subject = new CompoundPropertyException(originMock, propertyName, message, t);
+              for (PropertyException element : elements) {
+                try {
+                  subject.addElementException(element);
                 }
-                if (closed) {
-                  subject.close();
+                catch (Exception exc) {
+                  // NOP
                 }
-                result.add(subject);
               }
+              if (closed) {
+                subject.close();
+              }
+              result.add(subject);
+              subject = new CompoundPropertyException(originMock.getClass(), propertyName, message, t);
+              for (PropertyException element : elements) {
+                try {
+                  subject.addElementException(element);
+                }
+                catch (Exception exc) {
+                  // NOP
+                }
+              }
+              if (closed) {
+                subject.close();
+              }
+              result.add(subject);
             }
           }
         }
@@ -174,15 +185,15 @@ public class CompoundPropertyExceptionTest {
 
   public static void assertTypeInvariants(CompoundPropertyException subject) {
     PropertyExceptionTest.assertTypeInvariants(subject);
-    assertTrue(subject.getElementExceptions().size() > 1 ? subject.getPropertyName() == null : true);
-    assertNotNull(subject.getElementExceptions());
-    assertFalse(subject.getElementExceptions().containsKey(EMPTY));
-    assertFalse(subject.getElementExceptions().containsValue(null));
-    for (Set<PropertyException> s : subject.getElementExceptions().values()) {
+    assertTrue(subject.getElementExceptionsMap().size() > 1 ? subject.getPropertyName() == null : true);
+    assertNotNull(subject.getElementExceptionsMap());
+    assertFalse(subject.getElementExceptionsMap().containsKey(EMPTY));
+    assertFalse(subject.getElementExceptionsMap().containsValue(null));
+    for (Set<PropertyException> s : subject.getElementExceptionsMap().values()) {
       assertFalse(s.isEmpty());
       assertFalse(s.contains(null));
     }
-    for (Map.Entry<String, Set<PropertyException>> e : subject.getElementExceptions().entrySet()) {
+    for (Map.Entry<String, Set<PropertyException>> e : subject.getElementExceptionsMap().entrySet()) {
       for (PropertyException pe : e.getValue()) {
         eqn(pe.getPropertyName(), e.getKey());
         assertTrue(subject.getOrigin() != null ? subject.getOrigin() == pe.getOrigin() : true);
@@ -190,37 +201,37 @@ public class CompoundPropertyExceptionTest {
         assertFalse(pe instanceof CompoundPropertyException);
       }
     }
-    assertTrue(subject.getPropertyName() != null ? subject.getElementExceptions().size() <= 1 : true);
-    assertTrue(subject.getPropertyName() != null && subject.getElementExceptions().size() > 0 ?
-               subject.getElementExceptions().keySet().contains(subject.getPropertyName()) : true);
+    assertTrue(subject.getPropertyName() != null ? subject.getElementExceptionsMap().size() <= 1 : true);
+    assertTrue(subject.getPropertyName() != null && subject.getElementExceptionsMap().size() > 0 ?
+               subject.getElementExceptionsMap().keySet().contains(subject.getPropertyName()) : true);
   }
 
   private static boolean eqn(String s1, String s2) {
     return s1 == null ? s2 == null : s1.equals(s2);
   }
 
-  private void testCompoundPropertyExceptionStringThrowable(String message, Throwable cause) {
-    // execute
-    CompoundPropertyException subject = new CompoundPropertyException(message, cause);
-    // validate
-    assertNull(subject.getOrigin());
-    assertNull(subject.getOriginType());
-    assertNull(subject.getPropertyName());
-    assertEquals(message == null ? DEFAULT_MESSAGE_KEY : message, subject.getMessage());
-    assertEquals(cause, subject.getCause());
-    assertFalse(subject.isClosed());
-    assertTrue(subject.getElementExceptions().isEmpty());
-    assertTypeInvariants(subject);
-  }
-
-  @Test
-  public void testCompoundPropertyExceptionStringThrowable() {
-    for (String message : messages) {
-      for (Throwable t : throwables) {
-        testCompoundPropertyExceptionStringThrowable(message, t);
-      }
-    }
-  }
+//  private void testCompoundPropertyExceptionStringThrowable(String message, Throwable cause) {
+//    // execute
+//    CompoundPropertyException subject = new CompoundPropertyException(message, cause);
+//    // validate
+//    assertNull(subject.getOrigin());
+//    assertNull(subject.getOriginType());
+//    assertNull(subject.getPropertyName());
+//    assertEquals(message == null ? DEFAULT_MESSAGE_KEY : message, subject.getMessage());
+//    assertEquals(cause, subject.getCause());
+//    assertFalse(subject.isClosed());
+//    assertTrue(subject.getElementExceptionsMap().isEmpty());
+//    assertTypeInvariants(subject);
+//  }
+//
+//  @Test
+//  public void testCompoundPropertyExceptionStringThrowable() {
+//    for (String message : messages) {
+//      for (Throwable t : throwables) {
+//        testCompoundPropertyExceptionStringThrowable(message, t);
+//      }
+//    }
+//  }
 
   private void testCompoundPropertyExceptionObjectStringStringThrowable(final Object origin,
                                                                       final String propertyName,
@@ -235,7 +246,7 @@ public class CompoundPropertyExceptionTest {
     assertEquals(message == null ? DEFAULT_MESSAGE_KEY : message, subject.getMessage());
     assertEquals(cause, subject.getCause());
     assertFalse(subject.isClosed());
-    assertTrue(subject.getElementExceptions().isEmpty());
+    assertTrue(subject.getElementExceptionsMap().isEmpty());
     assertTypeInvariants(subject);
   }
 
@@ -250,36 +261,36 @@ public class CompoundPropertyExceptionTest {
     }
   }
 
-  private void testCompoundPropertyExceptionObjectBooleanStringStringThrowable(final Object origin,
-                                                                               final boolean inOriginInitialization,
-                                                                               final String propertyName,
-                                                                               final String message,
-                                                                               final Throwable cause) {
-    // execute
-    CompoundPropertyException subject = new CompoundPropertyException(origin, inOriginInitialization, propertyName, message, cause);
-    // validate
-    assertTrue(inOriginInitialization ? subject.getOrigin() == null : subject.getOrigin() == origin);
-    assertEquals(origin.getClass(), subject.getOriginType());
-    assertEquals(propertyName, subject.getPropertyName());
-    assertEquals(message == null ? DEFAULT_MESSAGE_KEY : message, subject.getMessage());
-    assertEquals(cause, subject.getCause());
-    assertFalse(subject.isClosed());
-    assertTrue(subject.getElementExceptions().isEmpty());
-    assertTypeInvariants(subject);
-  }
-
-  @Test
-  public void testCompoundPropertyExceptionObjectQBooleanStringStringThrowable() {
-    for (boolean inOriginInitialization : booleans) {
-      for (String message : messages) {
-        for (String propertyName : propertyNames) {
-          for (Throwable t : throwables) {
-            testCompoundPropertyExceptionObjectBooleanStringStringThrowable(originMock, inOriginInitialization, propertyName, message, t);
-          }
-        }
-      }
-    }
-  }
+//  private void testCompoundPropertyExceptionObjectBooleanStringStringThrowable(final Object origin,
+//                                                                               final boolean inOriginInitialization,
+//                                                                               final String propertyName,
+//                                                                               final String message,
+//                                                                               final Throwable cause) {
+//    // execute
+//    CompoundPropertyException subject = new CompoundPropertyException(origin, inOriginInitialization, propertyName, message, cause);
+//    // validate
+//    assertTrue(inOriginInitialization ? subject.getOrigin() == null : subject.getOrigin() == origin);
+//    assertEquals(origin.getClass(), subject.getOriginType());
+//    assertEquals(propertyName, subject.getPropertyName());
+//    assertEquals(message == null ? DEFAULT_MESSAGE_KEY : message, subject.getMessage());
+//    assertEquals(cause, subject.getCause());
+//    assertFalse(subject.isClosed());
+//    assertTrue(subject.getElementExceptionsMap().isEmpty());
+//    assertTypeInvariants(subject);
+//  }
+//
+//  @Test
+//  public void testCompoundPropertyExceptionObjectQBooleanStringStringThrowable() {
+//    for (boolean inOriginInitialization : booleans) {
+//      for (String message : messages) {
+//        for (String propertyName : propertyNames) {
+//          for (Throwable t : throwables) {
+//            testCompoundPropertyExceptionObjectBooleanStringStringThrowable(originMock, inOriginInitialization, propertyName, message, t);
+//          }
+//        }
+//      }
+//    }
+//  }
 
   private void testCompoundPropertyExceptionClassOfStringStringThrowable(final Class<?> originType,
                                                                          final String propertyName,
@@ -294,7 +305,7 @@ public class CompoundPropertyExceptionTest {
      assertEquals(message == null ? DEFAULT_MESSAGE_KEY : message, subject.getMessage());
      assertEquals(cause, subject.getCause());
      assertFalse(subject.isClosed());
-     assertTrue(subject.getElementExceptions().isEmpty());
+     assertTrue(subject.getElementExceptionsMap().isEmpty());
      assertTypeInvariants(subject);
    }
 
@@ -364,7 +375,7 @@ public class CompoundPropertyExceptionTest {
     // execute
     boolean result = subject.isEmpty();
     // validate
-    assertEquals(subject.getElementExceptions().isEmpty(), result);
+    assertEquals(subject.getElementExceptionsMap().isEmpty(), result);
   }
 
   @Test
@@ -378,7 +389,7 @@ public class CompoundPropertyExceptionTest {
     // execute
     Set<PropertyException> result = subject.getGeneralElementExceptions();
     // validate
-    assertEquals(subject.getElementExceptions().get(null), result);
+    assertEquals(subject.getElementExceptionsMap().get(null), result);
   }
 
   @Test
@@ -388,12 +399,12 @@ public class CompoundPropertyExceptionTest {
     }
   }
 
-  private static void testGetAllElementExceptions(CompoundPropertyException subject) {
+  private static void testGetElementExceptions(CompoundPropertyException subject) {
     // execute
-    Set<PropertyException> result = subject.getAllElementExceptions();
+    Set<PropertyException> result = subject.getElementExceptions();
     // validate
     Set<PropertyException> expected = new HashSet<PropertyException>();
-    for (Set<PropertyException> s : subject.getElementExceptions().values()) {
+    for (Set<PropertyException> s : subject.getElementExceptionsMap().values()) {
       expected.addAll(s);
     }
     assertEquals(expected, result);
@@ -402,7 +413,7 @@ public class CompoundPropertyExceptionTest {
   @Test
   public void testGetAllElementExceptions() {
     for (CompoundPropertyException subject : subjects) {
-      testGetAllElementExceptions(subject);
+      testGetElementExceptions(subject);
     }
   }
 
@@ -411,8 +422,8 @@ public class CompoundPropertyExceptionTest {
     // execute
     try {
       subject.addElementException(pExc);
-      assertTrue(subject.getElementExceptions().containsKey(pExc.getPropertyName()));
-      assertTrue(subject.getElementExceptions().get(pExc.getPropertyName()).contains(pExc));
+      assertTrue(subject.getElementExceptionsMap().containsKey(pExc.getPropertyName()));
+      assertTrue(subject.getElementExceptionsMap().get(pExc.getPropertyName()).contains(pExc));
       assertFalse(oldClosed);
     }
     catch (IllegalStateException isExc) {
@@ -455,7 +466,7 @@ public class CompoundPropertyExceptionTest {
     int result = subject.getSize();
     // validate
     int expected = 0;
-    for (Set<?> s : subject.getElementExceptions().values()) {
+    for (Set<?> s : subject.getElementExceptionsMap().values()) {
       expected += s.size();
     }
     assertEquals(expected, result);
@@ -487,8 +498,8 @@ public class CompoundPropertyExceptionTest {
     boolean result = subject.contains(pe);
     // validate
     boolean expected = false;
-    if ((pe != null) && subject.getElementExceptions().get(pe.getPropertyName()) != null) {
-      for (PropertyException cand : subject.getElementExceptions().get(pe.getPropertyName())) {
+    if ((pe != null) && subject.getElementExceptionsMap().get(pe.getPropertyName()) != null) {
+      for (PropertyException cand : subject.getElementExceptionsMap().get(pe.getPropertyName())) {
         if (cand.like(pe)) {
           expected = true;
           break;
@@ -508,7 +519,7 @@ public class CompoundPropertyExceptionTest {
       testContainsPropertyException(subject, new PropertyException(OriginStub.class, null, null, null));
       testContainsPropertyException(subject, new PropertyException(new OriginStub(), "stubProperty", null, null));
       testContainsPropertyException(subject, new PropertyException(new OriginStub(), null, null, null));
-      for (Set<PropertyException> pes : subject.getElementExceptions().values()) {
+      for (Set<PropertyException> pes : subject.getElementExceptionsMap().values()) {
         for (PropertyException pe : pes) {
           testContainsPropertyException(subject, pe);
         }
@@ -520,8 +531,8 @@ public class CompoundPropertyExceptionTest {
 //    // execute
 //    boolean result = subject.contains(origin, propertyName, message, cause);
 //    // validate
-//    boolean expected = subject.getElementExceptions().containsKey(propertyName) &&
-//                       existsIn(origin, propertyName, message, cause, subject.getElementExceptions().get(propertyName));
+//    boolean expected = subject.getElementExceptionsMap().containsKey(propertyName) &&
+//                       existsIn(origin, propertyName, message, cause, subject.getElementExceptionsMap().get(propertyName));
 //    assertEquals(expected, result);
 //    PropertyExceptionTest.assertTypeInvariants(subject);
 //    assertTypeInvariants(subject);
@@ -555,8 +566,8 @@ public class CompoundPropertyExceptionTest {
 //    // execute
 //    boolean result = subject.contains(originType, propertyName, message, cause);
 //    // validate
-//    boolean expected = subject.getElementExceptions().containsKey(propertyName) &&
-//                       existsIn(originType, propertyName, message, cause, subject.getElementExceptions().get(propertyName));
+//    boolean expected = subject.getElementExceptionsMap().containsKey(propertyName) &&
+//                       existsIn(originType, propertyName, message, cause, subject.getElementExceptionsMap().get(propertyName));
 //    assertEquals(expected, result);
 //    PropertyExceptionTest.assertTypeInvariants(subject);
 //    assertTypeInvariants(subject);
