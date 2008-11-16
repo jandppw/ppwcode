@@ -18,7 +18,7 @@ package org.ppwcode.vernacular.value_III;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotEmpty;
+import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.preArgumentNotEmpty;
 
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;

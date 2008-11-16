@@ -17,7 +17,7 @@ limitations under the License.
 package org.ppwcode.vernacular.value_III;
 
 import static org.ppwcode.util.test.contract.Contract.contractFor;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
+import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.unexpectedException;
 
 import java.util.ArrayList;
 import java.util.List;
