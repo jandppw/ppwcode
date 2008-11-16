@@ -44,7 +44,6 @@ public class ValuePropertyExceptionTest {
   private Set<Object> propertyValues;
   private Set<String> messages; // not empty
   private Set<Throwable> throwables;
-  private final boolean[] booleans = {true, false};
   public Set<ValuePropertyException> subjects;
 
   private Set<Object> origins2;
@@ -97,13 +96,11 @@ public class ValuePropertyExceptionTest {
 
   private Set<ValuePropertyException> createSubjects() {
     Set<ValuePropertyException> result = new HashSet<ValuePropertyException>();
-    for (boolean inOriginInitialization : booleans) {
-      for (String message : messages) {
-        for (String propertyName : propertyNames) {
-          for (Object origin : origins) {
-            for (Throwable t : throwables) {
-              result.add(new ValuePropertyException(origin, inOriginInitialization, propertyName, message, t));
-            }
+    for (String message : messages) {
+      for (String propertyName : propertyNames) {
+        for (Object origin : origins) {
+          for (Throwable t : throwables) {
+            result.add(new ValuePropertyException(origin, propertyName, message, t));
           }
         }
       }
@@ -162,41 +159,41 @@ public class ValuePropertyExceptionTest {
     }
   }
 
-  private void testValuePropertyExceptionObjectBooleanStringObjectStringThrowable(final Object origin,
-                                                                                   final boolean inOriginInitialization,
-                                                                                   final String propertyName,
-                                                                                   final String message,
-                                                                                   final Throwable cause)
-      throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-    // execute
-    ValuePropertyException subject = new ValuePropertyException(origin, inOriginInitialization, propertyName, message, cause);
-    // validate
-    assertTrue(inOriginInitialization ? subject.getOrigin() == null : subject.getOrigin() == origin);
-    assertEquals(origin.getClass(), subject.getOriginType());
-    assertEquals(propertyName, subject.getPropertyName());
-    assertEquals(inOriginInitialization ? null : PropertyUtils.getProperty(origin, propertyName),
-                 subject.getPropertyValue());
-    assertEquals(message == null ? DEFAULT_MESSAGE_KEY : message, subject.getMessage());
-    assertEquals(cause, subject.getCause());
-    PropertyExceptionTest.assertTypeInvariants(subject);
-    assertTypeInvariants(subject);
-  }
-
-  @Test
-  public void testValuePropertyExceptionObjectBooleanStringObjectStringThrowable()
-      throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-    for (boolean inOriginInitialization : booleans) {
-      for (Object origin : origins) {
-        for (String message : messages) {
-          for (String propertyName : propertyNames) {
-            for (Throwable t : throwables) {
-              testValuePropertyExceptionObjectBooleanStringObjectStringThrowable(origin, inOriginInitialization, propertyName, message, t);
-            }
-          }
-        }
-      }
-    }
-  }
+//  private void testValuePropertyExceptionObjectBooleanStringObjectStringThrowable(final Object origin,
+//                                                                                   final boolean inOriginInitialization,
+//                                                                                   final String propertyName,
+//                                                                                   final String message,
+//                                                                                   final Throwable cause)
+//      throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+//    // execute
+//    ValuePropertyException subject = new ValuePropertyException(origin, inOriginInitialization, propertyName, message, cause);
+//    // validate
+//    assertTrue(inOriginInitialization ? subject.getOrigin() == null : subject.getOrigin() == origin);
+//    assertEquals(origin.getClass(), subject.getOriginType());
+//    assertEquals(propertyName, subject.getPropertyName());
+//    assertEquals(inOriginInitialization ? null : PropertyUtils.getProperty(origin, propertyName),
+//                 subject.getPropertyValue());
+//    assertEquals(message == null ? DEFAULT_MESSAGE_KEY : message, subject.getMessage());
+//    assertEquals(cause, subject.getCause());
+//    PropertyExceptionTest.assertTypeInvariants(subject);
+//    assertTypeInvariants(subject);
+//  }
+//
+//  @Test
+//  public void testValuePropertyExceptionObjectBooleanStringObjectStringThrowable()
+//      throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+//    for (boolean inOriginInitialization : booleans) {
+//      for (Object origin : origins) {
+//        for (String message : messages) {
+//          for (String propertyName : propertyNames) {
+//            for (Throwable t : throwables) {
+//              testValuePropertyExceptionObjectBooleanStringObjectStringThrowable(origin, inOriginInitialization, propertyName, message, t);
+//            }
+//          }
+//        }
+//      }
+//    }
+//  }
 
 //  private void testValuePropertyExceptionClassOfQStringObjectStringThrowable(final Class<?> originType,
 //                                                                              final String propertyName,
