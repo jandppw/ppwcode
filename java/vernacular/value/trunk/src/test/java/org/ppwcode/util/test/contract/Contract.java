@@ -17,9 +17,9 @@ limitations under the License.
 package org.ppwcode.util.test.contract;
 
 
+import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.preArgumentNotNull;
 import static org.ppwcode.util.reflect_I.InstanceHelpers.newInstance;
 import static org.ppwcode.util.reflect_I.TypeHelpers.directSuperTypes;
-import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.preArgumentNotNull;
 
 import java.util.HashMap;
 import java.util.Map;

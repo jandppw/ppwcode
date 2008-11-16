@@ -17,7 +17,7 @@ limitations under the License.
 package org.ppwcode.util.test.contract;
 
 
-import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.preArgumentNotNull;
+import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.preArgumentNotNull;
 
 
 public class NoSuchContractException extends Exception {
