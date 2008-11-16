@@ -31,6 +31,12 @@
   </properties>
   <body>
 
+    <release version="II v1.2" date="2008-11-16" description="new version of ppwcode exception util">
+      <action dev="jandockx@gmail.com" type="update">
+        We now only use the split of part in ppwcode exception util, and no longer the exception
+        vernacular. This is only an implementation issue.
+      </action>
+    </release>
     <release version="II v1.1" date="2008-10-01" description="new version of ppwcode exception vernacular">
       <action dev="jandockx@gmail.com" type="update">
         Via a new parent pom, we use the first non-snapshot release of the ppwcode

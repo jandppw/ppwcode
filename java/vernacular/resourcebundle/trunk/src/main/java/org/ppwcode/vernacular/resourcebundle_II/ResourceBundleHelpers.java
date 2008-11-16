@@ -19,7 +19,7 @@ package org.ppwcode.vernacular.resourcebundle_II;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.TypeHelpers.directSuperTypes;
-import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.preArgumentNotNull;
+import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.preArgumentNotNull;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
