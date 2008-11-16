@@ -18,8 +18,8 @@ package org.ppwcode.vernacular.value_III.openjpa;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.deadBranch;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
+import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.deadBranch;
+import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.unexpectedException;
 
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;

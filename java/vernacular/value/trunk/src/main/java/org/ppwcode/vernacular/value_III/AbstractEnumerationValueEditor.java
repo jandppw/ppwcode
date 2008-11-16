@@ -19,7 +19,7 @@ package org.ppwcode.vernacular.value_III;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.ConstantHelpers.constant;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotNull;
+import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.preArgumentNotNull;
 
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorSupport;

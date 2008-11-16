@@ -19,7 +19,7 @@ package org.ppwcode.vernacular.value_III;
 
 import static org.junit.Assert.assertEquals;
 import static org.ppwcode.util.test.contract.Contract.contractFor;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
+import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.unexpectedException;
 
 import org.junit.After;
 import org.junit.Before;

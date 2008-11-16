@@ -17,7 +17,7 @@ limitations under the License.
 package org.ppwcode.vernacular.value_III;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
+import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.unexpectedException;
 
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
