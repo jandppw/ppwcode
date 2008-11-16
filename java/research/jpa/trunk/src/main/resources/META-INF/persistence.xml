@@ -91,38 +91,4 @@
     </properties>
   </persistence-unit>
 
-
-  <persistence-unit name="be_hdp_contracts_I">
-
-    <description>Persistence Unit for the application.  The database connection is provided by the
-      application server through JNDI</description>
-
-    <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
-
-    <class>org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdVersionedPersistentBean</class>
-    <class>org.ppwcode.research.jpa.crud.semanticsAlpha.Master</class>
-    <class>org.ppwcode.research.jpa.crud.semanticsAlpha.Detail</class>
-    <class>org.ppwcode.research.jpa.crud.semanticsBeta.Master</class>
-    <class>org.ppwcode.research.jpa.crud.semanticsBeta.Detail</class>
-    <class>org.ppwcode.research.jpa.openjpa.valuehandlers.AnEntitySerializableProperties</class>
-    <class>org.ppwcode.research.jpa.openjpa.valuehandlers.AnEntityValueHandlerProperties</class>
-
-    <exclude-unlisted-classes>true</exclude-unlisted-classes>
-
-    <properties>
-
-      <property name="openjpa.ConnectionDriverName" value="com.informix.jdbc.IfxDriver"/>
-      <property name="openjpa.ConnectionURL" value="jdbc:informix-sqli://127.0.0.1:3901/test:informixserver=idsdevsoc"/>
-      <property name="openjpa.ConnectionUserName" value="user"/>
-      <property name="openjpa.ConnectionPassword" value="password"/>
-
-      <property name="openjpa.Log" value="DefaultLevel=INFO,SQL=TRACE,Runtime=INFO,Tool=INFO"/>
-
-      <property name="openjpa.jdbc.MappingDefaults" value="ForeignKeyDeleteAction=restrict, JoinForeignKeyDeleteAction=restrict"/>
-      <property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(SchemaAction=refresh)"/>
-
-    </properties>
-  </persistence-unit>
-
-
 </persistence>
