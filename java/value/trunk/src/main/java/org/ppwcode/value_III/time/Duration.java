@@ -28,8 +28,8 @@ import static org.ppwcode.value_III.time.Duration.Unit.HOUR;
 import static org.ppwcode.value_III.time.Duration.Unit.MINUTE;
 import static org.ppwcode.value_III.time.Duration.Unit.SECOND;
 import static org.ppwcode.value_III.time.Duration.Unit.MILLISECOND;
-import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.pre;
-import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.preArgumentNotNull;
+import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.pre;
+import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.preArgumentNotNull;
 
 import java.text.NumberFormat;
 import java.util.Arrays;
