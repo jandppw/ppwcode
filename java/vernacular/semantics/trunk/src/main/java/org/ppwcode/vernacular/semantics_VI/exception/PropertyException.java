@@ -348,8 +348,4 @@ public class PropertyException extends SemanticException {
            (other.getCause() == getCause());
   }
 
-  protected final boolean eqn(Object o1, Object o2) {
-    return o1 == null ? o2 == null : o1.equals(o2);
-  }
-
 }
