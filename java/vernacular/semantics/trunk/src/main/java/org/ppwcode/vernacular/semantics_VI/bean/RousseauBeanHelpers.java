@@ -30,6 +30,7 @@ import java.util.Set;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.ppwcode.vernacular.exception_III.CompoundSemanticException;
 import org.ppwcode.vernacular.semantics_VI.exception.CompoundPropertyException;
 import org.ppwcode.vernacular.semantics_VI.exception.PropertyException;
 import org.toryt.annotations_I.Expression;
@@ -190,9 +191,9 @@ public final class RousseauBeanHelpers {
       @Expression("result.allElementExceptions == union (RousseauBean rb : _rbs) {rb.wildExceptions().allElementExceptions}")
     }
   )
-  public static CompoundPropertyException wildExceptions(Set<? extends RousseauBean> rbs) {
+  public static CompoundSemanticException wildExceptions(Set<? extends RousseauBean> rbs) {
     assert preArgumentNotNull(rbs, "rbs");
-    CompoundPropertyException cpe = new CompoundPropertyException("UPSTREAM_EXCEPTIONS", null);
+    CompoundSemanticException cpe = new CompoundSemanticException("UPSTREAM_EXCEPTIONS", null);
     for (RousseauBean rb : rbs) {
       for (PropertyException pExc : rb.wildExceptions().getAllElementExceptions()) {
         cpe.addElementException(pExc);
