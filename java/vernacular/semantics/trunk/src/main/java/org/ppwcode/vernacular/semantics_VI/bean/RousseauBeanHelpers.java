@@ -19,8 +19,8 @@ package org.ppwcode.vernacular.semantics_VI.bean;
 
 import static org.apache.commons.beanutils.PropertyUtils.getPropertyDescriptors;
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.util.reflect_I.PropertyHelpers.propertyValue;
 import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.preArgumentNotNull;
+import static org.ppwcode.util.reflect_I.PropertyHelpers.propertyValue;
 
 import java.beans.PropertyDescriptor;
 import java.util.HashSet;
@@ -31,7 +31,6 @@ import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.vernacular.exception_III.CompoundSemanticException;
-import org.ppwcode.vernacular.semantics_VI.exception.CompoundPropertyException;
 import org.ppwcode.vernacular.semantics_VI.exception.PropertyException;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
@@ -141,16 +140,16 @@ public final class RousseauBeanHelpers {
       @Expression("result.allElementExceptions == union (RousseauBean rbr : upstreamRousseauBeans(_rb)) {rbr.wildExceptions().allElementExceptions}")
     }
   )
-  public static CompoundPropertyException normalizeAndCheckCivilityOnUpstreamRousseauBeans(RousseauBean rb) {
+  public static CompoundSemanticException normalizeAndCheckCivilityOnUpstreamRousseauBeans(RousseauBean rb) {
     assert preArgumentNotNull(rb, "rb");
     LinkedList<RousseauBean> agenda = new LinkedList<RousseauBean>();
     agenda.add(rb);
     int i = 0;
-    CompoundPropertyException cpe = new CompoundPropertyException("UPSTREAM_EXCEPTIONS", null);
+    CompoundSemanticException cpe = new CompoundSemanticException("UPSTREAM_EXCEPTIONS", null);
     while (i < agenda.size()) {
       RousseauBean current = agenda.get(i);
       current.normalize();
-      for (PropertyException pExc : current.wildExceptions().getAllElementExceptions()) {
+      for (PropertyException pExc : current.wildExceptions().getElementExceptions()) {
         cpe.addElementException(pExc);
       }
       Set<RousseauBean> durbs = directUpstreamRousseauBeans(current);
@@ -195,7 +194,7 @@ public final class RousseauBeanHelpers {
     assert preArgumentNotNull(rbs, "rbs");
     CompoundSemanticException cpe = new CompoundSemanticException("UPSTREAM_EXCEPTIONS", null);
     for (RousseauBean rb : rbs) {
-      for (PropertyException pExc : rb.wildExceptions().getAllElementExceptions()) {
+      for (PropertyException pExc : rb.wildExceptions().getElementExceptions()) {
         cpe.addElementException(pExc);
       }
     }
