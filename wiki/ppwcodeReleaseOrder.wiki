@@ -45,17 +45,21 @@ NOTE: there should be a better way to describe this than a list
   * library parent pom
   * dependency management (snapshot)
   * ppwcode library parent pom
+
   * metainfo
   * (toryt annotations - _outside of ppwcode, but we have "influence" to get a new build :-)_ )
+
   * util parent pom
   * util exception (snapshot)
   * util reflection (snapshot)
   * util serialization (snapshot)
+
   * vernacular parent pom
-  * vernacular exception (snapshot)
   * vernacular resourcebundle
+  * vernacular exception (snapshot)
   * vernacular semantics (snapshot)
   * vernacular persistence (snapshot)
   * vernacular value (snapshot)
   * value (snapshot)
+
   * research jpa (snapshot)
