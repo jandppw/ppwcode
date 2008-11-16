@@ -621,10 +621,13 @@ public class TypeHelpers {
     if (subType == null || subType == superType) {
       return 0;
     }
-    else if (! superType.isAssignableFrom(subType)) {
+    else if ((! superType.isAssignableFrom(subType)) || (superType == Object.class && subType.isInterface())) {
+      // if super type is Object, also interfaces are assignable
       return Integer.MAX_VALUE;
     }
     else if (! superType.isInterface()) {
+      // path from sub to super must go over super classes
+      assert ! subType.isInterface();
       return linearPathLength(subType, superType);
     }
     else {

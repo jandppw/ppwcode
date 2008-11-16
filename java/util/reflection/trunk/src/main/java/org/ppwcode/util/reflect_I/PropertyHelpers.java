@@ -21,6 +21,7 @@ import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.InstanceHelpers.newInstance;
 import static org.ppwcode.util.reflect_I.TypeName.DOT_PATTERN;
 import static org.ppwcode.vernacular.exception_III.ExceptionHelpers.huntFor;
+import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.pre;
 import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.preArgumentNotEmpty;
 import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.preArgumentNotNull;
 import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.unexpectedException;
@@ -31,12 +32,12 @@ import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.vernacular.exception_III.ApplicationException;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
 import org.toryt.annotations_I.Throw;
@@ -664,18 +665,41 @@ public final class PropertyHelpers {
 
   /**
    * Set the property {@code propertyName} of {@code bean} to {@code value}.
-   * Anything that goes wrong is considered a programming error, except
-   * {@link ApplicationException ApplicationExceptions}.
+   * Anything that goes wrong is considered a programming error.
    */
-  public static void setPropertyValue(Object bean, String propertyName, Object value) throws ApplicationException {
+  public static void setPropertyValue(Object bean, String propertyName, Object value) {
+    try {
+      robustSetPropertyValue(bean, propertyName, value);
+    }
+    catch (Exception exc) {
+      unexpectedException(exc);
+    }
+  }
+
+  /**
+   * Set the property {@code propertyName} of {@code bean} to {@code value}.
+   * Anything that goes wrong is considered a programming error, except
+   * exception types listed as parameter.
+   *
+   * {@code expectedExceptionType} must be subtypes of {@link Exception}.
+   * This is not enforced with generics, because then we get a warning when we use
+   * the method, sadly.
+   */
+  public static void robustSetPropertyValue(Object bean, String propertyName, Object value, Class<?>... expectedExceptionType) throws Exception {
+    assert pre(! Arrays.asList(expectedExceptionType).contains(null));
+    assert pre(preAssert(expectedExceptionType));
     try {
       PropertyUtils.setProperty(bean, propertyName, value);
     }
     catch (InvocationTargetException exc) {
-      ApplicationException internalExc = huntFor(exc, ApplicationException.class);
-      if (internalExc != null) {
-        throw internalExc;
+      for (Class<?> eet : expectedExceptionType) {
+        @SuppressWarnings("unchecked")
+        Exception expectedExc = huntFor(exc, (Class<? extends Exception>)eet);
+        if (expectedExc != null) {
+          throw expectedExc;
+        }
       }
+      unexpectedException(exc);
     }
     catch (IllegalAccessException exc) {
       unexpectedException(exc);
@@ -685,5 +709,13 @@ public final class PropertyHelpers {
     }
   }
 
+  private static boolean preAssert(Class<?>[] expectedExceptionType) {
+    for (Class<?> el : expectedExceptionType) {
+      if (! Exception.class.isAssignableFrom(el)) {
+        return false;
+      }
+    }
+    return true;
+  }
 
 }
