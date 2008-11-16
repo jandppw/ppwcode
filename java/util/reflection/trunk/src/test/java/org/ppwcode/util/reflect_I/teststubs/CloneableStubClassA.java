@@ -17,7 +17,7 @@ limitations under the License.
 package org.ppwcode.util.reflect_I.teststubs;
 
 
-import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.unexpectedException;
+import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.unexpectedException;
 
 
 public class CloneableStubClassA implements Cloneable {

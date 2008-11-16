@@ -20,11 +20,11 @@ package org.ppwcode.util.reflect_I;
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.InstanceHelpers.newInstance;
 import static org.ppwcode.util.reflect_I.TypeName.DOT_PATTERN;
-import static org.ppwcode.vernacular.exception_III.ExceptionHelpers.huntFor;
-import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.pre;
-import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.preArgumentNotEmpty;
-import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.preArgumentNotNull;
-import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.unexpectedException;
+import static org.ppwcode.util.exception_III.ExceptionHelpers.huntFor;
+import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.pre;
+import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.preArgumentNotEmpty;
+import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.preArgumentNotNull;
+import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.unexpectedException;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
