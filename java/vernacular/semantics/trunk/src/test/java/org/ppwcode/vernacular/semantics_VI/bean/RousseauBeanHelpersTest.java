@@ -23,9 +23,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.ppwcode.util.reflect_I.PropertyHelpers.propertyValue;
 import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.preArgumentNotNull;
 import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.unexpectedException;
+import static org.ppwcode.util.reflect_I.PropertyHelpers.propertyValue;
 import static org.ppwcode.vernacular.semantics_VI.bean.RousseauBeanHelpers.directUpstreamRousseauBeans;
 import static org.ppwcode.vernacular.semantics_VI.bean.RousseauBeanHelpers.normalize;
 import static org.ppwcode.vernacular.semantics_VI.bean.RousseauBeanHelpers.normalizeAndCheckCivilityOnUpstreamRousseauBeans;
@@ -46,7 +46,6 @@ import org.ppwcode.vernacular.exception_III.CompoundSemanticException;
 import org.ppwcode.vernacular.semantics_VI.bean.stubs.StubRousseauBean;
 import org.ppwcode.vernacular.semantics_VI.bean.stubs.StubRousseauBeanA;
 import org.ppwcode.vernacular.semantics_VI.bean.stubs.StubRousseauBeanB;
-import org.ppwcode.vernacular.semantics_VI.exception.CompoundPropertyException;
 import org.ppwcode.vernacular.semantics_VI.exception.PropertyException;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
@@ -163,14 +162,14 @@ public class RousseauBeanHelpersTest {
   }
 
   public void testNormalizeAndCheckCivilityOnUpstreamRousseauBeans(RousseauBean rb) {
-    CompoundPropertyException result = normalizeAndCheckCivilityOnUpstreamRousseauBeans(rb);
+    CompoundSemanticException result = normalizeAndCheckCivilityOnUpstreamRousseauBeans(rb);
     assertNotNull(result);
     Set<PropertyException> expected = new HashSet<PropertyException>();
     for (RousseauBean rbr : upstreamRousseauBeans(rb)) {
       assertTrue(((StubRousseauBean)rbr).normalized);
-      expected.addAll(((StubRousseauBean)rbr).wildExceptions.getAllElementExceptions());
+      expected.addAll(((StubRousseauBean)rbr).wildExceptions.getElementExceptions());
     }
-    assertEquals(expected, result.getAllElementExceptions());
+    assertEquals(expected, result.getElementExceptions());
   }
 
   @Test
@@ -199,7 +198,7 @@ public class RousseauBeanHelpersTest {
     assertNotNull(result);
     Set<PropertyException> expected = new HashSet<PropertyException>();
     for (RousseauBean rb : rbs) {
-      expected.addAll(((StubRousseauBean)rb).wildExceptions.getAllElementExceptions());
+      expected.addAll(((StubRousseauBean)rb).wildExceptions.getElementExceptions());
     }
     assertEquals(expected, result.getElementExceptions());
   }
