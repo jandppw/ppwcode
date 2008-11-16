@@ -19,7 +19,7 @@ package org.ppwcode.vernacular.semantics_VI.i18n;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.PropertyHelpers.propertyType;
-import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.unexpectedException;
+import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.unexpectedException;
 import static org.ppwcode.vernacular.resourcebundle_II.ResourceBundleHelpers.value;
 
 import org.ppwcode.metainfo_I.Copyright;
