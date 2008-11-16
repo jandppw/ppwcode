@@ -1,0 +1,64 @@
+<html>
+  <head>
+    <title>org.ppwcode.value.time</title>
+  </head>
+  <body>
+    <p>Time is dangerously and treacherously difficult to reason about.
+      The classes supported by the Java SE API are a good start, but don't fully
+      do the subject justice. In this package and its sub packages we try to offer
+      some help.</p>
+    <p>{@link org.ppwcode.value_III.time.DateHelpers} offers some methods that are
+      often useful when working with {@link java.util.Date}. We want to continue working
+      with {@link java.util.Date}, because there is a lot of code out there that does
+      deal with {@link java.util.Date} that aids already a lot.</p>
+    <p>In this structure, we want to make an explicit difference between
+      <dfn>points in time</dfn>, for which we use {@link java.util.Date},
+      <dfn>time intervals</dfn> and <dfn>time durations</dfn>.</p>
+    <p>Time intervals and reasoning with time intervals is a very complex subject
+      matter. Support for working with time intervals is based around
+      Allen's Interval Algebra, and gathered in {@link org.ppwcode.value_III.time.interval}.
+      {@link org.ppwcode.value_III.time.Duration} is the abstraction you can use
+      when working with time durations.</p>
+
+    <h3 id="java.sql.Date">On {@link java.sql.Date}</h3>
+    <p>It doesn't make much sense to use {@link java.sql.Date} in your code, since it actually is a
+      {@link java.util.Date}, wrapping an object around the milliseconds since
+      {@link org.ppwcode.value_III.time.DateHelpers#EPOCH}. It is used by SQL drivers to return a
+      value that was stored as SQL <code>DATE</code>. If returned by
+      {@link java.sql.ResultSet#getDate(String, java.util.Calendar)} or
+      {@link java.sql.ResultSet#getDate(int, java.util.Calendar)}, the time zone of the
+      {@link java.util.Calendar} argument is used
+      to determine how to zero the intraday time details. If returned by
+      {@link java.sql.ResultSet#getDate(String)} or {@link java.sql.ResultSet#getDate(int)},
+      the {@link java.util.TimeZone#getDefault()
+      default time zone} is used for that, which depends mostly on your operating system settings, and
+      thus is not really portable. Apart from the fact that a {@link java.sql.Date} thus expresses,
+      <em>by its use</em> (and no other constrained is programmed into it), midnight in <em>a</em> time zone,
+      and the fact that some methods are blocked from operation (which are deprecated), there is
+      no functional difference whatsoever between {@link java.sql.Date} and {@link java.util.Date}.
+      Notably, it is totally possible to create a {@link java.sql.Date} for any possible point in time,
+      given the milliseconds since {@link #EPOCH} of that time. E.g., nothing is holding you, are another
+      programmer back from creating a {@link java.sql.Date} as:</p>
+    <pre>
+      GregorianCalendar gc = new GregorianCalendar(2008, 10, 4, 9, 53, 34, 567);
+      gc.setTimeZone(TimeZone.getTimeZone("Europe/Brussels"));
+      long millis = gc.getTimeInMillis();
+      java.sql.Date result = new java.sql.Date(millis);
+   </pre>
+   <p>The resulting {@link java.sql.Date} is not at midnight in any time zone of practical use. (You
+      can of course devise a time zone in which it is.)</p>
+   <p>The actual date represented by a {@link java.sql.Date} depends on the time zone in which you
+      evaluate it, e.g., with a {@link DateFormat}:</p>
+   <pre>
+      java.sql.Date today = DateHelpers.sqlDayDate(new Date(), UTC);
+      TimeZone la = TimeZone.getTimeZone("America/Los_Angeles");
+      TimeZone moscow = TimeZone.getTimeZone("Europe/Moscow");
+      DateFormat df = DateFormat.getDateInstance(FULL);
+      df.setTimeZone(la);
+      System.out.println(df.format(today));
+      df.setTimeZone(moscow);
+      System.out.println(df.format(today));
+   </pre>
+   <p>The two println's will always show a different result.</p>
+  </body>
+</html>
