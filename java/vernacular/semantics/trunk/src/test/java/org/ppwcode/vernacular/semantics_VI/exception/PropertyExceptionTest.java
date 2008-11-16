@@ -52,7 +52,6 @@ public class PropertyExceptionTest {
   private Set<String> propertyNames; // not empty
   private Set<String> messages; // not empty
   private Set<Throwable> throwables;
-  private final boolean[] booleans = {true, false};
   public Set<PropertyException> subjects;
 
   private Set<Object> origins2;
@@ -95,12 +94,11 @@ public class PropertyExceptionTest {
 
   private Set<PropertyException> createSubjects() {
     Set<PropertyException> result = new HashSet<PropertyException>();
-    for (boolean inOriginInitialization : booleans) {
-      for (String message : messages) {
-        for (String propertyName : propertyNames) {
-          for (Throwable t : throwables) {
-            result.add(new PropertyException(originMock, inOriginInitialization, propertyName, message, t));
-          }
+    for (String message : messages) {
+      for (String propertyName : propertyNames) {
+        for (Throwable t : throwables) {
+          result.add(new PropertyException(originMock, propertyName, message, t));
+          result.add(new PropertyException(originMock.getClass(), propertyName, message, t));
         }
       }
     }
@@ -127,26 +125,26 @@ public class PropertyExceptionTest {
     assertTrue(subject.getPropertyName() != null ? hasProperty(subject.getOriginType(), subject.getPropertyName()) : true);
   }
 
-  private void testPropertyExceptionStringThrowable(String message, Throwable cause) {
-    // execute
-    PropertyException subject = new PropertyException(message, cause);
-    // validate
-    assertNull(subject.getOrigin());
-    assertNull(subject.getOriginType());
-    assertNull(subject.getPropertyName());
-    assertEquals(message == null ? DEFAULT_MESSAGE_KEY : message, subject.getMessage());
-    assertEquals(cause, subject.getCause());
-    assertTypeInvariants(subject);
-  }
-
-  @Test
-  public void testPropertyExceptionStringThrowable() {
-    for (String message : messages) {
-      for (Throwable t : throwables) {
-        testPropertyExceptionStringThrowable(message, t);
-      }
-    }
-  }
+//  private void testPropertyExceptionStringThrowable(String message, Throwable cause) {
+//    // execute
+//    PropertyException subject = new PropertyException(message, cause);
+//    // validate
+//    assertNull(subject.getOrigin());
+//    assertNull(subject.getOriginType());
+//    assertNull(subject.getPropertyName());
+//    assertEquals(message == null ? DEFAULT_MESSAGE_KEY : message, subject.getMessage());
+//    assertEquals(cause, subject.getCause());
+//    assertTypeInvariants(subject);
+//  }
+//
+//  @Test
+//  public void testPropertyExceptionStringThrowable() {
+//    for (String message : messages) {
+//      for (Throwable t : throwables) {
+//        testPropertyExceptionStringThrowable(message, t);
+//      }
+//    }
+//  }
 
   private void testPropertyExceptionObjectStringStringThrowable(final Object origin,
                                                                 final String propertyName,
@@ -174,34 +172,34 @@ public class PropertyExceptionTest {
     }
   }
 
-  private void testPropertyExceptionObjectBooleanStringStringThrowable(final Object origin,
-                                                                       final boolean inOriginInitialization,
-                                                                       final String propertyName,
-                                                                       final String message,
-                                                                       final Throwable cause) {
-    // execute
-    PropertyException subject = new PropertyException(origin, inOriginInitialization, propertyName, message, cause);
-    // validate
-    assertTrue(inOriginInitialization ? subject.getOrigin() == null : subject.getOrigin() == origin);
-    assertEquals(origin.getClass(), subject.getOriginType());
-    assertEquals(propertyName, subject.getPropertyName());
-    assertEquals(message == null ? DEFAULT_MESSAGE_KEY : message, subject.getMessage());
-    assertEquals(cause, subject.getCause());
-    assertTypeInvariants(subject);
-  }
-
-  @Test
-  public void testPropertyExceptionObjectQBooleanStringStringThrowable() {
-    for (boolean inOriginInitialization : booleans) {
-      for (String message : messages) {
-        for (String propertyName : propertyNames) {
-          for (Throwable t : throwables) {
-            testPropertyExceptionObjectBooleanStringStringThrowable(originMock, inOriginInitialization, propertyName, message, t);
-          }
-        }
-      }
-    }
-  }
+//  private void testPropertyExceptionObjectBooleanStringStringThrowable(final Object origin,
+//                                                                       final boolean inOriginInitialization,
+//                                                                       final String propertyName,
+//                                                                       final String message,
+//                                                                       final Throwable cause) {
+//    // execute
+//    PropertyException subject = new PropertyException(origin, inOriginInitialization, propertyName, message, cause);
+//    // validate
+//    assertTrue(inOriginInitialization ? subject.getOrigin() == null : subject.getOrigin() == origin);
+//    assertEquals(origin.getClass(), subject.getOriginType());
+//    assertEquals(propertyName, subject.getPropertyName());
+//    assertEquals(message == null ? DEFAULT_MESSAGE_KEY : message, subject.getMessage());
+//    assertEquals(cause, subject.getCause());
+//    assertTypeInvariants(subject);
+//  }
+//
+//  @Test
+//  public void testPropertyExceptionObjectQBooleanStringStringThrowable() {
+//    for (boolean inOriginInitialization : booleans) {
+//      for (String message : messages) {
+//        for (String propertyName : propertyNames) {
+//          for (Throwable t : throwables) {
+//            testPropertyExceptionObjectBooleanStringStringThrowable(originMock, inOriginInitialization, propertyName, message, t);
+//          }
+//        }
+//      }
+//    }
+//  }
 
   private void testPropertyExceptionClassOfStringStringThrowable(final Class<?> originType,
                                                                 final String propertyName,

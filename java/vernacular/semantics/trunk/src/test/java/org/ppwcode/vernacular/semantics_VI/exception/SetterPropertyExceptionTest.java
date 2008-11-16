@@ -45,7 +45,6 @@ public class SetterPropertyExceptionTest {
   private Set<Object> vetoedValues;
   private Set<String> messages; // not empty
   private Set<Throwable> throwables;
-  private final boolean[] booleans = {true, false};
   public Set<SetterPropertyException> subjects;
 
   private Set<Object> origins2;
@@ -103,14 +102,12 @@ public class SetterPropertyExceptionTest {
 
   private Set<SetterPropertyException> createSubjects() {
     Set<SetterPropertyException> result = new HashSet<SetterPropertyException>();
-    for (boolean inOriginInitialization : booleans) {
-      for (String message : messages) {
-        for (String propertyName : propertyNames) {
-          for (Object origin : origins) {
-            for (Throwable t : throwables) {
-              for (Object vetoedValue : vetoedValues) {
-                result.add(new SetterPropertyException(origin, inOriginInitialization, propertyName, vetoedValue, message, t));
-              }
+    for (String message : messages) {
+      for (String propertyName : propertyNames) {
+        for (Object origin : origins) {
+          for (Throwable t : throwables) {
+            for (Object vetoedValue : vetoedValues) {
+              result.add(new SetterPropertyException(origin, propertyName, vetoedValue, message, t));
             }
           }
         }
@@ -174,45 +171,45 @@ public class SetterPropertyExceptionTest {
     }
   }
 
-  private void testSetterPropertyExceptionObjectBooleanStringObjectStringThrowable(final Object origin,
-                                                                                   final boolean inOriginInitialization,
-                                                                                   final String propertyName,
-                                                                                   final Object vetoedValue,
-                                                                                   final String message,
-                                                                                   final Throwable cause)
-      throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-    // execute
-    SetterPropertyException subject = new SetterPropertyException(origin, inOriginInitialization, propertyName, vetoedValue, message, cause);
-    // validate
-    assertTrue(inOriginInitialization ? subject.getOrigin() == null : subject.getOrigin() == origin);
-    assertEquals(origin.getClass(), subject.getOriginType());
-    assertEquals(propertyName, subject.getPropertyName());
-    assertEquals(inOriginInitialization ? null : PropertyUtils.getProperty(origin, propertyName),
-                 subject.getPropertyValue());
-    assertEquals(vetoedValue, subject.getVetoedValue());
-    assertEquals(message == null ? DEFAULT_MESSAGE_KEY : message, subject.getMessage());
-    assertEquals(cause, subject.getCause());
-    PropertyExceptionTest.assertTypeInvariants(subject);
-    assertTypeInvariants(subject);
-  }
-
-  @Test
-  public void testSetterPropertyExceptionObjectBooleanStringObjectStringThrowable()
-      throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-    for (boolean inOriginInitialization : booleans) {
-      for (Object origin : origins) {
-        for (String message : messages) {
-          for (String propertyName : propertyNames) {
-            for (Object vetoedValue : vetoedValues) {
-              for (Throwable t : throwables) {
-                testSetterPropertyExceptionObjectBooleanStringObjectStringThrowable(origin, inOriginInitialization, propertyName, vetoedValue, message, t);
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+//  private void testSetterPropertyExceptionObjectBooleanStringObjectStringThrowable(final Object origin,
+//                                                                                   final boolean inOriginInitialization,
+//                                                                                   final String propertyName,
+//                                                                                   final Object vetoedValue,
+//                                                                                   final String message,
+//                                                                                   final Throwable cause)
+//      throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+//    // execute
+//    SetterPropertyException subject = new SetterPropertyException(origin, inOriginInitialization, propertyName, vetoedValue, message, cause);
+//    // validate
+//    assertTrue(inOriginInitialization ? subject.getOrigin() == null : subject.getOrigin() == origin);
+//    assertEquals(origin.getClass(), subject.getOriginType());
+//    assertEquals(propertyName, subject.getPropertyName());
+//    assertEquals(inOriginInitialization ? null : PropertyUtils.getProperty(origin, propertyName),
+//                 subject.getPropertyValue());
+//    assertEquals(vetoedValue, subject.getVetoedValue());
+//    assertEquals(message == null ? DEFAULT_MESSAGE_KEY : message, subject.getMessage());
+//    assertEquals(cause, subject.getCause());
+//    PropertyExceptionTest.assertTypeInvariants(subject);
+//    assertTypeInvariants(subject);
+//  }
+//
+//  @Test
+//  public void testSetterPropertyExceptionObjectBooleanStringObjectStringThrowable()
+//      throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+//    for (boolean inOriginInitialization : booleans) {
+//      for (Object origin : origins) {
+//        for (String message : messages) {
+//          for (String propertyName : propertyNames) {
+//            for (Object vetoedValue : vetoedValues) {
+//              for (Throwable t : throwables) {
+//                testSetterPropertyExceptionObjectBooleanStringObjectStringThrowable(origin, inOriginInitialization, propertyName, vetoedValue, message, t);
+//              }
+//            }
+//          }
+//        }
+//      }
+//    }
+//  }
 
 //  private void testSetterPropertyExceptionClassOfQStringObjectStringThrowable(final Class<?> originType,
 //                                                                              final String propertyName,
