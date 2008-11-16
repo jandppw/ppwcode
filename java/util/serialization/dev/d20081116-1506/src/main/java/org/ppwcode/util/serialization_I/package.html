@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!--
+  Copyright 2004 - $Date$ by PeopleWare n.v.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  $Date$
+  $Revision$
+  $HeadURL$
+  -->
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>org.ppwcode.util.reflect_I.serialization</title>
+</head>
+<body>
+  <p>Alternative implementation of serialization, using an annotation when the <code>transient</code> keyword cannot
+    be used. Implement a protected method as follows in your hierarchy of classes you want to use this approach:</p>
+  <pre>
+    protected final Object writeReplace() throws NotSerializableException {
+      return {@link org.ppwcode.util.reflect_I.serialization.SerializationHelpers#replace(java.io.Serializable) SerializationHelpers.replace(this)};
+    }
+  </pre>
+  <p>All subclasses inherited this method, and thus this serialization approach. In the class in which you have defined
+    this method, and all its subclasses, you can now use the annotation
+    {@link org.ppwcode.util.reflect_I.serialization.DoNotSerialize} on instance variables that you do not want to
+    serialize. On deserialization, these instance variables will have they initial value they have after using
+    the default constructor. This approach used reflection to read and write in instance variables, indifferent
+    of their accessibility settings.</p>
+  <p>The rationale for this library is serialization in JPA based EJB applications. The technology probably has broader
+    implementations though.</p>
+  <p>In JPA and similar technologies, you can define relationships (and other properties) of persistent beans (or
+    <dfn>entities</dfn>) to use <dfn>lazy loading</dfn>. Mostly this is done for downstream associations, most often
+    to-many associations. When transporting a persistent object out of the application layer to a client layer, via RMI,
+    it is serialized. It makes sense to not want to serialize the properties you have marked for lazy loading. In fact,
+    when you do nothing, either the property is in fact loaded, making the lazy loading feature meaningless, or
+    silly things happen with the property. In OpenJPA, e.g., (and probably in other technologies too), if you serialize
+    a detached object, for which a to-many association has not been initialized, the collection property that expresses
+    the to-many association ends up <code>null</code> after deserialization. This often is contrary to representation
+    invariants for to-many associations. In other words, the implementation of the methods of the deserialized object
+    is no longer guaranteed to be correct.</p>
+  <p>It makes great sense to make all properties marked for lazy loading <code>transient</code>. However, in the JPA
+    context at least, the keyword <code>transient</code> also has an effect on back end persistency. In the serialization
+    specification it is stated that <code>transient</code> means that the property should not be persisted in any
+    persistency context, not only in the context of serialization. Security reasons are cited as the main reason.
+    See <a href="http://java.sun.com/j2se/1.5.0/docs/guide/serialization/spec/serial-arch.html#7231">the serialization
+    specification, paragraph 1.13</a>. In other words, we cannot use <code>transient</code> to stop serialization
+    of our lazily loaded properties.</p>
+  <p>Luckily other ways of doing this are possible. We are looking however for a transparent, zero effort way of doing
+    this. The <code>serialPersistentFields</code> approach is cumbersome: we have to remember to explicitly list
+    all instance variables we do want serialized in all classes (while the default is still that almost all
+    properties should be serialized). The <code>private void writeObject(ObjectOutputStream stream) throws IOException</code>
+    approach requires an explicit method in every class, where we explicitly implement serialization ourselves of
+    everything we want serialized. This is worse than then <code>serialPersistentFields</code> approach.
+    The {@link java.io.Externalizable} approach works (see the experiments in the test code for this project) but
+    has a major documented drawback, namely that the methods are <code>public</code>, and thus hardly transparent.</p>
+  <p>The chosen <code>protected Object writeReplace() throws ObjectStreamException</code> approach is transparent,
+    automatic and clean. However, there is a documented problem with loops in the object graph that is serialized.
+    See the note to <a href="http://java.sun.com/j2se/1.5.0/docs/guide/serialization/spec/input.html#5903">paragraph 3.7
+    in the serialization specification</a>. We believe that in the context of the rationale for this library, this
+    is not a bad thing, as sending cyclic object graphs over the wire is probably a sign of bad design.</p>
+</body>
+</html>
