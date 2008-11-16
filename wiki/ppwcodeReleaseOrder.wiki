@@ -22,6 +22,7 @@ NOTE: there should be a better way to describe this than a list
   * metainfo
   * util
     * parent pom
+    * exception
     * reflection
     * serialization
   * vernacular
@@ -46,11 +47,12 @@ NOTE: there should be a better way to describe this than a list
   * ppwcode library parent pom
   * metainfo
   * (toryt annotations - _outside of ppwcode, but we have "influence" to get a new build :-)_ )
-  * vernacular parent pom
   * util parent pom
-  * vernacular exception (snapshot)
+  * util exception (snapshot)
   * util reflection (snapshot)
   * util serialization (snapshot)
+  * vernacular parent pom
+  * vernacular exception (snapshot)
   * vernacular resourcebundle
   * vernacular semantics (snapshot)
   * vernacular persistence (snapshot)
