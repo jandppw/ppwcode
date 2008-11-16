@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
 import static org.ppwcode.util.test.contract.Contract.contractFor;
 import static org.ppwcode.value_III.time.TimeHelpers.UTC;
 import static org.ppwcode.value_III.time.TimeHelpers.le;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
+import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.unexpectedException;
 
 import java.util.ArrayList;
 import java.util.Date;

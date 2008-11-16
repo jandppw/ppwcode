@@ -21,7 +21,7 @@ import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.value_III.time.TimeHelpers.isDayDate;
 import static org.ppwcode.value_III.time.TimeHelpers.move;
 import static org.ppwcode.value_III.time.TimeHelpers.sqlDayDate;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.unexpectedException;
+import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.unexpectedException;
 
 import java.sql.Types;
 import java.util.Date;
