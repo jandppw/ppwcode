@@ -14,11 +14,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.vernacular.exception_III;
+package org.ppwcode.util.exception_I;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.vernacular.exception_III.ProgrammingErrorHelpers.preArgumentNotNull;
+import static org.ppwcode.util.exception_I.ProgrammingErrorHelpers.preArgumentNotNull;
 
 import java.sql.SQLException;
 import java.sql.SQLWarning;
