@@ -24,64 +24,17 @@
   <!-- There are four valid values for action type:  add, fix, remove, update. -->
 
   <properties>
-    <title>Changes to ppwcode exception vernacular</title>
+    <title>Changes to ppwcode util exception</title>
     <author email="Jan_Dockx@peopleware.be">Jan Dockx</author>
-    <author email="Nele_Smeets@peopleware.be">Nele Smeets</author>
   </properties>
   <body>
 
-    <release version="III v1.0" date="2008-10-??" description="name changes and handling">
-      <action dev="jand" type="update">
-        Changed the name of InternalException to ApplicationException. Application exception
-        is a name used in JavaEE documentation. Like this, there will be less confusion.
-      </action>
-      <action dev="jand" type="add">
-        First version of exception handling framework.
-      </action>
-    </release>
-
-    <release version="II v5.0" date="2008-10-09" description="Extra method in ProgrammingErrorHelpers">
-      <action dev="jand" type="add">
-        ProgrammingErrorHelpers.newAssertionError is now public.
-      </action>
-    </release>
-
-    <release version="II v4.0" date="2008-10-09" description="NoLongerSupportedError">
-      <action dev="jand" type="add">
-        Added NoLongerSupportedError.
-      </action>
-    </release>
-
-    <release version="II v3.0" date="2008-10-06" description="InternalTransportException">
-      <action dev="jand" type="add">
-        Added InternalTransportException.
-      </action>
-    </release>
-
-    <release version="II v1.1" date="2008-10-03" description="ExceptionHelpers">
-      <action dev="jand" type="add">
-        Added ExceptionHelpers, with helper methods for throwables. This code
-        was recovered from earlier versions of ppw-persistence.
-      </action>
-    </release>
-
-    <release version="II v1.0" date="2008-10-01" description="Brand new release">
-      <action dev="jand" type="update">
-        This version is a total rewrite of the previous version.
-        The vernacular is worked out and explanained. The overview document is
-        not finished.
-      </action>
-    </release>
-
-    <release version="I v1.0.0/2.0" date="2005-08-14" description="Dependencies">
-      <action dev="jand" type="update">
-        Updated dependencies.
-      </action>
-    </release>
-
-    <release version="I v1.0.0/1.0" date="2004-12-20" description="First release">
-      <action dev="jand" type="add">
-        First release with this version number scheme.
+    <release version="III v1.0" date="2008-10-??" description="split of from vernacular exception">
+      <action dev="jandockx" type="add">
+        First version of exception utility code. This is split off from the vernacular exception
+        (which is the evolution of the older ppwcode exception framework). The reason is that
+        this way we get less annoying dependencies. ProgrammingErrorHelpers and ExceptionHelpers
+        have a much broader use than the rest.
       </action>
     </release>
 
