@@ -46,8 +46,7 @@ import java.util.Set;
 import org.junit.Test;
 import org.ppwcode.util.reflect_I.teststubs.CloneableStubClassA;
 import org.ppwcode.util.reflect_I.teststubs.StubClass;
-import org.ppwcode.vernacular.exception_III.ApplicationException;
-import org.ppwcode.vernacular.exception_III.SemanticException;
+import org.ppwcode.util.reflect_I.teststubs.StubClass.AnException;
 
 
 public class PropertyHelpersTest {
@@ -491,18 +490,38 @@ public class PropertyHelpersTest {
 //  }
 
   @Test
-  public void testSetPropertyValue1() throws ApplicationException {
+  public void testsetPropertyValue() {
     StubClass subject = new StubClass();
-    Object newValue = new Object();
-    PropertyHelpers.setPropertyValue(subject, "applicationExceptionProperty", newValue);
-    assertEquals(newValue, subject.getApplicationExceptionProperty());
+    int stubValue = -536;
+    PropertyHelpers.setPropertyValue(subject, "stubPropertyInt", stubValue);
+    assertEquals(stubValue, subject.getStubPropertyInt());
   }
 
-  @Test(expected = SemanticException.class)
-  public void testSetPropertyValue2() throws ApplicationException {
+  public static class AnotherException extends Exception {
+    // NOP
+  }
+
+  @Test
+  public void testRobustSetPropertyValue1() throws Exception {
     StubClass subject = new StubClass();
-    SemanticException newValue = new SemanticException("Semantic Exception message", null);
-    PropertyHelpers.setPropertyValue(subject, "applicationExceptionProperty", newValue);
+    Object newValue = new Object();
+    PropertyHelpers.robustSetPropertyValue(subject, "exceptionProperty", newValue);
+    assertEquals(newValue, subject.getExceptionProperty());
+  }
+
+  @Test(expected = AnException.class)
+  public void testRobustSetPropertyValue2() throws Exception {
+    StubClass subject = new StubClass();
+    AnException newValue = new AnException();
+    PropertyHelpers.robustSetPropertyValue(subject, "exceptionProperty", newValue, AnException.class, AnotherException.class);
+  }
+
+  @Test
+  public void testRobustSetPropertyValue3() throws Exception {
+    StubClass subject = new StubClass();
+    Object newValue = new Object();
+    PropertyHelpers.robustSetPropertyValue(subject, "exceptionProperty", newValue, AnException.class, AnotherException.class);
+    assertEquals(newValue, subject.getExceptionProperty());
   }
 
 }
