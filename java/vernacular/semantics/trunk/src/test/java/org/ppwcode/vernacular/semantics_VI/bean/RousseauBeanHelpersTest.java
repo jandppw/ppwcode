@@ -42,6 +42,7 @@ import java.util.Set;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.ppwcode.vernacular.exception_III.CompoundSemanticException;
 import org.ppwcode.vernacular.semantics_VI.bean.stubs.StubRousseauBean;
 import org.ppwcode.vernacular.semantics_VI.bean.stubs.StubRousseauBeanA;
 import org.ppwcode.vernacular.semantics_VI.bean.stubs.StubRousseauBeanB;
@@ -194,13 +195,13 @@ public class RousseauBeanHelpersTest {
   }
 
   public void testWildExceptions(Set<? extends RousseauBean> rbs) {
-    CompoundPropertyException result = wildExceptions(rbs);
+    CompoundSemanticException result = wildExceptions(rbs);
     assertNotNull(result);
     Set<PropertyException> expected = new HashSet<PropertyException>();
     for (RousseauBean rb : rbs) {
       expected.addAll(((StubRousseauBean)rb).wildExceptions.getAllElementExceptions());
     }
-    assertEquals(expected, result.getAllElementExceptions());
+    assertEquals(expected, result.getElementExceptions());
   }
 
   @Test
