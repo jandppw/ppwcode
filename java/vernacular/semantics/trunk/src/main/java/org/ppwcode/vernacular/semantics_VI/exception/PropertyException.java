@@ -304,7 +304,6 @@ public class PropertyException extends SemanticException {
                                 "(originType == _other.originType) && (propertyName == _other.propertyName)")
   )
   public boolean like(ApplicationException other) {
-    System.out.println(other);
     return super.like(other) &&
            (((PropertyException)other).getOrigin() == getOrigin()) &&
            (((PropertyException)other).getOriginType() == getOriginType()) &&
