@@ -111,7 +111,7 @@ public abstract class AbstractRousseauBean extends AbstractSemanticBean implemen
         LOG.debug("current RousseauBean is " + toString());
         LOG.debug(cpe.getElementExceptions());
         LOG.debug("ElementExceptions details:");
-        for (Map.Entry<String, Set<PropertyException>> entry : cpe.getElementExceptions().entrySet()) {
+        for (Map.Entry<String, Set<PropertyException>> entry : cpe.getElementExceptionsMap().entrySet()) {
           Object key = entry.getKey();
           if (key == null) {
             LOG.debug("null as key:");
