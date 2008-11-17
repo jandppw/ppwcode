@@ -36,6 +36,7 @@ import static org.ppwcode.value_III.time.TimeHelpers.sqlDayDate;
 import static org.ppwcode.value_III.time.TimeHelpers.sqlTimeOfDay;
 
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -446,6 +447,14 @@ public class TimeHelpersTest {
         testMove(dayDate(new Date(), tzT), tzF, tzT);
       }
     }
+  }
+
+  @Test
+  public void demoEqualsDateTimestamp() {
+   Date now = new Date();
+   Timestamp t = new Timestamp(now.getTime());
+   assertTrue(now.equals(t));
+   assertFalse(t.equals(now));
   }
 
 }
