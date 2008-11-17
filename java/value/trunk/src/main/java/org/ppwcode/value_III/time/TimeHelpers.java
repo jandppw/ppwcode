@@ -17,6 +17,8 @@ limitations under the License.
 package org.ppwcode.value_III.time;
 
 
+import static java.sql.Types.DATE;
+import static java.sql.Types.TIME;
 import static java.util.Calendar.DAY_OF_MONTH;
 import static java.util.Calendar.HOUR_OF_DAY;
 import static java.util.Calendar.MILLISECOND;
@@ -28,6 +30,9 @@ import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.pre;
 import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.preArgumentNotNull;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Time;
 import java.util.Calendar;
 import java.util.Date;
@@ -427,6 +432,103 @@ public class TimeHelpers {
     toC.set(year, month, dayOfMonth, hour, minute, second);
     toC.set(MILLISECOND, millisecond);
     return toC.getTime();
+  }
+
+
+
+
+
+
+
+
+
+
+
+  /**
+   * Push a {@link Date} into a {@link PreparedStatement} as a SQL DATE, using
+   * {@link PreparedStatement#setDate(int, java.sql.Date, java.util.Calendar)}, which takes a {@link TimeZone}
+   * as extra parameter. If {@code tz} is {@code null}, the default time zone is used.
+   */
+  public static void nullSafeSetDayDate(PreparedStatement st, Date d, TimeZone tz, int index) throws SQLException {
+    if (d == null) {
+      st.setNull(index, DATE);
+    }
+    else {
+      java.sql.Date dd = new java.sql.Date(d.getTime());
+      if (tz == null) {
+        st.setDate(index, dd);
+      }
+      else {
+        assert isDayDate(d, tz);
+        GregorianCalendar cal = new GregorianCalendar(tz);
+        st.setDate(index, dd, cal);
+      }
+    }
+  }
+
+  /**
+   * Reads a {@link Date} from a {@link ResultSet} as a SQL DATE, using
+   * {@link ResultSet#getDate(String, java.util.Calendar)}, which takes a {@link TimeZone} as extra parameter.
+   * If {@code tz} is {@code null}, the default time zone is used.
+   */
+  public static Date nullSafeGetDayDate(ResultSet rs, String columnName, TimeZone tz) throws SQLException {
+    java.sql.Date fromDb = null;
+    if (tz != null) {
+      GregorianCalendar cal = new GregorianCalendar(tz);
+      fromDb = rs.getDate(columnName, cal);
+    }
+    else {
+      fromDb = rs.getDate(columnName);
+    }
+    if (fromDb == null || rs.wasNull()) {
+      return null;
+    }
+    else {
+      return fromDb;
+    }
+  }
+
+  /**
+   * Push a {@link Date} into a {@link PreparedStatement} as a SQL TIME, using
+   * {@link PreparedStatement#setTime(int, java.sql.Time, java.util.Calendar)}, which takes a {@link TimeZone}
+   * as extra parameter. If {@code tz} is {@code null}, the default time zone is used.
+   */
+  public static void nullSafeSetDayTime(PreparedStatement st, Date t, TimeZone tz, int index) throws SQLException {
+    if (t == null) {
+      st.setNull(index, TIME);
+    }
+    else {
+      java.sql.Time tt = new java.sql.Time(t.getTime());
+      if (tz == null) {
+        st.setTime(index, tt);
+      }
+      else {
+        GregorianCalendar cal = new GregorianCalendar(tz);
+        st.setTime(index, tt, cal);
+      }
+    }
+  }
+
+  /**
+   * Reads a {@link Date} from a {@link ResultSet} as a SQL TIME, using
+   * {@link ResultSet#getTime(String, java.util.Calendar)}, which takes a {@link TimeZone} as extra parameter.
+   * If {@code tz} is {@code null}, the default time zone is used.
+   */
+  public static Date nullSafeGetDayTime(ResultSet rs, String columnName, TimeZone tz) throws SQLException {
+    java.sql.Time fromDb = null;
+    if (tz != null) {
+      GregorianCalendar cal = new GregorianCalendar(tz);
+      fromDb = rs.getTime(columnName, cal);
+    }
+    else {
+      fromDb = rs.getTime(columnName);
+    }
+    if (fromDb == null || rs.wasNull()) {
+      return null;
+    }
+    else {
+      return fromDb;
+    }
   }
 
 }

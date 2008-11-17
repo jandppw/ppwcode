@@ -20,13 +20,12 @@ package org.ppwcode.value_III.time.interval;
 import static java.sql.Types.DATE;
 import static java.sql.Types.VARCHAR;
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.value_III.time.TimeHelpers.isDayDate;
+import static org.ppwcode.value_III.time.TimeHelpers.nullSafeSetDayDate;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import org.hibernate.Hibernate;
@@ -34,6 +33,7 @@ import org.hibernate.HibernateException;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.ppwcode.value_III.time.TimeHelpers;
 import org.ppwcode.vernacular.value_III.ImmutableValue;
 import org.ppwcode.vernacular.value_III.hibernate3.AbstractImmutableValueUserType;
 import org.toryt.annotations_I.Expression;
@@ -67,8 +67,8 @@ public final class DayDateTimeIntervalUserType extends AbstractImmutableValueUse
   /**
    * Static definition of the 1 TIMEZONE and 2 TIMESTAMP columns we will write in.
    */
-  @Invars(@Expression("SQL_TYPES == {VARCHAR, DATE, DATE}"))
-  private static final int[] SQL_TYPES = {VARCHAR, DATE, DATE};
+  @Invars(@Expression("SQL_TYPES == {DATE, DATE, VARCHAR}"))
+  private static final int[] SQL_TYPES = {DATE, DATE, VARCHAR};
 
   @MethodContract(post = @Expression("SQL_TYPES"))
   public final int[] sqlTypes() {
@@ -89,9 +89,9 @@ public final class DayDateTimeIntervalUserType extends AbstractImmutableValueUse
                                    + " is not supported");
     }
     else if (value == null) {
-      st.setNull(index, VARCHAR);
+      st.setNull(index, DATE);
       st.setNull(index + 1, DATE);
-      st.setNull(index + 2, DATE);
+      st.setNull(index + 2, VARCHAR);
     }
     else {
       /*
@@ -104,21 +104,9 @@ public final class DayDateTimeIntervalUserType extends AbstractImmutableValueUse
        */
       DayDateTimeInterval dtti = (DayDateTimeInterval)value;
       TimeZone tz = dtti.getTimeZone();
-      nullSafeSet(st, dtti.getBegin(), tz, index);
-      nullSafeSet(st, dtti.getEnd(), tz, index + 1);
-      Hibernate.TIMEZONE.nullSafeSet(st, dtti.getTimeZone(), index + 2);
-    }
-  }
-
-  private static void nullSafeSet(PreparedStatement st, Date d, TimeZone tz, int index) throws SQLException {
-    if (d == null) {
-      st.setNull(index, DATE);
-    }
-    else {
-      assert isDayDate(d, tz);
-      java.sql.Date dd = new java.sql.Date(d.getTime());
-      GregorianCalendar cal = new GregorianCalendar(tz);
-      st.setDate(index, dd, cal);
+      nullSafeSetDayDate(st, dtti.getBegin(), tz, index);
+      nullSafeSetDayDate(st, dtti.getEnd(), tz, index + 1);
+      Hibernate.TIMEZONE.nullSafeSet(st, tz, index + 2);
     }
   }
 
@@ -133,8 +121,8 @@ public final class DayDateTimeIntervalUserType extends AbstractImmutableValueUse
        * To fix this, we use the SQL methods that require an explicit time zone.
        */
       TimeZone tz = (TimeZone)Hibernate.TIMEZONE.nullSafeGet(rs, names[2]);
-      Date begin = nullSafeGet(rs, names[0], tz);
-      Date end = nullSafeGet(rs, names[1], tz);
+      Date begin = TimeHelpers.nullSafeGetDayDate(rs, names[0], tz);
+      Date end = TimeHelpers.nullSafeGetDayDate(rs, names[1], tz);
       if (tz == null && begin == null && end == null) {
         return null;
       }
@@ -148,23 +136,6 @@ public final class DayDateTimeIntervalUserType extends AbstractImmutableValueUse
     }
     catch (IllegalTimeIntervalException exc) {
       throw new HibernateException("data received from database did violate invariants for " + BeginEndTimeInterval.class, exc);
-    }
-  }
-
-  private Date nullSafeGet(ResultSet rs, String columnName, TimeZone tz) throws SQLException {
-    java.sql.Date fromDb = null;
-    if (tz != null) {
-      GregorianCalendar cal = new GregorianCalendar(tz);
-      fromDb = rs.getDate(columnName, cal);
-    }
-    else {
-      fromDb = rs.getDate(columnName);
-    }
-    if (fromDb == null || rs.wasNull()) {
-      return null;
-    }
-    else {
-      return fromDb;
     }
   }
 
