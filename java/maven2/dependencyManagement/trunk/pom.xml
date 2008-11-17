@@ -253,10 +253,16 @@
         <artifactId>commons-beanutils-core</artifactId>
         <version>1.7.0</version>
       </dependency>
+      <!-- this dependency should be removed -->
       <dependency>
         <groupId>commons-logging</groupId>
         <artifactId>commons-logging-api</artifactId>
         <version>1.1</version> <!-- should be 1.1.1 -->
+      </dependency>
+      <dependency>
+        <groupId>commons-logging</groupId>
+        <artifactId>commons-logging</artifactId>
+        <version>1.1.1</version>
       </dependency>
       <dependency>
         <groupId>javax.persistence</groupId>
