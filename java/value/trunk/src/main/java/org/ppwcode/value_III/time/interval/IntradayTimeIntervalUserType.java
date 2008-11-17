@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2004 - $Date: 2008-11-07 01:22:20 +0100 (Fri, 07 Nov 2008) $ by PeopleWare n.v..
+Copyright 2004 - $Date$ by PeopleWare n.v..
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -34,10 +34,10 @@ import org.ppwcode.vernacular.value_III.ImmutableValue;
  * @author Jan Dockx
  * @author PeopleWare n.v.
  */
-@Copyright("2008 - $Date: 2008-11-07 01:22:20 +0100 (Fri, 07 Nov 2008) $, PeopleWare n.v.")
+@Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 3457 $",
-         date     = "$Date: 2008-11-07 01:22:20 +0100 (Fri, 07 Nov 2008) $")
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public final class IntradayTimeIntervalUserType extends AbstractIntradayTimeIntervalUserType {
 
   @Override
