@@ -516,8 +516,10 @@ public final class MethodHelpers {
   )
   public static <_T_> Constructor<_T_> constructor(Class<_T_> clazz, Class<?>... parameterTypes) {
     assert preArgumentNotNull(clazz, "clazz");
+    // added explicit cast because java 1.6 complains about incompatible types:
+    // found: java.lang.reflect.Constructor<?>[]  required: java.lang.reflect.Constructor<_T_>[]
     @SuppressWarnings("unchecked")
-    Constructor<_T_>[] constructors = clazz.getDeclaredConstructors();
+    Constructor<_T_>[] constructors =  (Constructor<_T_>[]) clazz.getDeclaredConstructors();
     int lowestDistanceUntilNow = Integer.MAX_VALUE;
     Constructor<_T_> constructorWithLowestDistanceUntilNow = null;
     for (Constructor<_T_> c : constructors) {
