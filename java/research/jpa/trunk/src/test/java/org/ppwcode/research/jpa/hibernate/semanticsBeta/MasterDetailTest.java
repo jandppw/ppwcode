@@ -44,11 +44,11 @@ import javax.persistence.PersistenceException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class HibernatePersistenceJpaBTest {
+public class MasterDetailTest {
 
-  static final String PERSISTENCE_UNIT_NAME = "test_hibernate";
+  static final String PERSISTENCE_UNIT_NAME = "test_master_detail";
 
-  final static Logger LOGGER = Logger.getLogger("ValueHandlersTest");
+  final static Logger LOGGER = Logger.getLogger("MasterDetailTest");
 
   public final static String MASTER_NAME_0 = "HYPOTHESIS-NAME";
   public final static String MASTER_NAME_1 = "HYPOTHESIS-NEW-NAME";
