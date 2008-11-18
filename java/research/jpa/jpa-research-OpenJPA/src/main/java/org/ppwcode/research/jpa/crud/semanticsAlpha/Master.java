@@ -18,7 +18,7 @@ package org.ppwcode.research.jpa.crud.semanticsAlpha;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.vernacular.exception_II.ProgrammingErrorHelpers.preArgumentNotNull;
+import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.preArgumentNotNull;
 
 import java.util.HashSet;
 import java.util.Set;
