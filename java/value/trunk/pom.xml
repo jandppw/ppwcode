@@ -267,6 +267,12 @@
       <scope>compile</scope>
       <optional>true</optional>
     </dependency>
+
+    <dependency>
+      <groupId>org.directwebremoting</groupId>
+      <artifactId>dwr</artifactId>
+    </dependency>
+
   </dependencies>
 
 </project>
