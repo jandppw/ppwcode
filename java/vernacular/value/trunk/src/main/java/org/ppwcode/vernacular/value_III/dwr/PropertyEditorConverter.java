@@ -142,7 +142,7 @@ public class PropertyEditorConverter extends BaseV20Converter {
     else {
       PropertyEditor pe = PropertyEditorManager.findEditor(data.getClass());
       pe.setValue(data);
-      OutboundVariable result = new SimpleOutboundVariable(pe.getAsText(), outctx, true);
+      OutboundVariable result = new SimpleOutboundVariable("\"" + pe.getAsText() + "\"", outctx, true);
       return result;
     }
   }
