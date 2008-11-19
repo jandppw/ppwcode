@@ -1,0 +1,333 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <!--
+  $Date$
+  $Revision$
+  $HeadURL$
+
+  Copyright 2007 - $Date$ by PeopleWare n.v.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+
+  <!-- NOTE: you probably have to give Maven more memory:
+             export MAVEN_OPTS=-Xmx1024M -->
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.ppwcode</groupId>
+    <artifactId>ppwcode-library-parent-pom</artifactId>
+    <version>1.2.0</version>
+  </parent>
+
+  <!-- VERSION, PACKAGING, NAME & DESCRIPTION: OVERWRITE IN YOUR CHILD POM (know what you are doing :-) ) -->
+  <!-- for ppwcode projects, groupId and artifactId are calculated, and used in the magic mantra (see below) -->
+  <groupId>org.ppwcode.${ppwcode.libraryKind}</groupId>
+  <artifactId>ppwcode-${ppwcode.libraryKind}-${ppwcode.shortArtifactName}</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>ppwcode dependencyManagement pom</name>
+  <description>This pom contains in the dependency management section a consistent state of the versions of
+    the ppwcode libraries plus the external libraries they depend on. This consistent set is used internally,
+    but also of use to projects outside ppwcode. Via the dependencyManagement import mechanism (see
+    [http://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#Importing_Dependencies the
+    maven website], introduced since version 2.0.9 of Maven 2, this consistent set can be imported into
+    your projects or pom hierarchy.</description>
+  <inceptionYear>2008</inceptionYear>
+
+  <!-- DEVELOPERS & CONTRIBUTORS: OVERWRITE IN YOUR CHILD POM (we don't work for you :-) ) -->
+  <developers>
+    <developer>
+      <name>Jan Dockx</name>
+      <id>jandockx</id>
+      <email>jandockx@gmail.org</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <properties>
+        <aim>jandockx@gmail.com</aim>
+        <skype>callto:jandockx</skype>
+      </properties>
+    </developer>
+  </developers>
+  <contributors>
+    <contributor>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <timezone>+1</timezone>
+    </contributor>
+    <contributor>
+      <organization>AristA vzw</organization>
+      <organizationUrl>http://www.arista.be/</organizationUrl>
+      <timezone>+1</timezone>
+    </contributor>
+    <contributor>
+      <organization>HDP vzw</organization>
+      <organizationUrl>http://www.hdp.be/</organizationUrl>
+      <timezone>+1</timezone>
+    </contributor>
+  </contributors>
+
+  <properties>
+
+    <!-- OVERWRITE THESE PROPERTIES WITH SETTINGS APPROPRIATE TO YOUR PROJECT IN YOUR CHILD POM -->
+
+    <!-- The kind of library. This name should match the structure in the Subversion repository,
+         as it is used to calculate relative paths for the SCM definitions and project documentation
+         sites. -->
+    <ppwcode.libraryKind>maven2</ppwcode.libraryKind>
+    <!-- The short artifact name. The real artifact name is calculated from the ppwcode.libraryKind,
+         this short name, and the ppwcode.markVersion -->
+    <ppwcode.shortArtifactName>dependencyManagement</ppwcode.shortArtifactName>
+
+    <!-- Irrelevant -->
+    <ppwcode.checkstyle.headerLocation></ppwcode.checkstyle.headerLocation>
+
+    <!-- INHERITED SETTINGS -->
+    <!-- The root of project sites for external readers (ppwcode.mainUrl) and the root where artifacts and
+         project sites are uploaded (ppwcode.mainDistroUrl) can be inherited, because for ppwcode projects
+         they "happen" to be the same as in our parent pom. The same applies to
+         ppwcode.distributionManagement.site.relativePath, ppwcode.distributionManagement.site.id and
+         the ppwcode.distributionManagement.site.name, and to ppwcode.distributionManagement.repo.relativePath,
+         ppwcode.distributionManagement.repo.id, and ppwcode.distributionManagement.repo.name, and to
+         ppwcode.mainScmUrl and ppwcode.mainScmViewUrl. ppwcode.inScmLocation is calculated below. -->
+
+
+    <!-- CALCULATE DOCUMENTATION SITE SETTINGS -->
+
+    <!-- The relative path in the Java http site where the project documentation site will reside.
+         For ppwcode libraries, we separate the artifact Id in the shortArtifactName and the markVersion,
+         overriding the definition in the parent pom -->
+    <ppwcode.inSiteLocation>${ppwcode.distributionManagement.site.relativePath}/${ppwcode.libraryKind}/${ppwcode.shortArtifactName}/${pom.version}</ppwcode.inSiteLocation>
+    <!-- The project URL calculation can be inherited, as wel as the upload URL and other site distribution management
+         settings. -->
+
+    <!-- The calculation of the URL for artifact uploads can be inherited. -->
+
+    <!-- The relative path in the Subversion repository where projects will reside. For ppwcode libraries, this
+         can be calculated here. -->
+    <ppwcode.inScmLocation>java/${ppwcode.libraryKind}/${ppwcode.shortArtifactName}</ppwcode.inScmLocation>
+    <!-- The SCM URL calculations can be inherited/ -->
+
+  </properties>
+
+
+
+  <!-- MAGIC MANTRA -->
+  <!-- The following entries need to be repeated, and can not sensibly be inherited.
+       The reason is, sadly, that Maven 2 has a built in, undocumented "feature" that appends the artifact id to a number of URL's and paths
+       if those URL's or paths are inherited. The reasoning behind that is he use of inheritance inside multi-module projects.
+       It seems that if you are using inheritance outside of multi-module projects, you are out of luck.
+       At least, we are :-(.
+       The entries here are calculated in the "calculation properties" higher. To avoid the inheritance
+       trap, the definitions below need to be repeated in each (consecutive) child, as a magic mantra.
+       -->
+  <!-- We cannot use the ppwcode.artifactId here, since we do not have a mark version.
+       This isn't a problem in other places, but for the artifactId, it adds a final "-"
+       that is superfluous
+  <artifactId>${ppwcode.artifactId}</artifactId>
+  -->
+  <url>${ppwcode.url}</url>
+  <scm>
+    <connection>${ppwcode.scm.connection}</connection>
+    <developerConnection>${ppwcode.scm.developerConnection}</developerConnection>
+    <url>${ppwcode.scm.url}</url>
+  </scm>
+  <distributionManagement>
+    <!-- The repository definition can be inherited from the parent pom for ppwcode projects:
+         the repository path is not changed for child poms, and it "happens" to be the same
+         for all our libraries as for our parent pom -->
+    <site>
+      <id>${ppwcode.distributionManagement.site.id}</id>
+      <name>${ppwcode.distributionManagement.site.name}</name>
+      <url>${ppwcode.distributionManagement.site.url}</url>
+    </site>
+  </distributionManagement>
+
+
+  <!-- ============================================================================================================ -->
+  <!-- ALL THINGS BELOW THIS MARK SHOULD BE CONSIDERED PART OF THE PARENT POM, AND NOT BE OVERWRITTEN IN CHILD POMS -->
+
+  <!-- License information, issue management, mailing lists, organization, inception year,
+       are all inherited, because they "happen" to be the same for all ppwcode projects as for the parent pom. -->
+
+  <!-- Maven 2 repositories: where mvn should look for the parent pom -->
+  <repositories>
+    <repository>
+      <id>ppwcodeRepo</id>
+      <!-- This needs to be copied in all child poms, to find the parent -->
+      <name>ppwcode Maven 2 repository</name>
+      <url>http://www.ppwcode.org/java/maven2repo</url>
+    </repository>
+    <repository>
+      <id>ppwcodeSnapshotRepo</id>
+      <!-- This needs to be copied in all child poms, to find the parent -->
+      <name>ppwcode Maven 2 snapshot repository</name>
+      <url>http://www.ppwcode.org/java/maven2snapshotrepo</url>
+    </repository>
+  </repositories>
+
+  <!-- dependency management: to ensure that different ppwcode Java projects use the same versions, those
+       versions are defined here -->
+  <dependencyManagement>
+    <dependencies>
+
+      <!-- ppwcode -->
+      <dependency>
+        <groupId>org.ppwcode</groupId>
+        <artifactId>ppwcode-metainfo-I</artifactId>
+        <version>2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.ppwcode.util</groupId>
+        <artifactId>ppwcode-util-exception-III</artifactId>
+        <version>1.0-SNAPSHOT</version> <!-- MUDO -->
+      </dependency>
+      <dependency>
+        <groupId>org.ppwcode.util</groupId>
+        <artifactId>ppwcode-util-reflection-I</artifactId>
+        <version>1.0.0-SNAPSHOT</version> <!-- MUDO -->
+      </dependency>
+      <dependency>
+        <groupId>org.ppwcode.util</groupId>
+        <artifactId>ppwcode-util-serialization-I</artifactId>
+        <version>dev-SNAPSHOT</version> <!-- MUDO -->
+      </dependency>
+      <dependency>
+        <groupId>org.ppwcode.vernacular</groupId>
+        <artifactId>ppwcode-vernacular-exception-III</artifactId>
+        <version>1.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.ppwcode.vernacular</groupId>
+        <artifactId>ppwcode-vernacular-resourcebundle-II</artifactId>
+        <version>1.3</version>
+      </dependency>
+      <dependency>
+        <groupId>org.ppwcode.vernacular</groupId>
+        <artifactId>ppwcode-vernacular-semantics-VI</artifactId>
+        <version>1.0.0-SNAPSHOT</version> <!-- MUDO -->
+      </dependency>
+      <dependency>
+        <groupId>org.ppwcode.vernacular</groupId>
+        <artifactId>ppwcode-vernacular-persistence-III</artifactId>
+        <version>1.0.0-SNAPSHOT</version> <!-- MUDO -->
+      </dependency>
+      <dependency>
+        <groupId>org.ppwcode.vernacular</groupId>
+        <artifactId>ppwcode-vernacular-value-III</artifactId>
+        <version>dev-SNAPSHOT</version> <!-- MUDO -->
+      </dependency>
+      <dependency>
+        <groupId>org.ppwcode.vernacular</groupId>
+        <artifactId>ppwcode-value-III</artifactId>
+        <version>dev-SNAPSHOT</version> <!-- MUDO -->
+      </dependency>
+
+      <!-- external libraries -->
+      <dependency>
+        <groupId>org.toryt</groupId>
+        <artifactId>Toryt-annotations-I</artifactId>
+        <version>2.0</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-beanutils</groupId>
+        <artifactId>commons-beanutils-core</artifactId>
+        <version>1.7.0</version>
+      </dependency>
+      <!-- this dependency should be removed -->
+<!--      <dependency>-->
+<!--        <groupId>commons-logging</groupId>-->
+<!--        <artifactId>commons-logging-api</artifactId>-->
+<!--        <version>1.1</version>  should be 1.1.1 -->
+<!--      </dependency>-->
+      <dependency>
+        <groupId>commons-logging</groupId>
+        <artifactId>commons-logging</artifactId>
+        <version>1.1.1</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.persistence</groupId>
+        <artifactId>persistence-api</artifactId>
+        <version>1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.4</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <!-- hibernate 2 -->
+        <groupId>hibernate</groupId>
+        <artifactId>hibernate</artifactId>
+        <version>2.1.8</version>
+      </dependency>
+      <dependency>
+        <!-- hibernate 3 -->
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate</artifactId>
+        <version>3.2.6.ga</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>servlet-api</artifactId>
+        <version>2.4</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.faces</groupId>
+        <artifactId>jsf-api</artifactId>
+        <version>1.1_02</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.ejb</groupId>
+        <artifactId>ejb-api</artifactId>
+        <version>3.0</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>hsqldb</groupId>
+        <artifactId>hsqldb</artifactId>
+        <version>1.8.0.7</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>net.sf.json-lib</groupId>
+        <artifactId>json-lib</artifactId>
+        <version>2.2.2</version>
+        <classifier>jdk15</classifier>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.openjpa</groupId>
+        <artifactId>openjpa</artifactId>
+        <version>1.0.3</version>
+      </dependency>
+      <dependency>
+        <groupId>org.directwebremoting</groupId>
+        <artifactId>dwr</artifactId>
+        <version>2.0.3</version>
+      </dependency>
+
+
+    </dependencies>
+  </dependencyManagement>
+
+</project>
