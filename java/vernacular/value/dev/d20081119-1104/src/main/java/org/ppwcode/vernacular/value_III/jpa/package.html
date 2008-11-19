@@ -1,0 +1,19 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>PeopleWare Values and JPA</title>
+</head>
+
+<body>
+<p>Support to make the implementation of JPA easy for value types that follow our value vernacular.</p>
+<p>JPA does support dealing with custom value types in 2 ways: without any intervention, data of custom
+  types is stored in the database as the BLOB that results from serialization of the value instance.
+  Optionally, a custom value type can be defined <dfn>embeddable</dfn>, via annotations or xml declarative
+  definitions. For the latter, we need the value type to be a JavaBean, and thus a {@link org.ppwcode.vernacular.value_III.MutableValue},
+  which we rather not do in many cases. Sadly, neither approach suffices for the needs we perceive in our projects.</p>
+<p>Both OpenJPA and Hibernate, 2 JPA implementations one can use, define extra features. For controlling
+  how custom value types are persisted, in Hibernate, we can use <dfn>user types</dfn>. The equivalen concept in
+  OpenJPA are <dfn>value handlers</dfn>.</p>
+</body>
+</html>
