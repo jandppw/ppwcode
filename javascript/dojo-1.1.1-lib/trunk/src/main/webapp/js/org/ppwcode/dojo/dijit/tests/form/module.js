@@ -1,0 +1,6 @@
+dojo.provide("org.ppwcode.dojo.dijit.tests.form.module");
+
+if(dojo.isBrowser){
+	doh.registerUrl("ppwcode.form.testtest", dojo.moduleUrl("org", "ppwcode/dojo/dijit/tests/form/testtest.html"));
+	doh.registerUrl("ppwcode.form.PpwCrudForm", dojo.moduleUrl("org", "ppwcode/dojo/dijit/tests/form/PpwCrudForm.html"));
+}
