@@ -72,6 +72,8 @@ dojo.declare(
 		//	  When this property is false, no buttons will be shown.
 		showButtons: true,
 		
+		selectable: true,
+		
 		buildRendering: function() {
 			if (this.showButtons == false) {
 				this.templatePath = dojo.moduleUrl("org", "ppwcode/dojo/dijit/form/templates/PpwDataView.html");
@@ -93,6 +95,21 @@ dojo.declare(
 			if (this.gridStructure) {
 				this.setStructure(this.gridStructure);
 			}
+		},	
+		
+		setSelectable: function(/*Boolean*/isSelectable) {
+			this.selectable = isSelectable;
+			this.applySelectable(this.selectable);
+
+		},
+		
+		applySelectable: function(/*Boolean*/isSelectable) {
+			this._masterGrid.onCanSelect = function() {
+				return isSelectable;
+			}	
+			this._masterGrid.onCanDeselect = function() {
+				return isSelectable;
+			}			
 		},
 		
   	  	setStructure: function(/*Array*/newstructure) {
@@ -246,11 +263,13 @@ dojo.declare(
 			}
 
 			if (found) {
+				this.applySelectable(true);
 				this._masterGrid.scrollToRow(location);
 			    //not sure if this is the way to go, but it has the desired result:
 			    //the row is selected in the grid, and the detail form shows the
 			    //correct information
 			    this._masterGrid.doclick({rowIndex: location});
+			    this.applySelectable(this.selectable);
 			}
 		},
 		
