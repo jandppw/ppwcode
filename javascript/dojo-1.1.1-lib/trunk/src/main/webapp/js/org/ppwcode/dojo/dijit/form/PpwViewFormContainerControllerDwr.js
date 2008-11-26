@@ -7,6 +7,10 @@ dojo.declare(
 	"org.ppwcode.dojo.dijit.form.PpwViewFormContainerControllerDwr",
 	[dijit._Widget, org.ppwcode.dojo.dijit.form._PpwViewFormCrudScenariosDwr],
 	{
+		//summary:
+		//    Documentation placeholder
+		//description:
+		//    Documentation placeholder
 		view: null,
 		formContainer: null,
 		formContainerMap: null,
