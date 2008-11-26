@@ -146,7 +146,7 @@ dojo.declare(
 			this._addButton.setAttribute('disabled', disable);
 		},
 		
-		getSelectedRow: function() {
+		getSelectedItem: function() {
 			//summary:
 			//   Get the selected Item from the grid encapsulated in this PpwMasterView.
 			//description:
@@ -156,6 +156,10 @@ dojo.declare(
 			return this._masterGrid.model.getRow(this._masterGrid.selection.getSelected()[0]);
 		},
 
+		getSelectedRow: function() {
+			dojo.deprecated("getSelectedRow() is deprecated. Use getSelectedItem() instead.", "");
+			return this.getSelectedItem();
+		},
 		
 		updateSelectedRow: function(/*Object*/object) {
 			//summary:

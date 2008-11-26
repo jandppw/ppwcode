@@ -188,7 +188,7 @@ dojo.declare(
 		},
 
 
-        doViewAddButtonClick: function() {
+        doViewAddButtonClick: function(e) {
             // method that can be overriden
         },
 
@@ -205,12 +205,12 @@ dojo.declare(
 		//View; called when someone updated the item in the selected row in 
 		//the PpwMasterView.
 		_doViewSelectedRowUpdate: function() {
-			this._form.displayObject(this._view.getSelectedRow());
+			this._form.displayObject(this._view.getSelectedItem());
 		},
 		
 		//View; Click row
 		_doViewGridRowClick: function(e) {
-			this._form.displayObject(this._view.getSelectedRow());
+			this._form.displayObject(this._view.getSelectedItem());
 		},
 		
 		//View; Click header
