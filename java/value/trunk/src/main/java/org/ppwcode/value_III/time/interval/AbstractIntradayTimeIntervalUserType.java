@@ -107,6 +107,7 @@ public abstract class AbstractIntradayTimeIntervalUserType extends AbstractImmut
        * effectively stored when we try to store t, is the time of day it is at the default time
        * zone at time t UTC. To get the time in the database, we use the SQL methods that take a
        * time zone as extra parameter.
+       * 
        */
       AbstractIntradayTimeInterval idti = (AbstractIntradayTimeInterval)value;
       TimeZone tz = idti.getTimeZone();
