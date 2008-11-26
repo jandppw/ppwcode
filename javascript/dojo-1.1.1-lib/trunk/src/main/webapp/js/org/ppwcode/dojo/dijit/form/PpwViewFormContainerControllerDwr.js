@@ -42,8 +42,8 @@ dojo.declare(
 		},
 		
 		configure: function (/*PpwMasterView*/view,
-				                           /*PpwCrudFormContainer*/formContainer,
-				                           /*Array*/formContainerMap) {
+				             /*PpwCrudFormContainer*/formContainer,
+				             /*Array*/formContainerMap) {
 			this._view = view;
 			this._container = formContainer;
 			this._typemap = new Object();
@@ -84,6 +84,56 @@ dojo.declare(
 			//correspondingly.  Note that the onViewSetData is normally not available, but mixed in
 			//by the above code.
 			dojo.connect(this._view, "onSetData", this, "onViewSetData");
+		},
+		
+		_doViewClearSelection: function() {
+			this._clearFormEventConnections();
+			this._container.clear();
+		},
+		
+		_doViewAddButtonClick: function(event) {
+			//what to do, what to do
+			this.doViewAddButtonClick(event);
+		},
+		
+		doViewAddButtonClick: function(event) {
+			//override
+		},
+		
+		_doViewSelectedRowUpdate: function() {
+			this._container.displayObject(this._view.getSelectedItem());
+		},
+		
+		_doViewGridRowClick: function(e) {
+			//remove the event connections to the buttons on the currently
+			//displayfing form
+			this._clearFormEventConnections();
+			// get the selected item and the form corresponding with its
+			// constructor
+			var item = this._view.getSelectedItem();
+			var theform = this._container.getFormForConstructor(item.constructor);
+			
+			if (theform) {
+				//if there is a form, connect to its buttons and display the object
+				this._formeventconnections.push(dojo.connect(theform, "onUpdateModeSaveButtonClick", this, "_doItemUpdate"));
+				this._formeventconnections.push(dojo.connect(theform, "onCreateModeSaveButtonClick", this, "_doItemCreate"));
+				this._container.displayObject(this._view.getSelectedItem());
+			} else {
+				// otherwise clear the form
+				// TODO: maybe a fatal error should occur here if this happens
+				this._container.clear();
+			}
+		},
+		
+		_doViewGridHeaderClick: function(e) {
+			this._clearFormEventConnections();
+			this._container.clear();
+		},
+		
+		_clearFormEventConnections: function() {
+			while (this._formeventconnections.length > 0) {
+				dojo.disconnect(this._formeventconnections.pop());
+			}
 		}
 
 	}
