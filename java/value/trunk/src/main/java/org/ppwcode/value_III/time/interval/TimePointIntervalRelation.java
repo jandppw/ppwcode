@@ -106,8 +106,8 @@ import org.toryt.annotations_I.MethodContract;
  * <pre>
  *   timePointIntervalRelation(<var>t</var>, <var>I</var>).implies(or(BEFORE, BEGINS))
  * </pre>
- * <p><code>or(BEFORE, BEGINS) = (&lt;, =[&lt;)</code>. If the actual relation results in {@code (&gt;&lt;)}, e.g.,
- *  the constraint is clearly not satisfied. If the actual relation results in {@code (=[&lt; &gt;&lt;)} for example,
+ * <p><code>or(BEFORE, BEGINS) = (&lt;, =[&lt;)</code>. If the actual relation results in {@code (><)}, e.g.,
+ *  the constraint is clearly not satisfied. If the actual relation results in {@code (=[< ><)} for example,
  *  it means that it is possible that the relation is satisfied, but there is also a chance that it is not.</p>
  * <p>In code then, we often want to throw an exception to interrupt an algorithm that would violate the
  *   invariant. The idiom for this is usually of the form:</p>
@@ -134,7 +134,7 @@ import org.toryt.annotations_I.MethodContract;
  * </pre>
  * <p><strong>Note that in general {@code (! actual.implies(condition))} is <em>not equivalent</em> with
  *   {@code actual.implies(condition.complement())} (see {@link #complement()}).</strong> In our example
- *   this is already clear. If the actual relation results in {@code (&gt;&lt;)},
+ *   this is already clear. If the actual relation results in {@code (><)},
  *   {@code ! timePointIntervalRelation(t, i).implies(or(BEFORE, BEGINS))} evaluates to</p>
  * <pre>
  *    ! timePointIntervalRelation(t, i).implies(or(BEFORE, BEGINS))
@@ -149,7 +149,7 @@ import org.toryt.annotations_I.MethodContract;
  * == (&gt;&lt;).implies((&gt;&lt; =[&gt; &gt;))
  * == true
  * </pre>
- * <p>But in the case where the actual relation results in {@code (=[&lt; &gt;&lt;)},
+ * <p>But in the case where the actual relation results in {@code (=[< ><)},
  *   {@code ! timePointIntervalRelation(t, i).implies(or(BEFORE, BEGINS))} evaluates to</p>
  * <pre>
  *    ! timePointIntervalRelation(t, i).implies(or(BEFORE, BEGINS))
@@ -166,9 +166,9 @@ import org.toryt.annotations_I.MethodContract;
  * </pre>
  * <p>{@code ! timePointIntervalRelation(t, i).implies(or(BEFORE, BEGINS))} expresses that [we want to throw an
  *   exception if] <em>it is not guaranteed that <code><var>t</var></code> is before <code><var>i</var></code> is
- *   fully started. {@code timePointIntervalRelation(t, i).implies(or(BEFORE, BEGINS).complement())} expresses
+ *   fully started</em>. {@code timePointIntervalRelation(t, i).implies(or(BEFORE, BEGINS).complement())} expresses
  *   that [we want to throw an exception if] <em>it is guaranteed that <code><var>t</var></code> is after
- *   <code><var>i</var></code> is fully started. <strong>These 2 phrases are not equivalent.</strong>
+ *   <code><var>i</var></code> is fully started</em>. <strong>These 2 phrases are not equivalent.</strong>
  *   Consider a {@code null} begin for <code><var>i</var></code>. When <code><var>t</var></code> is before the
  *   end of <code><var>i</var></code>, we cannot know whether <code><var>t</var></code> is before,
  *   equal to, or after the begin of <code><var>i</var></code>.
@@ -726,13 +726,13 @@ public final class TimePointIntervalRelation {
    *   relation <var>GR</var> as set</p>
    * <p><code>br &isin; GR</code> &hArr; <code>br &notin; GR.complement()</code></p>
    * <p>Thus:</p>
-   * <p>&hArr; <code>(=[&lt; &notin; <var>cond</var>.complement()) && (&gt;&lt; &notin; <var>cond</var>.complement())<br />
-   *   &hArr; <code>! ((=[&lt; &isin; <var>cond</var>.complement()) || (&gt;&lt; &isin; <var>cond</var>.complement()) (1)</p>
+   * <p>&hArr; <code>(=[&lt; &notin; <var>cond</var>.complement()) && (&gt;&lt; &notin; <var>cond</var>.complement())</code><br />
+   *   &hArr; <code>! ((=[&lt; &isin; <var>cond</var>.complement()) || (&gt;&lt; &isin; <var>cond</var>.complement())</code> (1)</p>
    * <p>While, from the other side:</p>
    * <p>&nbsp;&nbsp;&nbsp;<code>! <var>gr</var>.implies(<var>cond</var>.complement())</code><br />
    *   &hArr; <code>! (=[&lt; &gt;&lt;).implies(<var>cond</var>.complement())</code><br />
    *   &hArr; <code>! (=[&lt; &gt;&lt;) &sube; (<var>cond</var>.complement())</code><br />
-   *   &hArr; <code>! ((=[&lt; &isin; <var>cond</var>.complement()) && (&gt;&lt; &isin; <var>cond</var>.complement()) (2)</p>
+   *   &hArr; <code>! ((=[&lt; &isin; <var>cond</var>.complement()) && (&gt;&lt; &isin; <var>cond</var>.complement())</code> (2)</p>
    * <p>It is clear that (1) is incompatible with (2), except for the case where the initial relation is basic.</p>
    * <p>In the reverse case, for a basic relation <var>br</var> and a general time point-interval relation <var>actual</var>, nothing
    *   special can be said about the complement of <var>actual</var>, as the following reasoning illustrates:</p>
