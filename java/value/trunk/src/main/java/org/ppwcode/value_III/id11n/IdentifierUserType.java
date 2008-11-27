@@ -31,12 +31,12 @@ import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.util.reflect_I.InstanceHelpers;
 import org.ppwcode.util.reflect_I.TypeHelpers;
-import org.ppwcode.value_III.organization.id11n.state.be.BeEnterpriseNumber;
+import org.ppwcode.value_III.organization.state.be.id11n.BeEnterpriseNumber;
 import org.ppwcode.vernacular.value_III.hibernate3.AbstractImmutableValueUserType;
 
 
 /**
- * <p>Hibernate 3 user type to store and retrieve {@link BeEnterpriseNumber} instances.</p>
+ * <p>Hibernate 3 user type to store and retrieve {@link Identifier} instances.</p>
  * <p>{@link BeEnterpriseNumber} instances are stored in 2 columns of type VARCHAR.
  *   The first contains the FQCN of the actual identifier class to which the instance belongs.
  *   The second column contains the identifier. Both are limited to 255 characters.</p>
