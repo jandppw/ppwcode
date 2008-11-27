@@ -19,9 +19,9 @@ package org.ppwcode.value_III.organization.id11n.state.be;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.ppwcode.value_III.organization.id11n.state.be.BeEnterpriseNumber.CONTROL_CONSTANT;
-import static org.ppwcode.value_III.organization.id11n.state.be.BeEnterpriseNumber.REGEX_PATTERN;
-import static org.ppwcode.value_III.organization.id11n.state.be.BeEnterpriseNumber.REGEX_PATTERN_STRING;
+import static org.ppwcode.value_III.organization.state.be.id11n.BeEnterpriseNumber.CONTROL_CONSTANT;
+import static org.ppwcode.value_III.organization.state.be.id11n.BeEnterpriseNumber.REGEX_PATTERN;
+import static org.ppwcode.value_III.organization.state.be.id11n.BeEnterpriseNumber.REGEX_PATTERN_STRING;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -32,6 +32,7 @@ import org.junit.Test;
 import org.ppwcode.value_III.id11n.AbstractRegexIdentifierTest;
 import org.ppwcode.value_III.id11n.Identifier;
 import org.ppwcode.value_III.id11n.IdentifierWellformednessException;
+import org.ppwcode.value_III.organization.state.be.id11n.BeEnterpriseNumber;
 import org.ppwcode.vernacular.value_III.SemanticValueException;
 
 
