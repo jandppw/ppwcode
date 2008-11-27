@@ -29,6 +29,7 @@ import org.ppwcode.value_III.id11n.IdentifierIssuingAuthority;
 import org.ppwcode.value_III.id11n.IdentifierSchemeDescription;
 import org.ppwcode.value_III.id11n.IdentifierWellformednessException;
 import org.ppwcode.value_III.organization.id11n.OrganizationIdentifier;
+import org.ppwcode.value_III.organization.id11n.VatNumber;
 import org.ppwcode.vernacular.value_III.SemanticValueException;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.Invars;
@@ -54,7 +55,7 @@ import org.toryt.annotations_I.Throw;
          date     = "$Date$")
 @IdentifierIssuingAuthority(name = "MUDO")
 @IdentifierSchemeDescription("MUDO")
-public final class BeEnterpriseNumber extends AbstractRegexIdentifier implements OrganizationIdentifier {
+public final class BeEnterpriseNumber extends AbstractRegexIdentifier implements OrganizationIdentifier, VatNumber {
 
   /**
    * <p>The Belgian Enterprise Number consists of 10 digits.
