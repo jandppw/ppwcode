@@ -124,16 +124,19 @@ dojo.declare(
 			// only do this when the dojo parser sets the view and form
 			// properties.  This can be done by setting the form and
 			// view attributes on the tag that defines this widget.
-			if ((this.view) && (this.form)) {
-				this.setViewAndGrid(this.view, this.form);
+			if (this.view) {
+				this.setView(this.view);
 			}
-			if (this.viewviewcontroller) {
+      if (this.form) {
+        this.setGrid(this.form);
+      }
+      if (this.viewviewcontroller) {
 				this.setViewIsChild(this.viewviewcontroller);
 			}
 			this.inherited(arguments);
 		},
 		
-		setViewAndGrid: function(view, form) {
+		setGrid: function(form) {
 			//summary:
 			//    Set the PpwMasterView and the PpwCrudForm that this
 			//    controller will be controlling.
@@ -141,7 +144,6 @@ dojo.declare(
 			//    This method wires events that are fired by the
 			//    PpwMasterView and PpwCrudForm to this controller
 			//    using dojo.connect().
-			this._view = view;
 			this._form = form;
 			//clear previous connections
 			while (this._eventconnections.length > 0) {
@@ -150,6 +152,21 @@ dojo.declare(
 			//connect to update and create events from the form
 			this._eventconnections.push(dojo.connect(this._form, "onUpdateModeSaveButtonClick", this, "_doItemUpdate"));
 			this._eventconnections.push(dojo.connect(this._form, "onCreateModeSaveButtonClick", this, "_doItemCreate"));
+		},
+
+    setView: function(view) {
+			//summary:
+			//    Set the PpwMasterView and the PpwCrudForm that this
+			//    controller will be controlling.
+			//description:
+			//    This method wires events that are fired by the
+			//    PpwMasterView and PpwCrudForm to this controller
+			//    using dojo.connect().
+			this._view = view;
+			//clear previous connections
+			while (this._eventconnections.length > 0) {
+				dojo.disconnect(this._eventconnections.pop());
+			}
 			//connect to events from view
 			this._eventconnections.push(dojo.connect(this._view, "onClearSelection", this, "_doViewClearSelection"));
 			this._eventconnections.push(dojo.connect(this._view, "onSelectedRowUpdate", this, "_doViewSelectedRowUpdate"));
@@ -158,7 +175,7 @@ dojo.declare(
 			//this._eventconnections.push(dojo.connect(this._view, "onGridHeaderClick", this, "_doViewGridHeaderClick"));
 		},
 
-		setViewIsChild: function(viewviewcontroller) {
+    setViewIsChild: function(viewviewcontroller) {
 			//summary:
 			//    Configure this controller as a child ViewFormController in case
 			//    multiple views are preset in the user interface.  The second
