@@ -81,7 +81,7 @@ public final class LocalizedStringValueHandler extends AbstractValueHandler impl
       }
       Locale l = ls.getLocale();
       assert l != null;
-      return new Object[] {$localeValueHandler.toDataStoreValue(vm, l, store), ls.getString()};
+      return new Object[] {$localeValueHandler.toDataStoreValue(vm, l, store), ls.getText()};
     }
     catch (ClassCastException exc) {
       unexpectedException(exc, "trying to handle " + val + " with " +
