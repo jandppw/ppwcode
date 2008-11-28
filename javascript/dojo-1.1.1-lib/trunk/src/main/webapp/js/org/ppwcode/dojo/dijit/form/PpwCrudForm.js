@@ -433,7 +433,7 @@ dojo.declare(
 			this._thedisplayobject = obj;
 			//copy fields in the object to the form.
 			for (var i = 0; i < this._formmap.length; i++) {
-				this._propertyToWidgetMap[this._formmap[i].property].setValue(obj[this._formmap[i].property]);
+				this._propertyToWidgetMap[this._formmap[i].property].setValue(eval("obj." + this._formmap[i].property));
 			}
 			this.setViewMode();
 		},
