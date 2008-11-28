@@ -47,6 +47,7 @@ import org.toryt.annotations_I.Throw;
          date     = "$Date$")
 public final class LocalizedString extends AbstractImmutableValue {
 
+
   /*<construction>*/
   //------------------------------------------------------------------
 
@@ -78,24 +79,24 @@ public final class LocalizedString extends AbstractImmutableValue {
       @Throw(type = SemanticValueException.class,
              cond = @Expression("_string == null")),
       @Throw(type = SemanticValueException.class,
-             cond = @Expression("_string == EMPPTY"))
+             cond = @Expression("_string == EMPTY"))
     }
   )
-  public LocalizedString(Locale locale, String string) throws LocaleException, SemanticValueException {
+  public LocalizedString(Locale locale, String text) throws LocaleException, SemanticValueException {
     if (locale == null) {
       throw new LocaleException(getClass(), locale, "LOCALE_IS_NULL", null);
     }
     if (! Arrays.asList(Locale.getISOLanguages()).contains(locale.getLanguage())) {
       throw new LocaleException(getClass(), locale, "UNKNOWN_LANGUAGE", null);
     }
-    if (string == null) {
+    if (text== null) {
       throw new SemanticValueException(getClass(), "STRING_IS_NULL", null);
     }
-    if (string.equals(EMPTY)) {
+    if (text.equals(EMPTY)) {
       throw new SemanticValueException(getClass(), "STRING_IS_EMPTY", null);
     }
     $locale = locale;
-    $string = string;
+    $text = text;
   }
 
   /*</construction>*/
@@ -123,34 +124,34 @@ public final class LocalizedString extends AbstractImmutableValue {
   //------------------------------------------------------------------
 
   @Basic(invars = {
-    @Expression("string != null"),
-    @Expression("string != EMPTY")
+    @Expression("text != null"),
+    @Expression("text != EMPTY")
   })
-  public final String getString() {
-    return $string;
+  public final String getText() {
+    return $text;
   }
 
-  private final String $string;
+  private final String $text;
 
   /*</property>*/
 
 
 
-  @MethodContract(post = @Expression("locale == other.locale) && string == other.string)"))
+  @MethodContract(post = @Expression("locale == other.locale) && text == other.text)"))
   @Override
   public final boolean equals(Object other) {
     return super.equals(other) && $locale.equals(((LocalizedString)other).getLocale()) &&
-            $string.equals(((LocalizedString)other).getString());
+            $text.equals(((LocalizedString)other).getText());
   }
 
   @Override
   public final int hashCode() {
-    return $locale.hashCode() + $string.hashCode();
+    return $locale.hashCode() + $text.hashCode();
   }
 
   @Override
   public final String toString() {
-    return "[" + $locale.toString() + "]" + $string;
+    return "[" + $locale.toString() + "]" + $text;
   }
 
 }
