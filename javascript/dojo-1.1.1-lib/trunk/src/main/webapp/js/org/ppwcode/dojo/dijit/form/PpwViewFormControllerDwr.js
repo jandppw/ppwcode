@@ -216,7 +216,7 @@ dojo.declare(
 		//View; Click header
 		_doViewGridHeaderClick: function(e) {
 			this._form.reset();
-		},
+		}
 		
 	}
 );
