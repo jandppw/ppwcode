@@ -210,30 +210,40 @@ dojo.declare(
         },
 
 		_doViewClearSelection: function() {
-			this._form.reset();
-		},
+      if (this._form) {
+        this._form.reset();
+      }
+    },
 		
 		//View; Add object
 		_doViewAddButtonClick: function(e) {
-			this._form.createObject();
-            this.doViewAddButtonClick(e);
-		},
+      if (this._form) {
+        this._form.createObject();
+        this.doViewAddButtonClick(e);
+      }
+    },
 		
 		//View; called when someone updated the item in the selected row in 
 		//the PpwMasterView.
 		_doViewSelectedRowUpdate: function() {
-			this._form.displayObject(this._view.getSelectedItem());
-		},
+      if (this._form) {
+        this._form.displayObject(this._view.getSelectedItem());
+      }
+    },
 		
 		//View; Click row
 		_doViewGridRowClick: function(e) {
-			this._form.displayObject(this._view.getSelectedItem());
-		},
+      if (this._form) {
+        this._form.displayObject(this._view.getSelectedItem());
+      }
+    },
 		
 		//View; Click header
 		_doViewGridHeaderClick: function(e) {
-			this._form.reset();
-		}
+      if (this._form) {
+        this._form.reset();
+      }
+    }
 		
 	}
 );
