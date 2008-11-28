@@ -69,7 +69,7 @@ public abstract class AbstractBeginEndTimeZoneTimeInterval extends AbstractBegin
   protected AbstractBeginEndTimeZoneTimeInterval(Date begin, Date end, TimeZone tz) throws IllegalTimeIntervalException {
     super(begin, end);
     preArgumentNotNull(tz, "tz");
-    $timeZone = tz;
+    timeZone = tz;
   }
 
 
@@ -78,10 +78,10 @@ public abstract class AbstractBeginEndTimeZoneTimeInterval extends AbstractBegin
   //------------------------------------------------------------------
 
   public final TimeZone getTimeZone() {
-    return klone($timeZone);
+    return klone(timeZone);
   }
 
-  private TimeZone $timeZone;
+  private TimeZone timeZone;
 
   /*</property>*/
 
