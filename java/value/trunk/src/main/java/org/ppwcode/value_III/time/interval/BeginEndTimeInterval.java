@@ -45,6 +45,8 @@ import org.toryt.annotations_I.Throw;
 @Invars(@Expression("! (begin == null && end == null)"))
 public final class BeginEndTimeInterval extends AbstractBeginEndTimeInterval {
 
+  private BeginEndTimeInterval() {}
+
   @MethodContract(
     post = {
       @Expression("begin == _begin"),
