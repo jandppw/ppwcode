@@ -50,6 +50,8 @@ import org.toryt.annotations_I.Throw;
 @Invars(@Expression("! (begin == null && end == null)"))
 public abstract class AbstractBeginEndTimeInterval extends AbstractTimeInterval {
 
+  protected AbstractBeginEndTimeInterval() {}
+
   @MethodContract(
     post = {
       @Expression("begin == _begin"),
@@ -69,8 +71,8 @@ public abstract class AbstractBeginEndTimeInterval extends AbstractTimeInterval 
     if (begin != null && end != null && ! le(begin, end)) {
       throw new IllegalTimeIntervalException(getClass(), begin, end, "NOT_BEGIN_LE_END", null);
     }
-    $begin = klone(begin);
-    $end = klone(end);
+    this.begin = klone(begin);
+    this.end = klone(end);
   }
 
 
@@ -80,10 +82,10 @@ public abstract class AbstractBeginEndTimeInterval extends AbstractTimeInterval 
 
   @Basic
   public final Date getBegin() {
-    return klone($begin);
+    return klone(begin);
   }
 
-  private Date $begin;
+  private Date begin;
 
   /*</property>*/
 
@@ -94,10 +96,10 @@ public abstract class AbstractBeginEndTimeInterval extends AbstractTimeInterval 
 
   @Basic
   public final Date getEnd() {
-    return klone($end);
+    return klone(end);
   }
 
-  private Date $end;
+  private Date end;
 
   /*</property>*/
 
@@ -112,11 +114,11 @@ public abstract class AbstractBeginEndTimeInterval extends AbstractTimeInterval 
    */
   @MethodContract(post = @Expression("begin == null || end == null ? null : delta(begin, end)"))
   public final Duration getDuration() {
-    if ($begin == null || $end == null) {
+    if (begin == null || end == null) {
       return null;
     }
     else {
-      return delta($end, $begin);
+      return delta(end, begin);
     }
   }
 
