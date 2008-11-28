@@ -1,11 +1,12 @@
 dojo.provide("org.ppwcode.dojo.dijit.form.PpwViewDataControllerDwr");
 
 dojo.require("dijit._Widget");
+dojo.require("org.ppwcode.dojo.dijit.form._PpwViewFormCrudScenariosDwr");
 
 dojo.declare(
 	"org.ppwcode.dojo.dijit.form.PpwViewDataControllerDwr",
 	//The controller is a widget, solely to have the dojo.parser call lifecycle functions...
-	dijit._Widget,
+	[dijit._Widget, org.ppwcode.dojo.dijit.form._PpwViewFormCrudScenariosDwr],
 	{
 		
 		_view: null,
@@ -86,62 +87,6 @@ dojo.declare(
 				params[i] = this._dwrRetrieveFunctionParameters[i];
 			}
 			return params;
-		},
-
-		//----------------------------------------------------------------
-		//                      RETRIEVE: Grid; datafill
-		//----------------------------------------------------------------
-		setDwrRetrieveFunctionParameters: function(/*Array*/params) {
-			//summary:
-			//    Set the parameters that must be passed when the retrieve
-			//    DWR method is called.
-			//description:
-			//    Set the parameters that must be passed when the retrieve
-			//    DWR method is called.  Parameters must be passed in an
-			//    array.
-			//params:
-			//    DWR method parameters.
-			this._dwrRetrieveFunctionParameters = params;
-		},
-		
-		fillMasterView: function() {
-			//summary:
-			//    Instruct the PpwController to execute the configured 
-			//    retrieve function and fill the PpwMasterView with the
-			//    resulting data array.
-			//description:
-			//    This method encapsulates the creation (creating the method
-			//    call and handling the callback) and execution of a DWR call
-			//    that executes the configured retrieve method (using the
-			//    dwrRetrieveFunction attribute in the tag that defines the
-			//    controller widget).
-			var self = this;
-			
-			var callback = function(data) {
-				self._view.setData(data);
-			}
-			
-			var errorhandler = function(errorString, exception) {
-				self.fillMasterViewErrorHandler(errorString, exception);
-			}
-			
-			var params = this._copyDwrRetrieveFunctionParameters();
-			params.push({callback: callback, errorHandler: errorhandler});
-			this.dwrRetrieveFunction.apply(this, params);
-			
-		},
-		
-		fillMasterViewErrorHandler: function(errorString, exception) {
-			//summary:
-			//    override if you want to do something in case an error occurs
-			//    during the execution of the DWR retrieve method.
-			//errorString:
-			//    Error message.
-			//exception:
-			//    The exception that was thrown as a result of this method.
-			//    Note that you must configure DWR to serialize exceptions
-			//    back to the client.
-			console.log("fillMasterViewErrorHandler, please override: " + errorString);
 		}
 	}
 );
