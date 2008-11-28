@@ -39,7 +39,7 @@ import org.toryt.annotations_I.MethodContract;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision: 3517 $",
          date     = "$Date: 2008-11-12 21:00:43 +0100 (wo, 12 nov 2008) $")
-public abstract class AbstractImmutableValueCompositeUserType extends AbstractValueUserType {
+public abstract class AbstractImmutableValueCompositeUserType extends AbstractValueCompositeUserType {
 
   @Override
   @Basic
