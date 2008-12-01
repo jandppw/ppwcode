@@ -145,10 +145,7 @@ dojo.declare(
 			//    PpwMasterView and PpwCrudForm to this controller
 			//    using dojo.connect().
 			this._form = form;
-			//clear previous connections
-			while (this._eventconnections.length > 0) {
-				dojo.disconnect(this._eventconnections.pop());
-			}
+
 			//connect to update and create events from the form
 			this._eventconnections.push(dojo.connect(this._form, "onUpdateModeSaveButtonClick", this, "_doItemUpdate"));
 			this._eventconnections.push(dojo.connect(this._form, "onCreateModeSaveButtonClick", this, "_doItemCreate"));
