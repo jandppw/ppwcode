@@ -3,7 +3,6 @@ dojo.provide("org.ppwcode.dojo.dijit.form.PpwLocalizedTextBox");
 dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
 dojo.require("dijit.form.TextBox");
-dojo.require("dijit.form.FilteringSelect");
 dojo.require("org.ppwcode.dojo.dojox.DataDropDown")
 
 dojo.declare(
@@ -25,30 +24,22 @@ dojo.declare(
 
 
     setValue: function(/*object*/ param){
-      this._localeFilteringSelect.setValue(param.locale);
-      this._descriptionTextBox.setValue(param.description);
+      this._localeDropDownSelect.setValue(param.locale);
+      this._descriptionTextBox.setValue(param.text);
     },
 
     getValue: function(){
-      return { locale: this._localeFilteringSelect.getValue(), description: this._descriptionTextBox.getValue() };
+      var s = new LocalizedString();
+      s.locale = this._localeDropDownSelect.getValue();
+      s.text = this._descriptionTextBox.getValue();
+      return s;
     },
-
-//    postCreate: function() {
-//      console.debug("postCreate");
-//     this.inherited(arguments);
-//     var dropDown = new dijit.Menu();
-//     this._localeDropDownButton.dropDown = dropDown;
-//     dojo.forEach(this._availableLocales, function(x){
-//       dropDown.addChild(new dijit.MenuItem({label: x}));
-//     });
-//    }
-
 
     setAttribute: function(/*String*/ attr, /*anything*/ value){
       this.inherited(arguments);
       switch(attr){
         case "disabled":
-          this._localeFilteringSelect.setAttribute("disabled", value);
+          this._localeDropDownSelect.setAttribute("disabled", value);
           this._descriptionTextBox.setAttribute("disabled", value);
           break;
         default:
