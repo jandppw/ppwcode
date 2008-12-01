@@ -238,8 +238,8 @@ dojo.declare(
 			this._propertyToDomNodeMap = new Object();
 			this._propertyToWidgetMap = new Object();
 			for (var i = 0; i < formmap.length; i++) {
-				this._propertyToDomNodeMap[formmap[i].property] = dojo.byId(formmap[i].fieldid);
-				this._propertyToWidgetMap[formmap[i].property] = dijit.byId(formmap[i].fieldid);
+				this._propertyToDomNodeMap[formmap[i].fieldid] = dojo.byId(formmap[i].fieldid);
+				this._propertyToWidgetMap[formmap[i].fieldid] = dijit.byId(formmap[i].fieldid);
 			}
 			this.reset();
 		},
@@ -258,7 +258,7 @@ dojo.declare(
 
 		_disableFormFields: function(/*boolean*/disabled){
 		   for (var i = 0; i < this._formmap.length; i++) {
-			   this._propertyToWidgetMap[this._formmap[i].property].setAttribute("disabled", disabled);
+			   this._propertyToWidgetMap[this._formmap[i].fieldid].setAttribute("disabled", disabled);
 		   }
 		},
 
@@ -337,6 +337,7 @@ dojo.declare(
 
 		_createOrUpdateObjectFromForm: function(/*Object*/obj) {
 			for (var i = 0; i < this._formmap.length; i++) {
+				//TODO eval("obj." + this._formmap[i].property)
 				obj[this._formmap[i].property] = dijit.byId(this._formmap[i].fieldid).getValue();
 			}
 			return obj;
@@ -433,7 +434,7 @@ dojo.declare(
 			this._thedisplayobject = obj;
 			//copy fields in the object to the form.
 			for (var i = 0; i < this._formmap.length; i++) {
-				this._propertyToWidgetMap[this._formmap[i].property].setValue(eval("obj." + this._formmap[i].property));
+				this._propertyToWidgetMap[this._formmap[i].fieldid].setValue(eval("obj." + this._formmap[i].property));
 			}
 			this.setViewMode();
 		},
