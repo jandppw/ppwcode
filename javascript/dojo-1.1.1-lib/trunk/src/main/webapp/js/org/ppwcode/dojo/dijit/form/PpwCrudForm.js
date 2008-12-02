@@ -338,7 +338,8 @@ dojo.declare(
 		_createOrUpdateObjectFromForm: function(/*Object*/obj) {
 			for (var i = 0; i < this._formmap.length; i++) {
 				//TODO eval("obj." + this._formmap[i].property)
-				obj[this._formmap[i].property] = dijit.byId(this._formmap[i].fieldid).getValue();
+				//obj[this._formmap[i].property] = dijit.byId(this._formmap[i].fieldid).getValue();
+				eval("obj." + this._formmap[i].property + " = dijit.byId(this._formmap[i].fieldid).getValue();");
 			}
 			return obj;
 		},
