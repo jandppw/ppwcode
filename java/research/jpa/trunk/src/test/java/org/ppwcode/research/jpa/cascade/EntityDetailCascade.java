@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2008 - $Date: 2008-11-03 20:53:52 +0100 (Mon, 03 Nov 2008) $ by PeopleWare n.v.
+Copyright 2008 - $Date$ by PeopleWare n.v.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -32,10 +32,10 @@ import org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdVersionedPers
 
 @Entity
 @Table(name="detail_cascade")
-@Copyright("2008 - $Date: 2008-11-03 20:53:52 +0100 (Mon, 03 Nov 2008) $, PeopleWare n.v.")
+@Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 3413 $",
-         date     = "$Date: 2008-11-03 20:53:52 +0100 (Mon, 03 Nov 2008) $")
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public class EntityDetailCascade extends AbstractIntegerIdVersionedPersistentBean {
 
 
