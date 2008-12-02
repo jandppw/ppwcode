@@ -90,7 +90,9 @@ public final class DayDateTimeInterval extends AbstractBeginEndTimeZoneTimeInter
       @Throw(type = IllegalTimeZoneTimeIntervalException.class,
              cond = @Expression("_stubBegin != null && ! isDayDate(_stubBegin, timeZone")),
       @Throw(type = IllegalTimeZoneTimeIntervalException.class,
-             cond = @Expression("_stubEnd != null && ! isDayDate(_stubEnd, timeZone"))
+             cond = @Expression("_stubEnd != null && ! isDayDate(_stubEnd, timeZone")),
+      @Throw(type = IllegalTimeZoneTimeIntervalException.class,
+             cond = @Expression("determinateBegin(stubBegin).after(determinateEnd(stubEnd)"))
     }
   )
   public DayDateTimeInterval determinate(Date stubBegin, Date stubEnd) throws IllegalTimeIntervalException {
@@ -99,7 +101,9 @@ public final class DayDateTimeInterval extends AbstractBeginEndTimeZoneTimeInter
       throw new IllegalTimeZoneTimeIntervalException(this, stubBegin, stubEnd, getTimeZone(), "BEGIN_AND_END_MUST_BE_DAYDATE", null);
       // TODO pass this into the exception?
     }
-    return new DayDateTimeInterval(determinateBegin(stubBegin), determinateEnd(stubEnd), getTimeZone());
+    Date dBegin = determinateBegin(stubBegin);
+    Date dEnd = determinateEnd(stubEnd);
+    return new DayDateTimeInterval(dBegin, dEnd, getTimeZone());
   }
 
 }
