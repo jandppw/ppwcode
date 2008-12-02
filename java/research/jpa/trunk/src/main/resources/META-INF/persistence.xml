@@ -56,4 +56,30 @@
 
   </persistence-unit>
 
+  <!-- Persistence unit for testing hibernate persistence provider -->
+  <persistence-unit name="test_cascade" transaction-type="RESOURCE_LOCAL">
+
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+
+    <class>org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdVersionedPersistentBean</class>
+    <class>org.ppwcode.research.jpa.cascade.EntityDetailCascade</class>
+    <class>org.ppwcode.research.jpa.cascade.EntityDetailNoCascade</class>
+    <class>org.ppwcode.research.jpa.cascade.EntityMasterCascade</class>
+    <class>org.ppwcode.research.jpa.cascade.EntityMasterNoCascade</class>
+
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+
+    <properties>
+
+      <property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/>
+      <property name="hibernate.connection.url" value="jdbc:hsqldb:mem:cascade"/>
+      <property name="hibernate.connection.username" value="sa"/>
+      <property name="hibernate.connection.password" value=""/>
+
+      <property name="hibernate.hbm2ddl.auto" value="update"/>
+
+    </properties>
+
+  </persistence-unit>
+
 </persistence>
