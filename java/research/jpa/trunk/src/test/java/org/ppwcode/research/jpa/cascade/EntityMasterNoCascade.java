@@ -33,7 +33,7 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdVersionedPersistentBean;
 
 @Entity
-@Table(name="be_hdp_contracts_i_semantics_master_nocascade")
+@Table(name="master_nocascade")
 @Copyright("2008 - $Date: 2008-11-03 20:53:52 +0100 (Mon, 03 Nov 2008) $, PeopleWare n.v.")
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision: 3413 $",
