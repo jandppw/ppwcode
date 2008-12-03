@@ -17,7 +17,7 @@ limitations under the License.
 package org.ppwcode.value_III.time;
 
 
-import static java.sql.Types.INTEGER;
+import static java.sql.Types.BIGINT;
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
 import java.sql.PreparedStatement;
@@ -73,8 +73,8 @@ public class DurationUserType extends AbstractValueUserType {
   /**
    * Static definition of the INTEGER column we will write in.
    */
-  @Invars(@Expression("SQL_TYPES == {INTEGER}"))
-  private static final int[] SQL_TYPES = {INTEGER};
+  @Invars(@Expression("SQL_TYPES == {BIGINT}"))
+  private static final int[] SQL_TYPES = {BIGINT};
 
   @MethodContract(post = @Expression("SQL_TYPES"))
   public final int[] sqlTypes() {
@@ -95,7 +95,7 @@ public class DurationUserType extends AbstractValueUserType {
    */
   @MethodContract(
     post = {
-      @Expression("_value == null ? _statement.setNull(_index, INTEGER)"),
+      @Expression("_value == null ? _statement.setNull(_index, BIGINT)"),
       @Expression("_value != null ? Hibernate.INTEGER.nullSafeSet(_statement, _value.asMillisecond(), _index)")
     },
     exc  = @Throw(type = HibernateException.class,
@@ -108,12 +108,12 @@ public class DurationUserType extends AbstractValueUserType {
                                    "; " + value.getClass().getCanonicalName() + " is not supported");
     }
     else if (value == null) {
-      statement.setNull(index, INTEGER);
+      statement.setNull(index, BIGINT);
     }
     else {
       Duration d = Duration.class.cast(value);
       long ms = d.asMillisecond();
-      Hibernate.INTEGER.nullSafeSet(statement, ms, index);
+      Hibernate.LONG.nullSafeSet(statement, ms, index);
     }
   }
 
@@ -123,7 +123,7 @@ public class DurationUserType extends AbstractValueUserType {
    */
   public final Object nullSafeGet(final ResultSet resultSet, final String[] names, final Object owner)
       throws HibernateException, SQLException {
-    Long ms = (Long)Hibernate.INTEGER.nullSafeGet(resultSet, names[0]);
+    Long ms = (Long)Hibernate.LONG.nullSafeGet(resultSet, names[0]);
     if (ms == null) {
       return null;
     }
