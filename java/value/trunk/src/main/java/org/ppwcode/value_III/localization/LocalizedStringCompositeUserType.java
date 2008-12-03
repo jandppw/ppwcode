@@ -62,7 +62,11 @@ public final class LocalizedStringCompositeUserType extends AbstractImmutableVal
 
 
   public final Type[] getPropertyTypes() {
-    return new Type[] { Hibernate.LOCALE, Hibernate.TEXT };
+    // NOTE: Hibernate.TEXT maps to longvarchar for Hypersonic db,
+    //       but gives an error for the Informix db: Informix dialect
+    //       does not know how to map this type
+    //       Currently using Hibernate.STRING
+    return new Type[] { Hibernate.LOCALE, Hibernate.STRING };
   }
 
   public final String[] getPropertyNames() {
