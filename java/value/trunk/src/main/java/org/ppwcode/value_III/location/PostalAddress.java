@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2004 - $Date: 2008-10-23 13:57:57 +0200 (Thu, 23 Oct 2008) $ by PeopleWare n.v..
+Copyright 2004 - $Date$ by PeopleWare n.v..
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -176,10 +176,10 @@ import org.toryt.annotations_I.MethodContract;
  * @author    Jan Dockx
  * @author    PeopleWare NV
  */
-@Copyright("2008 - $Date: 2008-11-12 00:55:31 +0100 (Wed, 12 Nov 2008) $, PeopleWare n.v.")
+@Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 3496 $",
-         date     = "$Date: 2008-11-12 00:55:31 +0100 (Wed, 12 Nov 2008) $")
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public final class PostalAddress extends AbstractImmutableValue {
 
   public PostalAddress(PostalCode postalCode, Locale locale, String city, String streetAddress) throws SemanticValueException {
