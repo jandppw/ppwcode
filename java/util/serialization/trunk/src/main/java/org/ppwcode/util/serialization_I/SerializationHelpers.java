@@ -54,7 +54,11 @@ public final class SerializationHelpers {
    *     return {@link SerializationHelpers#replace(Serializable) SerializationHelpers.replace(this)};
    *   }
    * </pre>
-   * <p>The counterpart method for deserialization is the private method {@code SerializationObject.readResolve()}.
+   * <p>The counterpart method for deserialization is the private method {@code SerializationObject.readResolve()}.</p>
+   *
+   * <p><strong>This serialization utility also tackles a long standing problem with serialization of <code>ennum</code>s.
+   *   This workaround should be removed from this library once the issue is fixed.</strong> See the package documentation
+   *   for more information.</p>
    */
   public static Object replace(Serializable s) throws NotSerializableException {
     SerializationObject result = new SerializationObject();
@@ -68,7 +72,16 @@ public final class SerializationHelpers {
         siv.declaringClass = field.getDeclaringClass();
         siv.name = field.getName();
         try {
-          siv.value = fieldValue(s, field, Serializable.class); // ClassCastExcxeption
+          Serializable fieldValueToSerialize = fieldValue(s, field, Serializable.class); // ClassCastExcxeption
+          if (Enum.class.isAssignableFrom(field.getType())) {
+            /* ENUM SERIALIZATION PATCH
+             * This if is a patch for a long standing enum deserialization bug
+             * See the package documentation for more information.
+             * The enum value is stored as its name() as String
+             */
+            fieldValueToSerialize = ((Enum<?>)fieldValueToSerialize).name();
+          }
+          siv.value = fieldValueToSerialize;
         }
         catch (ClassCastException ccExc) {
           Object fv = fieldValue(s, field);
