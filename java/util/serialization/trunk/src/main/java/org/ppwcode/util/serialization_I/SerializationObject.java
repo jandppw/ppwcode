@@ -18,8 +18,9 @@ package org.ppwcode.util.serialization_I;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
-import static org.ppwcode.util.reflect_I.InstanceHelpers.newInstance;
 import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.unexpectedException;
+import static org.ppwcode.util.reflect_I.InstanceHelpers.newInstance;
+import static org.ppwcode.util.reflect_I.MethodHelpers.invoke;
 
 import java.io.InvalidObjectException;
 import java.io.Serializable;
@@ -81,7 +82,19 @@ public class SerializationObject implements Serializable {
         Field f = siv.declaringClass.getDeclaredField(siv.name);
         boolean oldAccessible = f.isAccessible();
         f.setAccessible(true);
-        f.set(result, siv.value);
+        Serializable actualValue = siv.value;
+        if (Enum.class.isAssignableFrom(f.getType())) {
+          /* ENUM SERIALIZATION PATCH
+           * This if is a patch for a long standing enum deserialization bug
+           * See the package documentation for more information.
+           * The enum value is stored as its name() as String
+           */
+          @SuppressWarnings("unchecked")
+          Class<? extends Enum<?>> enumFieldStaticType = (Class<? extends Enum<?>>)f.getType();
+          assert actualValue instanceof String;
+          actualValue = invoke(enumFieldStaticType, "valueOf(java.lang.String)", actualValue);
+        }
+        f.set(result, actualValue);
         f.setAccessible(oldAccessible);
       }
       catch (SecurityException exc) {

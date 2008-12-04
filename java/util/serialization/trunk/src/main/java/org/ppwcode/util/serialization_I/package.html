@@ -72,5 +72,17 @@
     See the note to <a href="http://java.sun.com/j2se/1.5.0/docs/guide/serialization/spec/input.html#5903">paragraph 3.7
     in the serialization specification</a>. We believe that in the context of the rationale for this library, this
     is not a bad thing, as sending cyclic object graphs over the wire is probably a sign of bad design.</p>
+
+  <h3>serialization of enums</h3>
+  <p><strong>This serialization utility also tackles a long standing problem with serialization of <code>ennum</code>s.
+    This workaround should be removed from this library once the issue is fixed.</strong>
+    Google &quot;Can't deserialize enum&quot; to find a lot of references, e.g.,
+    <a href="http://forums.sun.com/thread.jspa?threadID=5252746&tstart=1">on the Sun forums</a>, and
+    <a href="http://www.ibm.com/developerworks/forums/thread.jspa?threadID=229431">on developerWorks</a>.</p>
+  <p>The problem seems to be that there is a long standing bug in the ORB included in the JRE / JDK (client-side
+    of RMI-IIOP) when deserializing enums. When the client side is the IBM VM, there is no problem. The problem
+    seems to exist in JDK 5 up until the last JDK 6 version today (4 dec 2008).</p>
+  <p>In this library, for persistent beans, we "recognize" enum properties, and serialize them in a custom way.
+    The support is general, and can be applied in other places if you wish.</p>
 </body>
 </html>
