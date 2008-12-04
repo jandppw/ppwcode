@@ -50,6 +50,8 @@ import org.toryt.annotations_I.Throw;
 public abstract class AbstractBeginEndTimeZoneTimeInterval extends AbstractBeginEndTimeInterval
     implements TimeZoneTimeInterval {
 
+  protected AbstractBeginEndTimeZoneTimeInterval() {}
+  
   @MethodContract(
     pre  = {
       @Expression("_tz != null")
