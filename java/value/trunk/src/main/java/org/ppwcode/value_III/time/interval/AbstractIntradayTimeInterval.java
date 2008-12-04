@@ -53,6 +53,8 @@ import org.toryt.annotations_I.Throw;
 })
 public abstract class AbstractIntradayTimeInterval extends AbstractBeginEndTimeZoneTimeInterval {
 
+  protected AbstractIntradayTimeInterval() {}
+  
   @MethodContract(
     pre  = {
       @Expression("_tz != null")

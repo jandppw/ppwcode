@@ -48,6 +48,9 @@ import org.toryt.annotations_I.Throw;
 })
 public final class DeterminateIntradayTimeInterval extends AbstractIntradayTimeInterval {
 
+  @SuppressWarnings("unused")
+  private DeterminateIntradayTimeInterval() {}
+  
   @MethodContract(
     pre  = {
       @Expression("_tz != null")
