@@ -77,9 +77,11 @@ public final class SerializationHelpers {
             /* ENUM SERIALIZATION PATCH
              * This if is a patch for a long standing enum deserialization bug
              * See the package documentation for more information.
-             * The enum value is stored as its name() as String
+             * The enum value is stored as its name() as String. Null is stored as null.
              */
-            fieldValueToSerialize = ((Enum<?>)fieldValueToSerialize).name();
+            if (fieldValueToSerialize != null) {
+              fieldValueToSerialize = ((Enum<?>)fieldValueToSerialize).name();
+            }
           }
           siv.value = fieldValueToSerialize;
         }
