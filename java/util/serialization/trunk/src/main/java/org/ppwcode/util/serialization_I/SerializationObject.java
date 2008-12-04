@@ -87,12 +87,14 @@ public class SerializationObject implements Serializable {
           /* ENUM SERIALIZATION PATCH
            * This if is a patch for a long standing enum deserialization bug
            * See the package documentation for more information.
-           * The enum value is stored as its name() as String
+           * The enum value is stored as its name() as String. Null is stored as null.
            */
           @SuppressWarnings("unchecked")
           Class<? extends Enum<?>> enumFieldStaticType = (Class<? extends Enum<?>>)f.getType();
-          assert actualValue instanceof String;
-          actualValue = invoke(enumFieldStaticType, "valueOf(java.lang.String)", actualValue);
+          assert actualValue == null || actualValue instanceof String;
+          if (actualValue != null) {
+            actualValue = invoke(enumFieldStaticType, "valueOf(java.lang.String)", actualValue);
+          }
         }
         f.set(result, actualValue);
         f.setAccessible(oldAccessible);
