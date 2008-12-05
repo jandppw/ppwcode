@@ -7,6 +7,7 @@ dojo.require("dijit.layout.ContentPane");
 dojo.require("dijit.form.Button");
 dojo.require("dojox.grid.Grid");
 dojo.require("dojo.i18n");
+dojo.require("org.ppwcode.dojo.dojox.DataDropDown");
 
 dojo.requireLocalization("org.ppwcode.dojo.dijit.form", "PpwMasterView");
 
@@ -68,8 +69,11 @@ dojo.declare(
 		//    HTML attribute to set the structure of the Grid encapsulated in the PpwMasterView
 		gridStructure: null,
 		
+		_addWidget: null,
+		
 		buildRendering: function() {
 			this.inherited(arguments);
+			//Initially the addWidget is defined as a button in our template,
 			//only allow to select 1 row 
 			this._masterGrid.selection.multiSelect = false;
 			dojo.connect(this._addButton, "onClick", this, "_onaddbuttonclick");
@@ -125,6 +129,31 @@ dojo.declare(
 			this._onSetData();
 		},
 
+		setMultiButton: function(/*Array*/formslist) {
+			//remove the current widget;
+			this._addWidget = null;
+			
+			var buttonData = { identifier: "value",
+			        label: "label",
+			        items: []
+			       };
+			
+			for (var i = 0; i < formslist.length; i++) {
+				console.log("PpwMasterView::setMultiButton: objectName" + formslist[i].objectName);
+				buttonData.items[i] = new Object();
+				buttonData.items[i].value = formslist[i].constructorFunction.name;
+				buttonData.items[i].label = formslist[i].objectName;
+			}
+			var buttonDataStore = new dojo.data.ItemFileReadStore({data: buttonData});
+			
+			var inputNode = dojo.doc.createElement('button');
+			this._buttonPane.domNode.appendChild(inputNode);
+			this._addWidget =
+				new org.ppwcode.dojo.dojox.DataDropDown({store: buttonDataStore}, inputNode);
+			this._addWidget.startup();
+			this._addWidget.domNode.width="20em";
+		},
+		
 		clearSelection: function() {
 			//summary:
 			//   Clear the selection in the DataGrid.

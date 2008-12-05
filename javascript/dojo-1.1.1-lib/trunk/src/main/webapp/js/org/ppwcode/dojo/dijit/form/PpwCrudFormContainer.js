@@ -28,12 +28,12 @@ dojo.declare(
 			var children = this.getChildren();
 			for (var i = 0; i < children.length; i++) {
 				var contentpane = children[i];
-				var list = dojo.query("> [widgetId]", child.containerNode)
+				var list = dojo.query("> [widgetId]", contentpane.containerNode);
 				dojo.forEach(list, function(theform) {
 						console.log("child: " + theform + " with id " + dojo.attr(theform, "id"));
 						var mapproperties = new Object();
 						mapproperties.pane = contentpane;
-						mapproperties.form = theform;
+						mapproperties.form = dijit.byNode(theform);
 						this._formIdMap[dojo.attr(theform, "id")] = mapproperties;
 					}, this);
 			}
@@ -44,14 +44,14 @@ dojo.declare(
 			// obey the rules
 			emptypage.startup();
 			//add it to the list
-			this._formlist["__empty"] = emptypage;
+			this._formIdMap["__empty"] = emptypage;
 			this.addChild(emptypage);
 			//set it as active page. (apparently this does not happen when
 			//the child is added, this is a bug in the stack container.
-			this.clearDisplay(emptypage);
+			this.clear();
 		},
 		
-		setConstructorMap(/*Array*/map) {
+		setConstructorMap: function(/*Array*/map) {
 			if (map.length != 0) {
 				this._formCreatorFunctionMap = new Object();
 				for (var i = 0; i < map.length; i++) {
@@ -69,8 +69,10 @@ dojo.declare(
 		},
 		
 		clear: function() {
-			this.resetCurrentForm();
-			this.selectChild(this._formlist["__empty"]);
+			if (this._displayedformid && this._displayedformid != "__empty") {
+				this.resetCurrentForm();
+			}
+			this.selectChild(this._formIdMap["__empty"]);
 			this._displayedformid = "__empty";
 		},
 		
@@ -91,6 +93,20 @@ dojo.declare(
 			} else {
 				return null;
 			}
+		},
+		
+		getFormsList: function() {
+			var result = new Array();
+			for (var formid in this._formIdMap) {
+				if (formid != "__empty") {
+					var item = new Object();
+					var form = this._formIdMap[formid].form;
+					item.constructorFunction = form.getConstructorFunction();
+					item.objectName = form.getObjectName();
+					result.push(item);
+				}
+			}
+			return result;
 		},
 		
 		displayObject: function(/*Object*/obj) {

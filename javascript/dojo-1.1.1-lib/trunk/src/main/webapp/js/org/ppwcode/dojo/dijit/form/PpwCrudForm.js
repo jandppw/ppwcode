@@ -119,6 +119,8 @@ dojo.declare(
 		_thedisplayobject: null,
 		_thebuttoncontainer: null,
 
+		objectName: "",
+		
 		constructor: function() {
  			this._tooltips = new Object();
 
@@ -451,6 +453,20 @@ dojo.declare(
 			this.setCreateMode();
 		},
 
+		getObjectName: function() {
+			// summary:
+			//    returns the name of the object that this form shows
+			//    in a human readable form
+			// description:
+			//    this property can be set using the objectName attribute
+			//    in the defining HTML tag.
+			return this.objectName;
+		},
+		
+		getConstructorFunction: function() {
+			return this.constructorFunction;
+		},
+		
 		getObjectIdFields: function() {
 			// summary:
 			//    Returns an array containing the names of the properties

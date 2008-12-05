@@ -13,7 +13,6 @@ dojo.declare(
 		//    Documentation placeholder
 		view: null,
 		formContainer: null,
-		formContainerMap: null,
 		
 		_form: null,
 		_view: null,
@@ -24,32 +23,27 @@ dojo.declare(
 		_vieweventconnections: null,
 		_formeventconnections: null,
 		
-		_typemap: null,
-		
 		constructor: function() {
 			this._vieweventconnections = new Array();
 			this._formeventconnections = new Array();
 		},
 		
-		postCreate: function() {
-			if ((this.view) && (this.formContainer) && (this.formContainerMap)) {
-				this.configure(this.view, this.formContainer, this.formContainerMap);
+		startup: function() {
+			if ((this.view) && (this.formContainer)) {
+				this.configure(this.view, this.formContainer);
 			}
 			if (this.viewviewcontroller) {
 				this.setViewIsChild(this.viewviewcontroller);
 			}
 			this.inherited(arguments);
 		},
-		
+
 		configure: function (/*PpwMasterView*/view,
-				             /*PpwCrudFormContainer*/formContainer,
-				             /*Array*/formContainerMap) {
+				             /*PpwCrudFormContainer*/formContainer) {
 			this._view = view;
 			this._container = formContainer;
-			this._typemap = new Object();
-			for (var i = 0; i < formContainerMap.length; i++) {
-				this._typemap[formContainerMap[i].type] = formContainerMap[i];
-			}
+
+			this._view.setMultiButton(this._container.getFormsList());
 			//connect to events from view
 			this._vieweventconnections.push(dojo.connect(this._view, "onClearSelection", this, "_doViewClearSelection"));
 			this._vieweventconnections.push(dojo.connect(this._view, "onSelectedRowUpdate", this, "_doViewSelectedRowUpdate"));
