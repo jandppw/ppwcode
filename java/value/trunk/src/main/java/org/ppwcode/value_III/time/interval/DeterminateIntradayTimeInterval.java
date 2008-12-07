@@ -48,9 +48,9 @@ import org.toryt.annotations_I.Throw;
 })
 public final class DeterminateIntradayTimeInterval extends AbstractIntradayTimeInterval {
 
-  @SuppressWarnings("unused")
+  // MUDO this is absolutely not the way to go; this way all validation is circumvented
   private DeterminateIntradayTimeInterval() {}
-  
+
   @MethodContract(
     pre  = {
       @Expression("_tz != null")

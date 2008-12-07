@@ -53,8 +53,9 @@ import org.toryt.annotations_I.Throw;
 })
 public abstract class AbstractIntradayTimeInterval extends AbstractBeginEndTimeZoneTimeInterval {
 
+  // MUDO this is absolutely not the way to go; this way all validation is circumvented
   protected AbstractIntradayTimeInterval() {}
-  
+
   @MethodContract(
     pre  = {
       @Expression("_tz != null")
