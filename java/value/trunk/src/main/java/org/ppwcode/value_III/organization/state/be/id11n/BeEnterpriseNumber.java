@@ -30,7 +30,7 @@ import org.ppwcode.value_III.id11n.IdentifierSchemeDescription;
 import org.ppwcode.value_III.id11n.IdentifierWellformednessException;
 import org.ppwcode.value_III.organization.id11n.OrganizationIdentifier;
 import org.ppwcode.value_III.organization.id11n.VatNumber;
-import org.ppwcode.vernacular.value_III.SemanticValueException;
+import org.ppwcode.vernacular.value_III.ValueException;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.Invars;
 import org.toryt.annotations_I.MethodContract;
@@ -137,10 +137,10 @@ public final class BeEnterpriseNumber extends AbstractRegexIdentifier implements
   }
 
   @MethodContract(post = @Expression("patternGroup(3) + control"),
-                  exc  = @Throw(type = SemanticValueException.class, cond = @Expression("! isOldVatNumberBased()")))
-  public final String getOldVatNumber() throws SemanticValueException {
+                  exc  = @Throw(type = ValueException.class, cond = @Expression("! isOldVatNumberBased()")))
+  public final String getOldVatNumber() throws ValueException {
     if (! isOldVatNumberBased()) {
-      throw new SemanticValueException(this, "NOT_OLD_VAT_NUMBER_BASED", null);
+      throw new ValueException(this, "NOT_OLD_VAT_NUMBER_BASED", null);
     }
     return patternGroup(3) + getControl();
   }
