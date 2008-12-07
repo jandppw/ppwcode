@@ -25,7 +25,7 @@ import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.vernacular.value_III.AbstractImmutableValue;
-import org.ppwcode.vernacular.value_III.SemanticValueException;
+import org.ppwcode.vernacular.value_III.ValueException;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
@@ -182,22 +182,22 @@ import org.toryt.annotations_I.MethodContract;
          date     = "$Date$")
 public final class PostalAddress extends AbstractImmutableValue {
 
-  public PostalAddress(PostalCode postalCode, Locale locale, String city, String streetAddress) throws SemanticValueException {
+  public PostalAddress(PostalCode postalCode, Locale locale, String city, String streetAddress) throws ValueException {
     // MUDO compound exception
     if (postalCode == null) {
-      throw new SemanticValueException(PostalAddress.class, "POSTALCODE_MANDATORY", null);
+      throw new ValueException(PostalAddress.class, "POSTALCODE_MANDATORY", null);
     }
     if (locale == null) {
-      throw new SemanticValueException(PostalAddress.class, "LOCALE_MANDATORY", null);
+      throw new ValueException(PostalAddress.class, "LOCALE_MANDATORY", null);
     }
     if (city == null || EMPTY.equals(city)) {
-      throw new SemanticValueException(PostalAddress.class, "CITY_MANDATORY", null);
+      throw new ValueException(PostalAddress.class, "CITY_MANDATORY", null);
     }
     if (city.matches("[\\n\\r]")) {
-      throw new SemanticValueException(PostalAddress.class, "NO_EOL_ALLOWED_IN_CITY", null);
+      throw new ValueException(PostalAddress.class, "NO_EOL_ALLOWED_IN_CITY", null);
     }
     if (streetAddress == null || EMPTY.equals(streetAddress)) {
-      throw new SemanticValueException(PostalAddress.class, "STREETADDRESS_MANDATORY", null);
+      throw new ValueException(PostalAddress.class, "STREETADDRESS_MANDATORY", null);
     }
     $postalCode = postalCode;
     $locale = locale;
