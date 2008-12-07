@@ -26,7 +26,7 @@ import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.vernacular.value_III.AbstractImmutableValue;
-import org.ppwcode.vernacular.value_III.SemanticValueException;
+import org.ppwcode.vernacular.value_III.ValueException;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
@@ -58,7 +58,7 @@ public final class LocalizedString extends AbstractImmutableValue {
    * is mandatory, and can also not be empty. If the semantics requires
    * something like this, you should use a {@code null LocalizedString},
    * not a {@code LocalizedString} with a {@null} or an empty string.
-   * @throws SemanticValueException
+   * @throws ValueException
    */
   @MethodContract(
     pre  = {
@@ -76,13 +76,13 @@ public final class LocalizedString extends AbstractImmutableValue {
              cond = @Expression("_locale == null")),
       @Throw(type = LocaleException.class,
              cond = @Expression("! Locale.getISOLanguages().contains(_locale.getLanguate())")),
-      @Throw(type = SemanticValueException.class,
+      @Throw(type = ValueException.class,
              cond = @Expression("_string == null")),
-      @Throw(type = SemanticValueException.class,
+      @Throw(type = ValueException.class,
              cond = @Expression("_string == EMPTY"))
     }
   )
-  public LocalizedString(Locale locale, String text) throws LocaleException, SemanticValueException {
+  public LocalizedString(Locale locale, String text) throws LocaleException, ValueException {
     if (locale == null) {
       throw new LocaleException(getClass(), locale, "LOCALE_IS_NULL", null);
     }
@@ -90,10 +90,10 @@ public final class LocalizedString extends AbstractImmutableValue {
       throw new LocaleException(getClass(), locale, "UNKNOWN_LANGUAGE", null);
     }
     if (text== null) {
-      throw new SemanticValueException(getClass(), "STRING_IS_NULL", null);
+      throw new ValueException(getClass(), "STRING_IS_NULL", null);
     }
     if (text.equals(EMPTY)) {
-      throw new SemanticValueException(getClass(), "STRING_IS_EMPTY", null);
+      throw new ValueException(getClass(), "STRING_IS_EMPTY", null);
     }
     $locale = locale;
     $text = text;

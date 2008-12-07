@@ -33,7 +33,7 @@ import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.vernacular.value_III.ImmutableValue;
-import org.ppwcode.vernacular.value_III.SemanticValueException;
+import org.ppwcode.vernacular.value_III.ValueException;
 import org.ppwcode.vernacular.value_III.hibernate3.AbstractImmutableValueCompositeUserType;
 
 
@@ -126,7 +126,7 @@ public final class LocalizedStringCompositeUserType extends AbstractImmutableVal
     catch (ClassCastException exc) {
       throw new HibernateException("data received from database is not as expected: expected array of 2 values", exc);
     }
-    catch (SemanticValueException exc) {
+    catch (ValueException exc) {
       throw new HibernateException("data received from database did violate invariants for " + returnedClass(), exc);
     }
   }
