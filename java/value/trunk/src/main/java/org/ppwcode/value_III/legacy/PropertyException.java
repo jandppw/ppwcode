@@ -24,7 +24,7 @@ import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.vernacular.exception_III.ApplicationException;
-import org.ppwcode.vernacular.value_III.SemanticValueException;
+import org.ppwcode.vernacular.value_III.ValueException;
 import org.ppwcode.vernacular.value_III.Value;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
@@ -83,7 +83,7 @@ import org.toryt.annotations_I.MethodContract;
 @Invars(
   @Expression("message == null || ! message.equals(EMPTY)")
 )
-public class PropertyException extends SemanticValueException {
+public class PropertyException extends ValueException {
 
   /*<construction>*/
   //-------------------------------------------------------------------------
