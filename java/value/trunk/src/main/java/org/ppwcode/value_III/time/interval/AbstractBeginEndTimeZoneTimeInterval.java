@@ -50,8 +50,9 @@ import org.toryt.annotations_I.Throw;
 public abstract class AbstractBeginEndTimeZoneTimeInterval extends AbstractBeginEndTimeInterval
     implements TimeZoneTimeInterval {
 
+  // MUDO this is absolutely not the way to go; this way all validation is circumvented
   protected AbstractBeginEndTimeZoneTimeInterval() {}
-  
+
   @MethodContract(
     pre  = {
       @Expression("_tz != null")
@@ -83,6 +84,7 @@ public abstract class AbstractBeginEndTimeZoneTimeInterval extends AbstractBegin
     return klone(timeZone);
   }
 
+  // MUDO this needs a $; if the $ must be removed, something else is wrong
   private TimeZone timeZone;
 
   /*</property>*/

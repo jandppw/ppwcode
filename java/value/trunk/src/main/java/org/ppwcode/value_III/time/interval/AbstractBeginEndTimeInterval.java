@@ -50,6 +50,7 @@ import org.toryt.annotations_I.Throw;
 @Invars(@Expression("! (begin == null && end == null)"))
 public abstract class AbstractBeginEndTimeInterval extends AbstractTimeInterval {
 
+  // MUDO this is absolutely not the way to go; this way all validation is circumvented
   protected AbstractBeginEndTimeInterval() {}
 
   @MethodContract(
@@ -85,6 +86,7 @@ public abstract class AbstractBeginEndTimeInterval extends AbstractTimeInterval 
     return klone(begin);
   }
 
+  // MUDO this needs a $; if the $ must be removed, something else is wrong
   private Date begin;
 
   /*</property>*/
@@ -99,6 +101,7 @@ public abstract class AbstractBeginEndTimeInterval extends AbstractTimeInterval 
     return klone(end);
   }
 
+  // MUDO this needs a $; if the $ must be removed, something else is wrong
   private Date end;
 
   /*</property>*/

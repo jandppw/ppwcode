@@ -45,6 +45,7 @@ import org.toryt.annotations_I.Throw;
 @Invars(@Expression("! (begin == null && end == null)"))
 public final class BeginEndTimeInterval extends AbstractBeginEndTimeInterval {
 
+  // MUDO this is absolutely not the way to go; this way all validation is circumvented
   private BeginEndTimeInterval() {}
 
   @MethodContract(
