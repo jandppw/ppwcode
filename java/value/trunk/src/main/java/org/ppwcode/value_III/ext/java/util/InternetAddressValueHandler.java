@@ -21,10 +21,10 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
  *
  * @author Peter Sinjan
  */
-@Copyright("2008 - $Date: 2008-12-02 17:58:19 +0100 (Tue, 02 Dec 2008) $, AristA v.z.w.")
+@Copyright("2008 - $Date$, AristA v.z.w.")
 @License(PROPRIETARY)
-@SvnInfo(revision = "$Revision: 4291 $",
-         date     = "$Date: 2008-12-02 17:58:19 +0100 (Tue, 02 Dec 2008) $")
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public class InternetAddressValueHandler extends AbstractValueHandler {
 
   private static final long serialVersionUID = -7946528814038849098L;
