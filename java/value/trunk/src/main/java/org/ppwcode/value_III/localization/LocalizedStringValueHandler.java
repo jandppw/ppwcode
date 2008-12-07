@@ -34,7 +34,7 @@ import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.value_III.ext.java.util.LocaleValueHandler;
-import org.ppwcode.vernacular.value_III.SemanticValueException;
+import org.ppwcode.vernacular.value_III.ValueException;
 
 
 /**
@@ -113,7 +113,7 @@ public final class LocalizedStringValueHandler extends AbstractValueHandler impl
     catch (ClassCastException exc) {
       unexpectedException(exc, "data received from database is not as expected: expected an array of 3 dates");
     }
-    catch (SemanticValueException exc) {
+    catch (ValueException exc) {
       unexpectedException(exc, "data received from database did violate invariants for " + LocalizedString.class);
     }
     return null; // make compiler happy

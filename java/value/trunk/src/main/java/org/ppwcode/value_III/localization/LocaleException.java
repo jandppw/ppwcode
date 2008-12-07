@@ -24,7 +24,7 @@ import java.util.Locale;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.vernacular.value_III.SemanticValueException;
+import org.ppwcode.vernacular.value_III.ValueException;
 import org.ppwcode.vernacular.value_III.Value;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
@@ -43,7 +43,7 @@ import org.toryt.annotations_I.MethodContract;
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
 @Invars(@Expression("value == null"))
-public class LocaleException extends SemanticValueException {
+public class LocaleException extends ValueException {
 
   /*<construction>*/
   //------------------------------------------------------------------
