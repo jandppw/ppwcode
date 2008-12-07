@@ -33,7 +33,7 @@ import org.ppwcode.value_III.id11n.AbstractRegexIdentifierTest;
 import org.ppwcode.value_III.id11n.Identifier;
 import org.ppwcode.value_III.id11n.IdentifierWellformednessException;
 import org.ppwcode.value_III.organization.state.be.id11n.BeEnterpriseNumber;
-import org.ppwcode.vernacular.value_III.SemanticValueException;
+import org.ppwcode.vernacular.value_III.ValueException;
 
 
 public class BeEnterpriseNumberTest extends AbstractRegexIdentifierTest {
@@ -193,7 +193,7 @@ public class BeEnterpriseNumberTest extends AbstractRegexIdentifierTest {
         String result = subject.getOldVatNumber();
         assertEquals(subject.patternGroup(3) + subject.getControl(), result);
       }
-      catch (SemanticValueException svExc) {
+      catch (ValueException svExc) {
         assertTrue(! subject.isOldVatNumberBased());
       }
       assertInvariants(subject);
