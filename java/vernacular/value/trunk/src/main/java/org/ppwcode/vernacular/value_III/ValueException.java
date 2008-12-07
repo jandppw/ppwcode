@@ -42,7 +42,7 @@ import org.toryt.annotations_I.MethodContract;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-public class SemanticValueException extends SemanticException {
+public class ValueException extends SemanticException {
 
   /*<construction>*/
   //------------------------------------------------------------------
@@ -56,7 +56,7 @@ public class SemanticValueException extends SemanticException {
       @Expression("cause == _cause;")
     }
   )
-  public SemanticValueException(Class<? extends Value> valueType, String messageKey, Throwable cause) {
+  public ValueException(Class<? extends Value> valueType, String messageKey, Throwable cause) {
     super(messageKey, cause);
     assert preArgumentNotNull(valueType, "valueType");
     $valueType = valueType;
@@ -72,7 +72,7 @@ public class SemanticValueException extends SemanticException {
       @Expression("cause == _cause;")
     }
   )
-  public SemanticValueException(Value value, String messageKey, Throwable cause) {
+  public ValueException(Value value, String messageKey, Throwable cause) {
     super(messageKey, cause);
     assert preArgumentNotNull(value, "value");
     $value = value;
