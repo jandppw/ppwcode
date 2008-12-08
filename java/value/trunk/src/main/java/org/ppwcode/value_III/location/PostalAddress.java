@@ -28,6 +28,7 @@ import org.ppwcode.vernacular.value_III.AbstractImmutableValue;
 import org.ppwcode.vernacular.value_III.ValueException;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.Invars;
 import org.toryt.annotations_I.MethodContract;
 
 
@@ -180,6 +181,7 @@ import org.toryt.annotations_I.MethodContract;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
+@Invars(@Expression("postalCode.country.locales.contains(locale)"))
 public final class PostalAddress extends AbstractImmutableValue {
 
   public PostalAddress(PostalCode postalCode, Locale locale, String city, String streetAddress) throws ValueException {
@@ -198,6 +200,9 @@ public final class PostalAddress extends AbstractImmutableValue {
     }
     if (streetAddress == null || EMPTY.equals(streetAddress)) {
       throw new ValueException(PostalAddress.class, "STREETADDRESS_MANDATORY", null);
+    }
+    if (! getPostalCode().getCountry().getLocales().contains(getLocale())) {
+      throw new ValueException(PostalAddress.class, "LOCALE_NOT_OF_COUNTRY", null);
     }
     $postalCode = postalCode;
     $locale = locale;
