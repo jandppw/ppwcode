@@ -38,8 +38,8 @@ import org.toryt.annotations_I.MethodContract;
 
 
 /**
- * A class representing a countries. Codes used are standard ISO code which can be found at
- * <a href="http://ftp.ics.uci.edu/pub/ietf/http/related/iso639.txt">http://ftp.ics.uci.edu/pub/ietf/http/related/iso639.txt</a>.
+ * A class representing a countries. Codes used are standard ISO 3166-1 alpha-2 code which can be found at
+ * <a href="http://en.wikipedia.org/wiki/ISO_3166-1">http://en.wikipedia.org/wiki/ISO_3166-1</a>.
  * An extra "no country" country is added with a space as discriminator.
  *
  * @author    Jan Dockx

@@ -23,6 +23,10 @@ import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.value_III.id11n.Identifier;
+import org.toryt.annotations_I.Basic;
+import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.Invars;
+import org.toryt.annotations_I.MethodContract;
 
 
 /**
@@ -39,10 +43,47 @@ import org.ppwcode.value_III.id11n.Identifier;
          date     = "$Date$")
 public interface PostalCode extends Identifier {
 
+  /**
+   * {@code \n}
+   */
+  @Invars(@Expression("EOL = '\n'"))
   public final static String EOL = "\n";
 
+  /**
+   * The country for which this (type of) postal code is applicable.
+   * In most cases, this method is implemented in a concrete class as a constant, returning
+   * the same {@link Country} for all instances of that concrete class. A postal code should
+   * be bound to a country, but when it is not, {@code getCountry()} returns {@code null}.
+   */
+  @Basic
   Country getCountry();
 
+  /**
+   * An end-user representation of {@code postalAddress},
+   * in a format appropriate for the address' location, in the
+   * locale of the address.
+   */
+  @MethodContract(
+    pre  = @Expression("_postalAddress != null"),
+    post = {
+      @Expression("result != null"),
+      @Expression("result != EMPTY"),
+      @Expression("result.contains(_postalAddress.streetAddress)"),
+      @Expression("result.contains(identifier)"),
+      @Expression("result.contains(_postalAddress.city)"),
+      @Expression("for (CountryEditor ce) {" +
+                    "ce.value == _postalAddress.country &&" +
+                    "ce.displayLocale = _postalAddress.locale ?" +
+                    "result.contains(ce.label)" +
+                  "}")
+    }
+  )
   String localizedAddressRepresentation(PostalAddress postalAddress);
+
+  /**
+   * With this extension, it is also necessary to override {@link #hashCode()}.
+   */
+  @MethodContract(post = @Expression("result ? country = other.country"))
+  boolean equals(Object other);
 
 }
