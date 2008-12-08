@@ -46,7 +46,7 @@ import org.toryt.annotations_I.MethodContract;
          date     = "$Date$")
 @IdentifierIssuingAuthority(name = "MUDO")
 @IdentifierSchemeDescription("MUDO")
-public final class JokerPostalCode extends AbstractIdentifier implements PostalCode {
+public final class WildCardPostalCode extends AbstractIdentifier implements PostalCode {
 
   @MethodContract(
     pre  = {
@@ -57,7 +57,7 @@ public final class JokerPostalCode extends AbstractIdentifier implements PostalC
       @Expression("identifier == _identifier")
     }
   )
-  public JokerPostalCode(String identifier) throws IdentifierWellformednessException {
+  public WildCardPostalCode(String identifier) throws IdentifierWellformednessException {
     super(identifier);
   }
 
