@@ -1,0 +1,187 @@
+<document>
+
+  <!--
+  $Date$
+  $Revision$
+  $HeadURL$
+
+  Copyright 2007 - $Date$ by PeopleWare n.v.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+  <!-- see http://maven.apache.org/reference/plugins/changes/ for documentation -->
+  <!-- There are four valid values for action type:  add, fix, remove, update. -->
+  <properties>
+    <title>Changes to ppw-persistence</title>
+    <author email="David_Van_Keer@peopleware.be">David Van Keer</author>
+    <author email="Jan_Dockx@peopleware.be">Jan Dockx</author>
+    <author email="Nele_Smeets@peopleware.be">Nele Smeets</author>
+  </properties>
+  <body>
+
+    <release version="III v1.0.0/1.0" date="2008-06-??" description="Port to ppwcode">
+      <action dev="jand" type="update">
+        Changed package to ppwcode structure.
+      </action>
+      <action dev="jand" type="update">
+        Made java 1.5 compatible, including generics in PersistenBean a.o.
+      </action>
+      <action dev="jand" type="add">
+        Unit tests for everything.
+      </action>
+      <action dev="jand" type="remove">
+        Removed filter DAO. This experiment was not successful: we did not succeed in making
+        filtering technology independent. And creating our own QL is really a bit too much
+        work. In essence, it is also not necessary: the actual implementation of a filter
+        request should be separated from a filter DAO interface. The latter should just extend
+        Dao: we cannot add anything meaningful on this level for filters.
+      </action>
+      <action dev="jand" type="remove">
+        Removed DAO factories. In practice, they were not used. IoC mechanisms in JSF, Spring, etc.,
+        seem to suffice.
+      </action>
+      <action dev="jand" type="update">
+        Operations now should throw a PersistenceConfigurationError, a PersistenceExternalError or
+        an IllegalPersistenceStateException instead of the older TechnicalException
+        (see the exception vernacular).
+      </action>
+      <action dev="jand" type="update">
+        Reversed arguments in CrudDao.retrievePersistentBean(Class, _IdType_)
+      </action>
+      <action dev="jand" type="update">
+        Moved dao implementations package (only Hibernate existed) one level deeper, under the dao
+        package.
+      </action>
+      <action dev="jand" type="add">
+        Added AbstractDao with 1 property of AbstractHibernateDao.
+      </action>
+      <action dev="jand" type="update">
+        Methods around AsyncCrudDao do no longer require a nonsense PersistentBean argument. This
+        was intended to be able to throw appropriate PropertyExceptions, that require an origin.
+        In practice, this proved undoable most of the time. Now these methods can throw any more
+        general SemanticException.
+      </action>
+      <action dev="jand" type="update">
+        SqlExceptionHandlers now throw InternalExceptions.
+      </action>
+      <action dev="jand" type="remove">
+        RamStorage package removed. This was used to do "quick" unit tests. We are grown-ups now,
+        and can do tests in memory with HSQLDB or Derby.
+      </action>
+    </release>
+
+    <release version="II v2.2.0/4.0" date="2006-08-31" description="Hibernate sessions in Hibernate Dao support">
+      <action dev="jand" type="add">
+        Added support for Hibernate session reference to Hibernate Dao support:
+      </action>
+    </release>
+
+    <release version="II v2.1.0/3.1" date="2006-07-30" description="Paging.">
+      <action dev="jand" type="add">
+        Generalized paging to make Hibernate-independent.
+      </action>
+    </release>
+
+    <release version="II v2.0.0/3.1" date="2006-07-28" description="Paging.">
+      <action dev="jand" type="add">
+        Added a class that does paging retrieve for Hibernate.
+      </action>
+      <action dev="jand" type="add">
+        JUnit Hibernate tests now do testAllInstances with paging. A protected
+        method that was introduced recently, was changed (this might break compatibility
+        for some classes, but it was rarely used, and the change is easy).
+      </action>
+    </release>
+
+    <release version="II v1.2.0/3.1" date="2005-11-22" description="Correct resetting of id after failed creation.">
+      <action dev="jand" type="fix">
+        Now, HibernateAsyncCrudDao.cancelTransaction correctly resets the id's to null of all created
+        objects (which failed). Previously, we didn't realize that Hibernate already sets the new id during
+        save, and only save during commit, and does not reset the id. Now, on failure,
+        we reset the id of all created objects, also through cascade, to null.
+      </action>
+      <action dev="jand" type="add">
+        The method isCreated was added to the interface AsyncCrudDao.
+      </action>
+    </release>
+
+    <release version="II v1.1.0/3.0" date="2005-09-09" description="More debug information added.">
+      <action dev="dvankeer" type="update">
+        Added more information on type invariant failured. Added failedcontidion to debug information
+      </action>
+    </release>
+
+    <release version="II v1.1.0/2.0" date="2005-09-06" description="SqlExceptionHandler">
+      <action dev="jand" type="add">
+        Factored out SQLException handling out of HibernateAsyncCrudDao. Compatible change.
+      </action>
+    </release>
+
+    <release version="II v1.0.1/2.0" date="2005-09-06" description="Fix in create method of AsyncCrudDao">
+      <action dev="jand" type="fix">
+        Removed superfluous session flush.
+      </action>
+    </release>
+
+    <release version="II v1.0.1/1.0" date="2005-09-06" description="Fix in JUnit test helper classes">
+      <action dev="jand" type="fix">
+        Interface of junit.hibernate was missing a method, and had wrong method names. Incompatible
+        for who was using these classes. Luckily, a quick fix.
+      </action>
+    </release>
+
+    <release version="II v1.0.0/1.0" date="2005-09-05" description="PersistentBean is changed into an interface">
+      <action dev="nsmeets" type="add">
+        PersistentBean is changed into an interface. An abstract subclass AbstractPersistentBean containing a partial implementation of the interface is introduced.
+        The package be.peopleware.persistence_II.junit.hibernate is introduced.
+      </action>
+    </release>
+
+    <release version="I v3.1.1/3.0" date="2005-08-14" description="Dependencies">
+      <action dev="jand" type="update">
+        Update of dependencies.
+      </action>
+    </release>
+
+    <release version="I v3.1.1/2.0" date="2005-08-12" description="dao implements Serializable">
+      <action dev="jand" type="fix">
+        Making dao's Serializable was a mistake. This release fixes that mistake.
+        Don't use I v3.1.0/2.0.
+      </action>
+    </release>
+
+    <release version="I v3.1.0/2.0" date="2005-08-12" description="dao implements Serializable">
+      <action dev="jand" type="fix">
+        Dao's are now Serializable. This was required, via via, for x:tree2 in JSF.
+        But it actually makes sense in Tomcat, so …
+      </action>
+    </release>
+
+    <release version="I v3.0.0/2.0" date="2005-08-10" description="toString issue solved">
+      <action dev="jand" type="fix">
+          Fixed longstanding toString() issue. toString returned a full description
+          of the bean, effectively (especially during debugging) taking shitloads
+          of time. Now, we just return the standard toString plus the id.
+      </action>
+      <action dev="jand" type="remove">
+        toShortString() and unclosedProperties() methods deprecated
+      </action>
+      <action dev="jand" type="add">
+        Added methods to produce full String representation of bean,
+        automatically, also for subclasses.
+      </action>
+    </release>
+
+  </body>
+</document>
