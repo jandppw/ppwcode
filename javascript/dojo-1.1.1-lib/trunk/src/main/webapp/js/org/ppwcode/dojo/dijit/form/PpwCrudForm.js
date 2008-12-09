@@ -326,10 +326,14 @@ dojo.declare(
 		},
 
 		_oncreatemodesavebuttonclick: function(/*Event*/e) {
-			this._setInitMode();
-			//decorate the event with the new object
-			e.formObject = this._createOrUpdateObjectFromForm(new this.constructorFunction());
-			this.onCreateModeSaveButtonClick(e);
+			if (this.validate()) {
+			  this._setInitMode();
+			  //decorate the event with the new object
+			  e.formObject = this._createOrUpdateObjectFromForm(new this.constructorFunction());
+			  this.onCreateModeSaveButtonClick(e);
+			} else {
+              dojo.stopEvent(e);
+            }
 		},
 
 		_oncreatemodecancelbuttonclick: function(/*Event*/e) {

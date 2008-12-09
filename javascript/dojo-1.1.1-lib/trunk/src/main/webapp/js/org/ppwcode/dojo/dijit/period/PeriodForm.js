@@ -27,6 +27,24 @@ dojo.declare(
     _endDateLabel: null,
     _timeZone: null,
     
+    //Styling
+    _labelWidth: null,
+    _dataWidth: null, 
+    
+    //public vars styling
+    labelWidth: null,
+    dataWidth: null,
+    
+    postCreate: function() {
+	  if (this.labelWidth) {
+        this._labelWidth = this.labelWidth;
+	  }
+	  if (this.dataWidth) {
+        this._dataWidth = this.dataWidth;
+	  }
+	  this.inherited(arguments);
+    },
+    
     constructor: function() {
 	  var localizationbundle = dojo.i18n.getLocalization("org.ppwcode.dojo.dijit.period", "PeriodForm");
 	  this._dateLabel = localizationbundle.dateLabel;
