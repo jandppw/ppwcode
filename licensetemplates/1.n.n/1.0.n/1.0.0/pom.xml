@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.ppwcode.checkstyle</groupId>
+  <artifactId>licenses</artifactId>
+  <name>PPWCode license templates (regexp)</name>
+  <version>1.0.0</version>
+  <packaging>jar</packaging>
+  <inceptionYear>2008</inceptionYear>
+
+  <distributionManagement>
+    <repository>
+      <id>ppwcodeRepo</id>
+      <name>Main ppwcode Maven 2 Repository</name>
+      <url>scpexe://cvs.peopleware.be/ppw/projects/ppwcode/public_html/java/maven2repo</url>
+    </repository>
+    <snapshotRepository>
+      <id>ppwcodeSnapshotRepo</id>
+      <name>ppwcode Maven 2 Snapshot Repository</name>
+      <url>scpexe://cvs.peopleware.be/ppw/projects/ppwcode/public_html/java/maven2snapshotrepo</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+</project>
