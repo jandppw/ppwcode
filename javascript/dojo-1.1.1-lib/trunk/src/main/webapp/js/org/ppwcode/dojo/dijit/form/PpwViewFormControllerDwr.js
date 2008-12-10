@@ -189,7 +189,7 @@ dojo.declare(
 			//    The viewviewcontroller that coordinates the behavior between
 			//    a parent PpwMasterView and a child PpwMasterView.
 			this._viewIsChild = true;
-			this._view.setAddButtonDisabled(true);
+			this._view.disableButtons(true);
 			//from now on, all grid refreshes are delegated to the viewviewcontroller, both in the
 			//case of creates and updates
 			dojo.mixin(this, org.ppwcode.dojo.dijit.form.PpwViewFormControllerDwr.ChildController);

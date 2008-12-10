@@ -81,13 +81,13 @@ dojo.declare(
 		},
 
 		_doClearSelection: function() {
-			this._childView.setAddButtonDisabled(true);
+			this._childView.disableButtons(true);
 			this._childView.clearSelection();
 			this._childView.setData([]);
 		},
 		
 		_doFillChildView: function() {
-			this._childView.setAddButtonDisabled(false);
+			this._childView.disableButtons(false);
 			this._childView.clearSelection();
 			this.doFillChildView(this._parentView.getSelectedRow());
 		},
