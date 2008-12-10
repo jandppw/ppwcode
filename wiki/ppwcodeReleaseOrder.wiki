@@ -52,7 +52,7 @@ NOTE: there should be a better way to describe this than a list
   * util parent pom
   * util exception
   * util reflection
-  * util serialization (snapshot)
+  * util serialization
 
   * vernacular parent pom
   * vernacular resourcebundle
