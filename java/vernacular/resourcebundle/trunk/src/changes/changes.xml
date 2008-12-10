@@ -31,9 +31,12 @@
   </properties>
   <body>
 
-    <release version="II v1.3" date="2008-12-10" description="new parent pom">
+    <release version="II v1.4" date="2008-12-10" description="new parent pom">
       <action dev="jandockx@gmail.com" type="update">
         New parent pom with non-snapshot version of checkstyle and license header templates.
+      </action>
+      <action dev="jandockx@gmail.com" type="update">
+        There is a version 1.3 released, which is not in svn and not tagged!
       </action>
     </release>
     <release version="II v1.2" date="2008-11-16" description="new version of ppwcode exception util">
