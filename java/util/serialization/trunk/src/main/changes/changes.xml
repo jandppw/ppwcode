@@ -29,11 +29,9 @@
   </properties>
   <body>
 
-    <release version="I v1.0.0/1.0" date="2008-08-??" description="First release">
+    <release version="I v1.0.0/1.0" date="2008-10-12" description="First release">
       <action dev="jand" type="update">
-        First release in this form. This project is a split-off of the old ppw-bean V,
-        refactored, rewritten, and with new code added. Important is the appliance of
-        the ppwcode exception vernacular.
+        First release.
       </action>
     </release>
 
