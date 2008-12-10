@@ -209,7 +209,7 @@
       <dependency>
         <groupId>org.ppwcode.util</groupId>
         <artifactId>ppwcode-util-serialization-I</artifactId>
-        <version>dev-SNAPSHOT</version> <!-- MUDO -->
+        <version>1.0</version>
       </dependency>
       <dependency>
         <groupId>org.ppwcode.vernacular</groupId>
