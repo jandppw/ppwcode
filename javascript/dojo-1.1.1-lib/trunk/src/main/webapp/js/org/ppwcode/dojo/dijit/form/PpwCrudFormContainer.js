@@ -11,13 +11,13 @@ dojo.declare(
 		_constructorMap: null,
 		_displayingformid: null,
 
-		constructorMap: null,
+//		constructorMap: null,
 		
 		postMixInProperties: function() {
 			this.inherited(arguments);
-			if (this.constructorMap) {
-				this.setConstructorMap(this.constructorMap);
-			}
+//			if (this.constructorMap) {
+//				this.setConstructorMap(this.constructorMap);
+//			}
 		},
 	
 		startup: function() {
@@ -25,16 +25,18 @@ dojo.declare(
 			// we assume that our children are content panes that contain
 			// exactly one form.
 			this._formIdMap = new Object();
+			this._constructorMap = new Object();
 			var children = this.getChildren();
 			for (var i = 0; i < children.length; i++) {
 				var contentpane = children[i];
 				var list = dojo.query("> [widgetId]", contentpane.containerNode);
 				dojo.forEach(list, function(theform) {
-						console.log("child: " + theform + " with id " + dojo.attr(theform, "id"));
+						console.log("child: " + theform + " with id " + dojo.attr(theform, "id") + " and constructor " + dijit.byNode(theform).getConstructorFunction().name);
 						var mapproperties = new Object();
 						mapproperties.pane = contentpane;
 						mapproperties.form = dijit.byNode(theform);
 						this._formIdMap[dojo.attr(theform, "id")] = mapproperties;
+						this._constructorMap[mapproperties.form.getConstructorFunction()] = dojo.attr(theform, "id");
 					}, this);
 			}
 			// add an empty pane
@@ -51,14 +53,14 @@ dojo.declare(
 			this.clear();
 		},
 		
-		setConstructorMap: function(/*Array*/map) {
-			if (map.length != 0) {
-				this._formCreatorFunctionMap = new Object();
-				for (var i = 0; i < map.length; i++) {
-					this._constructorMap[map[i].constructor] = map[i].formid;
-				}
-			}
-		},
+//		setConstructorMap: function(/*Array*/map) {
+//			if (map.length != 0) {
+//				this._formCreatorFunctionMap = new Object();
+//				for (var i = 0; i < map.length; i++) {
+//					this._constructorMap[map[i].constructor] = map[i].formid;
+//				}
+//			}
+//		},
 		
 		displayForm: function(/*String*/formid) {
 			var formdata = this._formIdMap[formid];
@@ -110,13 +112,11 @@ dojo.declare(
 		},
 		
 		displayObject: function(/*Object*/obj) {
-			if (this._constructorMap[obj.constructor]) {
-				//constructor is defined in the map
-				var theformid = this._constructormap[obj.constructor];
-				if (this._formIdMap[theformid]) {
-					this.displayform(theformid); 
-					this._formIdMap[theformid].form.displayObject(obj);
-				}
+			var theformid = this._constructorMap[obj.constructor];
+			//constructor is defined in the map
+			if (theformid) {
+				this.displayForm(theformid); 
+				this._formIdMap[theformid].form.displayObject(obj);
 			}
 		}
 		
