@@ -51,7 +51,7 @@ NOTE: there should be a better way to describe this than a list
 
   * util parent pom
   * util exception
-  * util reflection (snapshot)
+  * util reflection
   * util serialization (snapshot)
 
   * vernacular parent pom
