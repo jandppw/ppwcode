@@ -34,6 +34,9 @@
       <action dev="jandockx@gmail.com" type="update">
         starting to use v1.0.0 of checkstyle licenses (i.e., header templates)
       </action>
+      <action dev="jandockx@gmail.com" type="update">
+        note that the dependency management artifact is still in snapshot
+      </action>
     </release>
     <release version="1.9.0" date="2008-10-03" description="import dependency management">
       <action dev="jandockx@gmail.com" type="update">
