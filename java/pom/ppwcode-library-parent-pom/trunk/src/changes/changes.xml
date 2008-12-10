@@ -29,6 +29,9 @@
   <body>
     <release version="1.9.2" date="2008-12-10" description="license header templates are no longer snapshot">
       <action dev="jandockx@gmail.com" type="update">
+        starting to use v1.0.0 of checkstyle setting
+      </action>
+      <action dev="jandockx@gmail.com" type="update">
         starting to use v1.0.0 of checkstyle licenses (i.e., header templates)
       </action>
     </release>
