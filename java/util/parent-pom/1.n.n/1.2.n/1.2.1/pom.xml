@@ -1,0 +1,145 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <!--
+  $Date$
+  $Revision$
+  $HeadURL$
+
+  Copyright 2007 - $Date$ by PeopleWare n.v.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+
+  <!-- NOTE: you probably have to give Maven more memory:
+             export MAVEN_OPTS=-Xmx1024M -->
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.ppwcode</groupId>
+    <artifactId>ppwcode-ppwcode-library-parent-pom</artifactId>
+    <version>1.9.2</version>
+  </parent>
+
+
+  <properties>
+
+    <!-- OVERWRITE THESE PROPERTIES WITH SETTINGS APPROPRIATE TO YOUR PROJECT IN YOUR CHILD POM -->
+
+    <!-- The short artifact name. The real artifact name is calculated from the ppwcode.libraryKind,
+         this short name, and the ppwcode.markVersion -->
+    <ppwcode.shortArtifactName>parent-pom</ppwcode.shortArtifactName>
+    <!-- The mark version of the artifact. This part of the version becomes part of the artifactId.
+         For this pom, an empty mark version is used, which results in "double slash in paths", which works. -->
+    <ppwcode.markVersion></ppwcode.markVersion>
+
+
+    <!-- FIXED SETTINGS FOR THIS AND CHILD POMS -->
+    <ppwcode.libraryKind>util</ppwcode.libraryKind>
+
+  </properties>
+
+
+  <!-- GROUP ID, ARTIFACT ID, VERSION, PACKAGING, NAME & DESCRIPTION: OVERWRITE IN YOUR CHILD POM (know what you are doing :-) ) -->
+  <!-- for ppwcode projects, groupId and artifactId are calculated, and used in the magic mantra (see below);
+       for parent poms, we cannot do this (all hell breaks loose in the children) -->
+  <artifactId>ppwcode-util-parent-pom</artifactId>
+  <groupId>org.ppwcode.util</groupId>
+  <version>1.2.1</version>
+  <packaging>pom</packaging>
+  <name>ppwcode util parent pom</name>
+  <description>Parent pom for all ppwcode libraries that contain utility code.</description>
+  <inceptionYear>2008</inceptionYear>
+
+  <!-- DEVELOPERS & CONTRIBUTORS: OVERWRITE IN YOUR CHILD POM (we don't work for you :-) ) -->
+  <developers>
+    <developer>
+      <name>Jan Dockx</name>
+      <id>jandockx</id>
+      <email>jandockx@gmail.org</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <properties>
+        <aim>jandockx@mac.com</aim>
+        <skype>callto:jandockx</skype>
+      </properties>
+    </developer>
+  </developers>
+  <contributors>
+    <contributor>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <timezone>+1</timezone>
+    </contributor>
+    <contributor>
+      <organization>AristA vzw</organization>
+      <organizationUrl>http://www.arista.be/</organizationUrl>
+      <timezone>+1</timezone>
+    </contributor>
+    <contributor>
+      <organization>HDP vzw</organization>
+      <organizationUrl>http://www.hdp.be/</organizationUrl>
+      <timezone>+1</timezone>
+    </contributor>
+  </contributors>
+
+  <!-- MAGIC MANTRA -->
+  <!-- The following entries need to be repeated, and can not sensibly be inherited.
+       The reason is, sadly, that Maven 2 has a built in, undocumented "feature" that appends the artifact id to a number of URL's and paths
+       if those URL's or paths are inherited. The reasoning behind that is he use of inheritance inside multi-module projects.
+       It seems that if you are using inheritance outside of multi-module projects, you are out of luck.
+       At least, we are :-(.
+       The entries here are calculated in the "calculation properties" higher. To avoid the inheritance
+       trap, the definitions below need to be repeated in each (consecutive) child, as a magic mantra.
+       -->
+  <url>${ppwcode.url}</url>
+  <scm>
+    <connection>${ppwcode.scm.connection}</connection>
+    <developerConnection>${ppwcode.scm.developerConnection}</developerConnection>
+    <url>${ppwcode.scm.url}</url>
+  </scm>
+  <distributionManagement>
+    <!-- The repository definition can be inherited from the parent pom for ppwcode projects:
+         the repository path is not changed for child poms, and it "happens" to be the same
+         for all our libraries as for our parent pom -->
+    <site>
+      <id>${ppwcode.distributionManagement.site.id}</id>
+      <name>${ppwcode.distributionManagement.site.name}</name>
+      <url>${ppwcode.distributionManagement.site.url}</url>
+    </site>
+  </distributionManagement>
+
+  <!-- THIS NEEDS TO BE COPIED IN ALL CHILD POMS, TO FIND THE PARENT -->
+  <repositories>
+    <repository>
+      <id>ppwcodeRepo</id>
+      <name>ppwcode Maven 2 repository</name>
+      <url>http://www.ppwcode.org/java/maven2repo</url>
+    </repository>
+    <repository>
+      <id>ppwcodeSnapshotRepo</id>
+      <!-- This needs to be copied in all child poms, to find the parent -->
+      <name>ppwcode Maven 2 snapshot repository</name>
+      <url>http://www.ppwcode.org/java/maven2snapshotrepo</url>
+    </repository>
+  </repositories>
+
+</project>
