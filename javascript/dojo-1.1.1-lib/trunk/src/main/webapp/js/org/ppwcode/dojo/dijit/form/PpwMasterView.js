@@ -69,7 +69,8 @@ dojo.declare(
 		//    HTML attribute to set the structure of the Grid encapsulated in the PpwMasterView
 		gridStructure: null,
 		
-		_addWidget: null,
+		_addChooser: null,
+		_addButton: null,
 		
 		buildRendering: function() {
 			this.inherited(arguments);
@@ -131,7 +132,7 @@ dojo.declare(
 
 		setMultiButton: function(/*Array*/formslist) {
 			//remove the current widget;
-			this._addWidget = null;
+			this._addChooser = null;
 			
 			var buttonData = { identifier: "value",
 			        label: "label",
@@ -148,10 +149,10 @@ dojo.declare(
 			
 			var inputNode = dojo.doc.createElement('button');
 			this._buttonPane.domNode.appendChild(inputNode);
-			this._addWidget =
+			this._addChooser =
 				new org.ppwcode.dojo.dojox.DataDropDown({store: buttonDataStore}, inputNode);
-			this._addWidget.startup();
-			this._addWidget.domNode.width="20em";
+			this._addChooser.startup();
+			this._addChooser.domNode.width="20em";
 		},
 		
 		clearSelection: function() {
@@ -172,7 +173,15 @@ dojo.declare(
 			//disable:
 			//   boolean:  pass true if the button must be disabled; false if
 			//   the button must be enabled.
+			dojo.deprecated("setAddButtonDisabeld is deprecated. Please use disableButtons() instead.");
 			this._addButton.setAttribute('disabled', disable);
+		},
+		
+		disableButtons: function(/*boolean*/disable) {
+			this._addButton.setAttribute('disabled', disable);
+			if (this._addChooser) {
+				this._addChooser.setAttribute('disabled', disable);
+			}
 		},
 		
 		getSelectedItem: function() {
