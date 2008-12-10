@@ -27,6 +27,11 @@
     <author email="jandockx@gmail.com">Jan Dockx</author>
   </properties>
   <body>
+    <release version="1.9.2" date="2008-12-10" description="license header templates are no longer snapshot">
+      <action dev="jandockx@gmail.com" type="update">
+        starting to use v1.0.0 of checkstyle licenses (i.e., header templates)
+      </action>
+    </release>
     <release version="1.9.0" date="2008-10-03" description="import dependency management">
       <action dev="jandockx@gmail.com" type="update">
         import dependency management; javax.ejb3 added
