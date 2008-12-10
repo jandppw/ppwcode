@@ -29,7 +29,7 @@
   </properties>
   <body>
 
-    <release version="III v1.0" date="2008-10-??" description="split of from vernacular exception">
+    <release version="III v1.0" date="2008-12-10" description="split of from vernacular exception">
       <action dev="jandockx" type="add">
         First version of exception utility code. This is split off from the vernacular exception
         (which is the evolution of the older ppwcode exception framework). The reason is that
