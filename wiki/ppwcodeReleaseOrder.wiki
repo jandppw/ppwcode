@@ -40,8 +40,8 @@ NOTE: there should be a better way to describe this than a list
 
 = Dependency tree =
 
-  * licensetemplates (snapshot)
-  * checkstyle (snapshot)
+  * licensetemplates
+  * checkstyle
   * library parent pom
   * dependency management (snapshot)
   * ppwcode library parent pom
