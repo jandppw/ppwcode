@@ -193,6 +193,19 @@ public final class Duration extends AbstractImmutableValue implements Comparable
     $millis = (d == 0) ? 0 : d * unit.asMilliseconds();
   }
 
+  @MethodContract(
+    pre  = {
+      @Expression("d >= 0"),
+      @Expression("d != 0 ? d <= Unit.MILLISECOND.maxDuration()")
+    },
+    post = @Expression("as(MILLISECOND) == d")
+  )
+  public Duration(long d) {
+    assert pre(d >= 0, "d >= 0");
+    pre(d <= Unit.MILLISECOND.maxDuration()); // this is deliberately not put after an assert; this we want to validate ALWAYS
+    $millis = d;
+  }
+
   @MethodContract(post = @Expression("as(MILLISECOND)"))
   public final long asMillisecond() {
     return $millis;
