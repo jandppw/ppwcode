@@ -50,7 +50,7 @@ NOTE: there should be a better way to describe this than a list
   * (toryt annotations - _outside of ppwcode, but we have "influence" to get a new build :-)_ )
 
   * util parent pom
-  * util exception (snapshot)
+  * util exception
   * util reflection (snapshot)
   * util serialization (snapshot)
 
