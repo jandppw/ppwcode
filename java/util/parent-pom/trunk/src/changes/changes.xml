@@ -27,6 +27,11 @@
     <author email="jandockx@gmail.comockx@gmail.com">Jan Dockx</author>
   </properties>
   <body>
+    <release version="1.2.1" date="2008-12-10" description="New parent pom">
+      <action dev="jandockx@gmail.com" type="update">
+        New parent pom, which no longer uses snapshot for checkstyle and license header templates
+      </action>
+    </release>
     <release version="1.2.0" date="2008-10-14" description="New parent pom">
       <action dev="jandockx@gmail.com" type="add">
         New parent pom.
