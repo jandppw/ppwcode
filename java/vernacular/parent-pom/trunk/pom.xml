@@ -31,7 +31,7 @@
   <parent>
     <groupId>org.ppwcode</groupId>
     <artifactId>ppwcode-ppwcode-library-parent-pom</artifactId>
-    <version>1.9.1</version>
+    <version>1.9.2</version>
   </parent>
 
   <properties>
@@ -57,7 +57,7 @@
        for parent poms, we cannot do this (all hell breaks loose in the children) -->
   <artifactId>ppwcode-vernacular-parent-pom</artifactId>
   <groupId>org.ppwcode.vernacular</groupId>
-  <version>1.7.1</version>
+  <version>1.7.2</version>
   <packaging>pom</packaging>
   <name>ppwcode vernacular parent pom</name>
   <description>Parent pom for all ppwcode libraries that describe the ppwcode vernacular.</description>
