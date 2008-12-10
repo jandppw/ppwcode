@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>ppwcode Resource Bundle Vernacular</title>
+</head>
+<body>
+<p>This library offers a way of working with resource bundles in the context of internationalization.
+  The main point of the library is that the <em>strategy</em> that is used to find resources in the
+  desired locale, depends on the context in which we are working. Notably, what the desired locale
+  is, and to which locale(s) we want to have a fall-back, and with which algorithm we want to find
+  that fall-back, differs substantially. In a desktop applications, e.g., we can assume that the
+  desired locale is the locale of the operating system, which we can inspect using system properties.
+  In a server based context, using the locale of the operating system is not an option, since many
+  different users connect remotely to the server, each with their own distinct locale preference.
+  For web applications, this preference travels with each http request in the header, and web
+  development frameworks each have their own way of translating this in a different resource bundle
+  loading strategy. For a faceless backend application, there are no existing general rules.</p>
+<p>This library does not offer an implemented strategy for each of those contexts, but in the first
+  place a framework to deal with the issue. Implementations of some resource bundle load strategies
+  are offered here, but more specialized strategies can be found in other, more technology-dependent
+  ppwcode vernaculars.</p>
+</body>
+</html>
