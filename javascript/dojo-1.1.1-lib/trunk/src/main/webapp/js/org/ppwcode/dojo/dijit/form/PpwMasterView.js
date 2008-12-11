@@ -148,7 +148,7 @@ dojo.declare(
 			var buttonDataStore = new dojo.data.ItemFileReadStore({data: buttonData});
 			
 			var inputNode = dojo.doc.createElement('button');
-			this._buttonPane.domNode.appendChild(inputNode);
+			this._buttonPane.domNode.insertBefore(inputNode, this._addButton.domNode);
 			this._addChooser =
 				new org.ppwcode.dojo.dojox.DataDropDown({store: buttonDataStore}, inputNode);
 			this._addChooser.startup();
