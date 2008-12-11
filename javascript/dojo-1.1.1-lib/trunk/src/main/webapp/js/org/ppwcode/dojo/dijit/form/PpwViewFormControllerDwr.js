@@ -127,10 +127,10 @@ dojo.declare(
 			if (this.view) {
 				this.setView(this.view);
 			}
-      if (this.form) {
-        this.setGrid(this.form);
-      }
-      if (this.viewviewcontroller) {
+			if (this.form) {
+				this.setGrid(this.form);
+			}
+			if (this.viewviewcontroller) {
 				this.setViewIsChild(this.viewviewcontroller);
 			}
 			this.inherited(arguments);
@@ -151,7 +151,7 @@ dojo.declare(
 			this._eventconnections.push(dojo.connect(this._form, "onCreateModeSaveButtonClick", this, "_doItemCreate"));
 		},
 
-    setView: function(view) {
+		setView: function(view) {
 			//summary:
 			//    Set the PpwMasterView and the PpwCrudForm that this
 			//    controller will be controlling.
@@ -172,7 +172,7 @@ dojo.declare(
 			//this._eventconnections.push(dojo.connect(this._view, "onGridHeaderClick", this, "_doViewGridHeaderClick"));
 		},
 
-    setViewIsChild: function(viewviewcontroller) {
+		setViewIsChild: function(viewviewcontroller) {
 			//summary:
 			//    Configure this controller as a child ViewFormController in case
 			//    multiple views are preset in the user interface.  The second
@@ -207,40 +207,40 @@ dojo.declare(
         },
 
 		_doViewClearSelection: function() {
-      if (this._form) {
-        this._form.reset();
-      }
-    },
+        	if (this._form) {
+        		this._form.reset();
+        	}
+        },
 		
 		//View; Add object
 		_doViewAddButtonClick: function(e) {
-      if (this._form) {
-        this._form.createObject();
-        this.doViewAddButtonClick(e);
-      }
-    },
+        	if (this._form) {
+        		this._form.createObject();
+        		this.doViewAddButtonClick(e);
+        	}
+        },
 		
 		//View; called when someone updated the item in the selected row in 
 		//the PpwMasterView.
 		_doViewSelectedRowUpdate: function() {
-      if (this._form) {
-        this._form.displayObject(this._view.getSelectedItem());
-      }
-    },
+        	if (this._form) {
+        		this._form.displayObject(this._view.getSelectedItem());
+        	}
+        },
 		
 		//View; Click row
 		_doViewGridRowClick: function(e) {
-      if (this._form) {
-        this._form.displayObject(this._view.getSelectedItem());
-      }
-    },
+        	if (this._form) {
+        		this._form.displayObject(this._view.getSelectedItem());
+        	}
+        },
 		
 		//View; Click header
 		_doViewGridHeaderClick: function(e) {
-      if (this._form) {
-        this._form.reset();
-      }
-    }
+        	if (this._form) {
+        		this._form.reset();
+        	}
+        }
 		
 	}
 );

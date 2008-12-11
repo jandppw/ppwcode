@@ -152,7 +152,6 @@ dojo.declare(
 			this._addChooser =
 				new org.ppwcode.dojo.dojox.DataDropDown({store: buttonDataStore}, inputNode);
 			this._addChooser.startup();
-			this._addChooser.domNode.width="20em";
 		},
 		
 		clearSelection: function() {
@@ -326,6 +325,9 @@ dojo.declare(
 		_onaddbuttonclick: function(e) {			
 			//console.log("PpwMasterView: _onaddbuttonclick");
 			this.clearSelection();
+			if (this._addChooser) {
+				e.addChooserValue = this._addChooser.getValue();
+			}
 			this.onAddButtonClick(e);
 		},
 		

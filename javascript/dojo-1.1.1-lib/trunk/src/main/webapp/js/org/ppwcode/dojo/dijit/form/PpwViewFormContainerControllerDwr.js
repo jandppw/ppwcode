@@ -87,6 +87,16 @@ dojo.declare(
 		
 		_doViewAddButtonClick: function(event) {
 			//what to do, what to do
+			console.log("PpwViewFormContainerController::_doViewAddButtonClick with addButtonChooserValue \"" + event.addChooserValue + "\"")
+			this._clearFormEventConnections();
+			var theform = this._container.getFormForConstructor(event.addChooserValue);
+			if (theform) {
+				//if there is a form, connect to its buttons and display the object
+				this._formeventconnections.push(dojo.connect(theform, "onCreateModeSaveButtonClick", this, "_doItemCreate"));
+				this._container.createObject(event.addChooserValue)
+			} else {
+				this._container.clear();
+			}
 			this.doViewAddButtonClick(event);
 		},
 		
@@ -105,12 +115,11 @@ dojo.declare(
 			// get the selected item and the form corresponding with its
 			// constructor
 			var item = this._view.getSelectedItem();
-			var theform = this._container.getFormForConstructor(item.constructor);
+			var theform = this._container.getFormForConstructor(item.constructor.name);
 			
 			if (theform) {
 				//if there is a form, connect to its buttons and display the object
 				this._formeventconnections.push(dojo.connect(theform, "onUpdateModeSaveButtonClick", this, "_doItemUpdate"));
-				this._formeventconnections.push(dojo.connect(theform, "onCreateModeSaveButtonClick", this, "_doItemCreate"));
 				this._container.displayObject(this._view.getSelectedItem());
 			} else {
 				// otherwise clear the form
