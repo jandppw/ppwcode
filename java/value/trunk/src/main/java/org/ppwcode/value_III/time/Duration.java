@@ -190,7 +190,7 @@ public final class Duration extends AbstractImmutableValue implements Comparable
     assert pre(d >= 0, "d >= 0");
     assert pre(d != 0 ? unit != null : true, "unit != null");
     pre(d != 0 ? d <= unit.maxDuration() : true); // this is deliberately not put after an assert; this we want to validate ALWAYS
-    $millis = (d == 0) ? 0 : d * unit.asMilliseconds();
+    $millisecond = (d == 0) ? 0 : d * unit.asMilliseconds();
   }
 
   @MethodContract(
@@ -203,12 +203,12 @@ public final class Duration extends AbstractImmutableValue implements Comparable
   public Duration(long d) {
     assert pre(d >= 0, "d >= 0");
     pre(d <= Unit.MILLISECOND.maxDuration()); // this is deliberately not put after an assert; this we want to validate ALWAYS
-    $millis = d;
+    $millisecond = d;
   }
 
   @MethodContract(post = @Expression("as(MILLISECOND)"))
   public final long asMillisecond() {
-    return $millis;
+    return $millisecond;
   }
 
   /**
@@ -219,7 +219,7 @@ public final class Duration extends AbstractImmutableValue implements Comparable
   public final float as(Unit unit) {
     preArgumentNotNull(unit, "unit");
 //    System.out.println("      unit = " + unit.asMilliseconds() + "ms");
-    return ((float)$millis) / unit.asMilliseconds();
+    return ((float)$millisecond) / unit.asMilliseconds();
   }
 
   /**
@@ -233,23 +233,23 @@ public final class Duration extends AbstractImmutableValue implements Comparable
   }
 
   @Invars(@Expression("$millis >= 0"))
-  private final long $millis;
+  private final long $millisecond;
 
   @Override
   @MethodContract(post = @Expression("as(MILLESECOND) == ((Duration)other).as(MILLISECOND)"))
   public boolean equals(Object other) {
-    return super.equals(other) && $millis == ((Duration)other).as(MILLISECOND);
+    return super.equals(other) && $millisecond == ((Duration)other).as(MILLISECOND);
   }
 
   @Override
   public int hashCode() {
-    return (int)$millis;
+    return (int)$millisecond;
   }
 
   @Override
   public String toString() {
     NumberFormat nf = NumberFormat.getIntegerInstance();
-    return nf.format($millis) + "ms";
+    return nf.format($millisecond) + "ms";
   }
 
   /**
@@ -297,11 +297,11 @@ public final class Duration extends AbstractImmutableValue implements Comparable
       return -1;
     }
     else {
-      long other = o.$millis;
-      if ($millis < other) {
+      long other = o.$millisecond;
+      if ($millisecond < other) {
         return -1;
       }
-      else if ($millis == other) {
+      else if ($millisecond == other) {
         return 0;
       }
       else {
@@ -397,8 +397,8 @@ public final class Duration extends AbstractImmutableValue implements Comparable
   )
   public Duration times(int n) {
     pre(n >= 0);
-    pre(n == 0 || $millis <= Long.MAX_VALUE / n);
-    return new Duration($millis * n, MILLISECOND);
+    pre(n == 0 || $millisecond <= Long.MAX_VALUE / n);
+    return new Duration($millisecond * n, MILLISECOND);
   }
 
 
@@ -416,7 +416,7 @@ public final class Duration extends AbstractImmutableValue implements Comparable
   )
   public Duration div(int n) {
     pre(n > 0);
-    return new Duration($millis / n, MILLISECOND);
+    return new Duration($millisecond / n, MILLISECOND);
   }
 
 }
