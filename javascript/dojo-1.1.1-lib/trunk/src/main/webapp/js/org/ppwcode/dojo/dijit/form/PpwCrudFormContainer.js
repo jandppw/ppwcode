@@ -8,7 +8,12 @@ dojo.declare(
 	dijit.layout.StackContainer,
 	{
 		_formIdMap: null,
-		_constructorMap: null,
+		// we use a map from the constructor function NAME to the formid
+		// instead of from the constructor FUNCTION, because it is not possible
+		// to use a function object as a value in a ComboBox (it is possible
+		// but it acts funnily).  We need the ComboBox in the PpwMasterView.
+		// when adding new Objects.
+		_constructorNameMap: null,
 		_displayingformid: null,
 
 //		constructorMap: null,
@@ -25,7 +30,7 @@ dojo.declare(
 			// we assume that our children are content panes that contain
 			// exactly one form.
 			this._formIdMap = new Object();
-			this._constructorMap = new Object();
+			this._constructorNameMap = new Object();
 			var children = this.getChildren();
 			for (var i = 0; i < children.length; i++) {
 				var contentpane = children[i];
@@ -36,7 +41,7 @@ dojo.declare(
 						mapproperties.pane = contentpane;
 						mapproperties.form = dijit.byNode(theform);
 						this._formIdMap[dojo.attr(theform, "id")] = mapproperties;
-						this._constructorMap[mapproperties.form.getConstructorFunction()] = dojo.attr(theform, "id");
+						this._constructorNameMap[mapproperties.form.getConstructorFunction().name] = dojo.attr(theform, "id");
 					}, this);
 			}
 			// add an empty pane
@@ -88,8 +93,8 @@ dojo.declare(
 			this._formIdMap[formid].form.reset();
 		},
 		
-		getFormForConstructor: function(/*Function*/theconstructor) {
-			var formid = this._constructorMap[theconstructor]; 
+		getFormForConstructor: function(/*String*/constructorname) {
+			var formid = this._constructorNameMap[constructorname]; 
 			if (formid && this._formIdMap[formid]) {
 				return this._formIdMap[formid].form;
 			} else {
@@ -112,13 +117,24 @@ dojo.declare(
 		},
 		
 		displayObject: function(/*Object*/obj) {
-			var theformid = this._constructorMap[obj.constructor];
+			var theformid = this._constructorNameMap[obj.constructor.name];
 			//constructor is defined in the map
 			if (theformid) {
 				this.displayForm(theformid); 
 				this._formIdMap[theformid].form.displayObject(obj);
+			} else {
+				this.displayForm("__empty");
+			}
+		},
+		
+		createObject: function(/*String*/constructorname) {
+			var formid = this._constructorNameMap[constructorname];
+			if (formid && this._formIdMap[formid]) {
+				this.displayForm(formid);
+				this._formIdMap[formid].form.createObject();
+			} else {
+				this.displayForm("__empty");
 			}
 		}
-		
 	}
 );
