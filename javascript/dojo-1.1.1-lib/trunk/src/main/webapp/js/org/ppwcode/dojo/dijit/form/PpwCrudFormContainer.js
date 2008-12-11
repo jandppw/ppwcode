@@ -34,7 +34,7 @@ dojo.declare(
 			var children = this.getChildren();
 			for (var i = 0; i < children.length; i++) {
 				var contentpane = children[i];
-				var list = dojo.query("> [widgetId]", contentpane.containerNode);
+				var list = dojo.query("form[widgetId]", contentpane.containerNode);
 				dojo.forEach(list, function(theform) {
 						console.log("child: " + theform + " with id " + dojo.attr(theform, "id") + " and constructor " + dijit.byNode(theform).getConstructorFunction().name);
 						var mapproperties = new Object();
