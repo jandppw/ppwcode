@@ -322,7 +322,7 @@ dojo.declare(
 			//reset fields.  createObject does not set
 			this.displayObject(this._thedisplayobject);
 			this.setViewMode();
-            this.onUpdateModeCancelClick(e);
+            this.onUpdateModeCancelButtonClick(e);
 		},
 
 		_oncreatemodesavebuttonclick: function(/*Event*/e) {
@@ -338,7 +338,7 @@ dojo.declare(
 
 		_oncreatemodecancelbuttonclick: function(/*Event*/e) {
 			this.reset();
-			this.onCreateModeCancelClick(e)
+			this.onCreateModeCancelButtonClick(e)
 		},
 
 		_createOrUpdateObjectFromForm: function(/*Object*/obj) {
@@ -399,7 +399,7 @@ dojo.declare(
  			//    DOM event
         },
 
-        onUpdateModeCancelClick: function(/*Event*/ e) {
+        onUpdateModeCancelButtonClick: function(/*Event*/ e) {
             // summary:
  			//    override function:  called when the Cancel button is clicked in Update mode.
  			// description:
@@ -408,7 +408,7 @@ dojo.declare(
  			//    DOM event
         },
 
-        onCreateModeCancelClick: function(/*Event*/ e) {
+        onCreateModeCancelButtonClick: function(/*Event*/ e) {
             // summary:
  			//    override function:  called when the Cancel button is clicked in Create mode.
  			// description:
