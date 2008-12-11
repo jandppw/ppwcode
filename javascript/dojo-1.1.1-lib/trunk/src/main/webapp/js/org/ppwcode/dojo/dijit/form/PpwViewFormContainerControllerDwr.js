@@ -93,6 +93,7 @@ dojo.declare(
 			if (theform) {
 				//if there is a form, connect to its buttons and display the object
 				this._formeventconnections.push(dojo.connect(theform, "onCreateModeSaveButtonClick", this, "_doItemCreate"));
+				this._formeventconnections.push(dojo.connect(theform, "onCreateModeCancelButtonClick", this, "_doCancelAction"));
 				this._container.createObject(event.addChooserValue)
 			} else {
 				this._container.clear();
@@ -129,6 +130,11 @@ dojo.declare(
 		},
 		
 		_doViewGridHeaderClick: function(e) {
+			this._clearFormEventConnections();
+			this._container.clear();
+		},
+		
+		_doCancelAction: function(e) {
 			this._clearFormEventConnections();
 			this._container.clear();
 		},
