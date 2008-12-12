@@ -30,7 +30,7 @@ import javax.persistence.FetchType;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdVersionedPersistentBean;
+import org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdIntegerVersionedPersistentBean;
 
 @Entity
 @Table(name="master_nocascade")
@@ -38,7 +38,7 @@ import org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdVersionedPers
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-public class EntityMasterNoCascade extends AbstractIntegerIdVersionedPersistentBean {
+public class EntityMasterNoCascade extends AbstractIntegerIdIntegerVersionedPersistentBean {
 
   public void setDescription(String desc) {
     $description = desc;

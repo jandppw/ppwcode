@@ -12,7 +12,7 @@
 
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
 
-    <class>org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdVersionedPersistentBean</class>
+    <class>org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdIntegerVersionedPersistentBean</class>
     <class>org.ppwcode.research.jpa.openjpa.valuehandlers.AnEntitySerializableProperties</class>
     <class>org.ppwcode.research.jpa.openjpa.valuehandlers.AnEntityValueHandlerProperties</class>
 
@@ -37,7 +37,7 @@
 
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
 
-    <class>org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdVersionedPersistentBean</class>
+    <class>org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdIntegerVersionedPersistentBean</class>
     <class>org.ppwcode.research.jpa.hibernate.semanticsBeta.Master</class>
     <class>org.ppwcode.research.jpa.hibernate.semanticsBeta.Detail</class>
 
@@ -61,7 +61,7 @@
 
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
 
-    <class>org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdVersionedPersistentBean</class>
+    <class>org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdIntegerVersionedPersistentBean</class>
     <class>org.ppwcode.research.jpa.cascade.EntityDetailCascade</class>
     <class>org.ppwcode.research.jpa.cascade.EntityDetailNoCascade</class>
     <class>org.ppwcode.research.jpa.cascade.EntityMasterCascade</class>
