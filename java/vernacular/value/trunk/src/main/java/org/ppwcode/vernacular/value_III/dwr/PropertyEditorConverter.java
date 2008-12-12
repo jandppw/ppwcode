@@ -22,6 +22,8 @@ import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.preArgument
 
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 import org.directwebremoting.convert.BaseV20Converter;
 import org.directwebremoting.dwrp.SimpleOutboundVariable;
@@ -54,6 +56,8 @@ import org.ppwcode.vernacular.value_III.Value;
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
 public class PropertyEditorConverter extends BaseV20Converter {
+	
+	private final String ENCODING = "UTF-8";
 
 //  /*<construction>*/
 //  //------------------------------------------------------------------
@@ -131,7 +135,15 @@ public class PropertyEditorConverter extends BaseV20Converter {
     if (pe == null) {
       throw new MarshallException(paramType, "no property editor found for this type");
     }
-    pe.setAsText(data.getValue());
+    //When DWR converts the javascript object to a java object, the reference string will contain
+    //URL Encoded values. When a TimeZone is parsed, the encoded value (eg. Europe%2FBrussels) will be 
+    //used. This String will not be found in the converter map of TimeZone. In order to parse the
+    //object in a correct way, we first have to decode the String.
+    try {
+      pe.setAsText(URLDecoder.decode(data.getValue(), ENCODING));
+    } catch (Exception e) {
+      throw new MarshallException(paramType, "corrupt data used to convert");
+    }
     return pe.getValue();
   }
 
