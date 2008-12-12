@@ -28,7 +28,7 @@ import javax.persistence.Table;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdVersionedPersistentBean;
+import org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdIntegerVersionedPersistentBean;
 
 @Entity
 @Table(name="detail_cascade")
@@ -36,7 +36,7 @@ import org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdVersionedPers
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-public class EntityDetailCascade extends AbstractIntegerIdVersionedPersistentBean {
+public class EntityDetailCascade extends AbstractIntegerIdIntegerVersionedPersistentBean {
 
 
   public void setDescription(String desc) {
