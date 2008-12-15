@@ -23,11 +23,13 @@ dojo.declare(
 
     widgetsInTemplate: true,
 
+    initialValue: 0,
 
     postCreate: function() {
       this._numberSpinner.setAttribute("constraints", {min:0, max:10000, places:2});
       this._numberSpinner.setAttribute("smallDelta", 0.5 );
       this._numberSpinner.setAttribute("largeDelta", 2 );
+      this._numberSpinner._resetValue = this.initialValue;
     },
 
     setValue: function(/*object*/ param){
