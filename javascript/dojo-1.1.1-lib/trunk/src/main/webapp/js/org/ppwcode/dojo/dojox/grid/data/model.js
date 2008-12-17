@@ -7,6 +7,8 @@ dojo.declare("org.ppwcode.dojo.dojox.grid.data.PpwObjects",
 {
     constructorFunction: null,
 
+    _modifiable: true,
+    
     inFields: null,
     
     allChange: function() {
@@ -63,5 +65,11 @@ dojo.declare("org.ppwcode.dojo.dojox.grid.data.PpwObjects",
         //    console.log("obj[" + f + "] = " + obj[f]);
         //}
         return obj;
+    },
+    setModifiable: function(/*boolean*/modifiable) {
+    	this._modifiable = modifiable;
+    },
+    canModify: function() {
+    	return this._modifiable;
     }
 });
