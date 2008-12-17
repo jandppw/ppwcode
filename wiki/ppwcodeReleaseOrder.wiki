@@ -56,8 +56,8 @@ NOTE: there should be a better way to describe this than a list
 
   * vernacular parent pom
   * vernacular resourcebundle
-  * vernacular exception (snapshot)
-  * vernacular semantics (snapshot)
+  * vernacular exception
+  * vernacular semantics
   * vernacular persistence (snapshot)
   * vernacular value (snapshot)
 
