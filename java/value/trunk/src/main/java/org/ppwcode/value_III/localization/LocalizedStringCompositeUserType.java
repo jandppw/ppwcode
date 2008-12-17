@@ -52,9 +52,6 @@ import org.ppwcode.vernacular.value_III.hibernate3.AbstractImmutableValueComposi
 public final class LocalizedStringCompositeUserType extends AbstractImmutableValueCompositeUserType
      implements CompositeUserType {
 
-  /*<section name="meta">*/
-  //------------------------------------------------------------------
-
   @Override
   public Class<? extends ImmutableValue> returnedClass() {
     return LocalizedString.class;
