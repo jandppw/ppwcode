@@ -3,9 +3,7 @@ dojo.provide("org.ppwcode.dojo.dijit.form.PpwLocalizedTextBox");
 dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
 dojo.require("dijit.form.TextBox");
-dojo.require("dijit.layout.BorderContainer");
-dojo.require("dijit.layout.ContentPane");
-dojo.require("org.ppwcode.dojo.dojox.DataDropDown")
+dojo.require("org.ppwcode.dojo.dojox.DataDropDown");
 
 dojo.declare(
   "org.ppwcode.dojo.dijit.form.PpwLocalizedTextBox",
