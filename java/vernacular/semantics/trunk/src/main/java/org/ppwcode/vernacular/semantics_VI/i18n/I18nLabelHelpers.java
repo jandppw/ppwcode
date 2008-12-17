@@ -32,6 +32,8 @@ import org.ppwcode.vernacular.semantics_VI.exception.PropertyException;
 
 
 /**
+ * <p><strong>This class is unfinished, and should not be considered part of this release.</strong></p>
+ *
  * <p>Support methods to work with properties files. There are general methods here, and some
  *   methods specific to a properties file strategy for i18n of bean type labels and bean property
  *   labels, and general bean related text.</p>
@@ -393,10 +395,10 @@ public final class I18nLabelHelpers {
 
   /**
    * Return the a label from the
-   * {@link #getLocalizedMessageResourceBundleBasename()} resource
-   * bundle with keys {@link #getLocalizedMessageKeys()}, using the
+   * [[@link #getLocalizedMessageResourceBundleBasename()]] resource
+   * bundle with keys [[@link #getLocalizedMessageKeys()]], using the
    * resoure bundle load strategy
-   * {@link #getLocalizedMessageResourceBundleLoadStrategy()}.
+   * [[@link #getLocalizedMessageResourceBundleLoadStrategy()]].
    * The keys are tried in order. The first one that gives a result,
    * is used.
    * If this fails, we try to load a resource with name

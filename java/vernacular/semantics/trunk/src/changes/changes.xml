@@ -31,7 +31,13 @@
   </properties>
   <body>
 
-    <release version="VI v1.0.0/1.0" date="MUDO" description="big cleanup">
+    <release version="VI v1.0" date="2008-12-18" description="big cleanup">
+      <action dev="jand" type="update">
+        Note that the package "i18n" is not finished, and should not be used.
+      </action>
+      <action dev="jand" type="update">
+        Moved project from PeopleWare to ppwcode. Packages thus have new names.
+      </action>
       <action dev="jand" type="update">
         Moved project from PeopleWare to ppwcode. Packages thus have new names.
       </action>
