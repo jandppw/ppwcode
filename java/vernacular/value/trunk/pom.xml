@@ -33,7 +33,7 @@
   <parent>
     <groupId>org.ppwcode.vernacular</groupId>
     <artifactId>ppwcode-vernacular-parent-pom</artifactId>
-    <version>1.7.1</version>
+    <version>1.7.2</version>
   </parent>
 
   <properties>
@@ -48,7 +48,7 @@
 
   <!-- GROUP ID, VERSION, PACKAGING, NAME & DESCRIPTION: OVERWRITE IN YOUR CHILD POM (know what you are doing :-) ) -->
   <!-- for ppwcode projects, groupId and artifactId are calculated, and used in the magic mantra (see below) -->
-  <version>dev-SNAPSHOT</version>
+  <version>1.0</version>
   <packaging>jar</packaging>
   <name>ppwcode value vernacular</name>
   <description>Patterns and framework for value types. Value types are algebra's, and not classes, but
