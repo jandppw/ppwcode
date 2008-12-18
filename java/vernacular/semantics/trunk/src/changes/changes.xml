@@ -31,6 +31,13 @@
   </properties>
   <body>
 
+    <release version="VI v1.1" date="2008-12-18" description="big cleanup">
+      <action dev="jand" type="fix">
+        AbstractSemanticBean.propertyNamesForToString now also does not include Maps, instead of only
+        skipping Collection-type properties.
+      </action>
+    </release>
+
     <release version="VI v1.0" date="2008-12-18" description="big cleanup">
       <action dev="jand" type="update">
         Note that the package "i18n" is not finished, and should not be used.
