@@ -26,6 +26,7 @@ import java.beans.PropertyDescriptor;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import org.ppwcode.metainfo_I.Copyright;
@@ -132,8 +133,8 @@ public abstract class AbstractSemanticBean implements SemanticBean {
    * in {@link #toString()}, in the order of the returned array.
    *
    * The default implementation returns the names of all properties
-   * that are not of a type that is a subtype of {@link Collection},
-   * or an array, and that is not the {@link #getClass()} method.
+   * that are not of a type that is a subtype of {@link Collection}
+   * or {@link Map}, or an array, and that is not the {@link #getClass()} method.
    * The order is indeterminate.
    *
    * @mudo contract
@@ -144,6 +145,7 @@ public abstract class AbstractSemanticBean implements SemanticBean {
     for (int i = 0; i < pds.length; i++) {
       Class<?> propertyType = pds[i].getPropertyType();
       if (! Collection.class.isAssignableFrom(propertyType) &&
+          ! Map.class.isAssignableFrom(propertyType) &&
           ! propertyType.isArray() &&
           ! pds[i].getName().equals("class")) {
         result.add(pds[i].getName());
