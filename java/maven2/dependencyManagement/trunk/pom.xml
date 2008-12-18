@@ -234,7 +234,7 @@
       <dependency>
         <groupId>org.ppwcode.vernacular</groupId>
         <artifactId>ppwcode-vernacular-value-III</artifactId>
-        <version>dev-SNAPSHOT</version> <!-- MUDO -->
+        <version>1.0</version>
       </dependency>
       <dependency>
         <groupId>org.ppwcode.vernacular</groupId>
