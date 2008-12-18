@@ -89,18 +89,18 @@ dojo.declare(
 		_doFillChildView: function() {
 			this._childView.disableButtons(false);
 			this._childView.clearSelection();
-			this.doFillChildView(this._parentView.getSelectedRow());
+			this.doFillChildView(this._parentView.getSelectedItem());
 		},
 		
-		_getParentSelectedRow: function() {
-			return this._parentView.getSelectedRow();
+		_getParentSelectedItem: function() {
+			return this._parentView.getSelectedItem();
 		},
 		
 		requestRefresh: function() {
 			//summary:
 			//    Request this controller to refresh the child view using
 			//    the currently selected item in the parent view
-			if (this._parentView.getSelectedRow()) {
+			if (this._parentView.getSelectedItem()) {
 				this._doFillChildView();
 			}
 		},
