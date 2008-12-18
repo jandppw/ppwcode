@@ -38,11 +38,9 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwDataViewBox",
 			this._masterGrid.selection.multiSelect = false;
 			
 			if (this.gridModel) {
-				console.log("PpwDataViewBox: model");
 				this.setModel(this.gridModel);
 			}
 			if (this.gridStructure) {
-				console.log("PpwDataViewBox: structure");
 				this.setStructure(this.gridStructure);
 			}
 			
@@ -72,8 +70,7 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwDataViewBox",
 		
 		setSelectable: function(/*Boolean*/isSelectable) {
 			this._selectable = isSelectable;
-			this._applySelectable(this.selectable);
-
+			this._applySelectable(this._selectable);
 		},
 		
 		_applySelectable: function(/*Boolean*/isSelectable) {
@@ -331,7 +328,6 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwEditableDataViewBox",
 		},
 		
         removeSelectedItem: function() {
-            console.log("Start removing row from table");
             this._masterGrid.removeSelectedRows();
         },
 
@@ -364,6 +360,8 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwEditableDataViewBox",
         	case "disabled":
         		this.disableButtons(value);
         		//MUDO: we should not assume on the availability of setModifiable here!!!
+        		//first we apply any ongoing edit before we turn off modifiability
+        		this._masterGrid.edit.apply();
         		this._masterGrid.model.setModifiable(!value);
         	}
         },
@@ -373,6 +371,7 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwEditableDataViewBox",
 		_onaddbuttonclick: function(e) {			
 			//console.log("PpwMasterView: _onaddbuttonclick");
 			this.clearSelection();
+			
 			var obj = dojo.isFunction(this.constructorFunction) ? new this.constructorFunction() : new Object();
 			this.addItem(obj);
 			this.onAddButtonClick(e);
