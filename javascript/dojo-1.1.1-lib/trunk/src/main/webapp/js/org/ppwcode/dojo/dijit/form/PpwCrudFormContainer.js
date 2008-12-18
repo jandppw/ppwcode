@@ -2,6 +2,7 @@ dojo.provide("org.ppwcode.dojo.dijit.form.PpwCrudFormContainer");
 
 dojo.require("dijit.layout.StackContainer");
 dojo.require("dijit.layout.ContentPane");
+dojo.require("org.ppwcode.dojo.util.JavaScriptHelpers");
 
 dojo.declare(
 	"org.ppwcode.dojo.dijit.form.PpwCrudFormContainer",
@@ -36,12 +37,12 @@ dojo.declare(
 				var contentpane = children[i];
 				var list = dojo.query("form[widgetId]", contentpane.containerNode);
 				dojo.forEach(list, function(theform) {
-						console.log("child: " + theform + " with id " + dojo.attr(theform, "id") + " and constructor " + dijit.byNode(theform).getConstructorFunction().name);
+						//console.log("child: " + theform + " with id " + dojo.attr(theform, "id") + " and constructor " + dijit.byNode(theform).getConstructorFunction().name);
 						var mapproperties = new Object();
 						mapproperties.pane = contentpane;
 						mapproperties.form = dijit.byNode(theform);
 						this._formIdMap[dojo.attr(theform, "id")] = mapproperties;
-						this._constructorNameMap[mapproperties.form.getConstructorFunction().name] = dojo.attr(theform, "id");
+						this._constructorNameMap[org.ppwcode.dojo.util.JavaScriptHelpers.getFunctionName(mapproperties.form.getConstructorFunction())] = dojo.attr(theform, "id");
 					}, this);
 			}
 			// add an empty pane
@@ -117,7 +118,7 @@ dojo.declare(
 		},
 		
 		displayObject: function(/*Object*/obj) {
-			var theformid = this._constructorNameMap[obj.constructor.name];
+			var theformid = this._constructorNameMap[org.ppwcode.dojo.util.JavaScriptHelpers.getFunctionName(obj.constructor)];
 			//constructor is defined in the map
 			if (theformid) {
 				this.displayForm(theformid); 

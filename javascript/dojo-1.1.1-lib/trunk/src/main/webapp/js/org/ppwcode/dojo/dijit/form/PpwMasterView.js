@@ -8,6 +8,8 @@ dojo.require("dijit.form.Button");
 dojo.require("dojox.grid.Grid");
 dojo.require("dojo.i18n");
 dojo.require("org.ppwcode.dojo.dojox.DataDropDown");
+dojo.require("dojo.data.ItemFileReadStore");
+dojo.require("org.ppwcode.dojo.util.JavaScriptHelpers");
 
 dojo.requireLocalization("org.ppwcode.dojo.dijit.form", "PpwMasterView");
 
@@ -124,6 +126,8 @@ dojo.declare(
 			
 			//first clear the selection
 			this.clearSelection();
+			//remove sort
+			this._masterGrid.sortInfo = 0;
 			//delegation to grid's model
 			this._masterGrid.model.setData(newdata);
 			//call event
@@ -140,13 +144,11 @@ dojo.declare(
 			       };
 			
 			for (var i = 0; i < formslist.length; i++) {
-				console.log("PpwMasterView::setMultiButton: objectName" + formslist[i].objectName);
 				buttonData.items[i] = new Object();
-				buttonData.items[i].value = formslist[i].constructorFunction.name;
+				buttonData.items[i].value = org.ppwcode.dojo.util.JavaScriptHelpers.getFunctionName(formslist[i].constructorFunction);
 				buttonData.items[i].label = formslist[i].objectName;
 			}
 			var buttonDataStore = new dojo.data.ItemFileReadStore({data: buttonData});
-			
 			var inputNode = dojo.doc.createElement('button');
 			this._buttonPane.domNode.insertBefore(inputNode, this._addButton.domNode);
 			this._addChooser =
@@ -172,7 +174,7 @@ dojo.declare(
 			//disable:
 			//   boolean:  pass true if the button must be disabled; false if
 			//   the button must be enabled.
-			dojo.deprecated("setAddButtonDisabeld is deprecated. Please use disableButtons() instead.");
+			dojo.deprecated("setAddButtonDisabled is deprecated. Please use disableButtons() instead.");
 			this._addButton.setAttribute('disabled', disable);
 		},
 		

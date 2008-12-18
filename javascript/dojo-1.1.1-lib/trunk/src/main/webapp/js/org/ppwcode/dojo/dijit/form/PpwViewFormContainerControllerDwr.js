@@ -2,6 +2,7 @@ dojo.provide("org.ppwcode.dojo.dijit.form.PpwViewFormContainerControllerDwr");
 
 dojo.require("dijit._Widget");
 dojo.require("org.ppwcode.dojo.dijit.form._PpwViewFormCrudScenariosDwr");
+dojo.require("org.ppwcode.dojo.util.JavaScriptHelpers");
 
 dojo.declare(
 	"org.ppwcode.dojo.dijit.form.PpwViewFormContainerControllerDwr",
@@ -82,7 +83,7 @@ dojo.declare(
 		
 		_doViewClearSelection: function() {
 			this._clearFormEventConnections();
-			this._container.clear();
+			this._clearContainer();
 		},
 		
 		_doViewAddButtonClick: function(event) {
@@ -95,8 +96,9 @@ dojo.declare(
 				this._formeventconnections.push(dojo.connect(theform, "onCreateModeSaveButtonClick", this, "_doItemCreate"));
 				this._formeventconnections.push(dojo.connect(theform, "onCreateModeCancelButtonClick", this, "_doCancelAction"));
 				this._container.createObject(event.addChooserValue)
+				this._form = theform;
 			} else {
-				this._container.clear();
+				this._clearContainer();
 			}
 			this.doViewAddButtonClick(event);
 		},
@@ -116,33 +118,39 @@ dojo.declare(
 			// get the selected item and the form corresponding with its
 			// constructor
 			var item = this._view.getSelectedItem();
-			var theform = this._container.getFormForConstructor(item.constructor.name);
+			var theform = this._container.getFormForConstructor(org.ppwcode.dojo.util.JavaScriptHelpers.getFunctionName(item.constructor));
 			
 			if (theform) {
 				//if there is a form, connect to its buttons and display the object
 				this._formeventconnections.push(dojo.connect(theform, "onUpdateModeSaveButtonClick", this, "_doItemUpdate"));
 				this._container.displayObject(this._view.getSelectedItem());
+				this._form = theform;
 			} else {
 				// otherwise clear the form
 				// TODO: maybe a fatal error should occur here if this happens
-				this._container.clear();
+				this._clearContainer();
 			}
 		},
 		
 		_doViewGridHeaderClick: function(e) {
 			this._clearFormEventConnections();
-			this._container.clear();
+			this._clearContainer();
 		},
 		
 		_doCancelAction: function(e) {
 			this._clearFormEventConnections();
-			this._container.clear();
+			this._clearContainer();
 		},
 		
 		_clearFormEventConnections: function() {
 			while (this._formeventconnections.length > 0) {
 				dojo.disconnect(this._formeventconnections.pop());
 			}
+		},
+		
+		_clearContainer: function() {
+			this._container.clear();
+			this._form = null;
 		}
 
 	}
