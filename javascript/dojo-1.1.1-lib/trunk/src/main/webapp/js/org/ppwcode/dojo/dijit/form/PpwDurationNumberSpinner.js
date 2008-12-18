@@ -50,8 +50,8 @@ dojo.declare(
         case "disabled":
           this._numberSpinner.setAttribute("disabled", value);
           break;
-        default:
-          console.log("PpwDurationNumberSpinner.setAttribute with "+attr);
+        //default:
+          //console.log("PpwDurationNumberSpinner.setAttribute with "+attr);
       }
     }
 
