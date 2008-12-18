@@ -87,7 +87,7 @@ dojo.declare("org.ppwcode.dojo.dijit.form._PpwViewFormCrudScenariosDwr",
 			 */
 
 			_doItemUpdate: function(e) {
-				console.log("This is only the beginning of an update action...");
+				//console.log("This is only the beginning of an update action...");
 				var self = this;
 				
 				var callback = function(updatedobject) {
@@ -115,10 +115,10 @@ dojo.declare("org.ppwcode.dojo.dijit.form._PpwViewFormCrudScenariosDwr",
 				//the object is given to DWR.
 				var obj = e.formObject;
 				if (this._viewIsChild) {
-	                console.log("Executing a child update");
-					this.beforeItemUpdate(obj, this._viewviewcontroller._getParentSelectedRow());
+	                //console.log("Executing a child update");
+					this.beforeItemUpdate(obj, this._viewviewcontroller._getParentSelecedItem());
 				} else {
-	                console.log("Executing a parent update");
+	                //console.log("Executing a parent update");
 					this.beforeItemUpdate(obj);
 				}
 				
@@ -268,7 +268,7 @@ dojo.declare("org.ppwcode.dojo.dijit.form._PpwViewFormCrudScenariosDwr",
 				//and the child in some way or another
 				var obj = e.formObject;
 				if (this._viewIsChild) {
-					this.beforeItemCreate(obj, this._viewviewcontroller._getParentSelectedRow());
+					this.beforeItemCreate(obj, this._viewviewcontroller._getParentSelecedItem());
 				} else {
 					this.beforeItemCreate(obj)
 				}
@@ -345,7 +345,7 @@ dojo.declare("org.ppwcode.dojo.dijit.form._PpwViewFormCrudScenariosDwr",
 				}
 				
 				if (this._viewIsChild) {
-					this.beforeMasterViewDataRefreshAfterCreate(createdobject, this._viewviewcontroller._getParentSelectedRow());
+					this.beforeMasterViewDataRefreshAfterCreate(createdobject, this._viewviewcontroller._getParentSelecedItem());
 				} else {
 					this.beforeMasterViewDataRefreshAfterCreate(createdobject);
 				}
