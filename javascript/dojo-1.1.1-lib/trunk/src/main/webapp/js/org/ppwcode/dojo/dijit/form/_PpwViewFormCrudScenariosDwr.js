@@ -116,7 +116,7 @@ dojo.declare("org.ppwcode.dojo.dijit.form._PpwViewFormCrudScenariosDwr",
 				var obj = e.formObject;
 				if (this._viewIsChild) {
 	                //console.log("Executing a child update");
-					this.beforeItemUpdate(obj, this._viewviewcontroller._getParentSelecedItem());
+					this.beforeItemUpdate(obj, this._viewviewcontroller._getParentSelectedItem());
 				} else {
 	                //console.log("Executing a parent update");
 					this.beforeItemUpdate(obj);
@@ -268,7 +268,7 @@ dojo.declare("org.ppwcode.dojo.dijit.form._PpwViewFormCrudScenariosDwr",
 				//and the child in some way or another
 				var obj = e.formObject;
 				if (this._viewIsChild) {
-					this.beforeItemCreate(obj, this._viewviewcontroller._getParentSelecedItem());
+					this.beforeItemCreate(obj, this._viewviewcontroller._getParentSelectedItem());
 				} else {
 					this.beforeItemCreate(obj)
 				}
@@ -345,7 +345,7 @@ dojo.declare("org.ppwcode.dojo.dijit.form._PpwViewFormCrudScenariosDwr",
 				}
 				
 				if (this._viewIsChild) {
-					this.beforeMasterViewDataRefreshAfterCreate(createdobject, this._viewviewcontroller._getParentSelecedItem());
+					this.beforeMasterViewDataRefreshAfterCreate(createdobject, this._viewviewcontroller._getParentSelectedItem());
 				} else {
 					this.beforeMasterViewDataRefreshAfterCreate(createdobject);
 				}
