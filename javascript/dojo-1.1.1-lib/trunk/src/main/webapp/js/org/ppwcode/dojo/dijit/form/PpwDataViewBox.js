@@ -291,13 +291,13 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwEditableDataViewBox",
 	
 		constructorFunction: null,
 		
-		_masterGridCanEditMethod: null,
+		_addChooser: null,
+		_constructorNameToConstructorMap: null,
 		
 		buildRendering: function() {
 			this.inherited(arguments);
 			dojo.connect(this._addButton, "onClick", this, "_onaddbuttonclick");
 			dojo.connect(this._deleteButton, "onClick", this, "_ondeletebuttonclick");
-			this._masterGridCanEditMethod = this._masterGrid.canEdit;
 		},
 	
 		setAddButtonDisabled: function(/*boolean*/disable) {
@@ -309,6 +309,9 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwEditableDataViewBox",
 			//   boolean:  pass true if the button must be disabled; false if
 			//   the button must be enabled.
 			this._addButton.setAttribute('disabled', disable);
+			if (this._addChooser) {
+				this._addChooser.setAttribute('disabled', disable);
+			}
 		},
 		
 		setDeleteButtonDisabled: function(/*boolean*/disable) {
@@ -325,6 +328,33 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwEditableDataViewBox",
 		disableButtons: function(/*boolean*/disable) {
 			this.setAddButtonDisabled(disable);
 			this.setDeleteButtonDisabled(disable);
+		},
+		
+		setMultiButton: function(/*Array*/nameConstructorMap) {
+			//remove the current widget;
+			this._addChooser = null;
+			
+			this._constructorNameToConstructorMap = new Object();
+			
+			var buttonData = { 
+					identifier: "value",
+			        label: "label",
+			        items: []
+			};
+			
+			for (var i = 0; i < nameConstructorMap.length; i++) {
+				var ctorname = org.ppwcode.dojo.util.JavaScriptHelpers.getFunctionName(nameConstructorMap[i].constructorFunction)
+				buttonData.items[i] = new Object();
+				buttonData.items[i].value = ctorname;
+				buttonData.items[i].label = nameConstructorMap[i].objectName;
+				this._constructorNameToConstructorMap[ctorname] = nameConstructorMap[i].constructorFunction;
+			}
+			var buttonDataStore = new dojo.data.ItemFileReadStore({data: buttonData});
+			var inputNode = dojo.doc.createElement('button');
+			this._buttonPane.domNode.insertBefore(inputNode, this._addButton.domNode);
+			this._addChooser =
+				new org.ppwcode.dojo.dojox.DataDropDown({store: buttonDataStore}, inputNode);
+			this._addChooser.startup();
 		},
 		
         removeSelectedItem: function() {
@@ -363,6 +393,7 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwEditableDataViewBox",
         		//first we apply any ongoing edit before we turn off modifiability
         		this._masterGrid.edit.apply();
         		this._masterGrid.model.setModifiable(!value);
+        		break;
         	}
         },
 
@@ -371,8 +402,14 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwEditableDataViewBox",
 		_onaddbuttonclick: function(e) {			
 			//console.log("PpwMasterView: _onaddbuttonclick");
 			this.clearSelection();
-			
-			var obj = dojo.isFunction(this.constructorFunction) ? new this.constructorFunction() : new Object();
+			var obj = null;
+			if (this._addChooser != null) {
+				var val = this._addChooser.value;
+				var ctor = this._constructorNameToConstructorMap[val];
+				obj = new ctor();
+			} else {
+				obj = dojo.isFunction(this.constructorFunction) ? new this.constructorFunction() : new Object();
+			}
 			this.addItem(obj);
 			this.onAddButtonClick(e);
 		},
