@@ -163,12 +163,12 @@ org.ppwcode.dojo.dijit.form.PpwViewFormContainerControllerDwr.ChildController = 
 		//mixing in these properties overwrites the default implementations
 		_doMasterViewDataRefreshAfterUpdate: function() {
 			//console.log("refresh in child");
-			this._viewviewcontroller.doFillChildView(this._viewviewcontroller._getParentSelectedRow());
+			this._viewviewcontroller.doFillChildView(this._viewviewcontroller._getParentSelectedItem());
 		},
 
 		_doMasterViewDataRefreshAfterCreate: function() {
 			//console.log("refresh in child");
-			this._viewviewcontroller.doFillChildView(this._viewviewcontroller._getParentSelectedRow());
+			this._viewviewcontroller.doFillChildView(this._viewviewcontroller._getParentSelectedItem());
 		},
 
 		onViewSetData: function() {
