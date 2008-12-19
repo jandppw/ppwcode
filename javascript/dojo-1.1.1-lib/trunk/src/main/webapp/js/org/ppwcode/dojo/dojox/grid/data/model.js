@@ -35,15 +35,27 @@ dojo.declare("org.ppwcode.dojo.dojox.grid.data.PpwObjects",
         			field.key = f;
         		}
         	}
+        	var field = this.fields.get(i++);
+        	if (!dojo.isString(field.key)) {
+        		//console.log("setting constructor");
+        		field.key = "constructor";
+        	}
         } else {
         	//console.log("normal autoAssignFields");
-       		var d = this.data[0], i = 0, field;
-       		for(var f in d){
-       			field = this.fields.get(i++);
-       			if (!dojo.isString(field.key)){
-       				field.key = f;
-       			}
-       		}
+        	if (this.data.length > 0) {
+       		  var d = this.data[0], i = 0, field;
+       		  for(var f in d){
+       			  field = this.fields.get(i++);
+       			  if (!dojo.isString(field.key)){
+       				  field.key = f;
+       			  }
+       		  }
+       		  field = this.fields.get(i++);
+              if (!dojo.isString(field.key)) {
+            	//console.log("setting constructor");
+            	field.key = "constructor";
+              }
+        	}
     	}
 	},
     setData: function(inData) {
