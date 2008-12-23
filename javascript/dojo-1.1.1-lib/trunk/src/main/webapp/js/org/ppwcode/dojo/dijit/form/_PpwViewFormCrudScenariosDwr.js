@@ -52,6 +52,7 @@ dojo.declare("org.ppwcode.dojo.dijit.form._PpwViewFormCrudScenariosDwr",
 				
 				var callback = function(data) {
 					self._view.setData(data);
+					self.afterFillMasterView(data);
 				}
 				
 				var errorhandler = function(errorString, exception) {
@@ -62,6 +63,13 @@ dojo.declare("org.ppwcode.dojo.dijit.form._PpwViewFormCrudScenariosDwr",
 				params.push({callback: callback, errorHandler: errorhandler});
 				this.dwrRetrieveFunction.apply(this, params);
 				
+			},
+			
+			afterFillMasterView: function(data) {
+				//summary:
+				//    override when you wish to do something after the
+				//    retrieve function was called and the data was fed
+				//    to the master view.
 			},
 			
 			fillMasterViewErrorHandler: function(errorString, exception) {
