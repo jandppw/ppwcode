@@ -108,9 +108,11 @@ dojo.declare(
 
 		// contains the mapping between javascript object properties and form fields
 		_formmap: null,
+		_fieldIdToDomNodeMap: null,
+		_fieldIdToWidgetMap: null,
 		_propertyToDomNodeMap: null,
 		_propertyToWidgetMap: null,
-
+		
 		_tooltips: null,
 
 		//the masterview, if there is one.
@@ -237,11 +239,15 @@ dojo.declare(
 			//                  {property: "propN", feieldId: "datefieldN"}];
 			// formmap: an array of mapping objects.
 			this._formmap = formmap;
+			this._fieldIdToDomNodeMap = new Object();
+			this._fieldIdToWidgetMap = new Object();
 			this._propertyToDomNodeMap = new Object();
 			this._propertyToWidgetMap = new Object();
 			for (var i = 0; i < formmap.length; i++) {
-				this._propertyToDomNodeMap[formmap[i].fieldid] = dojo.byId(formmap[i].fieldid);
-				this._propertyToWidgetMap[formmap[i].fieldid] = dijit.byId(formmap[i].fieldid);
+				this._fieldIdToDomNodeMap[formmap[i].fieldid] = dojo.byId(formmap[i].fieldid);
+				this._fieldIdToWidgetMap[formmap[i].fieldid] = dijit.byId(formmap[i].fieldid);
+				this._propertyToDomNodeMap[formmap[i].property] = dojo.byId(formmap[i].fieldid);
+				this._propertyToWidgetMap[formmap[i].property] = dijit.byId(formmap[i].fieldid);
 			}
 			this.reset();
 		},
@@ -260,7 +266,7 @@ dojo.declare(
 
 		_disableFormFields: function(/*boolean*/disabled){
 		   for (var i = 0; i < this._formmap.length; i++) {
-			   this._propertyToWidgetMap[this._formmap[i].fieldid].setAttribute("disabled", disabled);
+			   this._fieldIdToWidgetMap[this._formmap[i].fieldid].setAttribute("disabled", disabled);
 		   }
 		},
 
@@ -441,7 +447,7 @@ dojo.declare(
 			this._thedisplayobject = obj;
 			//copy fields in the object to the form.
 			for (var i = 0; i < this._formmap.length; i++) {
-				this._propertyToWidgetMap[this._formmap[i].fieldid].setValue(eval("obj." + this._formmap[i].property));
+				this._fieldIdToWidgetMap[this._formmap[i].fieldid].setValue(eval("obj." + this._formmap[i].property));
 			}
 			this.setViewMode();
 		},
@@ -511,8 +517,8 @@ dojo.declare(
 			//    an array of messages.  The array consists of objects that
 			//    must have the following properties:  "property" and
 			//    "message".  For example:
-			//    [ {property: "name", message: "name is not unique"},
-			//      {property: "e-mail", message: "the domain name for this email address does not exist."}]
+			//    [ {propertyName: "name", localizedMessage: "name is not unique"},
+			//      {propertyName: "e-mail", localizedMessage: "the domain name for this email address does not exist."}]
 
 			for (var property in this._tooltips) {
 				// remove old tooltips if any
@@ -522,15 +528,15 @@ dojo.declare(
 
 			for (var i = 0; i < messages.length; i++) {
 				var tt = new dijit._MasterTooltip();
-				var formwidget = this._propertyToWidgetMap[messages[i].property];
+				var formwidget = this._propertyToWidgetMap[messages[i].propertyName];
 				//no fading
 				tt.duration = 1;
 				//needed to recreate the fade functions
 				tt.postCreate();
 				//let's just cache the node and the message in the tooltip, so
 				//we can reference them when resizing.
-				tt.__PpwNode = this._propertyToDomNodeMap[messages[i].property];
-				tt.__PpwMessage = messages[i].message;
+				tt.__PpwNode = this._propertyToDomNodeMap[messages[i].propertyName];
+				tt.__PpwMessage = messages[i].localizedMessage;
 
 				//attach to some events on the form field to make the tip disappear
 				tt.__PpwConnectHandle = new Array();
@@ -540,7 +546,7 @@ dojo.declare(
 						formwidget,
 						"onChange",
 						null,
-						dojo.hitch(this, this._hideErrorMessage, messages[i].property)
+						dojo.hitch(this, this._hideErrorMessage, messages[i].propertyName)
 					)
 				);
 				//FormValueWidgets have an _onKeyPress Method... private or not... we
@@ -551,11 +557,11 @@ dojo.declare(
 							formwidget,
 							"_onKeyPress",
 							null,
-							dojo.hitch(this, this._hideErrorMessage, messages[i].property)
+							dojo.hitch(this, this._hideErrorMessage, messages[i].propertyName)
 						)
 					);
 				}
-				this._tooltips[messages[i].property] = tt;
+				this._tooltips[messages[i].propertyName] = tt;
 				//show the tooltip
 				tt.show(tt.__PpwMessage, tt.__PpwNode);
 			}
