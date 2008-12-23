@@ -35,29 +35,37 @@ dojo.declare(
 			var children = this.getChildren();
 			for (var i = 0; i < children.length; i++) {
 				var contentpane = children[i];
-				var list = dojo.query("form[widgetId]", contentpane.containerNode);
-				dojo.forEach(list, function(theform) {
-						//console.log("child: " + theform + " with id " + dojo.attr(theform, "id") + " and constructor " + dijit.byNode(theform).getConstructorFunction().name);
-						var mapproperties = new Object();
-						mapproperties.pane = contentpane;
-						mapproperties.form = dijit.byNode(theform);
-						this._formIdMap[dojo.attr(theform, "id")] = mapproperties;
-						this._constructorNameMap[org.ppwcode.dojo.util.JavaScriptHelpers.getFunctionName(mapproperties.form.getConstructorFunction())] = dojo.attr(theform, "id");
-					}, this);
+				if (dojo.attr(contentpane.domNode, 'emptyPane') == "true") {
+					this._formIdMap["__empty"] = contentpane;
+				} else {
+					var list = dojo.query("form[widgetId]", contentpane.containerNode);
+					dojo.forEach(list, function(theform) {
+							//console.log("child: " + theform + " with id " + dojo.attr(theform, "id") + " and constructor " + dijit.byNode(theform).getConstructorFunction().name);
+							var mapproperties = new Object();
+							mapproperties.pane = contentpane;
+							mapproperties.form = dijit.byNode(theform);
+							this._formIdMap[dojo.attr(theform, "id")] = mapproperties;
+							this._constructorNameMap[org.ppwcode.dojo.util.JavaScriptHelpers.getFunctionName(mapproperties.form.getConstructorFunction())] = dojo.attr(theform, "id");
+						}, this);
+				}
 			}
-			// add an empty pane
-			var tmpnode = dojo.doc.createElement('div');
-			var emptypage = new dijit.layout.ContentPane(null, tmpnode);
-			emptypage.setAttribute("title", "emptyPane");
-			// obey the rules
-			emptypage.startup();
-			//add it to the list
-			this._formIdMap["__empty"] = emptypage;
-			this.addChild(emptypage);
-			//set it as active page. (apparently this does not happen when
+			if (!this._formIdMap["__empty"]) {
+				// add an empty pane
+				var tmpnode = dojo.doc.createElement('div');
+				var emptypage = new dijit.layout.ContentPane(null, tmpnode);
+				emptypage.setAttribute("title", "emptyPane");
+				// obey the rules
+				emptypage.startup();
+				//add it to the list
+				this._formIdMap["__empty"] = emptypage;
+				this.addChild(emptypage);
+			}
+			//set the empty as active page. (apparently this does not happen when
 			//the child is added, this is a bug in the stack container.
 			this.clear();
 		},
+		
+		
 		
 //		setConstructorMap: function(/*Array*/map) {
 //			if (map.length != 0) {
