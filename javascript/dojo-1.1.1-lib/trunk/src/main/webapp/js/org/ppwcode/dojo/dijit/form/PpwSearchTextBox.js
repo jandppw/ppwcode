@@ -131,9 +131,12 @@ dojo.declare(
 					clearTimeout(this._timeoutId);
 					this._timeoutId = null;
 				}
-				//if there are enough characters in the box, schedule a timer that will
-				//forward this event
-				if (this.getValue().length >= this.minChars) {
+				if (event.keyCode == dojo.keys.ENTER) {
+					//if the key is ENTER, proceed always and immediately
+					this._onkeyupProceed(event);
+				} else if (this.getValue().length >= this.minChars) {
+					//if there are enough characters in the box, schedule a timer that will
+					//forward this event
 					//console.log("PpwSearchTextBox: length constraint satisfied");
 					this._timeoutId = setTimeout(dojo.hitch(this, this._onkeyupProceed, event), this.triggerTimeout);
 					//console.log("PpwSearchTextBox: new timeout (" + this._timeoutId + ") set: " + this.triggerTimeout);
