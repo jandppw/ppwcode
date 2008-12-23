@@ -80,16 +80,16 @@ dojo.declare(
 			var formdata = this._formIdMap[formid];
 			if (formdata) {
 				this.selectChild(formdata.pane);
-				this._displayedformid = formid;
+				this._displayingformid = formid;
 			}
 		},
 		
 		clear: function() {
-			if (this._displayedformid && this._displayedformid != "__empty") {
+			if (this._displayingformid && this._displayingformid != "__empty") {
 				this.resetCurrentForm();
 			}
 			this.selectChild(this._formIdMap["__empty"]);
-			this._displayedformid = "__empty";
+			this._displayingformid = "__empty";
 		},
 		
 		resetCurrentForm: function() {
@@ -143,6 +143,12 @@ dojo.declare(
 				this._formIdMap[formid].form.createObject();
 			} else {
 				this.displayForm("__empty");
+			}
+		},
+		
+		displayErrorMessages: function(/*Object[]*/messages) {
+			if (this._displayingformid && this._displayingformid != "__empty") {
+				this._formIdMap[this._displayingformid].form.displayErrorMessages(messages);
 			}
 		}
 	}
