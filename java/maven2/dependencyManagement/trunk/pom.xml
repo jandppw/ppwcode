@@ -212,6 +212,11 @@
         <version>1.0</version>
       </dependency>
       <dependency>
+      	<groupId>org.ppwcode.util</groupId>
+      	<artifactId>ppwcode-util-dwr-I</artifactId>
+      	<version>dev-SNAPSHOT</version>
+      </dependency>
+      <dependency>
         <groupId>org.ppwcode.vernacular</groupId>
         <artifactId>ppwcode-vernacular-resourcebundle-II</artifactId>
         <version>1.4</version>
@@ -234,14 +239,13 @@
       <dependency>
         <groupId>org.ppwcode.vernacular</groupId>
         <artifactId>ppwcode-vernacular-value-III</artifactId>
-        <version>1.0</version>
+        <version>2.0</version>
       </dependency>
       <dependency>
         <groupId>org.ppwcode.vernacular</groupId>
         <artifactId>ppwcode-value-III</artifactId>
         <version>dev-SNAPSHOT</version> <!-- MUDO -->
       </dependency>
-
       <!-- external libraries -->
       <dependency>
         <groupId>org.toryt</groupId>
