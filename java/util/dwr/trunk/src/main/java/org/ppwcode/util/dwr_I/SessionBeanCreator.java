@@ -31,7 +31,7 @@ import org.directwebremoting.util.Messages;
  * @author Squishy [Squishy_I at gmx dot net]
  * @author Joe Walker [joe at getahead dot ltd dot uk]
  */
-public class Ejb3Creator extends AbstractCreator implements Creator
+public class SessionBeanCreator extends AbstractCreator implements Creator
 {
     /**
      * The common interface of the Bean.
