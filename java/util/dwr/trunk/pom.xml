@@ -46,7 +46,7 @@
 
   <!-- GROUP ID, VERSION, PACKAGING, NAME & DESCRIPTION: OVERWRITE IN YOUR CHILD POM (know what you are doing :-) ) -->
   <!-- for ppwcode projects, groupId and artifactId are calculated, and used in the magic mantra (see below) -->
-  <version>1.0.0-SNAPSHOT</version> <!-- MUDO add Svn release number as implementation version -->
+  <version>dev-SNAPSHOT</version> <!-- MUDO add Svn release number as implementation version -->
   <packaging>jar</packaging>
   <name>ppwcode util dwr</name>
   <description>DWR utility classes, such as convertors and creators</description>
