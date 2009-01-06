@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>ppwcode vernacular value</title>
+</head>
+
+<body>
+<p>This package contains guidelines for implementing value type classes. General
+  things are defined in class <a href="Value.html"><code>Value</code></a>,
+  <a href="MutableValue.htmm"><code>MutableValue</code></a>,
+  <a href="ImmutableValue.html"><code>ImmutableValue</code></a> and
+  <a href="EnumerationValue.html"><code>EnumerationValue</code></a>. Each value type
+  should implement one of these interfaces, or be a Java <code>enum</code>.</p>
+<p>This package offers abstract classes that can be used as superclasses for value type
+  implementations, that implement as much of the contract of values as possible.</p>
+<p>Exceptions thrown in the context of value types should be or extend
+  <a href="SemanticValueException.html><code>SemanticValueException</code></a>.</p>
+<p>General code for dealing with values is gathered in <a href="ValueHelpers.html"><code>ValueHelpers</code></a>
+  and <a href="EnumHelpers.html"><code>EnumHelpers</code></a>.</p>
+<h3>Peripheral code</h3>
+<p>For each value type you define, you need extra code that interacts with the
+  context and framework you use in periphery. In a web application, you need code
+  to transfor a value object to and from a String representation that can be
+  carried in a HTTP request and response. In a desktop application, you need a way
+  to edit properties of objects of value type. When object properties of a value type
+  need to be persisted using a persistence technology, we need to explain to the
+  technology how to do that. In the case of SQL-based persistent storage, we need
+  to map the value type to SQL primitives. The code to do this is to be considered
+  part of the definition of the value type, and should be offered in classes next
+  to the value type. We expect that support is offered for the technologies the creator
+  of a new value type uses at the moment of creation, and further support to be added
+  when other people use the value type in other contexts. As such a value library
+  will continuously ameliorate.</p><p>This package offers general support for the implementation of such peripheral
+  interaction code for value types for</p>
+<ul>
+  <li>JPA (<a href="jpa/package.html"><code>org.ppwcode.vernacular.value_N.jpa</code></a>)</li>
+  <li>Hibernate 2 and 3
+    (user types, see <a href="hibernate2/package.html"><code>org.ppwcode.vernacular.value_N.hibernate2</code></a>
+    and <a href="hibernate3/package.html"><code>org.ppwcode.vernacular.value_N.hibernate3</code></a>)</li>
+  <li>OpenJPA (value handlers, see <a href="openjpa/package.html"><code>org.ppwcode.vernacular.value_N.openjpa</code></a>)</li>
+  <li>web applications (configuration code, see <a href="web/package.html"><code>org.ppwcode.vernacular.value_N.web</code></a>)</li>
+  <li>JSF (converters and components, <em>not reactivated yet &mdash; this code can be found in the jsf
+    project that is still in the purgatory</em>)</li>
+  <li>dwr (converters, <em>coming</em>)</li>
+  <li>...</li>
+</ul>
+<p>For simple value types, the interaction with the periphery most often revolves around transforming
+  a value instance to and from a programmatic String representation of that value. There are many
+  different frameworks around to do this, that all basically to the same thing. We have choosen for
+  simple types always to implement a standard Java SE {@link java.beans.PropertyEditor}. For all the
+  other peripheral technologies we than have an implementation of user types, value handlers,
+  converters and the likes that delegate transformation to an appropriate {@link java.beans.PropertyEditor}
+  instance for the given value type. This essentially makes it possible for simple value types that
+  have a String programmatic representation to be able to perform in any supported peripheral context
+  when we only have to program an appropriate {@link java.beans.PropertyEditor}, or even only have
+  to code the value type according to patterns explained in the interfaces for value types.</p>
+<img src="doc-files/ppwcodevaluevernacular.png" width="100%" />
+<p>For more complex value types, we need separate code for each peripheral technology, or a more ad hoc
+  generalization is to be created.</p>
+</body>
+</html>
