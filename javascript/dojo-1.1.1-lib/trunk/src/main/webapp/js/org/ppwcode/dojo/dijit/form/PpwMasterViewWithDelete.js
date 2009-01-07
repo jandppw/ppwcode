@@ -109,7 +109,10 @@ dojo.declare(
 			}	
 			this._masterGrid.onCanDeselect = function() {
 				return isSelectable;
-			}			
+			}		
+            this._masterGrid.canEdit = function(inCell, inRowIndex) {
+    			return isSelectable;
+    		}; 			
 		},
 		
   	  	setStructure: function(/*Array*/newstructure) {
