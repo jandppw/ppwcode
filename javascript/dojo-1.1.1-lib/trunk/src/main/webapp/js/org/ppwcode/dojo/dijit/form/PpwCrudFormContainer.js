@@ -85,7 +85,7 @@ dojo.declare(
 		},
 		
 		clear: function() {
-			if (this._displayingformid && this._displayingformid != "__empty") {
+			if (this._displayingformid && (this._displayingformid != "__empty")) {
 				this.resetCurrentForm();
 			}
 			this.selectChild(this._formIdMap["__empty"]);
@@ -93,13 +93,33 @@ dojo.declare(
 		},
 		
 		resetCurrentForm: function() {
-			if (this._displayingformid) {
+			if (this._displayingformid && (this._displayingformid != "__empty")) {
 				this.resetForm(this._displayingformid);
+			}
+		},
+		
+		setCurrentFormInUpdateMode: function() {
+			if (this._displayingformid && (this._displayingformid != "__empty")) {
+				this.setFormInUpdateMode(this._displayingformid);
+			}
+		},
+		
+		setCurrentFormInCreateMode: function() {
+			if (this._displayingformid && (this._displayingformid != "__empty")) {
+				this.setFormInCreateMode(this._displayingformid);
 			}
 		},
 		
 		resetForm: function(formid) {
 			this._formIdMap[formid].form.reset();
+		},
+
+		setFormInUpdateMode: function(formid) {
+			this._formIdMap[formid].form.setUpdateMode();
+		},
+		
+		setFormInCreateMode: function(formid) {
+			this._formIdMap[formid].form.setCreateMode();
 		},
 		
 		getFormForConstructor: function(/*String*/constructorname) {
@@ -126,6 +146,7 @@ dojo.declare(
 		},
 		
 		displayObject: function(/*Object*/obj) {
+			this.resetCurrentForm();
 			var theformid = this._constructorNameMap[org.ppwcode.dojo.util.JavaScriptHelpers.getFunctionName(obj.constructor)];
 			//constructor is defined in the map
 			if (theformid) {
