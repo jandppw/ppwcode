@@ -1,1 +1,1 @@
-({"addButtonLabel":"Ajouter"})
+({"createButtonLabel":"Ajouter"})

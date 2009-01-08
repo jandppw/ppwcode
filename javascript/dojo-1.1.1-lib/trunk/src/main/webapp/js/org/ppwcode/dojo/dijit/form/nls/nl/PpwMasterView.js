@@ -1,1 +1,1 @@
-({"addButtonLabel":"Toevoegen"})
+({"createButtonLabel":"Cre&euml;ren"})

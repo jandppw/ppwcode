@@ -82,7 +82,7 @@ dojo.declare(
 			dojo.connect(this._addButton, "onClick", this, "_onaddbuttonclick");
 			dojo.connect(this._masterGrid, "onRowClick", this, "_ongridrowclick");
 			dojo.connect(this._masterGrid, "onHeaderClick", this, "_ongridheaderclick");
-			this._addButton.setLabel(dojo.i18n.getLocalization("org.ppwcode.dojo.dijit.form","PpwMasterView").addButtonLabel);
+			this._addButton.setLabel(dojo.i18n.getLocalization("org.ppwcode.dojo.dijit.form","PpwMasterView").createButtonLabel);
 			if (this.gridModel) {
 				this.setModel(this.gridModel);
 			}
