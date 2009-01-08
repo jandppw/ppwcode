@@ -240,8 +240,20 @@ dojo.declare(
         	if (this._form) {
         		this._form.reset();
         	}
+        },
+        
+        // DWR Scenario hooks 
+        _doItemUpdateErrorHandlerHook: function(errorString, exception) {
+        	if (this._form) {
+        		this._form.setUpdateMode();
+        	}
+        },
+        
+        _doItemCreateErrorHandlerHook: function(errorString, exception) {
+        	if (this._form) {
+        		this._container.setCreateMode();
+        	}
         }
-		
 	}
 );
 
