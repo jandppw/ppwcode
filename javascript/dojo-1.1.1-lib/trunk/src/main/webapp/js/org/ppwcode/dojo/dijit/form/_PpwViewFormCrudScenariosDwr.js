@@ -116,7 +116,7 @@ dojo.declare("org.ppwcode.dojo.dijit.form._PpwViewFormCrudScenariosDwr",
 				}
 				
 				var errorhandler = function(errorString, exception) {
-					self.doItemUpdateErrorHandler(errorString, exception);
+					self._doItemUpdateErrorHandler(errorString, exception);
 				}
 				
 				//Give the user the chance to do some stuff to the object before
@@ -156,6 +156,21 @@ dojo.declare("org.ppwcode.dojo.dijit.form._PpwViewFormCrudScenariosDwr",
 				//    the item that was updated.
 			},
 
+			_doItemUpdateErrorHandler: function(errorString, exception) {
+				this._doItemUpdateErrorHandlerHook(errorString, exception);
+				this.doItemUpdateErrorHandler(errorString, exception);
+			},
+
+			_doItemUpdateErrorHandlerHook: function (errorString, excepction) {
+				// summary:
+				//    method that can be overridden by controllers.
+				// description:
+				//    The goal is to execute some visualization related code
+				//    that is specific to a particular controller.  The
+				//    programmer is not supposed to call this.inherited() on
+				//    this class
+			},
+			
 			doItemUpdateErrorHandler: function(errorString, exception) {
 				//summary:
 				//    override, as you should probably inform the user that the
@@ -267,7 +282,7 @@ dojo.declare("org.ppwcode.dojo.dijit.form._PpwViewFormCrudScenariosDwr",
 				}
 				
 				var errorhandler = function(errorString, exception) {
-					self.doItemCreateErrorHandler(errorString, exception);
+					self._doItemCreateErrorHandler(errorString, exception);
 				}
 				
 				//Give the user the chance to do some stuff to the object before
@@ -315,6 +330,21 @@ dojo.declare("org.ppwcode.dojo.dijit.form._PpwViewFormCrudScenariosDwr",
 				//    in the user interface).
 				//item:
 				//    the item that was created.
+			},
+			
+			_doItemCreateErrorHandler: function(errorString, exception) {
+				this._doItemCreateErrorHandlerHook();
+				this.doItemCreateErrorHandler(errorString, exception);
+			},
+			
+			_doItemCreateErrorHandlerHook: function(errorString, exception) {
+				// summary:
+				//    method that can be overridden by controllers.
+				// description:
+				//    The goal is to execute some visualization related code
+				//    that is specific to a particular controller.  The
+				//    programmer is not supposed to call this.inherited() on
+				//    this class
 			},
 			
 			doItemCreateErrorHandler: function(errorString, exception) {
