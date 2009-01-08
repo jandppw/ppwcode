@@ -109,7 +109,13 @@ dojo.declare(
 				this.setFormInCreateMode(this._displayingformid);
 			}
 		},
-		
+
+		setCurrentFormInCreateModeNoReset: function() {
+			if (this._displayingformid && (this._displayingformid != "__empty")) {
+				this.setFormInCreateModeNoReset(this._displayingformid);
+			}
+		},
+
 		resetForm: function(formid) {
 			this._formIdMap[formid].form.reset();
 		},
@@ -120,6 +126,10 @@ dojo.declare(
 		
 		setFormInCreateMode: function(formid) {
 			this._formIdMap[formid].form.setCreateMode();
+		},
+		
+		setFormInCreateModeNoReset: function(formid) {
+			this._formIdMap[formid].form.setCreateModeNoReset();
 		},
 		
 		getFormForConstructor: function(/*String*/constructorname) {
