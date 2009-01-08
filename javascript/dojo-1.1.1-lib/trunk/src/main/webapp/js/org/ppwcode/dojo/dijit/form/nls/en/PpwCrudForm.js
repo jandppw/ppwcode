@@ -1,5 +1,5 @@
 ({"editButtonLabel":"Edit",
-  "createButtonLabel":"Create",
+  "saveButtonLabel":"Save",
   "updateButtonLabel":"Update",
   "deleteButtonLabel":"Delete",
   "cancelButtonLabel":"Cancel"})

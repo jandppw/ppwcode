@@ -1,5 +1,5 @@
-({"editButtonLabel":"Editeer",
-  "createButtonLabel":"Cre&euml;er",
-  "updateButtonLabel":"Update",
+({"editButtonLabel":"Editeren",
+  "saveButtonLabel":"Opslaan",
+  "updateButtonLabel":"Updaten",
   "deleteButtonLabel":"Wissen",
-  "cancelButtonLabel":"Annuleer"})
+  "cancelButtonLabel":"Annuleren"})
