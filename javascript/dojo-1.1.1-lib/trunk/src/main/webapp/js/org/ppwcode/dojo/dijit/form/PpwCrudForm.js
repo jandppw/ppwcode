@@ -299,11 +299,13 @@ dojo.declare(
 			//   In view mode, the buttons shown are "Create" and "Cancel".  The fields
 			//   are disabled.  The content of the input fields are cleared
 			this.reset();
+			this.setCreateModeNoReset();
+		},
+
+		setCreateModeNoReset: function() {
 			this._displayButtons(this._createModeButtonPanel);
 			this._disableFormFields(false);
 		},
-
-
 		//////////////////////// Button Events /////////////////////////
 
 		_onviewmodeeditbuttonclick: function(/*Event*/e) {
