@@ -158,7 +158,7 @@ dojo.declare(
         },
         
         _doItemCreateErrorHandlerHook: function(errorString, exception) {
-			this._container.setCurrentFormInCreateMode();
+			this._container.setCurrentFormInCreateModeNoReset();
         }
 
 	}
