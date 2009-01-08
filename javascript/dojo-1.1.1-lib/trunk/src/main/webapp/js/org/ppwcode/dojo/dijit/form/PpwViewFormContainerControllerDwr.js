@@ -87,8 +87,7 @@ dojo.declare(
 		},
 		
 		_doViewAddButtonClick: function(event) {
-			//what to do, what to do
-			console.log("PpwViewFormContainerController::_doViewAddButtonClick with addButtonChooserValue \"" + event.addChooserValue + "\"")
+			//console.log("PpwViewFormContainerController::_doViewAddButtonClick with addButtonChooserValue \"" + event.addChooserValue + "\"")
 			this._clearFormEventConnections();
 			var theform = this._container.getFormForConstructor(event.addChooserValue);
 			if (theform) {
@@ -151,7 +150,16 @@ dojo.declare(
 		_clearContainer: function() {
 			this._container.clear();
 			this._form = null;
-		}
+		},
+		
+        // DWR Scenario hooks 
+        _doItemUpdateErrorHandlerHook: function(errorString, exception) {
+			this._container.setCurrentFormInUpdateMode();
+        },
+        
+        _doItemCreateErrorHandlerHook: function(errorString, exception) {
+			this._container.setCurrentFormInCreateMode();
+        }
 
 	}
 );
