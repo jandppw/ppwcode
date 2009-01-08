@@ -147,7 +147,7 @@ dojo.declare(
 			this._createModeButtonPanel.appendChild(tempButton);
 			this._createModeSaveButton =
 				new dijit.form.Button({
-					label: localizationbundle.createButtonLabel
+					label: localizationbundle.saveButtonLabel
 				}, tempButton);
 			this._createModeSaveButton.startup();
 			//Cancel button
@@ -428,7 +428,8 @@ dojo.declare(
 			// summary:
 			//    Resets the form.
 			// description:
-			//    Clear the input fields of the form
+			//    Clear the input fields of the form and remove possible error messages
+        	this.removeErrorMessages();
 			this._setInitMode();
 			this.inherited(arguments);
 		},
@@ -504,6 +505,13 @@ dojo.declare(
 			delete this._tooltips[property];
 		},
 
+		removeErrorMessages: function() {
+			for (var property in this._tooltips) {
+				this._tooltips[property].hide(this._tooltips[property].__PpwNode);
+				delete this._tooltips[property];
+			}
+		},
+		
 		displayErrorMessages: function(/*Object[]*/messages) {
 			// summary:
 			//    display error messages on the form using Dojo ToolTip widgets
@@ -520,11 +528,8 @@ dojo.declare(
 			//    [ {propertyName: "name", localizedMessage: "name is not unique"},
 			//      {propertyName: "e-mail", localizedMessage: "the domain name for this email address does not exist."}]
 
-			for (var property in this._tooltips) {
-				// remove old tooltips if any
-				this._tooltips[property].hide(this._tooltips[property].__PpwNode);
-				delete this._tooltips[property];
-			}
+			//remove old messages if any
+			this.removeErrorMessages();
 
 			for (var i = 0; i < messages.length; i++) {
 				var tt = new dijit._MasterTooltip();
