@@ -13,16 +13,16 @@ dojo.declare(
     //description:
     //    PeriodForm is a dijit
     //
-    templateString: '<label>${value}</label>',
+    templateString: '<label for="${fieldid}">${value}</label',
     
-    property: 'none',
+    fieldid: 'none',
     bundle: null,
     value: '',
 
     constructor: function(arguments) {  
 	  this.bundle = arguments.bundle;
-	  this.property = arguments.property;
-	  eval('this.value = this.bundle.' + this.property);
+	  this.fieldid = arguments.fieldid;
+	  eval('this.value = this.bundle.' + this.fieldid);
     }
   }
 );
