@@ -157,12 +157,12 @@ public class ImmutableValueConverter  extends BaseV20Converter implements NamedC
           }
 
           if (instanceType != null) {
-            obj = InstanceHelpers.newInstance(instanceType, arguments);
+            obj = InstanceHelpers.robustNewInstance(instanceType, arguments);
             inctx.addConverted(iv, instanceType, obj);
           }
           else
           {
-            obj = InstanceHelpers.newInstance(paramType, arguments);
+            obj = InstanceHelpers.robustNewInstance(paramType, arguments);
             inctx.addConverted(iv, paramType, obj);
           }
           return obj;
