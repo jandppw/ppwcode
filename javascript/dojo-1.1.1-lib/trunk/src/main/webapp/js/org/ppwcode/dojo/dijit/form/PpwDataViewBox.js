@@ -215,7 +215,8 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwDataViewBox",
 
 			//if we do not do this call, the Big Bad Grid (tm) doesn't
 			//resize() upon resizing of this layout widget
-			this.getChildren()[0].resize(this._contentBox);
+			//this.getChildren()[0].resize(this._contentBox);
+			this.getChildren()[0].resize();
 		},
 		
 		////////////////////////// Event handling //////////////////////////
