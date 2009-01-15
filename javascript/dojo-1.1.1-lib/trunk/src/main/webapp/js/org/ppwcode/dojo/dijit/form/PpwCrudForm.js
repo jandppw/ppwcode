@@ -447,6 +447,7 @@ dojo.declare(
 			//   defined in the formmap.
 			// obj:
 			//   The object that will be displayed in the form.
+			this.reset();
 			this._thedisplayobject = obj;
 			//copy fields in the object to the form.
 			for (var i = 0; i < this._formmap.length; i++) {
@@ -509,8 +510,7 @@ dojo.declare(
 
 		removeErrorMessages: function() {
 			for (var property in this._tooltips) {
-				this._tooltips[property].hide(this._tooltips[property].__PpwNode);
-				delete this._tooltips[property];
+				this._hideErrorMessage(property);
 			}
 		},
 		
@@ -570,8 +570,12 @@ dojo.declare(
 				}
 				this._tooltips[messages[i].propertyName] = tt;
 				//show the tooltip
-				tt.show(tt.__PpwMessage, tt.__PpwNode);
+				tt.show(tt.__PpwMessage, tt.__PpwNode, ["after", "before", "above"]);
 			}
+		},
+		
+		displayCompoundPropertyException: function(/*CompoundPropertyException*/compoundpropertyexception) {
+			this.displayErrorMessages(compoundpropertyexception.elementExceptions);
 		}
 	}
 );
