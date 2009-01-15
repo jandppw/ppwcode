@@ -181,6 +181,12 @@ dojo.declare(
 			if (this._displayingformid && this._displayingformid != "__empty") {
 				this._formIdMap[this._displayingformid].form.displayErrorMessages(messages);
 			}
+		},
+		
+		displayCompoundPropertyException: function(/*CompoundPropertyException*/compoundpropertyexception) {
+			if (this._displayingformid && this._displayingformid != "__empty") {
+				this._formIdMap[this._displayingformid].form.displayCompoundPropertyException(compoundpropertyexception);
+			}
 		}
 	}
 );
