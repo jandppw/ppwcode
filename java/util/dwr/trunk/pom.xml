@@ -156,5 +156,13 @@
       <groupId>org.directwebremoting</groupId>
       <artifactId>dwr</artifactId>
     </dependency>
+    <dependency>
+      <groupId>javax.ejb</groupId>
+      <artifactId>ejb-api</artifactId>
+      <version>3.0</version>
+      <scope>provided</scope>
+      <optional/>
+    </dependency>
+
   </dependencies>
 </project>
