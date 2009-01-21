@@ -97,6 +97,10 @@ dojo.declare("org.ppwcode.dojo.dijit.layout.TitledContentPane",
 		if (!dim){
 			dim = this.calcSize(this.domNode);
 		}
+		if (dojo.isIE) {
+			var coord = dojo.coords(this.domNode);
+			dim.h = coord.h;
+		}
 	
 		//Adding padding to contentPane
 		var dns = this.canvas.style;
