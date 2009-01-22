@@ -204,6 +204,12 @@ dojo.declare(
 			}
 		},
 
+		startup: function() {
+			if (this.domNode.parentNode) {
+				dojo.connect(this.domNode.parentNode, "onscroll", this, this._redrawTooltips);
+			}
+		},
+		
 		onSubmit: function(/*Event*/e){
 			//this form should normally never be submitted
 			console.log("PpwCrudForm.onSubmit called");
@@ -358,15 +364,19 @@ dojo.declare(
 			return obj;
 		},
 
+		_redrawTooltips: function() {
+			for (var props in this._tooltips) {
+				this._tooltips[props].hide(this._tooltips[props].__PpwNode);
+				this._tooltips[props].show(this._tooltips[props].__PpwMessage, this._tooltips[props].__PpwNode);
+			}
+		},
+		
 		// resize will only be called when it is an immediate child of a
 		// layout widget.  In case of a ContentPane, it must even be the
 		// only child...
 		resize: function() {
 			//console.log("PpwCrudForm: resize()!!");
-			for (var props in this._tooltips) {
-				this._tooltips[props].hide(this._tooltips[props].__PpwNode);
-				this._tooltips[props].show(this._tooltips[props].__PpwMessage, this._tooltips[props].__PpwNode);
-			}
+			this._redrawTooltips();
  		},
 
 		///////////////////// Public Button Events /////////////////////////
@@ -505,6 +515,8 @@ dojo.declare(
 			while (tip.__PpwConnectHandle.length > 0) {
 				dojo.disconnect(tip.__PpwConnectHandle.pop());
 			}
+			// hiding does not delete the dom node 
+			tip.domNode.parentNode.removeChild(tip.domNode);
 			delete this._tooltips[property];
 		},
 
@@ -571,11 +583,17 @@ dojo.declare(
 				this._tooltips[messages[i].propertyName] = tt;
 				//show the tooltip
 				tt.show(tt.__PpwMessage, tt.__PpwNode, ["after", "before", "above"]);
+			
+			
 			}
 		},
 		
-		displayCompoundPropertyException: function(/*CompoundPropertyException*/compoundpropertyexception) {
-			this.displayErrorMessages(compoundpropertyexception.elementExceptions);
+		displayPropertyException: function(/*PropertyException*/propertyexception) {
+			if (propertyexception instanceof CompoundPropertyException) {
+				this.displayErrorMessages(propertyexception.elementExceptions);
+			} else {
+				this.displayErrorMessages([propertyexception]);
+			}
 		}
 	}
 );
