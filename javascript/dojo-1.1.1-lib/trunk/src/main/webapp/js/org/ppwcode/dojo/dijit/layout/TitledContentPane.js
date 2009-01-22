@@ -35,6 +35,7 @@ dojo.declare("org.ppwcode.dojo.dijit.layout.TitledContentPane",
 	contentClass: "dojoxTitledPaneContent",
 	
 	paddingSize: 10,
+	margin: [],
 	showShadow: false,
 
 	// privates:
@@ -49,11 +50,25 @@ dojo.declare("org.ppwcode.dojo.dijit.layout.TitledContentPane",
 		this.setTitle(this.title);
 		if (this.showShadow) {
 			this._shadow = new dojox.fx.Shadow({node:this.domNode});
-			this.setShadowBorder();
+			this.setMargin(this._shadow.shadowThickness + "px");
 			this._shadow.startup();
+		} else if (this.margin) {
+			this.setMargin(this.getMarginString(this.margin));
 		}
 
 		this.inherited(arguments);
+	},
+	
+	//Returns String
+	getMarginString: function(/*Object*/object) {
+		console.log(object.length);
+		if (object.length == 1) {
+			return object[0] + "px";
+		} else if (object.length == 4) {
+			return object[0] + "px " + object[1] + "px " + object[2] + "px " + object[3] + "px";
+		} else {
+			throw new Error("Error while setting the margin!!\nExamples of how to use the margin tag:\n-With 4 numbers: margin=10,0,10,5\n-With 1 number: margin=10");
+		}
 	},
 	
 	startup: function(){
@@ -86,9 +101,10 @@ dojo.declare("org.ppwcode.dojo.dijit.layout.TitledContentPane",
 		return dojo.contentBox(dn);
 	},
 	
-	setShadowBorder: function() {
+	setMargin: function(/*String*/margin) {
 		var dns = this.domNode.style;
-		dns.margin = this._shadow.shadowThickness + "px";
+		dns.margin = margin;
+		//dns.margin = this._shadow.shadowThickness + "px";
 	},
 		
 	//
@@ -129,7 +145,6 @@ dojo.declare("org.ppwcode.dojo.dijit.layout.TitledContentPane",
 	layout: function(){
 		// Summary: Configure the content pane to take up all the space except for where the tabs are
 		//if(!this.doLayout){ return; }
-		console.log("----------- Layout set -----------");
 
 		// position and size the titles and the container node
 		var titleAlign = this.tabPosition.replace(/-h/,"");

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>period</title>
+
+<style type="text/css">
+  @import url("style.css");
+</style>
+
+<script type="text/javascript"
+        src="../../../../../../dojo-1.1.1/dojo/dojo.js"
+        djConfig="parseOnLoad:true, modulePaths: {org: '../../org'}, locale: 'nl-be'">
+</script>
+
+<script type="text/javascript">
+    dojo.require("dojo.parser");
+    dojo.require("org.ppwcode.dojo.dijit.layout.TitledContentPane");
+    dojo.require("dojox.highlight");
+    dojo.require("dojox.highlight.languages._all");
+
+    dojo.addOnLoad(function() {
+    	dojo.query("code").forEach(dojox.highlight.init);
+    });
+
+</script>
+</head>
+
+<body class="soria">  		
+    <div dojoType="org.ppwcode.dojo.dijit.layout.TitledContentPane"
+    	title="TitlePane with shadow" 
+    	showShadow="true"
+    	style="width: 350px;">
+		<div>
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
+			luctus, dolor rutrum fringilla eleifend, augue metus gravida velit, in
+			vestibulum magna sapien vitae sapien. Mauris risus lectus, facilisis
+			aliquet, mattis quis, elementum porta, lectus. Maecenas dictum iaculis
+			ipsum. Duis sit amet neque. Praesent consectetur. Nulla urna risus,
+			auctor ut, convallis et, porta eget, lorem. Nunc sagittis, orci eget
+			vulputate tincidunt, orci massa fermentum leo, nec sollicitudin eros
+			nisi id felis. Duis massa orci, bibendum vel, adipiscing eu, lacinia
+			quis, orci. Nulla velit ipsum, venenatis sed, ultricies vitae, suscipit
+			at, diam. Aenean lacinia, enim quis adipiscing elementum, lectus risus
+			euismod dolor, non pretium justo magna non magna. Nulla commodo arcu in
+			lectus. Nam id quam. 
+		</div>
+		<div>	
+			Integer eu arcu. Etiam consectetur mollis elit.
+			Suspendisse tincidunt eros a erat. Mauris nisi. In venenatis posuere
+			risus. Vivamus egestas condimentum nisi. Phasellus ac ante. Donec sit
+			amet nulla. Pellentesque lorem. Fusce orci lectus, mattis id, dignissim
+			sit amet, accumsan in, tellus. Etiam turpis. Ut lorem ante, lobortis ac,
+			tempor vel, sodales a, tortor. Aliquam commodo, ligula in egestas
+			molestie, turpis est placerat metus, vel aliquam urna augue non lectus.
+			Praesent nisi augue, facilisis semper, vehicula placerat, congue vel,
+			pede. Nam suscipit imperdiet elit. Morbi feugiat, lorem vehicula
+			volutpat auctor, felis libero placerat nibh, cursus feugiat enim eros a
+			neque. Praesent volutpat. Donec condimentum. Donec metus. Ut et elit
+			sollicitudin mi accumsan hendrerit.
+		</div>
+	</div>
+	<div style="position: absolute; left: 400px; top: 20px;">
+	<pre>
+		<code>
+&lt;div dojoType=&quot;org.ppwcode.dojo.dijit.layout.TitledContentPane&quot;
+	title=&quot;TitlePane with shadow&quot; 
+	showShadow=&quot;true&quot;&gt;
+	content
+&lt;/div&gt;			
+		</code>
+  	</pre>
+  	</div>
+</body>
+</html>
