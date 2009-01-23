@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>Address Widget</title>
+
+<style type="text/css">
+  @import url("style.css");
+</style>
+
+<script type="text/javascript"
+        src="../../../../../../dojo-1.1.1/dojo/dojo.js"
+        djConfig="parseOnLoad:true, modulePaths: {org: '../../org'}, locale: 'nl-be'">
+</script>
+
+<script type="text/javascript">
+    dojo.require("dojo.parser");
+    dojo.require("org.ppwcode.dojo.dijit.address.AddressForm");
+    
+    dojo.require("org.ppwcode.dojo.dijit.layout.TitledContentPane");
+    dojo.require("dojox.highlight");
+    dojo.require("dojox.highlight.languages._all");
+	dojo.require("dojo.data.ItemFileReadStore");
+	dojo.require("dijit.Tree");    
+
+    dojo.addOnLoad(function() {
+    	dojo.query("code").forEach(dojox.highlight.init);
+    });
+
+</script>
+</head>
+
+<body class="soria">  	
+	<div dojoType="dojo.data.ItemFileReadStore" jsId="directoryStore"
+		url="../_data/addressWidget.json"></div>
+		
+    <div dojoType="org.ppwcode.dojo.dijit.layout.TitledContentPane"
+    	title="Example of a Address Widget" 
+    	style="width: 350px;">
+    	<div dojoType="org.ppwcode.dojo.dijit.address.AddressForm"></div>
+	</div>
+	<div class="comment">
+	  <h1>Address Widget:</h1>
+	  <p>
+	  Is a pane with a title on top, which can have a shadow.<br><br>
+	
+	  An accessible container with a Title Heading. TitledContentPane is an<br> 
+	  extension to ContentPane. It provides all the ContentPane it's usesful <br>
+	  content-control aspects.	  
+	  <p>
+	  <br><b><u>features:</u></b>
+	  <ul>
+	    <li>Country is filled with live data from the DB through a dataStore</li>
+	    <li>Depending of the country there will be a check on the regex check on the postal code</li> 
+	  </ul>
+	  <br><b><u>example:</u></b>
+	  <br><br>
+	  Here you see an example of the Address Widget.<br>
+	  <u>The source code:</u>
+	<pre>
+		<code>
+&lt;head&gt;		
+&lt;script type=&quot;text/javascript&quot;&gt;
+    dojo.require(&quot;dojo.parser&quot;);
+    dojo.require(&quot;org.ppwcode.dojo.dijit.layout.TitledContentPane&quot;);
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+.
+.
+.		
+&lt;div dojoType=&quot;org.ppwcode.dojo.dijit.layout.TitledContentPane&quot;
+	title=&quot;TitlePane with shadow&quot; 
+	showShadow=&quot;true&quot;&gt;
+	content
+&lt;/div&gt;
+.
+.
+.
+&lt;/body&gt;			
+		</code>
+  	</pre>
+  	
+  	  <br><b><u>package structure:</u></b>  	
+	  <div dojoType="dijit.Tree" 
+	  		id="directoryTree" 
+	  		store="directoryStore" 
+	  		query="{type:'root'}"
+			openOnClick="true">
+	  </div>  	
+  	</div>
+</body>
+</html>
