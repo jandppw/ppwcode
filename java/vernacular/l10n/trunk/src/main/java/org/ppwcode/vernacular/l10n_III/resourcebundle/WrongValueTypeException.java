@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.vernacular.resourcebundle_II;
+package org.ppwcode.vernacular.l10n_III.resourcebundle;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
