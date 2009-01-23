@@ -1,5 +1,8 @@
 @import url("../../../../../../dojo-1.1.1/dojo/resources/dojo.css");
 @import url("../../layout/resources/TitledContentPane.css");
+@import url("../../../../../../dojo-1.1.1/dojo/resources/dojo.css");
+@import url("../../../../../../dojo-1.1.1/dojox/grid/_grid/soriaGrid.css");
+@import url("../../../../../../dojo-1.1.1/dijit/themes/soria/soria.css");
 
 /* a sample set of definitions to use as a foundation to color your code */
 @import url("../../../../../../dojo-1.1.1/dojox/highlight/resources/highlight.css");
@@ -24,6 +27,6 @@ code {
 
 .comment {
 	position: absolute;
-	left: 400px;
+	left: 450px;
 	top: 20px;
 }
