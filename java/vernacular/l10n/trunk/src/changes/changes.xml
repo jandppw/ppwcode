@@ -23,14 +23,23 @@
   <!-- see http://maven.apache.org/reference/plugins/changes/ for documentation -->
   <!-- There are four valid values for action type:  add, fix, remove, update. -->
   <properties>
-    <title>Changes to ppwcode bean</title>
+    <title>Changes to ppwcode l10n vernacular</title>
     <author email="David_Van_Keer@peopleware.be">David Van Keer</author>
     <author email="Jan_Dockx@peopleware.be">Jan Dockx</author>
     <author email="Nele_Smeets@peopleware.be">Nele Smeets</author>
     <author email="Wim_Lambrechts@peopleware.be">Wim Lambrechts</author>
+    <author email="ruben.vandeginste@gmail.com">Ruben Vandeginste</author>
   </properties>
   <body>
 
+    <release version="III v1.0" date="2009-01-23" description="rename to ppwcode l10n vernacular">
+      <action dev="ruben.vandeginste@gmail.com" type="update">
+        Renaming the project because the focus will be on defining a vernacular for
+        localization.  Resource bundles are used in this context and are still a
+        part of the package.  This initial release contains the same code ppwcode vernacular
+        resourcebundle II v1.4.
+      </action>
+    </release>
     <release version="II v1.4" date="2008-12-10" description="new parent pom">
       <action dev="jandockx@gmail.com" type="update">
         New parent pom with non-snapshot version of checkstyle and license header templates.

@@ -14,9 +14,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.vernacular.resourcebundle_II;
+package org.ppwcode.vernacular.l10n_III.resourcebundle;
 
 
+import org.ppwcode.vernacular.l10n_III.resourcebundle.ResourceBundleNotFoundException;
+import org.ppwcode.vernacular.l10n_III.resourcebundle.ResourceBundleLoadStrategy;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
