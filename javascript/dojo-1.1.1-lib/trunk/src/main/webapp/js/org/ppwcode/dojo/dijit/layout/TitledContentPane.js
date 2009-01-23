@@ -52,7 +52,7 @@ dojo.declare("org.ppwcode.dojo.dijit.layout.TitledContentPane",
 			this._shadow = new dojox.fx.Shadow({node:this.domNode});
 			this.setMargin(this._shadow.shadowThickness + "px");
 			this._shadow.startup();
-		} else if (this.margin) {
+		} else if (this.margin.length > 0) {
 			this.setMargin(this.getMarginString(this.margin));
 		}
 
