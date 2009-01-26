@@ -44,7 +44,7 @@ import org.ppwcode.vernacular.l10n_III.I18nLabelHelpers;
  * @author Ruben Vandeginste
  * @author PeopleWare n.v.
  */
-@Copyright("2004 - $Date: 2009-01-23 17:25:55 +0100 (Fri, 23 Jan 2009) $, PeopleWare n.v.")
+@Copyright("2009 - $Date: 2009-01-23 17:25:55 +0100 (Fri, 23 Jan 2009) $, PeopleWare n.v.")
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision: 4029 $",
          date     = "$Date: 2009-01-23 17:25:55 +0100 (Fri, 23 Jan 2009) $")
