@@ -219,6 +219,19 @@
       <groupId>org.ppwcode.util</groupId>
       <artifactId>ppwcode-util-reflection-I</artifactId>
     </dependency>
+
+    <!-- this dependencies are specifically for the DojoI18nServlet
+    -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.4</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils-core</artifactId>
+    </dependency>
   </dependencies>
 
 </project>
