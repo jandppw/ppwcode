@@ -14,21 +14,20 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </license>*/
 
-package org.ppwcode.vernacular.semantics_VI.i18n;
+package org.ppwcode.vernacular.l10n_III;
 
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.PropertyHelpers.propertyType;
 import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.unexpectedException;
-import static org.ppwcode.vernacular.resourcebundle_II.ResourceBundleHelpers.value;
+import static org.ppwcode.vernacular.l10n_III.resourcebundle.ResourceBundleHelpers.value;
 
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.vernacular.resourcebundle_II.KeyNotFoundException;
-import org.ppwcode.vernacular.resourcebundle_II.ResourceBundleLoadStrategy;
-import org.ppwcode.vernacular.resourcebundle_II.WrongValueTypeException;
-import org.ppwcode.vernacular.semantics_VI.exception.PropertyException;
+import org.ppwcode.vernacular.l10n_III.resourcebundle.KeyNotFoundException;
+import org.ppwcode.vernacular.l10n_III.resourcebundle.ResourceBundleLoadStrategy;
+import org.ppwcode.vernacular.l10n_III.resourcebundle.WrongValueTypeException;
 
 
 /**
@@ -299,141 +298,6 @@ public final class I18nLabelHelpers {
     }
     return (result != null) ? result : keyNotFound(type.getName());
   }
-
-  /*<property name="localizedMessageKeys">*/
-  //------------------------------------------------------------------
-
-  private static final String EMPTY = "";
-  private static final String PREFIX = "message";
-
-  /**
-   * The keys that are tried consecutively are intended for use in
-   * a properties file that comes with the
-   * {@link #getOriginType() origin type} of the exception, with a fall-back
-   * to a properties file that comes with the class of the exception.
-   * The message that is given in the constructor (the
-   * {@link #getMessage()} non-localized message) is intended as the
-   * final discriminating key in a resource bundle.
-   *
-   * <p>The first key, for use in the properties file that comes with
-   *   the {@link #getOriginType() origin type} of the exception, has the form
-   *   <code>getClass().getName() + "." + getPropertyName()
-   *         + "." + getMessage()</code>.
-   *   If the property name is <code>null</code>, the form is
-   *   <code>getClass().getName() + "." + getMessage()</code>. This is
-   *   intended for exceptions that are not bound to a particular
-   *   property. If the message is <code>null</code>, the form of the key
-   *   is <code>getClass().getName() + "." + getPropertyName()</code>
-   *   or <code>getClass().getName()</code>. These forms are intended for
-   *   exceptions of which the type itself is discriminating enough
-   *   for a good exception message. </p>
-   * <p>The second key is intended for use in a properties file that
-   *   comes with the exception class. It is intended for error messages
-   *   that can be written independent of the actual origin or property
-   *   for which they occurred. Such messages should often be considered
-   *   a fall-back.
-   *   The key that should be used in these files is of the form
-   *   <code>"message." + getMessage()</code>. If the message is
-   *   <code>null</code>, no such key is added to the array.</p>
-   * <p>When the {@link #getMessage() message} is used as a key,
-   *   it should be in all caps.</p>
-   *
-   * @result    result != null;
-   * @result    result.length == ((getMessage() != null) ? 2 : 1);
-   * @result    result[0] != null;
-   * @result    (getPropertyName() != null) && (getMessage() != null)
-   *                ==> result[0].equals(getClass().getName()
-   *                                     + "." + getPropertyName()
-   *                                     + "." + getMessage());
-   * @result    (getPropertyName() == null) && (getMessage() != null)
-   *                ==> result[0].equals(getClass().getName()
-   *                                     + "." + getMessage());
-   * @result    (getPropertyName() != null) && (getMessage() == null)
-   *                ==> result[0].equals(getClass().getName()
-   *                                     + "." + getPropertyName());
-   * @result    (getPropertyName() == null) && (getMessage() == null)
-   *                ==> result[0].equals(getClass().getName());
-   * @result    (getMessage() != null)
-   *                ==> (result[1] != null)
-   *                    && result[1].equals("message." + getMessage());
-   */
-  private final static String[] getBeanBundleKeys(PropertyException pe) {
-    String[] result = null;
-//    String className = pe.getClass().getName();
-//    String propertyName = pe.getPropertyName();
-//    String message = pe.getMessage();
-
-//    className + DOT + propertyName + DOT + message;
-
-    String firstKey = pe.getClass().getName() + (pe.getPropertyName() != null
-                            ? DOT + pe.getPropertyName()
-                            : EMPTY)
-                      + (pe.getMessage() != null ? DOT + pe.getMessage() : EMPTY); // ben prop file
-    String secondKey = pe.getMessage() != null ? PREFIX + pe.getMessage() : null; // exception prop file
-    if (secondKey != null) {
-      result = new String[] {firstKey, secondKey};
-    }
-    else {
-      result = new String[] {firstKey};
-    }
-    return result;
-  }
-
-  private final static String[] getExceptionBundleKeys(PropertyException pe) {
-    assert pe != null;
-    String[] result = null;
-    String message = pe.getMessage();
-    if (message == null) {
-      String firstKey = PREFIX + DOT + message;
-      result = new String[] {firstKey, PREFIX};
-    }
-    else {
-      result = new String[] {PREFIX};
-    }
-    return result;
-  }
-
-  /**
-   * Return the a label from the
-   * [[@link #getLocalizedMessageResourceBundleBasename()]] resource
-   * bundle with keys [[@link #getLocalizedMessageKeys()]], using the
-   * resoure bundle load strategy
-   * [[@link #getLocalizedMessageResourceBundleLoadStrategy()]].
-   * The keys are tried in order. The first one that gives a result,
-   * is used.
-   * If this fails, we try to load a resource with name
-   * <code>getClass().getName()</code>, with the same resource
-   * bundle load strategy and look up the same keys.
-   * If there is no load strategy, or the bundles could not be found,
-   * or there is no entry in the bundles with the given keys, the
-   * non-localized message is returned.
-   */
-  public static final String getLocalizedMessage(PropertyException pe, ResourceBundleLoadStrategy rbls) {
-    assert pe != null;
-    assert rbls != null;
-    if (rbls == null) {
-      return pe.getMessage();
-    }
-    String result = null;
-    try {
-      try {
-        result = value(pe.getOriginType(), getBeanBundleKeys(pe), String.class, rbls);
-      }
-      catch (KeyNotFoundException exc) {
-        try {
-          result = value(pe.getClass(), getExceptionBundleKeys(pe), String.class, rbls);
-        }
-        catch (KeyNotFoundException exc1) {
-          result = pe.getMessage();
-        }
-      }
-    }
-    catch (WrongValueTypeException exc) {
-      unexpectedException(exc);
-    }
-    return result;
-  }
-  /*</property>*/
 
 
 }

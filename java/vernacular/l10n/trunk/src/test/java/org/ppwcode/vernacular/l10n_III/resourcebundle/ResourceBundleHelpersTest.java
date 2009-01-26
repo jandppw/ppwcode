@@ -6,23 +6,17 @@
 
 package org.ppwcode.vernacular.l10n_III.resourcebundle;
 
-import org.ppwcode.vernacular.l10n_III.resourcebundle.DefaultResourceBundleLoadStrategy;
-import org.ppwcode.vernacular.l10n_III.resourcebundle.WrongValueTypeException;
-import org.ppwcode.vernacular.l10n_III.resourcebundle.KeyNotFoundException;
-import org.ppwcode.vernacular.l10n_III.resourcebundle.ResourceBundleNotFoundException;
-import org.ppwcode.vernacular.l10n_III.resourcebundle.ResourceBundleLoadStrategy;
 import static java.util.ResourceBundle.getBundle;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.ppwcode.vernacular.l10n_III.resourcebundle.DefaultResourceBundleLoadStrategyTest.EXISTING_BASE_NAME;
 import static org.ppwcode.vernacular.l10n_III.resourcebundle.DefaultResourceBundleLoadStrategyTest.EXISTING_TYPE;
-
 import static org.ppwcode.vernacular.l10n_III.resourcebundle.ResourceBundleHelpers.typeResourceBundle;
 import static org.ppwcode.vernacular.l10n_III.resourcebundle.ResourceBundleHelpers.value;
+
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-
 import org.junit.Test;
 
 
