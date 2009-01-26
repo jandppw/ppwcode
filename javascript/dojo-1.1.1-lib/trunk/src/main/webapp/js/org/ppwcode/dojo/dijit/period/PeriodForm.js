@@ -27,24 +27,6 @@ dojo.declare(
     _endDateLabel: null,
     _timeZone: null,
     
-    //Styling
-    _labelWidth: null,
-    _dataWidth: null, 
-    
-    //public vars styling
-    labelWidth: null,
-    dataWidth: null,
-    
-    postCreate: function() {
-	  if (this.labelWidth) {
-        this._labelWidth = this.labelWidth;
-	  }
-	  if (this.dataWidth) {
-        this._dataWidth = this.dataWidth;
-	  }
-	  this.inherited(arguments);
-    },
-    
     constructor: function() {
 	  var localizationbundle = dojo.i18n.getLocalization("org.ppwcode.dojo.dijit.period", "PeriodForm");
 	  this._dateLabel = localizationbundle.dateLabel;
@@ -81,16 +63,10 @@ dojo.declare(
     },
     
     _addTimeToDate: function(/*Date*/date, /*Date*/time) {
-      console.log("------ BEGIN Input ------");	
       date.setHours(0,0,0,0);  
-      console.log(date);
-      console.log(time);
-      console.log("------ END Input ------");
       date = dojo.date.add(date, 'hour', +dojo.date.locale.format(time, {selector: 'time', timePattern: 'HH'}));
       date = dojo.date.add(date, 'minute', +dojo.date.locale.format(time, {selector: 'time', timePattern: 'mm'}));
-      date = dojo.date.add(date, 'second', +dojo.date.locale.format(time, {selector: 'time', timePattern: 'ss'}));
-      console.log(date);    
-      console.log("------ END Result ------");    
+      date = dojo.date.add(date, 'second', +dojo.date.locale.format(time, {selector: 'time', timePattern: 'ss'}));  
       return date;
     }
 
