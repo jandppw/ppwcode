@@ -35,8 +35,8 @@ import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.util.reflect_I.TypeHelpers;
-import org.ppwcode.vernacular.resourcebundle_II.DefaultResourceBundleLoadStrategy;
-import org.ppwcode.vernacular.semantics_VI.i18n.I18nLabelHelpers;
+import org.ppwcode.vernacular.l10n_III.resourcebundle.DefaultResourceBundleLoadStrategy;
+import org.ppwcode.vernacular.l10n_III.I18nLabelHelpers;
 
 /**
  * Servlet that emulates Dojo Localization bundles

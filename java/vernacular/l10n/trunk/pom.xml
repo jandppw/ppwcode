@@ -233,15 +233,6 @@
       <artifactId>commons-beanutils-core</artifactId>
     </dependency>
 
-    <!-- these dependencies should be removed in the future -->
-    <dependency>
-      <groupId>org.ppwcode.vernacular</groupId>
-      <artifactId>ppwcode-vernacular-semantics-VI</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.ppwcode.vernacular</groupId>
-      <artifactId>ppwcode-vernacular-resourcebundle-II</artifactId>
-    </dependency>
   </dependencies>
 
 </project>
