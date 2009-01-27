@@ -32,7 +32,7 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
  * @author Ruben Vandeginste
  * @author PeopleWare n.v.
  */
-@Copyright("2004 - $Date: 2009-01-26 14:14:58 +0100 (Mon, 26 Jan 2009) $, PeopleWare n.v.")
+@Copyright("2009 - $Date: 2009-01-26 14:14:58 +0100 (Mon, 26 Jan 2009) $, PeopleWare n.v.")
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision: 4044 $",
          date     = "$Date: 2009-01-26 14:14:58 +0100 (Mon, 26 Jan 2009) $")
