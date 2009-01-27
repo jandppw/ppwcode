@@ -9,43 +9,28 @@ dojo.require("dijit._Widget");
 dojo.declare("org.ppwcode.dojo.dijit.layout.TitledContentPane",
 	[ dojox.layout.ContentPane, dijit._Templated ],
 	{
-	// summary:
-	//		A non-modal Floating window.
-	//
-	// description:
-	// 		Makes a dijit.ContentPane float and draggable by it's title [similar to TitlePane]
-	// 		and over-rides onClick to onDblClick for wipeIn/Out of containerNode
-	// 		provides minimize(dock) / show() and hide() methods, and resize [almost] 
 
-	// title: String
-	//		Title to use in the header
-	title: "",
-
-	/*=====
-	// iconSrc: String
-	//		[not implemented yet] will be either icon in titlepane to left
-	//		of Title, and/or icon show when docked in a fisheye-like dock
-	//		or maybe dockIcon would be better?
-	iconSrc: null,
-	=====*/
-
-	'class': "",
-	// contentClass: String
-	// 		The className to give to the inner node which has the content
-	contentClass: "dojoxTitledPaneContent",
-	
-	paddingSize: 10,
-	margin: [],
-	showShadow: false,
+  // the title to show in the top box
+  title: "",
+  // override this attribute otherwise a css class is added that fucks up the layout of the component
+  'class': "",
+  // the standard css class of the component
+  contentClass: "dojoxTitledPaneContent",
+  // the amount of pixels used the resize (smaller) the children
+  paddingSize: 10,
+  // the margins used the display the component
+  margin: [],
+  // if the shadow is showed on the component or not
+  showShadow: false,
 
 	// privates:
-	_currentState: null,
-	_shadow: null,
+  // is instantiated if the showShadow attribute is set to true
+  _shadow: null,
+    
+  templatePath: dojo.moduleUrl("org", "ppwcode/dojo/dijit/layout/templates/TitledContentPane.html"),
 
-	templateString: null,
-	templatePath: dojo.moduleUrl("org", "ppwcode/dojo/dijit/layout/templates/TitledContentPane.html"),
-	
-	postCreate: function(){
+
+  postCreate: function(){
 	
 		this.setTitle(this.title);
 		if (this.showShadow) {
@@ -109,24 +94,24 @@ dojo.declare("org.ppwcode.dojo.dijit.layout.TitledContentPane",
 		
 	//
 	resize: function(/*Object*/dim){
-		// summary: Size the FloatingPane and place accordingly
+    // the factor that will be used to resize the childrens canvas'
+    var factor = 2;
+
+    // summary: Size the FloatingPane and place accordingly
 		if (!dim){
 			dim = this.calcSize(this.domNode);
 		}
 		if (dojo.isIE) {
 			var coord = dojo.coords(this.domNode);
 			dim.h = coord.h;
-		}
+      		factor = 4;
+    	}
 	
 		//Adding padding to contentPane
 		var dns = this.canvas.style;
 		dns.margin = this.paddingSize+"px";
 		
-		// Now resize canvas
-		var factor = 2;
-		if(dojo.isIE){
-			factor = 4;
-		}
+		// Now resize canvas		
 		var mbCanvas = { l: 0, t: 0, w: dim.w - (this.paddingSize * factor), h: (dim.h - this.focusNode.offsetHeight) - (this.paddingSize * factor)};
 		
 		
