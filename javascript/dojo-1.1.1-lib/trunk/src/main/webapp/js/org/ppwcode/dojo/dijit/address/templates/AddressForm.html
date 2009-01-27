@@ -6,22 +6,25 @@
         <input
           dojoType="dijit.form.TextBox"
           dojoAttachPoint="_street"
+          class="fullLength"
           required="true"/>
       </div>
     </div>
     <div class="rowdiv">
-      <div  class="celldivtitle">${_postalCodeLabel}</div>
-      <div  class="celldivcontent">
+      <div  class="celldivtitlePC">${_postalCodeLabel}</div>
+      <div  class="celldivcontentPC">
         <input
           dojoType="dijit.form.TextBox"
           dojoAttachPoint="_postalCode"
+          class="fullLength"
           required="true"/>
       </div>
-      <div  class="celldivtitle">${_cityNameLabel}</div>
-      <div  class="celldivcontent">
+      <div  class="celldivtitleC">${_cityNameLabel}</div>
+      <div  class="celldivcontentC">
         <input
           dojoType="dijit.form.TextBox"
           dojoAttachPoint="_cityName"
+          class="fullLength"
           required="true"/>
       </div>      
     </div>
@@ -31,7 +34,8 @@
         <input
           dojoType="dijit.form.ComboBox"
           dojoAttachPoint="_country"
-          required="true"/>
+          class="fullLength"
+          required="true"/>         
       </div>
     </div>
   </div>

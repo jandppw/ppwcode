@@ -20,38 +20,46 @@ dojo.declare(
 
     widgetsInTemplate: true,
     
+    dataStore: null,
+    
     //I18N labels
     _streetLabel: null,
     _postalCodeLabel: null,
     _cityNameLabel: null,
     _countryLabel: null,
     
-    postCreate: function() {
-	  this.inherited(arguments);
-    },
-    
-    constructor: function() {
+   
+    constructor: function(arguments) {    	
+    	
 	  var localizationbundle = dojo.i18n.getLocalization("org.ppwcode.dojo.dijit.address", "AddressBundle");
 	  this._streetLabel = localizationbundle.streetLabel;
 	  this._postalCodeLabel = localizationbundle.postalCodeLabel;
 	  this._cityNameLabel = localizationbundle.cityNameLabel;
 	  this._countryLabel = localizationbundle.countryLabel;
+	  this.dataStore = arguments.dataStore;
     },
+    
+	postCreate: function(){
+    	//pass the datastore to the country combobox
+    	this._country.store = this.dataStore;
+		this.inherited(arguments);
+	},
 	
-    setValue: function(/*AddressObject*/ param){
-      this._street.setValue(param.street);
-      this._postalCode.setValue(param.postalCode);
-      this._cityName.setValue(param.city);
-      this._country.setValue(param.country);
+    setValue: function(/*PostalAddress*/ param){
+      this._street.setValue(param.$streetAddress);
+      this._postalCode.setValue(param.$postalCode);
+      this._cityName.setValue(param.$city);
+      this._country.setValue(param.$locale);
     },
 
     getValue: function(){
       //create new address object based on data in widget.
-      var address = null;
-//      period.begin = this._addTimeToDate(dojo.clone(this._dateBox.value), this._startTimeBox.value);
-//      period.end = this._addTimeToDate(dojo.clone(this._dateBox.value), this._endTimeBox.value);
-//      period.timeZone = this._timeZone;
-      return address;
+      var postalAddress = new PostalAddress();
+      postalAddress.postalCode = this._postalCode.getValue(); 
+      postalAddress.locale = this._country.getValue();
+      postalAddress.city = this._cityName.getValue();
+      postalAddress.streetAddress = this._street.getValue(); 
+      return postalAddress;
     },
 
     setAttribute: function(/*String*/ attr, /*anything*/ value){

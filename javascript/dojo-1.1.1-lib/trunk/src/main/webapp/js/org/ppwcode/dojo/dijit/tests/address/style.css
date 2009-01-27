@@ -8,6 +8,8 @@
 @import url("../../../../../../dojo-1.1.1/dojox/highlight/resources/highlight.css");
 @import url("../_data/tree.css");
 
+@import url("../../address/resources/AddressForm.css");
+
 body {
 	background:#fff url("../_data/testsBodyBg.gif") repeat-x top left;
 	padding:2em 2em 2em 2em;
