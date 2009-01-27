@@ -46,16 +46,25 @@ public final class LocaleHelpers {
   /**
    * This method returns the most preferred locale from the list of supported locales,
    * based on the enumeration of accepted locales.  If none of the accepted locales matches
-   * with any of the supported locales, a default locale is returned.  The default locale
-   * is the first locale in the list of supported locales.
+   * with any of the supported locales, {@code null} is returned.
    *
    * The implementation of the algorithm to determine the most preferred locale is taken
    * from the MyFaces implementation from Apache (calculateLocale in
    * org.apache.myfaces.application.jsp.JspViewHandlerImpl).
    *
+   * Note that the order of the supported locales is important.  A language match of an accepted
+   * locale with a supported locale gets higher priority than an exact match with a supported locale
+   * further down the list.
+   *
+   * E.g., for accepted locales (nl-BE, ...) and supported locales (nl, nl-BE) a match will be made
+   * with the supported locale "nl"; for accepted locales (nl-BE, ...) and supported locales (nl-BE, nl)
+   * a match will be made with the supported locale "nl-BE".  Put differently: if the more generic locale
+   * (like "nl") appears before the more specific locale (like "nl-BE" or "nl-NL") in the list of supported
+   * locales, then there will never be a match with the more specific locale.
+   *
    *
    * @param acceptedLocales   An Enumeration of locales in decreasing order of preference.
-   * @param supportedLocales  A List of supported locales, with the default locale first.
+   * @param supportedLocales  A List of supported locales (order is important).
    * @return
    */
   public static Locale findPreferredLocale(Enumeration<Locale> acceptedLocales, List<Locale> supportedLocales) {
@@ -79,7 +88,7 @@ public final class LocaleHelpers {
       }
     }
 
-    return supportedLocales.get(0);
+    return null;
   }
 
 }
