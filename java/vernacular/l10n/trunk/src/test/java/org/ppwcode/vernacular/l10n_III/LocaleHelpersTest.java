@@ -43,7 +43,30 @@ public class LocaleHelpersTest {
   private static String[] ACCEPTED_LOCALES_4 = { "nl-US", "fr-FR" };
   private static String[] ACCEPTED_LOCALES_5 = { "en", "en-US" };
 
-  private void testLocaleFromString(String locale, String language, String country, String variant) {
+  // utility method used in other unit tests
+  public static List<Locale> constructListOfLocales(String[] locales) {
+    List<Locale> result = new ArrayList<Locale>();
+    for (String s : locales) {
+      result.add(LocaleHelpers.constructLocaleFromString(s));
+    }
+    return result;
+  }
+
+  // utility method used in other unit tests
+  public static Enumeration<Locale> constructEnumerationOfLocales(String[] locales) {
+    Vector<Locale> result = new Vector<Locale>(locales.length);
+    for (String s : locales) {
+      result.add(LocaleHelpers.constructLocaleFromString(s));
+    }
+    return result.elements();
+  }
+
+
+  //
+  // test LocaleHelpers.contructLocale
+  //
+
+  private static void testLocaleFromString(String locale, String language, String country, String variant) {
     Locale loc = LocaleHelpers.constructLocaleFromString(locale);
     Assert.assertEquals(language.toLowerCase(), loc.getLanguage().toLowerCase());
     if (country != null) {
@@ -57,7 +80,6 @@ public class LocaleHelpersTest {
       Assert.assertEquals("", loc.getVariant().toLowerCase());
     }
   }
-
   
   @Test
   public void testConstructLocale() {
@@ -87,22 +109,10 @@ public class LocaleHelpersTest {
     }
   }
 
-  
-  private List<Locale> constructListOfLocales(String[] locales) {
-    List<Locale> result = new ArrayList<Locale>();
-    for (String s : locales) {
-      result.add(LocaleHelpers.constructLocaleFromString(s));
-    }
-    return result;
-  }
 
-  private Enumeration<Locale> constructEnumerationOfLocales(String[] locales) {
-    Vector<Locale> result = new Vector<Locale>(locales.length);
-    for (String s : locales) {
-      result.add(LocaleHelpers.constructLocaleFromString(s));
-    }
-    return result.elements();
-  }
+  //
+  // test LocaleHelpers.findPreferredLocale
+  //
 
   private void testHelperFindPreferredLocale(String[] acceptedLocales, String[] supportedLocales, String expectedLocale) {
     Enumeration<Locale> accepted = constructEnumerationOfLocales(acceptedLocales);
