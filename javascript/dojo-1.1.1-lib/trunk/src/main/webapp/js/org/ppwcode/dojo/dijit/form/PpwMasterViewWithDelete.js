@@ -209,7 +209,14 @@ dojo.declare(
         },
 
         addRow: function(object) {
-            this._masterGrid.addRow(object);
+          // XXX MUDO TOM: Check if this meets your needs !!
+          // Setting fields to empty string
+          for (var f in object) {
+            if (object[f] == null || object[f] === undefined) {
+              object[f] = "";
+            }
+          }
+          this._masterGrid.addRow(object);
         },
 
 		
