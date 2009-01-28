@@ -444,7 +444,13 @@ dojo.declare(
         	this.removeErrorMessages();
 			this._setInitMode();
 			this.inherited(arguments);
-		},
+
+      // XXX MUDO TOM: check if this meets your needs !!
+      // setting all fields to empty, where as now we sometimes see 'undefined' or 'null' in the field
+      for (var i = 0; i < this._formmap.length; i++) {
+        this._fieldIdToWidgetMap[this._formmap[i].fieldid].setValue("");
+      }
+    },
 
 		displayObject: function(obj) {
 			// summary:
@@ -461,7 +467,7 @@ dojo.declare(
 			this._thedisplayobject = obj;
 			//copy fields in the object to the form.
 			for (var i = 0; i < this._formmap.length; i++) {
-				this._fieldIdToWidgetMap[this._formmap[i].fieldid].setValue(eval("obj." + this._formmap[i].property));
+        this._fieldIdToWidgetMap[this._formmap[i].fieldid].setValue(eval("obj." + this._formmap[i].property));
 			}
 			this.setViewMode();
 		},
