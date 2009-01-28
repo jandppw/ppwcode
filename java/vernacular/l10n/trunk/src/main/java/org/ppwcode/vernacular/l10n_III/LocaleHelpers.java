@@ -39,7 +39,6 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
 public final class LocaleHelpers {
 
   private LocaleHelpers() {
-    
   }
 
 
@@ -90,5 +89,48 @@ public final class LocaleHelpers {
 
     return null;
   }
+
+
+
+  /**
+   * <p>This method returns a Java {@link Locale} that corresponds with the given String representation of
+   * the locale.</p>
+   *
+   * The String representation must adhere to the following rules.
+   * <ul>
+   *   <li>It can consist out of different parts for language, country and variant.  If there are multiple
+   *     parts, then the parts should either be separated by "-" or "_".  The parts should always be ordered
+   *     as: language, country, variant.</li>
+   *   <li>The casing used for the codes for language, country and variant does not matter, but the codes must
+   *     correspond to the codes accepted by {@link Locale}.</li>
+   * </ul>
+   *
+   * @param str   string representation of a locale
+   * @return  A locale corresponding to the given string representation.
+   */
+  public static Locale constructLocaleFromString(String str) {
+    if ((str == null) || (str.length()==0)) {
+      return null;
+    }
+    // 0 - language
+    // 1 - country
+    // 2 - variant
+    String[] parts = str.split("-");
+    if (parts.length == 0) {
+      return null;
+    }
+    if (parts.length == 1) {
+      parts = str.split("_");
+    }
+    switch (parts.length) {
+      case 1:
+        return new Locale(parts[0].toLowerCase());
+      case 2:
+        return new Locale(parts[0].toLowerCase(), parts[1].toUpperCase());
+      default:
+        return new Locale(parts[0].toLowerCase(), parts[1].toUpperCase(), parts[2]);
+    }
+  }
+
 
 }

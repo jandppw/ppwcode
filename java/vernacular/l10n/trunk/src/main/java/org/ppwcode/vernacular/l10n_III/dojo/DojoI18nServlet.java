@@ -37,6 +37,7 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.util.reflect_I.TypeHelpers;
 import org.ppwcode.vernacular.l10n_III.resourcebundle.DefaultResourceBundleLoadStrategy;
 import org.ppwcode.vernacular.l10n_III.I18nLabelHelpers;
+import org.ppwcode.vernacular.l10n_III.LocaleHelpers;
 
 /**
  * Servlet that emulates Dojo Localization bundles
@@ -59,7 +60,10 @@ public class DojoI18nServlet extends HttpServlet {
       defaultLocale = Locale.getDefault();
       String loc = config.getInitParameter("defaultLocale");
       if (loc != null) {
-        defaultLocale = constructLocale(loc);
+        Locale tmpLocale = LocaleHelpers.constructLocaleFromString(loc);
+        if (tmpLocale != null) {
+          defaultLocale = tmpLocale;
+        }
       }
     } catch (Throwable e) { 
       e.printStackTrace();
@@ -106,7 +110,10 @@ public class DojoI18nServlet extends HttpServlet {
 
       // generate output
       if (fullName != null) {
-        Locale loc = constructLocale(locName);
+        Locale loc = LocaleHelpers.constructLocaleFromString(locName);
+        if (loc == null) {
+          loc = defaultLocale;
+        }
         HashMap<String, String> translations = getTranslations(pkgName+"."+clsName, loc);
         String localizationBundle = buildDojoLocalizationBundle(translations);
         out.println(localizationBundle);
@@ -118,28 +125,6 @@ public class DojoI18nServlet extends HttpServlet {
       e.printStackTrace();
     }
 
-  }
-
-
-  private Locale constructLocale(String str) {
-    if (str == null) {
-      return defaultLocale;
-    }
-    // 0 - language
-    // 1 - country
-    // 2 - variant
-    String[] parts = str.split("-");
-    if (parts.length == 1) {
-      parts = str.split("_");
-    }
-    switch (parts.length) {
-      case 1:
-        return new Locale(parts[0]);
-      case 2:
-        return new Locale(parts[0], parts[1].toUpperCase());
-      default:
-        return new Locale(parts[0], parts[1].toUpperCase(), parts[2]);
-    }
   }
 
 
