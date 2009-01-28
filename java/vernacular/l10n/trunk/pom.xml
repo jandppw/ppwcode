@@ -220,8 +220,7 @@
       <artifactId>ppwcode-util-reflection-I</artifactId>
     </dependency>
 
-    <!-- this dependencies are specifically for the DojoI18nServlet
-    -->
+    <!-- these dependencies are specifically for the DojoI18nServlet -->
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
