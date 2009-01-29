@@ -18,6 +18,7 @@ package org.ppwcode.vernacular.l10n_III;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import org.ppwcode.metainfo_I.Copyright;
@@ -40,6 +41,7 @@ import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 public class LocaleManager {
 
   private static Hashtable<String,List<Locale>> supportedLocalesPerApplication = new Hashtable<String, List<Locale>>();
+  private static String firstApplication = null;
 
   private LocaleManager() {
   }
@@ -53,6 +55,9 @@ public class LocaleManager {
    */
   public static void registerSupportedLocales(String application, List<Locale> supportedLocales) {
     List<Locale> copy = copyLocaleList(supportedLocales);
+    if (firstApplication == null) {
+      firstApplication = application;
+    }
     supportedLocalesPerApplication.put(application, copy);
   }
 
@@ -68,30 +73,36 @@ public class LocaleManager {
   /**
    * Return a list of locales that are supported by all applications or libraries that registered their
    * supported locales with the LocaleManager.  This is thus the intersection of all registered lists
-   * of locales.
+   * of locales.  The locales in the returned list are ordered according to their order in the first list
+   * of locales that was registered.
    * 
    * @return list of locales supported by all dependent applications or libraries
    */
   public static List<Locale> getSupportedLocales() {
-    List<Locale> supportedLocales = null;
-    // check all registered locales
-    for (String app : supportedLocalesPerApplication.keySet()) {
-      if (supportedLocales == null) {
-        // initialize
-        supportedLocales = copyLocaleList(supportedLocalesPerApplication.get(app));
-      } else {
+    if (firstApplication == null) {
+      return new ArrayList<Locale>();
+    } else {
+      List<Locale> supportedLocales = copyLocaleList(supportedLocalesPerApplication.get(firstApplication));
+      // check all registered locales
+      for (String app : supportedLocalesPerApplication.keySet()) {
         // remove locales not supported by a dependent application or library
         List<Locale> appSupportedLocales = supportedLocalesPerApplication.get(app);
-        for (Locale locale : supportedLocales) {
+        Iterator<Locale> supportedLocalesIterator = supportedLocales.iterator();
+        while (supportedLocalesIterator.hasNext()) {
+          Locale locale = supportedLocalesIterator.next();
           if (!appSupportedLocales.contains(locale)) {
-            supportedLocales.remove(locale);
+            supportedLocalesIterator.remove();
           }
         }
       }
+      return supportedLocales;
     }
-    return supportedLocales;
   }
 
+
+  //
+  //  helper methods
+  //
 
   private static List<Locale> copyLocaleList(List<Locale> locales) {
     List<Locale> copy = new ArrayList<Locale>(locales.size());
