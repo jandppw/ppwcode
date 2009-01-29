@@ -16,11 +16,9 @@ limitations under the License.
 
 package org.ppwcode.vernacular.l10n_III;
 
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
-import java.util.Vector;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -42,24 +40,6 @@ public class LocaleHelpersTest {
   private static String[] ACCEPTED_LOCALES_3 = { "fr-BE", "fr-FR", "fr" };
   private static String[] ACCEPTED_LOCALES_4 = { "nl-US", "fr-FR" };
   private static String[] ACCEPTED_LOCALES_5 = { "en", "en-US" };
-
-  // utility method used in other unit tests
-  public static List<Locale> constructListOfLocales(String[] locales) {
-    List<Locale> result = new ArrayList<Locale>();
-    for (String s : locales) {
-      result.add(LocaleHelpers.constructLocaleFromString(s));
-    }
-    return result;
-  }
-
-  // utility method used in other unit tests
-  public static Enumeration<Locale> constructEnumerationOfLocales(String[] locales) {
-    Vector<Locale> result = new Vector<Locale>(locales.length);
-    for (String s : locales) {
-      result.add(LocaleHelpers.constructLocaleFromString(s));
-    }
-    return result.elements();
-  }
 
 
   //
@@ -115,8 +95,8 @@ public class LocaleHelpersTest {
   //
 
   private void testHelperFindPreferredLocale(String[] acceptedLocales, String[] supportedLocales, String expectedLocale) {
-    Enumeration<Locale> accepted = constructEnumerationOfLocales(acceptedLocales);
-    List<Locale> supported = constructListOfLocales(supportedLocales);
+    Enumeration<Locale> accepted = LocaleHelpers.constructEnumerationOfLocales(acceptedLocales);
+    List<Locale> supported = LocaleHelpers.constructListOfLocales(supportedLocales);
     Locale expected = LocaleHelpers.constructLocaleFromString(expectedLocale);
     Assert.assertEquals(expected, LocaleHelpers.findPreferredLocale(accepted, supported));
   }

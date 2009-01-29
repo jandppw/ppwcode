@@ -16,12 +16,14 @@ limitations under the License.
 
 package org.ppwcode.vernacular.l10n_III;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
 import java.util.Locale;
 
+import java.util.Vector;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
@@ -130,6 +132,40 @@ public final class LocaleHelpers {
       default:
         return new Locale(parts[0].toLowerCase(), parts[1].toUpperCase(), parts[2]);
     }
+  }
+
+
+  /**
+   * <p>This method converts an array of strings that represent locales to a list of locales.
+   *   This is done using the helper method {@code constructLocaleFromString}.  The order
+   *   of the locales in the returned list is the same as their order in the given list.</p>
+   * 
+   * @param locales  Array with the string representation of locales.
+   * @return  List of Java {@link Locale}s
+   */
+  public static List<Locale> constructListOfLocales(String[] locales) {
+    List<Locale> result = new ArrayList<Locale>();
+    for (String s : locales) {
+      result.add(LocaleHelpers.constructLocaleFromString(s));
+    }
+    return result;
+  }
+
+
+  /**
+   * <p>This method converts an array of strings that represent locales to an enumeration of locales.
+   *   This is done using the helper method {@code constructLocaleFromString}.  The order
+   *   of the locales in the returned enumeration is the same as their order in the given list.</p>
+   *
+   * @param locales  Array with the string representation of locales.
+   * @return  Enumeration of Java {@link Locale}s
+   */
+  public static Enumeration<Locale> constructEnumerationOfLocales(String[] locales) {
+    Vector<Locale> result = new Vector<Locale>(locales.length);
+    for (String s : locales) {
+      result.add(LocaleHelpers.constructLocaleFromString(s));
+    }
+    return result.elements();
   }
 
 
