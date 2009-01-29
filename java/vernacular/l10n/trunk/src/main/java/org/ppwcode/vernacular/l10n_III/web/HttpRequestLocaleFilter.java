@@ -28,18 +28,21 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-
 import org.ppwcode.vernacular.l10n_III.LocaleHelpers;
 import org.ppwcode.vernacular.l10n_III.LocaleManager;
+
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
 /**
  * <p>This class is a servlet filter that will calculate the preferred locale
  * based on the locales supported by the application and the locales accepted
- * by the client.</p>
+ * by the client.  This preferred locale will then be stored in an attribute
+ * in session scope.</p>
  *
  * @author Ruben Vandeginste
  * @author PeopleWare n.v.
@@ -50,14 +53,35 @@ import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
          date     = "$Date: 2009-01-23 17:25:55 +0100 (Fri, 23 Jan 2009) $")
 public class HttpRequestLocaleFilter implements Filter {
 
+  private static final Log LOG = LogFactory.getLog(HttpRequestLocaleFilter.class);
+
+  // attribute name used to store preferred locale in session scope
+  public static final String LOCALE_ATTRIBUTE_NAME = HttpRequestLocaleFilter.class.getName() + ".locale";
+
   private FilterConfig $filterConfig = null;
-  final public static String LOCALE_ATTRIBUTE_NAME = HttpRequestLocaleFilter.class.getName() + ".locale";
 
   public void init(FilterConfig filterConfig) throws ServletException {
     $filterConfig = filterConfig;
   }
 
-  public void doFilter(HttpServletRequest request, ServletResponse response, FilterChain chain)
+  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+          throws IOException, ServletException {
+    if (request instanceof HttpServletRequest) {
+      doRequestLocaleFilter((HttpServletRequest) request, response, chain);
+    } else {
+      chain.doFilter(request, response);
+    }
+  }
+
+  public void destroy() {
+    $filterConfig = null;
+  }
+
+  //
+  //  private methods
+  //
+
+  private void doRequestLocaleFilter(HttpServletRequest request, ServletResponse response, FilterChain chain)
           throws IOException, ServletException {
     HttpSession session = request.getSession();
 
@@ -65,21 +89,22 @@ public class HttpRequestLocaleFilter implements Filter {
       Enumeration acceptedLocales = request.getLocales();
       List<Locale> supportedLocales = LocaleManager.getSupportedLocales();
 
+      if (LOG.isDebugEnabled()) {
+        String info = "accepted:  ";
+        Enumeration test = request.getLocales();
+        while (test.hasMoreElements()) {
+          info += test.nextElement() + " ";
+        }
+        LOG.debug(info);
+        LOG.debug("supported: " + supportedLocales);
+      }
+
       @SuppressWarnings("unchecked") // request.getLocales does not use generics
       Locale bestLocale = LocaleHelpers.findPreferredLocale(acceptedLocales, supportedLocales);
 
       session.setAttribute(LOCALE_ATTRIBUTE_NAME, bestLocale);
     }
     chain.doFilter(request, response);
-  }
-
-  public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-          throws IOException, ServletException {
-    chain.doFilter(request, response);
-  }
-
-  public void destroy() {
-    $filterConfig = null;
   }
 
 }
