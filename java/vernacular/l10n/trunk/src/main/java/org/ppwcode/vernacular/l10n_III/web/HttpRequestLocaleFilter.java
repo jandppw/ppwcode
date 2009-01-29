@@ -51,7 +51,7 @@ import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 public class HttpRequestLocaleFilter implements Filter {
 
   private FilterConfig $filterConfig = null;
-  final private static String localeAttributeName = HttpRequestLocaleFilter.class.getName() + ".locale";
+  final public static String LOCALE_ATTRIBUTE_NAME = HttpRequestLocaleFilter.class.getName() + ".locale";
 
   public void init(FilterConfig filterConfig) throws ServletException {
     $filterConfig = filterConfig;
@@ -61,14 +61,14 @@ public class HttpRequestLocaleFilter implements Filter {
           throws IOException, ServletException {
     HttpSession session = request.getSession();
 
-    if (session.getAttribute(localeAttributeName) == null) {
+    if (session.getAttribute(LOCALE_ATTRIBUTE_NAME) == null) {
       Enumeration acceptedLocales = request.getLocales();
       List<Locale> supportedLocales = LocaleManager.getSupportedLocales();
 
       @SuppressWarnings("unchecked") // request.getLocales does not use generics
       Locale bestLocale = LocaleHelpers.findPreferredLocale(acceptedLocales, supportedLocales);
 
-      session.setAttribute(localeAttributeName, bestLocale);
+      session.setAttribute(LOCALE_ATTRIBUTE_NAME, bestLocale);
     }
     chain.doFilter(request, response);
   }
