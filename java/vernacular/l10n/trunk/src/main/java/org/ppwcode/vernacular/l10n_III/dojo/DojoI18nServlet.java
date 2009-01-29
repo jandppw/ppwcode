@@ -31,6 +31,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
@@ -51,6 +53,8 @@ import org.ppwcode.vernacular.l10n_III.LocaleHelpers;
          date     = "$Date: 2009-01-23 17:25:55 +0100 (Fri, 23 Jan 2009) $")
 public class DojoI18nServlet extends HttpServlet {
 
+  private static final Log LOG = LogFactory.getLog(DojoI18nServlet.class);
+
   private Locale defaultLocale = null;
 
   @Override
@@ -60,6 +64,7 @@ public class DojoI18nServlet extends HttpServlet {
       defaultLocale = Locale.getDefault();
       String loc = config.getInitParameter("defaultLocale");
       if (loc != null) {
+        LOG.debug("defaultLocale: "+loc);
         Locale tmpLocale = LocaleHelpers.constructLocaleFromString(loc);
         if (tmpLocale != null) {
           defaultLocale = tmpLocale;
@@ -74,21 +79,9 @@ public class DojoI18nServlet extends HttpServlet {
           throws ServletException, IOException {
     try {
 
-      /*
-      System.out.println("Preferred locale:" + request.getLocale());
-      System.out.println("Accepted locales:");
-      
-      Enumeration locs = request.getLocales();
-      while (locs.hasMoreElements()) {
-        System.out.println("   - "+ locs.nextElement());
-      }
-       */
-
-      response.setContentType("text/javascript");
-      PrintWriter out = response.getWriter();
-
       // request path that we need
       String i18nUrl = request.getPathInfo();
+      LOG.debug("i18n url: "+i18nUrl);
       // split path into package name, class name and localization
       Pattern p = Pattern.compile("^/(.*)/nls/(([^/]+)/)?([^/]+)\\.js$");
       Matcher m = p.matcher(i18nUrl);
@@ -108,8 +101,21 @@ public class DojoI18nServlet extends HttpServlet {
         clsName = m.group(4);
       }
 
+      // debug output
+      if (fullName == null) {
+        LOG.debug("pattern match failed!");
+      } else {
+        LOG.debug("fullName: "+fullName);
+        LOG.debug("pkgName: "+pkgName);
+        LOG.debug("locName: "+locName);
+        LOG.debug("clsName: "+clsName);
+      }
+
+
       // generate output
       if (fullName != null) {
+        response.setContentType("text/javascript");
+        PrintWriter out = response.getWriter();
         Locale loc = LocaleHelpers.constructLocaleFromString(locName);
         if (loc == null) {
           loc = defaultLocale;
