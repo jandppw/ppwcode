@@ -114,6 +114,7 @@ public final class LocaleHelpers {
     if ((str == null) || (str.length()==0)) {
       return null;
     }
+    str = str.trim();
     // 0 - language
     // 1 - country
     // 2 - variant
