@@ -34,6 +34,13 @@ code {
 }
 
 dt {
+	display: list-item; 
+	list-style: circle;
 	text-decoration: underline;
 	font-style: italic;
+	margin-left: 15px;
+}
+
+dd {
+	margin-left: 25px;
 }

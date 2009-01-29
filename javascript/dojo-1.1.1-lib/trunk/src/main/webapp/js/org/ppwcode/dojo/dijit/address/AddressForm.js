@@ -1,4 +1,5 @@
 dojo.provide("org.ppwcode.dojo.dijit.address.AddressForm");
+dojo.experimental("org.ppwcode.dojo.dijit.address.AddressForm", "TODO: regular expression check on postal code");
 
 dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
