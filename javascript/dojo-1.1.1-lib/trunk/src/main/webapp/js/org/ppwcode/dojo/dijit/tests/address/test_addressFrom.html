@@ -27,14 +27,16 @@
     dojo.require("dojox.highlight.languages._all");
 	dojo.require("dojo.data.ItemFileReadStore");
 	dojo.require("dijit.Tree");  
-	dojo.require("org.ppwcode.dojo.dijit.form.PpwCrudForm");
+	dojo.require("dijit.form.Form");
 	dojo.require("dijit.form.Button");
 
 	function showObject() {
-		console.log(addressWidget.getValue().postalCode + "\n" + 
+		var text = addressWidget.getValue().postalCode + "\n" + 
 		addressWidget.getValue().locale + "\n" +
 		addressWidget.getValue().city + "\n" +
-		addressWidget.getValue().streetAddress + "\n");  
+		addressWidget.getValue().streetAddress + "\n";
+		console.log(text);
+		alert(text);  
 	}  
 
     dojo.addOnLoad(function() {
@@ -54,7 +56,7 @@
     <div dojoType="org.ppwcode.dojo.dijit.layout.TitledContentPane"
     	title="Example of a Address Widget" 
     	style="width: 350px;">
-		<form dojoType="org.ppwcode.dojo.dijit.form.PpwCrudForm" id="test" name="test" 
+		<form dojoType="dijit.form.Form" id="test" name="test" 
 			encType="multipart/form-data" action="" method="POST"
 			onSubmit="return false;">
 	    	<div id="addressWidget" jsId="addressWidget" 
@@ -69,8 +71,20 @@
 	  <span>
 	    The address widget is a reusable component. It has 4 fields:<br/>
 	    <dl>
-	      <dt></dt>
-	      <dd></dd>
+	      <dt>Street</dt>
+	      <dd>An input field where you can fill in street, number and box number</dd>
+	      <dt>Postal Code</dt>
+	      <dd>
+	      	The postal code of your city. This field will be validated against a regular expression
+	      	depending on the country you have selected.
+	      </dd>
+	      <dt>City</dt>
+	      <dd>An input field which allows you to fill in the city</dd>
+	      <dt>Country</dt>
+	      <dd>
+	      	A combobox with search functionalities which will contain country and a regular expression 
+	      	for the postal code.
+	      </dd>
 	    </dl>
 	  <span>
 	  <br><b><u>features:</u></b>
