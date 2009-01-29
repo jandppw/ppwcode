@@ -32,3 +32,8 @@ code {
 	left: 450px;
 	top: 20px;
 }
+
+dt {
+	text-decoration: underline;
+	font-style: italic;
+}
