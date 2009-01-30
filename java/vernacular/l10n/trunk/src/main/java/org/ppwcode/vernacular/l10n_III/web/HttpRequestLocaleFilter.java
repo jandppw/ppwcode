@@ -89,6 +89,9 @@ public class HttpRequestLocaleFilter implements Filter {
       Enumeration acceptedLocales = request.getLocales();
       List<Locale> supportedLocales = LocaleManager.getSupportedLocales();
 
+      @SuppressWarnings("unchecked") // request.getLocales does not use generics
+      Locale bestLocale = LocaleHelpers.findPreferredLocale(acceptedLocales, supportedLocales);
+
       if (LOG.isDebugEnabled()) {
         String info = "accepted:  ";
         Enumeration test = request.getLocales();
@@ -97,10 +100,8 @@ public class HttpRequestLocaleFilter implements Filter {
         }
         LOG.debug(info);
         LOG.debug("supported: " + supportedLocales);
+        LOG.debug("preferred: " + bestLocale);
       }
-
-      @SuppressWarnings("unchecked") // request.getLocales does not use generics
-      Locale bestLocale = LocaleHelpers.findPreferredLocale(acceptedLocales, supportedLocales);
 
       session.setAttribute(LOCALE_ATTRIBUTE_NAME, bestLocale);
     }
