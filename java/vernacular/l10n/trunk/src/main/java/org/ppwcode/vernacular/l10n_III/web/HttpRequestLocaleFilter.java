@@ -56,7 +56,7 @@ public class HttpRequestLocaleFilter implements Filter {
   private static final Log LOG = LogFactory.getLog(HttpRequestLocaleFilter.class);
 
   // attribute name used to store preferred locale in session scope
-  public static final String LOCALE_ATTRIBUTE_NAME = HttpRequestLocaleFilter.class.getName() + ".locale";
+  public static final String ATTRIBUTE_PREFERRED_LOCALE = HttpRequestLocaleFilter.class.getName() + ".locale";
 
   private FilterConfig $filterConfig = null;
 
@@ -85,7 +85,7 @@ public class HttpRequestLocaleFilter implements Filter {
           throws IOException, ServletException {
     HttpSession session = request.getSession();
 
-    if (session.getAttribute(LOCALE_ATTRIBUTE_NAME) == null) {
+    if (session.getAttribute(ATTRIBUTE_PREFERRED_LOCALE) == null) {
       Enumeration acceptedLocales = request.getLocales();
       List<Locale> supportedLocales = LocaleManager.getSupportedLocales();
 
@@ -103,7 +103,7 @@ public class HttpRequestLocaleFilter implements Filter {
         LOG.debug("preferred: " + bestLocale);
       }
 
-      session.setAttribute(LOCALE_ATTRIBUTE_NAME, bestLocale);
+      session.setAttribute(ATTRIBUTE_PREFERRED_LOCALE, bestLocale);
     }
     chain.doFilter(request, response);
   }
