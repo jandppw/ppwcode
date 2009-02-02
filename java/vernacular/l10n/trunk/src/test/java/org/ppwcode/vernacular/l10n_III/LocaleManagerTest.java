@@ -16,21 +16,36 @@ limitations under the License.
 
 package org.ppwcode.vernacular.l10n_III;
 
+import java.util.ArrayList;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 import java.util.Locale;
 
+import org.junit.After;
 import org.junit.Test;
 
 public class LocaleManagerTest {
 
-  private static String[] SUPPORTED_LOCALES_1 = { "fr-BE", "fr-FR", "fr", "nl-BE", "nl-NL", "nl", "en-GB", "en-US", "en" };
-  private static String[] SUPPORTED_LOCALES_2 = { "fr-BE", "fr", "nl-BE", "nl", "en-GB", "en", "de-DE", "de" };
-  private static String[] SUPPORTED_LOCALES_3 = { "it-IT", "it", "fr-BE", "fr", "nl-BE", "nl", "en-GB", "en" };
-  private static String[] SUPPORTED_LOCALES_4 = { "nl-BE", "nl", "en-GB", "en", "fr-BE", "fr" };
-  private static String[] SUPPORTED_LOCALES_5 = { "en", "de", "fr", "nl" };
+  private final static List<Locale> EMPTY_LOCALE_LIST = new ArrayList<Locale>();
+
+  private final static String[] SUPPORTED_LOCALES_1 = { "fr-BE", "fr-FR", "fr", "nl-BE", "nl-NL", "nl", "en-GB", "en-US", "en" };
+  private final static String[] SUPPORTED_LOCALES_2 = { "fr-BE", "fr", "nl-BE", "nl", "en-GB", "en", "de-DE", "de" };
+  private final static String[] SUPPORTED_LOCALES_3 = { "it-IT", "it", "fr-BE", "fr", "nl-BE", "nl", "en-GB", "en" };
+  private final static String[] SUPPORTED_LOCALES_4 = { "nl-BE", "nl", "en-GB", "en", "fr-BE", "fr" };
+  private final static String[] SUPPORTED_LOCALES_5 = { "en", "de", "fr", "nl" };
+
+  private final static String APP_1 = "org.ppwcode.vernacular.l10n_III";
+  private final static String APP_2 = "org.ppwcode.vernacular.semantics_VI";
+  private final static String APP_3 = "org.ppwcode.vernacular.semantics_V";
+  private final static String APP_4 = "org.ppwcode.vernacular.resourcebundle_II";
+  private final static String APP_5 = "org.ppwcode.util.dwr_I";
+
+  @After
+  public void tearDown() {
+    LocaleManager.registerSupportedLocales(APP_1, EMPTY_LOCALE_LIST);
+  }
 
   @Test
   public void testLocaleManager() {
@@ -39,38 +54,38 @@ public class LocaleManagerTest {
 
     // register 1 application
     List<Locale> supportedLocales_1 = LocaleHelpers.constructListOfLocales(SUPPORTED_LOCALES_1);
-    LocaleManager.registerSupportedLocales("org.ppwcode.vernacular.l10n_III", supportedLocales_1);
-    assertEquals(supportedLocales_1, LocaleManager.getSupportedLocales("org.ppwcode.vernacular.l10n_III"));
+    LocaleManager.registerSupportedLocales(APP_1, supportedLocales_1);
+    assertEquals(supportedLocales_1, LocaleManager.getSupportedLocales(APP_1));
     assertEquals(supportedLocales_1, LocaleManager.getSupportedLocales());
 
     // register 2nd application
     List<Locale> supportedLocales_2 = LocaleHelpers.constructListOfLocales(SUPPORTED_LOCALES_2);
-    LocaleManager.registerSupportedLocales("org.ppwcode.vernacular.semantics_VI", supportedLocales_2);
-    assertEquals(supportedLocales_2, LocaleManager.getSupportedLocales("org.ppwcode.vernacular.semantics_VI"));
+    LocaleManager.registerSupportedLocales(APP_2, supportedLocales_2);
+    assertEquals(supportedLocales_2, LocaleManager.getSupportedLocales(APP_2));
     String[] expectedLocs_2 = { "fr-BE", "fr", "nl-BE", "nl", "en-GB", "en" };
     List<Locale> expectedLocales_2 = LocaleHelpers.constructListOfLocales(expectedLocs_2);
     assertEquals(expectedLocales_2, LocaleManager.getSupportedLocales());
 
     // register 3rd application
     List<Locale> supportedLocales_3 = LocaleHelpers.constructListOfLocales(SUPPORTED_LOCALES_3);
-    LocaleManager.registerSupportedLocales("org.ppwcode.vernacular.semantics_V", supportedLocales_3);
-    assertEquals(supportedLocales_3, LocaleManager.getSupportedLocales("org.ppwcode.vernacular.semantics_V"));
+    LocaleManager.registerSupportedLocales(APP_3, supportedLocales_3);
+    assertEquals(supportedLocales_3, LocaleManager.getSupportedLocales(APP_3));
     String[] expectedLocs_3 = { "fr-BE", "fr", "nl-BE", "nl", "en-GB", "en" };
     List<Locale> expectedLocales_3 = LocaleHelpers.constructListOfLocales(expectedLocs_3);
     assertEquals(expectedLocales_3, LocaleManager.getSupportedLocales());
 
     // register 4th application
     List<Locale> supportedLocales_4 = LocaleHelpers.constructListOfLocales(SUPPORTED_LOCALES_4);
-    LocaleManager.registerSupportedLocales("org.ppwcode.vernacular.resourcebundle_II", supportedLocales_4);
-    assertEquals(supportedLocales_4, LocaleManager.getSupportedLocales("org.ppwcode.vernacular.resourcebundle_II"));
+    LocaleManager.registerSupportedLocales(APP_4, supportedLocales_4);
+    assertEquals(supportedLocales_4, LocaleManager.getSupportedLocales(APP_4));
     String[] expectedLocs_4 = { "fr-BE", "fr", "nl-BE", "nl", "en-GB", "en" };
     List<Locale> expectedLocales_4 = LocaleHelpers.constructListOfLocales(expectedLocs_4);
     assertEquals(expectedLocales_4, LocaleManager.getSupportedLocales());
 
     // register 5th application
     List<Locale> supportedLocales_5 = LocaleHelpers.constructListOfLocales(SUPPORTED_LOCALES_5);
-    LocaleManager.registerSupportedLocales("org.ppwcode.util.dwr_I", supportedLocales_5);
-    assertEquals(supportedLocales_5, LocaleManager.getSupportedLocales("org.ppwcode.util.dwr_I"));
+    LocaleManager.registerSupportedLocales(APP_5, supportedLocales_5);
+    assertEquals(supportedLocales_5, LocaleManager.getSupportedLocales(APP_5));
     String[] expectedLocs_5 = { "fr", "nl", "en" };
     List<Locale> expectedLocales_5 = LocaleHelpers.constructListOfLocales(expectedLocs_5);
     assertEquals(expectedLocales_5, LocaleManager.getSupportedLocales());
