@@ -162,51 +162,91 @@ public class DojoDjConfigFilter implements Filter {
     StringBuffer result = new StringBuffer(65536);
 
     // construct regexp
-    String regexp = "^(.*<script\\s+";                // match script tag
-    regexp += "type=\\s*\"text/javascript\"\\s+";     // followed by a type text/javascript
-    regexp += "src=\\s*\"[^\"]*dojo[^\"]*\"\\s+";     // followed by a src with something dojo in it
-    regexp += "djConfig=\\s*\")([^\"]*)(\"\\s*>\\s*"; // finally the djConfig part we are interested in
-    regexp += "</script>.*)$";                        // and the closing script tag
-    LOG.debug("regexp: " + regexp);
+    String regexpFull = "^(.*<script)";                         // up to script tag
+    regexpFull += "((\\s+type=\\s*(['\"])text/javascript\\4|";   // type
+    regexpFull += "\\s+src=\\s*(['\"]).*?dojo.*?\\5|";    // src
+    regexpFull += "\\s+djConfig=\\s*(['\"])(.*?)\\6){3})";         // djConfig
+    regexpFull += "(\\s*>\\s*</script>.*)$";                    // closing script tag and afterwards
+    LOG.debug("regexp: " + regexpFull);
 
-    Pattern p = Pattern.compile(regexp, Pattern.DOTALL);
+    Pattern p = Pattern.compile(regexpFull, Pattern.DOTALL);
     Matcher m = p.matcher(buffer);
     // pattern group 1 - before, 2 - djConfig content, 3 - after
     if (m.matches()) {
       LOG.debug("djConfig is: "+m.group(2));
       result.append(m.group(1));
       result.append(replaceDjConfigLocale(m.group(2), preferredLocale));
-      result.append(m.group(3));
+      LOG.debug("after is: " + m.group(8));
+      result.append(m.group(8));
       return result.toString();
     } else {
+      LOG.debug("no match");
       return buffer.toString();
     }
   }
-
 
   private String replaceDjConfigLocale(String djConfig, Locale preferredLocale) {
     StringBuffer result = new StringBuffer(1024);
     String dojoLocale = DojoLocaleHelpers.localeToString(preferredLocale);
 
     // construct regexp
-    String regexp = "^(.*locale\\s*:\\s*')([^']*)('.*)$";
+    String regexp = "^(.*\\s+djConfig=\\s*)((['\"])(.*?)\\3)(\\s*.*)$";
     LOG.debug("regexp djconfiglocale: " + regexp);
 
-    Pattern p = Pattern.compile(regexp);
+    Pattern p = Pattern.compile(regexp, Pattern.DOTALL);
     Matcher m = p.matcher(djConfig);
 
-    // pattern group 1 - before, 2 - locale content, 3 - after
+    // pattern group 1 - before djConfig, 2 - djConfig content, 3 - after djConfig
     if (m.matches()) {
-      LOG.debug("djConfigLocale is: "+m.group(2));
-      result.append(m.group(1));
-      result.append(dojoLocale);
-      result.append(m.group(3));
+      String before = m.group(1);
+      String quote = m.group(3);
+      String config = m.group(4);
+      String after = m.group(5);
+
+      String otherQuote = quote.equals("\"") ? "'" : "\"";
+
+      LOG.debug("before " + before);
+      LOG.debug("after  " + after);
+      LOG.debug("cfg    " + config);
+      LOG.debug("quote  " + quote);
+
+      // construct before djConfig content
+      result.append(before);
+      result.append(quote);
+
+      // filter config itself
+      String regexpCfg = "^(.*" + otherQuote + "?locale" + otherQuote + "?\\s*:\\s*" + otherQuote + ")([a-z\\-]*)(" + otherQuote + ".*)$";
+      Pattern pCfg = Pattern.compile(regexpCfg, Pattern.DOTALL);
+      Matcher mCfg = pCfg.matcher(config);
+
+      if (mCfg.matches()) {
+        // found locale in djConfig
+        String beforeLocale = mCfg.group(1);
+        String locale = mCfg.group(2);
+        String afterLocale = mCfg.group(3);
+
+        LOG.debug("before locale: " + beforeLocale);
+        LOG.debug("locale: " + locale);
+        LOG.debug("after locale: " + afterLocale);
+
+        result.append(beforeLocale);
+        result.append(dojoLocale);
+        result.append(afterLocale);
+      } else {
+        // no locale in djConfig: add it
+        result.append(config);
+        result.append(", locale:");
+        result.append(otherQuote);
+        result.append(dojoLocale);
+        result.append(otherQuote);
+      }
+
+      // construct after djConfig content
+      result.append(quote);
+      result.append(after);
     } else {
-      // no locale specified, so we just add a locale then
+      // no match on djConfig, just return the string then
       result.append(djConfig);
-      result.append(", locale: '");
-      result.append(dojoLocale);
-      result.append("'");
     }
 
     LOG.debug("new djConfig: " + result);
