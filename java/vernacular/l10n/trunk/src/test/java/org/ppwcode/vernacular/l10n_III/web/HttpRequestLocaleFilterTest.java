@@ -103,9 +103,9 @@ public class HttpRequestLocaleFilterTest {
 
     MockHttpServletResponse response = new MockHttpServletResponse();
     MockFilterChain chain = new MockFilterChain();
-    HttpSession session = request.getSession();
 
     if (sessionLocale != null) {
+      HttpSession session = request.getSession();
       session.setAttribute(HttpRequestLocaleFilter.ATTRIBUTE_PREFERRED_LOCALE, 
               LocaleHelpers.constructLocaleFromString(sessionLocale));
     }
@@ -116,10 +116,10 @@ public class HttpRequestLocaleFilterTest {
     localeFilter.doFilter(request, response, chain);
 
     if (sessionLocale == null) {
-      Assert.assertTrue(session.getAttribute(HttpRequestLocaleFilter.ATTRIBUTE_PREFERRED_LOCALE).
+      Assert.assertTrue(request.getSession().getAttribute(HttpRequestLocaleFilter.ATTRIBUTE_PREFERRED_LOCALE).
             equals(LocaleHelpers.constructLocaleFromString(bestLocale)));
     } else {
-      Assert.assertTrue(session.getAttribute(HttpRequestLocaleFilter.ATTRIBUTE_PREFERRED_LOCALE).
+      Assert.assertTrue(request.getSession().getAttribute(HttpRequestLocaleFilter.ATTRIBUTE_PREFERRED_LOCALE).
             equals(LocaleHelpers.constructLocaleFromString(sessionLocale)));
     }
   }
