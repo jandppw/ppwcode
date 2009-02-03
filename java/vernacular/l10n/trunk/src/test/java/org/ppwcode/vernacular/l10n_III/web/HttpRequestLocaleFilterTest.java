@@ -33,6 +33,18 @@ import org.springframework.mock.web.MockFilterChain;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
+/**
+ * This class contains unit tests for HttpRequestLocaleFilter.  The purpose of these
+ * tests is to ensure that the filter (in isolation) does what it is designed to do.
+ * This is very useful, since it let's us verify that modifications in the filter
+ * code still satisfy the requirements.
+ * 
+ * Note that an integration test with for example a complete Dojo i18n setup would be
+ * very useful too.  This is currently not implemented.
+ * 
+ * @author Ruben Vandeginste
+ * @author PeopleWare n.v.
+ */
 public class HttpRequestLocaleFilterTest {
 
   private final static List<Locale> EMPTY_LOCALE_LIST = new ArrayList<Locale>();
