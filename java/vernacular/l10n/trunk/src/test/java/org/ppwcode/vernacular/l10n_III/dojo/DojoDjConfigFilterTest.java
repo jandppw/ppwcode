@@ -35,7 +35,8 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.PassThroughFilterChain;
 
 /**
- * This class contains unit tests for DojoDjConfigFilter.
+ * This class contains unit tests for DojoDjConfigFilter.  The purpose of these tests is
+ * to verify that the algorithm used in DojoDjConfigFilter is correct.
  *
  * @author Ruben Vandeginste
  * @author PeopleWare n.v.
@@ -61,26 +62,26 @@ public class DojoDjConfigFilterTest {
 
   public final static String INPUT_2 =
           "<script type=\"text/javascript\"\n" +
-          "djConfig=\"parseOnLoad: true, modulePaths: {org: '../../org', contracts: '../../../contracts_i18n', i18n: '../../../i18n'}, isDebug: false, locale:'nl-be'\">\n" +
-          "src=\"js/dojo-1.1.1/dojo/dojo.js\"\n" +
+          "djConfig=\"parseOnLoad: true, modulePaths: {org: '../../org', contracts: '../../../contracts_i18n', i18n: '../../../i18n'}, isDebug: false, locale:'nl-be'\"\n" +
+          "src=\"js/dojo-1.1.1/dojo/dojo.js\">\n" +
           "</script>";
 
   public final static String OUTPUT_2 =
            "<script type=\"text/javascript\"\n" +
-           "djConfig=\"parseOnLoad: true, modulePaths: {org: '../../org', contracts: '../../../contracts_i18n', i18n: '../../../i18n'}, isDebug: false, locale:'fr-be'\">\n" +
-           "src=\"js/dojo-1.1.1/dojo/dojo.js\"\n" +
+           "djConfig=\"parseOnLoad: true, modulePaths: {org: '../../org', contracts: '../../../contracts_i18n', i18n: '../../../i18n'}, isDebug: false, locale:'fr-be'\"\n" +
+           "src=\"js/dojo-1.1.1/dojo/dojo.js\">\n" +
            "</script>";
 
   public final static String INPUT_3 =
           "<script type='text/javascript'\n" +
-          "  djConfig='parseOnLoad: true, modulePaths: {org: \"../../org\", contracts: \"../../../contracts_i18n\", i18n: \"../../../i18n\"}, isDebug: false, locale:\"nl-be\"'>\n" +
-          "  src=\"js/dojo-1.1.1/dojo/dojo.js\"\n" +
+          "  djConfig='parseOnLoad: true, modulePaths: {org: \"../../org\", contracts: \"../../../contracts_i18n\", i18n: \"../../../i18n\"}, isDebug: false, locale:\"nl-be\"'\n" +
+          "  src=\"js/dojo-1.1.1/dojo/dojo.js\">\n" +
           "</script>";
 
   public final static String OUTPUT_3 =
           "<script type='text/javascript'\n" +
-          "  djConfig='parseOnLoad: true, modulePaths: {org: \"../../org\", contracts: \"../../../contracts_i18n\", i18n: \"../../../i18n\"}, isDebug: false, locale:\"fr-be\"'>\n" +
-          "  src=\"js/dojo-1.1.1/dojo/dojo.js\"\n" +
+          "  djConfig='parseOnLoad: true, modulePaths: {org: \"../../org\", contracts: \"../../../contracts_i18n\", i18n: \"../../../i18n\"}, isDebug: false, locale:\"fr-be\"'\n" +
+          "  src=\"js/dojo-1.1.1/dojo/dojo.js\">\n" +
           "</script>";
 
   public final static String INPUT_4 =
@@ -129,14 +130,14 @@ public class DojoDjConfigFilterTest {
 
   public final static String INPUT_8 =
           "<script type='text/javascript'\n" +
-          "  djConfig='parseOnLoad: true, modulePaths: {org: \"../../org\", contracts: \"../../../contracts_i18n\", i18n: \"../../../i18n\"}, isDebug: false'>\n" +
-          "  src=\"js/dojo-1.1.1/dojo/dojo.js\"\n" +
+          "  djConfig='parseOnLoad: true, modulePaths: {org: \"../../org\", contracts: \"../../../contracts_i18n\", i18n: \"../../../i18n\"}, isDebug: false'\n" +
+          "  src=\"js/dojo-1.1.1/dojo/dojo.js\">\n" +
           "</script>";
 
   public final static String OUTPUT_8 =
           "<script type='text/javascript'\n" +
-          "  djConfig='parseOnLoad: true, modulePaths: {org: \"../../org\", contracts: \"../../../contracts_i18n\", i18n: \"../../../i18n\"}, isDebug: false, locale:\"fr-be\"'>\n" +
-          "  src=\"js/dojo-1.1.1/dojo/dojo.js\"\n" +
+          "  djConfig='parseOnLoad: true, modulePaths: {org: \"../../org\", contracts: \"../../../contracts_i18n\", i18n: \"../../../i18n\"}, isDebug: false, locale:\"fr-be\"'\n" +
+          "  src=\"js/dojo-1.1.1/dojo/dojo.js\">\n" +
           "</script>";
 
 
