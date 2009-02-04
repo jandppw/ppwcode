@@ -35,7 +35,7 @@ dojo.declare(
 			var children = this.getChildren();
 			for (var i = 0; i < children.length; i++) {
 				var contentpane = children[i];
-				if (dojo.attr(contentpane.domNode, 'emptyPane') == "true") {
+				if (dojo.attr(contentpane.domNode, 'isEmptyPane') == "true") {
 					this._formIdMap["__empty"] = contentpane;
 				} else {
 					var list = dojo.query("form[widgetId]", contentpane.containerNode);
@@ -149,6 +149,7 @@ dojo.declare(
 					var form = this._formIdMap[formid].form;
 					item.constructorFunction = form.getConstructorFunction();
 					item.objectName = form.getObjectName();
+					item.formId = formid;
 					result.push(item);
 				}
 			}
@@ -183,9 +184,9 @@ dojo.declare(
 			}
 		},
 		
-		displayCompoundPropertyException: function(/*CompoundPropertyException*/compoundpropertyexception) {
+		displayPropertyException: function(/*CompoundPropertyException*/compoundpropertyexception) {
 			if (this._displayingformid && this._displayingformid != "__empty") {
-				this._formIdMap[this._displayingformid].form.displayCompoundPropertyException(compoundpropertyexception);
+				this._formIdMap[this._displayingformid].form.displayPropertyException(compoundpropertyexception);
 			}
 		}
 	}

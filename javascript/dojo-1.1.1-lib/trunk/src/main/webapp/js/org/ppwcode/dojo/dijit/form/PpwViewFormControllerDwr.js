@@ -112,8 +112,6 @@ dojo.declare(
 		_form: null,
 		_view: null,
 
-		_viewIsChild: false,
-		
 		_eventconnections: null,
 		
 		constructor: function() {
@@ -124,55 +122,45 @@ dojo.declare(
 			// only do this when the dojo parser sets the view and form
 			// properties.  This can be done by setting the form and
 			// view attributes on the tag that defines this widget.
-			if (this.view) {
-				this.setView(this.view);
-			}
-			if (this.form) {
-				this.setGrid(this.form);
-			}
-			if (this.viewviewcontroller) {
-				this.setViewIsChild(this.viewviewcontroller);
+			if (this.view && this.controller) {
+				this.configure(this.view, this.controller);
 			}
 			this.inherited(arguments);
 		},
 		
-		setGrid: function(form) {
-			//summary:
-			//    Set the PpwMasterView and the PpwCrudForm that this
-			//    controller will be controlling.
-			//description:
-			//    This method wires events that are fired by the
-			//    PpwMasterView and PpwCrudForm to this controller
-			//    using dojo.connect().
-			this._form = form;
-
-			//connect to update and create events from the form
+		destroy: function() {
+			this._disconnectEventHandlers();
+		},
+		
+		_connectEventHandlers: function() {
+			//connect form
 			this._eventconnections.push(dojo.connect(this._form, "onUpdateModeSaveButtonClick", this, "_doItemUpdate"));
 			this._eventconnections.push(dojo.connect(this._form, "onCreateModeSaveButtonClick", this, "_doItemCreate"));
+			
+			//connect to events from view
+			this._eventconnections.push(dojo.connect(this._view, "onClear", this, "_doViewOnClear"));
+			this._eventconnections.push(dojo.connect(this._view, "onGridRowClick", this, "_doViewGridRowClick"));
+			this._eventconnections.push(dojo.connect(this._view, "onGridHeaderClick", this, "_doViewGridHeaderClick"));
+			this._eventconnections.push(dojo.connect(this._view, "onAddButtonClick", this, "_doViewOnAddButtonClick"));
+			this._eventconnections.push(dojo.connect(this._view, "onSelectItemSuccess", this, "_doViewOnSelectItemSuccess"));
+			this._eventconnections.push(dojo.connect(this._view, "onSetData", this, "_doViewOnSetData"));
+			this._eventconnections.push(dojo.connect(this._view, "onSelectItemFail", this, "_doViewOnSelectItemFail"));
 		},
 
-		setView: function(view) {
-			//summary:
-			//    Set the PpwMasterView and the PpwCrudForm that this
-			//    controller will be controlling.
-			//description:
-			//    This method wires events that are fired by the
-			//    PpwMasterView and PpwCrudForm to this controller
-			//    using dojo.connect().
-			this._view = view;
-			//clear previous connections
+		_disconnectEventHandlers: function() {
 			while (this._eventconnections.length > 0) {
 				dojo.disconnect(this._eventconnections.pop());
 			}
-			//connect to events from view
-			this._eventconnections.push(dojo.connect(this._view, "onClearSelection", this, "_doViewClearSelection"));
-			this._eventconnections.push(dojo.connect(this._view, "onSelectedRowUpdate", this, "_doViewSelectedRowUpdate"));
-			this._eventconnections.push(dojo.connect(this._view, "onAddButtonClick", this, "_doViewAddButtonClick"));
-			this._eventconnections.push(dojo.connect(this._view, "onGridRowClick", this, "_doViewGridRowClick"));
-			//this._eventconnections.push(dojo.connect(this._view, "onGridHeaderClick", this, "_doViewGridHeaderClick"));
 		},
+		
+		configure: function(view, form) {
+			this._view = view;
+			this._form = form;
+			this._connectEventHandlers();
+		}
+		
 
-		setViewIsChild: function(viewviewcontroller) {
+/*		setViewIsChild: function(viewviewcontroller) {
 			//summary:
 			//    Configure this controller as a child ViewFormController in case
 			//    multiple views are preset in the user interface.  The second
@@ -200,63 +188,49 @@ dojo.declare(
 			//by the above code.
 			dojo.connect(this._view, "onSetData", this, "onViewSetData");
 		},
+*/
 
+		_doViewOnClear: function() {
+			this._form.reset();
+		},
 
-        doViewAddButtonClick: function(e) {
-            // method that can be overriden
-        },
-
-		_doViewClearSelection: function() {
-        	if (this._form) {
-        		this._form.reset();
-        	}
-        },
+		_doViewGridRowClick: function() {
+    		this._form.displayObject(this._view.getSelectedItem());
+		},
+		
+		_doViewGridHeaderClick: function() {
+    		this._form.reset();
+		},
 		
 		//View; Add object
 		_doViewAddButtonClick: function(e) {
-        	if (this._form) {
-        		this._form.createObject();
-        		this.doViewAddButtonClick(e);
-        	}
+       		this._form.createObject();
         },
-		
-		//View; called when someone updated the item in the selected row in 
-		//the PpwMasterView.
-		_doViewSelectedRowUpdate: function() {
-        	if (this._form) {
-        		this._form.displayObject(this._view.getSelectedItem());
-        	}
+
+        _doViewOnSelectItemSuccess: function() {
+        	this._form.displayObject(this._view.getSelectedItem());
         },
-		
-		//View; Click row
-		_doViewGridRowClick: function(e) {
-        	if (this._form) {
-        		this._form.displayObject(this._view.getSelectedItem());
-        	}
+        
+        _doViewOnSetData: function() {
+        	this._form.reset();
         },
-		
-		//View; Click header
-		_doViewGridHeaderClick: function(e) {
-        	if (this._form) {
-        		this._form.reset();
-        	}
+        
+        _doViewOnSelectItemFail: function() {
+        	this._form.reset();
         },
         
         // DWR Scenario hooks 
         _doItemUpdateErrorHandlerHook: function(errorString, exception) {
-        	if (this._form) {
-        		this._form.setUpdateMode();
-        	}
+       		this._form.setUpdateMode();
         },
         
         _doItemCreateErrorHandlerHook: function(errorString, exception) {
-        	if (this._form) {
-        		this._form.setCreateModeNoReset();
-        	}
+       		this._form.setCreateModeNoReset();
         }
 	}
 );
 
+/*
 org.ppwcode.dojo.dijit.form.PpwViewFormControllerDwr.ChildController = {
 	
 	_viewviewcontroller: null,
@@ -280,4 +254,4 @@ org.ppwcode.dojo.dijit.form.PpwViewFormControllerDwr.ChildController = {
 		this._doSelectItem();
 	}
 }
-
+*/

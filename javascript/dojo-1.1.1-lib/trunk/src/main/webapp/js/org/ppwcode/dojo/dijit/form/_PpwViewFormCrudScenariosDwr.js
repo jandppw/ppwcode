@@ -189,7 +189,6 @@ dojo.declare("org.ppwcode.dojo.dijit.form._PpwViewFormCrudScenariosDwr",
 				console.log("doItemUpdateErrorHandler, please override: " + errorString);
 			},
 
-
 			/*
 			 * step 2: grid refresh
 			 */
@@ -198,7 +197,7 @@ dojo.declare("org.ppwcode.dojo.dijit.form._PpwViewFormCrudScenariosDwr",
 				var self = this;
 				
 				var callback = function(data) {
-					self._view.setData(data);
+					self._view.refreshData(data);
 					self._doSelectItem();
 				}
 				
@@ -251,7 +250,6 @@ dojo.declare("org.ppwcode.dojo.dijit.form._PpwViewFormCrudScenariosDwr",
 			 * step 3: select the updated object
 			 */
 			_doSelectItem: function() {
-				this._view.clearSelection();
 				if (this._selectioncriterium) {
 					this._view.selectItem(this._selectioncriterium);
 					this._selectioncriterium = null;
@@ -374,7 +372,7 @@ dojo.declare("org.ppwcode.dojo.dijit.form._PpwViewFormCrudScenariosDwr",
 				var self = this;
 				
 				var callback = function(data) {
-					self._view.setData(data);
+					self._view.refreshData(data);
 					self._doSelectItem();
 				}
 				
