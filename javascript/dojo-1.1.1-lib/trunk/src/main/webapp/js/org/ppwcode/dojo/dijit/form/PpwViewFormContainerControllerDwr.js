@@ -264,8 +264,18 @@ org.ppwcode.dojo.dijit.form.PpwViewFormContainerControllerDwr.ChildController = 
 			this._viewviewcontroller.doFillChildViewWithSelect(this._viewviewcontroller._getParentSelectedItem(), this._selectioncriterium);
 		},
 
+		_doViewGridHeaderClick: function() {
+			this._clearFormEventConnections();
+		},
+		
 		_doViewOnClear: function() {
 			this._clearFormEventConnections();
+		},
+		
+		_doCancelAction: function() {
+			this._clearFormEventConnections();
+			//select will fail, causing a reselect on the parent.
+			this._view.selectItem(null);
 		},
 		
 		_doViewHeaderClick: function() {
