@@ -76,32 +76,73 @@ dojo.declare(
 			while (this._eventconnections.length > 0) {
 				dojo.disconnect(this._eventconnections.pop());
 			}
-			this._eventconnections.push(dojo.connect(this._parentView, "onClearSelection", this, "_doClearSelection"));
-			this._eventconnections.push(dojo.connect(this._parentView, "onGridRowClick", this, "_doFillChildView"));
+			this._eventconnections.push(dojo.connect(this._parentView, "onClear", this, "_doParentOnClear"));
+			this._eventconnections.push(dojo.connect(this._parentView, "onSetData", this, "_doParentOnSetData"));
+			this._eventconnections.push(dojo.connect(this._parentView, "onRefreshData", this, "_doParentOnRefreshData"));
+			this._eventconnections.push(dojo.connect(this._parentView, "onGridRowClick", this, "_doParentOnGridRowClick"));
+			this._eventconnections.push(dojo.connect(this._parentView, "onGridHeaderClick", this, "_doParentOnGridHeaderClick"));
+			this._eventconnections.push(dojo.connect(this._parentView, "onSelectItemSuccess", this, "_doParentOnSelectItemSuccess"));
+			this._eventconnections.push(dojo.connect(this._parentView, "onAddButtonClick", this, "_doParentOnAddButtonClick"));
+			
+			this._eventconnections.push(dojo.connect(this._childView, "onSelectItemFail", this, "_doChildOnSelectItemFail"));
+			this._eventconnections.push(dojo.connect(this._childView, "onGridHeaderClick", this, "_doChildOnGridHeaderClick"));
 		},
 
-		_doClearSelection: function() {
+		_doParentOnClear: function() {
 			this._childView.disableButtons(true);
-			this._childView.clearSelection();
-			this._childView.setData([]);
+			this._childView.clear();
 		},
 		
-		_doFillChildView: function() {
+		_doParentOnSetData: function() {
+			this._childView.disableButtons(true);
+			this._childView.clear();
+		},
+
+		_doParentOnRefreshData: function() {
+			this._childView.disableButtons(true);
+			this._childView.clear();
+		},
+		
+		_doParentOnGridRowClick: function() {
 			this._childView.disableButtons(false);
-			this._childView.clearSelection();
 			this.doFillChildView(this._parentView.getSelectedItem());
 		},
 		
-		_getParentSelectedItem: function() {
-			return this._parentView.getSelectedItem();
+		_doParentOnGridHeaderClick: function() {
+			this._childView.disableButtons(true);
+			this._childView.clear();
+		},
+		
+		_doParentOnSelectItemSuccess: function() {
+			this._childView.disableButtons(false);
+			this.doFillChildView(this._parentView.getSelectedItem());
+		},
+		
+		_doParentOnAddButtonClick: function() {
+			this._childView.disableButtons(true);
+			this._childView.clear();
+		},
+		
+		_doChildOnSelectItemFail: function() {
+			this._parentView.reSelectCurrentItem();
+		},
+		
+		_doChildOnGridHeaderClick: function() {
+			this._parentView.reSelectCurrentItem();
 		},
 		
 		requestRefresh: function() {
 			//summary:
 			//    Request this controller to refresh the child view using
 			//    the currently selected item in the parent view
-			if (this._parentView.getSelectedItem()) {
-				this._doFillChildView();
+			var parentitem = this._parentView.getSelectedItem();
+			if (parentitem) {
+				var selecteditem = this._childView.getSelectedItem();
+				if (selecteditem) {
+					this.doFillChildViewWithSelect(parentitem, selecteditem);
+				} else {
+					this.doFillChildView(parentitem);
+				}
 			}
 		},
 		
@@ -120,7 +161,7 @@ dojo.declare(
 			this._dwrRetrieveFunctionAdditionalParameters = params;
 		},
 		
-		doFillChildView: function(/*Object*/parentObject) {
+		doFillChildView: function(/*Object*/parentObject, /*Function?*/callback) {
 			//summary:
 			//    Method call that implements a DWR call to determine the
 			//    contents of the child view.
@@ -136,6 +177,10 @@ dojo.declare(
 			
 			var mycallback = function(data) {
 				self._childView.setData(data);
+			}
+			// overwrite if defined
+			if (callback && dojo.isFunction(callback)) {
+				mycallback = callback;
 			}
 			
 			var myerrorhandler = function(errorString, exception) {
@@ -153,6 +198,15 @@ dojo.declare(
 			//console.log("PpwViewViewControllerDWR: doFillChildView parameters");
 			//for (var i = 0; i<params.length; i++) console.log("\t" + params[i])
 			this.dwrRetrieveFunction.apply(this, params);
+		},
+		
+		doFillChildViewWithSelect: function(/*Object*/parentObject, /*Object*/criterium) {
+			var self = this;
+			var mycallback = function(data) {
+				self._childView.setData(data);
+				self._childView.selectItem(criterium);
+			}
+			this.doFillChildView(parentObject, mycallback);
 		},
 		
 		beforeFillChildView: function(parentObject) {
@@ -181,6 +235,10 @@ dojo.declare(
 			//    The exception that was thrown as a result of this method.
 			//    Note that you must configure DWR to serialize Java
 			//    exceptions back to the client.
+		},
+		
+		_getParentSelectedItem: function() {
+			return this._parentView.getSelectedItem();
 		}
 	}
 );

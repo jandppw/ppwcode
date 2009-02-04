@@ -27,6 +27,7 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwDataViewBox",
 		gridStructure: null,
 
 		_selectable: true,
+		_resizeeventhandle: null,
 		
 		buildRendering: function() {
 			this.inherited(arguments);
@@ -44,7 +45,16 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwDataViewBox",
 				this.setStructure(this.gridStructure);
 			}
 			
-		},	
+			this._connectToParentContainer();
+			
+		},
+		
+		destroy: function() {
+			if (this._resizeeventhandle) {
+				dojo.disconnect(this._resizeeventhandle);
+			}
+			this.inherited(arguments);
+		},
 
   	  	setStructure: function(/*Array*/newstructure) {
 			// summary: 
@@ -217,6 +227,36 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwDataViewBox",
 			//resize() upon resizing of this layout widget
 			//this.getChildren()[0].resize(this._contentBox);
 			this.getChildren()[0].resize();
+		},
+		
+		
+		_connectToParentContainer: function() {
+			// summary:
+			//   connect to a container up in the DOM tree so we can redraw
+			//   ourselves upon resizing of the parent container
+			// description:
+			//   this is a hack :/... It's the only way I found to redraw
+			//   the grid if resize events other than the window resize
+			//   events occur.
+			var potentialNode = this.domNode.parentNode;
+			var found = false, nodesdijit = null;
+			while (!found && potentialNode != dojo.body()) {
+				nodesdijit = dijit.byNode(potentialNode);
+				if ( nodesdijit && ( (nodesdijit instanceof dijit.layout._LayoutWidget) 
+			        	             || (nodesdijit instanceof dijit.layout.ContentPane) )    
+			       ) {
+				  found = true;
+				} else {
+                  potentialNode = potentialNode.parentNode;
+				}
+			}
+			if (found) {
+				console.log("PpwDataViewBox._connectToParentContainer(): potentialNode is " + potentialNode);
+				console.log("PpwDataViewBox._connectToParentContainer(): dijit is " + nodesdijit);
+				this._resizeeventhandle = dojo.connect(nodesdijit, "resize", this, "layout");
+			} else {
+				console.log("PpwDataViewBox._connectToParentContainer(): nothing found");
+			}
 		},
 		
 		////////////////////////// Event handling //////////////////////////

@@ -14,18 +14,23 @@ dojo.declare(
 		//    Documentation placeholder
 		view: null,
 		formContainer: null,
+
+		//array of form ID's that can be requested by this controller
+		controlledForms: [],
+		//list of objects containing: formid, constructorfunction and objectname.
+		_controlledForms: null,
 		
 		_form: null,
 		_view: null,
 		_container: null,
 		
 		viewviewcontroller: null,
-		
+
 		_vieweventconnections: null,
 		_formeventconnections: null,
 		
 		constructor: function() {
-			this._vieweventconnections = new Array();
+			this._vieweventconnections = new Object();
 			this._formeventconnections = new Array();
 		},
 		
@@ -36,20 +41,75 @@ dojo.declare(
 			if (this.viewviewcontroller) {
 				this.setViewIsChild(this.viewviewcontroller);
 			}
+			
 			this.inherited(arguments);
 		},
 
+		destroy: function() {
+			this._disconnectEventHandlers();
+			this.inherited(arguments);
+		},
+		
+		_connectEventHandlers: function() {
+			//connect to events from view
+			this._vieweventconnections["onClear"] = dojo.connect(this._view, "onClear", this, "_doViewOnClear");
+			this._vieweventconnections["onGridRowClick"] = dojo.connect(this._view, "onGridRowClick", this, "_doViewGridRowClick");
+			this._vieweventconnections["onGridHeaderClick"] = dojo.connect(this._view, "onGridHeaderClick", this, "_doViewGridHeaderClick");
+			this._vieweventconnections["onAddButtonClick"] = dojo.connect(this._view, "onAddButtonClick", this, "_doViewOnAddButtonClick");
+			this._vieweventconnections["onSelectItemSuccess"] = dojo.connect(this._view, "onSelectItemSuccess", this, "_doViewOnSelectItemSuccess");
+			this._vieweventconnections["onReSelectCurrentItemSuccess"] = dojo.connect(this._view, "onReSelectCurrentItemSuccess", this, "_doViewOnReSelectCurrentItemSuccess");
+			if (!this._viewIsChild) {
+				this._vieweventconnections["onSetData"] = dojo.connect(this._view, "onSetData", this, "_doViewOnSetData");
+				this._vieweventconnections["onSelectItemFail"] = dojo.connect(this._view, "onSelectItemFail", this, "_doViewOnSelectItemFail");
+			}
+		},
+		
+		_disconnectEventHandlers: function() {
+			for (key in this._vieweventconnections) {
+				dojo.disconnect(this._vieweventconnections[key]);
+				delete this._vieweventconnections[key];
+			}
+		},
+		
 		configure: function (/*PpwMasterView*/view,
 				             /*PpwCrudFormContainer*/formContainer) {
 			this._view = view;
 			this._container = formContainer;
 
-			this._view.setMultiButton(this._container.getFormsList());
-			//connect to events from view
-			this._vieweventconnections.push(dojo.connect(this._view, "onClearSelection", this, "_doViewClearSelection"));
-			this._vieweventconnections.push(dojo.connect(this._view, "onSelectedRowUpdate", this, "_doViewSelectedRowUpdate"));
-			this._vieweventconnections.push(dojo.connect(this._view, "onAddButtonClick", this, "_doViewAddButtonClick"));
-			this._vieweventconnections.push(dojo.connect(this._view, "onGridRowClick", this, "_doViewGridRowClick"));
+			this._setControlledForms();
+			this._connectEventHandlers();
+		},
+		
+		_setControlledForms: function() {
+			if (this.controlledForms.length > 0) {
+				var formslist = this._container.getFormsList();
+				var result = new Array();
+				//match and filter the formslist from the container
+				for (var i = 0; i < this.controlledForms.length; i++) {
+					for (var j = 0, found = false; !found && (j < formslist.length); j++) {
+						if (this.controlledForms[i] == formslist[j].formId) {
+							found = true;
+							result.push(formslist[j]);
+						}
+					}
+				}
+				if (result.length == 1) {
+					this._controlledForms = result;
+					this._controlledForms[0].constructorFunctionName =
+						org.ppwcode.dojo.util.JavaScriptHelpers.getFunctionName(this._controlledForms[0].constructorFunction);
+				} else if (result.length > 1) {
+					this._controlledForms = result;
+					this._view.setMultiButton(result);
+				}
+			} else {
+				this._controlledForms = this._container.getFormsList();
+				this._view.setMultiButton(this._controlledForms);
+			}
+		},
+		
+		setControlledForms: function(/*Array of strings*/formlist) {
+			this.controlledForms = formlist;
+			this._setControlledForms();
 		},
 		
 		setViewIsChild: function(viewviewcontroller) {
@@ -72,47 +132,30 @@ dojo.declare(
 			this._view.disableButtons(true);
 			//from now on, all grid refreshes are delegated to the viewviewcontroller, both in the
 			//case of creates and updates
+			this._disconnectEventHandlers();
 			dojo.mixin(this, org.ppwcode.dojo.dijit.form.PpwViewFormContainerControllerDwr.ChildController);
+			this._connectEventHandlers();
 			this._viewviewcontroller = viewviewcontroller;
 			//in case of a create or update, not we, but the viewviewcontroller will update our view
 			//by calling view.setData.  We must hence listen to that event on our view, so we can act
 			//correspondingly.  Note that the onViewSetData is normally not available, but mixed in
 			//by the above code.
-			dojo.connect(this._view, "onSetData", this, "onViewSetData");
+			//dojo.connect(this._view, "onSetData", this, "onViewSetData");
 		},
-		
-		_doViewClearSelection: function() {
+
+		_doViewOnClear: function() {
 			this._clearFormEventConnections();
 			this._clearContainer();
 		},
 		
-		_doViewAddButtonClick: function(event) {
-			//console.log("PpwViewFormContainerController::_doViewAddButtonClick with addButtonChooserValue \"" + event.addChooserValue + "\"")
+		_doViewOnSetData: function() {
 			this._clearFormEventConnections();
-			var theform = this._container.getFormForConstructor(event.addChooserValue);
-			if (theform) {
-				//if there is a form, connect to its buttons and display the object
-				this._formeventconnections.push(dojo.connect(theform, "onCreateModeSaveButtonClick", this, "_doItemCreate"));
-				this._formeventconnections.push(dojo.connect(theform, "onCreateModeCancelButtonClick", this, "_doCancelAction"));
-				this._container.createObject(event.addChooserValue)
-				this._form = theform;
-			} else {
-				this._clearContainer();
-			}
-			this.doViewAddButtonClick(event);
+			this._clearContainer();
 		},
 		
-		doViewAddButtonClick: function(event) {
-			//override
-		},
-		
-		_doViewSelectedRowUpdate: function() {
-			this._container.displayObject(this._view.getSelectedItem());
-		},
-		
-		_doViewGridRowClick: function(e) {
+		_displaySelectedItemInFormContainer: function() {
 			//remove the event connections to the buttons on the currently
-			//displayfing form
+			//displaying form
 			this._clearFormEventConnections();
 			// get the selected item and the form corresponding with its
 			// constructor
@@ -131,9 +174,52 @@ dojo.declare(
 			}
 		},
 		
-		_doViewGridHeaderClick: function(e) {
+		_doViewGridRowClick: function() {
+			this._displaySelectedItemInFormContainer();
+		},
+
+		_doViewGridHeaderClick: function() {
 			this._clearFormEventConnections();
 			this._clearContainer();
+		},
+
+		_doViewOnAddButtonClick: function(event) {
+			//console.log("PpwViewFormContainerController::_doViewOnAddButtonClick with addButtonChooserValue \"" + event.addChooserValue + "\"")
+			this._clearFormEventConnections();
+			var constructorFunctionName = null;
+			if (event.addChooserValue) {
+				constructorFunctionName = event.addChooserValue;
+			} else {
+				constructorFunctionName = this._controlledForms[0].constructorFunctionName;
+			}
+			var theform = this._container.getFormForConstructor(constructorFunctionName);
+			if (theform) {
+				//if there is a form, connect to its buttons and display the object
+				this._formeventconnections.push(dojo.connect(theform, "onCreateModeSaveButtonClick", this, "_doItemCreate"));
+				this._formeventconnections.push(dojo.connect(theform, "onCreateModeCancelButtonClick", this, "_doCancelAction"));
+				this._container.createObject(constructorFunctionName);
+				this._form = theform;
+			} else {
+				this._clearContainer();
+			}
+		},
+		
+		_doViewOnSelectItemSuccess: function() {
+			this._displaySelectedItemInFormContainer();
+		},
+		
+		_doViewOnSelectItemFail: function() {
+			this._clearContainer();
+		},
+		
+		_doViewOnReSelectCurrentItemSuccess: function() {
+			//viewform(container)controller interprets this the same as
+			//normal click on the masterview's row
+			this._displaySelectedItemInFormContainer();
+		},
+		
+		_doViewOnReselectItemFail: function() {
+			throw new Error("Failed to reselect on parent masterview, should never occur.");
 		},
 		
 		_doCancelAction: function(e) {
@@ -160,30 +246,33 @@ dojo.declare(
         _doItemCreateErrorHandlerHook: function(errorString, exception) {
 			this._container.setCurrentFormInCreateModeNoReset();
         }
-
 	}
 );
 
 org.ppwcode.dojo.dijit.form.PpwViewFormContainerControllerDwr.ChildController = {
 		
 		_viewviewcontroller: null,
-			
+		
 		//mixing in these properties overwrites the default implementations
 		_doMasterViewDataRefreshAfterUpdate: function() {
 			//console.log("refresh in child");
-			this._viewviewcontroller.doFillChildView(this._viewviewcontroller._getParentSelectedItem());
+			this._viewviewcontroller.doFillChildViewWithSelect(this._viewviewcontroller._getParentSelectedItem(), this._selectioncriterium);
 		},
 
 		_doMasterViewDataRefreshAfterCreate: function() {
 			//console.log("refresh in child");
-			this._viewviewcontroller.doFillChildView(this._viewviewcontroller._getParentSelectedItem());
+			this._viewviewcontroller.doFillChildViewWithSelect(this._viewviewcontroller._getParentSelectedItem(), this._selectioncriterium);
 		},
 
-		onViewSetData: function() {
-			//summary:
-			//    In case of child view, we respond to setData events.  These are
-			//    done by the viewviewcontroller.  If this happens, we select the
-			//    object that was subject to a create or update operation.
-			this._doSelectItem();
+		_doViewOnClear: function() {
+			this._clearFormEventConnections();
+		},
+		
+		_doViewHeaderClick: function() {
+			//in case we're a child, we remove the formeventconnections but we
+			//don't clear the container, the viewviewcontroller
+			//will reselect the item in the parent MasterView, and the respective
+			//viewFormContainerController will select the appropriate form
+			this._clearFormEventConnections();
 		}
-	}
+}

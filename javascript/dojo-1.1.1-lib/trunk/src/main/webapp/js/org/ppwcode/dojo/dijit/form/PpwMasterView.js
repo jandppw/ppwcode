@@ -45,7 +45,7 @@ dojo.declare(
 		// * getting the javascript object displayed in the selected row
 		// * updating the selected row (getSelectedRow())
 		// * clearing the selection (clearSelection())
-		// * Selecting a row based on some selection criterium (selectObject())
+		// * Selecting a row based on some selection criterium (selectItem())
 		// 
 		// The following actions fire events:
 		// * Setting new data in the grid datamodel (onSetData)
@@ -113,25 +113,53 @@ dojo.declare(
 			this._masterGrid.setModel(newmodel);
 		},
 		
+		_setData: function(newdata) {
+			//first clear the selection
+			this._clearSelection();
+			//remove sort
+			this._masterGrid.sortInfo = 0;
+			//delegation to grid's model
+			this._masterGrid.model.setData(newdata);
+		},
+		
 		setData: function(/*Array*/newdata) {
 			//summary:
 			//   configure the PpwMasterView with a new dataset that must be displayed in
 			//   its Grid.
 			//description:
 			//   This method is delegated to the Dojo Grid, that is responsible for the actual
-			//   displaying of the data.  Calling this method also calls the setData event
+			//   displaying of the data.  Calling this method also calls the onSetData event
 			//   method.
 			//newdata:
 			//   The array containing the new data Items to be displayed in the grid.
 			
-			//first clear the selection
-			this.clearSelection();
-			//remove sort
-			this._masterGrid.sortInfo = 0;
-			//delegation to grid's model
-			this._masterGrid.model.setData(newdata);
+			this._setData(newdata);
 			//call event
 			this._onSetData();
+		},
+		
+		refreshData: function(/*Array*/refreshdata) {
+			//summary:
+			//   configure the PpwMasterView with a refreshed dataset that must be displayed in
+			//   its Grid.
+			//description:
+			//   This method is delegated to the Dojo Grid, that is responsible for the actual
+			//   displaying of the data.  Calling this method also calls the onRefreshData event
+			//   method.  This method does the same thing as setData, except it is meant as a
+			//   call to REFRESH the data in the grid.  It is up to the programmer to decide 
+			//   whether new data serves as a refresh or as setting new Data.
+			//newdata:
+			//   The array containing the new data Items to be displayed in the grid.
+
+			this._setData(refreshdata);
+			//call event.
+			this._onRefreshData();
+		},
+		
+		clear: function() {
+			this._clearSelection();
+			this._masterGrid.model.setData([]);
+			this._onClear();
 		},
 
 		setMultiButton: function(/*Array*/formslist) {
@@ -156,13 +184,17 @@ dojo.declare(
 			this._addChooser.startup();
 		},
 		
+		_clearSelection: function() {
+			this._masterGrid.selection.clear();
+		},
+		
 		clearSelection: function() {
 			//summary:
 			//   Clear the selection in the DataGrid.
 			//description:
 			//   Clears the selection in the Datagrid.  Calling this method
 			//   also triggers the onClearSelection event method.
-			this._masterGrid.selection.clear();
+			this._clearSelection();
 			this._onclearselection();
 		},
 		
@@ -195,11 +227,6 @@ dojo.declare(
 			return this._masterGrid.model.getRow(this._masterGrid.selection.getSelected()[0]);
 		},
 
-		getSelectedRow: function() {
-			dojo.deprecated("getSelectedRow() is deprecated. Use getSelectedItem() instead.", "");
-			return this.getSelectedItem();
-		},
-		
 		updateSelectedRow: function(/*Object*/object) {
 			//summary:
 			//   Update the object that is selected at this moment in the grid's data model
@@ -214,10 +241,71 @@ dojo.declare(
 			this._onSelectedRowUpdate();
 		},
 		
-		selectObject: function(/*Object*/criterium) {
+		_findItem: function(/*Object*/criterium) {
+			//summary:
+			//   Find an object in the PpwMasterView's Grid based an a selection criterium.
+			//   Returns the row number in the Grid, or -1 in case no Item in the grid matches
+			//   the criterium
+			//description:
+			//   Find a row in the Grid based on a selection criterium.  The selection criterium
+			//   is an object that contains at least one property that also exists in the objects
+			//   that are being displayed in the grid.  For an Item in the Grid's datamodel to
+			//   match, the values of all properties in the criterium must be equal to the
+			//   values of the corresponding properties in the Item.  Only the first Item that
+			//   matches will returned.  If no Item matches the criterium, nothing
+			//   will be return.
+			//criterium:
+			//   Object with a number of properties (and also values) that must be satisfied for
+			//   an Item in the grid to be selected.
+
+			var datasetsize = this._masterGrid.model.getRowCount();
+			var found = false;
+			var location = -1;
+			
+			// copy criterium properties in Array.
+			var properties = new Array();
+			var tmpi = 0;
+			for (properties[tmpi++] in criterium);
+			if (properties.length == 0) {
+				//no criterium? -> no select
+				return -1;
+			}
+			//look for the first matching record
+			for (var i = 0; !found && (i < datasetsize) ; i++) {
+				for (var j = 0, rowmatch = true; rowmatch && (j < properties.length); j++) {
+					//Dates are special... 
+					var crit = criterium[properties[j]];
+					var subject = this._masterGrid.model.getRow(i)[properties[j]];
+					if ((crit instanceof Date) && (subject instanceof Date)) {
+						if (crit.getTime() != subject.getTime()) {
+							rowmatch = false;
+						}
+					} else { //no dates, so we do value checks
+						if (crit != subject) {
+							rowmatch = false;
+						}
+					}
+				}
+				found = rowmatch;
+				location = i;
+			}
+			if (found) {
+				return location;
+			} else {
+				return -1;
+			}
+		},
+		
+		_selectInGrid: function(rownumber) {
+			this._masterGrid.scrollToRow(rownumber);
+			this._masterGrid.selection.select(rownumber);
+		},
+		
+		selectItem: function(/*Object*/criterium) {
 			//summary:
 			//   Automatically select an object in the PpwMasterView's Grid based an a selection
-			//   criterium.
+			//   criterium.  This method programmatically clicks the selected row (and hence fires
+			//   click events).
 			//description:
 			//   Select a row in the Grid based on a selection criterium.  The selection criterium
 			//   is an object that contains at least one property that also exists in the objects
@@ -230,43 +318,34 @@ dojo.declare(
 			//   Object with a number of properties (and also values) that must be satisfied for
 			//   an Item in the grid to be selected.
 			
-			var datasetsize = this._masterGrid.model.getRowCount();
-			var found = false;
-			var location = -1;
-			// copy criterium properties in Array.
-			var properties = new Array();
-			var tmpi = 0;
-			for (properties[tmpi++] in criterium);
-			if (properties.length == 0) {
-				//no criterium? -> no select
-				return;
-			}
-			//look for the first matching record
-			for (var i = 0; !found && (i < datasetsize) ; i++) {
- 				for (var j = 0, rowmatch = true; rowmatch && (j < properties.length); j++) {
-					if (this._masterGrid.model.getRow(i)[properties[j]] != criterium[properties[j]]) {
-						rowmatch = false;
-					}
-				}
-				found = rowmatch;
-				location = i;
-			}
+			var rownumber = this._findItem(criterium);
 
-			if (found) {
-				this._masterGrid.scrollToRow(location);
-			    //not sure if this is the way to go, but it has the desired result:
-			    //the row is selected in the grid, and the detail form shows the
-			    //correct information
-			    this._masterGrid.doclick({rowIndex: location});
+			if (rownumber != -1) {
+				this._selectInGrid(rownumber);
+				//not sure if this is the way to go, but it has the desired result:
+				//the row is selected in the grid, and the detail form shows the
+				//correct information
+				this.onSelectItemSuccess();
+			} else {
+				this.onSelectItemFail();
 			}
 		},
 		
-		selectItem: function(criterium) {
+		
+		reSelectCurrentItem: function() {
 			//summary:
-			//   Same as selectObject, this method should be preferred.
+			//   Automatically reselects the currently selected object.
 			//description:
-			//   Same as selectObject, this method should be preferred.
-			this.selectObject(criterium);
+			//   reselects the currently selected object, this can be done to
+			//   get the user interface in a correct state.  Events (onReSelectItemSuccess
+			//   and onReSelectItemFail) are fired that can be picked up by controllers.  
+
+			if (this._masterGrid.selection.getSelectionCount != 0) {
+				this._selectInGrid(this._masterGrid.selection.getFirstSelected());
+				this.onReSelectCurrentItemSuccess();
+			} else {
+				this.onReSelectCurrentItemFail();
+			}
 		},
 		
 		////////////////////////// Layout ////////////////////////////
@@ -298,7 +377,29 @@ dojo.declare(
 			//   renewed.
 		},
 		
+		_onRefreshData: function() {
+			this.onRefreshData();
+		},
+		
+		onRefreshData: function() {
+			//summary:
+			//   Hook method:  called when the data in the Grid's datamodel is
+			//   refreshed.
+			//description:
+			//   Hook method:  called when the data in the Grid's datamodel is
+			//   refreshed.
+		},
+		
+		_onClear: function() {
+			this.onClear();
+		},
+		
+		onClear: function() {
+			
+		},
+		
 		_onclearselection: function() {
+			console.log("Will (hopefully,) presumably disappear.");
 			this.onClearSelection();
 		},
 		
@@ -326,7 +427,7 @@ dojo.declare(
 		
 		_onaddbuttonclick: function(e) {			
 			//console.log("PpwMasterView: _onaddbuttonclick");
-			this.clearSelection();
+			this._clearSelection();
 			if (this._addChooser) {
 				e.addChooserValue = this._addChooser.getValue();
 			}
@@ -359,7 +460,7 @@ dojo.declare(
 		_ongridheaderclick: function(e) {
 			//console.log("PpwMasterView: _ongridheaderclick");
 			//sorting... clear selection.
-			this.clearSelection();
+			this._clearSelection();
 			//call user event
 			this.onGridHeaderClick();
 		},
@@ -372,7 +473,22 @@ dojo.declare(
 			//event:
 			//   The same event that you would receive when receiving a header select event on a
 			//   Dojox.Grid.
-		}
+		},
 		
+		onSelectItemSuccess: function() {
+			//NOP
+		},
+		
+		onSelectItemFail: function() {
+			//NOP
+		},
+		
+		onReSelectCurrentItemSuccess: function() {
+			//NOP
+		},
+		
+		onReSelectCurrentItemFail: function() {
+			//NOP
+		}
 	}
 );
