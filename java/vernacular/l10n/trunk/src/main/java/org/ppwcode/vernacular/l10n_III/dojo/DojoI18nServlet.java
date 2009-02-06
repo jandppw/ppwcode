@@ -180,9 +180,9 @@ public class DojoI18nServlet extends HttpServlet {
       builder.append(key.replace('.', '_'));
       builder.append(": \"");
       builder.append(translations.get(key));
-      builder.append("\",");
+      builder.append("\",\n");
     }
-    builder.append("origin: \"DojoI18nServlet\"");
+    builder.append("  origin: \"DojoI18nServlet\"\n");
     builder.append("}) \n");
     return builder.toString();
   }
