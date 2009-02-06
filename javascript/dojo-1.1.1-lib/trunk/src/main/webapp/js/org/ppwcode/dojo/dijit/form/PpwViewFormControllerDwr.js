@@ -122,8 +122,8 @@ dojo.declare(
 			// only do this when the dojo parser sets the view and form
 			// properties.  This can be done by setting the form and
 			// view attributes on the tag that defines this widget.
-			if (this.view && this.controller) {
-				this.configure(this.view, this.controller);
+			if (this.view && this.form) {
+				this.configure(this.view, this.form);
 			}
 			this.inherited(arguments);
 		},
@@ -157,7 +157,7 @@ dojo.declare(
 			this._view = view;
 			this._form = form;
 			this._connectEventHandlers();
-		}
+		},
 		
 
 /*		setViewIsChild: function(viewviewcontroller) {
@@ -203,7 +203,7 @@ dojo.declare(
 		},
 		
 		//View; Add object
-		_doViewAddButtonClick: function(e) {
+		_doViewOnAddButtonClick: function(e) {
        		this._form.createObject();
         },
 
