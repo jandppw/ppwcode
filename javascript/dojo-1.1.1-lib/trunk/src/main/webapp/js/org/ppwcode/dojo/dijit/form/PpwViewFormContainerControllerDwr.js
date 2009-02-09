@@ -17,8 +17,13 @@ dojo.declare(
 
 		//array of form ID's that can be requested by this controller
 		controlledForms: [],
-		//list of objects containing: formid, constructorfunction and objectname.
-		_controlledForms: null,
+		//map of objects, contains
+		// * formid,
+		// * constructorFunction 
+		// * objectName
+		// for each form controlled by this controller. Key in the map
+		// is the _name_ (string) of the constructorfunction
+		_controlledFormsMap: null,
 		
 		_form: null,
 		_view: null,
@@ -41,7 +46,6 @@ dojo.declare(
 			if (this.viewviewcontroller) {
 				this.setViewIsChild(this.viewviewcontroller);
 			}
-			
 			this.inherited(arguments);
 		},
 
@@ -65,7 +69,7 @@ dojo.declare(
 		},
 		
 		_disconnectEventHandlers: function() {
-			for (key in this._vieweventconnections) {
+			for (var key in this._vieweventconnections) {
 				dojo.disconnect(this._vieweventconnections[key]);
 				delete this._vieweventconnections[key];
 			}
@@ -78,6 +82,25 @@ dojo.declare(
 
 			this._setControlledForms();
 			this._connectEventHandlers();
+		},
+		
+		_createControlledFormsMap: function(formslist) {
+			this._controlledFormsMap = new Object();
+			for (var i = 0; i < formslist.length; i++) {
+				var ctorname = org.ppwcode.dojo.util.JavaScriptHelpers.getFunctionName(formslist[i].constructorFunction);
+				this._controlledFormsMap[ctorname] = dojo.clone(formslist[i]);
+				this._controlledFormsMap[ctorname].constructorFunctionName = ctorname;
+			}
+		},
+		
+		_createButtonData: function() {
+			var buttondata = new Array(), i = 0;
+			for (var ctorname in this._controlledFormsMap) {
+				buttondata[i] = new Object();
+				buttondata[i].label = this._controlledFormsMap[ctorname].objectName;
+				buttondata[i++].value = this._controlledFormsMap[ctorname].constructorFunctionName;
+			}
+			return buttondata;
 		},
 		
 		_setControlledForms: function() {
@@ -93,17 +116,17 @@ dojo.declare(
 						}
 					}
 				}
-				if (result.length == 1) {
-					this._controlledForms = result;
-					this._controlledForms[0].constructorFunctionName =
-						org.ppwcode.dojo.util.JavaScriptHelpers.getFunctionName(this._controlledForms[0].constructorFunction);
-				} else if (result.length > 1) {
-					this._controlledForms = result;
-					this._view.setMultiButton(result);
+				if (result.length > 0) {
+					this._createControlledFormsMap(result);
+				}
+				if (result.length > 1) {
+					//more than one form for this controller, so we configure
+					//the masterview with a multibutton.
+					this._view.setMultiButton(this._createButtonData());
 				}
 			} else {
-				this._controlledForms = this._container.getFormsList();
-				this._view.setMultiButton(this._controlledForms);
+				this._createControlledFormsMap(this._container.getFormsList());
+				this._view.setMultiButton(this._createButtonData());
 			}
 		},
 		
@@ -186,22 +209,38 @@ dojo.declare(
 		_doViewOnAddButtonClick: function(event) {
 			//console.log("PpwViewFormContainerController::_doViewOnAddButtonClick with addButtonChooserValue \"" + event.addChooserValue + "\"")
 			this._clearFormEventConnections();
+			var prototype = null;
 			var constructorFunctionName = null;
 			if (event.addChooserValue) {
 				constructorFunctionName = event.addChooserValue;
+				prototype = new this._controlledFormsMap[event.addChooserValue].constructorFunction();
 			} else {
-				constructorFunctionName = this._controlledForms[0].constructorFunctionName;
+				// in this case, there should only be one entry in the controlledFormsMap
+				// but I see no other way to get it out of a map)
+				for (var ctorname in this._controlledFormsMap) {
+					prototype = new this._controlledFormsMap[ctorname].constructorFunction();
+					constructorFunctionName = this._controlledFormsMap[ctorname].constructorFunctionName;
+				}
 			}
+			this.doInitializePrototypeBeforeCreate(prototype);
 			var theform = this._container.getFormForConstructor(constructorFunctionName);
 			if (theform) {
 				//if there is a form, connect to its buttons and display the object
 				this._formeventconnections.push(dojo.connect(theform, "onCreateModeSaveButtonClick", this, "_doItemCreate"));
 				this._formeventconnections.push(dojo.connect(theform, "onCreateModeCancelButtonClick", this, "_doCancelAction"));
-				this._container.createObject(constructorFunctionName);
+				this._container.createObject(prototype);
 				this._form = theform;
 			} else {
 				this._clearContainer();
 			}
+		},
+		
+		doInitializePrototypeBeforeCreate: function(prototype) {
+			//summary:
+			//   initialize the object that is to be created (on the server)
+			//   before it can be edited by the user in the form.
+			
+			//override
 		},
 		
 		_doViewOnSelectItemSuccess: function() {

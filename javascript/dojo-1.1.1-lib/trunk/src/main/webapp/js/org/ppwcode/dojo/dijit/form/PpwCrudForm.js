@@ -57,6 +57,8 @@ dojo.declare(
 		//   var formmap = [{property: "prop1", fieldId: "textfield1", isId: true},
 		//                  {property: "prop2", fieldId: "hiddenfield1},
 		//                   ...
+		//                  {property: "propJ1.propJ2", fieldId: "somefieldJ", constructorFunction: funcJ, editable: false},
+		//                   ...
 		//                  {property: "propN", feieldId: "datefieldN"}];
 		//
 		//   Each mapping object must contain 2 properties:  a "property" and a "fieldid".  The "property" must be
@@ -305,6 +307,9 @@ dojo.declare(
 			//   In view mode, the buttons shown are "Create" and "Cancel".  The fields
 			//   are disabled.  The content of the input fields are cleared
 			this.reset();
+			if (this._thedisplayobject) {
+				this._displayObject(this._thedisplayobject);
+			}
 			this.setCreateModeNoReset();
 		},
 
@@ -343,7 +348,11 @@ dojo.declare(
 			if (this.validate()) {
 			  this._setInitMode();
 			  //decorate the event with the new object
-			  e.formObject = this._createOrUpdateObjectFromForm(new this.constructorFunction());
+			  if (this._thedisplayobject) {
+				  e.formObject = this._createOrUpdateObjectFromForm(this._thedisplayobject);
+			  } else {
+				  e.formObject = this._createOrUpdateObjectFromForm(new this.constructorFunction());
+			  }
 			  this.onCreateModeSaveButtonClick(e);
 			} else {
               dojo.stopEvent(e);
@@ -444,15 +453,20 @@ dojo.declare(
         	this.removeErrorMessages();
 			this._setInitMode();
 			this.inherited(arguments);
-
-      // XXX MUDO TOM: check if this meets your needs !!
-      // setting all fields to empty, where as now we sometimes see 'undefined' or 'null' in the field
-      for (var i = 0; i < this._formmap.length; i++) {
-        this._fieldIdToWidgetMap[this._formmap[i].fieldid].setValue("");
-      }
-    },
-
+			
+			// XXX MUDO TOM: check if this meets your needs !!
+			// setting all fields to empty, where as now we sometimes see 'undefined' or 'null' in the field
+			for (var i = 0; i < this._formmap.length; i++) {
+				this._fieldIdToWidgetMap[this._formmap[i].fieldid].setValue("");
+			}
+        },
+        
 		displayObject: function(obj) {
+        	this._displayObject(obj)
+			this.setViewMode();
+		},
+
+		_displayObject: function(obj) {
 			// summary:
 			//   display an object in the form.  This object will be layed out
 			//   in the form according to the formmap.
@@ -460,26 +474,54 @@ dojo.declare(
 			//   This object iterates over all the properties in the object and
 			//   locates a input field in the form that corresponds with the
 			//   property.  This mapping between properties and input fields is
-			//   defined in the formmap.
+			//   defined in the formmap.  If a property in the formmap yields
+        	//   "undefined", it is silently ignored. (TODO it is considered a 
+        	//   programming error, maybe it should throw an error).
 			// obj:
 			//   The object that will be displayed in the form.
 			this.reset();
 			this._thedisplayobject = obj;
-			//copy fields in the object to the form.
-			for (var i = 0; i < this._formmap.length; i++) {
-        this._fieldIdToWidgetMap[this._formmap[i].fieldid].setValue(eval("obj." + this._formmap[i].property));
+			if (obj) {
+				//copy fields in the object to the form.
+				for (var i = 0; i < this._formmap.length; i++) {
+					var propnamelist = this._formmap[i].property.split('.');
+					var propname = "";
+					var result = obj;
+					var j = 0, abort = false;
+					do {
+						propname += (propname == "") ? "" : "." + propnamelist[j];
+						var propvalue = result[propnamelist[j++]];
+						// don't display the property:
+						// if intermediate/final result is undefined
+						//  OR
+						// if the property name is not fully resolved and null/undefined.
+						if ( (propvalue === undefined)
+							 || ((j != propnamelist.length) && !propvalue) ) {
+							abort = true;
+						} else {
+							result = propvalue;
+						}
+					} while (!abort && j < propnamelist.length);
+					// if we have value that is not 'undefined' the property is displayed
+					if (!abort) {
+						this._propertyToWidgetMap[this._formmap[i].property].setValue(result);
+					}
+				}
 			}
-			this.setViewMode();
 		},
-
-		createObject: function() {
+		
+		createObject: function(/*Object?*/prototype) {
 			// summary:
 			//    Prepare the form to create a new object.
 			// description:
 			//    This methods puts the form in createmode, and clears all
 			//    references to objects that it may be displaying at the
 			//    time this method is called
-			this._thedisplayobject = null;
+			if (prototype) {
+				this._thedisplayobject = prototype;
+			} else {
+				this._thedisplayobject = null;
+			}
 			this.setCreateMode();
 		},
 

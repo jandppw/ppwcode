@@ -162,21 +162,26 @@ dojo.declare(
 			this._onClear();
 		},
 
-		setMultiButton: function(/*Array*/formslist) {
+		setMultiButton: function(/*Array*/buttondata) {
+			// summary:
+			//    set the contents of the multibutton, and display the button
+			// buttondata:
+			//    array of objects.  Objects must contain property 'value' and 'label'
+			
 			//remove the current widget;
 			this._addChooser = null;
 			
-			var buttonData = { identifier: "value",
+			var buttonDataStoreData = { identifier: "value",
 			        label: "label",
 			        items: []
 			       };
-			
-			for (var i = 0; i < formslist.length; i++) {
-				buttonData.items[i] = new Object();
-				buttonData.items[i].value = org.ppwcode.dojo.util.JavaScriptHelpers.getFunctionName(formslist[i].constructorFunction);
-				buttonData.items[i].label = formslist[i].objectName;
+			//copy data... not sure if it's really necessary though...
+			for (var i = 0; i < buttondata.length; i++) {
+				buttonDataStoreData.items[i] = new Object();
+				buttonDataStoreData.items[i].label = buttondata[i].label;
+				buttonDataStoreData.items[i].value = buttondata[i].value;
 			}
-			var buttonDataStore = new dojo.data.ItemFileReadStore({data: buttonData});
+			var buttonDataStore = new dojo.data.ItemFileReadStore({data: buttonDataStoreData});
 			var inputNode = dojo.doc.createElement('button');
 			this._buttonPane.domNode.insertBefore(inputNode, this._addButton.domNode);
 			this._addChooser =
