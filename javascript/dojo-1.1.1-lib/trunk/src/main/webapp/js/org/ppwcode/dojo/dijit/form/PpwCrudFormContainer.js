@@ -142,6 +142,16 @@ dojo.declare(
 		},
 		
 		getFormsList: function() {
+			// summary:
+			//   returns a list of objects.  Each object contains information
+			//   about a form in the container.
+			// description:
+			//   The information in each object in the list contains the
+			//   following information:
+			//   * the id of the form (ID property in the form's HTML tag)
+			//   * the human readable name of the object that is displayed in this form
+			//   * the JavaScript constructor function that must be used for objects
+			//     displayed in this form
 			var result = new Array();
 			for (var formid in this._formIdMap) {
 				if (formid != "__empty") {
@@ -168,11 +178,16 @@ dojo.declare(
 			}
 		},
 		
-		createObject: function(/*String*/constructorname) {
-			var formid = this._constructorNameMap[constructorname];
+		createObject: function(/*String || Object*/ctornameorproto) {
+			var formid = null;
+			if (dojo.isString(ctornameorproto)) {
+				formid = this._constructorNameMap[ctornameorproto];
+			} else {
+				formid = this._constructorNameMap[org.ppwcode.dojo.util.JavaScriptHelpers.getFunctionName(ctornameorproto.constructor)];
+			}
 			if (formid && this._formIdMap[formid]) {
 				this.displayForm(formid);
-				this._formIdMap[formid].form.createObject();
+				this._formIdMap[formid].form.createObject(dojo.isObject(ctornameorproto) ? ctornameorproto : null);
 			} else {
 				this.displayForm("__empty");
 			}
