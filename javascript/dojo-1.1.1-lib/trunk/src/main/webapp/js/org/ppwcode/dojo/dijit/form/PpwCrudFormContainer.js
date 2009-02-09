@@ -45,7 +45,7 @@ dojo.declare(
 							mapproperties.pane = contentpane;
 							mapproperties.form = dijit.byNode(theform);
 							this._formIdMap[dojo.attr(theform, "id")] = mapproperties;
-							this._constructorNameMap[org.ppwcode.dojo.util.JavaScriptHelpers.getFunctionName(mapproperties.form.getConstructorFunction())] = dojo.attr(theform, "id");
+							this._constructorNameMap[org.ppwcode.dojo.util.JavaScriptHelpers.getConstructorFunctionName(mapproperties.form.getConstructorFunction())] = dojo.attr(theform, "id");
 						}, this);
 				}
 			}
@@ -168,7 +168,7 @@ dojo.declare(
 		
 		displayObject: function(/*Object*/obj) {
 			this.resetCurrentForm();
-			var theformid = this._constructorNameMap[org.ppwcode.dojo.util.JavaScriptHelpers.getFunctionName(obj.constructor)];
+			var theformid = this._constructorNameMap[org.ppwcode.dojo.util.JavaScriptHelpers.getConstructorFunctionName(obj.constructor)];
 			//constructor is defined in the map
 			if (theformid) {
 				this.displayForm(theformid); 
@@ -183,7 +183,7 @@ dojo.declare(
 			if (dojo.isString(ctornameorproto)) {
 				formid = this._constructorNameMap[ctornameorproto];
 			} else {
-				formid = this._constructorNameMap[org.ppwcode.dojo.util.JavaScriptHelpers.getFunctionName(ctornameorproto.constructor)];
+				formid = this._constructorNameMap[org.ppwcode.dojo.util.JavaScriptHelpers.getConstructorFunctionName(ctornameorproto.constructor)];
 			}
 			if (formid && this._formIdMap[formid]) {
 				this.displayForm(formid);

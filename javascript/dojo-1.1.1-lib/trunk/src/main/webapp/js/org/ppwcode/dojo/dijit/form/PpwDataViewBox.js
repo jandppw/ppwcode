@@ -384,7 +384,7 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwEditableDataViewBox",
 			};
 			
 			for (var i = 0; i < nameConstructorMap.length; i++) {
-				var ctorname = org.ppwcode.dojo.util.JavaScriptHelpers.getFunctionName(nameConstructorMap[i].constructorFunction)
+				var ctorname = org.ppwcode.dojo.util.JavaScriptHelpers.getConstructorFunctionName(nameConstructorMap[i].constructorFunction)
 				buttonData.items[i] = new Object();
 				buttonData.items[i].value = ctorname;
 				buttonData.items[i].label = nameConstructorMap[i].objectName;
