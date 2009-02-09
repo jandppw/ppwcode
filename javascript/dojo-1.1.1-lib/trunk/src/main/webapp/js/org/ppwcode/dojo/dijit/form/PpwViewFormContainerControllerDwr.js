@@ -87,7 +87,7 @@ dojo.declare(
 		_createControlledFormsMap: function(formslist) {
 			this._controlledFormsMap = new Object();
 			for (var i = 0; i < formslist.length; i++) {
-				var ctorname = org.ppwcode.dojo.util.JavaScriptHelpers.getFunctionName(formslist[i].constructorFunction);
+				var ctorname = org.ppwcode.dojo.util.JavaScriptHelpers.getContructorFunctionName(formslist[i].constructorFunction);
 				this._controlledFormsMap[ctorname] = formslist[i];
 				this._controlledFormsMap[ctorname].constructorFunctionName = ctorname;
 			}
@@ -183,7 +183,7 @@ dojo.declare(
 			// get the selected item and the form corresponding with its
 			// constructor
 			var item = this._view.getSelectedItem();
-			var theform = this._container.getFormForConstructor(org.ppwcode.dojo.util.JavaScriptHelpers.getFunctionName(item.constructor));
+			var theform = this._container.getFormForConstructor(org.ppwcode.dojo.util.JavaScriptHelpers.getConstructorFunctionName(item.constructor));
 			
 			if (theform) {
 				//if there is a form, connect to its buttons and display the object
