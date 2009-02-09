@@ -87,7 +87,7 @@ dojo.declare(
 		_createControlledFormsMap: function(formslist) {
 			this._controlledFormsMap = new Object();
 			for (var i = 0; i < formslist.length; i++) {
-				var ctorname = org.ppwcode.dojo.util.JavaScriptHelpers.getContructorFunctionName(formslist[i].constructorFunction);
+				var ctorname = org.ppwcode.dojo.util.JavaScriptHelpers.getConstructorFunctionName(formslist[i].constructorFunction);
 				this._controlledFormsMap[ctorname] = formslist[i];
 				this._controlledFormsMap[ctorname].constructorFunctionName = ctorname;
 			}
