@@ -33,8 +33,12 @@ dojo.declare(
     },
 
     setValue: function(/*object*/ param){
-      var hours = 1.0 * param.milliseconds / 3600000;
-      this._numberSpinner.setValue(hours);
+      if (!param) {
+       this._numberSpinner.reset();
+      } else {
+        var hours = 1.0 * param.milliseconds / 3600000;
+        this._numberSpinner.setValue(hours);
+      }
     },
 
     getValue: function(){
