@@ -57,7 +57,7 @@ dojo.declare(
 		//   var formmap = [{property: "prop1", fieldId: "textfield1", isId: true},
 		//                  {property: "prop2", fieldId: "hiddenfield1},
 		//                   ...
-		//                  {property: "propJ1.propJ2", fieldId: "somefieldJ", constructorFunction: funcJ, editable: false},
+		//                  {property: "propJ1.propJ2", fieldId: "somefieldJ", constructorFunction: funcJ, isEditable: false},
 		//                   ...
 		//                  {property: "propN", feieldId: "datefieldN"}];
 		//
@@ -110,10 +110,8 @@ dojo.declare(
 
 		// contains the mapping between javascript object properties and form fields
 		_formmap: null,
-		_fieldIdToDomNodeMap: null,
-		_fieldIdToWidgetMap: null,
-		_propertyToDomNodeMap: null,
-		_propertyToWidgetMap: null,
+		_byFieldIdMap: null,
+		_byPropertyNameMap: null,
 		
 		_tooltips: null,
 
@@ -247,15 +245,31 @@ dojo.declare(
 			//                  {property: "propN", feieldId: "datefieldN"}];
 			// formmap: an array of mapping objects.
 			this._formmap = formmap;
-			this._fieldIdToDomNodeMap = new Object();
-			this._fieldIdToWidgetMap = new Object();
-			this._propertyToDomNodeMap = new Object();
-			this._propertyToWidgetMap = new Object();
+			this._byFieldIdMap = new Object();
+			this._byPropertyNameMap = new Object();
 			for (var i = 0; i < formmap.length; i++) {
-				this._fieldIdToDomNodeMap[formmap[i].fieldid] = dojo.byId(formmap[i].fieldid);
-				this._fieldIdToWidgetMap[formmap[i].fieldid] = dijit.byId(formmap[i].fieldid);
-				this._propertyToDomNodeMap[formmap[i].property] = dojo.byId(formmap[i].fieldid);
-				this._propertyToWidgetMap[formmap[i].property] = dijit.byId(formmap[i].fieldid);
+				if ( (formmap[i].fieldid !== undefined) && dojo.isString(formmap[i].fieldid) ) {
+					if (!dojo.isString(formmap[i].property)) {
+						throw new Error("Invalid Form Map");
+					}
+					this._byFieldIdMap[formmap[i].fieldid] = new Object();
+					this._byFieldIdMap[formmap[i].fieldid].widget = dijit.byId(formmap[i].fieldid);
+					this._byFieldIdMap[formmap[i].fieldid].property = formmap[i].property;
+					//this._byFieldIdMap[formmap[i].fieldid].domNode = dojo.byId(formmap[i].fieldid);
+					if (formmap[i].isEditable === false) {
+						this._byFieldIdMap[formmap[i].fieldid].isEditable = formmap[i].isEditable;
+					} else {
+						this._byFieldIdMap[formmap[i].fieldid].isEditable = true;
+					}
+					this._byPropertyNameMap[formmap[i].property] = new Object();
+					this._byPropertyNameMap[formmap[i].property].widget = dijit.byId(formmap[i].fieldid);
+					this._byPropertyNameMap[formmap[i].property].domNode = dojo.byId(formmap[i].fieldid);
+					if (formmap[i].editable === false) {
+						this._byPropertyNameMap[formmap[i].property].isEditable = formmap[i].isEditable;
+					} else {
+						this._byPropertyNameMap[formmap[i].property].isEditable = true;
+					}
+				}
 			}
 			this.reset();
 		},
@@ -273,8 +287,9 @@ dojo.declare(
   		},
 
 		_disableFormFields: function(/*boolean*/disabled){
-		   for (var i = 0; i < this._formmap.length; i++) {
-			   this._fieldIdToWidgetMap[this._formmap[i].fieldid].setAttribute("disabled", disabled);
+  			for (var fieldid in this._byFieldIdMap) {
+			   var entry = this._byFieldIdMap[fieldid];
+			   entry.widget.setAttribute("disabled", entry.isEditable ? disabled : true );
 		   }
 		},
 
@@ -361,14 +376,30 @@ dojo.declare(
 
 		_oncreatemodecancelbuttonclick: function(/*Event*/e) {
 			this.reset();
-			this.onCreateModeCancelButtonClick(e)
+			this.onCreateModeCancelButtonClick(e);
 		},
 
 		_createOrUpdateObjectFromForm: function(/*Object*/obj) {
-			for (var i = 0; i < this._formmap.length; i++) {
-				//TODO eval("obj." + this._formmap[i].property)
-				//obj[this._formmap[i].property] = dijit.byId(this._formmap[i].fieldid).getValue();
-				eval("obj." + this._formmap[i].property + " = dijit.byId(this._formmap[i].fieldid).getValue();");
+			//process all defined fields
+			for (var fieldid in this._byFieldIdMap) {
+				//if a field is not editable, we ignore it.
+				if (this._byFieldIdMap[fieldid].isEditable) {
+					//this will at least give a list of length 1.
+					var proplist = this._byFieldIdMap[fieldid].property.split('.');
+					var edit = obj;
+					for (var i = 0; i < proplist.length - 1; i++) {
+						var prop = proplist[i];
+						//if propname does not exist, and it's not the property we will be
+						//assigning to, indicating we must travel further down the object
+						//graph, we create an object.
+						if ( (edit[prop] === undefined) && (i < proplist.length - 2)) {
+							edit[prop] = new Object();
+						}
+						edit = edit[prop];
+					}
+					console.log("editing property " + this._byFieldIdMap[fieldid].property);
+					edit[proplist[proplist.length - 1]] = this._byFieldIdMap[fieldid].widget.getValue();
+				}
 			}
 			return obj;
 		},
@@ -456,13 +487,17 @@ dojo.declare(
 			
 			// XXX MUDO TOM: check if this meets your needs !!
 			// setting all fields to empty, where as now we sometimes see 'undefined' or 'null' in the field
-			for (var i = 0; i < this._formmap.length; i++) {
-				this._fieldIdToWidgetMap[this._formmap[i].fieldid].setValue("");
+			for (var fieldid in this._byFieldIdMap) {
+				this._byFieldIdMap[fieldid].widget.setValue("");
 			}
         },
         
+        displayItem: function(item) {
+        	this.displayObject(item);
+        },
+        
 		displayObject: function(obj) {
-        	this._displayObject(obj)
+        	this._displayObject(obj);
 			this.setViewMode();
 		},
 
@@ -483,28 +518,26 @@ dojo.declare(
 			this._thedisplayobject = obj;
 			if (obj) {
 				//copy fields in the object to the form.
-				for (var i = 0; i < this._formmap.length; i++) {
-					var propnamelist = this._formmap[i].property.split('.');
-					var propname = "";
+				for (var fieldid in this._byFieldIdMap) {
+					var propnamelist = this._byFieldIdMap[fieldid].property.split('.');
 					var result = obj;
-					var j = 0, abort = false;
+					var i = 0, abort = false;
 					do {
-						propname += (propname == "") ? "" : "." + propnamelist[j];
-						var propvalue = result[propnamelist[j++]];
+						var propvalue = result[propnamelist[i++]];
 						// don't display the property:
 						// if intermediate/final result is undefined
 						//  OR
 						// if the property name is not fully resolved and null/undefined.
 						if ( (propvalue === undefined)
-							 || ((j != propnamelist.length) && !propvalue) ) {
+							 || ((i != propnamelist.length) && !propvalue) ) {
 							abort = true;
 						} else {
 							result = propvalue;
 						}
-					} while (!abort && j < propnamelist.length);
+					} while (!abort && i < propnamelist.length);
 					// if we have value that is not 'undefined' the property is displayed
 					if (!abort) {
-						this._propertyToWidgetMap[this._formmap[i].property].setValue(result);
+						this._byFieldIdMap[fieldid].widget.setValue(result);
 					}
 				}
 			}
@@ -595,14 +628,15 @@ dojo.declare(
 
 			for (var i = 0; i < messages.length; i++) {
 				var tt = new dijit._MasterTooltip();
-				var formwidget = this._propertyToWidgetMap[messages[i].propertyName];
+				var formwidget = this._byPropertyNameMap[messages[i].propertyName].widget;
+
 				//no fading
 				tt.duration = 1;
 				//needed to recreate the fade functions
 				tt.postCreate();
 				//let's just cache the node and the message in the tooltip, so
 				//we can reference them when resizing.
-				tt.__PpwNode = this._propertyToDomNodeMap[messages[i].propertyName];
+				tt.__PpwNode = this._byPropertyNameMap[messages[i].propertyName].domNode;
 				tt.__PpwMessage = messages[i].localizedMessage;
 
 				//attach to some events on the form field to make the tip disappear
