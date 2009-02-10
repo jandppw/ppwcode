@@ -448,7 +448,12 @@ dojo.declare(
 		
 		_ongridrowclick: function(e) {
 			//console.log("PpwMasterView: _ongridrowclick");
-			//call user event
+            //console.log("PpwMasterView: _onaddbuttonclick");
+            // MUDO - Tom check this out !!
+            if (this._addChooser) {
+				e.addChooserValue = this._addChooser.getValue();
+			}
+            //call user event
 			this.onGridRowClick(e);
 		},
 
