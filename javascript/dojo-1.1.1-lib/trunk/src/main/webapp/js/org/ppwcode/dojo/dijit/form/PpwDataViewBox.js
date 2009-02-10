@@ -251,12 +251,12 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwDataViewBox",
 				}
 			}
 			if (found) {
-				console.log("PpwDataViewBox._connectToParentContainer(): potentialNode is " + potentialNode);
-				console.log("PpwDataViewBox._connectToParentContainer(): dijit is " + nodesdijit);
+				//console.log("PpwDataViewBox._connectToParentContainer(): potentialNode is " + potentialNode);
+				//console.log("PpwDataViewBox._connectToParentContainer(): dijit is " + nodesdijit);
 				this._resizeeventhandle = dojo.connect(nodesdijit, "resize", this, "layout");
-			} else {
-				console.log("PpwDataViewBox._connectToParentContainer(): nothing found");
-			}
+			} //else {
+			//	console.log("PpwDataViewBox._connectToParentContainer(): nothing found");
+			//}
 		},
 		
 		////////////////////////// Event handling //////////////////////////
