@@ -17,13 +17,15 @@ limitations under the License.
 package org.ppwcode.vernacular.l10n_III;
 
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Locale;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.util.exception_III.ProgrammingErrorHelpers;
+import org.ppwcode.util.reflect_I.PropertyHelpers;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.preArgumentNotNull;
 
 /**
  * Class with utility methods for the localization of exceptions.
@@ -42,8 +44,8 @@ public final class I18nExceptionHelpers {
   }
 
   public static String i18nExceptionMessage(LocalizedException exc, Locale locale) {
-    assert ProgrammingErrorHelpers.preArgumentNotNull(exc, "exc");
-    assert ProgrammingErrorHelpers.preArgumentNotNull(locale, "locale");
+    assert preArgumentNotNull(exc, "exc");
+    assert preArgumentNotNull(locale, "locale");
 
     String messageTemplate = exc.getMessageTemplate(locale);
     String message = format(messageTemplate, exc, locale);
@@ -52,9 +54,69 @@ public final class I18nExceptionHelpers {
   }
 
   public static String format(String template, Object context, Locale locale) {
+    // The value ({object.property}) for the {object.property:propertyName} of the {object:type} is not acceptable.
+    // The value ({enterprise.terminationDate}) for the {enterprise.terminationDate:propertyName} of the {enterprise:type} is not acceptable.
+    //
+    // The value ({enterprise.{prop}, date}) for the {enterprise.{prop}:propertyName} of the {enterprise:type} is not acceptable.
+    //
     String pattern = template;
     MessageFormat format = new MessageFormat(pattern, locale);
     String result = format.format(context);
+    return result;
+  }
+
+
+  /**
+   * Evaluate the given pattern inside the given context, with the given locale and add the object to the list.
+   *
+   *
+   * @param pattern
+   * @param context
+   * @param locale
+   * @param list
+   * @return
+   */
+  private static String processPattern(String pattern, Object context, Locale locale, List<Object> list) {
+    // first process all elements found inside the pattern and replace the pattern
+    // next: evaluate the pattern
+    return null;
+  }
+
+
+
+  /**
+   * Processes the given element inside the given context.
+   * The given element can contain dots, which will be used to follow a chain of elements.
+   * The object that is found in the context and that corresponds to the given element is then
+   * returned as a String.
+   * If any object in the given element chain is "null", then the String "null" is returned.
+   * 
+   * @param element Must be a field in the given context.
+   * @param context
+   * @return The String representation of the object that corresponds to element and is found in the context.
+   */
+  public static String processElement(String element, Object context) {
+    assert preArgumentNotNull(element, "element");
+    assert preArgumentNotNull(context, "context");
+
+    String result = null;
+    String firstElement = PropertyHelpers.carNestedPropertyName(element);
+    String nextElement = PropertyHelpers.cdrNestedPropertyName(element);
+    if (nextElement.equals(PropertyHelpers.EMPTY)) {
+      Object o = PropertyHelpers.propertyValue(context, firstElement);
+      if (o == null) {
+        result = "null";
+      } else {
+        result = PropertyHelpers.propertyValue(context, firstElement).toString();
+      }
+    } else {
+      Object newContext = PropertyHelpers.propertyValue(context, firstElement);
+      if (newContext == null) {
+        result = "null";
+      } else {
+        result = processElement(nextElement, newContext);
+      }
+    }
     return result;
   }
 
