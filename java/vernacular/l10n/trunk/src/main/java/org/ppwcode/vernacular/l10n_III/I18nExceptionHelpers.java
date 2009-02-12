@@ -71,7 +71,7 @@ public final class I18nExceptionHelpers {
     //
     List<Object> objects = new ArrayList<Object>();
     String pattern = processTemplate(template, context, locale, objects);
-    System.out.println("Pattern: " + pattern);
+    LOG.debug("Pattern: " + pattern);
     MessageFormat form = new MessageFormat(pattern, locale);
     String result = form.format(objects.toArray());
     return result;
