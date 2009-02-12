@@ -41,4 +41,8 @@ public class ExceptionA extends SuperException {
     return $property;
   }
 
+  public Object getOriginType() {
+    return getOrigin().getClass();
+  }
+
 }

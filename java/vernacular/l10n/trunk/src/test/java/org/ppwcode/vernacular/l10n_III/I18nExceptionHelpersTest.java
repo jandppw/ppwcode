@@ -115,6 +115,14 @@ public class I18nExceptionHelpersTest {
     assertEquals(EXP_MESSAGE_4, msg);
   }
 
+//  @Test
+//  public void testClass() {
+//    BeanA b = new BeanA();
+//    ExceptionA exc = new ExceptionA(b, "string", "TYPE", null);
+//    Locale locale = new Locale("en");
+//    String msg = I18nExceptionHelpers.i18nExceptionMessage(exc, locale);
+//    System.out.println("result: " + msg);
+//  }
 
 
   private static Date getDayDate(String date) {
