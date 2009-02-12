@@ -25,7 +25,8 @@ import java.util.Locale;
 
 
 /**
- *
+ * This interface needs to be implemented for every type of exception that
+ * needs to be localized by the ppwcode-vernacular-l10n framework.
  *
  * @author    Ruben Vandeginste
  * @author    PeopleWare n.v.
