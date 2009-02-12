@@ -48,7 +48,7 @@
 
   <!-- GROUP ID, VERSION, PACKAGING, NAME & DESCRIPTION: OVERWRITE IN YOUR CHILD POM (know what you are doing :-) ) -->
   <!-- for ppwcode projects, groupId and artifactId are calculated, and used in the magic mantra (see below) -->
-  <version>1.1</version>
+  <version>1.2-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>ppwcode semantics vernacular</name>
   <description>Framework, guidelines, support for developing the semantic layer of a business application.</description>
