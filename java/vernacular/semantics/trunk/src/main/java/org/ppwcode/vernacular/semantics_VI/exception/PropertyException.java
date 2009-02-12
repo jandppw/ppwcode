@@ -19,12 +19,19 @@ package org.ppwcode.vernacular.semantics_VI.exception;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.PropertyHelpers.hasProperty;
+import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.preArgumentNotNull;
+import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.unexpectedException;
 
+import java.util.Locale;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.vernacular.exception_III.ApplicationException;
 import org.ppwcode.vernacular.exception_III.SemanticException;
+import org.ppwcode.vernacular.l10n_III.resourcebundle.DefaultResourceBundleLoadStrategy;
+import org.ppwcode.vernacular.l10n_III.resourcebundle.KeyNotFoundException;
+import org.ppwcode.vernacular.l10n_III.resourcebundle.ResourceBundleHelpers;
+import org.ppwcode.vernacular.l10n_III.resourcebundle.WrongValueTypeException;
 import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
@@ -309,5 +316,74 @@ public class PropertyException extends SemanticException {
            (((PropertyException)other).getOriginType() == getOriginType()) &&
            eqn(((PropertyException)other).getPropertyName(), getPropertyName());
   }
+
+  /*</section>*/
+
+
+
+  /*<section name="getMessageTemplate">*/
+  //------------------------------------------------------------------
+
+  private static String DOT = ".";
+
+  /**
+   * <p>This method is an implementation of the method defined in the {@code LocalizedException}
+   * interface and enables us to give localized error messages using the ppwcode-vernacular-l10n
+   * framework.</p>
+   *
+   * <p>The localized template for the error messages is searched for in the following locations:</p>
+   * <ul>
+   * <li>The properties file of class {@code originType} and its supertypes. In this properties-file,
+   *     the following keys are searched, in the given order:
+   *   <ul>
+   *     <li>{this.getClass().getCanonicalName()}.{propertyName}.{getMessage()}</li>
+   *     <li>{this.getClass().getCanonicalName()}.{propertyName}</li>
+   *     <li>{this.getClass().getCanonicalName()}.{getMessage()}</li>
+   *     <li>{this.getClass().getCanonicalName()}</li>
+   *   </ul>
+   * </li>
+   * <li>The properties file of the exception itself.  This is the same as done in the super class.
+   * </li>
+   * </ul>
+   */
+  @Override
+  public String getMessageTemplate(Locale locale) {
+    assert preArgumentNotNull(locale, "locale");
+    String result = null;
+
+    //  find the correct key in the properties files
+    // 1. first check properties-file of class originType and its supertypes
+    //   a. key = {this.getClass().getCanonicalName()}.{propertyName}.{getMessage()}
+    //   b. key = {this.getClass().getCanonicalName()}.{propertyName}
+    //   c. key = {this.getClass().getCanonicalName()}.{getMessage()}
+    //   d. key = {this.getClass().getCanonicalName()}
+    String prefix = getClass().getCanonicalName();
+    String[] keys = { prefix + DOT + getPropertyName() + DOT + getMessage(),
+                      prefix + DOT + getPropertyName(),
+                      prefix + DOT + getMessage(),
+                      prefix };
+    DefaultResourceBundleLoadStrategy strategy = new DefaultResourceBundleLoadStrategy();
+    strategy.setLocale(locale);
+    try {
+      result = ResourceBundleHelpers.value(getOriginType(), keys, String.class, strategy);
+    } catch (WrongValueTypeException exc) {
+      unexpectedException(exc);
+    } catch (KeyNotFoundException exc) {
+      // no problem
+    }
+
+    // 2. next, check properties-file of the exception itself
+    //   a. key = {getMessage()}
+    //   b. key = ApplicationException.DEFAULT_MESSAGE_KEY
+    // TODO  is (b) actually done and/or needed ?  or should it be considered an error ??
+    if (result == null) {
+      // super class -> ApplicationException.getMessageTemplate
+      result = super.getMessageTemplate(locale);
+    }
+
+    return result;
+  }
+
+  /*</section>*/
 
 }
