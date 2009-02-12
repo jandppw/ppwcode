@@ -289,12 +289,12 @@ public final class I18nLabelHelpers {
     if (type == null) {
       throw new IllegalArgumentException("type must be effective");
     }
-    String result;
+    String result = null;
     try {
       result = value(type, (plural ? I18N_PLURAL_TYPE_LABEL_KEYS : I18N_TYPE_LABEL_KEYS), String.class, strategy);
     }
     catch (WrongValueTypeException exc) {
-      return null;
+      unexpectedException(exc);
     }
     catch (KeyNotFoundException exc) {
       return null;
@@ -330,7 +330,7 @@ public final class I18nLabelHelpers {
           final String type,
           final ResourceBundleLoadStrategy strategy) {
     String result = null;
-
+    
     if (type.equals(I18N_PROPERTY_LABEL_KEY)) {
       result = i18nInstancePropertyLabel(property, instance, false, strategy);
     } else if (type.equals(I18N_SHORT_PROPERTY_LABEL_KEY)) {
