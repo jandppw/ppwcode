@@ -304,32 +304,39 @@ public final class I18nLabelHelpers {
 
 
   /**
-   * TODO documentation
+   * <p>Return a label of type <code>type</code>.</p>
+   *
    * @param property
+   *        The property of the instance, for which we want the label.
    * @param instance
-   * @param label
+   *        The bean that owns the property.
+   * @param type
+   *        The type of the label that we are asking for. This type must be one of the following:
+   *        <code>I18N_PROPERTY_LABEL_KEY</code>, <code>I18N_SHORT_PROPERTY_LABEL_KEY</code>,
+   *        <code>I18N_TYPE_LABEL_KEY</code> and <code>I18N_PLURAL_TYPE_LABEL_KEY</code>.
    * @param strategy
+   *        The strategy used to find the resource bundle properties file.
    * @return
    */
   public static String i18nInstanceLabel(
           final String property,
           final Object instance,
-          final String label,
+          final String type,
           final ResourceBundleLoadStrategy strategy) {
     String result = null;
 
-    if (label.equals(I18N_PROPERTY_LABEL_KEY)) {
+    if (type.equals(I18N_PROPERTY_LABEL_KEY)) {
       result = i18nInstancePropertyLabel(property, instance, false, strategy);
-    } else if (label.equals(I18N_SHORT_PROPERTY_LABEL_KEY)) {
+    } else if (type.equals(I18N_SHORT_PROPERTY_LABEL_KEY)) {
       result = i18nInstancePropertyLabel(property, instance, true, strategy);
-    } else if (label.equals(I18N_TYPE_LABEL_KEY)) {
+    } else if (type.equals(I18N_TYPE_LABEL_KEY)) {
       Object value = PropertyHelpers.propertyValue(instance, property);
       result = i18nTypeLabel(value.getClass(), false, strategy);
-    } else if (label.equals(I18N_PLURAL_TYPE_LABEL_KEY)) {
+    } else if (type.equals(I18N_PLURAL_TYPE_LABEL_KEY)) {
       Object value = PropertyHelpers.propertyValue(instance, property);
       result = i18nTypeLabel(value.getClass(), true, strategy);
     } else {
-      // TODO  correct error ??
+      // TODO  other error ??  return null ??
       throw new IllegalArgumentException("This type of label is not supported.");
     }
     return result;
