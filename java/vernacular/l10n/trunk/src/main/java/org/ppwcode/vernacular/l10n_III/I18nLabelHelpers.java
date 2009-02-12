@@ -304,7 +304,13 @@ public final class I18nLabelHelpers {
 
 
   /**
-   * <p>Return a label of type <code>type</code>.</p>
+   * <p>Return a label of type <code>type</code>, for the given property of
+   * the given instance.</p>
+   *
+   * <p>Note that the <code>property</code> cannot be a "chained" property.  Note also
+   * that we use the dynamic type of the <code>property</code> to determine the label,
+   * instead of the static type of the property as defined in the class
+   * definition of <code>instance</code>.</p>
    *
    * @param property
    *        The property of the instance, for which we want the label.
