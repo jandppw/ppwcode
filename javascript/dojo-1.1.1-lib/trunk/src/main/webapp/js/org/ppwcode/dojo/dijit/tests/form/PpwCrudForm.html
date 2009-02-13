@@ -72,8 +72,11 @@
               doh.assertEqual(undefined, date1.getValue());
               appwcrudform.setUpdateMode();
               doh.assertFalse(dojo.byId("text1").disabled);
+              doh.assertEqual("", text1.getValue());
               doh.assertFalse(dojo.byId("text2").disabled);
+              doh.assertEqual("", text2.getValue());
               doh.assertFalse(dojo.byId("date1").disabled);
+              doh.assertEqual(undefined, date1.getValue());
               appwcrudform.reset();
               doh.assertTrue(dojo.byId("text1").disabled);
               doh.assertEqual("", text1.getValue());
