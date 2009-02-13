@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>ObjectGraphPpwCrudForm</title>
+  <style type="text/css">
+    @import "../../../../../../dojo-1.1.1/dojo/resources/dojo.css";
+    @import "../../../../../../dojo-1.1.1/dijit/tests/css/dijitTests.css";
+  </style>
+
+  <script type="text/javascript" src="../../../../../../dojo-1.1.1/dojo/dojo.js" djConfig="modulePaths: {'org' : '../../org'}, isDebug: true, parseOnLoad: true"></script>
+  <script type="text/javascript" src="../../../../../../dojo-1.1.1/dijit/tests/_testCommon.js"></script>
+
+  <script type="text/javascript">
+    dojo.require("doh.runner");
+    dojo.require("dojo.parser");
+    dojo.require("org.ppwcode.dojo.dijit.form.PpwCrudForm");
+    dojo.require("dijit.form.TextBox");
+  </script>
+
+  <script type="text/javascript">
+    //formmap
+    var formmap = [{fieldid: "key", property: "id", isId: true},
+                   {fieldid: "ssn", property: "socsecnr", isEditable: false},
+                   {fieldid: "firstname", property: "first"},
+                   {fieldid: "lastname", property: "last"},
+                   {fieldid: "street", property: "address.street"},
+                   {fieldid: "zipcode", property: "address.zip"},
+                   {fieldid: "city", property: "address.city"}];
+    
+    //constructor function used by the Form.
+    function Address(street, zip, city) {
+        this.street = street;
+        this.zip = zip;
+        this.city = city;
+    }
+    
+    function TestObject(id, socsecnr, firstname, lastname, street, zip, city) {
+        this.id = id;
+        this.socsecnr = socsecnr;
+        this.first = firstname;
+        this.last = lastname;
+        this.address = new Address(street, zip, city);
+    }
+    
+    dojo.addOnLoad(function() {
+       ogppwcrudform.setFormMap(formmap);
+       doh.register("ObjectGraphPpwCrudForm",
+            [
+             function checkproperties() {
+                 doh.assertFalse(ogppwcrudform.withDelete);
+              },
+              function checkViewMode() {
+                  doh.assertTrue(dojo.byId("key").disabled);
+                  doh.assertTrue(dojo.byId("ssn").disabled);
+                  doh.assertTrue(dojo.byId("firstname").disabled);
+                  doh.assertTrue(dojo.byId("lastname").disabled);
+                  doh.assertTrue(dojo.byId("street").disabled);
+                  doh.assertTrue(dojo.byId("zipcode").disabled);
+                  doh.assertTrue(dojo.byId("city").disabled);
+                  ogppwcrudform.setViewMode();
+                  doh.assertTrue(dojo.byId("key").disabled);
+                  doh.assertTrue(dojo.byId("ssn").disabled);
+                  doh.assertTrue(dojo.byId("firstname").disabled);
+                  doh.assertTrue(dojo.byId("lastname").disabled);
+                  doh.assertTrue(dojo.byId("street").disabled);
+                  doh.assertTrue(dojo.byId("zipcode").disabled);
+                  doh.assertTrue(dojo.byId("city").disabled);
+                  ogppwcrudform.reset();
+                  doh.assertTrue(dojo.byId("key").disabled);
+                  doh.assertEqual("", dijit.byId("key").getValue());
+                  doh.assertTrue(dojo.byId("ssn").disabled);
+                  doh.assertEqual("", dijit.byId("ssn").getValue());
+                  doh.assertTrue(dojo.byId("firstname").disabled);
+                  doh.assertEqual("", dijit.byId("firstname").getValue());
+                  doh.assertTrue(dojo.byId("lastname").disabled);
+                  doh.assertEqual("", dijit.byId("lastname").getValue());
+                  doh.assertTrue(dojo.byId("street").disabled);
+                  doh.assertEqual("", dijit.byId("street").getValue());
+                  doh.assertTrue(dojo.byId("zipcode").disabled);
+                  doh.assertEqual("", dijit.byId("zipcode").getValue());
+                  doh.assertTrue(dojo.byId("city").disabled);
+                  doh.assertEqual("", dijit.byId("city").getValue());
+              },
+              function checkUpdateMode() {
+                  ogppwcrudform.reset();
+                  doh.assertTrue(dojo.byId("key").disabled);
+                  doh.assertEqual("", dijit.byId("key").getValue());
+                  doh.assertTrue(dojo.byId("ssn").disabled);
+                  doh.assertEqual("", dijit.byId("ssn").getValue());
+                  doh.assertTrue(dojo.byId("firstname").disabled);
+                  doh.assertEqual("", dijit.byId("firstname").getValue());
+                  doh.assertTrue(dojo.byId("lastname").disabled);
+                  doh.assertEqual("", dijit.byId("lastname").getValue());
+                  doh.assertTrue(dojo.byId("street").disabled);
+                  doh.assertEqual("", dijit.byId("street").getValue());
+                  doh.assertTrue(dojo.byId("zipcode").disabled);
+                  doh.assertEqual("", dijit.byId("zipcode").getValue());
+                  doh.assertTrue(dojo.byId("city").disabled);
+                  doh.assertEqual("", dijit.byId("city").getValue());
+                  ogppwcrudform.setUpdateMode();
+                  doh.assertFalse(dojo.byId("key").disabled);
+                  doh.assertEqual("", dijit.byId("key").getValue());
+                  //social security number is not editable
+                  doh.assertTrue(dojo.byId("ssn").disabled);
+                  doh.assertEqual("", dijit.byId("ssn").getValue());
+                  doh.assertFalse(dojo.byId("firstname").disabled);
+                  doh.assertEqual("", dijit.byId("firstname").getValue());
+                  doh.assertFalse(dojo.byId("lastname").disabled);
+                  doh.assertEqual("", dijit.byId("lastname").getValue());
+                  doh.assertFalse(dojo.byId("street").disabled);
+                  doh.assertEqual("", dijit.byId("street").getValue());
+                  doh.assertFalse(dojo.byId("zipcode").disabled);
+                  doh.assertEqual("", dijit.byId("zipcode").getValue());
+                  doh.assertFalse(dojo.byId("city").disabled);
+                  doh.assertEqual("", dijit.byId("city").getValue());
+                  ogppwcrudform.reset();
+                  doh.assertTrue(dojo.byId("key").disabled);
+                  doh.assertEqual("", dijit.byId("key").getValue());
+                  doh.assertTrue(dojo.byId("ssn").disabled);
+                  doh.assertEqual("", dijit.byId("ssn").getValue());
+                  doh.assertTrue(dojo.byId("firstname").disabled);
+                  doh.assertEqual("", dijit.byId("firstname").getValue());
+                  doh.assertTrue(dojo.byId("lastname").disabled);
+                  doh.assertEqual("", dijit.byId("lastname").getValue());
+                  doh.assertTrue(dojo.byId("street").disabled);
+                  doh.assertEqual("", dijit.byId("street").getValue());
+                  doh.assertTrue(dojo.byId("zipcode").disabled);
+                  doh.assertEqual("", dijit.byId("zipcode").getValue());
+                  doh.assertTrue(dojo.byId("city").disabled);
+                  doh.assertEqual("", dijit.byId("city").getValue());
+              },
+              function checkDisplayObject() {
+                  var test = new TestObject(1, 113344, "Tom", "Mahieu", "Jasparlaan", 1000, "Brussels");
+                  ogppwcrudform.displayObject(test);
+                  doh.assertEqual(1, dijit.byId("key").getValue());
+                  doh.assertEqual(113344, dijit.byId("ssn").getValue());
+                  doh.assertEqual("Tom", dijit.byId("firstname").getValue());
+                  doh.assertEqual("Mahieu", dijit.byId("lastname").getValue());
+                  doh.assertEqual("Jasparlaan", dijit.byId("street").getValue());
+                  doh.assertEqual(1000, dijit.byId("zipcode").getValue());
+                  doh.assertEqual("Brussels", dijit.byId("city").getValue());
+              },
+              function checkCreateMode() {
+                  //check that create mode clears the form
+                  var test = new TestObject(17, 222222, "Marc", "Schijvaert", "Schijvaertlaan 12", 2000, "Antwerpen");
+                  ogppwcrudform.displayObject(test);
+                  //no prototype
+                  ogppwcrudform.setCreateMode();
+                  doh.assertFalse(dojo.byId("key").disabled);
+                  doh.assertEqual("", dijit.byId("key").getValue());
+                  doh.assertTrue(dojo.byId("ssn").disabled);
+                  doh.assertEqual("", dijit.byId("ssn").getValue());
+                  doh.assertFalse(dojo.byId("firstname").disabled);
+                  doh.assertEqual("", dijit.byId("firstname").getValue());
+                  doh.assertFalse(dojo.byId("lastname").disabled);
+                  doh.assertEqual("", dijit.byId("lastname").getValue());
+                  doh.assertFalse(dojo.byId("street").disabled);
+                  doh.assertEqual("", dijit.byId("street").getValue());
+                  doh.assertFalse(dojo.byId("zipcode").disabled);
+                  doh.assertEqual("", dijit.byId("zipcode").getValue());
+                  doh.assertFalse(dojo.byId("city").disabled);
+                  doh.assertEqual("", dijit.byId("city").getValue());
+                  ogppwcrudform.reset();
+                  doh.assertTrue(dojo.byId("key").disabled);
+                  doh.assertEqual("", dijit.byId("key").getValue());
+                  doh.assertTrue(dojo.byId("ssn").disabled);
+                  doh.assertEqual("", dijit.byId("ssn").getValue());
+                  doh.assertTrue(dojo.byId("firstname").disabled);
+                  doh.assertEqual("", dijit.byId("firstname").getValue());
+                  doh.assertTrue(dojo.byId("lastname").disabled);
+                  doh.assertEqual("", dijit.byId("lastname").getValue());
+                  doh.assertTrue(dojo.byId("street").disabled);
+                  doh.assertEqual("", dijit.byId("street").getValue());
+                  doh.assertTrue(dojo.byId("zipcode").disabled);
+                  doh.assertEqual("", dijit.byId("zipcode").getValue());
+                  doh.assertTrue(dojo.byId("city").disabled);
+                  doh.assertEqual("", dijit.byId("city").getValue());
+              },
+              function checkCreateObject() {
+                  var proto = new TestObject(null, 123456, null, null, null, null, null); 
+                  ogppwcrudform.createObject(proto);
+                  //initial checks
+                  doh.assertFalse(dojo.byId("key").disabled);
+                  doh.assertEqual("", dijit.byId("key").getValue());
+                  doh.assertTrue(dojo.byId("ssn").disabled);
+                  doh.assertEqual(123456, dijit.byId("ssn").getValue());
+                  doh.assertFalse(dojo.byId("firstname").disabled);
+                  doh.assertEqual("", dijit.byId("firstname").getValue());
+                  doh.assertFalse(dojo.byId("lastname").disabled);
+                  doh.assertEqual("", dijit.byId("lastname").getValue());
+                  doh.assertFalse(dojo.byId("street").disabled);
+                  doh.assertEqual("", dijit.byId("street").getValue());
+                  doh.assertFalse(dojo.byId("zipcode").disabled);
+                  doh.assertEqual("", dijit.byId("zipcode").getValue());
+                  doh.assertFalse(dojo.byId("city").disabled);
+                  doh.assertEqual("", dijit.byId("city").getValue());
+                  //setup (ssn is not editable, so we don't touch it,
+                  //it has been set in the "prototype" object however.
+                  dijit.byId("key").setValue(2);
+                  dijit.byId("firstname").setValue("Jan");
+                  dijit.byId("lastname").setValue("Dockx");
+                  dijit.byId("street").setValue("Industriepark");
+                  dijit.byId("zipcode").setValue(9031);
+                  dijit.byId("city").setValue("Drongen");
+                  //simulate click event
+                  var event = new Object();
+                  ogppwcrudform._oncreatemodesavebuttonclick(event);
+                  //checks
+                  doh.assertTrue(dojo.byId("key").disabled);           
+                  doh.assertTrue(dojo.byId("ssn").disabled);           
+                  doh.assertTrue(dojo.byId("firstname").disabled);           
+                  doh.assertTrue(dojo.byId("lastname").disabled);           
+                  doh.assertTrue(dojo.byId("street").disabled);           
+                  doh.assertTrue(dojo.byId("zipcode").disabled);           
+                  doh.assertTrue(dojo.byId("city").disabled);
+                  var newobject = event.formObject;
+                  doh.assertEqual(2, newobject.id);           
+                  doh.assertEqual(123456, newobject.socsecnr);
+                  doh.assertEqual("Jan", newobject.first);
+                  doh.assertEqual("Dockx", newobject.last);
+                  doh.assertEqual("Industriepark", newobject.address.street);
+                  doh.assertEqual(9031, newobject.address.zip);
+                  doh.assertEqual("Drongen", newobject.address.city);
+                  ogppwcrudform.reset();
+              },
+              function checkUpdateObject() {
+                  var test = new TestObject(5, 654321, "Ruben", "Vandeginste", "Vandeginstesteenweg", 5321, "Mechelen");
+                  ogppwcrudform.displayObject(test);
+                  ogppwcrudform.setUpdateMode();
+                  //check current form state
+                  doh.assertFalse(dojo.byId("key").disabled);
+                  doh.assertEqual(5, dijit.byId("key").getValue());
+                  //social security number is not editable
+                  doh.assertTrue(dojo.byId("ssn").disabled);
+                  doh.assertEqual(654321, dijit.byId("ssn").getValue());
+                  doh.assertFalse(dojo.byId("firstname").disabled);
+                  doh.assertEqual("Ruben", dijit.byId("firstname").getValue());
+                  doh.assertFalse(dojo.byId("lastname").disabled);
+                  doh.assertEqual("Vandeginste", dijit.byId("lastname").getValue());
+                  doh.assertFalse(dojo.byId("street").disabled);
+                  doh.assertEqual("Vandeginstesteenweg", dijit.byId("street").getValue());
+                  doh.assertFalse(dojo.byId("zipcode").disabled);
+                  doh.assertEqual(5321, dijit.byId("zipcode").getValue());
+                  doh.assertFalse(dojo.byId("city").disabled);
+                  doh.assertEqual("Mechelen", dijit.byId("city").getValue());
+                  //update object
+                  dijit.byId("firstname").setValue("Werner");
+                  dijit.byId("lastname").setValue("Valgaeren");
+                  dijit.byId("street").setValue("Duwijckstraat 17");
+                  dijit.byId("zipcode").setValue(2500);
+                  dijit.byId("city").setValue("Lier");
+                  //simulate save button click
+                  var event = new Object();
+                  ogppwcrudform._onupdatemodesavebuttonclick(event);
+                  var updatedobject = event.formObject;
+                  doh.assertEqual(5, updatedobject.id);
+                  doh.assertEqual(654321, updatedobject.socsecnr);
+                  doh.assertEqual("Werner", updatedobject.first);
+                  doh.assertEqual("Valgaeren", updatedobject.last);
+                  doh.assertEqual("Duwijckstraat 17", updatedobject.address.street);
+                  doh.assertEqual(2500, updatedobject.address.zip);
+                  doh.assertEqual("Lier", updatedobject.address.city); 
+                  ogppwcrudform.reset();
+              },
+              function checkIdFields() {
+                  var ids = ogppwcrudform.getObjectIdFields();
+                  doh.assertEqual(1, ids.length);
+                  doh.assertEqual(ids[0], "id");
+              } 
+             ]
+       );    
+       doh.run();
+    });
+  </script>
+
+</head>
+<body>
+  <form dojoType="org.ppwcode.dojo.dijit.form.PpwCrudForm" jsId="ogppwcrudform" constructorFunction="TestObject" >
+    <input id="key"
+           type="hidden"
+           dojoType="dijit.form.TextBox"/>
+    <label>Social Security Number</label>
+    <input id="ssn"
+           type="text"
+           dojoType="dijit.form.TextBox"/>
+    <br/>
+    <label>First Name</label>
+    <input id="firstname"
+           type="text"
+           dojoType="dijit.form.TextBox"/>
+    <label>Last Name</label>
+    <input id="lastname"
+           type="text"
+           dojoType="dijit.form.TextBox"/>
+    <br/>
+    <label>Street</label>
+    <input id="street"
+           type="text"
+           dojoType="dijit.form.TextBox"/>
+    <br/>
+    <label>Zip</label>
+    <input id="zipcode"
+           type="text"
+           dojoType="dijit.form.TextBox"
+           style="width: 5em;"/>
+    <label>City</label>
+    <input id="city"
+           type="text"
+           dojoType="dijit.form.TextBox"/>
+  </form>
+</body>
+</html>
