@@ -315,15 +315,15 @@ dojo.declare(
 			this._disableFormFields(false);
 		},
 
-		setCreateMode: function() {
+		setCreateMode: function(/*Object?*/prototype) {
 			// summary:
 			//   Set the form in create mode.
 			// description:
 			//   In view mode, the buttons shown are "Create" and "Cancel".  The fields
 			//   are disabled.  The content of the input fields are cleared
 			this.reset();
-			if (this._thedisplayobject) {
-				this._displayObject(this._thedisplayobject);
+			if (prototype) {
+				this._displayObject(prototype);
 			}
 			this.setCreateModeNoReset();
 		},
@@ -481,13 +481,15 @@ dojo.declare(
 			//    Resets the form.
 			// description:
 			//    Clear the input fields of the form and remove possible error messages
-        	this.removeErrorMessages();
+        	this.removeAllErrorMessages();
+        	this._thedisplayobject = null;
 			this._setInitMode();
 			this.inherited(arguments);
 			
 			// XXX MUDO TOM: check if this meets your needs !!
 			// setting all fields to empty, where as now we sometimes see 'undefined' or 'null' in the field
 			for (var fieldid in this._byFieldIdMap) {
+				//this._byFieldIdMap[fieldid].widget.reset();
 				this._byFieldIdMap[fieldid].widget.setValue("");
 			}
         },
@@ -547,15 +549,8 @@ dojo.declare(
 			// summary:
 			//    Prepare the form to create a new object.
 			// description:
-			//    This methods puts the form in createmode, and clears all
-			//    references to objects that it may be displaying at the
-			//    time this method is called
-			if (prototype) {
-				this._thedisplayobject = prototype;
-			} else {
-				this._thedisplayobject = null;
-			}
-			this.setCreateMode();
+			//    This is equivalent to setting the form in createmode
+			this.setCreateMode(prototype);
 		},
 
 		getObjectName: function() {
@@ -601,13 +596,56 @@ dojo.declare(
 			delete this._tooltips[property];
 		},
 
-		removeErrorMessages: function() {
+		removeAllErrorMessages: function() {
 			for (var property in this._tooltips) {
 				this._hideErrorMessage(property);
 			}
 		},
 		
-		displayErrorMessages: function(/*Object[]*/messages) {
+		
+		_displayPropertyErrorMessage: function(property, errormessage) {
+			var tt = new dijit._MasterTooltip();
+			var formwidget = this._byPropertyNameMap[property].widget;
+
+			//no fading
+			tt.duration = 1;
+			//needed to recreate the fade functions
+			tt.postCreate();
+			//let's just cache the node and the message in the tooltip, so
+			//we can reference them when resizing.
+			tt.__PpwNode = this._byPropertyNameMap[property].domNode;
+			tt.__PpwMessage = errormessage;
+
+			//attach to some events on the form field to make the tip disappear
+			tt.__PpwConnectHandle = new Array();
+			//every _Widget has an onChange method
+			tt.__PpwConnectHandle.push(
+				dojo.connect(
+					formwidget,
+					"onChange",
+					null,
+					dojo.hitch(this, this._hideErrorMessage, property)
+				)
+			);
+			//FormValueWidgets have an _onKeyPress Method... private or not... we
+			//attach to it, so we can hide the errormessage on first keypress.
+			if (formwidget._onKeyPress && dojo.isFunction(formwidget._onKeyPress)) {
+				tt.__PpwConnectHandle.push(
+					dojo.connect(
+						formwidget,
+						"_onKeyPress",
+						null,
+						dojo.hitch(this, this._hideErrorMessage, property)
+					)
+				);
+			}
+			this._tooltips[property] = tt;
+			//show the tooltip
+			tt.show(tt.__PpwMessage, tt.__PpwNode, ["after", "before", "above"]);
+			
+		},
+		
+		displayPropertyErrorMessages: function(/*Object[]*/messages) {
 			// summary:
 			//    display error messages on the form using Dojo ToolTip widgets
 			// description:
@@ -624,57 +662,20 @@ dojo.declare(
 			//      {propertyName: "e-mail", localizedMessage: "the domain name for this email address does not exist."}]
 
 			//remove old messages if any
-			this.removeErrorMessages();
+			this.removeAllErrorMessages();
 
 			for (var i = 0; i < messages.length; i++) {
-				var tt = new dijit._MasterTooltip();
-				var formwidget = this._byPropertyNameMap[messages[i].propertyName].widget;
-
-				//no fading
-				tt.duration = 1;
-				//needed to recreate the fade functions
-				tt.postCreate();
-				//let's just cache the node and the message in the tooltip, so
-				//we can reference them when resizing.
-				tt.__PpwNode = this._byPropertyNameMap[messages[i].propertyName].domNode;
-				tt.__PpwMessage = messages[i].localizedMessage;
-
-				//attach to some events on the form field to make the tip disappear
-				tt.__PpwConnectHandle = new Array();
-				//every _Widget has an onChange method
-				tt.__PpwConnectHandle.push(
-					dojo.connect(
-						formwidget,
-						"onChange",
-						null,
-						dojo.hitch(this, this._hideErrorMessage, messages[i].propertyName)
-					)
-				);
-				//FormValueWidgets have an _onKeyPress Method... private or not... we
-				//attach to it, so we can hide the errormessage on first keypress.
-				if (formwidget._onKeyPress && dojo.isFunction(formwidget._onKeyPress)) {
-					tt.__PpwConnectHandle.push(
-						dojo.connect(
-							formwidget,
-							"_onKeyPress",
-							null,
-							dojo.hitch(this, this._hideErrorMessage, messages[i].propertyName)
-						)
-					);
+				if (this._byPropertyNameMap[messages[i].propertyName]) {
+					this._displayPropertyErrorMessage(messages[i].propertyName, messages[i].localizedMessage);
 				}
-				this._tooltips[messages[i].propertyName] = tt;
-				//show the tooltip
-				tt.show(tt.__PpwMessage, tt.__PpwNode, ["after", "before", "above"]);
-			
-			
-			}
+			}	
 		},
 		
 		displayPropertyException: function(/*PropertyException*/propertyexception) {
 			if (propertyexception instanceof CompoundPropertyException) {
-				this.displayErrorMessages(propertyexception.elementExceptions);
+				this.displayPropertyErrorMessages(propertyexception.elementExceptions);
 			} else {
-				this.displayErrorMessages([propertyexception]);
+				this.displayPropertyErrorMessages([propertyexception]);
 			}
 		}
 	}
