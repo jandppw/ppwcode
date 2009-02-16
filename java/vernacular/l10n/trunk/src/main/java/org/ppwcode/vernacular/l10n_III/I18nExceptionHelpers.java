@@ -29,6 +29,7 @@ import org.apache.commons.logging.LogFactory;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.ppwcode.util.exception_III.ProgrammingErrorHelpers;
 import org.ppwcode.util.reflect_I.PropertyHelpers;
 
 import org.ppwcode.vernacular.l10n_III.resourcebundle.DefaultResourceBundleLoadStrategy;
@@ -57,21 +58,22 @@ public final class I18nExceptionHelpers {
     assert preArgumentNotNull(exc, "exc");
     assert preArgumentNotNull(locale, "locale");
 
-    LOG.debug("Localized exception message in locale [" + locale + "] for exception [" + exc.toString() + "]");
-    String messageTemplate = exc.getMessageTemplate(locale);
-    LOG.debug("Template: " + messageTemplate);
-    String message = format(messageTemplate, exc, locale);
-    LOG.debug("Message:  " + message);
-
+    String message = "";
+    try {
+      LOG.debug("Localized exception message in locale [" + locale + "] for exception [" + exc.toString() + "]");
+      String messageTemplate = exc.getMessageTemplate(locale);
+      LOG.debug("Template: " + messageTemplate);
+      message = format(messageTemplate, exc, locale);
+      LOG.debug("Message:  " + message);
+    } catch (I18nException i18nExc) {
+      LOG.error("Exception: " + i18nExc);
+      ProgrammingErrorHelpers.unexpectedException(i18nExc);
+    }
     return message;
   }
 
-  public static String format(String template, Object context, Locale locale) {
-    // The value ({object.property}) for the {object.property:propertyName} of the {object:type} is not acceptable.
-    // The value ({enterprise.terminationDate}) for the {enterprise.terminationDate:propertyName} of the {enterprise:type} is not acceptable.
-    //
-    // The value ({enterprise.{prop}, date}) for the {enterprise.{prop}:propertyName} of the {enterprise:type} is not acceptable.
-    //
+  public static String format(String template, Object context, Locale locale)
+    throws I18nException {
     List<Object> objects = new ArrayList<Object>();
     String pattern = processTemplate(template, context, locale, objects);
     LOG.debug("Pattern: " + pattern);
@@ -82,45 +84,61 @@ public final class I18nExceptionHelpers {
 
 
 
-  protected static String processTemplate(String template, Object context, Locale locale, List<Object> objects) {
+  /**
+   * Helper method for processTemplate to scan the full pattern, once the beginning of a pattern was found.
+   */
+  private static String processTemplatePattern(Object context, Locale locale, List<Object> objects,
+          CharacterIterator iterator) throws I18nException {
+    // previous token was "{", scan up to balanced "}"
+    // scan full pattern now
+    StringBuffer patternAcc = new StringBuffer(128);
+    char token = ' '; // initialise with dummy value
+    int balance = 1;
+    while ((balance > 0) && (token != CharacterIterator.DONE)) {
+      token = iterator.next();
+      patternAcc.append(token);
+      if (token == '{') {
+        balance++;
+      } else if (token == '}') {
+        balance--;
+      }
+    }
+    // done or bad template ?!?
+    if (token == CharacterIterator.DONE) {
+      throw new I18nException("Bad template!");
+    }
+    // remove last "}"
+    patternAcc.setLength(patternAcc.length() - 1);
+    // prepare pattern, treat the "," for formatting parts
+    int comma = patternAcc.indexOf(",");
+    String pattern = null;
+    String patternPostfix = "";
+    if (comma == -1) {
+      pattern = patternAcc.toString();
+    } else if (comma == 0) {
+      throw new I18nException("Bad template!");
+    } else {
+      pattern = patternAcc.substring(0, comma);
+      patternPostfix = patternAcc.substring(comma, patternAcc.length());
+    }
+    // process pattern
+    String processedPattern = processPattern(pattern, context, locale, objects);
+    return processedPattern + patternPostfix;
+  }
+
+
+  protected static String processTemplate(String template, Object context, Locale locale, List<Object> objects)
+    throws I18nException {
     StringBuffer result = new StringBuffer(1024);
     CharacterIterator iterator = new StringCharacterIterator(template);
     char token = iterator.first();
     while (token != CharacterIterator.DONE) {
-      if (token == '{') {
-        // scan full pattern now
-        StringBuffer patternAcc = new StringBuffer(128);
-        int balance = 1;
-        while (balance > 0) {
-          token = iterator.next();
-          patternAcc.append(token);
-          if (token == '{') {
-            balance++;
-          } else if (token == '}') {
-            balance--;
-          }
-        }
-        // remove last "}"
-        patternAcc.setLength(patternAcc.length()-1);
-        // prepare pattern, treat the "," for formatting parts
-        int comma = patternAcc.indexOf(",");
-        String pattern = null;
-        String patternPostfix = "";
-        if (comma == -1) {
-          pattern = patternAcc.toString();
-        } else {
-          // TODO  what if comma = 0 ??
-          pattern = patternAcc.substring(0, comma);
-          patternPostfix = patternAcc.substring(comma, patternAcc.length());
-        }
-        // process pattern
-        String processedPattern = processPattern(pattern, context, locale, objects);
-        result.append("{");
-        result.append(processedPattern);
-        result.append(patternPostfix);
-        result.append("}");
-      } else {
+      if (token != '{') {
         result.append(token);
+      } else {
+        result.append("{");
+        result.append(processTemplatePattern(context, locale, objects, iterator));
+        result.append("}");
       }
       token = iterator.next();
     }
