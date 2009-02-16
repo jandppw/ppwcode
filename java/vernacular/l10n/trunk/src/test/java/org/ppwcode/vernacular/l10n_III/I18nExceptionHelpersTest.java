@@ -71,7 +71,7 @@ public class I18nExceptionHelpersTest {
   private String EXP_MESSAGE_1 = "Fout: \"Tekst\" van \"A-Boon\": de waarde \"hello, there!\" wordt niet aanvaard.";
   private String EXP_MESSAGE_2 = "Erreur: \"Texte\" de \"A-Haricot\": la valeur \"hello, there!\" n'est pas acceptable.";
   private String EXP_MESSAGE_3 = "Start Datum (1-6-08) valt na Eind datum (1-1-08).";
-  private String EXP_MESSAGE_4 = "Date de debut (01/06/08) is plus tard que Date de fin (01/01/08).";
+  private String EXP_MESSAGE_4 = "Date de debut (01/06/08) est plus tard que Date de fin (01/01/08).";
 
   @Test
   public void testI18nMessage1() {
@@ -115,15 +115,66 @@ public class I18nExceptionHelpersTest {
     assertEquals(EXP_MESSAGE_4, msg);
   }
 
-//  @Test
-//  public void testClass() {
-//    BeanA b = new BeanA();
-//    ExceptionA exc = new ExceptionA(b, "string", "TYPE", null);
-//    Locale locale = new Locale("en");
-//    String msg = I18nExceptionHelpers.i18nExceptionMessage(exc, locale);
-//    System.out.println("result: " + msg);
-//  }
+  @Test
+  public void testProcessElementLabel1() {
+    // test with class
+    ExceptionA exc = new ExceptionA(BeanA.class, "date", "DEFAULT", null);
+    Locale locale = new Locale("nl");
+    String msg = I18nExceptionHelpers.processElementLabel("origin.date", "propertyName", exc, locale);
+    assertEquals("Datum", msg);
+    locale = new Locale("fr");
+    msg = I18nExceptionHelpers.processElementLabel("origin.date", "propertyName", exc, locale);
+    assertEquals("Date", msg);
+  }
 
+  @Test
+  public void testProcessElementLabel2() {
+    // test with instance
+    BeanA bean = new BeanA();
+    ExceptionA exc = new ExceptionA(bean, "date", "DEFAULT", null);
+    Locale locale = new Locale("nl");
+    String msg = I18nExceptionHelpers.processElementLabel("origin.date", "propertyName", exc, locale);
+    assertEquals("Datum", msg);
+    locale = new Locale("fr");
+    msg = I18nExceptionHelpers.processElementLabel("origin.date", "propertyName", exc, locale);
+    assertEquals("Date", msg);
+  }
+
+  @Test
+  public void testProcessElementLabel3() {
+    // test with linked instances
+    BeanA bean = new BeanA();
+    ExceptionA excA = new ExceptionA(bean, "date", "DEFAULT", null);
+    ExceptionA excB = new ExceptionA(bean, "string", "DEFAULT", excA);
+    Locale locale = new Locale("nl");
+    String msg = I18nExceptionHelpers.processElementLabel("cause.origin.date", "propertyName", excB, locale);
+    assertEquals("Datum", msg);
+    locale = new Locale("fr");
+    msg = I18nExceptionHelpers.processElementLabel("cause.origin.date", "propertyName", excB, locale);
+    assertEquals("Date", msg);
+  }
+
+  @Test(expected = AssertionError.class)
+  public void testProcessElementLabel4() {
+    // test with linked instances
+    BeanA bean = new BeanA();
+    // ExceptionA excA = new ExceptionA(bean, "date", "DEFAULT", null);
+    ExceptionA excB = new ExceptionA(bean, "string", "DEFAULT", null);
+    Locale locale = new Locale("nl");
+    // we expect AssertionError because the property "cause" is null
+    String msg = I18nExceptionHelpers.processElementLabel("cause.origin.date", "propertyName", excB, locale);
+    assertEquals("Datum", msg);
+    locale = new Locale("fr");
+    msg = I18nExceptionHelpers.processElementLabel("cause.origin.date", "propertyName", excB, locale);
+    assertEquals("Date", msg);
+  }
+
+
+  
+
+  //
+  //  utility methods
+  //
 
   private static Date getDayDate(String date) {
     SimpleDateFormat sdf  = new SimpleDateFormat("dd/MM/yyyy");
