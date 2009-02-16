@@ -79,6 +79,7 @@ dojo.declare(
 		displayForm: function(/*String*/formid) {
 			var formdata = this._formIdMap[formid];
 			if (formdata) {
+				this.resetCurrentForm();
 				this.selectChild(formdata.pane);
 				this._displayingformid = formid;
 			}

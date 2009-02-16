@@ -2,4 +2,5 @@
   "saveButtonLabel":"Opslaan",
   "updateButtonLabel":"Updaten",
   "deleteButtonLabel":"Wissen",
-  "cancelButtonLabel":"Annuleren"})
+  "cancelButtonLabel":"Annuleren",
+  "errorBoxTitle":"Bijkomende fouten"})

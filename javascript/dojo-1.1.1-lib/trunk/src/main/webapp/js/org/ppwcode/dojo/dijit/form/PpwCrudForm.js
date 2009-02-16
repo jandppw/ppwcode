@@ -120,13 +120,15 @@ dojo.declare(
 
 		_thedisplayobject: null,
 		_thebuttoncontainer: null,
-
+		
+		_localizationbundle: null,
+		
 		objectName: "",
 		
 		constructor: function() {
  			this._tooltips = new Object();
 
-			var localizationbundle = dojo.i18n.getLocalization("org.ppwcode.dojo.dijit.form", "PpwCrudForm");
+			this._localizationbundle = dojo.i18n.getLocalization("org.ppwcode.dojo.dijit.form", "PpwCrudForm");
 			//View Button Panel
 			this._viewModeButtonPanel = dojo.doc.createElement('div');
 			dojo.addClass(this._viewModeButtonPanel, "PpwCrudFormButtonPanel");
@@ -135,7 +137,7 @@ dojo.declare(
 			this._viewModeButtonPanel.appendChild(tempButton);
 			this._viewModeEditButton =
 				new dijit.form.Button({
-					label: localizationbundle.editButtonLabel
+					label: this._localizationbundle.editButtonLabel
 				}, tempButton);
 			this._viewModeEditButton.startup();
 
@@ -147,7 +149,7 @@ dojo.declare(
 			this._createModeButtonPanel.appendChild(tempButton);
 			this._createModeSaveButton =
 				new dijit.form.Button({
-					label: localizationbundle.saveButtonLabel
+					label: this._localizationbundle.saveButtonLabel
 				}, tempButton);
 			this._createModeSaveButton.startup();
 			//Cancel button
@@ -155,7 +157,7 @@ dojo.declare(
 			this._createModeButtonPanel.appendChild(tempButton);
 			this._createModeCancelButton =
 				new dijit.form.Button({
-					label: localizationbundle.cancelButtonLabel
+					label: this._localizationbundle.cancelButtonLabel
 				}, tempButton);
 			this._createModeSaveButton.startup();
 
@@ -167,7 +169,7 @@ dojo.declare(
 			this._updateModeButtonPanel.appendChild(tempButton);
 			this._updateModeSaveButton =
 				new dijit.form.Button({
-					label: localizationbundle.updateButtonLabel
+					label: this._localizationbundle.updateButtonLabel
 				}, tempButton);
 			this._createModeSaveButton.startup();
 			//this._createModeButtonPanel.appendChild(spacer);
@@ -176,7 +178,7 @@ dojo.declare(
 			this._updateModeButtonPanel.appendChild(tempButton);
 			this._updateModeCancelButton =
 				new dijit.form.Button({
-					label: localizationbundle.cancelButtonLabel
+					label: this._localizationbundle.cancelButtonLabel
 				}, tempButton);
 			this._updateModeSaveButton.startup();
 		},
@@ -197,13 +199,20 @@ dojo.declare(
 				this._viewModeButtonPanel.appendChild(tempButton);
 				this._viewModeDeleteButton =
 					new dijit.form.Button({
-						label: localizationbundle.deleteButtonLabel
+						label: this._localizationbundle.deleteButtonLabel
 					}, tempButton);
 				this._viewModeDeleteButton.startup();
 				dojo.connect(this._viewModeDeleteButton, "onClick", this, "_onviewmodedeletebuttonclick");
 			}
 		},
 
+		buildRendering: function() {
+			this.inherited(arguments);
+			this._errorMessagesNode = dojo.doc.createElement('div');
+			dojo.addClass(this._errorMessagesNode, "PpwCrudFormError");
+			dojo.place(this._errorMessagesNode, this.containerNode, "after");
+		},
+		
 		startup: function() {
 			if (this.domNode.parentNode) {
 				dojo.connect(this.domNode.parentNode, "onscroll", this, this._redrawTooltips);
@@ -600,13 +609,35 @@ dojo.declare(
 			for (var property in this._tooltips) {
 				this._hideErrorMessage(property);
 			}
+			dojo.removeClass(this._errorMessagesNode, "PpwCrudFormErrorBox");
+			dojo.query("> ", this._errorMessagesNode).orphan();
 		},
 		
+		_addErrorMessage: function(message) {
+			var query = dojo.query("> ul", this._errorMessagesNode);
+			var messageslist = null;
+			if (query.length != 0) {
+				messageslist = query[0];
+			} else {
+				dojo.addClass(this._errorMessagesNode, "PpwCrudFormErrorBox");
+				var title = dojo.doc.createElement('div');
+				dojo.addClass(title, "PpwCrudFormErrorBoxTitle");
+				title.innerHTML = this._localizationbundle.errorBoxTitle;
+				this._errorMessagesNode.appendChild(title);
+				messageslist = dojo.doc.createElement('ul');
+				this._errorMessagesNode.appendChild(messageslist);
+			}
+			var messagenode = dojo.doc.createElement('li');
+			messagenode.innerHTML = message;
+			messageslist.appendChild(messagenode);
+		},
 		
 		_displayPropertyErrorMessage: function(property, errormessage) {
 			var tt = new dijit._MasterTooltip();
 			var formwidget = this._byPropertyNameMap[property].widget;
 
+			//styling of error contents
+			dojo.addClass(tt.containerNode, "PpwCrudFormError");
 			//no fading
 			tt.duration = 1;
 			//needed to recreate the fade functions
@@ -645,7 +676,7 @@ dojo.declare(
 			
 		},
 		
-		displayPropertyErrorMessages: function(/*Object[]*/messages) {
+		displayErrorMessages: function(/*Object[]*/messages) {
 			// summary:
 			//    display error messages on the form using Dojo ToolTip widgets
 			// description:
@@ -656,8 +687,8 @@ dojo.declare(
 			//    result from server side form validation.
 			// messages:
 			//    an array of messages.  The array consists of objects that
-			//    must have the following properties:  "property" and
-			//    "message".  For example:
+			//    must have the following properties:  "propertyName" (optional) and
+			//    "localizedMessage".  For example:
 			//    [ {propertyName: "name", localizedMessage: "name is not unique"},
 			//      {propertyName: "e-mail", localizedMessage: "the domain name for this email address does not exist."}]
 
@@ -665,17 +696,20 @@ dojo.declare(
 			this.removeAllErrorMessages();
 
 			for (var i = 0; i < messages.length; i++) {
-				if (this._byPropertyNameMap[messages[i].propertyName]) {
+				if (messages[i].propertyName && this._byPropertyNameMap[messages[i].propertyName]) {
 					this._displayPropertyErrorMessage(messages[i].propertyName, messages[i].localizedMessage);
+				} else {
+					this._addErrorMessage(messages[i].localizedMessage);
 				}
 			}	
 		},
 		
 		displayPropertyException: function(/*PropertyException*/propertyexception) {
-			if (propertyexception instanceof CompoundPropertyException) {
-				this.displayPropertyErrorMessages(propertyexception.elementExceptions);
+			if (   (propertyexception instanceof CompoundPropertyException) 
+				|| (propertyexception instanceof CompoundSemanticException)){
+				this.displayErrorMessages(propertyexception.elementExceptions);
 			} else {
-				this.displayPropertyErrorMessages([propertyexception]);
+				this.displayErrorMessages([propertyexception]);
 			}
 		}
 	}

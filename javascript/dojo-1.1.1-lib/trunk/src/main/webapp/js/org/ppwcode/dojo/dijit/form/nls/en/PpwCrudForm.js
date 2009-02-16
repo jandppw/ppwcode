@@ -2,4 +2,5 @@
   "saveButtonLabel":"Save",
   "updateButtonLabel":"Update",
   "deleteButtonLabel":"Delete",
-  "cancelButtonLabel":"Cancel"})
+  "cancelButtonLabel":"Cancel",
+  "errorBoxTitle":"Additional Errors"})
