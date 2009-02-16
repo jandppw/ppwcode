@@ -67,6 +67,7 @@ public final class I18nExceptionHelpers {
       LOG.debug("Message:  " + message);
     } catch (I18nException i18nExc) {
       LOG.error("Exception: " + i18nExc);
+      // fail fatally when error happens during processing of exceptions
       ProgrammingErrorHelpers.unexpectedException(i18nExc);
     }
     return message;
@@ -82,6 +83,29 @@ public final class I18nExceptionHelpers {
     return result;
   }
 
+
+
+  protected static String processTemplate(String template, Object context, Locale locale, List<Object> objects)
+    throws I18nException {
+    StringBuffer result = new StringBuffer(1024);
+    CharacterIterator iterator = new StringCharacterIterator(template);
+    char token = iterator.first();
+    try {
+    while (token != CharacterIterator.DONE) {
+      if (token != '{') {
+        result.append(token);
+      } else {
+        result.append("{");
+        result.append(processTemplatePattern(context, locale, objects, iterator));
+        result.append("}");
+      }
+      token = iterator.next();
+    }
+    } catch (I18nException exc) {
+      throw new I18nTemplateException("Error processing template", template, context, locale, exc);
+    }
+    return result.toString();
+  }
 
 
   /**
@@ -105,7 +129,7 @@ public final class I18nExceptionHelpers {
     }
     // done or bad template ?!?
     if (token == CharacterIterator.DONE) {
-      throw new I18nException("Bad template!");
+      throw new I18nTemplateException("Bad template pattern", patternAcc.toString());
     }
     // remove last "}"
     patternAcc.setLength(patternAcc.length() - 1);
@@ -116,7 +140,7 @@ public final class I18nExceptionHelpers {
     if (comma == -1) {
       pattern = patternAcc.toString();
     } else if (comma == 0) {
-      throw new I18nException("Bad template!");
+      throw new I18nTemplateException("Bad template pattern", patternAcc.toString());
     } else {
       pattern = patternAcc.substring(0, comma);
       patternPostfix = patternAcc.substring(comma, patternAcc.length());
@@ -124,25 +148,6 @@ public final class I18nExceptionHelpers {
     // process pattern
     String processedPattern = processPattern(pattern, context, locale, objects);
     return processedPattern + patternPostfix;
-  }
-
-
-  protected static String processTemplate(String template, Object context, Locale locale, List<Object> objects)
-    throws I18nException {
-    StringBuffer result = new StringBuffer(1024);
-    CharacterIterator iterator = new StringCharacterIterator(template);
-    char token = iterator.first();
-    while (token != CharacterIterator.DONE) {
-      if (token != '{') {
-        result.append(token);
-      } else {
-        result.append("{");
-        result.append(processTemplatePattern(context, locale, objects, iterator));
-        result.append("}");
-      }
-      token = iterator.next();
-    }
-    return result.toString();
   }
 
 
