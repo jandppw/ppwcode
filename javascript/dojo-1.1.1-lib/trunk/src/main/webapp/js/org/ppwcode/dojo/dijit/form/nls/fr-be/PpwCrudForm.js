@@ -2,4 +2,5 @@
   "saveButtonLabel":"Sauver",
   "updateButtonLabel":"Actualiser",
   "deleteButtonLabel":"Supprimer",
-  "cancelButtonLabel":"Annuler"})
+  "cancelButtonLabel":"Annuler",
+  "errorBoxTitle":"Fautes suppl&eacute;mentaires"})

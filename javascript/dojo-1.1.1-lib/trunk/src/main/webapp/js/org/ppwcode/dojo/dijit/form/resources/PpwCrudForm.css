@@ -1,0 +1,16 @@
+@CHARSET "UTF-8";
+
+.PpwCrudFormErrorBox {
+	margin-top: 1.5ex;
+	padding: 0.5ex;
+  background-color: #FFEEEE;
+  border: 1px solid red;
+}
+
+.PpwCrudFormErrorBoxTitle {
+	font-weight: bold;
+}
+
+.PpwCrudFormError {
+	color: red;
+}
