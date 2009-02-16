@@ -240,10 +240,11 @@ public final class I18nExceptionHelpers {
    * Localized classes provide a localized name for the class itself and every property in the class.
    * This method enables us to fetch the given label for the given element in the given context, and
    * in the given locale.
+   * The given element can be a chain of properties.  In order to find the correct label, the chain of
+   * properties will be followed with the given context as the root.  The chain will be followed
+   * dynamically as long as possible, and statically as soon as a "null" value is encountered in the
+   * chain.
    *
-   * TODO treat classes differently here: it should be possible to query the name of the property of
-   *      a given java class, even if there is no instance available of that class
-   *      This also means that we need to be able to follow chains statically instead of dynamically.
    */
   protected static String processElementLabel(String element, String label, Object context, Locale locale) {
     assert preArgumentNotNull(element, "element");
