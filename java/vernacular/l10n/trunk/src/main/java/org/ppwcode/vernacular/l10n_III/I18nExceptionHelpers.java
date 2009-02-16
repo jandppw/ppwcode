@@ -57,8 +57,11 @@ public final class I18nExceptionHelpers {
     assert preArgumentNotNull(exc, "exc");
     assert preArgumentNotNull(locale, "locale");
 
+    LOG.debug("Localized exception message in locale [" + locale + "] for exception [" + exc.toString() + "]");
     String messageTemplate = exc.getMessageTemplate(locale);
+    LOG.debug("Template: " + messageTemplate);
     String message = format(messageTemplate, exc, locale);
+    LOG.debug("Message:  " + message);
 
     return message;
   }
@@ -129,12 +132,6 @@ public final class I18nExceptionHelpers {
   /**
    * Evaluate the given pattern inside the given context, with the given locale and add the object to the list.
    *
-   *
-   * @param pattern
-   * @param context
-   * @param locale
-   * @param list
-   * @return
    */
   protected static String processPattern(String pattern, Object context, Locale locale, List<Object> list) {
     // first process all elements found inside the pattern and replace the pattern
@@ -257,17 +254,39 @@ public final class I18nExceptionHelpers {
     DefaultResourceBundleLoadStrategy strategy = new DefaultResourceBundleLoadStrategy();
     strategy.setLocale(locale);
 
-    // manually following the chain because we want the dynamic types
-    // code in PropertyHelpers only allows static types
-    // TODO  move this code somewhere else?
+    // -> as long as not null, follow properties dynamically
+    // -> as soon as null, follow statically
     Object newContext = context;
     String property = element;
-    while (!PropertyHelpers.cdrNestedPropertyName(property).equals(PropertyHelpers.EMPTY)) {
-      newContext = PropertyHelpers.propertyValue(newContext, PropertyHelpers.carNestedPropertyName(property));
-      property = PropertyHelpers.cdrNestedPropertyName(property);
+    Object tmpCtx = null;
+    String carProperty = PropertyHelpers.carNestedPropertyName(property);
+    String cdrProperty = PropertyHelpers.cdrNestedPropertyName(property);
+    while (!cdrProperty.equals(PropertyHelpers.EMPTY)) {
+      if (newContext instanceof Class) {
+        // follow chain statically
+        newContext = PropertyHelpers.propertyType((Class)newContext, carProperty);
+        property = cdrProperty;
+      } else {
+        // follow chain dynamically if possible
+        tmpCtx = PropertyHelpers.propertyValue(newContext, carProperty);
+        if (tmpCtx != null) {
+          // follow dynamically
+          newContext = tmpCtx;
+        } else {
+          // follow statically
+          newContext = PropertyHelpers.propertyType(newContext.getClass(), carProperty);
+        }
+        property = cdrProperty;
+      }
+      carProperty = PropertyHelpers.carNestedPropertyName(property);
+      cdrProperty = PropertyHelpers.cdrNestedPropertyName(property);
     }
 
-    return I18nLabelHelpers.i18nInstanceLabel(property, newContext, label, strategy);
+    if (newContext instanceof Class) {
+      return I18nLabelHelpers.i18nClassGenericLabel(property, (Class)newContext, label, strategy);
+    } else {
+      return I18nLabelHelpers.i18nInstanceGenericLabel(property, newContext, label, strategy);
+    }
   }
 
 
