@@ -1,0 +1,50 @@
+/*<license>
+Copyright 2007 - $Date: 2009-02-17 14:18:20 +0100 (Tue, 17 Feb 2009) $ by PeopleWare n.v..
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</license>*/
+
+package org.ppwcode.util.smallfries_I;
+
+
+import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+
+import org.ppwcode.metainfo_I.Copyright;
+import org.ppwcode.metainfo_I.License;
+import org.ppwcode.metainfo_I.vcs.SvnInfo;
+
+
+/**
+ * A mapping maps a given element of type {@code _From_} to an
+ * element of type {@code _To_}.
+ *
+ * @invar   (forAll _From_ from1; ;
+ *             (forAll _From_ from2; ;)
+ *               from1 != from2 ==> map(from1) != map(from2));
+ *
+ * @author Nele Smeets
+ */
+@Copyright("2007 - $Date: 2009-02-17 14:18:20 +0100 (Tue, 17 Feb 2009) $, PeopleWare n.v.")
+@License(APACHE_V2)
+@SvnInfo(revision = "$Revision: 1107 $",
+         date     = "$Date: 2009-02-17 14:18:20 +0100 (Tue, 17 Feb 2009) $")
+public interface Mapping<_From_, _To_> {
+
+  /**
+   * @basic
+   * @pre from != null;
+   */
+  _To_ map(_From_ from);
+
+}
+
