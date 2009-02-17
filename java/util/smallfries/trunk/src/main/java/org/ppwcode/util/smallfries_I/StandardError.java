@@ -1,5 +1,5 @@
 /*<license>
-Copyright 2007 - $Date: 2009-02-17 14:18:20 +0100 (Tue, 17 Feb 2009) $ by PeopleWare n.v..
+Copyright 2007 - $Date$ by PeopleWare n.v..
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -47,10 +47,10 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
  *
  * @author Nele Smeets
  */
-@Copyright("2007 - $Date: 2009-02-17 14:18:20 +0100 (Tue, 17 Feb 2009) $, PeopleWare n.v.")
+@Copyright("2007 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 1107 $",
-         date     = "$Date: 2009-02-17 14:18:20 +0100 (Tue, 17 Feb 2009) $")
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public class StandardError extends AbstractStorelessUnivariateStatistic
     implements Serializable {
 
