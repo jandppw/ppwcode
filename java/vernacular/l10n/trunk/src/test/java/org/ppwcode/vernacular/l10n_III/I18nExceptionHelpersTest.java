@@ -25,7 +25,9 @@ import org.junit.Test;
 
 import org.ppwcode.vernacular.l10n_III.util.BeanA;
 import org.ppwcode.vernacular.l10n_III.util.ExceptionA;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 
 public class I18nExceptionHelpersTest {
@@ -35,13 +37,13 @@ public class I18nExceptionHelpersTest {
   //
 
   @Test
-  public void testProcessElement1() {
+  public void testProcessElement1() throws I18nException {
     Exception e = new Exception("TEST");
     assertEquals("TEST", I18nExceptionHelpers.processElementValue("message", e));
   }
 
   @Test
-  public void testProcessElement2() {
+  public void testProcessElement2() throws I18nException {
     Exception inner = new Exception("INNER");
     Exception outer = new Exception("OUTER", inner);
     assertEquals("OUTER", I18nExceptionHelpers.processElementValue("message", outer));
@@ -49,7 +51,7 @@ public class I18nExceptionHelpersTest {
   }
 
   @Test
-  public void testProcessElement3() {
+  public void testProcessElement3() throws I18nException {
     Exception inner = new Exception("INNER");
     Exception inter = new Exception("INTER", inner);
     Exception outer = new Exception("OUTER", inter);
@@ -59,12 +61,32 @@ public class I18nExceptionHelpersTest {
   }
 
   @Test
-  public void testProcessElement4() {
+  public void testProcessElement4() throws I18nException {
     Exception inner = new Exception("INNER");
     Exception outer = new Exception("OUTER", inner);
     assertEquals("OUTER", I18nExceptionHelpers.processElementStringValue("message", outer));
     assertEquals("INNER", I18nExceptionHelpers.processElementStringValue("cause.message", outer));
     assertEquals("null", I18nExceptionHelpers.processElementStringValue("cause.cause.message", outer));
+  }
+
+  @Test
+  public void testProcessElement5() throws I18nException {
+    // test with linked instances
+    BeanA bean = new BeanA();
+    ExceptionA exc = new ExceptionA(bean, "string", "DEFAULT", null);
+    // we expect "null" because the property "cause" is null
+    String msg = I18nExceptionHelpers.processElementStringValue("cause.origin.date", exc);
+    assertEquals("null", msg);
+  }
+
+  @Test
+  public void testProcessElement6() throws I18nException {
+    // test with linked instances
+    BeanA bean = new BeanA();
+    ExceptionA exc = new ExceptionA(bean, "string", "DEFAULT", null);
+    // we expect "null" because the property "cause" is null
+    Object val = I18nExceptionHelpers.processElementValue("cause.origin.date", exc);
+    assertNull(val);
   }
 
 
@@ -116,7 +138,7 @@ public class I18nExceptionHelpersTest {
   }
 
   @Test
-  public void testProcessElementLabel1() {
+  public void testProcessElementLabel1() throws I18nException {
     // test with class
     ExceptionA exc = new ExceptionA(BeanA.class, "date", "DEFAULT", null);
     Locale locale = new Locale("nl");
@@ -128,7 +150,7 @@ public class I18nExceptionHelpersTest {
   }
 
   @Test
-  public void testProcessElementLabel2() {
+  public void testProcessElementLabel2() throws I18nException {
     // test with instance
     BeanA bean = new BeanA();
     ExceptionA exc = new ExceptionA(bean, "date", "DEFAULT", null);
@@ -141,7 +163,7 @@ public class I18nExceptionHelpersTest {
   }
 
   @Test
-  public void testProcessElementLabel3() {
+  public void testProcessElementLabel3() throws I18nException {
     // test with linked instances
     BeanA bean = new BeanA();
     ExceptionA excA = new ExceptionA(bean, "date", "DEFAULT", null);
@@ -154,8 +176,8 @@ public class I18nExceptionHelpersTest {
     assertEquals("Date", msg);
   }
 
-  @Test(expected = AssertionError.class)
-  public void testProcessElementLabel4() {
+  @Test(expected = I18nTemplateException.class)
+  public void testProcessElementLabel4() throws I18nException {
     // test with linked instances
     BeanA bean = new BeanA();
     // ExceptionA excA = new ExceptionA(bean, "date", "DEFAULT", null);

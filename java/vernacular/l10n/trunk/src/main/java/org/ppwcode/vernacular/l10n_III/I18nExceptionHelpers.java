@@ -156,10 +156,11 @@ public final class I18nExceptionHelpers {
    * Evaluate the given pattern inside the given context, with the given locale and add the object to the list.
    *
    */
-  protected static String processPattern(String pattern, Object context, Locale locale, List<Object> list) {
+  protected static String processPattern(String pattern, Object context, Locale locale, List<Object> list)
+    throws I18nException {
     // first process all elements found inside the pattern and replace the pattern
-    // find deepest "{}" pattern first
-    String regexp = "^(.*)\\{([^\\{\\}]*)\\}(.*)$";
+    // find deepest "${}" pattern first
+    String regexp = "^(.*)\\$\\{([^\\{\\}]*)\\}(.*)$";
     Pattern regexpPattern = Pattern.compile(regexp, Pattern.DOTALL);
     String workPattern = pattern;
     Matcher regexpMatcher = regexpPattern.matcher(workPattern);
@@ -178,7 +179,8 @@ public final class I18nExceptionHelpers {
   }
 
 
-  protected static Object processElementObject(String element, Object context, Locale locale) {
+  protected static Object processElementObject(String element, Object context, Locale locale)
+    throws I18nException {
     assert preArgumentNotNull(element, "element");
     assert preArgumentNotNull(context, "context");
     assert preArgumentNotNull(locale, "locale");
@@ -194,7 +196,8 @@ public final class I18nExceptionHelpers {
   }
 
 
-  protected static String processElementString(String element, Object context, Locale locale) {
+  protected static String processElementString(String element, Object context, Locale locale)
+    throws I18nException {
     assert preArgumentNotNull(element, "element");
     assert preArgumentNotNull(context, "context");
     assert preArgumentNotNull(locale, "locale");
@@ -211,7 +214,8 @@ public final class I18nExceptionHelpers {
 
 
 
-  protected static String processElementStringValue(String element, Object context) {
+  protected static String processElementStringValue(String element, Object context)
+    throws I18nException {
     assert preArgumentNotNull(element, "element");
     assert preArgumentNotNull(context, "context");
 
@@ -238,24 +242,30 @@ public final class I18nExceptionHelpers {
    * @param context
    * @return The object that corresponds to element and is found in the context.
    */
-  protected static Object processElementValue(String element, Object context) {
+  protected static Object processElementValue(String element, Object context)
+    throws I18nException {
     assert preArgumentNotNull(element, "element");
     assert preArgumentNotNull(context, "context");
 
     Object result = null;
     String firstElement = PropertyHelpers.carNestedPropertyName(element);
     String nextElement = PropertyHelpers.cdrNestedPropertyName(element);
-    if (nextElement.equals(PropertyHelpers.EMPTY)) {
-      result = PropertyHelpers.propertyValue(context, firstElement);
-    } else {
-      Object newContext = PropertyHelpers.propertyValue(context, firstElement);
-      if (newContext == null) {
-        result = null;
+
+    try {
+      if (nextElement.equals(PropertyHelpers.EMPTY)) {
+        result = PropertyHelpers.propertyValue(context, firstElement);
       } else {
-        result = processElementValue(nextElement, newContext);
+        Object newContext = PropertyHelpers.propertyValue(context, firstElement);
+        if (newContext == null) {
+          result = null;
+        } else {
+          result = processElementValue(nextElement, newContext);
+        }
       }
+      return result;
+    } catch (AssertionError err) {
+      throw new I18nTemplateException("Error processing element value", element, context, null, err);
     }
-    return result;
   }
 
 
@@ -269,7 +279,8 @@ public final class I18nExceptionHelpers {
    * chain.
    *
    */
-  protected static String processElementLabel(String element, String label, Object context, Locale locale) {
+  protected static String processElementLabel(String element, String label, Object context, Locale locale)
+    throws I18nException {
     assert preArgumentNotNull(element, "element");
     assert preArgumentNotNull(label, "label");
     assert preArgumentNotNull(context, "context");
@@ -285,31 +296,36 @@ public final class I18nExceptionHelpers {
     Object tmpCtx = null;
     String carProperty = PropertyHelpers.carNestedPropertyName(property);
     String cdrProperty = PropertyHelpers.cdrNestedPropertyName(property);
-    while (!cdrProperty.equals(PropertyHelpers.EMPTY)) {
-      if (newContext instanceof Class) {
-        // follow chain statically
-        newContext = PropertyHelpers.propertyType((Class)newContext, carProperty);
-        property = cdrProperty;
-      } else {
-        // follow chain dynamically if possible
-        tmpCtx = PropertyHelpers.propertyValue(newContext, carProperty);
-        if (tmpCtx != null) {
-          // follow dynamically
-          newContext = tmpCtx;
-        } else {
-          // follow statically
-          newContext = PropertyHelpers.propertyType(newContext.getClass(), carProperty);
-        }
-        property = cdrProperty;
-      }
-      carProperty = PropertyHelpers.carNestedPropertyName(property);
-      cdrProperty = PropertyHelpers.cdrNestedPropertyName(property);
-    }
 
-    if (newContext instanceof Class) {
-      return I18nLabelHelpers.i18nClassGenericLabel(property, (Class)newContext, label, strategy);
-    } else {
-      return I18nLabelHelpers.i18nInstanceGenericLabel(property, newContext, label, strategy);
+    try {
+      while (!cdrProperty.equals(PropertyHelpers.EMPTY)) {
+        if (newContext instanceof Class) {
+          // follow chain statically
+          newContext = PropertyHelpers.propertyType((Class) newContext, carProperty);
+          property = cdrProperty;
+        } else {
+          // follow chain dynamically if possible
+          tmpCtx = PropertyHelpers.propertyValue(newContext, carProperty);
+          if (tmpCtx != null) {
+            // follow dynamically
+            newContext = tmpCtx;
+          } else {
+            // follow statically
+            newContext = PropertyHelpers.propertyType(newContext.getClass(), carProperty);
+          }
+          property = cdrProperty;
+        }
+        carProperty = PropertyHelpers.carNestedPropertyName(property);
+        cdrProperty = PropertyHelpers.cdrNestedPropertyName(property);
+      }
+
+      if (newContext instanceof Class) {
+        return I18nLabelHelpers.i18nClassGenericLabel(property, (Class) newContext, label, strategy);
+      } else {
+        return I18nLabelHelpers.i18nInstanceGenericLabel(property, newContext, label, strategy);
+      }
+    } catch (AssertionError err) {
+      throw new I18nTemplateException("Error processing element label", element+label, context, locale, err);
     }
   }
 
