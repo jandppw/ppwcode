@@ -17,15 +17,18 @@ limitations under the License.
 package org.ppwcode.vernacular.l10n_III;
 
 
-import org.ppwcode.util.reflect_I.PropertyHelpers;
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.reflect_I.PropertyHelpers.propertyType;
 import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.unexpectedException;
 import static org.ppwcode.vernacular.l10n_III.resourcebundle.ResourceBundleHelpers.value;
+import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.preArgumentNotNull;
+import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.pre;
 
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.ppwcode.util.exception_III.ProgrammingErrorHelpers;
+import org.ppwcode.util.reflect_I.PropertyHelpers;
 import org.ppwcode.vernacular.l10n_III.resourcebundle.KeyNotFoundException;
 import org.ppwcode.vernacular.l10n_III.resourcebundle.ResourceBundleLoadStrategy;
 import org.ppwcode.vernacular.l10n_III.resourcebundle.WrongValueTypeException;
@@ -329,6 +332,12 @@ public final class I18nLabelHelpers {
           final Object instance,
           final String type,
           final ResourceBundleLoadStrategy strategy) {
+    assert preArgumentNotNull(type);
+    assert preArgumentNotNull(property);
+    assert preArgumentNotNull(instance);
+    assert preArgumentNotNull(strategy);
+    assert pre(i18nSupportedLabelType(type), "SUPPORTED_LABEL_TYPE");
+
     String result = null;
     
     if (type.equals(I18N_PROPERTY_LABEL_KEY)) {
@@ -342,35 +351,46 @@ public final class I18nLabelHelpers {
       Object value = PropertyHelpers.propertyValue(instance, property);
       result = i18nTypeLabel(value.getClass(), true, strategy);
     } else {
-      // TODO  other error ??  return null ??
-      throw new IllegalArgumentException("This type of label is not supported.");
+      throw new AssertionError("Unsupported label type: " + type);
     }
     return result;
   }
 
   public static String i18nClassGenericLabel(
           final String property,
-          final Class instance,
+          final Class clazz,
           final String type,
           final ResourceBundleLoadStrategy strategy) {
+    assert preArgumentNotNull(type, "type");
+    assert preArgumentNotNull(property, "property");
+    assert preArgumentNotNull(clazz, "clazz");
+    assert preArgumentNotNull(strategy, "strategy");
+    assert pre(i18nSupportedLabelType(type), "SUPPORTED_LABEL_TYPE");
+
     String result = null;
 
     if (type.equals(I18N_PROPERTY_LABEL_KEY)) {
-      result = i18nPropertyLabel(property, instance, false, strategy);
+      result = i18nPropertyLabel(property, clazz, false, strategy);
     } else if (type.equals(I18N_SHORT_PROPERTY_LABEL_KEY)) {
-      result = i18nPropertyLabel(property, instance, true, strategy);
+      result = i18nPropertyLabel(property, clazz, true, strategy);
     } else if (type.equals(I18N_TYPE_LABEL_KEY)) {
-      Object propertyClass = PropertyHelpers.propertyType(instance, property);
+      Object propertyClass = PropertyHelpers.propertyType(clazz, property);
       result = i18nTypeLabel((Class)propertyClass, false, strategy);
     } else if (type.equals(I18N_PLURAL_TYPE_LABEL_KEY)) {
-      Object propertyClass = PropertyHelpers.propertyType(instance, property);
+      Object propertyClass = PropertyHelpers.propertyType(clazz, property);
       result = i18nTypeLabel((Class)propertyClass, true, strategy);
     } else {
-      // TODO  other error ??  return null ??
-      throw new IllegalArgumentException("This type of label is not supported.");
+      throw new AssertionError("Unsupported label type: " + type);
     }
     return result;
   }
 
+
+  public static boolean i18nSupportedLabelType(String labelType) {
+    return ((labelType.equals(I18N_TYPE_LABEL_KEY)) ||
+            (labelType.equals(I18N_PLURAL_TYPE_LABEL_KEY)) ||
+            (labelType.equals(I18N_PROPERTY_LABEL_KEY)) ||
+            (labelType.equals(I18N_SHORT_PROPERTY_LABEL_KEY)));
+  }
 
 }
