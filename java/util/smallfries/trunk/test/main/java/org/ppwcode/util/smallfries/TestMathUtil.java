@@ -41,10 +41,10 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.util.smallfries_I.MathUtil;
 
 
-@Copyright("2007 - $Date: 2009-02-17 14:18:20 +0100 (Tue, 17 Feb 2009) $, PeopleWare n.v.")
+@Copyright("2007 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 1107 $",
-         date     = "$Date: 2009-02-17 14:18:20 +0100 (Tue, 17 Feb 2009) $")
+@SvnInfo(revision = "$Revision$",
+         date     = "$Date$")
 public class TestMathUtil {
 
   @BeforeClass
