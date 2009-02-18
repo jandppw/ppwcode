@@ -28,5 +28,10 @@
     <author email="Adriaan_Peeters@peopleware.be">Adriaan Peeters</author>
   </properties>
   <body>
+    <release version="I 1.0" date="2009-02-18" description="First release">
+      <action dev="adriaan.peeters" type="add">
+        First version. Stable after long snapshot period.
+      </action>
+    </release>
   </body>
 </document>

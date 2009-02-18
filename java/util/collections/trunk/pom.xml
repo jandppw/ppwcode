@@ -41,7 +41,7 @@
   <!-- GROUP ID, ARTIFACT ID, VERSION, PACKAGING, NAME & DESCRIPTION: OVERWRITE IN YOUR CHILD POM (know what you are doing :-) ) -->
   <!-- for ppwcode projects, groupId and artifactId are calculated, and used in the magic mantra (see below);
        for parent poms, we cannot do this (all hell breaks loose in the children) -->
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0</version>
   <packaging>jar</packaging>
   <name>ppwcode collections</name>
   <description>Various collections relates classes.</description>
@@ -103,12 +103,6 @@
       <name>ppwcode Maven 2 repository</name>
       <url>http://www.ppwcode.org/java/maven2repo</url>
     </repository>
-    <repository>
-      <id>ppwcodeSnapshotRepo</id>
-      <!-- This needs to be copied in all child poms, to find the parent -->
-      <name>ppwcode Maven 2 snapshot repository</name>
-      <url>http://www.ppwcode.org/java/maven2snapshotrepo</url>
-    </repository>
   </repositories>
 
   <!-- activating dependencies used in this project. Versions are choosen in the grandparent pom -->
@@ -121,7 +115,7 @@
     <dependency>
       <groupId>org.ppwcode.util</groupId>
       <artifactId>ppwcode-util-smallfries-I</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
+      <version>1.0</version>
     </dependency>
   </dependencies>
 
