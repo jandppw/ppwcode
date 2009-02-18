@@ -100,13 +100,15 @@ dojo.declare(
 		_createModeSaveButton: null,
 		_createModeCancelButton: null,
 
-		_createFunction: null,
-
 		_updateModeButtonPanel: null,
 		_updateModeSaveButton: null,
 		_updateModeCancelButton: null,
 
-		_updateFunction: null,
+		//busyicon is overridable through attribute
+		busyicon: dojo.moduleUrl("org.ppwcode.dojo.dijit.form", "resources/icons/loading.gif"),
+	
+		_savingMessagePanel: null,
+		_updatingMessagePanel: null,
 
 		// contains the mapping between javascript object properties and form fields
 		_formmap: null,
@@ -181,6 +183,29 @@ dojo.declare(
 					label: this._localizationbundle.cancelButtonLabel
 				}, tempButton);
 			this._updateModeSaveButton.startup();
+			
+			//Status panels
+			this._savingMessagePanel = dojo.doc.createElement('div');
+			dojo.addClass(this._savingMessagePanel, "PpwCrudFormBusyPanel");
+			var tmpimg = dojo.doc.createElement('img');
+			dojo.attr(tmpimg, {src: this.busyicon, alt: ""});
+			dojo.addClass(tmpimg, "PpwCrudFormBusyIcon");
+			this._savingMessagePanel.appendChild(tmpimg);
+			var tmpmessage = dojo.doc.createElement('span');
+			dojo.addClass(tmpmessage, "PpwCrudFormBusyMessage");
+			tmpmessage.innerHTML = this._localizationbundle.savingMessage;
+			this._savingMessagePanel.appendChild(tmpmessage);
+
+			this._updatingMessagePanel = dojo.doc.createElement('div');
+			dojo.addClass(this._updatingMessagePanel, "PpwCrudFormBusyPanel");
+			tmpimg = dojo.doc.createElement('img');
+			dojo.attr(tmpimg, {src: this.busyicon, alt: ""});
+			dojo.addClass(tmpimg, "PpwCrudFormBusyIcon");
+			this._updatingMessagePanel.appendChild(tmpimg);
+			tmpmessage = dojo.doc.createElement('div');
+			dojo.addClass(tmpmessage, "PpwCrudFormBusyMessage");
+			tmpmessage.innerHTML = this._localizationbundle.updatingMessage;
+			this._updatingMessagePanel.appendChild(tmpmessage);
 		},
 
 		postMixInProperties: function(){
@@ -288,9 +313,11 @@ dojo.declare(
 		//remove button panel
 		_setInitMode: function() {
 			if (this._thebuttoncontainer) {
-			   dojo.query(".PpwCrudFormButtonPanel", this._thebuttoncontainer).orphan();
+				dojo.query(".PpwCrudFormButtonPanel", this._thebuttoncontainer).orphan();
+				dojo.query(".PpwCrudFormBusyPanel", this._thebuttoncontainer).orphan();
 			} else {
-			   dojo.query(".PpwCrudFormButtonPanel", this.buttonContainerNode).orphan();
+				dojo.query(".PpwCrudFormButtonPanel", this.buttonContainerNode).orphan();
+				dojo.query(".PpwCrudFormBusyPanel", this._thebuttoncontainer).orphan();
 			}
 			this._disableFormFields(true);
   		},
@@ -338,6 +365,7 @@ dojo.declare(
 		},
 
 		setCreateModeNoReset: function() {
+			this._setInitMode();
 			this._displayButtons(this._createModeButtonPanel);
 			this._disableFormFields(false);
 		},
@@ -356,6 +384,7 @@ dojo.declare(
 
 		_onupdatemodesavebuttonclick: function(/*Event*/e) {
 			this._setInitMode();
+			this._displayButtons(this._updatingMessagePanel);
 			var obj = dojo.clone(this._thedisplayobject);
 			e.formObject = this._createOrUpdateObjectFromForm(obj);
 			this.onUpdateModeSaveButtonClick(e);
@@ -371,6 +400,7 @@ dojo.declare(
 		_oncreatemodesavebuttonclick: function(/*Event*/e) {
 			if (this.validate()) {
 			  this._setInitMode();
+				this._displayButtons(this._savingMessagePanel);
 			  //decorate the event with the new object
 			  if (this._thedisplayobject) {
 				  e.formObject = this._createOrUpdateObjectFromForm(this._thedisplayobject);
