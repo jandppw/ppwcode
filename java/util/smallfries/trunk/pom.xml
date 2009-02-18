@@ -31,7 +31,6 @@
   </parent>
 
   <properties>
-
     <!-- The short artifact name. The real artifact name is calculated from the ppwcode.libraryKind,
          this short name, and the ppwcode.markVersion -->
     <ppwcode.shortArtifactName>smallfries</ppwcode.shortArtifactName>
