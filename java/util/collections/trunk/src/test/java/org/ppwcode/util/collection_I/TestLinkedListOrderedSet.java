@@ -82,10 +82,10 @@ public class TestLinkedListOrderedSet {
   @Test
   public void testGet() {
     for (int i = 0; i < $size; i++) {
-      assertEquals(i, $llosUp.get(i));
+      assertEquals(i, $llosUp.get(i).intValue());
     }
     for (int i = $size - 1; i >= 0; i--) {
-      assertEquals($size - 1 - i, $llosDown.get(i));
+      assertEquals($size - 1 - i, $llosDown.get(i).intValue());
     }
     try {
       $llosUp.get(-1);
@@ -133,7 +133,7 @@ public class TestLinkedListOrderedSet {
     Iterator<Integer> iter = $llosUp.iterator();
     int counter = 0;
     while (iter.hasNext()) {
-      assertEquals(counter, iter.next());
+      assertEquals(counter, iter.next().intValue());
       counter++;
     }
   }
@@ -153,11 +153,11 @@ public class TestLinkedListOrderedSet {
     assertTrue($empty.asList().isEmpty());
     List<Integer> l = $llosUp.asList();
     for (int i = 0; i < $size; i++) {
-      assertEquals(i, l.get(i));
+      assertEquals(i, l.get(i).intValue());
     }
     l = $llosDown.asList();
     for (int i = $size - 1; i >= 0; i--) {
-      assertEquals($size - 1 - i, l.get(i));
+      assertEquals($size - 1 - i, l.get(i).intValue());
     }
   }
 
@@ -168,10 +168,10 @@ public class TestLinkedListOrderedSet {
     assertEquals($size + 1, $llosUp.size());
     assertTrue($llosUp.contains(22));
     for (int i = 0; i < $size; i++) {
-      assertEquals(i, $llosUp.get(i));
+      assertEquals(i, $llosUp.get(i).intValue());
     }
     assertEquals(10, $llosUp.indexOf(22));
-    assertEquals(22, $llosUp.get(10));
+    assertEquals(22, $llosUp.get(10).intValue());
   }
 
   @Test
@@ -181,13 +181,13 @@ public class TestLinkedListOrderedSet {
     assertEquals($size, $llosUp.size());
     assertTrue($llosUp.contains(5));
     for (int i = 0; i < 5; i++) {
-      assertEquals(i, $llosUp.get(i));
+      assertEquals(i, $llosUp.get(i).intValue());
     }
     for (int i = 5; i < $size - 2; i++) {
-      assertEquals(i + 1, $llosUp.get(i));
+      assertEquals(i + 1, $llosUp.get(i).intValue());
     }
     assertEquals(9, $llosUp.indexOf(5));
-    assertEquals(5, $llosUp.get(9));
+    assertEquals(5, $llosUp.get(9).intValue());
   }
 
   @Test
@@ -197,10 +197,10 @@ public class TestLinkedListOrderedSet {
     assertEquals($size, $llosUp.size());
     assertTrue($llosUp.contains(0));
     for (int i = 0; i < $size - 2; i++) {
-      assertEquals(i + 1, $llosUp.get(i));
+      assertEquals(i + 1, $llosUp.get(i).intValue());
     }
     assertEquals(9, $llosUp.indexOf(0));
-    assertEquals(0, $llosUp.get(9));
+    assertEquals(0, $llosUp.get(9).intValue());
   }
 
   @Test
@@ -260,11 +260,11 @@ public class TestLinkedListOrderedSet {
     assertEquals($size + 1, $llosUp.size());
     assertTrue($llosUp.contains(22));
     for (int i = 0; i < index; i++) {
-      assertEquals(i, $llosUp.get(i));
+      assertEquals(i, $llosUp.get(i).intValue());
     }
-    assertEquals(22, $llosUp.get(index));
+    assertEquals(22, $llosUp.get(index).intValue());
     for (int i = index + 1; i <= $size; i++) {
-      assertEquals(i - 1, $llosUp.get(i));
+      assertEquals(i - 1, $llosUp.get(i).intValue());
     }
     assertEquals(index, $llosUp.indexOf(22));
   }
@@ -275,14 +275,14 @@ public class TestLinkedListOrderedSet {
     assertEquals($size, $llosUp.size());
     assertTrue($llosUp.contains(7));
     for (int i = 0; i < index; i++) {
-      assertEquals(i, $llosUp.get(i));
+      assertEquals(i, $llosUp.get(i).intValue());
     }
-    assertEquals(7, $llosUp.get(index));
+    assertEquals(7, $llosUp.get(index).intValue());
     for (int i = index + 1; i <= 7; i++) {
-      assertEquals(i - 1, $llosUp.get(i));
+      assertEquals(i - 1, $llosUp.get(i).intValue());
     }
     for (int i = 8; i < $size; i++) {
-      assertEquals(i, $llosUp.get(i));
+      assertEquals(i, $llosUp.get(i).intValue());
     }
     assertEquals(index, $llosUp.indexOf(7));
   }
@@ -293,14 +293,14 @@ public class TestLinkedListOrderedSet {
     assertEquals($size, $llosUp.size());
     assertTrue($llosUp.contains(index));
     for (int i = 0; i < 5; i++) {
-      assertEquals(i, $llosUp.get(i));
+      assertEquals(i, $llosUp.get(i).intValue());
     }
     for (int i = 5; i <= index - 1; i++) {
-      assertEquals(i + 1, $llosUp.get(i));
+      assertEquals(i + 1, $llosUp.get(i).intValue());
     }
-    assertEquals(5, $llosUp.get(index));
+    assertEquals(5, $llosUp.get(index).intValue());
     for (int i = index + 1; i < $size; i++) {
-      assertEquals(i, $llosUp.get(i));
+      assertEquals(i, $llosUp.get(i).intValue());
     }
     assertEquals(index, $llosUp.indexOf(5));
   }
@@ -311,7 +311,7 @@ public class TestLinkedListOrderedSet {
     assertEquals($size, $llosUp.size());
     assertTrue($llosUp.contains(index));
     for (int i = 0; i < $size; i++) {
-      assertEquals(i, $llosUp.get(i));
+      assertEquals(i, $llosUp.get(i).intValue());
     }
   }
 
@@ -363,12 +363,12 @@ public class TestLinkedListOrderedSet {
   private void testRemoveInt(int index) {
     Integer result = $llosUp.remove(index);
     assertEquals($size - 1, $llosUp.size());
-    assertEquals(index, result);
+    assertEquals(index, result.intValue());
     for (int i = 0; i < index; i++) {
-      assertEquals(i, $llosUp.get(i));
+      assertEquals(i, $llosUp.get(i).intValue());
     }
     for (int i = index; i < $size - 1; i++) {
-      assertEquals(i + 1, $llosUp.get(i));
+      assertEquals(i + 1, $llosUp.get(i).intValue());
     }
   }
 
