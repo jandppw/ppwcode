@@ -339,6 +339,9 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwEditableDataViewBox",
 			this.inherited(arguments);
 			dojo.connect(this._addButton, "onClick", this, "_onaddbuttonclick");
 			dojo.connect(this._deleteButton, "onClick", this, "_ondeletebuttonclick");
+			dojo.connect(this._masterGrid, "modelDatumChange", this, "onChange");
+			dojo.connect(this._masterGrid, "modelInsertion", this, "onChange");
+			dojo.connect(this._masterGrid, "modelRemoval", this, "onChange");
 		},
 	
 		setAddButtonDisabled: function(/*boolean*/disable) {
@@ -473,6 +476,10 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwEditableDataViewBox",
 			//   Hook method for the Delete button.
 			//description:
 			//   Hook method for the Delete button.
+		},
+		
+		onChange: function(e) {
+			//NOP
 		}
 	}
 );

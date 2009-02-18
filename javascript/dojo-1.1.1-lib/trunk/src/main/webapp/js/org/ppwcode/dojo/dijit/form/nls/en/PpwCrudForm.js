@@ -3,4 +3,6 @@
   "updateButtonLabel":"Update",
   "deleteButtonLabel":"Delete",
   "cancelButtonLabel":"Cancel",
-  "errorBoxTitle":"Additional Errors"})
+  "errorBoxTitle":"Additional Errors",
+  "savingMessage": "Saving...",
+  "updatingMessage": "Updating..."})
