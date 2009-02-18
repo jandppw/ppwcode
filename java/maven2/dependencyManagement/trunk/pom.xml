@@ -197,9 +197,9 @@
         <version>2.1</version>
       </dependency>
       <dependency>
-      	<groupId>org.ppwcode</groupId>
-      	<artifactId>ppwcode-value-III</artifactId>
-      	<version>dev-SNAPSHOT</version>
+        <groupId>org.ppwcode</groupId>
+        <artifactId>ppwcode-value-III</artifactId>
+        <version>dev-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.ppwcode.util</groupId>
@@ -217,9 +217,9 @@
         <version>1.0</version>
       </dependency>
       <dependency>
-      	<groupId>org.ppwcode.util</groupId>
-      	<artifactId>ppwcode-util-dwr-I</artifactId>
-      	<version>dev-SNAPSHOT</version>
+        <groupId>org.ppwcode.util</groupId>
+        <artifactId>ppwcode-util-dwr-I</artifactId>
+        <version>dev-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.ppwcode.vernacular</groupId>
