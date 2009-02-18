@@ -119,11 +119,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.ppwcode</groupId>
-      <artifactId>ppwcode-metainfo-I</artifactId>
-      <version>2.1</version>
-    </dependency>
-    <dependency>
       <groupId>commons-math</groupId>
       <artifactId>commons-math</artifactId>
       <version>1.1</version>
