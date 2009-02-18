@@ -309,7 +309,7 @@ public final class MathUtil {
   /**
    * @result equalValue(result, longObject);
    *
-   * @mudo is this a range problem?
+   * @todo is this a range problem?
    */
   public static BigDecimal castToBigDecimal(BigInteger biObject) {
     if (biObject == null) {
@@ -323,7 +323,7 @@ public final class MathUtil {
   /**
    * @result equalValue(result, longObject);
    *
-   * @mudo is this a range problem?
+   * @todo is this a range problem?
    */
   public static BigDecimal castToBigDecimal(Long longObject) {
     if (longObject == null) {
@@ -361,7 +361,7 @@ public final class MathUtil {
   /**
    * @result equalValue(result, longObject);
    *
-   * @mudo is this a range problem?
+   * @todo is this a range problem?
    */
   public static Double castToDouble(Long longObject) {
     if (longObject == null) {
@@ -387,7 +387,7 @@ public final class MathUtil {
   /**
    * @result equalValue(result, longObject);
    *
-   * @mudo is this a range problem?
+   * @todo is this a range problem?
    */
   public static Float castToFloat(Long longObject) {
     if (longObject == null) {
@@ -401,7 +401,7 @@ public final class MathUtil {
   /**
    * @result equalValue(result, integerObject);
    *
-   * @mudo is this a range problem?
+   * @todo is this a range problem?
    */
   public static Float castToFloat(Integer integerObject) {
     if (integerObject == null) {
