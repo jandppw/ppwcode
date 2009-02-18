@@ -177,6 +177,7 @@ dojo.declare(
 			
 			var mycallback = function(data) {
 				self._childView.setData(data);
+				self.afterFillChildView(data);
 			}
 			// overwrite if defined
 			if (callback && dojo.isFunction(callback)) {
@@ -205,6 +206,7 @@ dojo.declare(
 			var mycallback = function(data) {
 				self._childView.setData(data);
 				self._childView.selectItem(criterium);
+				self.afterFillChildView(data);
 			}
 			this.doFillChildView(parentObject, mycallback);
 		},
@@ -217,6 +219,14 @@ dojo.declare(
 			//    function is executed.
 			//parentObject:
 			//    the item that is selected in the parent PpwMasterView.
+		},
+		
+		afterFillChildView: function(data) {
+			//summary:
+			//    overridable method that is called after the
+			//    dwrRetrieveFunction is called.
+			//data:
+			//    result of the DWR call
 		},
 		
 		doFillChildViewErrorHandler: function(errorString, exception) {

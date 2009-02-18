@@ -7,6 +7,8 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwMessageBox",
 	[dijit._Widget, dijit._Templated],
 	{
 		templateString: "<div class='PpwMessageBox'></div>",
+
+		busyicon: dojo.moduleUrl("org.ppwcode.dojo.dijit.form", "resources/icons/loading.gif"),
 		
 		buildRendering: function() {
 			this.inherited(arguments);
@@ -37,6 +39,7 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwMessageBox",
 		setLoading: function() {
 			this.clear();
 			dojo.addClass(this.domNode, "PpwMessageBoxLoading");
+			this.domNode.innerHTML="<img src='" + this.busyicon + "'></img>";
 		},
 		
 		_removeClasses: function() {

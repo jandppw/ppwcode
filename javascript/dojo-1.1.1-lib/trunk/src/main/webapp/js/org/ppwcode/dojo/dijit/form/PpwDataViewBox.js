@@ -438,7 +438,7 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwEditableDataViewBox",
         		this._masterGrid.edit.apply();
         		this._masterGrid.model.setModifiable(!value);
         		break;
-        	}
+        	}	
         },
 
         ////////////////////////// Event handling //////////////////////////
@@ -454,8 +454,17 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwEditableDataViewBox",
 			} else {
 				obj = dojo.isFunction(this.constructorFunction) ? new this.constructorFunction() : new Object();
 			}
+			this.onBeforeAddItem(obj);
 			this.addItem(obj);
 			this.onAddButtonClick(e);
+		},
+		
+		onBeforeAddItem: function(item) {
+			//summary:
+			//   Hook method to initialize an object that will
+			//   be added to the DataViewBox
+			//item:
+			//   the item that will be added
 		},
 		
 		onAddButtonClick: function(e) {
