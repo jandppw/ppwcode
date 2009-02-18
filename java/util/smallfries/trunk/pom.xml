@@ -103,12 +103,6 @@
       <name>ppwcode Maven 2 repository</name>
       <url>http://www.ppwcode.org/java/maven2repo</url>
     </repository>
-    <repository>
-      <id>ppwcodeSnapshotRepo</id>
-      <!-- This needs to be copied in all child poms, to find the parent -->
-      <name>ppwcode Maven 2 snapshot repository</name>
-      <url>http://www.ppwcode.org/java/maven2snapshotrepo</url>
-    </repository>
   </repositories>
 
   <!-- activating dependencies used in this project. Versions are choosen in the grandparent pom -->
