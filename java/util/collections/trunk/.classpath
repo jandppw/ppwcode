@@ -2,8 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="src" output="target/test-classes" path="src/test/java"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/JVM 1.5.0"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ppwcode-metainfo"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="var" path="M2_REPO/org/ppwcode/ppwcode-metainfo-I/2.1/ppwcode-metainfo-I-2.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/ppwcode/util/ppwcode-util-smallfries-I/1.0.0-SNAPSHOT/ppwcode-util-smallfries-I-1.0.0-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
