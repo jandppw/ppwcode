@@ -41,10 +41,7 @@ dojo.declare(
 		
 		startup: function() {
 			if ((this.view) && (this.formContainer)) {
-				this.configure(this.view, this.formContainer);
-			}
-			if (this.viewviewcontroller) {
-				this.setViewIsChild(this.viewviewcontroller);
+				this.configure(this.view, this.formContainer, this.viewviewcontroller ? this.viewviewcontroller : null);
 			}
 			this.inherited(arguments);
 		},
@@ -76,12 +73,17 @@ dojo.declare(
 		},
 		
 		configure: function (/*PpwMasterView*/view,
-				             /*PpwCrudFormContainer*/formContainer) {
+				             /*PpwCrudFormContainer*/formContainer,
+				             /*PpwViewViewController?*/viewviewcontroller) {
 			this._view = view;
 			this._container = formContainer;
 
 			this._setControlledForms();
 			this._connectEventHandlers();
+
+			if (viewviewcontroller) {
+				this.setViewIsChild(viewviewcontroller);
+			}
 		},
 		
 		_createControlledFormsMap: function(formslist) {
