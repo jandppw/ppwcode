@@ -15,7 +15,10 @@ limitations under the License.
 </license>*/
 package org.ppwcode.vernacular.l10n_III.util;
 
+import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.unexpectedException;
+
 import java.util.Locale;
+import org.ppwcode.vernacular.l10n_III.I18nTemplateException;
 import org.ppwcode.vernacular.l10n_III.LocalizedException;
 import org.ppwcode.vernacular.l10n_III.resourcebundle.DefaultResourceBundleLoadStrategy;
 import org.ppwcode.vernacular.l10n_III.resourcebundle.KeyNotFoundException;
@@ -28,9 +31,9 @@ public class SuperException extends Exception implements LocalizedException {
     super(message, cause);
   }
 
-  public String getMessageTemplate(Locale locale) {
+  public String getMessageTemplate(Locale locale) throws I18nTemplateException {
     // use message key to find the right template in the properties files
-    String result;
+    String result = null;
     String messageKey = getMessage();
     DefaultResourceBundleLoadStrategy strategy = new DefaultResourceBundleLoadStrategy();
     strategy.setLocale(locale);
@@ -38,11 +41,9 @@ public class SuperException extends Exception implements LocalizedException {
     try {
       result = ResourceBundleHelpers.value(getClass(), keys, String.class, strategy);
     } catch (KeyNotFoundException exc) {
-      // TODO what to do with exceptions?
-      return null;
+      throw new I18nTemplateException("Template not found for key [" + getMessage() + "]", null, exc);
     } catch (WrongValueTypeException exc) {
-      // TODO what to do with exceptions?
-      return null;
+      unexpectedException(exc);
     }
     return result;
   }

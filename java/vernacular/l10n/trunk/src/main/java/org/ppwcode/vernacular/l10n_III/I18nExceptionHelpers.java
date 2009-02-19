@@ -75,6 +75,10 @@ public final class I18nExceptionHelpers {
 
   public static String format(String template, Object context, Locale locale)
     throws I18nException {
+    assert preArgumentNotNull(template, "template");
+    assert preArgumentNotNull(context, "context");
+    assert preArgumentNotNull(locale, "locale");
+
     List<Object> objects = new ArrayList<Object>();
     String pattern = processTemplate(template, context, locale, objects);
     LOG.debug("Pattern: " + pattern);
