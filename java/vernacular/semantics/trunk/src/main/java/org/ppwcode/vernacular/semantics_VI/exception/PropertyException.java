@@ -28,6 +28,7 @@ import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.vernacular.exception_III.ApplicationException;
 import org.ppwcode.vernacular.exception_III.SemanticException;
+import org.ppwcode.vernacular.l10n_III.I18nTemplateException;
 import org.ppwcode.vernacular.l10n_III.resourcebundle.DefaultResourceBundleLoadStrategy;
 import org.ppwcode.vernacular.l10n_III.resourcebundle.KeyNotFoundException;
 import org.ppwcode.vernacular.l10n_III.resourcebundle.ResourceBundleHelpers;
@@ -347,7 +348,7 @@ public class PropertyException extends SemanticException {
    * </ul>
    */
   @Override
-  public String getMessageTemplate(Locale locale) {
+  public String getMessageTemplate(Locale locale) throws I18nTemplateException {
     assert preArgumentNotNull(locale, "locale");
     String result = null;
 
@@ -369,7 +370,7 @@ public class PropertyException extends SemanticException {
     } catch (WrongValueTypeException exc) {
       unexpectedException(exc);
     } catch (KeyNotFoundException exc) {
-      // no problem
+      // no problem, still calling the getMessageTemplate function of the super class
     }
 
     // 2. next, check properties-file of the exception itself
