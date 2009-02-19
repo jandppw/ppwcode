@@ -64,9 +64,7 @@ dojo.declare(
 			//the child is added, this is a bug in the stack container.
 			this.clear();
 		},
-		
-		
-		
+
 //		setConstructorMap: function(/*Array*/map) {
 //			if (map.length != 0) {
 //				this._formCreatorFunctionMap = new Object();
