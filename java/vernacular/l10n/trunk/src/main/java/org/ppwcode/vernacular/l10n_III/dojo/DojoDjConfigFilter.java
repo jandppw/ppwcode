@@ -162,7 +162,7 @@ public class DojoDjConfigFilter implements Filter {
     StringBuffer result = new StringBuffer(65536);
 
     // construct regexp
-    String regexpFull = "^(.*<script)";                         // up to script tag
+    String regexpFull = "^(.*?<script)";                         // up to script tag
     regexpFull += "((\\s+type=\\s*(['\"])text/javascript\\4|";   // type
     regexpFull += "\\s+src=\\s*(['\"]).*?dojo.*?\\5|";    // src
     regexpFull += "\\s+djConfig=\\s*(['\"])(.*?)\\6){3})";         // djConfig
