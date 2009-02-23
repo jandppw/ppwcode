@@ -5,10 +5,9 @@ dojo.require("dijit.layout._LayoutWidget");
 dojo.require("dijit.layout.BorderContainer");
 dojo.require("dijit.layout.ContentPane");
 dojo.require("dijit.form.Button");
+dojo.require("dijit.Menu");
 dojo.require("dojox.grid.Grid");
 dojo.require("dojo.i18n");
-dojo.require("org.ppwcode.dojo.dojox.DataDropDown");
-dojo.require("dojo.data.ItemFileReadStore");
 dojo.require("org.ppwcode.dojo.util.JavaScriptHelpers");
 
 dojo.requireLocalization("org.ppwcode.dojo.dijit.form", "PpwMasterView");
@@ -71,7 +70,6 @@ dojo.declare(
 		//    HTML attribute to set the structure of the Grid encapsulated in the PpwMasterView
 		gridStructure: null,
 		
-		_addChooser: null,
 		_addButton: null,
 		
 		buildRendering: function() {
@@ -170,23 +168,27 @@ dojo.declare(
 			
 			//remove the current widget;
 			this._addChooser = null;
-			
-			var buttonDataStoreData = { identifier: "value",
-			        label: "label",
-			        items: []
-			       };
-			//copy data... not sure if it's really necessary though...
-			for (var i = 0; i < buttondata.length; i++) {
-				buttonDataStoreData.items[i] = new Object();
-				buttonDataStoreData.items[i].label = buttondata[i].label;
-				buttonDataStoreData.items[i].value = buttondata[i].value;
+			var menu = new dijit.Menu({ style: "display: none;"});
+
+			for (var i = 0, menuitem = null; i < buttondata.length; i++) {
+				menuitem = new dijit.MenuItem({
+			         label: buttondata[i].label,
+			         iconClass:"dijitTreeIcon dijitLeaf",
+			         onClick: dojo.hitch(this, this._onmenuitemclick, buttondata[i].value)
+			     });
+				menu.addChild(menuitem);
 			}
-			var buttonDataStore = new dojo.data.ItemFileReadStore({data: buttonDataStoreData});
-			var inputNode = dojo.doc.createElement('button');
-			this._buttonPane.domNode.insertBefore(inputNode, this._addButton.domNode);
-			this._addChooser =
-				new org.ppwcode.dojo.dojox.DataDropDown({store: buttonDataStore}, inputNode);
-			this._addChooser.startup();
+			//remove and destroy old add button
+			this._buttonPane.domNode.removeChild(this._addButton.domNode);
+			this._addButton.destroy();
+			//put add menu in place as a dropdownbutton
+			this._addButton = new dijit.form.DropDownButton({
+		         label: dojo.i18n.getLocalization("org.ppwcode.dojo.dijit.form","PpwMasterView").createButtonLabel,
+		         name: "Create",
+		         dropDown: menu,
+		     });
+			dojo.place(this._addButton.domNode, this._buttonPane.domNode, "first");
+			
 		},
 		
 		_clearSelection: function() {
@@ -217,9 +219,6 @@ dojo.declare(
 		
 		disableButtons: function(/*boolean*/disable) {
 			this._addButton.setAttribute('disabled', disable);
-			if (this._addChooser) {
-				this._addChooser.setAttribute('disabled', disable);
-			}
 		},
 		
 		getSelectedItem: function() {
@@ -430,12 +429,20 @@ dojo.declare(
 			//   with a new object.
 		},
 		
-		_onaddbuttonclick: function(e) {			
-			//console.log("PpwMasterView: _onaddbuttonclick");
+		_onmenuitemclick: function(value, event) {			
+			console.log("PpwMasterView: _onaddbuttonclick with " + value + " and " + event);
 			this._clearSelection();
-			if (this._addChooser) {
-				e.addChooserValue = this._addChooser.getValue();
+			var forwardevent = null
+			if (event) {
+				forwardevent = event;
+			} else {
+				forwardevent = new Object();
 			}
+			forwardevent.addChooserValue = value;
+			this.onAddButtonClick(forwardevent);
+		},
+		
+		_onaddbuttonclick: function(e) {
 			this.onAddButtonClick(e);
 		},
 		
@@ -449,10 +456,16 @@ dojo.declare(
 		_ongridrowclick: function(e) {
 			//console.log("PpwMasterView: _ongridrowclick");
             //console.log("PpwMasterView: _onaddbuttonclick");
-            // MUDO - Tom check this out !!
-            if (this._addChooser) {
-				e.addChooserValue = this._addChooser.getValue();
-			}
+            
+			// MUDO - Tom check this out !!
+			//
+			// 20090221 - Tom Mahieu - Commented this out.  addchooser removed.
+			//      value of addchooser should not matter when item in grid is
+			//      clicked.
+            //if (this._addChooser) {
+			//	e.addChooserValue = this._addChooser.getValue();
+			// }
+			
             //call user event
 			this.onGridRowClick(e);
 		},
