@@ -735,7 +735,7 @@ dojo.declare(
 		},
 		
 		displayPropertyException: function(/*PropertyException*/propertyexception) {
-			if (   (propertyexception instanceof CompoundPropertyException) 
+			if ((propertyexception instanceof CompoundPropertyException) 
 				|| (propertyexception instanceof CompoundSemanticException)){
 				this.displayErrorMessages(propertyexception.elementExceptions);
 			} else {
