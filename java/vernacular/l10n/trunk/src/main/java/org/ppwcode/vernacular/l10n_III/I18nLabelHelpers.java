@@ -27,7 +27,6 @@ import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.pre;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
-import org.ppwcode.util.exception_III.ProgrammingErrorHelpers;
 import org.ppwcode.util.reflect_I.PropertyHelpers;
 import org.ppwcode.vernacular.l10n_III.resourcebundle.KeyNotFoundException;
 import org.ppwcode.vernacular.l10n_III.resourcebundle.ResourceBundleLoadStrategy;
