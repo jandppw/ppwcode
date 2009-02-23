@@ -443,6 +443,7 @@ dojo.declare(
 		},
 		
 		_onaddbuttonclick: function(e) {
+			this._clearSelection();
 			this.onAddButtonClick(e);
 		},
 		
