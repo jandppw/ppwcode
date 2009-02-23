@@ -39,6 +39,7 @@ import org.toryt.annotations_I.Throw;
  * be stored in multiple, or possibly different, languages.
  *
  * @author    Jan Dockx
+ * @author    Ruben Vandeginste
  * @author    Peopleware NV
  */
 @Copyright("2008 - $Date$, PeopleWare n.v.")
