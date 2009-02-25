@@ -4,9 +4,19 @@
 <head>
   <title>Facebook Connect Demo 1</title>
   <script type="text/javascript">
-    function dologin() {
-    window.location="main.html";
-
+    function show_user() {
+       var node = document.getElementById("userbox");
+       node.innerHTML = "<span><fb:profile-pic uid='loggedinuser' facebook-logo='true'></fb:profile-pic>"
+           + "Welcome, <fb:name uid='loggedinuser' useyou='false'></fb:name>.  You are signed in with"
+           + " your facebook account. <button onclick='do_logout();'>logout</logout></span>"
+       FB.XFBML.Host.parseDomTree();
+    }
+    function do_logout() {
+        FB.Connect.logout(function() {
+            var node = document.getElementById("userbox");
+            node.innerHTML = "<fb:login-button onlogin='show_user();'></fb:login-button>";
+            FB.XFBML.Host.parseDomTree();
+        });
     }
   </script>
 </head>
@@ -15,11 +25,13 @@
   <h1>
     Facebook Connect Demo 1</h1>
   <p>Login flow example, with simple API call example</p>
-  <p>Login Button:</p>
-  <fb:login-button onlogin="dologin();"></fb:login-button>
+  <div id="userbox">
+    <fb:login-button onlogin="show_user();"></fb:login-button>
+  </div>
   <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
   <script type="text/javascript">
     FB.init("c77ef4b86b5c5442c67898ba963d8735", "xd_receiver.htm");
+    FB.Connect.ifUserConnected(show_user);  
   </script>
 </body>
 </html>
