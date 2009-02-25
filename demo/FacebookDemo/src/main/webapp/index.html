@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
+<head>
+  <title>Facebook Connect Demo 1</title>
+  <script type="text/javascript">
+    function dologin() {
+    window.location="main.html";
+
+    }
+  </script>
+</head>
+
+<body>
+  <h1>
+    Facebook Connect Demo 1</h1>
+  <p>Login flow example, with simple API call example</p>
+  <p>Login Button:</p>
+  <fb:login-button onlogin="dologin();"></fb:login-button>
+  <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
+  <script type="text/javascript">
+    FB.init("c77ef4b86b5c5442c67898ba963d8735", "xd_receiver.htm");
+  </script>
+</body>
+</html>
