@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Insert title here</title>
+</head>
+<body>
+  <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
+  <script type="text/javascript">
+    FB.init("c77ef4b86b5c5442c67898ba963d8735", "xd_receiver.htm");
+  </script>
+  <script type="text/javascript">
+  function test() {
+        //If you want to make Facebook API calls from JavaScript do something like
+        FB.Facebook.apiClient.friends_get(null, function(result, ex) {
+
+          FB.Facebook.apiClient.users_getInfo(result, ["pic_small", "first_name", "last_name", "sex"], function(result2, ex2) {
+              result2.sort(function(a, b) {return (a.last_name == b.last_name) ? 0 : (a.last_name < b.last_name) ? -1 : 1; });
+             var box = document.getElementById("outputbox");
+             for (var i = 0; i < result2.length; i++) {
+                 box.innerHTML += "<p><img src='" + result2[i].pic_small + "'></img> " + result2[i].last_name + " " + result2[i].first_name + " (" + result2[i].sex + ")</p>";
+             }
+          });
+        });
+  }
+  </script>
+    <button onclick="test();">Test</button>
+  <div id="outputbox">
+  </div>
+</body>
+</html>

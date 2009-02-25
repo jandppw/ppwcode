@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <groupId>org.ppwcode</groupId>
+    <artifactId>ppwcode-library-parent-pom</artifactId>
+    <version>1.2.1</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.ppwcode.demo</groupId>
+  <artifactId>FacebookDemo</artifactId>
+  <packaging>war</packaging>
+  <name>Facebook Demo</name>
+  <version>0.1-SNAPSHOT</version>
+
+  <!-- THIS NEEDS TO BE COPIED IN ALL CHILD POMS, TO FIND THE PARENT -->
+  <repositories>
+    <repository>
+      <id>ppwcodeRepo</id>
+      <name>ppwcode Maven 2 repository</name>
+      <url>http://www.ppwcode.org/java/maven2repo</url>
+    </repository>
+    <repository>
+      <id>ppwcodeSnapshotRepo</id>
+      <!-- This needs to be copied in all child poms, to find the parent -->
+      <name>ppwcode Maven 2 snapshot repository</name>
+      <url>http://www.ppwcode.org/java/maven2snapshotrepo</url>
+    </repository>
+  </repositories>
+  
+  <build>
+    <finalName>FacebookDemo</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.0.2</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+ 
+</project>
