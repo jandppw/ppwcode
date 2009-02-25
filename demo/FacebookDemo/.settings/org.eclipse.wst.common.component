@@ -1,8 +1,0 @@
-<project-modules id="moduleCoreId" project-version="2.0">
-  <wb-module deploy-name="FacebookDemo">
-    <property name="context-root" value="FacebookDemo"/>
-    <wb-resource deploy-path="/" source-path="src/main/webapp"/>
-    <property name="java-output-path" value="/target/classes"/>
-    <wb-resource deploy-path="/WEB-INF/classes" source-path="src/main/java"/>
-  </wb-module>
-</project-modules>
