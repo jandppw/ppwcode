@@ -24,7 +24,7 @@
   <!-- Dojo import -->
   <script type="text/javascript"
           src="js/dojo-1.1.1/dojo/dojo.js"
-          djConfig="parseOnLoad: true, isDebug: false">
+          djConfig="parseOnLoad: true, modulePaths: {org: '../../org'}, isDebug: false">
   </script>
   
   <script type="text/javascript">
@@ -32,6 +32,21 @@
     dojo.require("dijit.layout.BorderContainer");
     dojo.require("dijit.layout.ContentPane");
     dojo.require("dijit.form.Button");
+    dojo.require("org.ppwcode.dojo.dijit.form.PpwMasterView");
+    dojo.require("org.ppwcode.dojo.dojox.grid.data.model");
+  </script>
+  
+  <script type="text/javascript">
+  var friendsgridview = {
+	        cells: [
+	          [
+	            {name: "First Name", field: "first_name", width: "8em"},
+	            {name: "Last Name", field: "last_name", width: "100%"}
+	          ]
+	        ]
+	};
+	var friendsgridlayout = [ friendsgridview ];
+  var friendsgridmodel = new org.ppwcode.dojo.dojox.grid.data.PpwObjects();
   </script>
   
   <!--  FACEBOOK code -->
@@ -52,6 +67,21 @@
        FB.XFBML.Host.parseDomTree();
        dojo.parser.parse(node);
     }
+
+    function retrieve_friends() {
+        FB.Facebook.apiClient.friends_get(null, function(result, ex) {
+
+            FB.Facebook.apiClient.users_getInfo(result, ["pic_small", "first_name", "last_name"], function(result2, ex2) {
+                friendsgridmodel.setData(result2);
+            });
+          });
+    }
+    
+    function do_login() {
+      show_user();
+      retrieve_friends()
+    }
+    
     function do_logout() {
         FB.Connect.logout(function() {
             var node = document.getElementById("userbox");
@@ -67,10 +97,11 @@
   <div class="mainDiv" dojoType="dijit.layout.BorderContainer" design="headline" liveSplitters="true" gutters="true">
     <div dojoType="dijit.layout.ContentPane" region="top" splitter="false" style="height: 55px;">
       <div id="userbox" class="userbox">
-        <fb:login-button onlogin="show_user();"></fb:login-button>
+        <fb:login-button onlogin="do_login();"></fb:login-button>
       </div>
     </div>
     <div dojoType="dijit.layout.ContentPane" region="left" splitter="true" style="width: 350px;">
+      <div dojoType="org.ppwcode.dojo.dijit.form.PpwMasterView" gridModel="friendsgridmodel" gridStructure="friendsgridlayout"></div>
     </div>
     <div dojoType="dijit.layout.ContentPane" region="center" splitter="true">
     </div>
@@ -80,7 +111,7 @@
   <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
   <script type="text/javascript">
     FB.init("c77ef4b86b5c5442c67898ba963d8735", "xd_receiver.htm");
-    FB.Connect.ifUserConnected(show_user);  
+    FB.Connect.ifUserConnected(do_login);  
   </script>
 </body>
 </html>
