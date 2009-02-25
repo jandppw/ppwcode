@@ -15,6 +15,10 @@ limitations under the License.
 </license>*/
 package org.ppwcode.vernacular.l10n_III.dojo;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import javax.servlet.Filter;
@@ -150,6 +154,10 @@ public class DojoDjConfigFilterTest {
   }
 
 
+  //
+  // FILTER TEST
+  //
+
   @Test
   public void testDojoDjConfig1() throws UnsupportedEncodingException, IOException, ServletException {
     testDojoDjConfigFilterHelper("text/html", INPUT_1, OUTPUT_1, "fr-be" );
@@ -190,7 +198,6 @@ public class DojoDjConfigFilterTest {
     testDojoDjConfigFilterHelper("text/html", INPUT_8, OUTPUT_8, "fr-be" );
   }
 
-
   private void testDojoDjConfigFilterHelper(String type, String input, String output, String bestLocale)
           throws UnsupportedEncodingException, IOException, ServletException {
     MockHttpServletRequest request = new MockHttpServletRequest("GET", "/index.html");
@@ -212,5 +219,51 @@ public class DojoDjConfigFilterTest {
     Assert.assertEquals(output, response.getContentAsString());
     Assert.assertEquals(output.length(), response.getContentLength());
   }
-  
+
+
+  //
+  // PERFORMANCE
+  //
+
+  @Test(timeout=300)
+  public void testPerformance1() throws FileNotFoundException, IOException, UnsupportedEncodingException, ServletException {
+    testPerformanceHelper("sample1.html", "sample1-nl.html", "nl");
+  }
+
+  @Test(timeout=300)
+  public void testPerformance2() throws FileNotFoundException, IOException, UnsupportedEncodingException, ServletException {
+    testPerformanceHelper("sample2.html", "sample2-fr.html", "fr");
+  }
+
+  @Test(timeout=300)
+  public void testPerformance3() throws FileNotFoundException, IOException, UnsupportedEncodingException, ServletException {
+    testPerformanceHelper("sample3.html", "sample3-en.html", "en");
+  }
+
+  private void testPerformanceHelper(String inputFileName, String outputFileName, String bestLocale) throws FileNotFoundException, IOException, ServletException {
+    String input = readFileAsString(inputFileName);
+    String output = readFileAsString(outputFileName);
+    long start = System.currentTimeMillis();
+    testDojoDjConfigFilterHelper("text/html", input, output, bestLocale);
+    long end = System.currentTimeMillis();
+    LOG.debug("DojoDjConfigFilter needed " + (end-start) + " milliseconds.");
+  }
+
+  private String readFileAsString(String fileName) throws FileNotFoundException, IOException {
+    String basedir = System.getProperty("basedir");
+    String testFileName = basedir + File.separator + "src" + File.separator + "test" +
+            File.separator + "resources" + File.separator + "samples" + File.separator + fileName;
+    BufferedReader reader = new BufferedReader(new FileReader(testFileName));
+    StringBuffer buffer = new StringBuffer(1024);
+    char[] charBuffer = new char[1024];
+    int numChars = reader.read(charBuffer);
+    while (numChars != -1) {
+      buffer.append(charBuffer, 0, numChars);
+      numChars = reader.read(charBuffer);
+    }
+    reader.close();
+    return buffer.toString();
+  }
+
+
 }

@@ -164,8 +164,9 @@ public class DojoDjConfigFilter implements Filter {
     // construct regexp
     String regexpFull = "^(.*?<script)";                         // up to script tag
     regexpFull += "((\\s+type=\\s*(['\"])text/javascript\\4|";   // type
-    regexpFull += "\\s+src=\\s*(['\"]).*?dojo.*?\\5|";    // src
-    regexpFull += "\\s+djConfig=\\s*(['\"])(.*?)\\6){3})";         // djConfig
+    regexpFull += "\\s+src=\\s*(['\"])[^'\"]*?dojo[^'\"]*?\\5|";    // src
+    regexpFull += "\\s+djConfig=\\s*'[^']*'|";
+    regexpFull += "\\s+djConfig=\\s*\"[^\"]*\"){3})";         // djConfig
     regexpFull += "(\\s*>\\s*</script>.*)$";                    // closing script tag and afterwards
     LOG.debug("regexp: " + regexpFull);
 
@@ -176,8 +177,8 @@ public class DojoDjConfigFilter implements Filter {
       LOG.debug("djConfig is: "+m.group(2));
       result.append(m.group(1));
       result.append(replaceDjConfigLocale(m.group(2), preferredLocale));
-      LOG.debug("after is: " + m.group(8));
-      result.append(m.group(8));
+      LOG.debug("after is: " + m.group(6));
+      result.append(m.group(6));
       return result.toString();
     } else {
       LOG.debug("no match");
