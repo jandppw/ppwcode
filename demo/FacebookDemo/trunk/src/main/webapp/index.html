@@ -32,8 +32,11 @@
     dojo.require("dijit.layout.BorderContainer");
     dojo.require("dijit.layout.ContentPane");
     dojo.require("dijit.form.Button");
+    dojo.require("dijit.form.TextBox");
     dojo.require("org.ppwcode.dojo.dijit.form.PpwMasterView");
     dojo.require("org.ppwcode.dojo.dojox.grid.data.model");
+    dojo.require("org.ppwcode.dojo.dijit.form.PpwCrudForm");
+    dojo.require("org.ppwcode.dojo.dijit.form.PpwImageBox");
   </script>
   
   <script type="text/javascript">
@@ -47,6 +50,15 @@
 	};
 	var friendsgridlayout = [ friendsgridview ];
   var friendsgridmodel = new org.ppwcode.dojo.dojox.grid.data.PpwObjects();
+
+  var fbFriendFormMap = [
+      { property: "pic", fieldid: "FbFriendPicture", isEditable: false},
+      { property: "first_name", fieldid: "FbFriendFirstName", isEditable: false},
+      { property: "last_name", fieldid: "FbFriendLastName", isEditable: false}
+  ];
+  dojo.addOnLoad(function() {
+     fbFriendForm.setFormMap(fbFriendFormMap);
+  });
   </script>
   
   <!--  FACEBOOK code -->
@@ -71,7 +83,7 @@
     function retrieve_friends() {
         FB.Facebook.apiClient.friends_get(null, function(result, ex) {
 
-            FB.Facebook.apiClient.users_getInfo(result, ["pic_small", "first_name", "last_name"], function(result2, ex2) {
+            FB.Facebook.apiClient.users_getInfo(result, ["pic", "first_name", "last_name"], function(result2, ex2) {
                 friendsgridmodel.setData(result2);
             });
           });
@@ -83,6 +95,7 @@
     }
     
     function do_logout() {
+        fbMasterView.clear();
         FB.Connect.logout(function() {
             var node = document.getElementById("userbox");
             node.innerHTML = "<fb:login-button onlogin='show_user();'></fb:login-button>";
@@ -90,20 +103,58 @@
         });
     }
   </script>
-  
 </head>
 
 <body class="tundra">
   <div class="mainDiv" dojoType="dijit.layout.BorderContainer" design="headline" liveSplitters="true" gutters="true">
-    <div dojoType="dijit.layout.ContentPane" region="top" splitter="false" style="height: 55px;">
+    <div dojoType="dijit.layout.ContentPane" region="top" splitter="false" style="height: 60px;">
       <div id="userbox" class="userbox">
         <fb:login-button onlogin="do_login();"></fb:login-button>
       </div>
     </div>
     <div dojoType="dijit.layout.ContentPane" region="left" splitter="true" style="width: 350px;">
-      <div dojoType="org.ppwcode.dojo.dijit.form.PpwMasterView" gridModel="friendsgridmodel" gridStructure="friendsgridlayout"></div>
+      <div id="fbMasterView" jsId="fbMasterView" dojoType="org.ppwcode.dojo.dijit.form.PpwMasterView" gridModel="friendsgridmodel" gridStructure="friendsgridlayout">
+        <script type="dojo/method" event="onGridRowClick">
+          fbFriendForm.displayItem(fbMasterView.getSelectedItem());
+        </script>
+        <script type="dojo/method" event="onGridHeaderClick">
+          fbFriendForm.reset();
+        </script>
+        <script type="dojo/method" event="onClearSelection">
+          fbFriendForm.reset();
+        </script>
+        <script type="dojo/method" event="onClear">
+          fbFriendForm.reset();
+        </script>
+        <script type="dojo/method" event="onSetData">
+          fbFriendForm.reset();
+        </script>
+      </div>
     </div>
     <div dojoType="dijit.layout.ContentPane" region="center" splitter="true">
+      <form id="fbFriendForm" jsId="fbFriendForm" dojoType="org.ppwcode.dojo.dijit.form.PpwCrudForm">
+        <table>
+          <tbody>
+            <tr>
+              <td style="width: 100px; padding: 2px; text-align: center; vertical-align: top;">
+               <span id="FbFriendPicture" dojoType="org.ppwcode.dojo.dijit.form.PpwImageBox"></span>
+              </td>
+              <td style="vertical-align: top;">
+                <div>
+                  <label>First Name</label><br/>
+                  <div style="height: 4ex;">
+                    <input id="FbFriendFirstName" dojoType="dijit.form.TextBox"></input>
+                  </div>
+                </div>
+                <div>  
+                  <label>Last Name</label><br/>
+                  <input id="FbFriendLastName" dojoType="dijit.form.TextBox"></input>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
     </div>
   </div>
   
@@ -111,7 +162,9 @@
   <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
   <script type="text/javascript">
     FB.init("c77ef4b86b5c5442c67898ba963d8735", "xd_receiver.htm");
-    FB.Connect.ifUserConnected(do_login);  
+    FB.ensureInit(function() {
+        FB.Connect.ifUserConnected(do_login);
+    });  
   </script>
 </body>
 </html>
