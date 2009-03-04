@@ -377,28 +377,36 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwEditableDataViewBox",
 		setMultiButton: function(/*Array*/nameConstructorMap) {
 			//remove the current widget;
 			this._addChooser = null;
-			
+
+			var menu = new dijit.Menu({ style: "display: none;"});
+
 			this._constructorNameToConstructorMap = new Object();
-			
-			var buttonData = { 
-					identifier: "value",
-			        label: "label",
-			        items: []
-			};
-			
+
 			for (var i = 0; i < nameConstructorMap.length; i++) {
-				var ctorname = org.ppwcode.dojo.util.JavaScriptHelpers.getConstructorFunctionName(nameConstructorMap[i].constructorFunction)
-				buttonData.items[i] = new Object();
-				buttonData.items[i].value = ctorname;
-				buttonData.items[i].label = nameConstructorMap[i].objectName;
+				//maintain a map between constructorname and the actual function 
+				var ctorname = org.ppwcode.dojo.util.JavaScriptHelpers.getConstructorFunctionName(nameConstructorMap[i].constructorFunction);
 				this._constructorNameToConstructorMap[ctorname] = nameConstructorMap[i].constructorFunction;
+
+				var menuitem = new dijit.MenuItem({
+			         label: nameConstructorMap[i].objectName,
+			         iconClass:"dijitTreeIcon dijitLeaf",
+			         onClick: dojo.hitch(this, this._onmenuitemclick, ctorname)
+			     });
+				menu.addChild(menuitem);
 			}
-			var buttonDataStore = new dojo.data.ItemFileReadStore({data: buttonData});
-			var inputNode = dojo.doc.createElement('button');
-			this._buttonPane.domNode.insertBefore(inputNode, this._addButton.domNode);
-			this._addChooser =
-				new org.ppwcode.dojo.dojox.DataDropDown({store: buttonDataStore}, inputNode);
-			this._addChooser.startup();
+			
+			//remove and destroy old add button
+			this._buttonPane.domNode.removeChild(this._addButton.domNode);
+			this._addButton.destroy();
+
+			//put add menu in place as a dropdownbutton
+			this._addButton = new dijit.form.DropDownButton({
+		         label: "+",
+		         name: "Create",
+		         dropDown: menu,
+		     });
+			dojo.place(this._addButton.domNode, this._buttonPane.domNode, "first");
+
 		},
 		
         removeSelectedItem: function() {
@@ -443,17 +451,19 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwEditableDataViewBox",
 
         ////////////////////////// Event handling //////////////////////////
 
+        _onmenuitemclick: function(ctorname, event) {
+        	this.clearSelection();
+        	var forwardevent = (event) ? event : new Object();
+        	var obj = new this._constructorNameToConstructorMap[ctorname]();
+        	this.onBeforeAddItem(obj);
+        	this.addItem(obj);
+        	this.onAddButtonClick(forwardevent);
+        },
+        
 		_onaddbuttonclick: function(e) {			
 			//console.log("PpwMasterView: _onaddbuttonclick");
 			this.clearSelection();
-			var obj = null;
-			if (this._addChooser != null) {
-				var val = this._addChooser.value;
-				var ctor = this._constructorNameToConstructorMap[val];
-				obj = new ctor();
-			} else {
-				obj = dojo.isFunction(this.constructorFunction) ? new this.constructorFunction() : new Object();
-			}
+			var obj = dojo.isFunction(this.constructorFunction) ? new this.constructorFunction() : new Object();
 			this.onBeforeAddItem(obj);
 			this.addItem(obj);
 			this.onAddButtonClick(e);
