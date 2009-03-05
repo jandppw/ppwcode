@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<article>
+  <articleinfo>
+    <title>PPWCode-vernacular-l10n: Localization from front to back</title>
+
+    <author>
+      <firstname>Ruben</firstname>
+
+      <surname>Vandeginste</surname>
+
+      <affiliation>
+        <orgname>PeopleWare n.v.</orgname>
+      </affiliation>
+    </author>
+
+    <pubdate>03/03/2009</pubdate>
+  </articleinfo>
+
+  <section>
+    <title>Introduction</title>
+
+    <para>PPWCode-vernacular-l10n is a framework that provides a way to
+    localize web applications. In this document we will describe the elements
+    provided by this framework, and place those in the context of the
+    localization of a web application. More specifically, we describe the
+    localization of a web application consisting of a Dojo frontend (with DWR)
+    on the browser, a Java web application on an application server (e.g.,
+    Tomcat server), and an EJB3 backend on J2EE application server.</para>
+  </section>
+
+  <section>
+    <title>Determine locales supported by the application</title>
+
+    <para>The class <code>LocaleManager</code>
+    (<code>org.ppwcode.vernacular.l10n_III.LocaleManager</code>) is used to
+    register the list of supported locales for each part of the application.
+    <code>LocaleManager</code> is used as a singleton: it has a private
+    constructor and provides only static methods. This is done because we
+    think there should always be only one instance of the
+    <code>LocaleManager</code> class. The general idea of using the
+    <code>LocaleManager</code> is that every part of the application and every
+    dependent application registers its set of supported locales with it under
+    a unique name. It is then possible to query the <code>LocaleManager</code>
+    for the list of globally supported locales: the locales that are supported
+    by every application registered with the <code>LocaleManager</code>. We
+    refer to the method <code>getSupportedLocales()</code> for this
+    functionality.</para>
+
+    <para>Although the <code>LocaleManager</code> itself is already usable,
+    some supporting components are still missing. In particular, we still need
+    to develop a stateless session bean which will allow us to query a remote
+    <code>LocaleManager</code>. This is for example needed for a Java web
+    application that depends on an EJB jar on a remote application server: the
+    Java web application needs to know which locales are supported in the EJB
+    backend.</para>
+  </section>
+
+  <section>
+    <title>ServletContextListener to register locales supported by web
+    application</title>
+
+    <para>The class <code>RegisterSupportedLocalesSimpleListener</code>
+    (<code>org.ppwcode.vernacular.l10n_III.web.RegisterSupportedLocalesSimpleListener</code>)
+    is a ServletContextListener that can be used to register a set of
+    supported languages with the LocaleManager in a Java web application.
+    <code>RegisterSupportedLocalesSimpleListener</code> allows us to
+    statically register specific locales as supported in the application. It
+    is a very simple mechanism to initialise the <code>LocaleManager</code>,
+    and we plan to develop more advanced mechanisms in the future. For now,
+    however, it allows us to rely on the functionality of
+    <code>LocaleManager</code> and do the localization completely from front
+    to back.</para>
+
+    <para>Using the <code>RegisterSupportedLocalesSimpleListener</code> is
+    done by adding the following in the <filename>web.xml</filename>
+    configuration file of the web application.</para>
+
+    <programlisting>  &lt;listener&gt;
+    &lt;listener-class&gt;org.ppwcode.vernacular.l10n_III.web.RegisterSupportedLocalesSimpleListener&lt;/listener-class&gt;
+  &lt;/listener&gt;
+  &lt;context-param&gt;
+    &lt;param-name&gt;org.ppwcode.vernacular.l10n_III.web.RegisterSupportedLocalesSimpleListener.supportedLocales&lt;/param-name&gt;
+    &lt;param-value&gt;nl-BE, nl, fr-BE, fr&lt;/param-value&gt;
+  &lt;/context-param&gt;</programlisting>
+
+    <para>The parameter
+    <code>org.ppwcode.vernacular.l10n_III.web.RegisterSupportedLocalesSimpleListener.supportedLocales</code>
+    needs to be configured with the list of supported locales.</para>
+
+    <para>Note that the order of the locales is important: more specific
+    locales should always be listed earlier than more general locales. E.g.,
+    the more specific "nl-BE" should always be listed before the more general
+    "nl". The underlying reason for this is the algorithm that is used to
+    determine the "preferred" locale based on the list of supported locales
+    and the list of locales accepted by the client.</para>
+  </section>
+
+  <section>
+    <title>Determine locale preferred by the user</title>
+
+    <para>How to determine the locale that is preferred by the user? One
+    possible option here is obviously to let the user choose the locale he/she
+    wants from the list of supported locales, and remember the user's choice.
+    Another option is to determine the desired locale based on the http
+    request header: it contains a list of accepted locales, in the order of
+    decreasing preference. In combination with the list of supported locales
+    from the <code>LocaleManager</code>, this list can be used to determine
+    the supported locale that is best matching the user's preferences. The
+    best matching locale can then be stored in session scope to prevent that
+    subsequent requests from the same user needs to lookup the best matching
+    locale again. <code>HttpRequestLocaleFilter</code>
+    (<code>org.ppwcode.vernacular.l10n_III.web.HttpRequestLocaleFilter</code>)
+    is a servlet filter that does exactly that. The filter determines the best
+    matching locale and then stores that locale (as a Java object) in session
+    scope, in the attribute
+    <code>org.ppwcode.vernacular.l10n_III.web.HttpRequestLocaleFilter.locale</code>.</para>
+
+    <para>Using <code>HttpRequestLocaleFilter</code> is done by adding the
+    filter in the <filename>web.xml</filename> configuration file of the web
+    application. Please note that this filter should be placed on the first
+    place (or as early as possible) in the filterchain: other filters might
+    depend on the existence of the attribute in session scope.</para>
+
+    <programlisting>  &lt;filter&gt;
+    &lt;filter-name&gt;locale-filter&lt;/filter-name&gt;
+    &lt;filter-class&gt;org.ppwcode.vernacular.l10n_III.web.HttpRequestLocaleFilter&lt;/filter-class&gt;
+  &lt;/filter&gt;
+
+  &lt;filter-mapping&gt;
+    &lt;filter-name&gt;locale-filter&lt;/filter-name&gt;
+    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+  &lt;/filter-mapping&gt;</programlisting>
+
+    <para>Note that in the example configuration, we apply the filter on each
+    url. This is probably not always needed.</para>
+  </section>
+
+  <section>
+    <title>Initialise locale for Dojo</title>
+
+    <para>Dojo has support for localisation in the form of localisation
+    bundles. A localisation bundle is basically a set of property keys mapped
+    to property translations. Any dijit in Dojo can be localized by adding
+    localisation bundles for the appropriate locales and making the dijit
+    localisation-aware. The mechanism how this is done, is not the subject of
+    this section, however. Here, we want to find a mechanism to tell Dojo
+    which locale to use.</para>
+
+    <para>By default, Dojo uses the locale that it can derive from the browser
+    navigator object in javascript. This locale cannot easily be modified for
+    an installed instance of the browser. Dojo uses this as a default because
+    this is the only locale that can be accessed from inside javascript. Dojo,
+    however, provides a way to configure the locale statically: the
+    djConfig.locale property can be set prior to the Dojo bootstrap. To use
+    this mechanism dynamically, one needs to implement something on the java
+    application server that sets the right locale in the page before sending
+    it to the browser.</para>
+
+    <para>We have implemented such a mechanism in the form of the servlet
+    filter <code>DojoDjConfigFilter</code>
+    (<code>org.ppwcode.vernacular.l10n_III.dojo.DojoDjConfigFilter</code>)
+    that replaces the "djConfig" string in a webpage: it adds a locale
+    setting, or replaces the existing locale setting with the locale that is
+    stored in session scope by the <code>HttpRequestLocaleFilter</code>. The
+    filter needs to be added in the <filename>web.xml</filename> configuration
+    file of the web application.</para>
+
+    <programlisting>  &lt;filter&gt;
+    &lt;filter-name&gt;djConfig-filter&lt;/filter-name&gt;
+    &lt;filter-class&gt;org.ppwcode.vernacular.l10n_III.dojo.DojoDjConfigFilter&lt;/filter-class&gt;
+  &lt;/filter&gt;
+
+  &lt;filter-mapping&gt;
+    &lt;filter-name&gt;djConfig-filter&lt;/filter-name&gt;
+    &lt;url-pattern&gt;/index.html&lt;/url-pattern&gt;
+  &lt;/filter-mapping&gt;</programlisting>
+
+    <para>Note that this filter should be put after the
+    <code>HttpRequestLocaleFilter</code>, because it depends on the attribute
+    in session scope set by that filter.</para>
+  </section>
+
+  <section>
+    <title>Dojo localisation for small text snippets on the browser</title>
+
+    <para>For the localisation of small snippets of text in the webpage, we
+    can take advantage of the dojo localisation mechanism by using
+    localisation bundles for those. In the following example, we initialise
+    Dojo with the "djConfig" variable. We add an "i18n"-entry to the
+    "modulePaths" property, that is mapped to an <filename>i18n</filename>
+    directory in the root of the web application. The use of "i18n" is a
+    simple convention that we use to indicate localised text snippets.</para>
+
+    <programlisting>&lt;script type="text/javascript"
+        src="js/dojo-1.1.1/dojo/dojo.js"
+        djConfig="parseOnLoad: true, modulePaths: {org: '../../org', i18n: '../../../i18n'}, locale:'nl-be'"&gt;
+&lt;/script&gt;</programlisting>
+
+    <para>The localisation bundles should then be placed in the
+    <filename>i18n</filename> directory. We use a convention for the names of
+    those localisation bundles: the localised text snippets for page
+    <filename>index.html</filename> are placed in a localisation bundle with
+    the name <filename>index.js</filename>.</para>
+
+    <para>The following javascript code can then be used to load and use the
+    localisation of those text snippets:</para>
+
+    <programlisting>// in javascript
+dojo.requireLocalization("i18n", "index");
+var localizationbundles = {};
+localizationbundles["index"] = dojo.i18n.getLocalization("i18n", "index");
+// html
+&lt;label dojoType="org.ppwcode.dojo.dijit.i18n.LocalizedTag"
+       bundle="localizationbundles.index"
+       key="labelEnterpriseSearch"&gt;&lt;/label&gt;</programlisting>
+
+    <para>An example of a localisation bundle, is the following file
+    <filename>index.js</filename>, stored in
+    <filename>i18n/nls/nl-be/index.js</filename>.</para>
+
+    <programlisting>({
+  labelEnterpriseSearch: "Ondernemingen zoeken:",
+  labelEnterpriseSearchActive: "Actief?"
+})</programlisting>
+  </section>
+
+  <section>
+    <title>Localization of Java entities on the backend</title>
+
+    <para>The localisation of Java entities is done by adding properties files
+    in all supported locales to the entity. The properties-files are placed
+    next to the Java source files. The functionality provided in
+    <code>I18nLabelHelpers</code>
+    (<code>org.ppwcode.vernacular.l10n_III.I18nLabelHelpers</code>) can then
+    be used to query the entity for the localized name of its type and
+    properties (see the methods: <code>I18nPropertyLabel</code> and
+    <code>I18nTypeLabel</code>). We enforce a certain syntax on the
+    properties-files, which look like the following.</para>
+
+    <programlisting># this is an example properties file for the class Book
+# Book_nl.properties, placed next to Book.{java,class}
+type = Boek
+type.plural = Boeken
+
+propertyName.title = Titel
+propertyName.short.title = Titel
+propertyName.numberOfPages = Aantal pagina's
+propertyName.short.numberOfPages = # pagina's
+propertyName.isbnNumber = ISBN nummer
+propertyName.short.isbnNumber = ISBN nr.</programlisting>
+
+    <para>The keys <code>type</code> and <code>type.plural</code> refer to the
+    localised name of the entity. The keys <code>propertyName</code> and
+    <code>propertyName.short</code> refer to the translation of the properties
+    of the entity.</para>
+  </section>
+
+  <section>
+    <title>Localisation of Java exceptions on the backend</title>
+
+    <para>The localisation of Java exceptions is done in a similar way as the
+    Java entities discussed in the previous section. There are two differences
+    though. Firstly, the exception message is actually a template that can
+    contain properties of the exception itself and labels of entities. And
+    secondly, the location where exception templates are defined, is
+    determined by the exception itself: the implementation of the exception is
+    responsible for finding the template.</para>
+
+    <section>
+      <title>Templated exception messages</title>
+
+      <para>The exception message is a templated message, that will be
+      evaluated with <code>MessageFormat</code>
+      (<code>java.text.MessageFormat</code>). We refer to the documentation of
+      <code>MessageFormat</code> for a full explanation, but the following
+      example gives an idea about the possibilities.</para>
+
+      <programlisting>MessageFormat.format("The value ({0,date,short}) for the {1} of the {2} is not acceptable.",
+     new Date(), "start date", "course");</programlisting>
+
+      <para>Everything between parentheses will be replaced by the extra
+      parameters given to the <code>format</code> function. Inside the
+      parentheses, the first part is always a number (starting from 0)
+      referring to the index of the given parameter: "0" will be replaced by
+      the first extra parameter, "1" will be replaced by the second extra
+      parameter, and so on. In addition to the number, one can also give extra
+      formatting parameters, such as "0,date,short", to indicate how the data
+      should be formatted. Note that <code>MessageFormat</code> can also be
+      given a locale to take into account when evaluating the template
+      (important for date and time).</para>
+
+      <para>We use <code>MessageFormat</code> as a basis for the
+      implementation of the exception templates, but provide extensions for
+      our specific use case. First of all, between the parentheses, we use
+      property names. Those property names refer to properties of the
+      Exception. An example is the following.</para>
+
+      <programlisting>The value ({myValue}) is not acceptable.</programlisting>
+
+      <para>In this example, the exception should have the property "myValue".
+      The part "{myValue}" in the exception message will be replaced with the
+      value of the "myValue" property of the exception. It is also possible to
+      chain properties, as seen in the following example.</para>
+
+      <programlisting>The value ({myBean.myProperty}) is not acceptable.</programlisting>
+
+      <para>In this case, "myBean" is a property of the exception, and
+      "myProperty" is a property of "myBean". If any of the values in the
+      chain is <code>null</code>, then the chain will be replaced with "null".
+      It is also possible to evaluate expressions inside the templated
+      parameter. This is shown in the next example.</para>
+
+      <programlisting>The value ({myBean.${myPropertyName}}) of {myPropertyName} is not acceptable.</programlisting>
+
+      <para>In this example, the exception contains 2 properties: "myBean" and
+      "myPropertyName". "myPropertyName" is a String which contains the
+      property name of the bean that caused the exception. The "${...}"
+      notation indicates that the inner part should be evaluated first. Note
+      that the most inner "${..}" parentheses are evaluated first. With this
+      mechanism, it is possible to show the value of the property in the
+      exception message, with "{myBean.${myPropertyName}}".</para>
+
+      <para>Finally, it is also possible to use the localized labels and types
+      in the exception messages (which are described in the previous section).
+      The following example illustrates this.</para>
+
+      <programlisting>The value ({origin.${propertyName}) for {originType.${propertyName}:propertyName} of the {originType:type} is not acceptable.</programlisting>
+
+      <para>The supported labels are the same ones as used in the previous
+      section on the localization of Java entities on the backend. The label
+      itself is added in the back and seperated with a ":".</para>
+    </section>
+
+    <section>
+      <title>LocalizedException interface</title>
+
+      <para>The framework for the localization of exceptions can be used for
+      every exception that implements the <code>LocalizedException</code>
+      (<code>org.ppwcode.vernacular.l10n_III.LocalizedException</code>)
+      interface. This interface specifies only one method, nl.
+      <code>getMessageTemplate(Locale)</code>, the method to fetch the
+      template of the exception for a given locale. The strategy to find this
+      template can be different for different types of exceptions. For a
+      simple exception, e.g., it is sufficient to go find the message template
+      in the properties-files of the exception and its parent classes. For a
+      <code>PropertyException</code>, which is an exception resulting from a
+      problem with a property of a certain class, the message template can
+      also be specified in the properties-file of that class. The
+      implementation of the <code>getMessageTemplate</code> method takes care
+      of that. We refer to the javadoc documentation for each exception for
+      information on the location of message templates.</para>
+    </section>
+  </section>
+
+  <section>
+    <title>Conclusion</title>
+
+    <para>In this final section, we give a short overview of the localisation
+    from front to back.</para>
+  </section>
+</article>

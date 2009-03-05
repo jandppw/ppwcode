@@ -32,7 +32,7 @@
   <parent>
     <groupId>org.ppwcode.vernacular</groupId>
     <artifactId>ppwcode-vernacular-parent-pom</artifactId>
-    <version>1.7.2</version>
+    <version>1.7.3</version>
   </parent>
 
   <properties>
@@ -251,5 +251,20 @@
     </dependency>
 
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.agilejava.docbkx</groupId>
+        <artifactId>docbkx-maven-plugin</artifactId>
+        <configuration>
+          <sectionAutolabel>1</sectionAutolabel>
+          <sectionAutolabelMaxDepth>2</sectionAutolabelMaxDepth>
+          <htmlStylesheet>css/docbook.css</htmlStylesheet>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
 
 </project>

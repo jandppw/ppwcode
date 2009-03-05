@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Ppwcode Vernacular L10n">
+  <bannerLeft>
+    <name>Ppwcode Vernacular L10n</name>
+  </bannerLeft>
+
+  <body>
+
+    <menu name="Documentation" inherit="top">
+      <item name="Localization" href="docbooks/Localization.html" />
+    </menu>
+
+    <menu ref="reports"/>
+
+  </body>
+</project>
