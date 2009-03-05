@@ -31,13 +31,13 @@
   <parent>
     <groupId>org.ppwcode</groupId>
     <artifactId>ppwcode-library-parent-pom</artifactId>
-    <version>1.2.1</version>
+    <version>1.2.2</version>
   </parent>
 
   <!-- VERSION, PACKAGING, NAME & DESCRIPTION: OVERWRITE IN YOUR CHILD POM (know what you are doing :-) ) -->
   <!-- for ppwcode projects, groupId and artifactId are calculated, and used in the magic mantra (see below) -->
   <groupId>org.ppwcode</groupId> <!-- group id cannot be calculated with inheritance -->
-  <version>1.9.2</version>
+  <version>1.9.3</version>
   <packaging>pom</packaging>
   <name>ppwcode ppwcode library parent pom</name>
   <description>A parent pom for ppwcode libaries.</description>
