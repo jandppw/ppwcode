@@ -38,7 +38,7 @@
   <!-- for the artifactId, see the magic mantra below -->
   <groupId>org.ppwcode</groupId>
   <artifactId>ppwcode-library-parent-pom</artifactId>
-  <version>1.2.1</version>
+  <version>1.2.2</version>
   <packaging>pom</packaging>
   <name>ppwcode library parent pom</name>
   <description>A parent pom for collections of libaries, or single libraries.
@@ -251,6 +251,9 @@
     <!-- Calculate the URL for read-only, browser access to the Subversion repository -->
     <ppwcode.scm.url>http://${ppwcode.mainScmViewUrl}/${ppwcode.inScmLocation}</ppwcode.scm.url>
 
+
+    <!-- location of the docbook documentation -->
+    <site.target.docbooks>target/site/docbooks</site.target.docbooks>
   </properties>
 
 
@@ -575,6 +578,12 @@
               <preProcess>
                   <copy todir="${site.target.docbooks}/images" failOnError="false">
                     <fileset dir="src/docbkx/images" />
+                  </copy>
+              </preProcess>
+              <!-- Copy the css files for the stylesheet of the docbook pages -->
+              <preProcess>
+                  <copy todir="${site.target.docbooks}/css" failOnError="false">
+                    <fileset dir="src/docbkx/css" />
                   </copy>
               </preProcess>
               <targetDirectory>${site.target.docbooks}</targetDirectory>
