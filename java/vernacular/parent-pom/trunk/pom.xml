@@ -31,7 +31,7 @@
   <parent>
     <groupId>org.ppwcode</groupId>
     <artifactId>ppwcode-ppwcode-library-parent-pom</artifactId>
-    <version>1.9.2</version>
+    <version>1.9.3</version>
   </parent>
 
   <properties>
@@ -57,7 +57,7 @@
        for parent poms, we cannot do this (all hell breaks loose in the children) -->
   <artifactId>ppwcode-vernacular-parent-pom</artifactId>
   <groupId>org.ppwcode.vernacular</groupId>
-  <version>1.7.2</version>
+  <version>1.7.3</version>
   <packaging>pom</packaging>
   <name>ppwcode vernacular parent pom</name>
   <description>Parent pom for all ppwcode libraries that describe the ppwcode vernacular.</description>
@@ -80,6 +80,17 @@
         <aim>jandockx@mac.com</aim>
         <skype>callto:jandockx</skype>
       </properties>
+    </developer>
+    <developer>
+      <name>Ruben Vandeginste</name>
+      <id>ruben.vandeginste</id>
+      <email>ruben.vandeginste@gmail.com</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
     </developer>
   </developers>
   <contributors>
