@@ -39,14 +39,15 @@
     dojo.require("dijit.layout.ContentPane");
     dojo.require("dijit.form.Button");
     dojo.require("dijit.form.TextBox");
+    dojo.require("dojox.grid.Grid");
     dojo.require("org.ppwcode.dojo.dijit.form.PpwMasterView");
     dojo.require("org.ppwcode.dojo.dojox.grid.data.model");
-    dojo.require("org.ppwcode.dojo.dijit.form.PpwCrudForm");
+    dojo.require("org.ppwcode.dojo.dijit.form.PpwObjectForm");
     dojo.require("org.ppwcode.dojo.dijit.form.PpwImageBox");
   </script>
   
   <script type="text/javascript">
-  var friendsgridview = {
+  var fbfriendsgridview = {
 	        cells: [
 	          [
 	            {name: "First Name", field: "first_name", width: "8em"},
@@ -54,8 +55,8 @@
 	          ]
 	        ]
 	};
-	var friendsgridlayout = [ friendsgridview ];
-  var friendsgridmodel = new org.ppwcode.dojo.dojox.grid.data.PpwObjects();
+	var fbfriendsgridlayout = [ fbfriendsgridview ];
+  var fbfriendsgridmodel = new org.ppwcode.dojo.dojox.grid.data.PpwObjects();
 
   var fbFriendFormMap = [
       { property: "pic", fieldid: "FbFriendPicture", isEditable: false},
@@ -74,11 +75,15 @@
        node.innerHTML = 
              "<table>"
            + "  <tbody><tr>"
-           + "    <td>"
+           + "    <td rowspan='2'>"
            + "      <fb:profile-pic uid='loggedinuser' facebook-logo='true'></fb:profile-pic>"
-           + "    </td><td>"
+           + "    </td><td style='vertical-align: top'>"
            + "      <span>Welcome, <fb:name uid='loggedinuser' useyou='false'></fb:name>.  You are signed in with"
-           + "      your facebook account. <button dojoType='dijit.form.Button' onclick='do_logout();'>logout</logout></span>"
+           + "      your facebook account.</span>"
+           + "    </td>"
+           + "  </tr><tr>"
+           + "    <td>"
+           + "      <button dojoType='dijit.form.Button' onclick='do_logout();'>logout</button>"
            + "    </td>"
            + "  </tr></tbody>"
            + "</table>"
@@ -90,7 +95,7 @@
         FB.Facebook.apiClient.friends_get(null, function(result, ex) {
 
             FB.Facebook.apiClient.users_getInfo(result, ["pic", "first_name", "last_name"], function(result2, ex2) {
-                friendsgridmodel.setData(result2);
+                fbfriendsgridmodel.setData(result2);
             });
           });
     }
@@ -101,7 +106,8 @@
     }
     
     function do_logout() {
-        fbMasterView.clear();
+        fbfriendsgridmodel.clear();
+        fbFriendForm.reset();
         FB.Connect.logout(function() {
             var node = document.getElementById("userbox");
             node.innerHTML = "<fb:login-button onlogin='show_user();'></fb:login-button>";
@@ -119,26 +125,17 @@
       </div>
     </div>
     <div dojoType="dijit.layout.ContentPane" region="left" splitter="true" style="width: 350px;">
-      <div id="fbMasterView" jsId="fbMasterView" dojoType="org.ppwcode.dojo.dijit.form.PpwMasterView" gridModel="friendsgridmodel" gridStructure="friendsgridlayout">
-        <script type="dojo/method" event="onGridRowClick">
-          fbFriendForm.displayItem(fbMasterView.getSelectedItem());
+      <div id="fbFriendsGrid" jsId="fbFriendsGrid" dojoType="dojox.Grid" model="fbfriendsgridmodel" structure="fbfriendsgridlayout">
+        <script type="dojo/method" event="onRowClick" args="e">
+          fbFriendForm.displayItem(fbfriendsgridmodel.getRow(e.rowIndex));
         </script>
-        <script type="dojo/method" event="onGridHeaderClick">
-          fbFriendForm.reset();
-        </script>
-        <script type="dojo/method" event="onClearSelection">
-          fbFriendForm.reset();
-        </script>
-        <script type="dojo/method" event="onClear">
-          fbFriendForm.reset();
-        </script>
-        <script type="dojo/method" event="onSetData">
+        <script type="dojo/method" event="onHeaderClick">
           fbFriendForm.reset();
         </script>
       </div>
     </div>
     <div dojoType="dijit.layout.ContentPane" region="center" splitter="true">
-      <form id="fbFriendForm" jsId="fbFriendForm" dojoType="org.ppwcode.dojo.dijit.form.PpwCrudForm">
+      <form id="fbFriendForm" jsId="fbFriendForm" dojoType="org.ppwcode.dojo.dijit.form.PpwObjectForm">
         <table>
           <tbody>
             <tr>
