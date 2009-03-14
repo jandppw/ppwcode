@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 2.0//EN"
+        "http://directwebremoting.org/schema/dwr20.dtd">
+
+<!--
+    When deploying the WAR on websphere where the EJB-EAR is deployed as well, we need to remove
+    the \ before the .
+
+    ex.: (FronEnd - BackEnd)
+
+    websphere - websphere  : be.hdp.contracts_I.businesslogic.ContractDao
+    tomcat - websphere     : be\.hdp\.contracts_I\.businesslogic.ContractDao
+-->
+<dwr>
+    <init>
+        <converter id="ppwclassconvertor" class="org.ppwcode.util.dwr_I.JavaClassConverter"/>
+        <converter id="ppwpersistentbean" class="org.ppwcode.vernacular.persistence_III.dwr.IntegerIdVersionedPersistentBeanConverter"/>
+    </init>
+
+    <allow>
+        <!--  creators -->
+        <create javascript="JpaAtomicStatelessCrudDaoWrapper" creator="new">
+        	<param name="class" value="be.peopleware.facebookdemo.jpa.JpaRemoteAtomicStatelessCrudDao"/>
+        	<exclude method="wait"/>
+        	<exclude method=""/>
+        </create>
+   
+        <!--  converters -->
+        <convert match="org.ppwcode.vernacular.persistence_III.PersistentBean" converter="ppwpersistentbean"/>
+        <convert match="org.ppwcode.vernacular.persistence_III.VersionedPersistentBean" converter="ppwpersistentbean"/>
+
+        <convert match="be.peopleware.facebookdemo.semantics.Movie" converter="ppwpersistentbean" javascript="Movie">
+        </convert>
+
+        <!-- The javascript attribute must not be called JavaClass... since there exists already
+             a JavaClass class in JavaScript (at least on Firefox) -->
+        <convert match="java.lang.Class" converter="ppwclassconvertor" javascript="PpwJavaClass"></convert>
+
+        <!-- Exceptions -->
+        <convert match="org.directwebremoting.extend.MarshallException" converter="exception" javascript="MarshallException"/>
+        
+        <convert match="org.ppwcode.vernacular.exception_III.ApplicationException" converter="exception" javascript="ApplicationException"/>
+        <convert match="org.ppwcode.vernacular.exception_III.SemanticException" converter="exception" javascript="SemanticException"/>
+        <convert match="org.ppwcode.vernacular.exception_III.CompoundSemanticException" converter="exception" javascript="CompoundSemanticException"/>
+        <convert match="org.ppwcode.vernacular.semantics_VI.exception.PropertyException" converter="exception" javascript="PropertyException"/>
+        <convert match="org.ppwcode.vernacular.semantics_VI.exception.CompoundPropertyException" converter="exception" javascript="CompoundPropertyException"/>
+        
+    </allow>
+
+</dwr>
