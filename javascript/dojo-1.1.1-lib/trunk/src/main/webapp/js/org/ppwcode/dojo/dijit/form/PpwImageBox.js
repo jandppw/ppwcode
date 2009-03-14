@@ -12,7 +12,6 @@ dojo.declare(
 		templateString: "<img dojoAttachPoint='focusNode' src='${imgSrc}'></img>",
 		
 		setValue: function(newValue) {
-			console.log('PpwImageBox::setValue : ' + newValue);
 			dojo.attr(this.domNode, "src", newValue);
 			this.inherited(arguments);
 		}
