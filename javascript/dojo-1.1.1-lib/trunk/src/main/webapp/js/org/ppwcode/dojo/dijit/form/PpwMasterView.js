@@ -432,7 +432,7 @@ dojo.declare(
 		_onmenuitemclick: function(value, event) {			
 			console.log("PpwMasterView: _onaddbuttonclick with " + value + " and " + event);
 			this._clearSelection();
-			var forwardevent = null
+			var forwardevent = null;
 			if (event) {
 				forwardevent = event;
 			} else {
@@ -516,3 +516,4 @@ dojo.declare(
 		}
 	}
 );
+

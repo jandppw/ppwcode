@@ -49,3 +49,4 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwMessageBox",
 		}
 	}
 );
+
