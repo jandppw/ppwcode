@@ -87,7 +87,19 @@
             <div dojoType="dijit.layout.ContentPane" region="left" splitter="true" style="width: 350px;">
               <div id="fbFriendsGrid" jsId="fbFriendsGrid" dojoType="dojox.Grid" model="fbfriendsgridmodel" structure="fbfriendsgridlayout">
                 <script type="dojo/method" event="onRowClick" args="e">
-                  fbFriendForm.displayItem(fbfriendsgridmodel.getRow(e.rowIndex));
+                  var user = fbfriendsgridmodel.getRow(e.rowIndex);
+                  fbFriendForm.displayItem(user);
+                  console.dir(user);
+                  JpaMovieDaoWrapper.findByFacebookUser(user.uid,
+                    {
+                      callback: function(response) {
+                        fbfriendsmoviesgridmodel.setData(response);
+                      },
+                      errorHandler: function(errorString, ex) {
+                        console.error(errorString);
+                      }
+                    }
+                  );
                 </script>
                 <script type="dojo/method" event="onHeaderClick">
                   fbFriendForm.reset();
@@ -95,29 +107,37 @@
               </div>
             </div>
             <div dojoType="dijit.layout.ContentPane" region="center" splitter="true">
-              <form id="fbFriendForm" jsId="fbFriendForm" dojoType="org.ppwcode.dojo.dijit.form.PpwObjectForm">
-                <table>
-                  <tbody>
-                    <tr>
-                      <td style="width: 100px; padding: 2px; text-align: center; vertical-align: top;">
-                       <span id="FbFriendPicture" dojoType="org.ppwcode.dojo.dijit.form.PpwImageBox"></span>
-                      </td>
-                      <td style="vertical-align: top;">
-                        <div>
-                          <label>First Name</label><br/>
-                          <div style="height: 4ex;">
-                            <input id="FbFriendFirstName" dojoType="dijit.form.TextBox"></input>
-                          </div>
-                        </div>
-                        <div>  
-                          <label>Last Name</label><br/>
-                          <input id="FbFriendLastName" dojoType="dijit.form.TextBox"></input>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </form>
+              <div dojoType="dijit.layout.BorderContainer" design="headline" liveSplitters="true">
+                <div dojoType="dijit.layout.ContentPane" region="top" splitter="true" style="height: 160px;">
+                  <form id="fbFriendForm" jsId="fbFriendForm" dojoType="org.ppwcode.dojo.dijit.form.PpwObjectForm">
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td style="width: 100px; padding: 2px; text-align: center; vertical-align: top;">
+                           <span id="FbFriendPicture" dojoType="org.ppwcode.dojo.dijit.form.PpwImageBox"></span>
+                          </td>
+                          <td style="vertical-align: top;">
+                            <div>
+                              <label>First Name</label><br/>
+                              <div style="height: 4ex;">
+                                <input id="FbFriendFirstName" dojoType="dijit.form.TextBox"></input>
+                              </div>
+                            </div>
+                            <div>  
+                              <label>Last Name</label><br/>
+                              <input id="FbFriendLastName" dojoType="dijit.form.TextBox"></input>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </form>
+                </div>
+                <div dojoType="dijit.layout.ContentPane" region="center" splitter="true">
+                  <div id="lstFriendsMoviesGrid" jsId="lstFriendsMoviesGrid" dojoType="dojox.Grid" model="fbfriendsmoviesgridmodel" structure="fbfriendsmoviesgridlayout">
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
