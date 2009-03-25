@@ -20,9 +20,13 @@
     <allow>
         <!--  creators -->
         <create javascript="JpaAtomicStatelessCrudDaoWrapper" creator="new">
-        	<param name="class" value="be.peopleware.facebookdemo.jpa.JpaRemoteAtomicStatelessCrudDao"/>
+        	<param name="class" value="be.peopleware.facebookdemo.persistence.jpa.JpaRemoteAtomicStatelessCrudDao"/>
         	<exclude method="wait"/>
         	<exclude method=""/>
+        </create>
+        
+        <create javascript="JpaMovieDaoWrapper" creator="new">
+        	<param name="class" value="be.peopleware.facebookdemo.persistence.jpa.JpaMovieDao"/>
         </create>
    
         <!--  converters -->

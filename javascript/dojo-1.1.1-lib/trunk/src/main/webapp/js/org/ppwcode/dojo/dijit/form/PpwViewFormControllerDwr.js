@@ -195,7 +195,7 @@ dojo.declare(
 		},
 
 		_doViewGridRowClick: function() {
-    		this._form.displayObject(this._view.getSelectedItem());
+    		this._form.displayItem(this._view.getSelectedItem());
 		},
 		
 		_doViewGridHeaderClick: function() {
@@ -208,7 +208,7 @@ dojo.declare(
         },
 
         _doViewOnSelectItemSuccess: function() {
-        	this._form.displayObject(this._view.getSelectedItem());
+        	this._form.displayItem(this._view.getSelectedItem());
         },
         
         _doViewOnSetData: function() {
