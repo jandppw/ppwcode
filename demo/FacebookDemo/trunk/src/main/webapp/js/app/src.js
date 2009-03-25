@@ -36,6 +36,15 @@ var yourmovielistgridlayout = [
 ];
 var yourmovielistgridmodel = new org.ppwcode.dojo.dojox.grid.data.PpwObjects();
 
+var fbfriendsmoviesgridlayout = [
+                           	{
+                           		cells: [[
+                           		         {name: "Title", field: "title", width:"100%"}
+                           		        ]]	
+                           	}
+                           ];
+var fbfriendsmoviesgridmodel = new org.ppwcode.dojo.dojox.grid.data.PpwObjects();
+
 
 var fbFriendFormMap = [
   { property: "pic", fieldid: "FbFriendPicture", isEditable: false},
@@ -123,6 +132,7 @@ function do_logout() {
     fbfriendsgridmodel.clear();
     fbFriendForm.reset();
     lstYourMovies.setData(null);
+    fbfriendsmoviesgridmodel.setData(null);
     FB.Connect.logout(function() {
         var node = document.getElementById("userbox");
         node.innerHTML = "<fb:login-button onlogin='show_user();'></fb:login-button>";
