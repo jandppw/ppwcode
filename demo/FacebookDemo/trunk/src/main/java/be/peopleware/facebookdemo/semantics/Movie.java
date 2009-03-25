@@ -2,10 +2,16 @@ package be.peopleware.facebookdemo.semantics;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdIntegerVersionedPersistentBean;
 
+@NamedQueries({
+  @NamedQuery(name  = "findMoviesByFacebookUser",
+              query = "SELECT m FROM Movie AS m WHERE m.$facebookUserId LIKE :fbuid ")
+})
 @Entity
 @Table(name="movie")
 public class Movie extends AbstractIntegerIdIntegerVersionedPersistentBean {

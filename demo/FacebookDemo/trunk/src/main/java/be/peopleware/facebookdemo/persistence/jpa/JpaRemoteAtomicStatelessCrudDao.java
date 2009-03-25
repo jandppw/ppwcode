@@ -1,4 +1,4 @@
-package be.peopleware.facebookdemo.jpa;
+package be.peopleware.facebookdemo.persistence.jpa;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;

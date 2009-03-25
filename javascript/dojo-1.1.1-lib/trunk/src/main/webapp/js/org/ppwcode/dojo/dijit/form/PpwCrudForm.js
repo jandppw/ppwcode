@@ -235,6 +235,7 @@ dojo.declare(
 			if (this.domNode.parentNode) {
 				dojo.connect(this.domNode.parentNode, "onscroll", this, this._redrawTooltips);
 			}
+			this.inherited(arguments);
 		},
 		
 		onSubmit: function(/*Event*/e){
@@ -334,7 +335,7 @@ dojo.declare(
 
 		_onupdatemodecancelbuttonclick: function(/*Event*/e) {
 			//reset fields.  createObject does not set
-			this.displayObject(this._thedisplayobject);
+			this.displayItem(this._thedisplayobject);
 			this.setViewMode();
             this.onUpdateModeCancelButtonClick(e);
 		},
