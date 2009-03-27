@@ -185,7 +185,7 @@ dojo.declare(
 			this._addButton = new dijit.form.DropDownButton({
 		         label: dojo.i18n.getLocalization("org.ppwcode.dojo.dijit.form","PpwMasterView").createButtonLabel,
 		         name: "Create",
-		         dropDown: menu,
+		         dropDown: menu
 		     });
 			dojo.place(this._addButton.domNode, this._buttonPane.domNode, "first");
 			

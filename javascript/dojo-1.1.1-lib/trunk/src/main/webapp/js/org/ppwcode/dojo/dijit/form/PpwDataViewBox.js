@@ -403,7 +403,7 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwEditableDataViewBox",
 			this._addButton = new dijit.form.DropDownButton({
 		         label: "+",
 		         name: "Create",
-		         dropDown: menu,
+		         dropDown: menu
 		     });
 			dojo.place(this._addButton.domNode, this._buttonPane.domNode, "first");
 
