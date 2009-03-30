@@ -165,13 +165,13 @@ dojo.declare(
 			return result;
 		},
 		
-		displayObject: function(/*Object*/obj) {
+		displayItem: function(/*Object*/obj) {
 			this.resetCurrentForm();
 			var theformid = this._constructorNameMap[org.ppwcode.dojo.util.JavaScriptHelpers.getConstructorFunctionName(obj.constructor)];
 			//constructor is defined in the map
 			if (theformid) {
 				this.displayForm(theformid); 
-				this._formIdMap[theformid].form.displayObject(obj);
+				this._formIdMap[theformid].form.displayItem(obj);
 			} else {
 				this.displayForm("__empty");
 			}
