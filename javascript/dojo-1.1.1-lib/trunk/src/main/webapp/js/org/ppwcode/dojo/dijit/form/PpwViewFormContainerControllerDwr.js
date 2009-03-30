@@ -190,7 +190,7 @@ dojo.declare(
 			if (theform) {
 				//if there is a form, connect to its buttons and display the object
 				this._formeventconnections.push(dojo.connect(theform, "onUpdateModeSaveButtonClick", this, "_doItemUpdate"));
-				this._container.displayObject(this._view.getSelectedItem());
+				this._container.displayItem(this._view.getSelectedItem());
 				this._form = theform;
 			} else {
 				// otherwise clear the form
