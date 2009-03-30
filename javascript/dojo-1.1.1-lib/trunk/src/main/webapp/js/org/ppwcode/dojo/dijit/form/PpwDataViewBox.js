@@ -49,7 +49,7 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwDataViewBox",
 			
 		},
 		
-		destroy: function() {
+		uninitialize: function() {
 			if (this._resizeeventhandle) {
 				dojo.disconnect(this._resizeeventhandle);
 			}
