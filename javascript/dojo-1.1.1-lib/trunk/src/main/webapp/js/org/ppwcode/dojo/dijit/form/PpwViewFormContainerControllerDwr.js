@@ -46,7 +46,7 @@ dojo.declare(
 			this.inherited(arguments);
 		},
 
-		destroy: function() {
+		uninitialize: function() {
 			this._disconnectEventHandlers();
 			this.inherited(arguments);
 		},
