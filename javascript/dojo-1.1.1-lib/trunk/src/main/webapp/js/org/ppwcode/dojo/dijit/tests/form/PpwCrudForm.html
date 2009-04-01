@@ -85,10 +85,10 @@
               doh.assertTrue(dojo.byId("date1").disabled);
               doh.assertEqual(undefined, date1.getValue());
           },
-          function checkDisplayObject() {
+          function checkdisplayItem() {
               var d = new Date(2008, 8, 14);
               var obj = new TestObject("hiddentext", "dojo", "dijit", d);
-              appwcrudform.displayObject(obj);
+              appwcrudform.displayItem(obj);
               doh.assertEqual("hiddentext", dijit.byId("hidden1").getValue());
               doh.assertEqual("dojo", text1.getValue());
               doh.assertEqual("dijit", text2.getValue());
@@ -96,7 +96,7 @@
           },
           function checkCreateMode() {
               var obj = new TestObject("alpha", "beta", "gamma", new Date());
-              appwcrudform.displayObject(obj);
+              appwcrudform.displayItem(obj);
               appwcrudform.setCreateMode();
               doh.assertFalse(dojo.byId("hidden1").disabled);
               doh.assertEqual("", dijit.byId("hidden1").getValue());
@@ -146,7 +146,7 @@
                       "the laws of tradition",
                       "is a crusade only of the brave",
                       d);
-              appwcrudform.displayObject(obj);
+              appwcrudform.displayItem(obj);
               dijit.byId("text1").setValue("your CTO");
               dijit.byId("text2").setValue("is going to get you fired.");
               dijit.byId("date1").setValue(checkdate);
