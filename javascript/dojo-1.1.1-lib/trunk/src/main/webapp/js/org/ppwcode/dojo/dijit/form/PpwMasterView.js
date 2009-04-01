@@ -167,7 +167,6 @@ dojo.declare(
 			//    array of objects.  Objects must contain property 'value' and 'label'
 			
 			//remove the current widget;
-			this._addChooser = null;
 			var menu = new dijit.Menu({ style: "display: none;"});
 
 			for (var i = 0, menuitem = null; i < buttondata.length; i++) {
@@ -180,7 +179,7 @@ dojo.declare(
 			}
 			//remove and destroy old add button
 			this._buttonPane.domNode.removeChild(this._addButton.domNode);
-			this._addButton.destroy();
+			this._addButton.destroyRecursive();
 			//put add menu in place as a dropdownbutton
 			this._addButton = new dijit.form.DropDownButton({
 		         label: dojo.i18n.getLocalization("org.ppwcode.dojo.dijit.form","PpwMasterView").createButtonLabel,
@@ -241,8 +240,10 @@ dojo.declare(
 			//   The object that must be put in the grid's data model on the position of
 			//   the currently selected item.  Note that this object must have the required
 			//   properties.
-			this._masterGrid.model.setRow(object, this._masterGrid.selection.getSelected()[0]);
-			this._onSelectedRowUpdate();
+			if (this._masterGrid.selection.getSelectedCount() != 0) {
+				this._masterGrid.model.setRow(object, this._masterGrid.selection.getSelected()[0]);
+				this._onSelectedRowUpdate();
+			}
 		},
 		
 		_findItem: function(/*Object*/criterium) {
@@ -344,7 +345,7 @@ dojo.declare(
 			//   get the user interface in a correct state.  Events (onReSelectItemSuccess
 			//   and onReSelectItemFail) are fired that can be picked up by controllers.  
 
-			if (this._masterGrid.selection.getSelectionCount != 0) {
+			if (this._masterGrid.selection.getSelectedCount() != 0) {
 				this._selectInGrid(this._masterGrid.selection.getFirstSelected());
 				this.onReSelectCurrentItemSuccess();
 			} else {
