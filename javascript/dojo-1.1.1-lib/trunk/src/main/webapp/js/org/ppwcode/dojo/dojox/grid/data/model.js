@@ -1,11 +1,18 @@
 dojo.provide('org.ppwcode.dojo.dojox.grid.data.model');
 dojo.require('dojox.grid._data.model');
-dojo.require('dijit._Widget');
 
 dojo.declare("org.ppwcode.dojo.dojox.grid.data.PpwObjects",
-        [dojox.grid.data.Table, dijit._Widget],
+        dojox.grid.data.Table,
 {
-    constructorFunction: null,
+	
+	constructorFunction: null,
+
+	constructor: function(/*Object*/keywordParameters) {
+		console.log("PpwObjects constructor: " + keywordParameters.constructorFunction)
+		if (keywordParameters.constructorFunction) {
+			this.constructorFunction = keywordParameters.constructorFunction;
+		}
+	},
 
     _modifiable: true,
     
