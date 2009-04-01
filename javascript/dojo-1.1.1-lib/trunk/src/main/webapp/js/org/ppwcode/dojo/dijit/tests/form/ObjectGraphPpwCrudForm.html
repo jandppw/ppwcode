@@ -131,9 +131,9 @@
                   doh.assertTrue(dojo.byId("city").disabled);
                   doh.assertEqual("", dijit.byId("city").getValue());
               },
-              function checkDisplayObject() {
+              function checkdisplayItem() {
                   var test = new TestObject(1, 113344, "Tom", "Mahieu", "Jasparlaan", 1000, "Brussels");
-                  ogppwcrudform.displayObject(test);
+                  ogppwcrudform.displayItem(test);
                   doh.assertEqual(1, dijit.byId("key").getValue());
                   doh.assertEqual(113344, dijit.byId("ssn").getValue());
                   doh.assertEqual("Tom", dijit.byId("firstname").getValue());
@@ -145,7 +145,7 @@
               function checkCreateMode() {
                   //check that create mode clears the form
                   var test = new TestObject(17, 222222, "Marc", "Schijvaert", "Schijvaertlaan 12", 2000, "Antwerpen");
-                  ogppwcrudform.displayObject(test);
+                  ogppwcrudform.displayItem(test);
                   //no prototype
                   ogppwcrudform.setCreateMode();
                   doh.assertFalse(dojo.byId("key").disabled);
@@ -227,7 +227,7 @@
               },
               function checkUpdateObject() {
                   var test = new TestObject(5, 654321, "Ruben", "Vandeginste", "Vandeginstesteenweg", 5321, "Mechelen");
-                  ogppwcrudform.displayObject(test);
+                  ogppwcrudform.displayItem(test);
                   ogppwcrudform.setUpdateMode();
                   //check current form state
                   doh.assertFalse(dojo.byId("key").disabled);
