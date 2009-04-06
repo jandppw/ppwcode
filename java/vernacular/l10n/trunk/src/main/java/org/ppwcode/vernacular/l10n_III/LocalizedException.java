@@ -37,6 +37,7 @@ import java.util.Locale;
          date     = "$Date: $")
 public interface LocalizedException {
 
-  public String getMessageTemplate(Locale locale) throws I18nTemplateException;
-  
+  // MUDO contract !!
+  String getMessageTemplate(Locale locale) throws I18nTemplateException;
+
 }
