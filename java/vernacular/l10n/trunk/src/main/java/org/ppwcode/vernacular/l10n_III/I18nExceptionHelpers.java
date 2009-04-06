@@ -241,7 +241,7 @@ public final class I18nExceptionHelpers {
    * The object that is found in the context and that corresponds to the given element is then
    * returned as a String.
    * If any object in the given element chain is "null", then the String "null" is returned.
-   * 
+   *
    * @param element Must be a field in the given context.
    * @param context
    * @return The object that corresponds to element and is found in the context.
@@ -305,7 +305,7 @@ public final class I18nExceptionHelpers {
       while (!cdrProperty.equals(PropertyHelpers.EMPTY)) {
         if (newContext instanceof Class) {
           // follow chain statically
-          newContext = PropertyHelpers.propertyType((Class) newContext, carProperty);
+          newContext = PropertyHelpers.propertyType((Class<?>) newContext, carProperty);
           property = cdrProperty;
         } else {
           // follow chain dynamically if possible
@@ -324,7 +324,7 @@ public final class I18nExceptionHelpers {
       }
 
       if (newContext instanceof Class) {
-        return I18nLabelHelpers.i18nClassGenericLabel(property, (Class) newContext, label, strategy);
+        return I18nLabelHelpers.i18nClassGenericLabel(property, (Class<?>) newContext, label, strategy);
       } else {
         return I18nLabelHelpers.i18nInstanceGenericLabel(property, newContext, label, strategy);
       }

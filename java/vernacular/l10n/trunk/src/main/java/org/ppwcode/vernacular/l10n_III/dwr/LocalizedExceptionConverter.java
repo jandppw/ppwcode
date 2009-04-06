@@ -41,7 +41,7 @@ import org.ppwcode.vernacular.l10n_III.web.HttpRequestLocaleFilter;
  * DWR converter for {@link LocalizedException}.
  * The "message" property of an exception is used as a key to find a localized error message, while
  * transforming the Java exception to a Javascript object.
- * The locale used for the localization, is the locale stored in the session scope. 
+ * The locale used for the localization, is the locale stored in the session scope.
  *
  * @author    Ruben Vandeginste
  * @author    PeopleWare n.v.
@@ -56,18 +56,19 @@ public class LocalizedExceptionConverter extends ExceptionConverter {
   @Override
   public OutboundVariable convertOutbound(Object data, OutboundContext outctx) throws MarshallException {
     // Where we collect out converted children
-    Map ovs = new TreeMap();
+    Map<String, OutboundVariable> ovs = new TreeMap<String, OutboundVariable>();
 
     // We need to do this before collecting the children to save recursion
     ObjectOutboundVariable ov = new ObjectOutboundVariable(outctx);
     outctx.put(data, ov);
 
     try {
-      Map properties = getPropertyMapFromObject(data, true, false);
-      for (Iterator it = properties.entrySet().iterator(); it.hasNext();) {
-        Map.Entry entry = (Map.Entry) it.next();
-        String name = (String) entry.getKey();
-        Property property = (Property) entry.getValue();
+      @SuppressWarnings("unchecked")
+      Map<String, Property> properties = getPropertyMapFromObject(data, true, false);
+      for (Iterator<Map.Entry<String, Property>> it = properties.entrySet().iterator(); it.hasNext();) {
+        Map.Entry<String, Property> entry = it.next();
+        String name = entry.getKey();
+        Property property = entry.getValue();
 
         Object value = null;
         if (name.equals("message") || name.equals("localizedMessage")) {

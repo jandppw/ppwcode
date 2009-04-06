@@ -70,7 +70,7 @@ public class DojoI18nServlet extends HttpServlet {
           defaultLocale = tmpLocale;
         }
       }
-    } catch (Throwable e) { 
+    } catch (Throwable e) {
       e.printStackTrace();
     }
   }
@@ -138,7 +138,7 @@ public class DojoI18nServlet extends HttpServlet {
     HashMap<String, String> translations = new HashMap<String, String>();
     System.out.println("Request started");
 
-    Class type = TypeHelpers.type(fqcn);
+    Class<?> type = TypeHelpers.type(fqcn);
 
     DefaultResourceBundleLoadStrategy strategy = new DefaultResourceBundleLoadStrategy();
     strategy.setLocale(loc);

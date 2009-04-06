@@ -58,6 +58,7 @@ public class HttpRequestLocaleFilter implements Filter {
   // attribute name used to store preferred locale in session scope
   public static final String ATTRIBUTE_PREFERRED_LOCALE = HttpRequestLocaleFilter.class.getName() + ".locale";
 
+  // TODO this variable is never read? what is the sense of it?
   private FilterConfig $filterConfig = null;
 
   public void init(FilterConfig filterConfig) throws ServletException {
@@ -86,15 +87,16 @@ public class HttpRequestLocaleFilter implements Filter {
     HttpSession session = request.getSession();
 
     if (session.getAttribute(ATTRIBUTE_PREFERRED_LOCALE) == null) {
-      Enumeration acceptedLocales = request.getLocales();
+      Enumeration<?> acceptedLocales = request.getLocales();
       List<Locale> supportedLocales = LocaleManager.getSupportedLocales();
 
       @SuppressWarnings("unchecked") // request.getLocales does not use generics
-      Locale bestLocale = LocaleHelpers.findPreferredLocale(acceptedLocales, supportedLocales);
+      Enumeration<Locale> typedAcceptedLocales = (Enumeration<Locale>)acceptedLocales;
+      Locale bestLocale = LocaleHelpers.findPreferredLocale(typedAcceptedLocales, supportedLocales);
 
       if (LOG.isDebugEnabled()) {
         String info = "accepted:  ";
-        Enumeration test = request.getLocales();
+        Enumeration<?> test = request.getLocales();
         while (test.hasMoreElements()) {
           info += test.nextElement() + " ";
         }

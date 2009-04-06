@@ -324,7 +324,6 @@ public final class I18nLabelHelpers {
    *        <code>I18N_TYPE_LABEL_KEY</code> and <code>I18N_PLURAL_TYPE_LABEL_KEY</code>.
    * @param strategy
    *        The strategy used to find the resource bundle properties file.
-   * @return
    */
   public static String i18nInstanceGenericLabel(
           final String property,
@@ -338,7 +337,7 @@ public final class I18nLabelHelpers {
     assert pre(i18nSupportedLabelType(type), "SUPPORTED_LABEL_TYPE");
 
     String result = null;
-    
+
     if (type.equals(I18N_PROPERTY_LABEL_KEY)) {
       result = i18nInstancePropertyLabel(property, instance, false, strategy);
     } else if (type.equals(I18N_SHORT_PROPERTY_LABEL_KEY)) {
@@ -357,7 +356,7 @@ public final class I18nLabelHelpers {
 
   public static String i18nClassGenericLabel(
           final String property,
-          final Class clazz,
+          final Class<?> clazz,
           final String type,
           final ResourceBundleLoadStrategy strategy) {
     assert preArgumentNotNull(type, "type");
@@ -374,10 +373,10 @@ public final class I18nLabelHelpers {
       result = i18nPropertyLabel(property, clazz, true, strategy);
     } else if (type.equals(I18N_TYPE_LABEL_KEY)) {
       Object propertyClass = PropertyHelpers.propertyType(clazz, property);
-      result = i18nTypeLabel((Class)propertyClass, false, strategy);
+      result = i18nTypeLabel((Class<?>)propertyClass, false, strategy);
     } else if (type.equals(I18N_PLURAL_TYPE_LABEL_KEY)) {
       Object propertyClass = PropertyHelpers.propertyType(clazz, property);
-      result = i18nTypeLabel((Class)propertyClass, true, strategy);
+      result = i18nTypeLabel((Class<?>)propertyClass, true, strategy);
     } else {
       throw new AssertionError("Unsupported label type: " + type);
     }
