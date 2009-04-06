@@ -54,7 +54,8 @@ date = "$Date: 2009-01-23 17:25:55 +0100 (Fri, 23 Jan 2009) $")
 public class DojoDjConfigFilter implements Filter {
 
   private static final Log LOG = LogFactory.getLog(DojoDjConfigFilter.class);
-  
+
+  // TODO this variable is never read? what is the sense of it?
   private FilterConfig $filterConfig = null;
 
 
