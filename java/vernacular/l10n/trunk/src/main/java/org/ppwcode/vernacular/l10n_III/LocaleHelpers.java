@@ -41,8 +41,8 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
 public final class LocaleHelpers {
 
   private LocaleHelpers() {
+    // NOP
   }
-
 
   /**
    * This method returns the most preferred locale from the list of supported locales,
@@ -66,7 +66,8 @@ public final class LocaleHelpers {
    *
    * @param acceptedLocales   An Enumeration of locales in decreasing order of preference.
    * @param supportedLocales  A List of supported locales (order is important).
-   * @return
+   *
+   * @todo contract
    */
   public static Locale findPreferredLocale(Enumeration<Locale> acceptedLocales, List<Locale> supportedLocales) {
 
@@ -140,7 +141,7 @@ public final class LocaleHelpers {
    * <p>This method converts an array of strings that represent locales to a list of locales.
    *   This is done using the helper method {@code constructLocaleFromString}.  The order
    *   of the locales in the returned list is the same as their order in the given list.</p>
-   * 
+   *
    * @param locales  Array with the string representation of locales.
    * @return  List of Java {@link Locale}s
    */
