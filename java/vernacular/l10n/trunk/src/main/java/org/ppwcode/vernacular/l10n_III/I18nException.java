@@ -55,5 +55,4 @@ public class I18nException extends Exception {
 
   /*</construction>*/
 
-
 }
