@@ -29,8 +29,13 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
          date     = "$Date: 2009-02-12 15:55:44 +0100 (Thu, 12 Feb 2009) $")
 public class I18nTemplateException extends I18nException {
 
+  // TODO this variable is never read? what is the sense of it?
   private String $template = "";
+
+  // TODO this variable is never read? what is the sense of it?
   private Object $context = null;
+
+  // TODO this variable is never read? what is the sense of it?
   private Locale $locale = null;
 
   public I18nTemplateException(String message, String template) {
