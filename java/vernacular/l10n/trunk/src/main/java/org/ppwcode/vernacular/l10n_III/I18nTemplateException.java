@@ -22,6 +22,9 @@ import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.toryt.annotations_I.Basic;
+import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.MethodContract;
 
 @Copyright("2009 - $Date: 2009-02-12 15:55:44 +0100 (Thu, 12 Feb 2009) $, PeopleWare n.v.")
 @License(APACHE_V2)
@@ -29,30 +32,95 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
          date     = "$Date: 2009-02-12 15:55:44 +0100 (Thu, 12 Feb 2009) $")
 public class I18nTemplateException extends I18nException {
 
-  // TODO this variable is never read? what is the sense of it?
-  private String $template = "";
+  /*<construction>*/
+  //------------------------------------------------------------------
 
-  // TODO this variable is never read? what is the sense of it?
-  private Object $context = null;
-
-  // TODO this variable is never read? what is the sense of it?
-  private Locale $locale = null;
-
+  @MethodContract(
+    post = {
+      @Expression("message == _message"),
+      @Expression("cause == null"),
+      @Expression("template = _template"),
+      @Expression("context == null"),
+      @Expression("locale = null"),
+    }
+  )
   public I18nTemplateException(String message, String template) {
     super(message);
     $template = template;
   }
 
+  @MethodContract(
+    post = {
+      @Expression("message == _message"),
+      @Expression("cause == _cause"),
+      @Expression("template = _template"),
+      @Expression("context == null"),
+      @Expression("locale = null"),
+    }
+  )
   public I18nTemplateException(String message, String template, Throwable cause) {
     super(message, cause);
     $template = template;
   }
 
+  @MethodContract(
+    post = {
+      @Expression("message == _message"),
+      @Expression("cause == _cause"),
+      @Expression("template = _template"),
+      @Expression("context == _context"),
+      @Expression("locale = _locale"),
+    }
+  )
   public I18nTemplateException(String message, String template, Object context, Locale locale, Throwable cause) {
     super(message, cause);
     $template = template;
     $context = context;
     $locale = locale;
   }
+
+  /*</construction>*/
+
+
+
+  /*<property name="template">*/
+  //------------------------------------------------------------------
+
+  @Basic
+  public final String getTemplate() {
+    return $template;
+  }
+
+  private String $template = "";
+
+  /*</property>*/
+
+
+
+  /*<property name="context">*/
+  //------------------------------------------------------------------
+
+  @Basic
+  public final Object getContext() {
+    return $context;
+  }
+
+  private Object $context = null;
+
+  /*</property>*/
+
+
+
+  /*<property name="locale">*/
+  //------------------------------------------------------------------
+
+  @Basic
+  public final Locale getLocale() {
+    return $locale;
+  }
+
+  private Locale $locale = null;
+
+  /*</property>*/
 
 }
