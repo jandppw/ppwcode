@@ -20,62 +20,63 @@ import java.util.Date;
 
 public class BeanA {
 
-  private String string = null;
-  private Date date = null;
-  private BeanA bean = null;
-  private Integer integer = null;
-  private Date startDate = null;
-  private Date endDate = null;
+  private String $string = null;
+  private Date $date = null;
+  private BeanA $bean = null;
+  private Integer $integer = null;
+  private Date $startDate = null;
+  private Date $endDate = null;
 
   public BeanA() {
+    // NOP
   }
 
   public String getString() {
-    return string;
+    return $string;
   }
 
   public void setString(String string) {
-    this.string = string;
+    this.$string = string;
   }
 
   public Date getDate() {
-    return date;
+    return $date;
   }
 
   public void setDate(Date date) {
-    this.date = date;
+    this.$date = date;
   }
 
   public BeanA getBean() {
-    return bean;
+    return $bean;
   }
 
   public void setBean(BeanA bean) {
-    this.bean = bean;
+    this.$bean = bean;
   }
 
   public Integer getInteger() {
-    return integer;
+    return $integer;
   }
 
   public void setInteger(Integer integer) {
-    this.integer = integer;
+    this.$integer = integer;
   }
 
   public Date getStartDate() {
-    return startDate;
+    return $startDate;
   }
 
   public void setStartDate(Date startDate) {
-    this.startDate = startDate;
+    this.$startDate = startDate;
   }
 
   public Date getEndDate() {
-    return endDate;
+    return $endDate;
   }
 
   public void setEndDate(Date endDate) {
-    this.endDate = endDate;
+    this.$endDate = endDate;
   }
 
 }
