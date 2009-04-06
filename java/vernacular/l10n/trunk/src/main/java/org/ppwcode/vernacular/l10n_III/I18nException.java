@@ -21,6 +21,8 @@ import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
+import org.toryt.annotations_I.Expression;
+import org.toryt.annotations_I.MethodContract;
 
 @Copyright("2009 - $Date: 2009-02-12 15:55:44 +0100 (Thu, 12 Feb 2009) $, PeopleWare n.v.")
 @License(APACHE_V2)
@@ -28,12 +30,30 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
          date     = "$Date: 2009-02-12 15:55:44 +0100 (Thu, 12 Feb 2009) $")
 public class I18nException extends Exception {
 
+  /*<construction>*/
+  //------------------------------------------------------------------
+
+  @MethodContract(
+    post = {
+      @Expression("message == _message"),
+      @Expression("cause == null")
+    }
+  )
   public I18nException(String message) {
     super(message);
   }
 
-  public I18nException(String message, Throwable t) {
-    super(message, t);
+  @MethodContract(
+    post = {
+      @Expression("message == _messageKey"),
+      @Expression("cause == _cause")
+    }
+  )
+  public I18nException(String message, Throwable cause) {
+    super(message, cause);
   }
+
+  /*</construction>*/
+
 
 }
