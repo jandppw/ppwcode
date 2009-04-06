@@ -20,12 +20,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
 import javax.servlet.Filter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
+
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.ppwcode.vernacular.l10n_III.LocaleHelpers;
 import org.ppwcode.vernacular.l10n_III.LocaleManager;
@@ -38,10 +39,10 @@ import org.springframework.mock.web.MockHttpServletResponse;
  * tests is to ensure that the filter (in isolation) does what it is designed to do.
  * This is very useful, since it let's us verify that modifications in the filter
  * code still satisfy the requirements.
- * 
+ *
  * Note that an integration test with for example a complete Dojo i18n setup would be
  * very useful too.  This is currently not implemented.
- * 
+ *
  * @author Ruben Vandeginste
  * @author PeopleWare n.v.
  */
@@ -55,10 +56,10 @@ public class HttpRequestLocaleFilterTest {
   private final static String[] PREFERRED_LOCALES_1 = { "nl-be" };
   private final static String[] PREFERRED_LOCALES_2 = { "en", "fr-fr" };
 
-  @Before
-  public void setUp() {
-
-  }
+//  @Before
+//  public void setUp() {
+//    // NOP
+//  }
 
   @After
   public void tearDown() {
@@ -91,7 +92,7 @@ public class HttpRequestLocaleFilterTest {
   }
 
 
-  
+
   private void testLocaleFilterHelper(String[] supportedLocales, String[] preferredLocales, String bestLocale, String sessionLocale)
           throws IOException, ServletException {
 
@@ -106,7 +107,7 @@ public class HttpRequestLocaleFilterTest {
 
     if (sessionLocale != null) {
       HttpSession session = request.getSession();
-      session.setAttribute(HttpRequestLocaleFilter.ATTRIBUTE_PREFERRED_LOCALE, 
+      session.setAttribute(HttpRequestLocaleFilter.ATTRIBUTE_PREFERRED_LOCALE,
               LocaleHelpers.constructLocaleFromString(sessionLocale));
     }
 

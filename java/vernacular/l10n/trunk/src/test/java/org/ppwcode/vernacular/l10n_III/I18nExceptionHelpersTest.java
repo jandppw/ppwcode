@@ -195,9 +195,9 @@ public class I18nExceptionHelpersTest {
   public void testI18nExceptionMEssage() {
     ExceptionA exc = new ExceptionA(null, null, "THIS_IS_A_NON_EXISTING_KEY", null);
     Locale loc = new Locale("nl");
-    String msg = I18nExceptionHelpers.i18nExceptionMessage(exc, loc);
+    /*String msg =*/ I18nExceptionHelpers.i18nExceptionMessage(exc, loc);
   }
-  
+
 
   //
   //  utility methods

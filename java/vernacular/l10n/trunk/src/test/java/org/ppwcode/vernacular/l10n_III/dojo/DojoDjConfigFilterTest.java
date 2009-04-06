@@ -21,15 +21,15 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+
 import javax.servlet.Filter;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.ppwcode.vernacular.l10n_III.LocaleHelpers;
 import org.ppwcode.vernacular.l10n_III.util.SimpleServlet;
@@ -145,13 +145,13 @@ public class DojoDjConfigFilterTest {
           "</script>";
 
 
-  @Before
-  public void setUp() {
-  }
-
-  @After
-  public void tearDown() {
-  }
+//  @Before
+//  public void setUp() {
+//  }
+//
+//  @After
+//  public void tearDown() {
+//  }
 
 
   //
