@@ -44,11 +44,12 @@ public class LocaleManager {
   private static String firstApplication = null;
 
   private LocaleManager() {
+    // NOP
   }
 
   /**
    * Register the list of supported locales for a certain application or library in the LocaleManager.
-   * 
+   *
    * @param application       Name of the application or library for which the list of locales is registered.
    *                          We suggest to use the main package name of the application or library for this purpose.
    * @param supportedLocales  The list of locales to be registered.
@@ -75,7 +76,7 @@ public class LocaleManager {
    * supported locales with the LocaleManager.  This is thus the intersection of all registered lists
    * of locales.  The locales in the returned list are ordered according to their order in the first list
    * of locales that was registered.
-   * 
+   *
    * @return list of locales supported by all dependent applications or libraries
    */
   public static List<Locale> getSupportedLocales() {

@@ -37,8 +37,8 @@ import org.ppwcode.metainfo_I.vcs.SvnInfo;
 public final class DojoLocaleHelpers {
 
   private DojoLocaleHelpers() {
+    // NOP
   }
-
 
   public static String localeToString(Locale locale) {
     return locale.toString().toLowerCase().replace('_', '-');
