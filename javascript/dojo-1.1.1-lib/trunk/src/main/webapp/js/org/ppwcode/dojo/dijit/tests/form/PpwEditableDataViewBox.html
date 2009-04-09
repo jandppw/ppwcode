@@ -1,0 +1,237 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>PpwEditableDataViewBox</title>
+<style type="text/css">
+@import "../../../../../../dojo-1.1.1/dojo/resources/dojo.css";
+@import "../../../../../../dojo-1.1.1/dijit/themes/tundra/tundra.css";
+@import "../../../../../../dojo-1.1.1/dojox/grid/_grid/tundraGrid.css";
+@import "../../../../../../dojo-1.1.1/dijit/tests/css/dijitTests.css";
+</style>
+
+<script type="text/javascript"
+  src="../../../../../../dojo-1.1.1/dojo/dojo.js"
+  djConfig="modulePaths: {'org' : '../../org'}, isDebug: true, parseOnLoad: true"></script>
+<script type="text/javascript"
+  src="../../../../../../dojo-1.1.1/dijit/tests/_testCommon.js"></script>
+
+<script type="text/javascript">
+    dojo.require("doh.runner");
+    dojo.require("dojo.parser");
+    dojo.require("org.ppwcode.dojo.dijit.form.PpwDataViewBox");
+    dojo.require("org.ppwcode.dojo.dojox.grid.data.model");
+</script>
+
+<script type="text/javascript">
+
+function Message() {
+  this.type = null;
+  this.title = null;  
+}
+
+function Email() {
+  this.type = null;
+  this.virus = false;
+  this.status = null;
+  this.title = null;
+  this.spam = 0;
+}
+
+Email.prototype = new Message();
+Email.prototype.constructor = Email;
+
+var data = [];
+(function() {
+    var m1 = new Email();
+    data.push(m1);
+    with (m1) {
+        type = "normal", 
+        virus = false,
+        status = "new",
+        title = 'But are not followed by two hexadecimal',
+        spam = 10;
+   };
+   var m2 = new Email();
+   data.push(m2);
+   with (m2) { 
+     type = "important",
+     virus = false,
+     status = "new",
+     title = 'Because a % sign always indicates',
+     spam = -5;
+   };
+   var m3 = new Email();
+   data.push(m3);
+   with (m3) {
+     type = "important",
+     virus = false,
+     status = "read",
+     title = 'Signs can be selectively', 
+     spam = 0;
+   };
+   var m4 = new Email();
+   data.push(m4);
+   with (m4) {
+     type = "note",
+     virus = false,
+     status = "read",
+     title = 'However the reserved characters',
+     spam = 0;
+   };
+   var m5 = new Email();
+   data.push(m5);
+   with (m5) {
+     type = "normal",
+     virus = false,
+     status = "replied",
+     title = 'It is therefore necessary', 
+     spam = 5.50;
+   };
+   var m6 = new Email();
+   data.push(m6);
+   with (m6) {
+     type = "important",
+     virus = false,
+     status = "replied",
+     title = 'To problems of corruption by',
+     spam = -3;
+   };
+   var m7 = new Email();
+   data.push(m7);
+   with (m7) {
+     type = "note",
+     virus = false,
+     status = "replied",
+     title = 'Which would simply be awkward in', 
+     spam = -4;
+   }
+})();
+
+var structure = [{
+        cells: [[
+                 {name: "Type", field: "type", width: "8em", editor: dojox.grid.editors.Input},
+                 {name: "Status", field: "status", width: "8em", editor: dojox.grid.editors.Input},
+                 {name: "Title", field: "title", width: "100%", editor: dojox.grid.editors.Input},
+                 {name: "Virus?", field: "virus", width: "4em", editor: dojox.grid.editors.Input},
+                 {name: "Spam score", field: "spam", width: "4em", editor: dojox.grid.editors.Input}
+                ]]
+}];
+
+</script>
+
+<script type="text/javascript">
+dojo.addOnLoad(function(){
+    doh.register("PpwEditableDataViewBox", [
+      function testSetData() {
+          var dohd = new doh.Deferred();
+          var dojod = new dojo.Deferred();
+          var edvb = dijit.byId("edvbtest");
+          
+          dojod.addCallback(function() {
+            	    dojo.disconnect(handle);
+            	    dohd.callback(true);
+              }
+          );
+
+          var handle = dojo.connect(edvb, "onSetData", dojod, "callback");
+          edvb.setData([]);
+
+          return dohd;
+      },
+      function testOnClearSelection() {
+          var dohd = new doh.Deferred();
+          var dojod = new dojo.Deferred();
+          var edvb = dijit.byId("edvbtest");
+
+          dojod.addCallback(function() {
+              dojo.disconnect(handle);
+              dohd.callback(true);
+          });
+          var handle = dojo.connect(edvb, "onClearSelection", dojod, "callback");
+          edvb.clearSelection(data);
+          return dohd;
+          
+      },
+      function testReset() {
+          var edvb = dijit.byId("edvbtest");
+          edvb.setData(data);
+          edvb.reset();
+          doh.assertEqual(edvb.getValue(), null);
+      },
+      function testSelectItem1() {
+          var edvb = dijit.byId("edvbtest");
+          edvb.setData(data);
+          edvb.selectItem({title: 'However the reserved characters'});
+          doh.assertEqual(edvb.getSelectedItem().title, 'However the reserved characters');
+      },
+      function testSelectItem2() {
+          var edvb = dijit.byId("edvbtest");
+          edvb.setData(data);
+          doh.assertEqual(edvb.getSelectedItem(), null);
+      },
+      function testSelectItem3() {
+          var edvb = dijit.byId("edvbtest");
+          edvb.setData(data);
+          edvb.selectItem({title: 'However the reserved characters', status: 'replied'});
+          doh.assertEqual(edvb.getSelectedItem(), null);
+      },
+      function testSelectItem4() {
+          var edvb = dijit.byId("edvbtest");
+          edvb.setData(data);
+          edvb.selectItem({type: "important", title: "Signs can be selectively"});
+          doh.assertEqual(edvb.getSelectedItem().type, 'important');
+          doh.assertEqual(edvb.getSelectedItem().title, 'Signs can be selectively');
+      },
+      function testSelectItem4() {
+          var edvb = dijit.byId("edvbtest");
+          edvb.setData(data);
+          edvb.selectItem({spam: 0});
+          //the first occurrence must be selected
+          doh.assertEqual(edvb.getSelectedItem().spam, 0);
+          doh.assertEqual(edvb.getSelectedItem().type, "important");          
+      },
+      function testDisableButtons1() {
+          edvbtest.setData([]);
+          edvbtest.disableButtons(true);
+          //breaking encapsulation to test for disabled buttons
+          doh.assertEqual(true, dojo.attr(edvbtest._addButton, 'disabled'));
+      },
+      function testDisableButtons2() {
+          edvbtest.setData([]);
+          edvbtest.disableButtons(false);
+          //breaking encapsulation to test for disabled buttons
+          doh.assertEqual(false, dojo.attr(edvbtest._addButton, 'disabled'));
+      },
+      function testSetMultiButton() {
+          edvbtest.setData([]);
+          edvbtest.setMultiButton([
+            {constructorFunction: Message, objectName: "Message"},
+            {constructorFunction: Email, objectName: "Email"}
+          ]);
+      },
+      function testDisableButtons3() {
+          edvbtest.disableButtons(true);
+          //breaking encapsulation to test for disabled buttons
+          doh.assertEqual(true, dojo.attr(edvbtest._addButton, 'disabled'));
+      },
+      function testDisableButtons4() {
+          edvbtest.disableButtons(false);
+          //breaking encapsulation to test for disabled buttons
+          doh.assertEqual(false, dojo.attr(edvbtest._addButton, 'disabled'));
+      }
+    ]);
+    doh.run();
+});
+</script>
+</head>
+
+<body>
+  <div id="model" jsId="model" dojoType="org.ppwcode.dojo.dojox.grid.data.PpwObjects" style="height: 0px; width: 100%"></div>
+  <div id="edvbtest" jsId="edvbtest"
+       dojoType="org.ppwcode.dojo.dijit.form.PpwEditableDataViewBox"
+       style="width: 50em; height: 300px;"
+       gridStructure="structure"
+       gridModel="model">
+  </div>
+</body>
+</html>

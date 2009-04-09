@@ -8,7 +8,6 @@ dojo.declare("org.ppwcode.dojo.dojox.grid.data.PpwObjects",
 	constructorFunction: null,
 
 	constructor: function(/*Object*/keywordParameters) {
-		console.log("PpwObjects constructor: " + keywordParameters.constructorFunction)
 		if (keywordParameters.constructorFunction) {
 			this.constructorFunction = keywordParameters.constructorFunction;
 		}
