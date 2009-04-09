@@ -6,6 +6,9 @@ dojo.require("dijit.layout.BorderContainer");
 dojo.require("dijit.layout.ContentPane");
 dojo.require("dojox.grid.Grid");
 dojo.require("dijit.form.Button");
+dojo.require("dijit.Menu");
+dojo.require("org.ppwcode.dojo.util.JavaScriptHelpers");
+
 
 dojo.declare("org.ppwcode.dojo.dijit.form.PpwDataViewBox",
 	[dijit.layout._LayoutWidget, dijit._Templated],
@@ -144,7 +147,6 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwDataViewBox",
 		
 		reset: function() {
 			this.clearSelection();
-			this.setSelectable(false);
 		},
 		
 		setAttribute: function(/*String*/ attr, /*anything*/ value) {
