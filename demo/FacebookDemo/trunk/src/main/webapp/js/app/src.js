@@ -121,6 +121,7 @@ function retrieve_friends() {
 }
 
 function do_login() {
+	console.log("doing login routine");
 	show_user();
 	retrieve_friends();
 	yourMovieViewFormController.setDwrRetrieveFunctionParameters([FB.Connect.get_loggedInUser()]); 
@@ -129,6 +130,7 @@ function do_login() {
 
 
 function do_logout() {
+	console.log("doing logout routine");
     fbfriendsgridmodel.clear();
     fbFriendForm.reset();
     lstYourMovies.setData(null);
@@ -140,6 +142,15 @@ function do_logout() {
     });
 }
 
+function showall() {
+	setTimeout(function() {
+			dojo.fadeOut({node: 'splashscreen', duration: 150}).play();
+			setTimeout(function() {dojo.query("#splashscreen").orphan();}, 250);
+		},
+		20
+	);
+}
+
 dojo.addOnLoad(function() {
 	dojo.parser.parse();
 	console.info("done parsing");
@@ -148,8 +159,9 @@ dojo.addOnLoad(function() {
 	initializeDwrControllers();
 
 	FB.ensureInit(function() {
-		console.log("before ifUserConnected")
+		console.log("before ifUserConnected");
 		FB.Connect.ifUserConnected(do_login, do_logout);
-		console.log("after ifUserConnected")
+		console.log("after ifUserConnected");
+		showall();
 	});  
 });
