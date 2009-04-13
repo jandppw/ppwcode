@@ -7,16 +7,16 @@ dojo.declare("org.ppwcode.dojo.dojox.grid.data.PpwObjects",
 	
 	constructorFunction: null,
 
-	constructor: function(/*Object*/keywordParameters) {
-		if (keywordParameters.constructorFunction) {
-			this.constructorFunction = keywordParameters.constructorFunction;
-		}
-	},
-
     _modifiable: true,
     
     inFields: null,
     
+    constructor: function(/*Object?*/keywordParameters) {
+		if (keywordParameters && keywordParameters.constructorFunction) {
+			this.constructorFunction = keywordParameters.constructorFunction;
+		}
+	},
+	
     allChange: function() {
         this.inherited(arguments);
         this.notify("FieldsChange");
