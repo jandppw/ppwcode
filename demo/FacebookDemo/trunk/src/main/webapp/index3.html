@@ -4,9 +4,9 @@
 <head>
   <title>Facebook Connect Demo 1</title>
   <style type="text/css">
-    @import "js/dojo-1.1.1/dojo/resources/dojo.css";
-    @import "js/dojo-1.1.1/dojox/grid/_grid/tundraGrid.css";
-    @import "js/dojo-1.1.1/dijit/themes/tundra/tundra.css";
+    @import "js/dojo-1.1.1/release/dojo/dojo/resources/dojo.css";
+    @import "js/dojo-1.1.1/release/dojo/dojox/grid/_grid/tundraGrid.css";
+    @import "js/dojo-1.1.1/release/dojo/dijit/themes/tundra/tundra.css";
     
     html, body, .mainDiv {
       width: 100%;
@@ -27,27 +27,11 @@
     form .formlabel {
       font-weight: bold;
     }
+
   </style>
-
-  <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
-
-
 </head>
 
 <body class="tundra">
-
-
-
-  <div id="splashscreen" style="position: absolute; height: 100%; width: 100%; z-index: 1000; vertical-align: middle; background-color: white; opacity: 1.0">
-    <div style="position: absolute; top: 45%; width: 100%;">
-      <div style="width: 30em; text-align: center; margin: auto;">
-        <p><img src="image/ajax-loader.gif"></img><br/><br/>Loading</p>
-      </div>
-    </div>
-  </div>
-
-  
-
   <div class="mainDiv" dojoType="dijit.layout.BorderContainer" design="headline" liveSplitters="false">
     <div dojoType="dijit.layout.ContentPane" region="top" splitter="false" style="height: 60px;">
       <div id="userbox" class="userbox">
@@ -165,16 +149,17 @@
   <script type='text/javascript' src='dwr/interface/JpaAtomicStatelessCrudDaoWrapper.js'></script>
   <script type='text/javascript' src='dwr/interface/JpaMovieDaoWrapper.js'></script>
   <script type='text/javascript' src='dwr/engine.js'></script>
+  
+  <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
 
   <script type="text/javascript">
     FB.init("c77ef4b86b5c5442c67898ba963d8735", "xd_receiver.htm");
   </script>
-
   <script type="text/javascript"
-          src="js/dojo-1.1.1/dojo/dojo.js" djConfig="modulePaths: {org: '../../org'}, isDebug: false">
+          src="js/dojo-1.1.1/release/dojo/dojo/dojo.js">
   </script>
 
-  <script type="text/javascript" src="js/app/src.js"></script>
+  <script type="text/javascript" src="js/dojo-1.1.1/release/dojo/dojo/ppwfacebookdemo.js"></script>
 
 </body>
 </html>
