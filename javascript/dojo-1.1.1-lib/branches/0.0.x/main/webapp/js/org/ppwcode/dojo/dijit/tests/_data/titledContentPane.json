@@ -1,0 +1,21 @@
+{ identifier: 'id',
+  label: 'name',
+  items: [
+     { id: 'org', name: 'org', type: 'root',
+     	children:[{_reference: 'ppwcode'}] },
+     { id: 'ppwcode', name: 'ppwcode', type: 'package',
+     	children:[{_reference: 'dojo'}] },
+     { id: 'dojo', name: 'dojo', type: 'package',
+     	children:[{_reference: 'dijit'}] },
+     { id: 'dijit', name: 'dijit', type: 'package',
+     	children:[{_reference: 'layout'}] },
+     { id: 'layout', name: 'layout', type: 'package',
+     	children:[{_reference: 'resources'}, {_reference:'templates'}, {_reference: 'js'}] },
+     { id: 'resources', name: 'resources', type: 'package',
+     	children:[{_reference: 'css'}] },
+     { id: 'templates', name: 'templates', type: 'package',
+     	children:[{_reference: 'html'}] },
+     { id: 'css', name: 'TitledContentPane.css', type: 'file' },
+     { id: 'html', name: 'TitledContentPane.html', type: 'file' },
+     { id: 'js', name: 'TitledContentPane.js', type: 'file' }
+]}
