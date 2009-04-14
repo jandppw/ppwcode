@@ -17,6 +17,10 @@
       <param-name>debug</param-name>
       <param-value>true</param-value>
     </init-param>
+    <init-param>
+      <param-name>org.directwebremoting.extend.AccessControl</param-name>
+      <param-value>be.peopleware.facebookdemo.security.dwr.FacebookAccessControl</param-value>
+    </init-param>
   </servlet>
   <servlet-mapping>
     <servlet-name>dwr-invoker</servlet-name>
