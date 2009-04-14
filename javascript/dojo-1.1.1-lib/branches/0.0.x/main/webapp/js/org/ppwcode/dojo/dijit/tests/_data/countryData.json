@@ -1,9 +1,0 @@
-{ identifier: 'id',
-  items: [
-     { id: 'be', name: 'Belgium'},  
-     { id: 'nl', name: 'Netherlands'},
-     { id: 'fr', name: 'France'},
-     { id: 'en', name: 'England'},
-     { id: 'de', name: 'Germany'},
-     { id: 'ca', name: 'Canada'}
-]}
