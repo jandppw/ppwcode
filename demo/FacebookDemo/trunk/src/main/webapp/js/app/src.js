@@ -7,6 +7,8 @@ dojo.require("dijit.layout.ContentPane");
 dojo.require("dijit.form.Button");
 dojo.require("dijit.form.TextBox");
 dojo.require("dijit.form.ValidationTextBox");
+dojo.require("dijit.form.Slider");
+dojo.require("dojox.form.DropDownSelect");
 dojo.require("dojox.grid.Grid");
 dojo.require("org.ppwcode.dojo.dijit.form.PpwMasterView");
 dojo.require("org.ppwcode.dojo.dojox.grid.data.model");
@@ -36,13 +38,40 @@ var yourmovielistgridlayout = [
 ];
 var yourmovielistgridmodel = new org.ppwcode.dojo.dojox.grid.data.PpwObjects();
 
+
+function formatRating(therating) {
+	var result = "";
+	var i = 0;
+	for (i = 0; i < therating; i++) {
+		result += "<img src='image/str_full_lg.gif'></img>";
+	}
+	for (i = 0; i < 5 - therating; i++) {
+		result += "<img src='image/str_none_lg.gif'></img>";
+	}
+	return result;
+}
+
+
+function formatMediaType(value) {
+	var mediaTypeMap = {
+			OTHER: "Other",
+			BLURAY: "Blu-Ray",
+			DVD: "DVD",
+			DIVX_XVID: "DivX/XviD"
+	}
+	return mediaTypeMap[value];
+}
+
 var fbfriendsmoviesgridlayout = [
-                           	{
-                           		cells: [[
-                           		         {name: "Title", field: "title", width:"100%"}
-                           		        ]]	
-                           	}
-                           ];
+  {
+    cells: [[
+      {name: "Title", field: "title", width:"30em"},
+      {name: "Rating", field: "rating", width: "100px", formatter: formatRating},
+      {name: "Media type", field: "mediaType", width: "6em", formatter: formatMediaType}
+    ]]	
+  }
+];
+
 var fbfriendsmoviesgridmodel = new org.ppwcode.dojo.dojox.grid.data.PpwObjects();
 
 
@@ -56,7 +85,9 @@ var yourMovieFormMap = [
   { property: "persistenceId", fieldid: "yourMovieIdHiddenBox", isId: true},
   { property: "persistenceVersion", fieldid: "yourMoviePersistenceVersionHiddenBox"},
   { property: "facebookUserId", fieldid: "yourFacebookUserIdHiddenBox"},
-  { property: "title", fieldid: "yourMovieTitle"}
+  { property: "title", fieldid: "yourMovieTitle"},
+  { property: "mediaType", fieldid: "yourMovieMediaType" },
+  { property: "rating", fieldid: "yourMovieRating" }
 ];
                          
 function retrieve_movies(fbuid) {
@@ -87,7 +118,6 @@ function initializeDwrControllers() {
     	item.facebookUserId = FB.Connect.get_loggedInUser();
     }
 }
-
 
 function show_user() {
    var node = document.getElementById("userbox");
