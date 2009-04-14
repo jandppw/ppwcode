@@ -4,9 +4,9 @@
 <head>
   <title>Facebook Connect Demo 1</title>
   <style type="text/css">
-    @import "js/dojo-1.1.1/release/dojo/dojo/resources/dojo.css";
-    @import "js/dojo-1.1.1/release/dojo/dojox/grid/_grid/tundraGrid.css";
-    @import "js/dojo-1.1.1/release/dojo/dijit/themes/tundra/tundra.css";
+    @import "js/release/dojo/dojo/resources/dojo.css";
+    @import "js/release/dojo/dojox/grid/_grid/tundraGrid.css";
+    @import "js/release/dojo/dijit/themes/tundra/tundra.css";
     
     html, body, .mainDiv {
       width: 100%;
@@ -21,22 +21,31 @@
     }
     
     form {
+      margin: 5px;
       padding: 3px;
     }
 
     form .formlabel {
-      font-weight: bold;
+      display: inline-block;
+      width: 7em;
+      height: 3ex;
+    }
+    
+    form .slider {
+      vertical-align: top;
+      display: inline-block;
+      #display: inline;
+      width: 17em;
+      height: 5ex;
     }
   </style>
 
-  <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
 
 
 </head>
 
 <body class="tundra">
-
-
+  <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
 
   <div id="splashscreen" style="position: absolute; height: 100%; width: 100%; z-index: 1000; vertical-align: middle; background-color: white; opacity: 1.0">
     <div style="position: absolute; top: 45%; width: 100%;">
@@ -85,7 +94,6 @@
                 <label class="formlabel">
                   Title
                 </label>
-                <br/>
                 <input type="text"
                        id="yourMovieTitle"
                        name="yourMovieTitle"
@@ -94,6 +102,51 @@
                        required="true"
                        trim="true"
                 />
+                <br/>
+                <label class="formlabel">
+                  Media Type
+                </label>
+                <select id="yourMovieMediaType"
+                        dojoType="dojox.form.DropDownSelect"
+                        emptyLabel="MediaType"
+                >
+                  <option value="OTHER">Other</option>
+                  <option value="DIVX_XVID">DivX/XviD</option>
+                  <option value="DVD">DVD</option>
+                  <option value="BLURAY">Blu-Ray</option>
+                </select>
+                <br/>
+                <label class="formlabel">
+                  Rating
+                </label>
+                <div dojoType="dijit.form.HorizontalSlider"
+                     jsId="yourMovieRating"
+                     id="yourMovieRating"
+                     name="yourMovieRating"
+                     value="0"
+                     minimum="0"
+                     maximum="5"
+                     discreteValues="6"
+                     showButtons="false"
+                     slideDuration="0"
+                     class="slider"
+                >
+                  <ol dojoType="dijit.form.HorizontalRuleLabels"
+                      container="topDecoration"
+                      count="6"
+                      style="height: 1.2em; font-size: 75%;">
+                    <li>0</li>
+                    <li>1</li>
+                    <li>2</li>
+                    <li>3</li>
+                    <li>4</li>
+                    <li>5</li>
+                  </ol>
+                  <div dojoType="dijit.form.HorizontalRule"
+                       container="topDecoration"
+                       count="6"
+                       style="height: 5px;"></div>
+                </div>
               </form>
             </div>
           </div>
@@ -105,7 +158,7 @@
                 <script type="dojo/method" event="onRowClick" args="e">
                   var user = fbfriendsgridmodel.getRow(e.rowIndex);
                   fbFriendForm.displayItem(user);
-                  //console.dir(user);
+                  console.dir(user);
                   JpaMovieDaoWrapper.findByFacebookUser(user.uid,
                     {
                       callback: function(response) {
@@ -171,10 +224,10 @@
   </script>
 
   <script type="text/javascript"
-          src="js/dojo-1.1.1/release/dojo/dojo/dojo.js" djConfig="modulePaths: {org: '../org'}, isDebug: false">
+          src="js/release/dojo/dojo/dojo.js" djConfig="modulePaths: {org: '../org'}, isDebug: false">
   </script>
 
-  <script type="text/javascript" src="js/dojo-1.1.1/release/dojo/dojo/ppwfacebookdemo.js"></script>
+  <script type="text/javascript" src="js/release/dojo/dojo/ppwfacebookdemo.js"></script>
 
 </body>
 </html>

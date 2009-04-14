@@ -32,6 +32,7 @@ public class Movie extends AbstractIntegerIdIntegerVersionedPersistentBean {
 		return $facebookUserId;
 	}
 	
+	@Column(name="fbuid")
 	private long $facebookUserId = 0;
 	/*</property*/
 	
@@ -50,4 +51,38 @@ public class Movie extends AbstractIntegerIdIntegerVersionedPersistentBean {
 
   /*</property>*/
 
+  /*<property name="media type">
+  -------------------------------------------------------------------------*/
+  public MediaType getMediaType() {
+  	return $mediaType;
+  }
+  
+  public void setMediaType(MediaType newType) {
+  	$mediaType = newType;
+  }
+  
+  @Column(name="mediatype", nullable=false)
+  private MediaType $mediaType = MediaType.OTHER;
+
+  /*</property>*/
+
+  /*<property name="rating">
+  -------------------------------------------------------------------------*/
+  public int getRating() {
+  	return $rating;
+  }
+  
+  public void setRating(int rating) {
+  	if (rating < 0) {
+  		$rating = 0;
+  	} else if (rating > 5) {
+  		$rating = 5;
+  	} else {
+  		$rating = rating;
+  	}
+  }
+  
+  private int $rating = 0;
+  /*</property>*/
+  
 }
