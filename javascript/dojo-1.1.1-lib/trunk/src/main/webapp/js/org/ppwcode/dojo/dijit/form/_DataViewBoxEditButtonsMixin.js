@@ -1,11 +1,11 @@
-dojo.provide("org.ppwcode.dojo.dijit.form._DataBoxEditButtonsMixin");
+dojo.provide("org.ppwcode.dojo.dijit.form._DataViewBoxEditButtonsMixin");
 
 dojo.require("dijit.form.Button");
 dojo.require("dijit.Menu");
 dojo.require("org.ppwcode.dojo.util.JavaScriptHelpers");
 
 dojo.declare(
-	"org.ppwcode.dojo.dijit.form._DataBoxEditButtonsMixin",
+	"org.ppwcode.dojo.dijit.form._DataViewBoxEditButtonsMixin",
 	null,
 	{
 		_createButtonLabel: "",
@@ -41,7 +41,7 @@ dojo.declare(
 			this.setDeleteButtonDisabled(disable);
 		},
 	
-		setAddMenu: function(/*Array*/buttondata) {
+		_setCreateMenu: function(/*Array*/buttondata) {
 			// summary:
 			//    set the contents of the multibutton, and display the button
 			// buttondata:
@@ -71,8 +71,8 @@ dojo.declare(
 				
 		},
 		
-		setMultiButton: function(/*Array*/nameConstructorMap) {
-			this.setAddMenu(nameConstructorMap);
+		setCreateMenu: function(/*Array*/arr) {
+			this._setCreateMenu(arr);
 		},
 		
 		_oncreatebuttonclick: function(e) {

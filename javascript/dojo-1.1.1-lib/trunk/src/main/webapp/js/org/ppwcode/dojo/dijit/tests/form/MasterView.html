@@ -240,9 +240,9 @@ dojo.addOnLoad(function(){
           //breaking encapsulation to test for disabled buttons
           doh.assertEqual(false, dojo.attr(mvtest._createButton, 'disabled'));
       },
-      function testSetMultiButton() {
+      function testSetCreateMenu() {
           mvtest.setData([]);
-          mvtest.setMultiButton([
+          mvtest.setCreateMenu([
             {label: "Object A", value: "ObjectA"},
             {label: "Object B", value: "ObjectB"}
           ]);

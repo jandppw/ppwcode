@@ -1,13 +1,14 @@
-dojo.provide("org.ppwcode.dojo.dijit.form._FormDataBox");
+dojo.provide("org.ppwcode.dojo.dijit.form._FormDataViewBox");
 
-dojo.require("org.ppwcode.dojo.dijit.form._DataBox");
+dojo.require("org.ppwcode.dojo.dijit.form._DataViewBox");
 
 dojo.declare(
-	"org.ppwcode.dojo.dijit.form._FormDataBox",
-	org.ppwcode.dojo.dijit.form._DataBox,
+	"org.ppwcode.dojo.dijit.form._FormDataViewBox",
+	org.ppwcode.dojo.dijit.form._DataViewBox,
 	{
 		_selectable: true,
-
+		_resizeeventhandle: null,
+		
 		buildRendering: function() {
 			this.inherited(arguments);
 			this._connectToParentContainer();
@@ -37,11 +38,18 @@ dojo.declare(
 				//console.log("PpwDataViewBox._connectToParentContainer(): potentialNode is " + potentialNode);
 				//console.log("PpwDataViewBox._connectToParentContainer(): dijit is " + nodesdijit);
 				this._resizeeventhandle = dojo.connect(nodesdijit, "resize", this, "layout");
-			} //else {
+			} // else {
 			//	console.log("PpwDataViewBox._connectToParentContainer(): nothing found");
 			//}
 		},
 		
+		uninitialize: function() {
+			if (this._resizeeventhandle) {
+				dojo.disconnect(this._resizeeventhandle);
+			}
+			this.inherited(arguments);
+		},
+
 		setSelectable: function(/*Boolean*/isSelectable) {
 			this._selectable = isSelectable;
 			this._applySelectable(this._selectable);
@@ -78,11 +86,12 @@ dojo.declare(
 			switch(attr) {
 			case "disabled":
 					this.setSelectable(!value);
+					break;
 			}
 		},
 		
 		reset: function() {
-			this.clearSelection();
+			this._clearSelection();
 		}
 	}
 );
