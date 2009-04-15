@@ -1,11 +1,11 @@
-dojo.provide("org.ppwcode.dojo.dijit.form._DataBox");
+dojo.provide("org.ppwcode.dojo.dijit.form._DataViewBox");
 
 dojo.require("dijit.layout._LayoutWidget");
 dojo.require("dijit._Templated");
 dojo.require("dojox.grid.Grid");
 
 dojo.declare(
-	"org.ppwcode.dojo.dijit.form._DataBox",
+	"org.ppwcode.dojo.dijit.form._DataViewBox",
 	[dijit.layout._LayoutWidget, dijit._Templated],
 	{
 		gridModel: null,
@@ -203,6 +203,8 @@ dojo.declare(
 			}
 		},
 
+		//////////////////////////////// Layout ////////////////////////////
+		
 		layout: function() {
 			// stole this from _LayoutWidget:  this calculates the size of the pane
 			// in which the grid resides.  Since we're a layoutcontainer, we must tell
@@ -216,6 +218,8 @@ dojo.declare(
 			this.getChildren()[0].resize();
 		},
 
+		///////////////////////////// Event Handling ///////////////////////
+		
 		_onSetData: function() {
 			this.onSetData();
 		},

@@ -1,7 +1,7 @@
 dojo.provide("org.ppwcode.dojo.dijit.form.MasterView");
 
-dojo.require("org.ppwcode.dojo.dijit.form._DataBox");
-dojo.require("org.ppwcode.dojo.dijit.form._DataBoxEditButtonsMixin");
+dojo.require("org.ppwcode.dojo.dijit.form._DataViewBox");
+dojo.require("org.ppwcode.dojo.dijit.form._DataViewBoxEditButtonsMixin");
 dojo.require("dijit.layout.BorderContainer");
 dojo.require("dijit.layout.ContentPane");
 dojo.require("dojox.grid.Grid");
@@ -11,7 +11,7 @@ dojo.requireLocalization("org.ppwcode.dojo.dijit.form", "MasterView");
 
 dojo.declare(
 	"org.ppwcode.dojo.dijit.form.MasterView",
-	[org.ppwcode.dojo.dijit.form._DataBox, org.ppwcode.dojo.dijit.form._DataBoxEditButtonsMixin],
+	[org.ppwcode.dojo.dijit.form._DataViewBox, org.ppwcode.dojo.dijit.form._DataViewBoxEditButtonsMixin],
 	{
 	
 		templatePath: dojo.moduleUrl("org", "ppwcode/dojo/dijit/form/templates/MasterView.html"),
@@ -90,6 +90,11 @@ dojo.declare(
 		},
 
 		////////////////////////// Event handling //////////////////////////
+		
+		_oncreatebuttonclick: function() {
+			this._clearSelection();
+			this.onCreateButtonClick(e);
+		},
 		
 		_onRefreshData: function() {
 			this.onRefreshData();
