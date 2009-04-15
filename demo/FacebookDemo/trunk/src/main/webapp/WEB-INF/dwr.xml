@@ -52,6 +52,8 @@
         <convert match="org.ppwcode.vernacular.exception_III.CompoundSemanticException" converter="exception" javascript="CompoundSemanticException"/>
         <convert match="org.ppwcode.vernacular.semantics_VI.exception.PropertyException" converter="exception" javascript="PropertyException"/>
         <convert match="org.ppwcode.vernacular.semantics_VI.exception.CompoundPropertyException" converter="exception" javascript="CompoundPropertyException"/>
+
+        <convert match="be.peopleware.facebookdemo.security.dwr.FacebookSecurityException" converter="exception" javascript="FacebookSecurityException"/>
         
     </allow>
 
