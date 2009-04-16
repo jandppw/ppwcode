@@ -47,9 +47,10 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwDataViewBox",
 			if (this.gridStructure) {
 				this.setStructure(this.gridStructure);
 			}
-			
+		},
+		
+		postCreate: function() {
 			this._connectToParentContainer();
-			
 		},
 		
 		uninitialize: function() {

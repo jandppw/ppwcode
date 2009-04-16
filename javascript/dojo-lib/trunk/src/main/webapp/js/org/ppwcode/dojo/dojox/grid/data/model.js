@@ -1,5 +1,5 @@
 dojo.provide('org.ppwcode.dojo.dojox.grid.data.model');
-dojo.require('dojox.grid._data.model');
+dojo.require('dojox.grid.compat._data.model');
 
 dojo.declare("org.ppwcode.dojo.dojox.grid.data.PpwObjects",
         dojox.grid.data.Table,

@@ -9,7 +9,7 @@ dojo.declare(
 		_selectable: true,
 		_resizeeventhandle: null,
 		
-		buildRendering: function() {
+		postCreate: function() {
 			this.inherited(arguments);
 			this._connectToParentContainer();
 		},
