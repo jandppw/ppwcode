@@ -75,7 +75,7 @@ dojo.declare(
 		buildRendering: function() {
 			this.inherited(arguments);
 			//Initially the addWidget is defined as a button in our template,
-			//only allow to select 1 row 
+			//only allow to select 1 row
 			this._masterGrid.selection.multiSelect = false;
 			dojo.connect(this._addButton, "onClick", this, "_onaddbuttonclick");
 			dojo.connect(this._masterGrid, "onRowClick", this, "_ongridrowclick");
@@ -364,7 +364,8 @@ dojo.declare(
 
 			//if we do not do this call, the Big Bad Grid (tm) doesn't
 			//resize() upon resizing of this layout widget
-			this.getChildren()[0].resize(this._contentBox);
+			var children = this.getChildren();
+			children[0].resize(this._contentBox);
 		},
 		
 		////////////////////////// Event handling //////////////////////////
