@@ -1,0 +1,32 @@
+@import url("../../../../../../dojo-1.1.1/dojo/resources/dojo.css");
+@import url("../../layout/resources/TitledContentPane.css");
+@import url("../../../../../../dojo-1.1.1/dojo/resources/dojo.css");
+@import url("../../../../../../dojo-1.1.1/dojox/grid/_grid/soriaGrid.css");
+@import url("../../../../../../dojo-1.1.1/dijit/themes/soria/soria.css");
+
+/* a sample set of definitions to use as a foundation to color your code */
+@import url("../../../../../../dojo-1.1.1/dojox/highlight/resources/highlight.css");
+@import url("../_data/tree.css");
+
+body {
+	background:#fff url("../_data/testsBodyBg.gif") repeat-x top left;
+	padding:2em 2em 2em 2em;
+}
+
+pre {
+	width: 600px;
+}
+
+pre code {
+	display: block;
+}
+
+code {
+	background: #F0F0F0;
+}
+
+.comment {
+	position: absolute;
+	left: 450px;
+	top: 20px;
+}
