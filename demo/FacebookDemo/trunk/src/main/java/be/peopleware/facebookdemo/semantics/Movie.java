@@ -21,68 +21,76 @@ public class Movie extends AbstractIntegerIdIntegerVersionedPersistentBean {
 	 */
 	private static final long serialVersionUID = 4545746267436384281L;
 
-	
-  /*<property name="facebook user">
-  -------------------------------------------------------------------------*/
+	/*
+	 * <property name="facebook user">
+	 * -------------------------------------------------------------------------
+	 */
 	public void setFacebookUserId(long id) {
 		$facebookUserId = id;
 	}
-	
+
 	public long getFacebookUserId() {
 		return $facebookUserId;
 	}
-	
-	@Column(name="fbuid")
+
+	@Column(name = "fbuid")
 	private long $facebookUserId = 0;
-	/*</property*/
-	
-  /*<property name="name">
-  -------------------------------------------------------------------------*/
-  public String getTitle() {
-    return $title;
-  }
 
-  public void setTitle(String title) {
-    $title = title;
-  }
+	/* </property */
 
-  @Column(name="title",nullable=false)
-  private String $title = null;
+	/*
+	 * <property name="name">
+	 * -------------------------------------------------------------------------
+	 */
+	public String getTitle() {
+		return $title;
+	}
 
-  /*</property>*/
+	public void setTitle(String title) {
+		$title = title;
+	}
 
-  /*<property name="media type">
-  -------------------------------------------------------------------------*/
-  public MediaType getMediaType() {
-  	return $mediaType;
-  }
-  
-  public void setMediaType(MediaType newType) {
-  	$mediaType = newType;
-  }
-  
-  @Column(name="mediatype", nullable=false)
-  private MediaType $mediaType = MediaType.OTHER;
+	@Column(name = "title", nullable = false)
+	private String $title = null;
 
-  /*</property>*/
+	/* </property> */
 
-  /*<property name="rating">
-  -------------------------------------------------------------------------*/
-  public int getRating() {
-  	return $rating;
-  }
-  
-  public void setRating(int rating) {
-  	if (rating < 0) {
-  		$rating = 0;
-  	} else if (rating > 5) {
-  		$rating = 5;
-  	} else {
-  		$rating = rating;
-  	}
-  }
-  
-  private int $rating = 0;
-  /*</property>*/
-  
+	/*
+	 * <property name="media type">
+	 * -------------------------------------------------------------------------
+	 */
+	public MediaType getMediaType() {
+		return $mediaType;
+	}
+
+	public void setMediaType(MediaType newType) {
+		$mediaType = newType;
+	}
+
+	@Column(name = "mediatype", nullable = false)
+	private MediaType $mediaType = MediaType.OTHER;
+
+	/* </property> */
+
+	/*
+	 * <property name="rating">
+	 * -------------------------------------------------------------------------
+	 */
+	public int getRating() {
+		return $rating;
+	}
+
+	public void setRating(int rating) {
+		if (rating < 0) {
+			$rating = 0;
+		} else if (rating > 5) {
+			$rating = 5;
+		} else {
+			$rating = rating;
+		}
+	}
+
+	private int $rating = 0;
+	/* </property> */
+
 }
