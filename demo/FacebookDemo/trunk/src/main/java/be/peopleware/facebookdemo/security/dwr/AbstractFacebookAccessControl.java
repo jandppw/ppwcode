@@ -23,7 +23,7 @@ public abstract class AbstractFacebookAccessControl extends DefaultAccessControl
 		HttpServletRequest req = WebContextFactory.get().getHttpServletRequest();
 		Cookie[] cookies = req.getCookies();
 		if (cookies != null) {
-			HashMap<String, String[]> parameters = new HashMap<String, String[]>();
+			Map<String, String[]> parameters = new HashMap<String, String[]>();
 			for (int i = 0; i < cookies.length; i++) {
 				String cookiename = cookies[i].getName();
 				if (isInNameSpace(cookiename)) {
