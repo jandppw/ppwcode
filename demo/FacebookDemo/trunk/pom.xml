@@ -101,6 +101,11 @@
       <artifactId>facebook-java-api</artifactId>
       <version>2.1.0</version>
     </dependency>
+    <dependency>
+    	<groupId>servletapi</groupId>
+    	<artifactId>servlet-api</artifactId>
+    	<version>2.4</version>
+    </dependency>
    </dependencies>
 
 </project>
