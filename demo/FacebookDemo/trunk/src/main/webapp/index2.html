@@ -63,11 +63,11 @@
       </div>
     </div>
     
-    <div dojoType="dijit.layout.ContentPane" region="center" splitter="false">
+    <div dojoType="dijit.layout.ContentPane" region="center" splitter="false" style="overflow: hidden;">
       <div dojoType="dijit.layout.TabContainer">
-        <div dojoType="dijit.layout.ContentPane" title="Your movies">
+        <div dojoType="dijit.layout.ContentPane" title="Your movies" style="overflow: hidden;">
           <div dojoType="dijit.layout.BorderContainer" liveSplitters="true">
-            <div dojoType="dijit.layout.ContentPane" region="left" splitter="true" style="width: 250px;">
+            <div dojoType="dijit.layout.ContentPane" region="left" splitter="true" style="width: 250px; overflow: hidden;">
               <div id="lstYourMovies" jsId="lstYourMovies" dojoType="org.ppwcode.dojo.dijit.form.PpwMasterView" gridStructure="yourmovielistgridlayout" gridModel="yourmovielistgridmodel">
               </div>
             </div>
@@ -151,9 +151,9 @@
             </div>
           </div>
         </div>
-        <div dojoType="dijit.layout.ContentPane" title="Your friends' movies">
+        <div dojoType="dijit.layout.ContentPane" title="Your friends' movies" style="overflow: hidden;">
           <div dojoType="dijit.layout.BorderContainer" design="sidebar" livesplitters="true">
-            <div dojoType="dijit.layout.ContentPane" region="left" splitter="true" style="width: 350px;">
+            <div dojoType="dijit.layout.ContentPane" region="left" splitter="true" style="width: 350px; overflow: hidden;">
               <div id="fbFriendsGrid" jsId="fbFriendsGrid" dojoType="dojox.Grid" model="fbfriendsgridmodel" structure="fbfriendsgridlayout">
                 <script type="dojo/method" event="onRowClick" args="e">
                   var user = fbfriendsgridmodel.getRow(e.rowIndex);
@@ -175,7 +175,7 @@
                 </script>
               </div>
             </div>
-            <div dojoType="dijit.layout.ContentPane" region="center" splitter="true">
+            <div dojoType="dijit.layout.ContentPane" region="center" splitter="true" style="overflow: hidden;">
               <div dojoType="dijit.layout.BorderContainer" design="headline" liveSplitters="true">
                 <div dojoType="dijit.layout.ContentPane" region="top" splitter="true" style="height: 160px;">
                   <form id="fbFriendForm" jsId="fbFriendForm" dojoType="org.ppwcode.dojo.dijit.form.PpwObjectForm">
@@ -202,7 +202,7 @@
                     </table>
                   </form>
                 </div>
-                <div dojoType="dijit.layout.ContentPane" region="center" splitter="true">
+                <div dojoType="dijit.layout.ContentPane" region="center" splitter="true" style="overflow: hidden;">
                   <div id="lstFriendsMoviesGrid" jsId="lstFriendsMoviesGrid" dojoType="dojox.Grid" model="fbfriendsmoviesgridmodel" structure="fbfriendsmoviesgridlayout">
                   </div>
                 </div>
