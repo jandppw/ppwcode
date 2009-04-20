@@ -232,6 +232,16 @@ function showFriendDetails(e) {
 
 }
 
+function showMovieImage(e) {
+	var movie = yourmovielistgridmodel.getRow(e.rowIndex);
+	
+	TheOpenMovieDBUtilWrapper.getPosterThumb(movie.title, function(url) {
+		console.log(url);
+		yourMoviePicture.setValue(url);
+	});
+	
+}
+
 dojo.addOnLoad(function() {
 	dojo.parser.parse();
 	console.info("done parsing");
@@ -242,6 +252,7 @@ dojo.addOnLoad(function() {
 	dojo.connect(lstYourMovies,"onAddButtonClick", showFrmYourMovie);
 	dojo.connect(frmYourMovie, "onCreateModeCancelButtonClick", hideFrmYourMovie);
 	dojo.connect(lstYourMovies,"onGridRowClick", showFrmYourMovie);
+	dojo.connect(lstYourMovies,"onGridRowClick", showMovieImage);
 	
 	dojo.connect(fbFriendsGrid, "onRowClick", showFriendDetails);
 	
