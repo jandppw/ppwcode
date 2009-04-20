@@ -206,32 +206,25 @@ function hideFrmYourMovie() {
 function showFriendDetails(e) {
     var user = fbfriendsgridmodel.getRow(e.rowIndex);
 
-	  var animation = new dojo._Animation({curve: [0, 1], duration: 1});
-	  dojo.connect(animation, "onPlay", function() { fbFriendForm.displayItem(user) });
+    dojo.fx.chain([
+	      dojo.fx.combine([
+	          dojo.fadeOut({node: fbFriendForm.id, duration: 250, onEnd: function() { fbFriendForm.displayItem(user) } }),
+	          dojo.fx.slideTo({ node: "fbFriendContentPane", left: (1500).toString(), unit: "px", duration: 500 })
+	      ]),
+		  dojo.fx.combine([
+              dojo.fadeIn({node: fbFriendForm.id, duration: 1500}),
+              dojo.fx.slideTo({ node: "fbFriendContentPane", left: (0).toString(), unit: "px", duration: 1000, easing: dojox.fx.easing.bounceOut })
+		  ])
+	      
+	]).play();
 
-	  dojo.fx.chain([
-		  dojo.fadeOut({node: fbFriendForm.id, duration: 250}),
-		  animation,
-	      dojo.fadeIn({node: fbFriendForm.id, duration: 250})
-    ]).play();
-
-
-function showLstFriendsMoviesGrid() {
 /*
 dojo.fx.chain([
 dojo.fx.slideTo({ node: "lstFriendsMoviesGrid", top: (1000).toString(), unit: "px" }),
 dojo.fx.slideTo({ node: "lstFriendsMoviesGrid", top: (0).toString(), unit: "px", duration: 1000, easing: dojox.fx.easing.elasticOut })
 ]).play();
 */
-dojo.fx.chain([
-dojo.fx.slideTo({ node: "lstFriendsMoviesGrid", left: (1500).toString(), unit: "px", duration: 500 }),
-dojo.fx.slideTo({ node: "lstFriendsMoviesGrid", left: (0).toString(), unit: "px", duration: 1000, easing: dojox.fx.easing.elasticOut })
-]).play();
-
-}
-
 	  //dojo.fadeIn({node: 'lstFriendsMoviesGrid', duration: 150}).play();
-    showLstFriendsMoviesGrid();
 
     console.dir(user);
     JpaMovieDaoWrapper.findByFacebookUser(user.uid,
