@@ -1,5 +1,7 @@
 dojo.provide("app.src");
 
+dojo.require("dojo.fx");
+dojo.require("dojox.fx.easing");
 dojo.require("dojo.parser");
 dojo.require("dijit.layout.BorderContainer");
 dojo.require("dijit.layout.TabContainer");
@@ -175,10 +177,30 @@ function do_logout() {
 function showall() {
 	setTimeout(function() {
 			dojo.fadeOut({node: 'splashscreen', duration: 150}).play();
+			//dojo.fx.wipeOut({node: 'frmYourMovie', duration: 300}).play();
+			hideFrmYourMovie();
+			dojo.fadeOut({node: 'fbFriendForm', duration: 300}).play();
 			setTimeout(function() {dojo.query("#splashscreen").orphan();}, 250);
 		},
 		20
 	);
+}
+
+function slideFrmYourMovie(amt) {
+    var slideArgs = {
+      node: "frmYourMovie",
+      left: (amt).toString(),
+      unit: "px"
+    };
+    dojo.fx.slideTo(slideArgs).play();
+ }
+
+function showFrmYourMovie() {
+	slideFrmYourMovie(0);
+}
+
+function hideFrmYourMovie() {
+	slideFrmYourMovie(-400);
 }
 
 dojo.addOnLoad(function() {
@@ -188,6 +210,10 @@ dojo.addOnLoad(function() {
 	frmYourMovie.setFormMap(yourMovieFormMap);
 	initializeDwrControllers();
 
+	dojo.connect(lstYourMovies,"onAddButtonClick", showFrmYourMovie);
+	dojo.connect(frmYourMovie, "onCreateModeCancelButtonClick", hideFrmYourMovie);
+	dojo.connect(lstYourMovies,"onGridRowClick", showFrmYourMovie);
+	
 	FB.ensureInit(function() {
 		console.log("before ifUserConnected");
 		FB.Connect.ifUserConnected(do_login, do_logout);
