@@ -88,6 +88,7 @@ var yourMovieFormMap = [
   { property: "persistenceVersion", fieldid: "yourMoviePersistenceVersionHiddenBox"},
   { property: "facebookUserId", fieldid: "yourFacebookUserIdHiddenBox"},
   { property: "title", fieldid: "yourMovieTitle"},
+  { property: "imdb", fieldid: "yourMovieImdb"},
   { property: "mediaType", fieldid: "yourMovieMediaType" },
   { property: "rating", fieldid: "yourMovieRating" }
 ];
