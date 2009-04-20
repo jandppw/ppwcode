@@ -218,14 +218,6 @@ function showFriendDetails(e) {
 	      
 	]).play();
 
-/*
-dojo.fx.chain([
-dojo.fx.slideTo({ node: "lstFriendsMoviesGrid", top: (1000).toString(), unit: "px" }),
-dojo.fx.slideTo({ node: "lstFriendsMoviesGrid", top: (0).toString(), unit: "px", duration: 1000, easing: dojox.fx.easing.elasticOut })
-]).play();
-*/
-	  //dojo.fadeIn({node: 'lstFriendsMoviesGrid', duration: 150}).play();
-
     console.dir(user);
     JpaMovieDaoWrapper.findByFacebookUser(user.uid,
       {
