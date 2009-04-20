@@ -51,6 +51,7 @@ public class Util {
 				movie.setPopularity(Integer.parseInt(element.getChildText("popularity")));
 				movie.setTitle(element.getChildText("title"));
 				movie.setImdbId(element.getChildText("imdb"));
+				movie.setId(element.getChildText("id"));
 				movie.setShortOverview(element.getChildText("short_overview"));
 				for (Element poster : (List<Element>)element.getChildren("poster")) {
 					movie.getPosters().put(poster.getAttributeValue("size"), poster.getText());
