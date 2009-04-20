@@ -10,6 +10,7 @@ public class Movie {
 	private String title;
 	
 	private String imdbId;
+	private String id;
 	private String shortOverview;
 	
 	private Map<String, String> posters = new HashMap<String, String>();
@@ -46,6 +47,12 @@ public class Movie {
 	}
 	public Map<String, String> getPosters() {
 		return posters;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getId() {
+		return id;
 	}
 
 }
