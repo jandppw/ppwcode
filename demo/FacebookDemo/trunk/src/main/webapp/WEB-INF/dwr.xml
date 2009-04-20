@@ -30,6 +30,10 @@
         <create javascript="JpaMovieDaoWrapper" creator="new">
         	<param name="class" value="be.peopleware.facebookdemo.persistence.jpa.JpaMovieDao"/>
         </create>
+        
+		<create javascript="TheOpenMovieDBUtilWrapper" creator="none">
+        	<param name="class" value="be.peopleware.theopenmoviedb.Util"/>
+        </create>
    
         <!--  converters -->
         <convert match="org.ppwcode.vernacular.persistence_III.PersistentBean" converter="ppwpersistentbean"/>

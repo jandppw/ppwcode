@@ -150,6 +150,9 @@
                 </div>
               </form>
             </div>
+            <div dojoType="dijit.layout.ContentPane" region="right" splitter="false">
+                <span id="yourMoviePicture" jsId="yourMoviePicture" dojoType="org.ppwcode.dojo.dijit.form.PpwImageBox"></span>
+            </div>
           </div>
         </div>
         <div dojoType="dijit.layout.ContentPane" title="Your friends' movies" style="overflow: hidden;">
@@ -203,6 +206,7 @@
     
   <script type='text/javascript' src='dwr/interface/JpaAtomicStatelessCrudDaoWrapper.js'></script>
   <script type='text/javascript' src='dwr/interface/JpaMovieDaoWrapper.js'></script>
+  <script type='text/javascript' src='dwr/interface/TheOpenMovieDBUtilWrapper.js'></script>
   <script type='text/javascript' src='dwr/engine.js'></script>
 
   <script type="text/javascript">
