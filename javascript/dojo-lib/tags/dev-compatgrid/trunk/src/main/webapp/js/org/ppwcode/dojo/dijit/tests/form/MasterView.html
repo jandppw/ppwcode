@@ -1,0 +1,276 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>MasterView</title>
+<style type="text/css">
+@import "../../../../../../dojo-1.3.0/dojo/resources/dojo.css";
+@import "../../../../../../dojo-1.3.0/dijit/themes/tundra/tundra.css";
+@import "../../../../../../dojo-1.3.0/dojox/grid/compat/_grid/Grid.css";
+@import "../../../../../../dojo-1.3.0/dojox/grid/compat/_grid/tundraGrid.css";
+@import "../../../../../../dojo-1.3.0/dijit/tests/css/dijitTests.css";
+</style>
+
+<script type="text/javascript"
+  src="../../../../../../dojo-1.3.0/dojo/dojo.js"
+  djConfig="modulePaths: {'org' : '../../org'}, isDebug: true, parseOnLoad: true"></script>
+<script type="text/javascript"
+  src="../../../../../../dojo-1.3.0/dijit/tests/_testCommon.js"></script>
+
+<script type="text/javascript">
+    dojo.require("doh.runner");
+    dojo.require("dojo.parser");
+    dojo.require("org.ppwcode.dojo.dijit.form.MasterView");
+    dojo.require("org.ppwcode.dojo.dojox.grid.data.model");
+</script>
+
+<script type="text/javascript">
+var data = [ 
+   { type: "normal", 
+     virus: false,
+     status: "new",
+     title: 'But are not followed by two hexadecimal',
+     spam: 10 },
+   { type: "important",
+     virus: false,
+     status: "new",
+     title: 'Because a % sign always indicates',
+     spam: -5 },
+   { type: "important",
+     virus: false,
+     status: "read",
+     title: 'Signs can be selectively', 
+     spam: 0 },
+   { type: "note",
+     virus: false,
+     status: "read",
+     title: 'However the reserved characters',
+     spam: 0 },
+   { type: "normal",
+     virus: false,
+     status: "replied",
+     title: 'It is therefore necessary', 
+     spam: 5.50},
+   { type: "important",
+     virus: false,
+     status: "replied",
+     title: 'To problems of corruption by',
+     spam: -3 },
+   { type: "note",
+     virus: false,
+     status: "replied",
+     title: 'Which would simply be awkward in', 
+     spam: -4 }
+];
+var structure = [{
+        cells: [[
+                 {name: "Type", field: "type", width: "8em"},
+                 {name: "Status", field: "status", width: "8em"},
+                 {name: "Title", field: "title", width: "100%"},
+                 {name: "Virus?", field: "virus", width: "4em"},
+                 {name: "Spam score", field: "spam", width: "4em"}
+                ]]
+}];
+</script>
+
+<script type="text/javascript">
+dojo.addOnLoad(function(){
+    doh.register("MasterView", [
+      function testSetData() {
+          var dohd = new doh.Deferred();
+          var dojod = new dojo.Deferred();
+          var mv = dijit.byId("mvtest");
+          
+          dojod.addCallback(function() {
+            	    dojo.disconnect(handle);
+            	    dohd.callback(true);
+              }
+          );
+
+          var handle = dojo.connect(mv, "onSetData", dojod, "callback");
+          mv.setData([]);
+
+          return dohd;
+      },
+      function testRefreshData() {
+          var dohd = new doh.Deferred();
+          var dojod = new dojo.Deferred();
+          var mv = dijit.byId("mvtest");
+
+          dojod.addCallback(function() {
+              dojo.disconnect(handle);
+              dohd.callback(true);
+          });
+          var handle = dojo.connect(mv, "onRefreshData", dojod, "callback");
+          mv.refreshData(data);
+          return dohd;
+      },
+      function testClear() {
+          var dohd = new doh.Deferred();
+          var dojod = new dojo.Deferred();
+          var mv = dijit.byId("mvtest");
+
+          dojod.addCallback(function() {
+              dojo.disconnect(handle);
+              dohd.callback(true);
+          });
+          var handle = dojo.connect(mv, "onClear", dojod, "callback");
+          mv.clear(data);
+          return dohd;
+      },
+      function testOnClearSelection() {
+          var dohd = new doh.Deferred();
+          var dojod = new dojo.Deferred();
+          var mv = dijit.byId("mvtest");
+
+          dojod.addCallback(function() {
+              dojo.disconnect(handle);
+              dohd.callback(true);
+          });
+          var handle = dojo.connect(mv, "onClearSelection", dojod, "callback");
+          mv.clearSelection(data);
+          return dohd;
+          
+      },
+      function testSelectItem1() {
+          var mv = dijit.byId("mvtest");
+          mv.setData(data);
+          mv.selectItem({title: 'However the reserved characters'});
+          doh.assertEqual(mv.getSelectedItem().title, 'However the reserved characters');
+      },
+      function testSelectItem2() {
+          var mv = dijit.byId("mvtest");
+          mv.setData(data);
+          doh.assertEqual(mv.getSelectedItem(), null);
+      },
+      function testSelectItem3() {
+          var mv = dijit.byId("mvtest");
+          mv.setData(data);
+          mv.selectItem({title: 'However the reserved characters', status: 'replied'});
+          doh.assertEqual(mv.getSelectedItem(), null);
+      },
+      function testSelectItem4() {
+          var mv = dijit.byId("mvtest");
+          mv.setData(data);
+          mv.selectItem({type: "important", title: "Signs can be selectively"});
+          doh.assertEqual(mv.getSelectedItem().type, 'important');
+          doh.assertEqual(mv.getSelectedItem().title, 'Signs can be selectively');
+      },
+      function testSelectItem4() {
+          var mv = dijit.byId("mvtest");
+          mv.setData(data);
+          mv.selectItem({spam: 0});
+          //the first occurrence must be selected
+          doh.assertEqual(mv.getSelectedItem().spam, 0);
+          doh.assertEqual(mv.getSelectedItem().type, "important");          
+      },
+      function testReselectItem1() {
+          mvtest.setData(data);
+          var dohd = new doh.Deferred();
+          var dojod = new dojo.Deferred();
+          dojod.addCallback(function() {
+              dojo.disconnect(handle);
+              dohd.callback(true);
+          });
+          var handle = dojo.connect(mvtest, "onReSelectCurrentItemFail", dojod, "callback");
+          mvtest.reSelectCurrentItem();
+          doh.assertEqual(null, mvtest.getSelectedItem());
+      },
+      function testReselectItem2() {
+          // Setup
+          mvtest.setData(data);
+          mvtest.selectItem({title: "Which would simply be awkward in"});
+          // test
+          var dohd = new doh.Deferred();
+          var dojod = new dojo.Deferred();
+          dojod.addCallback(function() {
+              dojo.disconnect(handle);
+              dohd.callback(true);
+          });
+          var handle = dojo.connect(mvtest, "onReSelectCurrentItemSuccess", dojod, "callback");
+          mvtest.reSelectCurrentItem();
+          doh.assertEqual("Which would simply be awkward in", mvtest.getSelectedItem().title);
+      },
+      function testUpdateSelectedRow1() {
+          //setup
+          var cdata = dojo.clone(data);
+          mvtest.setData(cdata)
+          mvtest.selectItem({spam: -5});
+          //test
+          var dohd = new doh.Deferred();
+          var dojod = new dojo.Deferred();
+          dojod.addCallback(function() {
+              dojo.disconnect(handle);
+              dohd.callback(true);
+          });
+          var handle = dojo.connect(mvtest, "onSelectedRowUpdate", dojod, "callback");
+          mvtest.updateSelectedRow({
+               type: "EXTREMELY IMPORTANT", 
+               virus: true,
+               status: "NEW NEW NEW NEW",
+               title: 'Viagra for free',
+               spam: 1000
+          });
+          doh.assertEqual("EXTREMELY IMPORTANT", mvtest.getSelectedItem().type);
+          doh.assertEqual(true, mvtest.getSelectedItem().virus);
+          doh.assertEqual("NEW NEW NEW NEW", mvtest.getSelectedItem().status);
+          doh.assertEqual("Viagra for free", mvtest.getSelectedItem().title);
+          doh.assertEqual(1000, mvtest.getSelectedItem().spam);
+      },
+      function testUpdateSelectedRow2() {
+          //setup
+          var cdata = dojo.clone(data);
+          mvtest.setData(cdata)
+          mvtest.selectItem({spam: -5});
+          mvtest.updateSelectedRow({
+              type: "normal", 
+              virus: false,
+              status: "read",
+              title: 'To defy the laws of tradition',
+              spam: -1
+         });
+      },
+      function testDisableButtons1() {
+          mvtest.setData([]);
+          mvtest.disableButtons(true);
+          //breaking encapsulation to test for disabled buttons
+          doh.assertEqual(true, dojo.attr(mvtest._createButton, 'disabled'));
+      },
+      function testDisableButtons2() {
+          mvtest.setData([]);
+          mvtest.disableButtons(false);
+          //breaking encapsulation to test for disabled buttons
+          doh.assertEqual(false, dojo.attr(mvtest._createButton, 'disabled'));
+      },
+      function testSetCreateMenu() {
+          mvtest.setData([]);
+          mvtest.setCreateMenu([
+            {label: "Object A", value: "ObjectA"},
+            {label: "Object B", value: "ObjectB"}
+          ]);
+      },
+      function testDisableButtons3() {
+          mvtest.disableButtons(true);
+          //breaking encapsulation to test for disabled buttons
+          doh.assertEqual(true, dojo.attr(mvtest._createButton, 'disabled'));
+      },
+      function testDisableButtons4() {
+          mvtest.disableButtons(false);
+          //breaking encapsulation to test for disabled buttons
+          doh.assertEqual(false, dojo.attr(mvtest._createButton, 'disabled'));
+      }
+    ]);
+    doh.run();
+});
+</script>
+</head>
+
+<body class="tundra">
+  <div id="model" jsId="model" dojoType="org.ppwcode.dojo.dojox.grid.data.PpwObjects" style="height: 0px; width: 100%"></div>
+  <div id="mvtest" jsId="mvtest"
+       dojoType="org.ppwcode.dojo.dijit.form.MasterView"
+       style="width: 50em; height: 300px;"
+       gridStructure="structure"
+       gridModel="model">
+  </div>
+</body>
+</html>

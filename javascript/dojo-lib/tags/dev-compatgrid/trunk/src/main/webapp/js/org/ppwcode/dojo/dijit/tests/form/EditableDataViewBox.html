@@ -1,0 +1,415 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>PpwEditableDataViewBox</title>
+<style type="text/css">
+@import "../../../../../../dojo-1.3.0/dojo/resources/dojo.css";
+@import "../../../../../../dojo-1.3.0/dijit/themes/tundra/tundra.css";
+@import "../../../../../../dojo-1.3.0/dojox/grid/compat/_grid/Grid.css";
+@import "../../../../../../dojo-1.3.0/dojox/grid/compat/_grid/tundraGrid.css";
+@import "../../../../../../dojo-1.3.0/dijit/tests/css/dijitTests.css";
+</style>
+
+<script type="text/javascript"
+  src="../../../../../../dojo-1.3.0/dojo/dojo.js"
+  djConfig="modulePaths: {'org' : '../../org'}, isDebug: true, parseOnLoad: true"></script>
+<script type="text/javascript"
+  src="../../../../../../dojo-1.3.0/dijit/tests/_testCommon.js"></script>
+
+<script type="text/javascript">
+    dojo.require("doh.runner");
+    dojo.require("dojo.parser");
+    dojo.require("org.ppwcode.dojo.dijit.form.EditableDataViewBox");
+    dojo.require("org.ppwcode.dojo.dojox.grid.data.model");
+</script>
+
+<script type="text/javascript">
+
+function Message() {
+  this.type = null;
+  this.title = null;  
+}
+
+function Email() {
+  this.type = null;
+  this.virus = false;
+  this.status = null;
+  this.title = null;
+  this.spam = 0;
+}
+
+Email.prototype = new Message();
+Email.prototype.constructor = Email;
+
+var data = [];
+(function() {
+    var m1 = new Email();
+    data.push(m1);
+    with (m1) {
+        type = "normal", 
+        virus = false,
+        status = "new",
+        title = 'But are not followed by two hexadecimal',
+        spam = 10;
+   };
+   var m2 = new Email();
+   data.push(m2);
+   with (m2) { 
+     type = "important",
+     virus = false,
+     status = "new",
+     title = 'Because a % sign always indicates',
+     spam = -5;
+   };
+   var m3 = new Email();
+   data.push(m3);
+   with (m3) {
+     type = "important",
+     virus = false,
+     status = "read",
+     title = 'Signs can be selectively', 
+     spam = 0;
+   };
+   var m4 = new Email();
+   data.push(m4);
+   with (m4) {
+     type = "note",
+     virus = false,
+     status = "read",
+     title = 'However the reserved characters',
+     spam = 0;
+   };
+   var m5 = new Email();
+   data.push(m5);
+   with (m5) {
+     type = "normal",
+     virus = false,
+     status = "replied",
+     title = 'It is therefore necessary', 
+     spam = 5.50;
+   };
+   var m6 = new Email();
+   data.push(m6);
+   with (m6) {
+     type = "important",
+     virus = false,
+     status = "replied",
+     title = 'To problems of corruption by',
+     spam = -3;
+   };
+   var m7 = new Email();
+   data.push(m7);
+   with (m7) {
+     type = "note",
+     virus = false,
+     status = "replied",
+     title = 'Which would simply be awkward in', 
+     spam = -4;
+   }
+})();
+
+var structure = [{
+        cells: [[
+                 {name: "Type", field: "type", width: "8em", editor: dojox.grid.editors.Input},
+                 {name: "Status", field: "status", width: "8em", editor: dojox.grid.editors.Input},
+                 {name: "Title", field: "title", width: "100%", editor: dojox.grid.editors.Input},
+                 {name: "Virus?", field: "virus", width: "4em", editor: dojox.grid.editors.Input},
+                 {name: "Spam score", field: "spam", width: "4em", editor: dojox.grid.editors.Input}
+                ]]
+}];
+
+</script>
+
+<script type="text/javascript">
+dojo.addOnLoad(function(){
+    doh.register("EditableDataViewBox", [
+      function testSetData() {
+          var dohd = new doh.Deferred();
+          var dojod = new dojo.Deferred();
+          var edvb = dijit.byId("edvbtest");
+          
+          dojod.addCallback(function() {
+            	    dojo.disconnect(handle);
+            	    dohd.callback(true);
+              }
+          );
+
+          var handle = dojo.connect(edvb, "onSetData", dojod, "callback");
+          edvb.setData([]);
+
+          return dohd;
+      },
+      function testOnClearSelection() {
+          var dohd = new doh.Deferred();
+          var dojod = new dojo.Deferred();
+          var edvb = dijit.byId("edvbtest");
+
+          dojod.addCallback(function() {
+              dojo.disconnect(handle);
+              dohd.callback(true);
+          });
+          var handle = dojo.connect(edvb, "onClearSelection", dojod, "callback");
+          edvb.clearSelection(data);
+          return dohd;
+          
+      },
+      function testReset() {
+          var edvb = dijit.byId("edvbtest");
+          edvb.setData(data);
+          edvb.reset();
+          var val = edvb.getValue();
+          doh.assertTrue(dojo.isArray(val));
+          doh.assertEqual(0, val.length);
+      },
+      function testGetValue() {
+          var o1 = new Email();
+          with (o1) {
+        	  type = "type_o1",
+        	  virus = false,
+        	  status = "status_o1",
+        	  title = 'title_o1',
+        	  spam = -3;
+          }   
+          var o2 = new Email();
+          with (o2) {
+            type = "type_o2",
+            virus = true,
+            status = "status_o2",
+            title = 'title_o2',
+            spam = 17;
+          }   
+          var testdata = [o1, o2];
+          var edvb = dijit.byId("edvbtest");
+          edvb.setValue(testdata);
+          var resultdata = edvb.getValue();
+          doh.assertEqual(2, resultdata.length);
+          with(resultdata[0]) {
+              doh.assertEqual("type_o1", type);
+              doh.assertEqual(false, virus);
+              doh.assertEqual("status_o1", status);
+              doh.assertEqual('title_o1', title);
+              doh.assertEqual(-3, spam);
+          };
+          with(resultdata[1]) {
+              doh.assertEqual("type_o2", type);
+              doh.assertEqual(true, virus);
+              doh.assertEqual("status_o2", status);
+              doh.assertEqual('title_o2', title);
+              doh.assertEqual(17, spam);
+          };
+     },
+      function testSetValue() {
+    	   var edvb = dijit.byId("edvbtest");
+         var testdata = dojo.clone(data);
+         edvb.setValue(testdata);
+      },
+      function testSelectItem1() {
+          var edvb = dijit.byId("edvbtest");
+          edvb.setValue(data);
+          edvb.selectItem({title: 'However the reserved characters'});
+          doh.assertEqual(edvb.getSelectedItem().title, 'However the reserved characters');
+      },
+      function testSelectItem2() {
+          var edvb = dijit.byId("edvbtest");
+          edvb.setValue(data);
+          doh.assertEqual(edvb.getSelectedItem(), null);
+      },
+      function testSelectItem3() {
+          var edvb = dijit.byId("edvbtest");
+          edvb.setValue(data);
+          edvb.selectItem({title: 'However the reserved characters', status: 'replied'});
+          doh.assertEqual(edvb.getSelectedItem(), null);
+      },
+      function testSelectItem4() {
+          var edvb = dijit.byId("edvbtest");
+          edvb.setValue(data);
+          edvb.selectItem({type: "important", title: "Signs can be selectively"});
+          doh.assertEqual(edvb.getSelectedItem().type, 'important');
+          doh.assertEqual(edvb.getSelectedItem().title, 'Signs can be selectively');
+      },
+      function testSelectItem4() {
+          var edvb = dijit.byId("edvbtest");
+          edvb.setValue(data);
+          edvb.selectItem({spam: 0});
+          //the first occurrence must be selected
+          doh.assertEqual(edvb.getSelectedItem().spam, 0);
+          doh.assertEqual(edvb.getSelectedItem().type, "important");          
+      },
+      function testDeleteSelectedItem() {
+          var edvb = dijit.byId("edvbtest");
+          var testdata = dojo.clone(data);
+          edvb.setValue(data);
+          edvb.selectItem({type: "important", title: "Signs can be selectively"});
+          edvb.removeSelectedItem();
+          var resultdata = edvb.getValue();
+          doh.assertEqual(6, resultdata.length);
+          for (var i = 0; i < resultdata.length; i++) {
+              with (resultdata[i]) {
+            	  doh.assertFalse((type == "important") && (title == "Signs can be selectively"));
+              }
+          }
+      },
+      function testAddItem() {
+          var edvb = dijit.byId("edvbtest");
+          var testdata = dojo.clone(data);
+          edvb.setValue(testdata);
+          var obj = new Email();
+          with (obj) {
+              type = "type_object",
+              virus = false,
+              status = "status_object",
+              title = 'title_object',
+              spam = 7;
+          }
+          edvb.addItem(obj);
+          var resultdata = edvb.getValue();
+          doh.assertEqual(8, resultdata.length);
+          var itemIsInResultSet = false;
+          for (var i = 0 ; i < resultdata.length; i++) {
+              with (resultdata[i]) {
+            	  if (type == "type_object") {
+                    doh.assertEqual(false, virus);
+                    doh.assertEqual("status_object", status);
+                    doh.assertEqual("title_object", title);
+                    doh.assertEqual(7, spam);
+                    itemIsInResultSet = true;
+            	  }
+              }
+          }
+          doh.assertTrue(itemIsInResultSet); 
+      },
+      function testCreateButtonClick() {
+          var dohd = new doh.Deferred();
+          var addItemDeferred = new dojo.Deferred();
+          var buttonClickDeferred = new dojo.Deferred();
+          var edvb = dijit.byId("edvbtest");
+          var calledOnBeforeAddItem = false;
+          var calledOnCreateButtonClick = false;
+
+          function triggerDohDeferred() {
+              if (calledOnBeforeAddItem && calledOnCreateButtonClick) {
+                  dohd.callback(true);
+              }
+          }
+          
+          addItemDeferred.addCallback(function() {
+                  dojo.disconnect(onBeforeAddItemHandle);
+                  calledOnBeforeAddItem = true;
+                  triggerDohDeferred();
+              }
+          );
+
+          buttonClickDeferred.addCallback(function() {
+        	      dojo.disconnect(onCreateButtonClickHandle);
+                calledOnCreateButtonClick = true;
+                triggerDohDeferred();
+        	    }
+          );
+          
+          var onBeforeAddItemHandle = dojo.connect(edvb, "onBeforeAddItem", addItemDeferred, "callback");
+          var onCreateButtonClickHandle = dojo.connect(edvb, "onCreateButtonClick", buttonClickDeferred, "callback");
+          edvb.setData([]);
+          edvb._oncreatebuttonclick();
+          return dohd;
+      },
+      function testDeleteButtonClick1() {
+          var dohd = new doh.Deferred();
+          var dojod = new dojo.Deferred();
+          var edvb = dijit.byId("edvbtest");
+
+          dojod.addCallback(function() {
+        	    dojo.disconnect(handle);
+              dohd.callback(true);
+          });
+          var handle = dojo.connect(edvb, "onDeleteButtonClick", dojod, "callback");
+          edvb.setData(dojo.clone(data));
+          edvb.selectItem({type: "important"});
+          edvb._ondeletebuttonclick();
+          return dohd;
+      },
+      function testDisableButtons1() {
+          edvbtest.setValue([]);
+          edvbtest.disableButtons(true);
+          //breaking encapsulation to test for disabled buttons
+          doh.assertEqual(true, dojo.attr(edvbtest._createButton, 'disabled'));
+          doh.assertEqual(true, dojo.attr(edvbtest._deleteButton, 'disabled'));
+      },
+      function testDisableButtons2() {
+          edvbtest.setValue([]);
+          edvbtest.disableButtons(false);
+          //breaking encapsulation to test for disabled buttons
+          doh.assertEqual(false, dojo.attr(edvbtest._createButton, 'disabled'));
+          doh.assertEqual(false, dojo.attr(edvbtest._deleteButton, 'disabled'));
+      },
+      function testSetAddMenu() {
+          edvbtest.setValue([]);
+          edvbtest.setCreateMenu([
+            {constructorFunction: Message, objectName: "Message"},
+            {constructorFunction: Email, objectName: "Email"}
+          ]);
+      },
+      function testCreateMenuClick() {
+          var dohd = new doh.Deferred();
+          var addItemDeferred = new dojo.Deferred();
+          var buttonClickDeferred = new dojo.Deferred();
+          var edvb = dijit.byId("edvbtest");
+          var calledOnBeforeAddItem = false;
+          var calledOnCreateButtonClick = false;
+
+          function triggerDohDeferred() {
+              if (calledOnBeforeAddItem && calledOnCreateButtonClick) {
+                  dohd.callback(true);
+              }
+          }
+          
+          addItemDeferred.addCallback(function(obj) {
+        	        obj.type="deferred";
+                  obj.status="";
+                  obj.title="";
+                  dojo.disconnect(onBeforeAddItemHandle);
+                  calledOnBeforeAddItem = true;
+                  triggerDohDeferred();
+              }
+          );
+
+          buttonClickDeferred.addCallback(function() {
+                dojo.disconnect(onCreateButtonClickHandle);
+                calledOnCreateButtonClick = true;
+                triggerDohDeferred();
+              }
+          );
+          
+          var onBeforeAddItemHandle = dojo.connect(edvb, "onBeforeAddItem", addItemDeferred, "callback");
+          var onCreateButtonClickHandle = dojo.connect(edvb, "onCreateButtonClick", buttonClickDeferred, "callback");
+          edvb.setData([]);
+          edvb._onmenuitemclick("Email");
+          return dohd;
+      },
+      function testDisableButtons3() {
+          edvbtest.disableButtons(true);
+          //breaking encapsulation to test for disabled buttons
+          doh.assertEqual(true, dojo.attr(edvbtest._createButton, 'disabled'));
+          doh.assertEqual(true, dojo.attr(edvbtest._deleteButton, 'disabled'));
+      },
+      function testDisableButtons4() {
+          edvbtest.disableButtons(false);
+          //breaking encapsulation to test for disabled buttons
+          doh.assertEqual(false, dojo.attr(edvbtest._createButton, 'disabled'));
+          doh.assertEqual(false, dojo.attr(edvbtest._deleteButton, 'disabled'));
+      }
+    ]);
+    doh.run();
+});
+</script>
+</head>
+
+<body class="tundra">
+  <div id="model" jsId="model" dojoType="org.ppwcode.dojo.dojox.grid.data.PpwObjects" style="height: 0px; width: 100%"></div>
+  <div id="edvbtest" jsId="edvbtest"
+       dojoType="org.ppwcode.dojo.dijit.form.EditableDataViewBox"
+       style="width: 50em; height: 300px;"
+       gridStructure="structure"
+       gridModel="model">
+  </div>
+</body>
+</html>
