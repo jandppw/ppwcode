@@ -124,10 +124,10 @@ public class Util {
 	
 	public static String getPosterThumb(String id) {
 		Movie movie = searchForMovie(id);
-		if (movie != null) {
+		if (movie != null && movie.getPosters().get("thumb") != null) {
 			return movie.getPosters().get("thumb");
 		} else {
-			return null;
+			return "image/blank.gif";
 		}
 	}
 	
