@@ -1,6 +1,8 @@
 package be.peopleware.theopenmoviedb;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Movie {
@@ -14,6 +16,8 @@ public class Movie {
 	private String shortOverview;
 	
 	private Map<String, String> posters = new HashMap<String, String>();
+	
+	private List<String> actors = new ArrayList<String>();
 	
 	public double getScore() {
 		return score;
@@ -47,6 +51,9 @@ public class Movie {
 	}
 	public Map<String, String> getPosters() {
 		return posters;
+	}
+	public List<String> getActors() {
+		return actors;
 	}
 	public void setId(String id) {
 		this.id = id;
