@@ -273,6 +273,7 @@ function lstYourMoviesAddButtonClick() {
 	yourMoviePicture.setValue(null);
 	dojo.byId("yourMovieDescription").innerHTML = "<p></p>";
 	dojo.byId("yourMovieActors").innerHTML = "<p></p>";
+	showFrmYourMovie().play();
 }
 
 
