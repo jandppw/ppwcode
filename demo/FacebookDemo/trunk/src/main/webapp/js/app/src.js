@@ -209,6 +209,7 @@ function hideFrmYourMovie() {
 function showFriendDetails(e) {
     var user = fbfriendsgridmodel.getRow(e.rowIndex);
 
+    /* dojo.fx.chain is buggy: http://www.dojotoolkit.org/forum/dojo-core-dojo-0-9/dojo-core-support/dojo-fx-chain-causing-multiple-errors
     dojo.fx.chain([
 	      dojo.fx.combine([
 	          dojo.fadeOut({node: fbFriendForm.id, duration: 250, onEnd: function() { fbFriendForm.displayItem(user) } }),
@@ -220,7 +221,19 @@ function showFriendDetails(e) {
 		  ])
 	      
 	]).play();
-
+	*/
+    
+    var slideOut = dojo.fx.combine([
+          dojo.fadeOut({node: fbFriendForm.id, duration: 250, onEnd: function() { fbFriendForm.displayItem(user) } }),
+          dojo.fx.slideTo({ node: "fbFriendContentPane", left: (1500).toString(), unit: "px", duration: 500 })
+    ]);
+    var slideIn = dojo.fx.combine([
+          dojo.fadeIn({node: fbFriendForm.id, duration: 1500}),
+          dojo.fx.slideTo({ node: "fbFriendContentPane", left: (0).toString(), unit: "px", duration: 1000, easing: dojox.fx.easing.bounceOut })
+    ]);
+    dojo.connect(slideOut, "onEnd", slideIn, 'play');
+    slideOut.play();
+    
     console.dir(user);
     JpaMovieDaoWrapper.findByFacebookUser(user.uid,
       {
