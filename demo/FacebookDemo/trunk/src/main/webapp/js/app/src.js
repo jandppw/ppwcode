@@ -246,25 +246,28 @@ function showFriendDetails(e) {
 
 }
 
-function showMovieImage(e) {
-	var movie = yourmovielistgridmodel.getRow(e.rowIndex);
-	
-	TheOpenMovieDBUtilWrapper.getPosterThumb(movie.id, function(url) {
+function updateMovieDetails(movieId) {
+		
+	TheOpenMovieDBUtilWrapper.getPosterThumb(movieId, function(url) {
 		yourMoviePicture.setValue(url);
 	});
 	
-	TheOpenMovieDBUtilWrapper.getShortOverview(movie.id, function(description) {
+	TheOpenMovieDBUtilWrapper.getShortOverview(movieId, function(description) {
 		dojo.byId("yourMovieDescription").innerHTML = "<p>" + description + "</p>";
 	});
 	
-	TheOpenMovieDBUtilWrapper.getMainActors(movie.id, function(actors) {
+	TheOpenMovieDBUtilWrapper.getMainActors(movieId, function(actors) {
 		var actorsHTML = "";
 		for (var i = 0; i < actors.length; i++) {
 			actorsHTML += actors[i] + "<br/>";
 		}
 		dojo.byId("yourMovieActors").innerHTML = "<p>" + actorsHTML + "</p>";
 	});
-	
+}
+
+function showMovieImage(e) {
+	var movie = yourmovielistgridmodel.getRow(e.rowIndex);
+	updateMovieDetails(movie.id);
 }
 
 
@@ -284,6 +287,16 @@ function frmYourMovieCreateModeCancelButtonClick() {
 	hideFrmYourMovie().play();
 }
 
+function frmYourMovieCreateModeSaveButtonClick(e) {
+	var movieId = e.formObject.id;
+	updateMovieDetails(movieId);
+}
+
+function frmYourMovieUpdateModeSaveButtonClick(e) {
+	var movieId = e.formObject.id;
+	updateMovieDetails(movieId);
+}
+
 dojo.addOnLoad(function() {
 	dojo.config.usePlainJson=true;
 	dojo.parser.parse();
@@ -293,9 +306,13 @@ dojo.addOnLoad(function() {
 	initializeDwrControllers();
 
 	dojo.connect(lstYourMovies,"onAddButtonClick", lstYourMoviesAddButtonClick);
-	dojo.connect(frmYourMovie, "onCreateModeCancelButtonClick", frmYourMovieCreateModeCancelButtonClick);
 	dojo.connect(lstYourMovies,"onGridRowClick", lstYourMoviesGridRowClick);
-
+	
+	dojo.connect(frmYourMovie, "onCreateModeCancelButtonClick", frmYourMovieCreateModeCancelButtonClick);
+	dojo.connect(frmYourMovie, "onCreateModeSaveButtonClick", frmYourMovieCreateModeSaveButtonClick);
+	dojo.connect(frmYourMovie, "onUpdateModeSaveButtonClick", frmYourMovieUpdateModeSaveButtonClick);
+	
+	
 	dojo.connect(fbFriendsGrid, "onRowClick", showFriendDetails);
 	
 	FB.ensureInit(function() {
