@@ -280,8 +280,8 @@ function lstYourMoviesGridRowClick(e) {
 	showFrmYourMovie().play();
 }
 
-function wrapPlay(obj) {
-	return function() { obj().play(); }
+function frmYourMovieCreateModeCancelButtonClick() {
+	hideFrmYourMovie().play();
 }
 
 dojo.addOnLoad(function() {
@@ -293,7 +293,7 @@ dojo.addOnLoad(function() {
 	initializeDwrControllers();
 
 	dojo.connect(lstYourMovies,"onAddButtonClick", lstYourMoviesAddButtonClick);
-	dojo.connect(frmYourMovie, "onCreateModeCancelButtonClick", wrapPlay(hideFrmYourMovie));
+	dojo.connect(frmYourMovie, "onCreateModeCancelButtonClick", frmYourMovieCreateModeCancelButtonClick);
 	dojo.connect(lstYourMovies,"onGridRowClick", lstYourMoviesGridRowClick);
 
 	dojo.connect(fbFriendsGrid, "onRowClick", showFriendDetails);
