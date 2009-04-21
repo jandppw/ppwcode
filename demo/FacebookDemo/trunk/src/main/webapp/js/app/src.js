@@ -179,7 +179,7 @@ function do_logout() {
 function showall() {
 	setTimeout(function() {
 			dojo.fadeOut({node: 'splashscreen', duration: 1000, onEnd: function() { dojo.query("#splashscreen").orphan(); }}).play();
-			hideFrmYourMovie();
+			hideFrmYourMovie().play();
 			dojo.fadeOut({node: 'fbFriendContentPane', duration: 10}).play();
 		},
 		20
@@ -187,21 +187,21 @@ function showall() {
 }
 
 function showFrmYourMovie() {
-	dojo.fx.combine([
-        dojo.fx.slideTo({node: "frmYourMovie", left: (0).toString(), unit: "px"}).play(),
-        dojo.fadeIn({node: "yourMoviePicture", duration: 200 }).play(),
-        dojo.fadeIn({node: "yourMovieDescription", duration: 200 }).play(),
-        dojo.fadeIn({node: "yourMovieActors", duration: 200 }).play()
-	]).play();
+	return dojo.fx.combine([
+        dojo.fx.slideTo({node: "frmYourMovie", left: (0).toString(), unit: "px"}),
+        dojo.fadeIn({node: "yourMoviePicture", duration: 200 }),
+        dojo.fadeIn({node: "yourMovieDescription", duration: 200 }),
+        dojo.fadeIn({node: "yourMovieActors", duration: 200 })
+	]);
 }
 
 function hideFrmYourMovie() {
-	dojo.fx.combine([
-	    dojo.fx.slideTo({node: "frmYourMovie", left: (-400).toString(), unit: "px"}).play(),
-	    dojo.fadeOut({node: "yourMoviePicture", duration: 200 }).play(),
-	    dojo.fadeOut({node: "yourMovieDescription", duration: 200 }).play(),
-	    dojo.fadeOut({node: "yourMovieActors", duration: 200 }).play()
-	]).play();
+    return dojo.fx.combine([
+	    dojo.fx.slideTo({node: "frmYourMovie", left: (-400).toString(), unit: "px"}),
+	    dojo.fadeOut({node: "yourMoviePicture", duration: 200 }),
+	    dojo.fadeOut({node: "yourMovieDescription", duration: 200 }),
+	    dojo.fadeOut({node: "yourMovieActors", duration: 200 })
+	]);
 }
 
 function showFriendDetails(e) {
@@ -268,6 +268,20 @@ function showMovieImage(e) {
 	
 }
 
+/*
+function lstYourMoviesAddButtonClick() {
+	hideFrmYourMovie.play();
+	yourMoviePicture.setValue(null);
+	dojo.byId("yourMovieDescription").innerHTML = "<p></p>";
+	dojo.byId("yourMovieActors").innerHTML = "<p></p>";
+	showFrmYourMovie.play();
+}
+*/
+
+function wrapPlay(obj) {
+	return function() { obj().play(); }
+}
+
 dojo.addOnLoad(function() {
 	dojo.config.usePlainJson=true;
 	dojo.parser.parse();
@@ -276,9 +290,10 @@ dojo.addOnLoad(function() {
 	frmYourMovie.setFormMap(yourMovieFormMap);
 	initializeDwrControllers();
 
-	dojo.connect(lstYourMovies,"onAddButtonClick", showFrmYourMovie);
-	dojo.connect(frmYourMovie, "onCreateModeCancelButtonClick", hideFrmYourMovie);
-	dojo.connect(lstYourMovies,"onGridRowClick", showFrmYourMovie);
+	dojo.connect(lstYourMovies,"onAddButtonClick", wrapPlay(showFrmYourMovie));
+	dojo.connect(frmYourMovie, "onCreateModeCancelButtonClick", wrapPlay(hideFrmYourMovie));
+	dojo.connect(lstYourMovies,"onGridRowClick", wrapPlay(showFrmYourMovie));
+
 	dojo.connect(lstYourMovies,"onGridRowClick", showMovieImage);
 	
 	dojo.connect(fbFriendsGrid, "onRowClick", showFriendDetails);
