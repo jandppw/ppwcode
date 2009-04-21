@@ -160,6 +160,9 @@ public class Util {
 		Movie movie = searchForMovie(queryId);
 		System.out.println(movie.getTitle() + " (" + movie.getImdbId() + ") : " + movie.getShortOverview());
 		System.out.println(movie.getActors());
+		for(String s : getMainActors(queryId)) {
+			System.out.println(s);
+		}
 	}
 
 }
