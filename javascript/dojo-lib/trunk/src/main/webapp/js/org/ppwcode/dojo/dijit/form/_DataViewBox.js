@@ -2,25 +2,31 @@ dojo.provide("org.ppwcode.dojo.dijit.form._DataViewBox");
 
 dojo.require("dijit.layout._LayoutWidget");
 dojo.require("dijit._Templated");
-dojo.require("dojox.grid.Grid");
+dojo.require("org.ppwcode.dojo.dojo.data.ObjectArrayStore");
 
 dojo.declare(
 	"org.ppwcode.dojo.dijit.form._DataViewBox",
 	[dijit.layout._LayoutWidget, dijit._Templated],
 	{
-		gridModel: null,
-		
 		gridStructure: null,
+		
+		identifierPropertyName: "",
+		
+		_data: null,
+		_dataStore: null,
+		
+		constructor: function(kwArgs) {
+			if (kwArgs && kwArgs.identifierPropertyName) {
+				this.identifierPropertyName = kwArgs.identifierProperty;
+			}
+		},
 		
 		buildRendering: function() {
 			this.inherited(arguments);
 			
 			//you can only select 1 row in the grid
-			this._masterGrid.selection.multiSelect = false;
+			this._masterGrid.selection.setMode("single");
 			
-			if (this.gridModel) {
-				this.setModel(this.gridModel);
-			}
 			if (this.gridStructure) {
 				this.setStructure(this.gridStructure);
 			}
@@ -38,27 +44,26 @@ dojo.declare(
 			//
 			// newstructure:
 			//   Array containing a Grid structure.
-			this._masterGrid.setStructure(newstructure);
+			this._masterGrid.attr('structure', newstructure);
 		},
 		
-		setModel: function(/*Object*/newmodel) {
-			//summary:
-			//   Set the data model of the grid that is encapsulated in this PpwMasterView
-			//description:
-			//   Set the data model of the grid that is encapsulated in this PpwMasterView
-			// newmodel:
-			//   The datamodel that will be used to contain the data displayed in the Grid.
-			//delegation to grid
-			this._masterGrid.setModel(newmodel);
+		_createDojoDataTemplate: function() {
+			return {identifier: this.identifierProperty};
 		},
-
+		
 		_setData: function(newdata) {
 			//first clear the selection
 			this.clearSelection();
 			//remove sort
 			this._masterGrid.sortInfo = 0;
 			//delegation to grid's model
-			this._masterGrid.model.setData(newdata);
+			this._data = newdata;
+			var storeParams = {data: this._data};
+			if (this.identifierPropertyName) {
+				storeParams.identifierPropertyName = this.identifierPropertyName;
+			}
+			this._dataStore = new org.ppwcode.dojo.dojo.data.ObjectArrayStore(storeParams);
+			this._masterGrid.setStore(this._dataStore);
 		},
 		
 		setData: function(/*Array*/newdata) {
@@ -84,7 +89,11 @@ dojo.declare(
 		
 		clear: function() {
 			this._clearSelection();
-			this._masterGrid.model.setData([]);
+			this._data = this._createDojoDataTemplate();
+			this._data.items = [];
+			this._dataStore = new org.ppwcode.dojo.dojo.data.ObjectArrayStore({data: []});
+			this._masterGrid.setStore(this._dataStore);
+
 			this._onClear();
 		},
 		
@@ -110,7 +119,7 @@ dojo.declare(
 			//   returns the selected Item from the grid.  Note that multiselect is turned
 			//   off by default in PpwMasterView, so there will always be only one selected
 			//   Item.  The method hence returns an Object, not an array of objects.
-			return this._masterGrid.model.getRow(this._masterGrid.selection.getSelected()[0]);
+			return this._masterGrid.selection.getFirstSelected();
 		},
 
 		_findItem: function(/*Object*/criterium) {
@@ -130,10 +139,6 @@ dojo.declare(
 			//   Object with a number of properties (and also values) that must be satisfied for
 			//   an Item in the grid to be selected.
 
-			var datasetsize = this._masterGrid.model.getRowCount();
-			var found = false;
-			var location = -1;
-			
 			// copy criterium properties in Array.
 			var properties = new Array();
 			var tmpi = 0;
@@ -142,12 +147,16 @@ dojo.declare(
 				//no criterium? -> no select
 				return -1;
 			}
+
 			//look for the first matching record
-			for (var i = 0; !found && (i < datasetsize) ; i++) {
+			var found = false;
+			var i = 0;
+			var currentItem = this._masterGrid.getItem(i);
+			while (!found && currentItem) {
 				for (var j = 0, rowmatch = true; rowmatch && (j < properties.length); j++) {
 					//Dates are special... 
 					var crit = criterium[properties[j]];
-					var subject = this._masterGrid.model.getRow(i)[properties[j]];
+					var subject = currentItem[properties[j]];
 					if ((crit instanceof Date) && (subject instanceof Date)) {
 						if (crit.getTime() != subject.getTime()) {
 							rowmatch = false;
@@ -159,10 +168,13 @@ dojo.declare(
 					}
 				}
 				found = rowmatch;
-				location = i;
+				if(!found) {
+					currentItem = this._masterGrid.getItem(++i);
+				}
 			}
+			console.log((found ? "Found" : "Did not find") + " object" + (found ? " on row " + i : ""));
 			if (found) {
-				return location;
+				return i;
 			} else {
 				return -1;
 			}
