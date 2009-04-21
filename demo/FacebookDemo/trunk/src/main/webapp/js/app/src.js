@@ -189,18 +189,18 @@ function showall() {
 function showFrmYourMovie() {
 	return dojo.fx.combine([
         dojo.fx.slideTo({node: "frmYourMovie", left: (0).toString(), unit: "px"}),
-        dojo.fadeIn({node: "yourMoviePicture", duration: 200 }),
-        dojo.fadeIn({node: "yourMovieDescription", duration: 200 }),
-        dojo.fadeIn({node: "yourMovieActors", duration: 200 })
+        dojo.fadeIn({node: "yourMoviePicture", duration: 400 }),
+        dojo.fadeIn({node: "yourMovieDescription", duration: 400 }),
+        dojo.fadeIn({node: "yourMovieActors", duration: 400 })
 	]);
 }
 
 function hideFrmYourMovie() {
     return dojo.fx.combine([
 	    dojo.fx.slideTo({node: "frmYourMovie", left: (-400).toString(), unit: "px"}),
-	    dojo.fadeOut({node: "yourMoviePicture", duration: 200 }),
-	    dojo.fadeOut({node: "yourMovieDescription", duration: 200 }),
-	    dojo.fadeOut({node: "yourMovieActors", duration: 200 })
+	    dojo.fadeOut({node: "yourMoviePicture", duration: 400 }),
+	    dojo.fadeOut({node: "yourMovieDescription", duration: 400 }),
+	    dojo.fadeOut({node: "yourMovieActors", duration: 400 })
 	]);
 }
 
