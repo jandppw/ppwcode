@@ -268,15 +268,13 @@ function showMovieImage(e) {
 	
 }
 
-/*
+
 function lstYourMoviesAddButtonClick() {
-	hideFrmYourMovie.play();
 	yourMoviePicture.setValue(null);
 	dojo.byId("yourMovieDescription").innerHTML = "<p></p>";
 	dojo.byId("yourMovieActors").innerHTML = "<p></p>";
-	showFrmYourMovie.play();
 }
-*/
+
 
 function wrapPlay(obj) {
 	return function() { obj().play(); }
@@ -290,7 +288,7 @@ dojo.addOnLoad(function() {
 	frmYourMovie.setFormMap(yourMovieFormMap);
 	initializeDwrControllers();
 
-	dojo.connect(lstYourMovies,"onAddButtonClick", wrapPlay(showFrmYourMovie));
+	dojo.connect(lstYourMovies,"onAddButtonClick", lstYourMoviesAddButtonClick);
 	dojo.connect(frmYourMovie, "onCreateModeCancelButtonClick", wrapPlay(hideFrmYourMovie));
 	dojo.connect(lstYourMovies,"onGridRowClick", wrapPlay(showFrmYourMovie));
 
