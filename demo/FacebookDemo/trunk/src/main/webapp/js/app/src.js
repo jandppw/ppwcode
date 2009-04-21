@@ -238,7 +238,7 @@ function showFriendDetails(e) {
 function showMovieImage(e) {
 	var movie = yourmovielistgridmodel.getRow(e.rowIndex);
 	
-	TheOpenMovieDBUtilWrapper.getPosterThumb(movie.title, function(url) {
+	TheOpenMovieDBUtilWrapper.getPosterThumb(movie.id, function(url) {
 		console.log(url);
 		yourMoviePicture.setValue(url);
 	});
