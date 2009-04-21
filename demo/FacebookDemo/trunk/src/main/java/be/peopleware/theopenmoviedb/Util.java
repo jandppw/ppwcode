@@ -5,6 +5,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.jdom.Document;
 import org.jdom.Element;
@@ -16,6 +18,8 @@ import org.jdom.input.SAXBuilder;
 public class Util {
 	
 	private static final String API_KEY = "2f88cdad72e181fc6a6df8249608141b";
+	
+	private static final Map<String,List<Movie>> movieCache = new ConcurrentHashMap<String, List<Movie>>();
 	
 	private static Document requestDocument(String query) {
 		try {
@@ -36,27 +40,36 @@ public class Util {
 	}
 	
 	public static List<Movie> searchForMovies(String query) {
-		List<Movie> result = new ArrayList<Movie>();
+		List<Movie> result;
 		
-		Element root = requestDocument(query).getRootElement();
+		if (movieCache.containsKey(query)) {
+			
+			result = movieCache.get(query);
+			
+		} else {
 		
-		Element totalResults = root.getChild("totalResults", Namespace.getNamespace("opensearch", "http://a9.com/-/spec/opensearch/1.1/"));
+			result = new ArrayList<Movie>();
 		
-		if (Integer.parseInt(totalResults.getText()) > 0) {
-			Element movieMatches = (Element)root.getChild("moviematches");
+			Element root = requestDocument(query).getRootElement();
 		
-			for (Element element : (List<Element>)movieMatches.getChildren("movie")) {
-				Movie movie = new Movie();
-				movie.setScore(Double.parseDouble(element.getChildText("score")));
-				movie.setPopularity(Integer.parseInt(element.getChildText("popularity")));
-				movie.setTitle(element.getChildText("title"));
-				movie.setImdbId(element.getChildText("imdb"));
-				movie.setId(element.getChildText("id"));
-				movie.setShortOverview(element.getChildText("short_overview"));
-				for (Element poster : (List<Element>)element.getChildren("poster")) {
-					movie.getPosters().put(poster.getAttributeValue("size"), poster.getText());
+			Element totalResults = root.getChild("totalResults", Namespace.getNamespace("opensearch", "http://a9.com/-/spec/opensearch/1.1/"));
+		
+			if (Integer.parseInt(totalResults.getText()) > 0) {
+				Element movieMatches = (Element)root.getChild("moviematches");
+		
+				for (Element element : (List<Element>)movieMatches.getChildren("movie")) {
+					Movie movie = new Movie();
+					movie.setScore(Double.parseDouble(element.getChildText("score")));
+					movie.setPopularity(Integer.parseInt(element.getChildText("popularity")));
+					movie.setTitle(element.getChildText("title"));
+					movie.setImdbId(element.getChildText("imdb"));
+					movie.setId(element.getChildText("id"));
+					movie.setShortOverview(element.getChildText("short_overview"));
+					for (Element poster : (List<Element>)element.getChildren("poster")) {
+						movie.getPosters().put(poster.getAttributeValue("size"), poster.getText());
+					}
+					result.add(movie);
 				}
-				result.add(movie);
 			}
 		}
 		return result;
