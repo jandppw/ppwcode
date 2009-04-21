@@ -119,7 +119,6 @@ public class Util {
 				}
 			}
 		}
-		movieCache.put(Integer.parseInt(movie.getId()), movie);
 		return movie;
 	}
 	
