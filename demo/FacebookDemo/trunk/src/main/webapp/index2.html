@@ -164,9 +164,14 @@
                 </div>
               </form>
             </div>
-            <div dojoType="dijit.layout.ContentPane" region="right" splitter="false">
-                <span id="yourMoviePicture" jsId="yourMoviePicture" dojoType="org.ppwcode.dojo.dijit.form.PpwImageBox"></span>
-                <div id="yourMovieDescription" dojoType="dijit.layout.ContentPane" style="width: 350px"></div>
+            <div dojoType="dijit.layout.ContentPane" region="right" splitter="false" style="width: 350px;">
+            	<div region="top" style="height:30px;"></div>
+           		<div dojoType="dijit.layout.ContentPane" region="center" splitter="false">
+           			<center>
+                		<span id="yourMoviePicture" jsId="yourMoviePicture" dojoType="org.ppwcode.dojo.dijit.form.PpwImageBox"></span>
+                	</center>
+                </div>
+                <div id="yourMovieDescription" dojoType="dijit.layout.ContentPane" region="right" ></div>
             </div>
           </div>
         </div>
