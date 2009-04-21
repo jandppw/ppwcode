@@ -123,6 +123,15 @@ public class Util {
 		}
 	}
 	
+	public static String getShortOverview(String id) {
+		Movie movie = searchForMovie(id);
+		if (movie != null) {
+			return movie.getShortOverview();
+		} else {
+			return null;
+		}
+	}
+	
 	public static void main(String[] args) {
 		String query = "the matrix";
 		for (Movie movie : searchForMovies(query)) {
