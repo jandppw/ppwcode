@@ -47,7 +47,7 @@
 
 <body class="tundra">
   <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
-
+  <div jsId='movieSearchStore' id='movieSearchStore' dojoType='dojox.data.QueryReadStore' url='MovieServlet/'></div>
   <div id="splashscreen" style="position: absolute; height: 100%; width: 100%; z-index: 1000; vertical-align: middle; background-color: white; opacity: 1.0">
     <div style="position: absolute; top: 45%; width: 100%;">
       <div style="width: 30em; text-align: center; margin: auto;">
@@ -103,6 +103,22 @@
                        required="true"
                        trim="true"
                 />
+                <br/>
+                <label class="formlabel">
+                  Title Search
+                </label>
+                <input type="text"
+                       id="yourMovieTitleSearch"
+                       jsId="yourMovieTitleSearch"
+                       name="yourMovieTitleSearch"
+                       class="formtextbox"
+                       dojoType="dijit.form.FilteringSelect"
+                       required="true"
+                       store="movieSearchStore"
+                       searchAttr="title"
+                       labelAttr="title"
+                />
+
                 <br/>
                 <label class="formlabel">
                   Imdb ID
