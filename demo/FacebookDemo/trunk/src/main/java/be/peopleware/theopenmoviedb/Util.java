@@ -140,13 +140,15 @@ public class Util {
 		}
 	}
 	
-	public static String[] getMainActors(String id) {
+	public static List<String> getMainActors(String id) {
 		Movie movie = searchForMovie(id);
+		List<String> result = new ArrayList<String>();
 		if (movie != null) {
-			return movie.getActors().toArray(new String[] {});
-		} else {
-			return new String[] {};
-		}
+			for (int i=0; i < 5 && i < movie.getActors().size(); i++) {
+				result.add(movie.getActors().get(i));
+			}
+		} 
+		return result;
 	}
 	
 	public static void main(String[] args) {
