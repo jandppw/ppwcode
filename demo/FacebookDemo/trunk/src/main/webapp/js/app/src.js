@@ -187,13 +187,21 @@ function showall() {
 }
 
 function showFrmYourMovie() {
-	dojo.fx.slideTo({node: "frmYourMovie", left: (0).toString(), unit: "px"}).play();
-	dojo.fadeIn({node: "yourMoviePicture", duration: 200 }).play();
+	dojo.fx.combine([
+        dojo.fx.slideTo({node: "frmYourMovie", left: (0).toString(), unit: "px"}).play(),
+        dojo.fadeIn({node: "yourMoviePicture", duration: 200 }).play(),
+        dojo.fadeIn({node: "yourMovieDescription", duration: 200 }).play(),
+        dojo.fadeIn({node: "yourMovieActors", duration: 200 }).play()
+	]).play();
 }
 
 function hideFrmYourMovie() {
-	dojo.fx.slideTo({node: "frmYourMovie", left: (-400).toString(), unit: "px"}).play();
-	dojo.fadeOut({node: "yourMoviePicture", duration: 200 }).play();
+	dojo.fx.combine([
+	    dojo.fx.slideTo({node: "frmYourMovie", left: (-400).toString(), unit: "px"}).play(),
+	    dojo.fadeOut({node: "yourMoviePicture", duration: 200 }).play(),
+	    dojo.fadeOut({node: "yourMovieDescription", duration: 200 }).play(),
+	    dojo.fadeOut({node: "yourMovieActors", duration: 200 }).play()
+	]).play();
 }
 
 function showFriendDetails(e) {
