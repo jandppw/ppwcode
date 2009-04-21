@@ -189,9 +189,9 @@ function showall() {
 function showFrmYourMovie() {
 	return dojo.fx.combine([
         dojo.fx.slideTo({node: "frmYourMovie", left: (0).toString(), unit: "px"}),
-        dojo.fadeIn({node: "yourMoviePicture", duration: 400 }),
-        dojo.fadeIn({node: "yourMovieDescription", duration: 400 }),
-        dojo.fadeIn({node: "yourMovieActors", duration: 400 })
+        dojo.fadeIn({node: "yourMoviePicture", duration: 600 }),
+        dojo.fadeIn({node: "yourMovieDescription", duration: 600 }),
+        dojo.fadeIn({node: "yourMovieActors", duration: 600 })
 	]);
 }
 
@@ -273,7 +273,7 @@ function showMovieImage(e) {
 
 function lstYourMoviesAddButtonClick() {
 	var newProps = { onEnd: function() {
-		yourMoviePicture.setValue(null);
+		yourMoviePicture.setValue("image/blank.gif");
 		dojo.byId("yourMovieDescription").innerHTML = "<p></p>";
 		dojo.byId("yourMovieActors").innerHTML = "<p></p>";
 		showFrmYourMovie().play();
