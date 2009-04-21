@@ -243,6 +243,10 @@ function showMovieImage(e) {
 		yourMoviePicture.setValue(url);
 	});
 	
+	TheOpenMovieDBUtilWrapper.getShortOverview(movie.id, function(description) {
+		dojo.byId("yourMovieDescription").innerHTML = description;
+	});
+	
 }
 
 dojo.addOnLoad(function() {
