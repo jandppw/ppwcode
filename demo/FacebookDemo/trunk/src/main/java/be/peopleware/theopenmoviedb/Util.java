@@ -19,11 +19,13 @@ public class Util {
 	
 	private static final String API_KEY = "2f88cdad72e181fc6a6df8249608141b";
 	
-	private static final Map<String,List<Movie>> movieCache = new ConcurrentHashMap<String, List<Movie>>();
+	private static final Map<String,List<Movie>> movieQueryCache = new ConcurrentHashMap<String, List<Movie>>();
+	
+	private static final Map<Integer, Movie> movieCache = new ConcurrentHashMap<Integer, Movie>();
 	
 	private static Document requestDocument(String query) {
 		try {
-			URL url = new URL("http://api.themoviedb.org/2.0/Movie.search?title=" + query + "&api_key=" + API_KEY);
+			URL url = new URL("http://api.themoviedb.org/2.0/" + query + "&api_key=" + API_KEY);
 
 			SAXBuilder builder = new SAXBuilder();
 
@@ -39,40 +41,77 @@ public class Util {
 		}
 	}
 	
+	public static Movie searchForMovie(String id) {
+		Movie result;
+		
+		if (movieCache.containsKey(Integer.parseInt(id))) {
+			
+			result = movieCache.get(Integer.parseInt(id));
+			
+		} else {
+		
+			Element root = requestDocument("Movie.getInfo?id=" + id).getRootElement();
+		
+			Element totalResults = root.getChild("totalResults", Namespace.getNamespace("opensearch", "http://a9.com/-/spec/opensearch/1.1/"));
+	
+			if (Integer.parseInt(totalResults.getText()) > 0) {
+			
+				Element movieMatches = (Element)root.getChild("moviematches");
+				Element element =  movieMatches.getChild("movie");
+				result = parseMovie(element);
+			
+				movieCache.put(Integer.parseInt(result.getId()), result);
+				
+			} else {
+				result = null;
+			}
+		}
+		
+		return result;
+		
+	}
+	
 	public static List<Movie> searchForMovies(String query) {
 		List<Movie> result;
 		
-		if (movieCache.containsKey(query)) {
+		if (movieQueryCache.containsKey(query)) {
 			
-			result = movieCache.get(query);
+			result = movieQueryCache.get(query);
 			
 		} else {
 		
 			result = new ArrayList<Movie>();
 		
-			Element root = requestDocument(query).getRootElement();
+			Element root = requestDocument("Movie.search?title=" + query).getRootElement();
 		
 			Element totalResults = root.getChild("totalResults", Namespace.getNamespace("opensearch", "http://a9.com/-/spec/opensearch/1.1/"));
-		
+			
 			if (Integer.parseInt(totalResults.getText()) > 0) {
 				Element movieMatches = (Element)root.getChild("moviematches");
 		
 				for (Element element : (List<Element>)movieMatches.getChildren("movie")) {
-					Movie movie = new Movie();
-					movie.setScore(Double.parseDouble(element.getChildText("score")));
-					movie.setPopularity(Integer.parseInt(element.getChildText("popularity")));
-					movie.setTitle(element.getChildText("title"));
-					movie.setImdbId(element.getChildText("imdb"));
-					movie.setId(element.getChildText("id"));
-					movie.setShortOverview(element.getChildText("short_overview"));
-					for (Element poster : (List<Element>)element.getChildren("poster")) {
-						movie.getPosters().put(poster.getAttributeValue("size"), poster.getText());
-					}
-					result.add(movie);
+					result.add(parseMovie(element));
 				}
 			}
+			
+			movieQueryCache.put(query, result);
 		}
 		return result;
+	}
+	
+	private static Movie parseMovie(Element element) {
+		Movie movie = new Movie();
+		movie.setScore(Double.parseDouble(element.getChildText("score")));
+		movie.setPopularity(Integer.parseInt(element.getChildText("popularity")));
+		movie.setTitle(element.getChildText("title"));
+		movie.setImdbId(element.getChildText("imdb"));
+		movie.setId(element.getChildText("id"));
+		movie.setShortOverview(element.getChildText("short_overview"));
+		for (Element poster : (List<Element>)element.getChildren("poster")) {
+			movie.getPosters().put(poster.getAttributeValue("size"), poster.getText());
+		}
+		movieCache.put(Integer.parseInt(movie.getId()), movie);
+		return movie;
 	}
 	
 	public static String getPosterThumb(String query) {
@@ -89,6 +128,10 @@ public class Util {
 		for (Movie movie : searchForMovies(query)) {
 			System.out.println(movie.getTitle() + " (" + movie.getImdbId() + ") : " + movie.getShortOverview());
 		}
+		
+		String queryId = "24";
+		Movie movie = searchForMovie(queryId);
+		System.out.println(movie.getTitle() + " (" + movie.getImdbId() + ") : " + movie.getShortOverview());
 	}
 
 }
