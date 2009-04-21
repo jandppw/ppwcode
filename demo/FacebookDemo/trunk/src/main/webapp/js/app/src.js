@@ -180,7 +180,7 @@ function showall() {
 	setTimeout(function() {
 			dojo.fadeOut({node: 'splashscreen', duration: 1000, onEnd: function() { dojo.query("#splashscreen").orphan(); }}).play();
 			hideFrmYourMovie();
-			dojo.fadeOut({node: 'fbFriendForm', duration: 300}).play();
+			dojo.fadeOut({node: 'fbFriendContentPane', duration: 10}).play();
 		},
 		20
 	);
@@ -221,11 +221,11 @@ function showFriendDetails(e) {
 	*/
     
     var slideOut = dojo.fx.combine([
-          dojo.fadeOut({node: fbFriendForm.id, duration: 250, onEnd: function() { fbFriendForm.displayItem(user) } }),
+          dojo.fadeOut({node: "fbFriendContentPane", duration: 250, onEnd: function() { fbFriendForm.displayItem(user) } }),
           dojo.fx.slideTo({ node: "fbFriendContentPane", left: (1500).toString(), unit: "px", duration: 500 })
     ]);
     var slideIn = dojo.fx.combine([
-          dojo.fadeIn({node: fbFriendForm.id, duration: 1500}),
+          dojo.fadeIn({node: "fbFriendContentPane", duration: 1500}),
           dojo.fx.slideTo({ node: "fbFriendContentPane", left: (0).toString(), unit: "px", duration: 1000, easing: dojox.fx.easing.bounceOut })
     ]);
     dojo.connect(slideOut, "onEnd", slideIn, 'play');
