@@ -178,11 +178,10 @@ function do_logout() {
 
 function showall() {
 	setTimeout(function() {
-			dojo.fadeOut({node: 'splashscreen', duration: 150}).play();
+			dojo.fadeOut({node: 'splashscreen', duration: 1000, onEnd: function() { dojo.query("#splashscreen").orphan(); }}).play();
 			//dojo.fx.wipeOut({node: 'frmYourMovie', duration: 300}).play();
 			hideFrmYourMovie();
 			dojo.fadeOut({node: 'fbFriendForm', duration: 300}).play();
-			setTimeout(function() {dojo.query("#splashscreen").orphan();}, 250);
 		},
 		20
 	);
