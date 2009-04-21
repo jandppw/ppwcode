@@ -257,7 +257,7 @@ function updateMovieDetails(movieId) {
 	});
 	
 	TheOpenMovieDBUtilWrapper.getMainActors(movieId, function(actors) {
-		var actorsHTML = "<b>Actors</b><br/>";
+		var actorsHTML = "<b>Main Actors</b><br/>";
 		for (var i = 0; i < actors.length; i++) {
 			actorsHTML += actors[i] + "<br/>";
 		}
