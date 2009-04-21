@@ -260,6 +260,14 @@ function showMovieImage(e) {
 		dojo.byId("yourMovieDescription").innerHTML = "<p>" + description + "</p>";
 	});
 	
+	TheOpenMovieDBUtilWrapper.getMainActors(movie.id, function(actors) {
+		var actorsHTML = "";
+		for (var i = 0; i < actors.length; i++) {
+			actorsHTML += actors[i] + "<br/>";
+		}
+		dojo.byId("yourMovieActors").innerHTML = "<p>" + actorsHTML + "</p>";
+	});
+	
 }
 
 dojo.addOnLoad(function() {

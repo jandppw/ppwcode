@@ -110,6 +110,15 @@ public class Util {
 		for (Element poster : (List<Element>)element.getChildren("poster")) {
 			movie.getPosters().put(poster.getAttributeValue("size"), poster.getText());
 		}
+		Element people = element.getChild("people");
+		if (people != null) {
+			for (Element person : (List<Element>)people.getChildren("person")) {
+				Element name = person.getChild("name");
+				if (name != null && "actor".equals(person.getAttributeValue("job"))) {
+					movie.getActors().add(name.getText());
+				}
+			}
+		}
 		movieCache.put(Integer.parseInt(movie.getId()), movie);
 		return movie;
 	}
@@ -132,6 +141,15 @@ public class Util {
 		}
 	}
 	
+	public static String[] getMainActors(String id) {
+		Movie movie = searchForMovie(id);
+		if (movie != null) {
+			return movie.getActors().toArray(new String[] {});
+		} else {
+			return new String[] {};
+		}
+	}
+	
 	public static void main(String[] args) {
 		String query = "the matrix";
 		for (Movie movie : searchForMovies(query)) {
@@ -141,6 +159,7 @@ public class Util {
 		String queryId = "24";
 		Movie movie = searchForMovie(queryId);
 		System.out.println(movie.getTitle() + " (" + movie.getImdbId() + ") : " + movie.getShortOverview());
+		System.out.println(movie.getActors());
 	}
 
 }
