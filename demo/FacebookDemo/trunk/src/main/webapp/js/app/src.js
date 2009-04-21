@@ -257,7 +257,7 @@ function updateMovieDetails(movieId) {
 	});
 	
 	TheOpenMovieDBUtilWrapper.getMainActors(movieId, function(actors) {
-		var actorsHTML = "";
+		var actorsHTML = "<b>Actors</b><br/>";
 		for (var i = 0; i < actors.length; i++) {
 			actorsHTML += actors[i] + "<br/>";
 		}
@@ -272,15 +272,21 @@ function showMovieImage(e) {
 
 
 function lstYourMoviesAddButtonClick() {
-	yourMoviePicture.setValue(null);
-	dojo.byId("yourMovieDescription").innerHTML = "<p></p>";
-	dojo.byId("yourMovieActors").innerHTML = "<p></p>";
-	showFrmYourMovie().play();
+	var newProps = { onEnd: function() {
+		yourMoviePicture.setValue(null);
+		dojo.byId("yourMovieDescription").innerHTML = "<p></p>";
+		dojo.byId("yourMovieActors").innerHTML = "<p></p>";
+		showFrmYourMovie().play();
+	} };
+	dojo.mixin(hideFrmYourMovie(), newProps).play();
 }
 
 function lstYourMoviesGridRowClick(e) {
-	showMovieImage(e);
-	showFrmYourMovie().play();
+	var newProps = { onEnd: function() {
+		showMovieImage(e);
+		showFrmYourMovie().play();
+	} };
+	dojo.mixin(hideFrmYourMovie(), newProps).play();
 }
 
 function frmYourMovieCreateModeCancelButtonClick() {
