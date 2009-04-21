@@ -4,7 +4,7 @@ dojo.require("org.ppwcode.dojo.dijit.form._DataViewBox");
 dojo.require("org.ppwcode.dojo.dijit.form._DataViewBoxEditButtonsMixin");
 dojo.require("dijit.layout.BorderContainer");
 dojo.require("dijit.layout.ContentPane");
-dojo.require("dojox.grid.Grid");
+dojo.require("dojox.grid.DataGrid");
 dojo.require("dojo.i18n");
 
 dojo.requireLocalization("org.ppwcode.dojo.dijit.form", "MasterView");
@@ -22,7 +22,7 @@ dojo.declare(
 			this.inherited(arguments);
 			dojo.connect(this._createButton, "onClick", this, "_oncreatebuttonclick");
 			this._createButtonLabel = dojo.i18n.getLocalization("org.ppwcode.dojo.dijit.form","MasterView").createButtonLabel;
-			this._createButton.setLabel(this._createButtonLabel);
+			this._createButton.attr("label", this._createButtonLabel);
 		},
 		
 		refreshData: function(/*Array*/refreshdata) {
@@ -54,7 +54,10 @@ dojo.declare(
 			//   the currently selected item.  Note that this object must have the required
 			//   properties.
 			if (this._masterGrid.selection.getSelectedCount() != 0) {
-				this._masterGrid.model.setRow(object, this._masterGrid.selection.getSelected()[0]);
+				var item = this._masterGrid.selection.getFirstSelected();
+				for (var key in object) {
+					this._dataStore.setValue(item, key, object[key]);
+				}
 				this._onSelectedRowUpdate();
 			}
 		},

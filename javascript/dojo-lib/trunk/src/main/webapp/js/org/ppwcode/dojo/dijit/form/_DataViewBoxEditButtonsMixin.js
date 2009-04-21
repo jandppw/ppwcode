@@ -20,7 +20,7 @@ dojo.declare(
 			//disable:
 			//   boolean:  pass true if the button must be disabled; false if
 			//   the button must be enabled.
-			this._createButton.setAttribute('disabled', disable);
+			this._createButton.attr('disabled', disable);
 		},
 	
 		setDeleteButtonDisabled: function(/*boolean*/disable) {
@@ -32,7 +32,7 @@ dojo.declare(
 			//   boolean:  pass true if the button must be disabled; false if
 			//   the button must be enabled.
 			if (this._deleteButton) {
-				this._deleteButton.setAttribute('disabled', disable);
+				this._deleteButton.attr('disabled', disable);
 			}
 		},	
 	
