@@ -276,6 +276,10 @@ function lstYourMoviesAddButtonClick() {
 	showFrmYourMovie().play();
 }
 
+function lstYourMoviesGridRowClick(e) {
+	showMovieImage(e);
+	showFrmYourMovie().play();
+}
 
 function wrapPlay(obj) {
 	return function() { obj().play(); }
@@ -291,10 +295,8 @@ dojo.addOnLoad(function() {
 
 	dojo.connect(lstYourMovies,"onAddButtonClick", lstYourMoviesAddButtonClick);
 	dojo.connect(frmYourMovie, "onCreateModeCancelButtonClick", wrapPlay(hideFrmYourMovie));
-	dojo.connect(lstYourMovies,"onGridRowClick", wrapPlay(showFrmYourMovie));
+	dojo.connect(lstYourMovies,"onGridRowClick", lstYourMoviesGridRowClick);
 
-	dojo.connect(lstYourMovies,"onGridRowClick", showMovieImage);
-	
 	dojo.connect(fbFriendsGrid, "onRowClick", showFriendDetails);
 	
 	FB.ensureInit(function() {
