@@ -246,6 +246,7 @@ function showMovieImage(e) {
 }
 
 dojo.addOnLoad(function() {
+	dojo.config.usePlainJson=true;
 	dojo.parser.parse();
 	console.info("done parsing");
 	fbFriendForm.setFormMap(fbFriendFormMap);
