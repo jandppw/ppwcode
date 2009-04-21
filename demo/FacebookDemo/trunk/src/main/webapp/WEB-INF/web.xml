@@ -26,5 +26,15 @@
     <servlet-name>dwr-invoker</servlet-name>
     <url-pattern>/dwr/*</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>MovieServlet</servlet-name>
+  	<servlet-class>be.peopleware.theopenmoviedb.servlet.MovieServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>MovieServlet</servlet-name>
+  	<url-pattern>/MovieServlet/*</url-pattern>
+  </servlet-mapping>
 
 </web-app>
