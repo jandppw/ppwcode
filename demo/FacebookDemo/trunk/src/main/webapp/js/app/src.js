@@ -244,7 +244,7 @@ function showMovieImage(e) {
 	});
 	
 	TheOpenMovieDBUtilWrapper.getShortOverview(movie.id, function(description) {
-		dojo.byId("yourMovieDescription").innerHTML = description;
+		dojo.byId("yourMovieDescription").innerHTML = "<p>" + description + "</p>";
 	});
 	
 }
