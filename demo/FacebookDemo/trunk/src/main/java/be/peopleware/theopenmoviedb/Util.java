@@ -114,10 +114,10 @@ public class Util {
 		return movie;
 	}
 	
-	public static String getPosterThumb(String query) {
-		List<Movie> movies = searchForMovies(query);
-		if (movies.size() > 0) {
-			return movies.get(0).getPosters().get("thumb");
+	public static String getPosterThumb(String id) {
+		Movie movie = searchForMovie(id);
+		if (movie != null) {
+			return movie.getPosters().get("thumb");
 		} else {
 			return null;
 		}
