@@ -186,21 +186,14 @@ function showall() {
 	);
 }
 
-function slideFrmYourMovie(amt) {
-    var slideArgs = {
-      node: "frmYourMovie",
-      left: (amt).toString(),
-      unit: "px"
-    };
-    dojo.fx.slideTo(slideArgs).play();
- }
-
 function showFrmYourMovie() {
-	slideFrmYourMovie(0);
+	dojo.fx.slideTo({node: "frmYourMovie", left: (0).toString(), unit: "px"}).play();
+	dojo.fadeIn({node: "yourMoviePicture", duration: 200 }).play();
 }
 
 function hideFrmYourMovie() {
-	slideFrmYourMovie(-400);
+	dojo.fx.slideTo({node: "frmYourMovie", left: (-400).toString(), unit: "px"}).play();
+	dojo.fadeOut({node: "yourMoviePicture", duration: 200 }).play();
 }
 
 function showFriendDetails(e) {
