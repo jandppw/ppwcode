@@ -67,23 +67,6 @@ public class Movie extends AbstractIntegerIdIntegerVersionedPersistentBean {
 	}
 	
 	/*
-	 * <property name="imdb">
-	 * -------------------------------------------------------------------------
-	 */
-	public String getImdb() {
-		return $imdb;
-	}
-
-	public void setImdb(String imdb) {
-		$imdb = imdb;
-	}
-
-	@Column(name = "imdb", nullable = false)
-	private String $imdb = null;
-
-	/* </property> */
-
-	/*
 	 * <property name="media type">
 	 * -------------------------------------------------------------------------
 	 */
