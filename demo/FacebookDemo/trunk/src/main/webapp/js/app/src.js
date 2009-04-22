@@ -204,8 +204,7 @@ function hideFrmYourMovie() {
 	]);
 }
 
-function showFriendDetails(e) {
-    var user = fbfriendsgridmodel.getRow(e.rowIndex);
+function showFriendDetails(user) {
 
     /* dojo.fx.chain is buggy: http://www.dojotoolkit.org/forum/dojo-core-dojo-0-9/dojo-core-support/dojo-fx-chain-causing-multiple-errors
     dojo.fx.chain([
@@ -303,6 +302,11 @@ function frmYourMovieUpdateModeSaveButtonClick(e) {
 	updateMovieDetails(movieId);
 }
 
+function fbFriendsGridRowClick(e) {
+	 var user = fbfriendsgridmodel.getRow(e.rowIndex);
+	 showFriendDetails(user);
+}
+
 dojo.addOnLoad(function() {
 	dojo.config.usePlainJson=true;
 	dojo.parser.parse();
@@ -318,8 +322,7 @@ dojo.addOnLoad(function() {
 	dojo.connect(frmYourMovie, "onCreateModeSaveButtonClick", frmYourMovieCreateModeSaveButtonClick);
 	dojo.connect(frmYourMovie, "onUpdateModeSaveButtonClick", frmYourMovieUpdateModeSaveButtonClick);
 	
-	
-	dojo.connect(fbFriendsGrid, "onRowClick", showFriendDetails);
+	dojo.connect(fbFriendsGrid, "onRowClick", fbFriendsGridRowClick);
 	
 	FB.ensureInit(function() {
 		//console.log("before ifUserConnected");
