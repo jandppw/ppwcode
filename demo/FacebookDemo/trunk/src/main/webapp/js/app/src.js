@@ -267,11 +267,6 @@ function updateMovieDetails(movieId) {
 	});
 }
 
-function showMovieImage(e) {
-	var movie = yourmovielistgridmodel.getRow(e.rowIndex);
-	updateMovieDetails(movie.id);
-}
-
 
 function lstYourMoviesAddButtonClick() {
 	var newProps = { onEnd: function() {
@@ -284,8 +279,9 @@ function lstYourMoviesAddButtonClick() {
 }
 
 function lstYourMoviesGridRowClick(e) {
+	var movie = yourmovielistgridmodel.getRow(e.rowIndex);
 	var newProps = { onEnd: function() {
-		showMovieImage(e);
+		updateMovieDetails(movie.id);
 		showFrmYourMovie().play();
 	} };
 	dojo.mixin(hideFrmYourMovie(), newProps).play();
