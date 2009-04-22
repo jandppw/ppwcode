@@ -103,7 +103,7 @@ function retrieve_movies(fbuid) {
 				lstYourMovies.setData(response);
 			},	
 			errorHandler: function(errorString, exception) {
-				console.error("could not get movies for user " + fbuid + ": " + errorString);
+				//console.error("could not get movies for user " + fbuid + ": " + errorString);
 			}
 		}
 	);
@@ -232,14 +232,14 @@ function showFriendDetails(e) {
     dojo.connect(slideOut, "onEnd", slideIn, 'play');
     slideOut.play();
     
-    console.dir(user);
+    //console.dir(user);
     JpaMovieDaoWrapper.findByFacebookUser(user.uid,
       {
         callback: function(response) {
           fbfriendsmoviesgridmodel.setData(response);
         },
         errorHandler: function(errorString, ex) {
-          console.error(errorString);
+          //console.error(errorString);
         }
       }
     );
@@ -306,7 +306,7 @@ function frmYourMovieUpdateModeSaveButtonClick(e) {
 dojo.addOnLoad(function() {
 	dojo.config.usePlainJson=true;
 	dojo.parser.parse();
-	console.info("done parsing");
+	//console.info("done parsing");
 	fbFriendForm.setFormMap(fbFriendFormMap);
 	frmYourMovie.setFormMap(yourMovieFormMap);
 	initializeDwrControllers();
