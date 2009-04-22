@@ -179,14 +179,14 @@ function do_logout() {
 function showall() {
 	setTimeout(function() {
 			dojo.fadeOut({node: 'splashscreen', duration: 1000, onEnd: function() { dojo.query("#splashscreen").orphan(); }}).play();
-			hideMovie().play();
+			createHideMovieAnimation().play();
 			dojo.fadeOut({node: 'fbFriendContentPane', duration: 10}).play();
 		},
 		20
 	);
 }
 
-function showMovieDetails() {
+function createShowMovieDetailsAnimation() {
 	return dojo.fx.combine([
         dojo.fadeIn({node: "yourMoviePicture", duration: 600 }),
         dojo.fadeIn({node: "yourMovieDescription", duration: 600 }),
@@ -194,7 +194,7 @@ function showMovieDetails() {
 	]);
 }
 
-function hideMovieDetails() {
+function createHideMovieDetailsAnimation() {
     return dojo.fx.combine([
 	    dojo.fadeOut({node: "yourMoviePicture", duration: 400 }),
 	    dojo.fadeOut({node: "yourMovieDescription", duration: 400 }),
@@ -202,25 +202,25 @@ function hideMovieDetails() {
 	]);
 }
 
-function showFrmYourMovie() {
+function createShowFrmYourMovieAnimation() {
 	return dojo.fx.slideTo({node: "frmYourMovie", left: (0).toString(), unit: "px"});
 }
 
-function hideFrmYourMovie() {
+function createHideFrmYourMovieAnimation() {
     return dojo.fx.slideTo({node: "frmYourMovie", left: (-400).toString(), unit: "px"});
 }
 
-function showMovie() {
+function createShowMovieAnimation() {
 	return dojo.fx.combine([
-        showMovieDetails(),
-        showFrmYourMovie()
+        createShowMovieDetailsAnimation(),
+        createShowFrmYourMovieAnimation()
 	]);
 }
 
-function hideMovie() {
+function createHideMovieAnimation() {
     return dojo.fx.combine([
-        hideMovieDetails(),
-        hideFrmYourMovie()
+        createHideMovieDetailsAnimation(),
+        createHideFrmYourMovieAnimation()
 	]);
 }
 
@@ -294,22 +294,22 @@ function lstYourMoviesAddButtonClick() {
 		yourMoviePicture.setValue("image/blank.gif");
 		dojo.byId("yourMovieDescription").innerHTML = "<p></p>";
 		dojo.byId("yourMovieActors").innerHTML = "<p></p>";
-		showMovie().play();
+		createShowMovieAnimation().play();
 	} };
-	dojo.mixin(hideMovie(), newProps).play();
+	dojo.mixin(createHideMovieAnimation(), newProps).play();
 }
 
 function lstYourMoviesGridRowClick(e) {
 	var movie = yourmovielistgridmodel.getRow(e.rowIndex);
 	var newProps = { onEnd: function() {
 		updateMovieDetails(movie.id);
-		showMovie().play();
+		createShowMovieAnimation().play();
 	} };
-	dojo.mixin(hideMovie(), newProps).play();
+	dojo.mixin(createHideMovieAnimation(), newProps).play();
 }
 
 function frmYourMovieCreateModeCancelButtonClick() {
-	hideMovie().play();
+	createHideMovieAnimation().play();
 }
 
 function frmYourMovieCreateModeSaveButtonClick(e) {
