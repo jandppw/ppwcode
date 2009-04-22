@@ -179,30 +179,51 @@ function do_logout() {
 function showall() {
 	setTimeout(function() {
 			dojo.fadeOut({node: 'splashscreen', duration: 1000, onEnd: function() { dojo.query("#splashscreen").orphan(); }}).play();
-			hideFrmYourMovie().play();
+			hideMovie().play();
 			dojo.fadeOut({node: 'fbFriendContentPane', duration: 10}).play();
 		},
 		20
 	);
 }
 
-function showFrmYourMovie() {
+function showMovieDetails() {
 	return dojo.fx.combine([
-        dojo.fx.slideTo({node: "frmYourMovie", left: (0).toString(), unit: "px"}),
         dojo.fadeIn({node: "yourMoviePicture", duration: 600 }),
         dojo.fadeIn({node: "yourMovieDescription", duration: 600 }),
         dojo.fadeIn({node: "yourMovieActors", duration: 600 })
 	]);
 }
 
-function hideFrmYourMovie() {
+function hideMovieDetails() {
     return dojo.fx.combine([
-	    dojo.fx.slideTo({node: "frmYourMovie", left: (-400).toString(), unit: "px"}),
 	    dojo.fadeOut({node: "yourMoviePicture", duration: 400 }),
 	    dojo.fadeOut({node: "yourMovieDescription", duration: 400 }),
 	    dojo.fadeOut({node: "yourMovieActors", duration: 400 })
 	]);
 }
+
+function showFrmYourMovie() {
+	return dojo.fx.slideTo({node: "frmYourMovie", left: (0).toString(), unit: "px"});
+}
+
+function hideFrmYourMovie() {
+    return dojo.fx.slideTo({node: "frmYourMovie", left: (-400).toString(), unit: "px"});
+}
+
+function showMovie() {
+	return dojo.fx.combine([
+        showMovieDetails(),
+        showFrmYourMovie()
+	]);
+}
+
+function hideMovie() {
+    return dojo.fx.combine([
+        hideMovieDetails(),
+        hideFrmYourMovie()
+	]);
+}
+
 
 function showFriendDetails(user) {
 
@@ -273,22 +294,22 @@ function lstYourMoviesAddButtonClick() {
 		yourMoviePicture.setValue("image/blank.gif");
 		dojo.byId("yourMovieDescription").innerHTML = "<p></p>";
 		dojo.byId("yourMovieActors").innerHTML = "<p></p>";
-		showFrmYourMovie().play();
+		showMovie().play();
 	} };
-	dojo.mixin(hideFrmYourMovie(), newProps).play();
+	dojo.mixin(hideMovie(), newProps).play();
 }
 
 function lstYourMoviesGridRowClick(e) {
 	var movie = yourmovielistgridmodel.getRow(e.rowIndex);
 	var newProps = { onEnd: function() {
 		updateMovieDetails(movie.id);
-		showFrmYourMovie().play();
+		showMovie().play();
 	} };
-	dojo.mixin(hideFrmYourMovie(), newProps).play();
+	dojo.mixin(hideMovie(), newProps).play();
 }
 
 function frmYourMovieCreateModeCancelButtonClick() {
-	hideFrmYourMovie().play();
+	hideMovie().play();
 }
 
 function frmYourMovieCreateModeSaveButtonClick(e) {
