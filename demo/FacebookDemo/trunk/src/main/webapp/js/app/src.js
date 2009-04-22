@@ -95,11 +95,11 @@ var yourMovieFormMap = [
 ];
                          
 function retrieve_movies(fbuid) {
-	console.log("getting movies for user " + fbuid);
+	//console.log("getting movies for user " + fbuid);
 	JpaMovieDaoWrapper.findByFacebookUser(fbuid,
 		{
 			callback: function(response) {
-				console.log (response.length + " movies for user " + fbuid);
+				//console.log (response.length + " movies for user " + fbuid);
 				lstYourMovies.setData(response);
 			},	
 			errorHandler: function(errorString, exception) {
@@ -155,7 +155,7 @@ function retrieve_friends() {
 }
 
 function do_login() {
-	console.log("doing login routine");
+	//console.log("doing login routine");
 	show_user();
 	retrieve_friends();
 	yourMovieViewFormController.setDwrRetrieveFunctionParameters([FB.Connect.get_loggedInUser()]); 
@@ -164,7 +164,7 @@ function do_login() {
 
 
 function do_logout() {
-	console.log("doing logout routine");
+	//console.log("doing logout routine");
     fbfriendsgridmodel.clear();
     fbFriendForm.reset();
     lstYourMovies.setData(null);
@@ -322,9 +322,9 @@ dojo.addOnLoad(function() {
 	dojo.connect(fbFriendsGrid, "onRowClick", showFriendDetails);
 	
 	FB.ensureInit(function() {
-		console.log("before ifUserConnected");
+		//console.log("before ifUserConnected");
 		FB.Connect.ifUserConnected(do_login, do_logout);
-		console.log("after ifUserConnected");
+		//console.log("after ifUserConnected");
 		showall();
 	});  
 });
