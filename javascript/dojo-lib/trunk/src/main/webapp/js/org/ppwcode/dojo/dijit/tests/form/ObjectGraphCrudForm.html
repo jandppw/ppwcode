@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <title>ObjectGraphPpwCrudForm</title>
+  <title>ObjectGraphCrudForm</title>
   <style type="text/css">
     @import "../../../../../../dojo-1.3.0/dojo/resources/dojo.css";
     @import "../../../../../../dojo-1.3.0/dijit/themes/tundra/tundra.css";
@@ -16,7 +16,7 @@
   <script type="text/javascript">
     dojo.require("doh.runner");
     dojo.require("dojo.parser");
-    dojo.require("org.ppwcode.dojo.dijit.form.PpwCrudForm");
+    dojo.require("org.ppwcode.dojo.dijit.form.CrudForm");
     dojo.require("dijit.form.TextBox");
   </script>
 
@@ -46,11 +46,11 @@
     }
     
     dojo.addOnLoad(function() {
-       ogppwcrudform.setFormMap(formmap);
-       doh.register("ObjectGraphPpwCrudForm",
+       ogcrudform.setFormMap(formmap);
+       doh.register("ObjectGraphCrudForm",
             [
              function checkproperties() {
-                 doh.assertFalse(ogppwcrudform.withDelete);
+                 doh.assertFalse(ogcrudform.withDelete);
               },
               function checkViewMode() {
                   doh.assertTrue(dojo.byId("key").disabled);
@@ -60,7 +60,7 @@
                   doh.assertTrue(dojo.byId("street").disabled);
                   doh.assertTrue(dojo.byId("zipcode").disabled);
                   doh.assertTrue(dojo.byId("city").disabled);
-                  ogppwcrudform.setViewMode();
+                  ogcrudform.setViewMode();
                   doh.assertTrue(dojo.byId("key").disabled);
                   doh.assertTrue(dojo.byId("ssn").disabled);
                   doh.assertTrue(dojo.byId("firstname").disabled);
@@ -68,7 +68,7 @@
                   doh.assertTrue(dojo.byId("street").disabled);
                   doh.assertTrue(dojo.byId("zipcode").disabled);
                   doh.assertTrue(dojo.byId("city").disabled);
-                  ogppwcrudform.reset();
+                  ogcrudform.reset();
                   doh.assertTrue(dojo.byId("key").disabled);
                   doh.assertEqual("", dijit.byId("key").attr('value'));
                   doh.assertTrue(dojo.byId("ssn").disabled);
@@ -85,7 +85,7 @@
                   doh.assertEqual("", dijit.byId("city").attr('value'));
               },
               function checkUpdateMode() {
-                  ogppwcrudform.reset();
+                  ogcrudform.reset();
                   doh.assertTrue(dojo.byId("key").disabled);
                   doh.assertEqual("", dijit.byId("key").attr('value'));
                   doh.assertTrue(dojo.byId("ssn").disabled);
@@ -100,7 +100,7 @@
                   doh.assertEqual("", dijit.byId("zipcode").attr('value'));
                   doh.assertTrue(dojo.byId("city").disabled);
                   doh.assertEqual("", dijit.byId("city").attr('value'));
-                  ogppwcrudform.setUpdateMode();
+                  ogcrudform.setUpdateMode();
                   doh.assertFalse(dojo.byId("key").disabled);
                   doh.assertEqual("", dijit.byId("key").attr('value'));
                   //social security number is not editable
@@ -116,7 +116,7 @@
                   doh.assertEqual("", dijit.byId("zipcode").attr('value'));
                   doh.assertFalse(dojo.byId("city").disabled);
                   doh.assertEqual("", dijit.byId("city").attr('value'));
-                  ogppwcrudform.reset();
+                  ogcrudform.reset();
                   doh.assertTrue(dojo.byId("key").disabled);
                   doh.assertEqual("", dijit.byId("key").attr('value'));
                   doh.assertTrue(dojo.byId("ssn").disabled);
@@ -134,7 +134,7 @@
               },
               function checkdisplayItem() {
                   var test = new TestObject(1, 113344, "Tom", "Mahieu", "Jasparlaan", 1000, "Brussels");
-                  ogppwcrudform.displayItem(test);
+                  ogcrudform.displayItem(test);
                   doh.assertEqual(1, dijit.byId("key").attr('value'));
                   doh.assertEqual(113344, dijit.byId("ssn").attr('value'));
                   doh.assertEqual("Tom", dijit.byId("firstname").attr('value'));
@@ -146,9 +146,9 @@
               function checkCreateMode() {
                   //check that create mode clears the form
                   var test = new TestObject(17, 222222, "Marc", "Schijvaert", "Schijvaertlaan 12", 2000, "Antwerpen");
-                  ogppwcrudform.displayItem(test);
+                  ogcrudform.displayItem(test);
                   //no prototype
-                  ogppwcrudform.setCreateMode();
+                  ogcrudform.setCreateMode();
                   doh.assertFalse(dojo.byId("key").disabled);
                   doh.assertEqual("", dijit.byId("key").attr('value'));
                   doh.assertTrue(dojo.byId("ssn").disabled);
@@ -163,7 +163,7 @@
                   doh.assertEqual("", dijit.byId("zipcode").attr('value'));
                   doh.assertFalse(dojo.byId("city").disabled);
                   doh.assertEqual("", dijit.byId("city").attr('value'));
-                  ogppwcrudform.reset();
+                  ogcrudform.reset();
                   doh.assertTrue(dojo.byId("key").disabled);
                   doh.assertEqual("", dijit.byId("key").attr('value'));
                   doh.assertTrue(dojo.byId("ssn").disabled);
@@ -181,7 +181,7 @@
               },
               function checkCreateObject() {
                   var proto = new TestObject(null, 123456, null, null, null, null, null); 
-                  ogppwcrudform.createObject(proto);
+                  ogcrudform.createObject(proto);
                   //initial checks
                   doh.assertFalse(dojo.byId("key").disabled);
                   doh.assertEqual("", dijit.byId("key").attr('value'));
@@ -207,7 +207,7 @@
                   dijit.byId("city").attr('value', "Drongen");
                   //simulate click event
                   var event = new Object();
-                  ogppwcrudform._oncreatemodesavebuttonclick(event);
+                  ogcrudform._oncreatemodesavebuttonclick(event);
                   //checks
                   doh.assertTrue(dojo.byId("key").disabled);           
                   doh.assertTrue(dojo.byId("ssn").disabled);           
@@ -224,12 +224,12 @@
                   doh.assertEqual("Industriepark", newobject.address.street);
                   doh.assertEqual(9031, newobject.address.zip);
                   doh.assertEqual("Drongen", newobject.address.city);
-                  ogppwcrudform.reset();
+                  ogcrudform.reset();
               },
               function checkUpdateObject() {
                   var test = new TestObject(5, 654321, "Ruben", "Vandeginste", "Vandeginstesteenweg", 5321, "Mechelen");
-                  ogppwcrudform.displayItem(test);
-                  ogppwcrudform.setUpdateMode();
+                  ogcrudform.displayItem(test);
+                  ogcrudform.setUpdateMode();
                   //check current form state
                   doh.assertFalse(dojo.byId("key").disabled);
                   doh.assertEqual(5, dijit.byId("key").attr('value'));
@@ -254,7 +254,7 @@
                   dijit.byId("city").attr('value', "Lier");
                   //simulate save button click
                   var event = new Object();
-                  ogppwcrudform._onupdatemodesavebuttonclick(event);
+                  ogcrudform._onupdatemodesavebuttonclick(event);
                   var updatedobject = event.formObject;
                   doh.assertEqual(5, updatedobject.id);
                   doh.assertEqual(654321, updatedobject.socsecnr);
@@ -263,10 +263,10 @@
                   doh.assertEqual("Duwijckstraat 17", updatedobject.address.street);
                   doh.assertEqual(2500, updatedobject.address.zip);
                   doh.assertEqual("Lier", updatedobject.address.city); 
-                  ogppwcrudform.reset();
+                  ogcrudform.reset();
               },
               function checkIdFields() {
-                  var ids = ogppwcrudform.getObjectIdFields();
+                  var ids = ogcrudform.getObjectIdFields();
                   doh.assertEqual(1, ids.length);
                   doh.assertEqual(ids[0], "id");
               } 
@@ -278,7 +278,7 @@
 
 </head>
 <body class="tundra">
-  <form dojoType="org.ppwcode.dojo.dijit.form.PpwCrudForm" jsId="ogppwcrudform" constructorFunction="TestObject" >
+  <form dojoType="org.ppwcode.dojo.dijit.form.CrudForm" jsId="ogcrudform" constructorFunction="TestObject" >
     <input id="key"
            type="hidden"
            dojoType="dijit.form.TextBox"/>
