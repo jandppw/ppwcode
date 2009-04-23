@@ -1,11 +1,11 @@
-dojo.provide("org.ppwcode.dojo.dijit.form.PpwCrudFormContainer");
+dojo.provide("org.ppwcode.dojo.dijit.form.CrudFormContainer");
 
 dojo.require("dijit.layout.StackContainer");
 dojo.require("dijit.layout.ContentPane");
 dojo.require("org.ppwcode.dojo.util.JavaScriptHelpers");
 
 dojo.declare(
-	"org.ppwcode.dojo.dijit.form.PpwCrudFormContainer",
+	"org.ppwcode.dojo.dijit.form.CrudFormContainer",
 	dijit.layout.StackContainer,
 	{
 		_formIdMap: null,
