@@ -1,17 +1,32 @@
 dojo.provide("org.ppwcode.dojo.dijit.form._FormDataViewBox");
 
 dojo.require("org.ppwcode.dojo.dijit.form._DataViewBox");
+dojo.require("dijit.form._FormWidget");
 
 dojo.declare(
 	"org.ppwcode.dojo.dijit.form._FormDataViewBox",
-	org.ppwcode.dojo.dijit.form._DataViewBox,
+	[dijit.form._FormValueWidget, org.ppwcode.dojo.dijit.form._DataViewBox],
 	{
 		_selectable: true,
 		_resizeeventhandle: null,
 		
 		postCreate: function() {
 			this.inherited(arguments);
+			this._overrideGridCanEdit();
 			this._connectToParentContainer();
+		},
+
+		_overrideGridCanEdit: function() {
+			//DataGrid's editable status depends on the Write capability
+			//of its data store,  in our case, the write capability
+			//also depends on the _selectabe variable.  so we do some nasty
+			//stuff to 
+			var oldCanEdit = this._masterGrid.canEdit;
+			var f = dojo.hitch(this._masterGrid, oldCanEdit);
+			var g = dojo.hitch(this, this.getSelectable);
+			this._masterGrid.canEdit = function() {
+				return (f() && g());
+			};
 		},
 		
 		_connectToParentContainer: function() {
@@ -55,6 +70,10 @@ dojo.declare(
 			this._applySelectable(this._selectable);
 		},
 	
+		getSelectable: function() {
+			return this._selectable;
+		},
+		
 		_applySelectable: function(/*Boolean*/isSelectable) {
 			this._masterGrid.onCanSelect = function() {
 				return isSelectable;
@@ -81,16 +100,17 @@ dojo.declare(
 			this._applySelectable(this._selectable);
 		},
 
-		setAttribute: function(/*String*/ attr, /*anything*/ value) {
+		_setDisabledAttr: function(value) {
 			this.inherited(arguments);
-			switch(attr) {
-			case "disabled":
-					this.setSelectable(!value);
-					break;
-			}
+			this.setSelectable(!value);
+		},			
+		
+		_getDisabledAttr: function() {
+			return this._selectable;
 		},
 		
 		reset: function() {
+			this.inherited(arguments);
 			this._clearSelection();
 		}
 	}

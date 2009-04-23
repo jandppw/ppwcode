@@ -13,11 +13,11 @@ dojo.declare(
 
 		widgetsInTemplate: true,
 		
-		setValue: function(newValue) {
+		_setValueAttr: function(newValue) {
 			this.selectItem(newValue);
 		},
 		
-		getValue: function() {
+		_getValueAttr: function() {
 			return this.getSelectedItem();
 		}
 	}
