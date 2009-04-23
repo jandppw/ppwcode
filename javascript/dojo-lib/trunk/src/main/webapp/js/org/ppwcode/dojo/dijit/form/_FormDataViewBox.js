@@ -50,11 +50,11 @@ dojo.declare(
 				}
 			}
 			if (found) {
-				//console.log("PpwDataViewBox._connectToParentContainer(): potentialNode is " + potentialNode);
-				//console.log("PpwDataViewBox._connectToParentContainer(): dijit is " + nodesdijit);
+				//console.log("_FormDataViewBox._connectToParentContainer(): potentialNode is " + potentialNode);
+				//console.log("_FormDataViewBox._connectToParentContainer(): dijit is " + nodesdijit);
 				this._resizeeventhandle = dojo.connect(nodesdijit, "resize", this, "layout");
 			} // else {
-			//	console.log("PpwDataViewBox._connectToParentContainer(): nothing found");
+			//	console.log("_FormDataViewBox._connectToParentContainer(): nothing found");
 			//}
 		},
 		
