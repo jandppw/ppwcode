@@ -1,14 +1,14 @@
-dojo.provide("org.ppwcode.dojo.dijit.form.PpwTimestampWidget");
+dojo.provide("org.ppwcode.dojo.dijit.form.TimestampWidget");
 
 dojo.declare(
-  "org.ppwcode.dojo.dijit.form.PpwTimestampWidget",
+  "org.ppwcode.dojo.dijit.form.TimestampWidget",
 	dijit._Widget,
   {
     //summary:
-    //    PpwTimestampTextBox is a text box that shows a timestamp as a number which
+    //    TimestampWidget is a text box that shows a timestamp as a number which
     //    represents the number of milliseconds.
     //description:
-    //    PpwTimestampTextBox is a text box that shows a timestamp as a number which
+    //    TimestampWidget is a text box that shows a timestamp as a number which
     //    represents the number of milliseconds.
     //
 

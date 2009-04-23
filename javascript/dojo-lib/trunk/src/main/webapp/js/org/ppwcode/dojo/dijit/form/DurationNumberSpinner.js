@@ -1,4 +1,4 @@
-dojo.provide("org.ppwcode.dojo.dijit.form.PpwDurationNumberSpinner");
+dojo.provide("org.ppwcode.dojo.dijit.form.DurationNumberSpinner");
 
 dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
@@ -6,20 +6,20 @@ dojo.require("dijit.form.TextBox");
 dojo.require("org.ppwcode.dojo.dojox.DataDropDown")
 
 dojo.declare(
-  "org.ppwcode.dojo.dijit.form.PpwDurationNumberSpinner",
+  "org.ppwcode.dojo.dijit.form.DurationNumberSpinner",
   [dijit._Widget, dijit._Templated],
   {
     // summary:
-    //    PpwDurationNumberSpinner is a NumberSpinner for setting
+    //    DurationNumberSpinner is a NumberSpinner for setting
     //    a duration.
     // description:
-    //    PpwDurationNumberSpinner currently provides a number spinner
+    //    DurationNumberSpinner currently provides a number spinner
     //    for setting a duration in hours.  The spinner increases or
     //    decreases the duration with increments of 30 minutes.  The
     //    duration is shown as a floating point number with 2 decimal
     //    places.
 
-    templatePath: dojo.moduleUrl("org", "ppwcode/dojo/dijit/form/templates/PpwDurationNumberSpinner.html"),
+    templatePath: dojo.moduleUrl("org", "ppwcode/dojo/dijit/form/templates/DurationNumberSpinner.html"),
 
     widgetsInTemplate: true,
 
@@ -55,7 +55,7 @@ dojo.declare(
           this._numberSpinner.setAttribute("disabled", value);
           break;
         //default:
-          //console.log("PpwDurationNumberSpinner.setAttribute with "+attr);
+          //console.log("DurationNumberSpinner.setAttribute with "+attr);
       }
     }
 

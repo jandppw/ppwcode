@@ -1,10 +1,10 @@
-dojo.provide("org.ppwcode.dojo.dijit.form.PpwImageBox");
+dojo.provide("org.ppwcode.dojo.dijit.form.ImageBox");
 
 dojo.require("dijit._Templated");
 dojo.require("dijit.form._FormWidget");
 
 dojo.declare(
-	"org.ppwcode.dojo.dijit.form.PpwImageBox",
+	"org.ppwcode.dojo.dijit.form.ImageBox",
 	dijit.form._FormValueWidget,
 	{
 		imgSrc: "",
