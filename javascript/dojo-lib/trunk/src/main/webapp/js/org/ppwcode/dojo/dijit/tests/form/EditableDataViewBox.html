@@ -1,12 +1,12 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>PpwEditableDataViewBox</title>
+<title>EditableDataViewBox</title>
 <style type="text/css">
 @import "../../../../../../dojo-1.3.0/dojo/resources/dojo.css";
 @import "../../../../../../dojo-1.3.0/dijit/themes/tundra/tundra.css";
-@import "../../../../../../dojo-1.3.0/dojox/grid/compat/_grid/Grid.css";
-@import "../../../../../../dojo-1.3.0/dojox/grid/compat/_grid/tundraGrid.css";
+@import "../../../../../../dojo-1.3.0/dojox/grid/resources/Grid.css";
+@import "../../../../../../dojo-1.3.0/dojox/grid/resources/tundraGrid.css";
 @import "../../../../../../dojo-1.3.0/dijit/tests/css/dijitTests.css";
 </style>
 
@@ -20,7 +20,6 @@
     dojo.require("doh.runner");
     dojo.require("dojo.parser");
     dojo.require("org.ppwcode.dojo.dijit.form.EditableDataViewBox");
-    dojo.require("org.ppwcode.dojo.dojox.grid.data.model");
 </script>
 
 <script type="text/javascript">
@@ -110,11 +109,11 @@ var data = [];
 
 var structure = [{
         cells: [[
-                 {name: "Type", field: "type", width: "8em", editor: dojox.grid.editors.Input},
-                 {name: "Status", field: "status", width: "8em", editor: dojox.grid.editors.Input},
-                 {name: "Title", field: "title", width: "100%", editor: dojox.grid.editors.Input},
-                 {name: "Virus?", field: "virus", width: "4em", editor: dojox.grid.editors.Input},
-                 {name: "Spam score", field: "spam", width: "4em", editor: dojox.grid.editors.Input}
+                 {name: "Type", field: "type", width: "8em", editable: true},
+                 {name: "Status", field: "status", width: "8em", editable: true},
+                 {name: "Title", field: "title", width: "100%", editable: true},
+                 {name: "Virus?", field: "virus", width: "4em", editable: true},
+                 {name: "Spam score", field: "spam", width: "4em", editable: true}
                 ]]
 }];
 
@@ -396,6 +395,23 @@ dojo.addOnLoad(function(){
           //breaking encapsulation to test for disabled buttons
           doh.assertEqual(false, dojo.attr(edvbtest._createButton, 'disabled'));
           doh.assertEqual(false, dojo.attr(edvbtest._deleteButton, 'disabled'));
+      },
+      function programmaticCreation() {
+          var edvbtest2 = new org.ppwcode.dojo.dijit.form.EditableDataViewBox({
+              gridStructure: structure,
+              identifierPropertyName: "title",
+              style: "width: 50em; height: 250px"
+          }, "edvbtest2");
+          edvbtest2.startup();
+          edvbtest2.setData(dojo.clone(data));
+      },
+      function programmaticCreation2() {
+          var edvbtest3 = new org.ppwcode.dojo.dijit.form.EditableDataViewBox({
+              gridStructure: structure,
+              style: "width: 50em; height: 250px"
+          }, "edvbtest3");
+          edvbtest3.startup();
+          edvbtest3.setData(dojo.clone(data));
       }
     ]);
     doh.run();
@@ -404,12 +420,12 @@ dojo.addOnLoad(function(){
 </head>
 
 <body class="tundra">
-  <div id="model" jsId="model" dojoType="org.ppwcode.dojo.dojox.grid.data.PpwObjects" style="height: 0px; width: 100%"></div>
   <div id="edvbtest" jsId="edvbtest"
        dojoType="org.ppwcode.dojo.dijit.form.EditableDataViewBox"
        style="width: 50em; height: 300px;"
-       gridStructure="structure"
-       gridModel="model">
+       gridStructure="structure">
   </div>
+  <div id="edvbtest2"></div>
+  <div id="edvbtest3"></div>
 </body>
 </html>

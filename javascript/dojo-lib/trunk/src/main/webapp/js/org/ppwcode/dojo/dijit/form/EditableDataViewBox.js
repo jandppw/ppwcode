@@ -4,7 +4,7 @@ dojo.require("org.ppwcode.dojo.dijit.form._FormDataViewBox");
 dojo.require("org.ppwcode.dojo.dijit.form._DataViewBoxEditButtonsMixin");
 dojo.require("dijit.layout.BorderContainer");
 dojo.require("dijit.layout.ContentPane");
-dojo.require("dojox.grid.Grid");
+dojo.require("dojox.grid.DataGrid");
 dojo.require("org.ppwcode.dojo.util.JavaScriptHelpers");
 
 dojo.declare(
@@ -34,12 +34,13 @@ dojo.declare(
 		},
 		
 		addItem: function(object) {
+			this._dataStore.newItem(object);
 			this._masterGrid.addRow(object);
 		},
 		
 		reset: function(object) {
 			this._clearSelection();
-			this.setData(null);
+			this.setData([]);
 		},
 		
 		setValue: function(/*Array*/newValue) {

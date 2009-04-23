@@ -64,7 +64,7 @@ dojo.declare(
 		_disableFormFields: function(/*boolean*/disabled){
   			for (var fieldid in this._byFieldIdMap) {
 			   var entry = this._byFieldIdMap[fieldid];
-			   entry.widget.setAttribute("disabled", entry.isEditable ? disabled : true );
+			   entry.widget.attr("disabled", entry.isEditable ? disabled : true );
 		   }
 		},
 		
@@ -113,7 +113,7 @@ dojo.declare(
 					} while (!abort && i < propnamelist.length);
 					// if we have value that is not 'undefined' the property is displayed
 					if (!abort) {
-						this._byFieldIdMap[fieldid].widget.setValue(result);
+						this._byFieldIdMap[fieldid].widget.attr('value', 	result);
 					}
 				}
 			}

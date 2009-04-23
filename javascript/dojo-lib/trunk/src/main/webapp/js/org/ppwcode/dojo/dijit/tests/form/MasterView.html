@@ -60,6 +60,20 @@ var data = [
      title: 'Which would simply be awkward in', 
      spam: -4 }
 ];
+var data2 = [
+             {id: 1,
+              names: ["name1", "name2"],
+              address: "Alphabet Street 1"
+             },
+             {id: 2,
+              names: ["name3", "name4"],
+              address: "Victory Lane 2443"
+             },
+             {id: 3,
+              names: ["name5", "name6", "name7"],
+              address: "Laney Court 2"
+             }
+];
 var structure = [{
         cells: [[
                  {name: "Type", field: "type", width: "8em"},
@@ -68,6 +82,18 @@ var structure = [{
                  {name: "Virus?", field: "virus", width: "4em"},
                  {name: "Spam score", field: "spam", width: "4em"}
                 ]]
+}];
+
+function formatfunc(item) {
+ console.log(item);
+ return item[0]; 
+}
+
+var structure2 = [{
+	  cells: [[
+	           {name: "Name", field: "names", width: "10em", formatter: formatfunc},
+	           {name: "Address", field: "address", width: "100%"}
+          ]]
 }];
 </script>
 
@@ -258,6 +284,15 @@ dojo.addOnLoad(function(){
           mvtest.disableButtons(false);
           //breaking encapsulation to test for disabled buttons
           doh.assertEqual(false, dojo.attr(mvtest._createButton, 'disabled'));
+      },
+      function programmaticCreation() {
+          var mvtest2 = new org.ppwcode.dojo.dijit.form.MasterView({
+              gridStructure: structure2,
+              identifierPropertyName: "id",
+              style: "width: 50em; height: 250px"
+          }, "mvtest2");
+          mvtest2.startup();
+          mvtest2.setData(dojo.clone(data2));
       }
     ]);
     doh.run();
@@ -271,6 +306,8 @@ dojo.addOnLoad(function(){
        style="width: 50em; height: 300px;"
        gridStructure="structure"
        identifierPropertyName="title">
+  </div>
+  <div id="mvtest2">
   </div>
 </body>
 </html>

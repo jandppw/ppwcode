@@ -110,7 +110,8 @@ dojo.declare(
 		isItem: function(/* anything */ something){
 			if (something && dojo.isObject(something)) {
 				var id = something[this._identifierPropName];
-				if (id && (this._itemsByIdentity[id] === something)) {
+				if (id && ((this._itemsByIdentity[id] === something) || 
+						   (this._deletedItemsByIdentity[id] === something))) {
 					return true;
 				}
 			}
@@ -288,7 +289,7 @@ dojo.declare(
 		},
 
 		deleteItem: function(/* item */ item){
-			this._assertItem(item);
+			this._assertIsItem(item);
 			var id = item[this._identifierPropName];
 
 			//remove out of array of items

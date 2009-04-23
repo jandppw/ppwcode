@@ -355,9 +355,9 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwEditableDataViewBox",
 			//disable:
 			//   boolean:  pass true if the button must be disabled; false if
 			//   the button must be enabled.
-			this._addButton.setAttribute('disabled', disable);
+			this._addButton.attr('disabled', disable);
 			if (this._addChooser) {
-				this._addChooser.setAttribute('disabled', disable);
+				this._addChooser.attr('disabled', disable);
 			}
 		},
 		
@@ -369,7 +369,7 @@ dojo.declare("org.ppwcode.dojo.dijit.form.PpwEditableDataViewBox",
 			//disable:
 			//   boolean:  pass true if the button must be disabled; false if
 			//   the button must be enabled.
-			this._deleteButton.setAttribute('disabled', disable);
+			this._deleteButton.attr('disabled', disable);
 		},	
 		
 		disableButtons: function(/*boolean*/disable) {
