@@ -76,7 +76,7 @@ dojo.addOnLoad(function(){
           var sdvb = dijit.byId("sdvbtest");
           sdvb.setData(dojo.clone(data));
           sdvb.reset();
-          doh.assertEqual(sdvb.getValue(), null);
+          doh.assertEqual(sdvb.attr('value'), null);
           doh.assertEqual(sdvb.getData().length, 6);  
       },
       function testSelectItem1() {
@@ -108,7 +108,7 @@ dojo.addOnLoad(function(){
           var sdvb = dijit.byId("sdvbtest");
           var testdata = dojo.clone(data);
           sdvb.setData(testdata);
-          sdvb.setValue({number: 3, name: "Laurie"});
+          sdvb.attr('value', {number: 3, name: "Laurie"});
           doh.assertEqual(sdvb.getSelectedItem().number, 3);
           doh.assertEqual(sdvb.getSelectedItem().name, "Laurie");
        },
@@ -117,7 +117,7 @@ dojo.addOnLoad(function(){
           var sdvb = dijit.byId("sdvbtest");
           sdvb.setData(testdata);
           sdvb.selectItem({number: 101});
-          var resultdata = sdvb.getValue();
+          var resultdata = sdvb.attr('value');
           doh.assertEqual(resultdata.name, "Neo");
           doh.assertEqual(resultdata.number, 101);
      },

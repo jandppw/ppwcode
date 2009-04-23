@@ -156,11 +156,11 @@ dojo.addOnLoad(function(){
           var edvb = dijit.byId("edvbtest");
           edvb.setData(data);
           edvb.reset();
-          var val = edvb.getValue();
+          var val = edvb.attr('value');
           doh.assertTrue(dojo.isArray(val));
           doh.assertEqual(0, val.length);
       },
-      function testGetValue() {
+      function testSetValue1() {
           var o1 = new Email();
           with (o1) {
         	  type = "type_o1",
@@ -179,8 +179,8 @@ dojo.addOnLoad(function(){
           }   
           var testdata = [o1, o2];
           var edvb = dijit.byId("edvbtest");
-          edvb.setValue(testdata);
-          var resultdata = edvb.getValue();
+          edvb.attr('value', testdata);
+          var resultdata = edvb.attr('value');
           doh.assertEqual(2, resultdata.length);
           with(resultdata[0]) {
               doh.assertEqual("type_o1", type);
@@ -197,38 +197,38 @@ dojo.addOnLoad(function(){
               doh.assertEqual(17, spam);
           };
      },
-      function testSetValue() {
+      function testSetValue2() {
     	   var edvb = dijit.byId("edvbtest");
          var testdata = dojo.clone(data);
-         edvb.setValue(testdata);
+         edvb.attr('value', testdata);
       },
       function testSelectItem1() {
           var edvb = dijit.byId("edvbtest");
-          edvb.setValue(data);
+          edvb.attr('value', data);
           edvb.selectItem({title: 'However the reserved characters'});
           doh.assertEqual(edvb.getSelectedItem().title, 'However the reserved characters');
       },
       function testSelectItem2() {
           var edvb = dijit.byId("edvbtest");
-          edvb.setValue(data);
+          edvb.attr('value', data);
           doh.assertEqual(edvb.getSelectedItem(), null);
       },
       function testSelectItem3() {
           var edvb = dijit.byId("edvbtest");
-          edvb.setValue(data);
+          edvb.attr('value', data);
           edvb.selectItem({title: 'However the reserved characters', status: 'replied'});
           doh.assertEqual(edvb.getSelectedItem(), null);
       },
       function testSelectItem4() {
           var edvb = dijit.byId("edvbtest");
-          edvb.setValue(data);
+          edvb.attr('value', data);
           edvb.selectItem({type: "important", title: "Signs can be selectively"});
           doh.assertEqual(edvb.getSelectedItem().type, 'important');
           doh.assertEqual(edvb.getSelectedItem().title, 'Signs can be selectively');
       },
       function testSelectItem4() {
           var edvb = dijit.byId("edvbtest");
-          edvb.setValue(data);
+          edvb.attr('value', data);
           edvb.selectItem({spam: 0});
           //the first occurrence must be selected
           doh.assertEqual(edvb.getSelectedItem().spam, 0);
@@ -237,10 +237,10 @@ dojo.addOnLoad(function(){
       function testDeleteSelectedItem() {
           var edvb = dijit.byId("edvbtest");
           var testdata = dojo.clone(data);
-          edvb.setValue(data);
+          edvb.attr('value', data);
           edvb.selectItem({type: "important", title: "Signs can be selectively"});
           edvb.removeSelectedItem();
-          var resultdata = edvb.getValue();
+          var resultdata = edvb.attr('value');
           doh.assertEqual(6, resultdata.length);
           for (var i = 0; i < resultdata.length; i++) {
               with (resultdata[i]) {
@@ -251,7 +251,7 @@ dojo.addOnLoad(function(){
       function testAddItem() {
           var edvb = dijit.byId("edvbtest");
           var testdata = dojo.clone(data);
-          edvb.setValue(testdata);
+          edvb.attr('value', testdata);
           var obj = new Email();
           with (obj) {
               type = "type_object",
@@ -261,7 +261,7 @@ dojo.addOnLoad(function(){
               spam = 7;
           }
           edvb.addItem(obj);
-          var resultdata = edvb.getValue();
+          var resultdata = edvb.attr('value');
           doh.assertEqual(8, resultdata.length);
           var itemIsInResultSet = false;
           for (var i = 0 ; i < resultdata.length; i++) {
@@ -327,21 +327,21 @@ dojo.addOnLoad(function(){
           return dohd;
       },
       function testDisableButtons1() {
-          edvbtest.setValue([]);
+          edvbtest.attr('value', []);
           edvbtest.disableButtons(true);
           //breaking encapsulation to test for disabled buttons
           doh.assertEqual(true, dojo.attr(edvbtest._createButton, 'disabled'));
           doh.assertEqual(true, dojo.attr(edvbtest._deleteButton, 'disabled'));
       },
       function testDisableButtons2() {
-          edvbtest.setValue([]);
+          edvbtest.attr('value', []);
           edvbtest.disableButtons(false);
           //breaking encapsulation to test for disabled buttons
           doh.assertEqual(false, dojo.attr(edvbtest._createButton, 'disabled'));
           doh.assertEqual(false, dojo.attr(edvbtest._deleteButton, 'disabled'));
       },
       function testSetAddMenu() {
-          edvbtest.setValue([]);
+          edvbtest.attr('value', []);
           edvbtest.setCreateMenu([
             {constructorFunction: Message, objectName: "Message"},
             {constructorFunction: Email, objectName: "Email"}

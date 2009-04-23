@@ -35,41 +35,28 @@ dojo.declare(
 		
 		addItem: function(object) {
 			this._dataStore.newItem(object);
-			this._masterGrid.addRow(object);
 		},
 		
-		reset: function(object) {
-			this._clearSelection();
-			this.setData([]);
-		},
-		
-		setValue: function(/*Array*/newValue) {
+		_setValueAttr: function(/*Array*/newValue) {
+			var thevalue = newValue ? newValue : [];
 			this._masterGrid.edit.cancel();
 			this._clearSelection();
-			this.setData(dojo.clone(newValue));
+			this.setData(dojo.clone(thevalue));
 		},
 
-		getValue: function() {
+		_getValueAttr: function() {
         	// in case we're getting the value while an edit is still in
         	// progress, we first apply that edit and be done with it
         	this._masterGrid.edit.apply();
         	return this.getData();
         },
 
-		setAttribute: function(/*String*/ attr, /*anything*/ value) {
+        _setDisabledAttr: function(value) {
+        	this._masterGrid.edit.apply();
         	this.inherited(arguments);
-        	switch(attr) {
-        	case "disabled":
-        		this.disableButtons(value);
-        		//MUDO: we should not assume on the availability of setModifiable here!!!
-        		//first we apply any ongoing edit before we turn off modifiability
-        		this._masterGrid.edit.apply();
-        		this._masterGrid.model.setModifiable(!value);
-        		break;
-        	}	
+        	this.disableButtons(value);
         },
-        
-        
+
         setCreateMenu: function(/*Array*/nameConstructorMap) {
         	var buttonmap = [];
         	this._constructorNameToConstructorMap = new Object();
