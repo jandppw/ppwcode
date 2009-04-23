@@ -16,8 +16,13 @@ dojo.declare(
 		_dataStore: null,
 		
 		constructor: function(kwArgs) {
-			if (kwArgs && kwArgs.identifierPropertyName) {
-				this.identifierPropertyName = kwArgs.identifierProperty;
+			if (kwArgs) {
+				if (kwArgs.identifierPropertyName) {
+					this.identifierPropertyName = kwArgs.identifierProperty;
+				}
+				if (kwArgs.gridStructure) {
+					this.gridStructure = kwArgs.gridStructure;
+				}
 			}
 		},
 		
@@ -83,8 +88,15 @@ dojo.declare(
 		},
 
         getData: function() {
-			// delegation to grid's model
-			return this._masterGrid.model.data;
+			// delegation to grid
+			var result = [];
+			var i = 0;
+			var item = this._masterGrid.getItem(i);
+			while (item) {
+				result.push(item);
+				item = this._masterGrid.getItem(++i);
+			}
+			return result;
 		},
 		
 		clear: function() {
@@ -172,7 +184,7 @@ dojo.declare(
 					currentItem = this._masterGrid.getItem(++i);
 				}
 			}
-			console.log((found ? "Found" : "Did not find") + " object" + (found ? " on row " + i : ""));
+			//console.log((found ? "Found" : "Did not find") + " object" + (found ? " on row " + i : ""));
 			if (found) {
 				return i;
 			} else {

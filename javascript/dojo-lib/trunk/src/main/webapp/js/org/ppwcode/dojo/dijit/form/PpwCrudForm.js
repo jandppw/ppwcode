@@ -380,7 +380,7 @@ dojo.declare(
 						edit = edit[prop];
 					}
 					console.log("editing property " + this._byFieldIdMap[fieldid].property);
-					edit[proplist[proplist.length - 1]] = this._byFieldIdMap[fieldid].widget.getValue();
+					edit[proplist[proplist.length - 1]] = this._byFieldIdMap[fieldid].widget.attr('value');
 				}
 			}
 			return obj;
@@ -471,7 +471,7 @@ dojo.declare(
 			// setting all fields to empty, where as now we sometimes see 'undefined' or 'null' in the field
 			for (var fieldid in this._byFieldIdMap) {
 				//this._byFieldIdMap[fieldid].widget.reset();
-				this._byFieldIdMap[fieldid].widget.setValue("");
+				this._byFieldIdMap[fieldid].widget.attr('value', "");
 			}
         },
 

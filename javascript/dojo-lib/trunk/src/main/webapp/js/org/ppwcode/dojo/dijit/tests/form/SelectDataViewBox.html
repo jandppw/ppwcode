@@ -5,8 +5,8 @@
 <style type="text/css">
 @import "../../../../../../dojo-1.3.0/dojo/resources/dojo.css";
 @import "../../../../../../dojo-1.3.0/dijit/themes/tundra/tundra.css";
-@import "../../../../../../dojo-1.3.0/dojox/grid/compat/_grid/Grid.css";
-@import "../../../../../../dojo-1.3.0/dojox/grid/compat/_grid/tundraGrid.css";
+@import "../../../../../../dojo-1.3.0/dojox/grid/resources/Grid.css";
+@import "../../../../../../dojo-1.3.0/dojox/grid/resources/tundraGrid.css";
 @import "../../../../../../dojo-1.3.0/dijit/tests/css/dijitTests.css";
 </style>
 
@@ -20,7 +20,6 @@
     dojo.require("doh.runner");
     dojo.require("dojo.parser");
     dojo.require("org.ppwcode.dojo.dijit.form.SelectDataViewBox");
-    dojo.require("org.ppwcode.dojo.dojox.grid.data.model");
 </script>
 
 <script type="text/javascript">
@@ -34,8 +33,8 @@ var data = [
 ];
 var structure = [{
     cells: [[
-             {name: "Nr.", field: "number", width: "8em", editor: dojox.grid.editors.Input},
-             {name: "Name", field: "name", width: "8em", editor: dojox.grid.editors.Input}
+             {name: "Nr.", field: "number", width: "8em", editable: true},
+             {name: "Name", field: "name", width: "8em", editable: true}
             ]]
 }];
 
@@ -78,7 +77,7 @@ dojo.addOnLoad(function(){
           sdvb.setData(dojo.clone(data));
           sdvb.reset();
           doh.assertEqual(sdvb.getValue(), null);
-          doh.assertEqual(model.data.length, 6);  
+          doh.assertEqual(sdvb.getData().length, 6);  
       },
       function testSelectItem1() {
           var sdvb = dijit.byId("sdvbtest");
@@ -121,7 +120,15 @@ dojo.addOnLoad(function(){
           var resultdata = sdvb.getValue();
           doh.assertEqual(resultdata.name, "Neo");
           doh.assertEqual(resultdata.number, 101);
-     }
+     },
+     function programmaticCreation() {
+        var sdvbtest2 = new org.ppwcode.dojo.dijit.form.SelectDataViewBox({
+        	  gridStructure: structure,
+        	  style: "width: 50em; height: 250px"
+        }, "sdvbtest2");
+        sdvbtest2.startup();
+        sdvbtest2.setData(dojo.clone(data));
+       }
     ]);
     doh.run();
 });
@@ -129,12 +136,11 @@ dojo.addOnLoad(function(){
 </head>
 
 <body class="tundra">
-  <div id="model" jsId="model" dojoType="org.ppwcode.dojo.dojox.grid.data.PpwObjects" style="height: 0px; width: 100%"></div>
   <div id="sdvbtest" jsId="sdvbtest"
        dojoType="org.ppwcode.dojo.dijit.form.SelectDataViewBox"
        style="width: 50em; height: 300px;"
-       gridStructure="structure"
-       gridModel="model">
+       gridStructure="structure">
   </div>
+  <div id="sdvbtest2"></div>
 </body>
 </html>

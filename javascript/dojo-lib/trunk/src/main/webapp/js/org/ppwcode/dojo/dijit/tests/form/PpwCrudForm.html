@@ -55,58 +55,58 @@
               doh.assertTrue(dojo.byId("date1").disabled);
               appwcrudform.reset();
               doh.assertTrue(dojo.byId("hidden1").disabled);
-              doh.assertEqual("", dijit.byId("hidden1").getValue());
+              doh.assertEqual("", dijit.byId("hidden1").attr('value'));
               doh.assertTrue(dojo.byId("text1").disabled);
-              doh.assertEqual("", text1.getValue());
+              doh.assertEqual("", text1.attr('value'));
               doh.assertTrue(dojo.byId("text2").disabled);
-              doh.assertEqual("", text2.getValue());
+              doh.assertEqual("", text2.attr('value'));
               doh.assertTrue(dojo.byId("date1").disabled);
-              doh.assertEqual(undefined, date1.getValue());
+              doh.assertEqual(undefined, date1.attr('value'));
           },
           function checkUpdateMode() {
               appwcrudform.reset();
               doh.assertTrue(dojo.byId("text1").disabled);
-              doh.assertEqual("", text1.getValue());
+              doh.assertEqual("", text1.attr('value'));
               doh.assertTrue(dojo.byId("text2").disabled);
-              doh.assertEqual("", text2.getValue());
+              doh.assertEqual("", text2.attr('value'));
               doh.assertTrue(dojo.byId("date1").disabled);
-              doh.assertEqual(undefined, date1.getValue());
+              doh.assertEqual(undefined, date1.attr('value'));
               appwcrudform.setUpdateMode();
               doh.assertFalse(dojo.byId("text1").disabled);
-              doh.assertEqual("", text1.getValue());
+              doh.assertEqual("", text1.attr('value'));
               doh.assertFalse(dojo.byId("text2").disabled);
-              doh.assertEqual("", text2.getValue());
+              doh.assertEqual("", text2.attr('value'));
               doh.assertFalse(dojo.byId("date1").disabled);
-              doh.assertEqual(undefined, date1.getValue());
+              doh.assertEqual(undefined, date1.attr('value'));
               appwcrudform.reset();
               doh.assertTrue(dojo.byId("text1").disabled);
-              doh.assertEqual("", text1.getValue());
+              doh.assertEqual("", text1.attr('value'));
               doh.assertTrue(dojo.byId("text2").disabled);
-              doh.assertEqual("", text2.getValue());
+              doh.assertEqual("", text2.attr('value'));
               doh.assertTrue(dojo.byId("date1").disabled);
-              doh.assertEqual(undefined, date1.getValue());
+              doh.assertEqual(undefined, date1.attr('value'));
           },
           function checkdisplayItem() {
               var d = new Date(2008, 8, 14);
               var obj = new TestObject("hiddentext", "dojo", "dijit", d);
               appwcrudform.displayItem(obj);
-              doh.assertEqual("hiddentext", dijit.byId("hidden1").getValue());
-              doh.assertEqual("dojo", text1.getValue());
-              doh.assertEqual("dijit", text2.getValue());
-              doh.assertEqual(d, date1.getValue());
+              doh.assertEqual("hiddentext", dijit.byId("hidden1").attr('value'));
+              doh.assertEqual("dojo", text1.attr('value'));
+              doh.assertEqual("dijit", text2.attr('value'));
+              doh.assertEqual(d, date1.attr('value'));
           },
           function checkCreateMode() {
               var obj = new TestObject("alpha", "beta", "gamma", new Date());
               appwcrudform.displayItem(obj);
               appwcrudform.setCreateMode();
               doh.assertFalse(dojo.byId("hidden1").disabled);
-              doh.assertEqual("", dijit.byId("hidden1").getValue());
+              doh.assertEqual("", dijit.byId("hidden1").attr('value'));
               doh.assertFalse(dojo.byId("text1").disabled);
-              doh.assertEqual("", text1.getValue());
+              doh.assertEqual("", text1.attr('value'));
               doh.assertFalse(dojo.byId("text2").disabled);
-              doh.assertEqual("", text2.getValue());
+              doh.assertEqual("", text2.attr('value'));
               doh.assertFalse(dojo.byId("date1").disabled);
-              doh.assertEqual(undefined, date1.getValue());
+              doh.assertEqual(undefined, date1.attr('value'));
               appwcrudform.reset();
           },
           function checkCreateObject() {
@@ -120,10 +120,10 @@
               checkdate.setSeconds(0);
               checkdate.setMilliseconds(0);
               appwcrudform.createObject();
-              dijit.byId("hidden1").setValue("to defy")
-              text1.setValue("the laws of tradition");
-              text2.setValue("is a crusade only of the brave");
-              date1.setValue(d);
+              dijit.byId("hidden1").attr('value', "to defy")
+              text1.attr('value', "the laws of tradition");
+              text2.attr('value', "is a crusade only of the brave");
+              date1.attr('value', d);
               //simulate save button click
               var event = new Object();
               appwcrudform._oncreatemodesavebuttonclick(event);
@@ -148,9 +148,9 @@
                       "is a crusade only of the brave",
                       d);
               appwcrudform.displayItem(obj);
-              dijit.byId("text1").setValue("your CTO");
-              dijit.byId("text2").setValue("is going to get you fired.");
-              dijit.byId("date1").setValue(checkdate);
+              dijit.byId("text1").attr('value', "your CTO");
+              dijit.byId("text2").attr('value', "is going to get you fired.");
+              dijit.byId("date1").attr('value', checkdate);
               //simulate save button click
               var event = new Object();
               appwcrudform._onupdatemodesavebuttonclick(event);

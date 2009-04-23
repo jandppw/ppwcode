@@ -3,7 +3,7 @@ dojo.provide("org.ppwcode.dojo.dijit.form.SelectDataViewBox");
 dojo.require("org.ppwcode.dojo.dijit.form._FormDataViewBox");
 dojo.require("dijit.layout.BorderContainer");
 dojo.require("dijit.layout.ContentPane");
-dojo.require("dojox.grid.Grid");
+dojo.require("dojox.grid.DataGrid");
 
 dojo.declare(
 	"org.ppwcode.dojo.dijit.form.SelectDataViewBox",
