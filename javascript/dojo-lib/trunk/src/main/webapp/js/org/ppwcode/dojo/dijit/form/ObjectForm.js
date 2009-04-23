@@ -1,9 +1,9 @@
-dojo.provide("org.ppwcode.dojo.dijit.form.PpwObjectForm");
+dojo.provide("org.ppwcode.dojo.dijit.form.ObjectForm");
 
 dojo.require("dijit.form.Form");
 
 dojo.declare(
-	"org.ppwcode.dojo.dijit.form.PpwObjectForm",
+	"org.ppwcode.dojo.dijit.form.ObjectForm",
 	dijit.form.Form,
 	{
 		// contains the mapping between javascript object properties and form fields

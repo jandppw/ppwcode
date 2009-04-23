@@ -1,6 +1,6 @@
-dojo.provide("org.ppwcode.dojo.dijit.form._PpwViewFormCrudScenariosDwr");
+dojo.provide("org.ppwcode.dojo.dijit.form._ViewFormCrudScenariosDwr");
 
-dojo.declare("org.ppwcode.dojo.dijit.form._PpwViewFormCrudScenariosDwr",
+dojo.declare("org.ppwcode.dojo.dijit.form._ViewFormCrudScenariosDwr",
 		null,
 		{
 			//selectioncriterium is used to automatically select a certain
