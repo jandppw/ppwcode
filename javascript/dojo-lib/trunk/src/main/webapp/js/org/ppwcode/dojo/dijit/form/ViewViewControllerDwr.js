@@ -1,20 +1,20 @@
-dojo.provide("org.ppwcode.dojo.dijit.form.PpwViewViewControllerDwr");
+dojo.provide("org.ppwcode.dojo.dijit.form.ViewViewControllerDwr");
 
 dojo.require("dijit._Widget");
 
 dojo.declare(
-	"org.ppwcode.dojo.dijit.form.PpwViewViewControllerDwr",
+	"org.ppwcode.dojo.dijit.form.ViewViewControllerDwr",
 	//The controller is a widget, solely to have the dojo.parser call lifecycle functions...
 	[dijit._Widget],
 	{
 		//summary:
-		//    Connects and controls two PpwMasterViews, a child view and a
+		//    Connects and controls two MasterViews, a child view and a
 		//    parent view.  The parent view shows a list of objects (items),
 		//    the child view shows a list of properties (i.e. a multivalued
 		//    property) of the selected item in the parent view (referred to
 		//    as the parent item).
 		//description:
-		//    The PpwViewViewControllerDwr has a double responsibility.
+		//    The ViewViewControllerDwr has a double responsibility.
 		//    First, it is a user interface controller.  Second it coordinates
 		//    Ajax calls, which are realized by DWR.  The Ajax call deals
 		//    with data synchronization between the parent and the child
@@ -31,7 +31,7 @@ dojo.declare(
 		//    The DWR call that is executed is triggered automatically
 		//    by a selection event on the parent view.  It is however also
 		//    possible to trigger the updating of the child view manually
-		//    by calling requestRefresh() on the PpwViewViewController, for
+		//    by calling requestRefresh() on the ViewViewController, for
 		//    instance when the application has modified an item in the child
 		//    view, and the server must be contacted to resynchronize the child
 		//    view.
@@ -65,10 +65,10 @@ dojo.declare(
 		
 		setViews: function(parentview, childview) {
 			//summary:
-			//    Set the parent and the child PpwMasterview.
+			//    Set the parent and the child Masterview.
 			//description:
 			//    Connects this controller to selection events in the parent
-			//    PpwMasterView, allowing it to control the contents of the
+			//    MasterView, allowing it to control the contents of the
 			//    child view.
 			this._parentView = parentview;
 			this._childView = childview;
@@ -196,7 +196,7 @@ dojo.declare(
 				params.push(this._dwrRetrieveFunctionAdditionalParameters[i]);
 			}
 			params.push({callback: mycallback, errorHandler: myerrorhandler});
-			//console.log("PpwViewViewControllerDWR: doFillChildView parameters");
+			//console.log("ViewViewControllerDWR: doFillChildView parameters");
 			//for (var i = 0; i<params.length; i++) console.log("\t" + params[i])
 			this.dwrRetrieveFunction.apply(this, params);
 		},
@@ -218,7 +218,7 @@ dojo.declare(
 			//    here to set additional parameters before the Retrieve
 			//    function is executed.
 			//parentObject:
-			//    the item that is selected in the parent PpwMasterView.
+			//    the item that is selected in the parent MasterView.
 		},
 		
 		afterFillChildView: function(data) {
@@ -232,7 +232,7 @@ dojo.declare(
 		doFillChildViewErrorHandler: function(errorString, exception) {
 			//summary:
 			//    Override, as you should inform the user that refreshing
-			//    the child PpwMasterView failed after performing an update.
+			//    the child MasterView failed after performing an update.
 			// description:
 			//    Override, as you should inform the user that refreshing the
 			//    child view probably failed after performing an update.

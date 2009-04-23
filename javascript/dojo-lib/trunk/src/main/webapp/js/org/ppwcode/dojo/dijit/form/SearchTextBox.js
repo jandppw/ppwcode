@@ -1,13 +1,13 @@
-dojo.provide("org.ppwcode.dojo.dijit.form.PpwSearchTextBox");
+dojo.provide("org.ppwcode.dojo.dijit.form.SearchTextBox");
 
 dojo.require("dijit.form.TextBox");
 
 dojo.declare(
-	"org.ppwcode.dojo.dijit.form.PpwSearchTextBox",
+	"org.ppwcode.dojo.dijit.form.SearchTextBox",
 	dijit.form.TextBox,
 	{
 		//summary:
-		//    PpwSearchTextBox is a text box that holds off on sending keyup
+		//    SearchTextBox is a text box that holds off on sending keyup
 		//    events until the text box contains a number of characters and
 		//    until a defined amount of milliseconds have passed.  The main
 		//    use case for using this text box is when an application wants
@@ -15,7 +15,7 @@ dojo.declare(
 		//    changes the contents of the text box.  An application typically
 		//    does not want a request reply cycle on each keystroke.
 		//description:
-		//    The PpwSearchTextBox is a text box that functions like a normal
+		//    The SearchTextBox is a text box that functions like a normal
 		//    text box, except that it delays firing the DOM keyup event, or
 		//    does not send the keyup event at all.  Behavior is as follows:
 		//    DOM events are not sent if the amount of characters in the text
@@ -121,13 +121,13 @@ dojo.declare(
 		
 		_onkeyup: function(event) {
 			//console.log(event.keyCode);
-			//console.log("PpwSearchTextBox: value.length is " + this.getValue().length);
+			//console.log("SearchTextBox: value.length is " + this.getValue().length);
 			if (this._nonEventKeyMap[event.keyCode] !== true) { 
-				//console.log("PpwSearchTextBox: valid event key pressed");
+				//console.log("SearchTextBox: valid event key pressed");
 				//if a 'valid' key is pressed, clear a running timer if there is one
 				//also do this when there are less than this.minChars in the textbox
 				if (this._timeoutId != null) {
-					//console.log("PpwSearchTextBox: timeout " + this._timeoutId + " canceled");
+					//console.log("SearchTextBox: timeout " + this._timeoutId + " canceled");
 					clearTimeout(this._timeoutId);
 					this._timeoutId = null;
 				}
@@ -137,9 +137,9 @@ dojo.declare(
 				} else if (this.getValue().length >= this.minChars) {
 					//if there are enough characters in the box, schedule a timer that will
 					//forward this event
-					//console.log("PpwSearchTextBox: length constraint satisfied");
+					//console.log("SearchTextBox: length constraint satisfied");
 					this._timeoutId = setTimeout(dojo.hitch(this, this._onkeyupProceed, event), this.triggerTimeout);
-					//console.log("PpwSearchTextBox: new timeout (" + this._timeoutId + ") set: " + this.triggerTimeout);
+					//console.log("SearchTextBox: new timeout (" + this._timeoutId + ") set: " + this.triggerTimeout);
 				} else {
 					dojo.stopEvent(event);
 				}
@@ -149,7 +149,7 @@ dojo.declare(
 		},
 		
 		_onkeyupProceed: function(event) {
-			//console.log("PpwSearchTextBox: event call proceeding " + this._timeoutId);
+			//console.log("SearchTextBox: event call proceeding " + this._timeoutId);
 			this._timeoutId = null;
 			this.onkeyup(event);
 		}

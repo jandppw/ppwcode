@@ -1,58 +1,58 @@
-dojo.provide("org.ppwcode.dojo.dijit.form.PpwViewFormControllerDwr");
+dojo.provide("org.ppwcode.dojo.dijit.form.ViewFormControllerDwr");
 
 dojo.require("dijit._Widget");
-dojo.require("org.ppwcode.dojo.dijit.form._PpwViewFormCrudScenariosDwr");
+dojo.require("org.ppwcode.dojo.dijit.form._ViewFormCrudScenariosDwr");
 
 dojo.declare(
-	"org.ppwcode.dojo.dijit.form.PpwViewFormControllerDwr",
+	"org.ppwcode.dojo.dijit.form.ViewFormControllerDwr",
 	//The controller is a widget, solely to have the dojo.parser call lifecycle functions...
-	[dijit._Widget, org.ppwcode.dojo.dijit.form._PpwViewFormCrudScenariosDwr],
+	[dijit._Widget, org.ppwcode.dojo.dijit.form._ViewFormCrudScenariosDwr],
 	{
 		//summary:
-		//    A PpwViewFormControllerDwr is a user interface controller that
-		//    coordinates CRUD behavior between a PpwMasterView and a
-		//    PpwCrudForm.  
+		//    A ViewFormControllerDwr is a user interface controller that
+		//    coordinates CRUD behavior between a MasterView and a
+		//    CrudForm.  
 		//description:
-		//    The PpwViewFormControllerDwr has a double function.  First, it is
+		//    The ViewFormControllerDwr has a double function.  First, it is
 		//    a user interface controller.  Second it coordinates a number
 		//    of XHR calls, which are realized by DWR.  These DWR calls solely
 		//    deal with creating, retrieving, updating and deleting items
 		//    in an application (CRUD).  At the time of writing, there is no
 		//    support yet for deleting objects.
 		//
-		//    Although a PpwCrudForm and a PpwMasterView can be used as
-		//    separate user interface widgets, the PpwViewFormControllerDwr
+		//    Although a CrudForm and a MasterView can be used as
+		//    separate user interface widgets, the ViewFormControllerDwr
 		//    glues them together, so both widgets are perceived as a single
 		//    widget.  Concretely, this means the following.
-		//    * Clicking the Add button in the PpwMasterView clears the
-		//      selection in the PpwMasterView and puts the PpwCrudForm in
+		//    * Clicking the Add button in the MasterView clears the
+		//      selection in the MasterView and puts the CrudForm in
 		//      create mode.
-		//    * Selecting a row in the PpwMasterView displays the selected
-		//      Item in the PpwCrudForm, and puts the form in Viewing mode
+		//    * Selecting a row in the MasterView displays the selected
+		//      Item in the CrudForm, and puts the form in Viewing mode
 		//      (Edit button and optionally a Delete button)
-		//    * Clicking the Delete button in the PpwCrudForm starts the
+		//    * Clicking the Delete button in the CrudForm starts the
 		//      Delete scenario (see later).
-		//    * Clicking the Save button in the PpwCrudForm in Edit mode
+		//    * Clicking the Save button in the CrudForm in Edit mode
 		//      starts the Update Scenario (see later.)
 		//    * Clicking the Cancel button resets the form with the values
-		//      of the selected item it the PpwMasterView
-		//    * Clicking the Save button in the PpwCrudForm in Create mode
+		//      of the selected item it the MasterView
+		//    * Clicking the Save button in the CrudForm in Create mode
 		//      starts the Create Scenario (see later.)
 		//    * Clicking the Cancel button resets the form (no values, input
 		//      fields disabled, no buttons).
 		//
-		//    Additionally, if a PpwViewFormControllerDwr can function as a
+		//    Additionally, if a ViewFormControllerDwr can function as a
 		//    child controller. This means that the View this
-		//    PpwViewFormControllerDwr is controlling is displaying properties
+		//    ViewFormControllerDwr is controlling is displaying properties
 		//    of a parent item. Typically, this child view shows many side of
 		//    a one-to-many relationship with the parent item.  This has
 		//    consequences on how the retrieve scenario is performed for the
-		//    child controller. Configuring a PpwViewFormControllerDwr is done
+		//    child controller. Configuring a ViewFormControllerDwr is done
 		//    by calling the setViewIsChild() function.
 		//   
-		//    The second responsibility of the PpwViewFormControllerDwr is
+		//    The second responsibility of the ViewFormControllerDwr is
 		//    coordinating communication between the web client and the server
-		//    when a CRUD action is performed.  The PpwViewFormControllerDwr
+		//    when a CRUD action is performed.  The ViewFormControllerDwr
 		//    uses DWR as communication medium, and encapsulates all DWR
 		//    specific bookkeeping.  For each CRUD operation a scenario exists
 		//    although at the time of writing there is no scenario yet for
@@ -74,10 +74,10 @@ dojo.declare(
 		//
 		//    The Update and Create Scenario are similar to each other.  Both
 		//    are triggered by clicking the Update or Create button in the
-		//    PpwCrudForm.  Both scenarios consist of 3 steps.  Step 1 is
+		//    CrudForm.  Both scenarios consist of 3 steps.  Step 1 is
 		//    updating or creating the item.  Step 2 is refreshing the
-		//    PpwMasterView.  Step 3 is selecting the update or created item
-		//    in the PpwMasterView (provided it is in there).  Only the first
+		//    MasterView.  Step 3 is selecting the update or created item
+		//    in the MasterView (provided it is in there).  Only the first
 		//    two steps execute DWR calls.
 		//    
 		//    Creating or Updating the item (step 1) is done by calling the
@@ -93,14 +93,14 @@ dojo.declare(
 		//    one before the update or create is performed, and one after the
 		//    update or create was performed successfully.
 		//
-		//    Step 2 consists of refreshing the PpwMasterView, which is done by
+		//    Step 2 consists of refreshing the MasterView, which is done by
 		//    calling the dwrRetrieveFunction.  In this step, the necessary
 		//    callbacks are available to change the parameters of the retrieve
 		//    function if desired.
 		//
-		//    Step 3 selects the item the PpwMasterView that adheres to a
+		//    Step 3 selects the item the MasterView that adheres to a
 		//    selection criterium.  The selection criterium is determined by
-		//    the properties that are tagged as "isId" in the PpwCrudForm's
+		//    the properties that are tagged as "isId" in the CrudForm's
 		//    formmap.  We refer to the documentation for an in depth
 		//    understanding of this automatic selection process.
 		
@@ -172,15 +172,15 @@ dojo.declare(
 			//    with the parent view (selects, refreshes, ...).  To be able
 			//    to function as a child controller, the ViewFormController must
 			//    be configured with a ViewViewController.  TODO:  It should be
-			//    possible to pass in a PpwMasterView as parameter as well.
+			//    possible to pass in a MasterView as parameter as well.
 			//viewviewcontroller:
 			//    The viewviewcontroller that coordinates the behavior between
-			//    a parent PpwMasterView and a child PpwMasterView.
+			//    a parent MasterView and a child MasterView.
 			this._viewIsChild = true;
 			this._view.disableButtons(true);
 			//from now on, all grid refreshes are delegated to the viewviewcontroller, both in the
 			//case of creates and updates
-			dojo.mixin(this, org.ppwcode.dojo.dijit.form.PpwViewFormControllerDwr.ChildController);
+			dojo.mixin(this, org.ppwcode.dojo.dijit.form.ViewFormControllerDwr.ChildController);
 			this._viewviewcontroller = viewviewcontroller;
 			//in case of a create or update, not we, but the viewviewcontroller will update our view
 			//by calling view.setData.  We must hence listen to that event on our view, so we can act

@@ -1,4 +1,4 @@
-dojo.provide("org.ppwcode.dojo.dijit.form.PpwLocalizedTextBox");
+dojo.provide("org.ppwcode.dojo.dijit.form.LocalizedTextBox");
 
 dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
@@ -6,7 +6,7 @@ dojo.require("dijit.form.TextBox");
 dojo.require("org.ppwcode.dojo.dojox.DataDropDown");
 
 dojo.declare(
-  "org.ppwcode.dojo.dijit.form.PpwLocalizedTextBox",
+  "org.ppwcode.dojo.dijit.form.LocalizedTextBox",
   [dijit._Widget, dijit._Templated],
   {
     //summary:
@@ -16,7 +16,7 @@ dojo.declare(
     //    front of it to specify the locale of the text in the text box.
     //
 
-    templatePath: dojo.moduleUrl("org", "ppwcode/dojo/dijit/form/templates/PpwLocalizedTextBox.html"),
+    templatePath: dojo.moduleUrl("org", "ppwcode/dojo/dijit/form/templates/LocalizedTextBox.html"),
 
     widgetsInTemplate: true,
 
@@ -43,7 +43,7 @@ dojo.declare(
           this._descriptionTextBox.setAttribute("disabled", value);
           break;
         default:
-          console.log("PpwLocalizedTextBox.setAttribute with "+attr);
+          console.log("LocalizedTextBox.setAttribute with "+attr);
       }
     }
 

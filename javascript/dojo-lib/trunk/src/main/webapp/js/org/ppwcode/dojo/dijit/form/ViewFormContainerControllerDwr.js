@@ -1,12 +1,12 @@
-dojo.provide("org.ppwcode.dojo.dijit.form.PpwViewFormContainerControllerDwr");
+dojo.provide("org.ppwcode.dojo.dijit.form.ViewFormContainerControllerDwr");
 
 dojo.require("dijit._Widget");
-dojo.require("org.ppwcode.dojo.dijit.form._PpwViewFormCrudScenariosDwr");
+dojo.require("org.ppwcode.dojo.dijit.form._ViewFormCrudScenariosDwr");
 dojo.require("org.ppwcode.dojo.util.JavaScriptHelpers");
 
 dojo.declare(
-	"org.ppwcode.dojo.dijit.form.PpwViewFormContainerControllerDwr",
-	[dijit._Widget, org.ppwcode.dojo.dijit.form._PpwViewFormCrudScenariosDwr],
+	"org.ppwcode.dojo.dijit.form.ViewFormContainerControllerDwr",
+	[dijit._Widget, org.ppwcode.dojo.dijit.form._ViewFormCrudScenariosDwr],
 	{
 		//summary:
 		//    Documentation placeholder
@@ -72,9 +72,9 @@ dojo.declare(
 			}
 		},
 		
-		configure: function (/*PpwMasterView*/view,
-				             /*PpwCrudFormContainer*/formContainer,
-				             /*PpwViewViewController?*/viewviewcontroller) {
+		configure: function (/*MasterView*/view,
+				             /*CrudFormContainer*/formContainer,
+				             /*ViewViewController?*/viewviewcontroller) {
 			this._view = view;
 			this._container = formContainer;
 
@@ -149,16 +149,16 @@ dojo.declare(
 			//    with the parent view (selects, refreshes, ...).  To be able
 			//    to function as a child controller, the ViewFormController must
 			//    be configured with a ViewViewController.  TODO:  It should be
-			//    possible to pass in a PpwMasterView as parameter as well.
+			//    possible to pass in a MasterView as parameter as well.
 			//viewviewcontroller:
 			//    The viewviewcontroller that coordinates the behavior between
-			//    a parent PpwMasterView and a child PpwMasterView.
+			//    a parent MasterView and a child MasterView.
 			this._viewIsChild = true;
 			this._view.disableButtons(true);
 			//from now on, all grid refreshes are delegated to the viewviewcontroller, both in the
 			//case of creates and updates
 			this._disconnectEventHandlers();
-			dojo.mixin(this, org.ppwcode.dojo.dijit.form.PpwViewFormContainerControllerDwr.ChildController);
+			dojo.mixin(this, org.ppwcode.dojo.dijit.form.ViewFormContainerControllerDwr.ChildController);
 			this._connectEventHandlers();
 			this._viewviewcontroller = viewviewcontroller;
 			//in case of a create or update, not we, but the viewviewcontroller will update our view
@@ -209,7 +209,7 @@ dojo.declare(
 		},
 
 		_doViewOnAddButtonClick: function(event) {
-			//console.log("PpwViewFormContainerController::_doViewOnAddButtonClick with addButtonChooserValue \"" + event.addChooserValue + "\"")
+			//console.log("ViewFormContainerController::_doViewOnAddButtonClick with addButtonChooserValue \"" + event.addChooserValue + "\"")
 			this._clearFormEventConnections();
 			var prototype = null;
 			var constructorFunctionName = null;
@@ -290,7 +290,7 @@ dojo.declare(
 	}
 );
 
-org.ppwcode.dojo.dijit.form.PpwViewFormContainerControllerDwr.ChildController = {
+org.ppwcode.dojo.dijit.form.ViewFormContainerControllerDwr.ChildController = {
 		
 		_viewviewcontroller: null,
 		
