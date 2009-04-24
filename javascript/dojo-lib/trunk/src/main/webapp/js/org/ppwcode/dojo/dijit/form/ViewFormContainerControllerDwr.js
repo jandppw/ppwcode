@@ -56,7 +56,7 @@ dojo.declare(
 			this._vieweventconnections["onClear"] = dojo.connect(this._view, "onClear", this, "_doViewOnClear");
 			this._vieweventconnections["onGridRowClick"] = dojo.connect(this._view, "onGridRowClick", this, "_doViewGridRowClick");
 			this._vieweventconnections["onGridHeaderClick"] = dojo.connect(this._view, "onGridHeaderClick", this, "_doViewGridHeaderClick");
-			this._vieweventconnections["onAddButtonClick"] = dojo.connect(this._view, "onAddButtonClick", this, "_doViewOnAddButtonClick");
+			this._vieweventconnections["onCreateButtonClick"] = dojo.connect(this._view, "onCreateButtonClick", this, "_doViewOnCreateButtonClick");
 			this._vieweventconnections["onSelectItemSuccess"] = dojo.connect(this._view, "onSelectItemSuccess", this, "_doViewOnSelectItemSuccess");
 			this._vieweventconnections["onReSelectCurrentItemSuccess"] = dojo.connect(this._view, "onReSelectCurrentItemSuccess", this, "_doViewOnReSelectCurrentItemSuccess");
 			if (!this._viewIsChild) {
@@ -124,11 +124,11 @@ dojo.declare(
 				if (result.length > 1) {
 					//more than one form for this controller, so we configure
 					//the masterview with a multibutton.
-					this._view.setMultiButton(this._createButtonData());
+					this._view.setCreateMenu(this._createButtonData());
 				}
 			} else {
 				this._createControlledFormsMap(this._container.getFormsList());
-				this._view.setMultiButton(this._createButtonData());
+				this._view.setCreateMenu(this._createButtonData());
 			}
 		},
 		
@@ -208,14 +208,14 @@ dojo.declare(
 			this._clearContainer();
 		},
 
-		_doViewOnAddButtonClick: function(event) {
-			//console.log("ViewFormContainerController::_doViewOnAddButtonClick with addButtonChooserValue \"" + event.addChooserValue + "\"")
+		_doViewOnCreateButtonClick: function(event) {
+			console.log("ViewFormContainerController::_doViewOnCreateButtonClick with createChooserValue \"" + event.createChooserValue + "\"")
 			this._clearFormEventConnections();
 			var prototype = null;
 			var constructorFunctionName = null;
-			if (event.addChooserValue) {
-				constructorFunctionName = event.addChooserValue;
-				prototype = new this._controlledFormsMap[event.addChooserValue].constructorFunction();
+			if (event.createChooserValue) {
+				constructorFunctionName = event.createChooserValue;
+				prototype = new this._controlledFormsMap[event.createChooserValue].constructorFunction();
 			} else {
 				// in this case, there should only be one entry in the controlledFormsMap
 				// but I see no other way to get it out of a map)
