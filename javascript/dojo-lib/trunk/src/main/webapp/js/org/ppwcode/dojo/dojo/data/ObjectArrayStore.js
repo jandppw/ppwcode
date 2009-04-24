@@ -21,6 +21,8 @@ dojo.declare(
 		
 		_labelPropName: "",
 		
+		comparatorMap: null,
+		
 		constructor: function(keywordParameters) {
 			if (keywordParameters.data) {
 				this._data = keywordParameters.data;
@@ -30,6 +32,9 @@ dojo.declare(
 			}
 			if (keywordParameters.labelPropertyName) {
 				this._labelPropName = keywordParameters.labelPropName;
+			}
+			if (keywordParameters.comparatorMap) {
+				this.comparatorMap = keywordParameters.comparatorMap;
 			}
 		},
 
