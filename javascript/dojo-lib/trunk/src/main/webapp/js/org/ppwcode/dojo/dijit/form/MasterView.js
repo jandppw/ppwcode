@@ -20,7 +20,7 @@ dojo.declare(
 
 		buildRendering: function() {
 			this.inherited(arguments);
-			dojo.connect(this._createButton, "onClick", this, "_oncreatebuttonclick");
+			dojo.connect(this._createButton, "onClick", this, "_onCreateButtonClick");
 			this._createButtonLabel = dojo.i18n.getLocalization("org.ppwcode.dojo.dijit.form","MasterView").createButtonLabel;
 			this._createButton.attr("label", this._createButtonLabel);
 		},
@@ -94,11 +94,24 @@ dojo.declare(
 
 		////////////////////////// Event handling //////////////////////////
 		
-		_oncreatebuttonclick: function() {
+		_onCreateButtonClick: function(e) {
 			this._clearSelection();
 			this.onCreateButtonClick(e);
 		},
 		
+		_onCreateMenuItemClick: function(value, event) {
+			console.log("MasterView: _onCreateMenuItemClick with " + value + " and " + event);
+			this._clearSelection();
+			var forwardevent = null;
+			if (event) {
+				forwardevent = event;
+			} else {
+				forwardevent = new Object();
+			}
+			forwardevent.createChooserValue = value;
+			this.onCreateButtonClick(forwardevent);
+		},
+
 		_onRefreshData: function() {
 			this.onRefreshData();
 		},
