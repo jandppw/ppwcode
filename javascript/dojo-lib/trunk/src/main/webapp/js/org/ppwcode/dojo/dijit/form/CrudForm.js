@@ -379,7 +379,7 @@ dojo.declare(
 						}
 						edit = edit[prop];
 					}
-					console.log("editing property " + this._byFieldIdMap[fieldid].property);
+					//console.log("editing property " + this._byFieldIdMap[fieldid].property);
 					edit[proplist[proplist.length - 1]] = this._byFieldIdMap[fieldid].widget.attr('value');
 				}
 			}
