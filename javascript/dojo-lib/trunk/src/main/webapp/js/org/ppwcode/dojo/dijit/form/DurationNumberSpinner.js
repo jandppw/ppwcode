@@ -3,6 +3,7 @@ dojo.provide("org.ppwcode.dojo.dijit.form.DurationNumberSpinner");
 dojo.require("dijit._Widget");
 dojo.require("dijit._Templated");
 dojo.require("dijit.form.TextBox");
+dojo.require("dijit.form.NumberSpinner");
 dojo.require("org.ppwcode.dojo.dojox.DataDropDown")
 
 dojo.declare(
@@ -32,7 +33,7 @@ dojo.declare(
       this._numberSpinner._resetValue = this.initialValue;
     },
 
-    setValue: function(/*object*/ param){
+    _setValueAttr: function(/*object*/ param){
       if (!param) {
        this._numberSpinner.reset();
       } else {
@@ -41,23 +42,19 @@ dojo.declare(
       }
     },
 
-    getValue: function(){
+    _getValueAttr: function(){
       var millis = 3600000 * this._numberSpinner.getValue();
       var d = new Duration();
       d.milliseconds = millis;
       return d;
     },
 
-    setAttribute: function(/*String*/ attr, /*anything*/ value){
-      this.inherited(arguments);
-      switch(attr){
-        case "disabled":
-          this._numberSpinner.setAttribute("disabled", value);
-          break;
-        //default:
-          //console.log("DurationNumberSpinner.setAttribute with "+attr);
-      }
+    _setDisabledAttr: function(/*anything*/value) {
+    	this._numberSpinner.attr('disabled', value);
+    },
+    
+    _getDisabledAttr: function() {
+    	return this._numberSpinner.attr('disabled');
     }
-
   }
 );
