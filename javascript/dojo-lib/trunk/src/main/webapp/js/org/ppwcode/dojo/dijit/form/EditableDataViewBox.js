@@ -14,7 +14,9 @@ dojo.declare(
 		templatePath: dojo.moduleUrl("org", "ppwcode/dojo/dijit/form/templates/EditableDataViewBox.html"),
 		
 		widgetsInTemplate: true,
-
+		
+		constructorFunction: null,
+		
 		_constructorNameToConstructorMap: null,
 		
 		_createButtonLabel: '+',
@@ -22,8 +24,8 @@ dojo.declare(
 		
 		buildRendering: function() {
 			this.inherited(arguments);
-			dojo.connect(this._addButton, "onClick", this, "_oncreatebuttonclick");
-			dojo.connect(this._deleteButton, "onClick", this, "_ondeletebuttonclick");
+			dojo.connect(this._createButton, "onClick", this, "_onCreateButtonClick");
+			dojo.connect(this._deleteButton, "onClick", this, "_onDeleteButtonClick");
 			dojo.connect(this._masterGrid, "modelDatumChange", this, "onChange");
 			dojo.connect(this._masterGrid, "modelInsertion", this, "onChange");
 			dojo.connect(this._masterGrid, "modelRemoval", this, "onChange");
@@ -35,6 +37,7 @@ dojo.declare(
 		
 		addItem: function(object) {
 			this._dataStore.newItem(object);
+			this._masterGrid.edit.setEditCell(this._masterGrid.getCell(0), this._masterGrid.rowCount - 1);
 		},
 		
 		_setValueAttr: function(/*Array*/newValue) {
@@ -72,7 +75,7 @@ dojo.declare(
         
         ////////////////////////// Event handling //////////////////////////
 
-        _onmenuitemclick: function(ctorname, event) {
+        _onCreateMenuItemClick: function(ctorname, event) {
         	this.clearSelection();
         	var forwardevent = (event) ? event : new Object();
         	var obj = new this._constructorNameToConstructorMap[ctorname]();
@@ -81,8 +84,8 @@ dojo.declare(
         	this.onCreateButtonClick(forwardevent);
         },
         
-		_oncreatebuttonclick: function(e) {			
-			//console.log("PpwMasterView: _onaddbuttonclick");
+		_onCreateButtonClick: function(e) {			
+			//console.log("EditableDataViewBox: _onCreateButtonClick");
 			this.clearSelection();
 			var obj = dojo.isFunction(this.constructorFunction) ? new this.constructorFunction() : new Object();
 			this.onBeforeAddItem(obj);
@@ -105,7 +108,7 @@ dojo.declare(
 			//   Hook method for the Add button.
 		},
 		
-		_ondeletebuttonclick: function(e) {			
+		_onDeleteButtonClick: function(e) {			
 			this.removeSelectedItem();
 			//console.log("PpwMasterView: _onaddbuttonclick");			
 			this.onDeleteButtonClick(e);
