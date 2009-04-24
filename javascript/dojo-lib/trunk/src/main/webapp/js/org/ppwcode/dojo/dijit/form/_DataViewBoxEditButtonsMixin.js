@@ -54,7 +54,7 @@ dojo.declare(
 				menuitem = new dijit.MenuItem({
 			         label: buttondata[i].label,
 			         iconClass:"dijitTreeIcon dijitLeaf",
-			         onClick: dojo.hitch(this, this._onmenuitemclick, buttondata[i].value)
+			         onClick: dojo.hitch(this, this._onCreateMenuItemClick, buttondata[i].value)
 			     });
 				menu.addChild(menuitem);
 			}
@@ -75,10 +75,21 @@ dojo.declare(
 			this._setCreateMenu(arr);
 		},
 		
-		_oncreatebuttonclick: function(e) {
+		_onCreateButtonClick: function(e) {
+			console.error("_DataViewBoxEditButtonsMixin: _onCreateButtonClick should be overridden");
 			// placeholder
 		},
 		
+		_onMenuItemClick: function(value, event) {
+			console.error("_DataViewBoxEditButton:  _onCreateMenuItemClick should be overridden");
+			// placeholder
+		},
+		
+		_onDeleteButtonClick: function(e) {
+			console.error("_DataViewBoxEditButton:  _onDeleteButtonClick should be overridden");
+			// placeholder
+		},
+
 		onBeforeAddItem: function(item) {
 			// summary:
 			//   Hook method to initialize an object that will
@@ -94,19 +105,12 @@ dojo.declare(
 			//   Hook method for the Add button.
 		},
 		
-		_ondeletebuttonclick: function(e) {
-			// placeholder
-		},
-		
 		onDeleteButtonClick: function(e) {
 			// summary:
 			//   Hook method for the Delete button.
 			// description:
 			//   Hook method for the Delete button.
-		},
-
-		_onmenuitemclick: function(e) {
-			// placeholder
 		}
+
 	}
 );
