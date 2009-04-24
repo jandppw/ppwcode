@@ -11,9 +11,11 @@ dojo.declare(
 		gridStructure: null,
 		
 		identifierPropertyName: "",
+		comparatorMap: null,
 		
 		_data: null,
 		_dataStore: null,
+		_comparatorMap: null,
 		
 		constructor: function(kwArgs) {
 			if (kwArgs) {
@@ -23,7 +25,14 @@ dojo.declare(
 				if (kwArgs.gridStructure) {
 					this.gridStructure = kwArgs.gridStructure;
 				}
+				if (kwArgs.comparatorMap) {
+					this.comparatorMap = kwArgs.comparatorMap; 
+				}
 			}
+		},
+		
+		postMixInProperties: function() {
+			this._comparatorMap = this.comparatorMap;
 		},
 		
 		buildRendering: function() {
@@ -66,6 +75,9 @@ dojo.declare(
 			var storeParams = {data: this._data};
 			if (this.identifierPropertyName) {
 				storeParams.identifierPropertyName = this.identifierPropertyName;
+			}
+			if (this._comparatorMap) {
+				storeParams.comparatorMap = this._comparatorMap; 
 			}
 			this._dataStore = new org.ppwcode.dojo.dojo.data.ObjectArrayStore(storeParams);
 			this._masterGrid.setStore(this._dataStore);
@@ -120,7 +132,10 @@ dojo.declare(
 		},
 		
 		_clearSelection: function() {
+			//clear grid's selection
 			this._masterGrid.selection.clear();
+			//reset focus cell
+			this._masterGrid.focus.setFocusIndex(-1, 0)
 		},
 
 		
