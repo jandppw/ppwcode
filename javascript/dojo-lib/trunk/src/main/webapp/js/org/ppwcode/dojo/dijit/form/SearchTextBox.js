@@ -31,8 +31,9 @@ dojo.declare(
 		//    modifier keys, etc.
 		//  
 		
-		templateString:"<input class=\"dijit dijitReset dijitLeft\" dojoAttachPoint='textbox,focusNode' name=\"${name}\"\n\tdojoAttachEvent='onmouseenter:_onMouse,onmouseleave:_onMouse,onfocus:_onMouse,onblur:_onMouse,onkeypress:_onKeyPress,onkeyup:_onkeyup'\n\tautocomplete=\"off\" type=\"${type}\"\n\t/>\n",
-		
+		// templateString:"<input class=\"dijit dijitReset dijitLeft\" dojoAttachPoint='textbox,focusNode' name=\"${name}\"\n\tdojoAttachEvent='onmouseenter:_onMouse,onmouseleave:_onMouse,onfocus:_onMouse,onblur:_onMouse,onkeypress:_onKeyPress,onkeyup:_onkeyup'\n\tautocomplete=\"off\" type=\"${type}\"\n\t/>\n",
+		templatePath: dojo.moduleUrl("org", "ppwcode/dojo/dijit/form/templates/SearchTextBox.html"),
+			
 		minChars: 3,
 		triggerTimeout: 300,
 		
