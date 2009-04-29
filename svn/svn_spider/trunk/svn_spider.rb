@@ -74,6 +74,9 @@ end
     # create a client context
     ctx = Svn::Client::Context.new
 
+    # ssl certificate verification: accept certificates that have been accepted before
+    ctx.add_ssl_server_trust_file_provider
+
     # authentication
     if ((info["auth"] == nil) || (@@credentials[info["auth"]] == nil)) then
       # maybe svn already has the authentication info
