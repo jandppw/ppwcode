@@ -136,6 +136,7 @@
             <argument>releaseName=${dojo.build.release.name}</argument>
             <!-- releaseDir: don't forget the slash at the end! -->
             <argument>releaseDir=${dojo.build.release.location}/</argument>
+            <argument>internStrings=false</argument>
           </arguments>
         </configuration>
 
