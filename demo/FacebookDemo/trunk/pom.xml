@@ -74,18 +74,25 @@
       </plugin>
 
       <!-- Download dojo source package from dojotoolkit.org -->
-      <!--
-        <plugin> <groupId>org.codehaus.mojo</groupId>
-        <artifactId>wagon-maven-plugin</artifactId> <executions>
-        <execution> <id>download-dojo</id>
-        <phase>generate-sources</phase> <goals>
-        <goal>download-single</goal> </goals> <configuration>
-        <serverId>dojotoolkit</serverId>
-        <url>${dojo.source.remote.location}</url>
-        <fromFile>${dojo.source.filename}</fromFile>
-        <toDir>${dojo.source.local.location}</toDir> </configuration>
-        </execution> </executions> </plugin>
-      -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>wagon-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>download-dojo</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>download-single</goal>
+            </goals>
+            <configuration>
+              <serverId>dojotoolkit</serverId>
+              <url>${dojo.source.remote.location}</url>
+              <fromFile>${dojo.source.filename}</fromFile>
+              <toDir>${dojo.source.local.location}</toDir>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
 
       <!-- unpack the dojo source -->
       <plugin>
