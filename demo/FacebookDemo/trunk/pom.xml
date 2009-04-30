@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <groupId>org.ppwcode</groupId>
     <artifactId>ppwcode-library-parent-pom</artifactId>
@@ -12,6 +13,23 @@
   <packaging>war</packaging>
   <name>Facebook Demo</name>
   <version>0.1-SNAPSHOT</version>
+
+  <properties>
+    <webresources.location>${project.build.directory}/WebResources</webresources.location>
+    <webresources.javascript.location>${webresources.location}/js</webresources.javascript.location>
+    <dojo.version>1.1.1</dojo.version>
+    <dojo.source.remote.location>http://download.dojotoolkit.org/release-${dojo.version}</dojo.source.remote.location>
+    <dojo.source.local.location>${project.build.directory}/../downloads</dojo.source.local.location>
+    <dojo.source.local.unpacked.location>${webresources.javascript.location}/dojo-${dojo.version}</dojo.source.local.unpacked.location>
+    <dojo.source.basename>dojo-release-${dojo.version}-src</dojo.source.basename>
+    <dojo.source.filename>${dojo.source.basename}.tar.gz</dojo.source.filename>
+    <dojo.build.profileFile>${basedir}/facebookdemo.profile.js</dojo.build.profileFile>
+    <dojo.build.action>clean,release</dojo.build.action>
+    <dojo.build.version>${project.artifactId}-${project.version}</dojo.build.version>
+    <dojo.build.release.name>dojo-release</dojo.build.release.name>
+    <dojo.build.release.location>${webresources.javascript.location}</dojo.build.release.location>
+  </properties>
+
 
   <!-- THIS NEEDS TO BE COPIED IN ALL CHILD POMS, TO FIND THE PARENT -->
   <repositories>
@@ -27,27 +45,107 @@
       <url>http://www.ppwcode.org/java/maven2snapshotrepo</url>
     </repository>
   </repositories>
-  
+
   <build>
     <finalName>FacebookDemo</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
-        <version>2.0.2</version>
+        <version>2.1-beta-1</version>
         <configuration>
+          <packagingExcludes>index2.html,js/org/**,js/app/**</packagingExcludes>
           <archive>
             <manifest>
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
               <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
             </manifest>
           </archive>
+          <webResources>
+            <resource>
+              <!-- this is relative to the pom.xml directory -->
+              <directory>${webresources.location}</directory>
+              <excludes>
+                <exclude>**/dojo-${dojo.version}/**</exclude>
+              </excludes>
+            </resource>
+          </webResources>
         </configuration>
+      </plugin>
+
+      <!-- Download dojo source package from dojotoolkit.org -->
+      <!--
+        <plugin> <groupId>org.codehaus.mojo</groupId>
+        <artifactId>wagon-maven-plugin</artifactId> <executions>
+        <execution> <id>download-dojo</id>
+        <phase>generate-sources</phase> <goals>
+        <goal>download-single</goal> </goals> <configuration>
+        <serverId>dojotoolkit</serverId>
+        <url>${dojo.source.remote.location}</url>
+        <fromFile>${dojo.source.filename}</fromFile>
+        <toDir>${dojo.source.local.location}</toDir> </configuration>
+        </execution> </executions> </plugin>
+      -->
+
+      <!-- unpack the dojo source -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>unpack</id>
+            <configuration>
+              <tasks>
+                <untar compression="gzip"
+                  src="${dojo.source.local.location}/${dojo.source.filename}"
+                  dest="${webresources.javascript.location}" />
+                <move
+                  file="${webresources.javascript.location}/${dojo.source.basename}"
+                  tofile="${dojo.source.local.unpacked.location}" />
+              </tasks>
+            </configuration>
+            <phase>process-sources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+
+        <configuration>
+          <executable>${java.home}/bin/java</executable>
+          <workingDirectory>${dojo.source.local.unpacked.location}/util/buildscripts</workingDirectory>
+          <arguments>
+            <argument>-jar</argument>
+            <argument>${dojo.source.local.unpacked.location}/util/shrinksafe/custom_rhino.jar</argument>
+            <argument>build.js</argument>
+            <argument>profileFile=${dojo.build.profileFile}</argument>
+            <argument>action=${dojo.build.action}</argument>
+            <argument>version=${dojo.build.version}</argument>
+            <argument>releaseName=${dojo.build.release.name}</argument>
+            <!-- releaseDir: don't forget the slash at the end! -->
+            <argument>releaseDir=${dojo.build.release.location}/</argument>
+          </arguments>
+        </configuration>
+
+        <executions>
+          <execution>
+            <id>dojo-custom-build</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
-  
-   <dependencies>
+
+  <dependencies>
     <dependency>
       <groupId>org.ppwcode.vernacular</groupId>
       <artifactId>ppwcode-vernacular-semantics-VI</artifactId>
@@ -89,12 +187,11 @@
       <artifactId>hibernate-entitymanager</artifactId>
       <version>3.3.2.GA</version>
       <scope>compile</scope>
-<!--      <exclusions>
-        <exclusion>
-          <groupId>org.hibernate</groupId>
-          <artifactId>ejb3-persistence</artifactId>
-        </exclusion>
-      </exclusions>-->
+      <!--
+        <exclusions> <exclusion> <groupId>org.hibernate</groupId>
+        <artifactId>ejb3-persistence</artifactId> </exclusion>
+        </exclusions>
+      -->
     </dependency>
     <dependency>
       <groupId>com.google.code.facebookapi</groupId>
@@ -102,15 +199,15 @@
       <version>2.1.0</version>
     </dependency>
     <dependency>
-    	<groupId>servletapi</groupId>
-    	<artifactId>servlet-api</artifactId>
-    	<version>2.4</version>
+      <groupId>servletapi</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.4</version>
     </dependency>
     <dependency>
-    	<groupId>jdom</groupId>
-    	<artifactId>jdom</artifactId>
-    	<version>1.1</version>
+      <groupId>jdom</groupId>
+      <artifactId>jdom</artifactId>
+      <version>1.1</version>
     </dependency>
-   </dependencies>
+  </dependencies>
 
 </project>
