@@ -19,7 +19,7 @@
     <webresources.javascript.location>${webresources.location}/js</webresources.javascript.location>
     <dojo.version>1.1.1</dojo.version>
     <dojo.source.remote.location>http://download.dojotoolkit.org/release-${dojo.version}</dojo.source.remote.location>
-    <dojo.source.local.location>${project.build.directory}/../downloads</dojo.source.local.location>
+    <dojo.source.local.location>${basedir}/downloads</dojo.source.local.location>
     <dojo.source.local.unpacked.location>${webresources.javascript.location}/dojo-${dojo.version}</dojo.source.local.unpacked.location>
     <dojo.source.basename>dojo-release-${dojo.version}-src</dojo.source.basename>
     <dojo.source.filename>${dojo.source.basename}.tar.gz</dojo.source.filename>
