@@ -11,7 +11,7 @@ dojo.declare(
 		
 		templateString: "<img dojoAttachPoint='focusNode' src='${imgSrc}'></img>",
 		
-		setValue: function(newValue) {
+		_setValueAttr: function(newValue) {
 			dojo.attr(this.domNode, "src", newValue);
 			this.inherited(arguments);
 		}
