@@ -6,7 +6,7 @@ dojo.require("org.ppwcode.dojo.dijit.form._ViewFormCrudScenariosDwr");
 dojo.declare(
 	"org.ppwcode.dojo.dijit.form.ViewFormControllerDwr",
 	//The controller is a widget, solely to have the dojo.parser call lifecycle functions...
-	[dijit._Widget, org.ppwcode.dojo.dijit.form._ViewFormCrudScenariosDwr],
+	org.ppwcode.dojo.dijit.form._ViewFormCrudScenariosDwr,
 	{
 		//summary:
 		//    A ViewFormControllerDwr is a user interface controller that
@@ -114,18 +114,22 @@ dojo.declare(
 
 		_eventconnections: null,
 		
-		constructor: function() {
+		constructor: function(kwArgs) {
 			this._eventconnections = [];
-		},	
-
-		postCreate: function() {
+			if (kwArgs) {
+				if (kwArgs.view) {
+					this.view = kwArgs.view;
+				}
+				if (kwArgs.form) {
+					this.form = wkArgs.form;
+				}
+			}
 			// only do this when the dojo parser sets the view and form
 			// properties.  This can be done by setting the form and
 			// view attributes on the tag that defines this widget.
 			if (this.view && this.form) {
 				this.configure(this.view, this.form);
 			}
-			this.inherited(arguments);
 		},
 		
 		destroy: function() {
@@ -133,6 +137,8 @@ dojo.declare(
 		},
 		
 		_connectEventHandlers: function() {
+			//disconnect old handlers
+			this._disconnectEventHandlers();
 			//connect form
 			this._eventconnections.push(dojo.connect(this._form, "onUpdateModeSaveButtonClick", this, "_doItemUpdate"));
 			this._eventconnections.push(dojo.connect(this._form, "onCreateModeSaveButtonClick", this, "_doItemCreate"));
@@ -141,7 +147,7 @@ dojo.declare(
 			this._eventconnections.push(dojo.connect(this._view, "onClear", this, "_doViewOnClear"));
 			this._eventconnections.push(dojo.connect(this._view, "onGridRowClick", this, "_doViewGridRowClick"));
 			this._eventconnections.push(dojo.connect(this._view, "onGridHeaderClick", this, "_doViewGridHeaderClick"));
-			this._eventconnections.push(dojo.connect(this._view, "onAddButtonClick", this, "_doViewOnAddButtonClick"));
+			this._eventconnections.push(dojo.connect(this._view, "onCreateButtonClick", this, "_doViewOnCreateButtonClick"));
 			this._eventconnections.push(dojo.connect(this._view, "onSelectItemSuccess", this, "_doViewOnSelectItemSuccess"));
 			this._eventconnections.push(dojo.connect(this._view, "onSetData", this, "_doViewOnSetData"));
 			this._eventconnections.push(dojo.connect(this._view, "onSelectItemFail", this, "_doViewOnSelectItemFail"));
@@ -203,7 +209,7 @@ dojo.declare(
 		},
 		
 		//View; Add object
-		_doViewOnAddButtonClick: function(e) {
+		_doViewOnCreateButtonClick: function(e) {
        		this._form.createObject();
         },
 
