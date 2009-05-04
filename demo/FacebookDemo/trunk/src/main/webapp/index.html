@@ -5,8 +5,8 @@
   <title>Facebook Connect Demo</title>
   <style type="text/css">
     @import "js/dojo-release/dojo/resources/dojo.css";
-    @import "js/dojo-release/dojox/grid/_grid/Grid.css";
-    @import "js/dojo-release/dojox/grid/_grid/tundraGrid.css";
+    @import "js/dojo-release/dojox/grid/resources/Grid.css";
+    @import "js/dojo-release/dojox/grid/resources/tundraGrid.css";
     @import "js/dojo-release/dijit/themes/tundra/tundra.css";
     
     html, body, .mainDiv {
@@ -69,13 +69,13 @@
         <div dojoType="dijit.layout.ContentPane" title="Your movies" style="overflow: hidden;">
           <div dojoType="dijit.layout.BorderContainer" liveSplitters="true">
             <div dojoType="dijit.layout.ContentPane" region="left" splitter="true" style="width: 250px; overflow: hidden;">
-              <div id="lstYourMovies" jsId="lstYourMovies" dojoType="org.ppwcode.dojo.dijit.form.MasterView" gridStructure="yourmovielistgridlayout">
+              <div id="lstYourMovies" jsId="lstYourMovies" dojoType="ppwcode.dojo.dijit.form.MasterView" gridStructure="yourmovielistgridlayout">
               </div>
             </div>
             <div dojoType="dijit.layout.ContentPane" region="center" splitter="true">
               <form id="frmYourMovie"
                     jsId="frmYourMovie"
-                    dojoType="org.ppwcode.dojo.dijit.form.CrudForm"
+                    dojoType="ppwcode.dojo.dijit.form.CrudForm"
                     constructorFunction="Movie">
                 <input type="hidden"
                        id="yourMovieIdHiddenBox"
@@ -157,7 +157,7 @@
             	<div region="top" style="height:30px;"></div>
            		<div dojoType="dijit.layout.ContentPane" region="center" splitter="false">
            			<center>
-                		<span id="yourMoviePicture" jsId="yourMoviePicture" dojoType="org.ppwcode.dojo.dijit.form.ImageBox"></span>
+                		<span id="yourMoviePicture" jsId="yourMoviePicture" dojoType="ppwcode.dojo.dijit.form.ImageBox"></span>
                 	</center>
                 </div>
                 <div id="yourMovieDescription" dojoType="dijit.layout.ContentPane" region="right" ></div>
@@ -177,12 +177,12 @@
             <div dojoType="dijit.layout.ContentPane" region="center" splitter="true" style="overflow: hidden;">
               <div id="fbFriendContentPane" dojoType="dijit.layout.BorderContainer" design="headline" liveSplitters="false" gutters="false">
                 <div dojoType="dijit.layout.ContentPane" region="top" splitter="false" style="height: 160px;">
-                  <form id="fbFriendForm" jsId="fbFriendForm" dojoType="org.ppwcode.dojo.dijit.form.ObjectForm">
+                  <form id="fbFriendForm" jsId="fbFriendForm" dojoType="ppwcode.dojo.dijit.form.ObjectForm">
                     <table>
                       <tbody>
                         <tr>
                           <td style="width: 100px; padding: 2px; text-align: center; vertical-align: top;">
-                           <span id="FbFriendPicture" dojoType="org.ppwcode.dojo.dijit.form.ImageBox"></span>
+                           <span id="FbFriendPicture" dojoType="ppwcode.dojo.dijit.form.ImageBox"></span>
                           </td>
                           <td style="vertical-align: top;">
                             <div>
@@ -223,8 +223,8 @@
     FB.init("c77ef4b86b5c5442c67898ba963d8735", "xd_receiver.htm");
   </script>
 
-  <script id="dojo" type="text/javascript"
-          src="js/dojo-release/dojo/dojo.js" djConfig="modulePaths: {org: '../org'}, isDebug: false">
+  <script type="text/javascript"
+          src="js/dojo-release/dojo/dojo.js" djConfig="modulePaths: {ppwcode: '../ppwcode'}, isDebug: false">
   </script>
 
   <script type="text/javascript" src="js/dojo-release/dojo/ppwfacebookdemo.js"></script>

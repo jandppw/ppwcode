@@ -54,7 +54,7 @@
         <artifactId>maven-war-plugin</artifactId>
         <version>2.1-beta-1</version>
         <configuration>
-          <packagingExcludes>index2.html,js/org/**,js/app/**</packagingExcludes>
+          <packagingExcludes>index2.html,index3.html,main.html,js/org/**,js/app/**</packagingExcludes>
           <archive>
             <manifest>
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
@@ -74,7 +74,7 @@
       </plugin>
 
       <!-- Download dojo source package from dojotoolkit.org -->
-      <plugin>
+<!--      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>wagon-maven-plugin</artifactId>
         <executions>
@@ -93,7 +93,7 @@
           </execution>
         </executions>
       </plugin>
-
+-->
       <!-- unpack the dojo source -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -124,16 +124,22 @@
         <artifactId>exec-maven-plugin</artifactId>
 
         <configuration>
-          <executable>${dojo.source.local.unpacked.location}/util/buildscripts/build.sh</executable>
+          <executable>${java.home}/bin/java</executable>
           <workingDirectory>${dojo.source.local.unpacked.location}/util/buildscripts</workingDirectory>
           <arguments>
+            <argument>-classpath</argument>
+            <argument>../shrinksafe/js.jar:../shrinksafe/shrinksafe.jar</argument>
+            <argument>org.mozilla.javascript.tools.shell.Main</argument>
+            <argument>build.js</argument>
             <argument>profileFile=${dojo.build.profileFile}</argument>
             <argument>action=${dojo.build.action}</argument>
             <argument>version=${dojo.build.version}</argument>
             <argument>releaseName=${dojo.build.release.name}</argument>
             <!-- releaseDir: don't forget the slash at the end! -->
             <argument>releaseDir=${dojo.build.release.location}/</argument>
-            <argument>internStrings=false</argument>
+            <argument>optimize=shrinksafe.keepLines</argument>
+            <argument>layerOptimize=shrinksafe.keepLines</argument>
+            <argument>internStrings=true</argument>
           </arguments>
         </configuration>
 
