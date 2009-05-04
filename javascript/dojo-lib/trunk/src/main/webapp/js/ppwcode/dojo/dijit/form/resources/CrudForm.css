@@ -1,0 +1,38 @@
+@CHARSET "UTF-8";
+
+.CrudFormBusyPanel {
+	text-align: center;
+	position: absolute;
+	top: 50%;
+	width: 100%;
+	margin-top: -1ex;
+}
+
+.CrudFormBusyMessage {
+  display: inline;
+	vertical-align: middle;
+	margin-left: 0.5em;
+}
+
+.CrudFormBusyIcon {
+	vertical-align: middle;
+}
+
+.CrudFormButtonPanel {
+	text-align: right;
+}
+
+.CrudFormErrorBox {
+	margin-top: 1.5ex;
+	padding: 0.5ex;
+  background-color: #FFEEEE;
+  border: 1px solid red;
+}
+
+.CrudFormErrorBoxTitle {
+	font-weight: bold;
+}
+
+.CrudFormError {
+	color: red;
+}
