@@ -14,12 +14,12 @@ dojo.require("dijit.form.FilteringSelect");
 dojo.require("dojox.form.DropDownSelect");
 dojo.require("dojox.grid.DataGrid");
 dojo.require("dojox.data.QueryReadStore");
-dojo.require("org.ppwcode.dojo.dojo.data.ObjectArrayStore");
-dojo.require("org.ppwcode.dojo.dijit.form.MasterView");
-dojo.require("org.ppwcode.dojo.dijit.form.ObjectForm");
-dojo.require("org.ppwcode.dojo.dijit.form.CrudForm");
-dojo.require("org.ppwcode.dojo.dijit.form.ViewFormControllerDwr");
-dojo.require("org.ppwcode.dojo.dijit.form.ImageBox");
+dojo.require("ppwcode.dojo.dojo.data.ObjectArrayStore");
+dojo.require("ppwcode.dojo.dijit.form.MasterView");
+dojo.require("ppwcode.dojo.dijit.form.ObjectForm");
+dojo.require("ppwcode.dojo.dijit.form.CrudForm");
+dojo.require("ppwcode.dojo.dijit.form.ViewFormControllerDwr");
+dojo.require("ppwcode.dojo.dijit.form.ImageBox");
 
 var fbfriendsgridview = {
 		cells: [
@@ -112,7 +112,7 @@ function initializeGrids() {
 }
 
 function initializeDwrControllers() {
-	yourMovieViewFormController = new org.ppwcode.dojo.dijit.form.ViewFormControllerDwr();
+	yourMovieViewFormController = new ppwcode.dojo.dijit.form.ViewFormControllerDwr();
 	yourMovieViewFormController.dwrRetrieveFunction = JpaMovieDaoWrapper.findByFacebookUser;
 	yourMovieViewFormController.dwrCreateFunction = JpaAtomicStatelessCrudDaoWrapper.createPersistentBean;
 	yourMovieViewFormController.dwrUpdateFunction = JpaAtomicStatelessCrudDaoWrapper.updatePersistentBean;
@@ -150,7 +150,7 @@ function retrieve_friends() {
 				["pic", "first_name", "last_name"], 
 				function(result, ex) {
 			var data = result ? result : [];
-			var fbfriendsgriddatastore = new org.ppwcode.dojo.dojo.data.ObjectArrayStore({data: data});
+			var fbfriendsgriddatastore = new ppwcode.dojo.dojo.data.ObjectArrayStore({data: data});
 			fbFriendsGrid.setStore(fbfriendsgriddatastore);
 		});
 	});
@@ -260,7 +260,7 @@ function showFriendDetails(user) {
 	JpaMovieDaoWrapper.findByFacebookUser(user.uid,
 			{
 		callback: function(response) {
-		lstFriendsMoviesGrid.setStore(new org.ppwcode.dojo.dojo.data.ObjectArrayStore({data: response}));
+		lstFriendsMoviesGrid.setStore(new ppwcode.dojo.dojo.data.ObjectArrayStore({data: response}));
 	},
 	errorHandler: function(errorString, ex) {
 		//console.error(errorString);
