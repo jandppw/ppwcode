@@ -84,9 +84,11 @@ dojo.declare(
 		//   In case of updating, the original object is cloned (using dojo.clone, so no loops in the object
 		//   graph allowed), and the form fields are assigned to the appropriate object properties.
 
-		templatePath: dojo.moduleUrl("ppwcode", "dojo/dijit/form/templates/CrudForm.html"),
-		//override templateString from superclass
+		//override templateString from superclass.
+		//Note:  templateString must be defined BEFORE templatePath, templatePath is replaced by templateString
+		//       when doing a dojo custom build.
 		templateString: null,
+		templatePath: dojo.moduleUrl("ppwcode", "dojo/dijit/form/templates/CrudForm.html"),
 
 		constructorFunction: null,
 
