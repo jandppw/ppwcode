@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+  <title>Container</title>
+
+  <script type="text/javascript" src="../../../../../dojo-1.3.0/dojo/dojo.js" djConfig="isDebug: true, parseOnLoad: true"></script>
+  <script type="text/javascript">
+    dojo.require("doh.runner");
+    dojo.require("dojo.parser");
+
+    dojo.addOnLoad(function(){
+      doh.register("alwayssucceed",
+        [
+          function assertTrueTest() {
+        	   doh.assertTrue(true);
+          }
+        ]
+      );
+      doh.run();
+    });
+  </script>
+</head>
+<body class="tundra">
+</body>
+</html>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>TitlePane</title>
+
+<style type="text/css">
+  @import url("style.css");
+</style>
+
+<script type="text/javascript"
+        src="../../../../../../dojo-1.3.0/dojo/dojo.js"
+        djConfig="parseOnLoad:true, modulePaths: {ppwcode: '../../ppwcode'}, locale: 'nl-be'">
+</script>
+
+<script type="text/javascript">
+    dojo.require("dojo.parser");
+    dojo.require("ppwcode.dojo.dijit.layout.TitledContentPane");
+    dojo.require("dojox.highlight");
+    dojo.require("dojox.highlight.languages._all");
+	dojo.require("dojo.data.ItemFileReadStore");
+	dojo.require("dijit.Tree");    
+
+    dojo.addOnLoad(function() {
+    	dojo.query("code").forEach(dojox.highlight.init);
+    });
+
+</script>
+</head>
+
+<body class="soria">  	
+	<div dojoType="dojo.data.ItemFileReadStore" jsId="directoryStore"
+		url="../_data/titledContentPane.json"></div>
+		
+    <div dojoType="ppwcode.dojo.dijit.layout.TitledContentPane"
+    	title="TitlePane" 
+    	style="width: 350px;">
+		<div>
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
+			luctus, dolor rutrum fringilla eleifend, augue metus gravida velit, in
+			vestibulum magna sapien vitae sapien. Mauris risus lectus, facilisis
+			aliquet, mattis quis, elementum porta, lectus. Maecenas dictum iaculis
+			ipsum. Duis sit amet neque. Praesent consectetur. Nulla urna risus,
+			auctor ut, convallis et, porta eget, lorem. Nunc sagittis, orci eget
+			vulputate tincidunt, orci massa fermentum leo, nec sollicitudin eros
+			nisi id felis. Duis massa orci, bibendum vel, adipiscing eu, lacinia
+			quis, orci. Nulla velit ipsum, venenatis sed, ultricies vitae, suscipit
+			at, diam. Aenean lacinia, enim quis adipiscing elementum, lectus risus
+			euismod dolor, non pretium justo magna non magna. Nulla commodo arcu in
+			lectus. Nam id quam. 
+		</div>
+		<div>	
+			Integer eu arcu. Etiam consectetur mollis elit.
+			Suspendisse tincidunt eros a erat. Mauris nisi. In venenatis posuere
+			risus. Vivamus egestas condimentum nisi. Phasellus ac ante. Donec sit
+			amet nulla. Pellentesque lorem. Fusce orci lectus, mattis id, dignissim
+			sit amet, accumsan in, tellus. Etiam turpis. Ut lorem ante, lobortis ac,
+			tempor vel, sodales a, tortor. Aliquam commodo, ligula in egestas
+			molestie, turpis est placerat metus, vel aliquam urna augue non lectus.
+			Praesent nisi augue, facilisis semper, vehicula placerat, congue vel,
+			pede. Nam suscipit imperdiet elit. Morbi feugiat, lorem vehicula
+			volutpat auctor, felis libero placerat nibh, cursus feugiat enim eros a
+			neque. Praesent volutpat. Donec condimentum. Donec metus. Ut et elit
+			sollicitudin mi accumsan hendrerit.
+		</div>
+	</div>
+	<div class="comment">
+	  <h1>TitleContentPane:</h1>
+	  <p>
+	  Is a pane with a title on top, which can have a shadow.<br><br>
+	
+	  An accessible container with a Title Heading. TitledContentPane is an<br> 
+	  extension to ContentPane. It provides all the ContentPane it's usesful <br>
+	  content-control aspects.	  
+	  <p>
+	  <br><b><u>features:</u></b>
+	  <ul>
+	    <li>Add a title</li>
+	    <li>Use a shadow</li>
+	    <li>Put a margin on the component</li>	  
+	  </ul>
+	  <br><b><u>example:</u></b>
+	  <br><br>
+	  Here you see an example of a TitledContentPane with a title.<br>
+	  <u>The source code:</u>
+	<pre>
+		<code>
+&lt;head&gt;		
+&lt;script type=&quot;text/javascript&quot;&gt;
+    dojo.require(&quot;dojo.parser&quot;);
+    dojo.require(&quot;ppwcode.dojo.dijit.layout.TitledContentPane&quot;);
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+.
+.
+.		
+&lt;div dojoType=&quot;ppwcode.dojo.dijit.layout.TitledContentPane&quot;
+	title=&quot;TitlePane&quot;&gt; 
+	content
+&lt;/div&gt;
+.
+.
+.
+&lt;/body&gt;			
+		</code>
+  	</pre>
+  	
+  	  <br><b><u>package structure:</u></b>  	
+	  <div dojoType="dijit.Tree" 
+	  		id="directoryTree" 
+	  		store="directoryStore" 
+	  		query="{type:'root'}"
+			openOnClick="true">
+	  </div>  	
+  	</div>
+</body>
+</html>
