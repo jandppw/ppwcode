@@ -3,18 +3,18 @@
 <head>
 <title>EditableDataViewBox</title>
 <style type="text/css">
-@import "../../../../../../dojo-1.3.0/dojo/resources/dojo.css";
-@import "../../../../../../dojo-1.3.0/dijit/themes/tundra/tundra.css";
-@import "../../../../../../dojo-1.3.0/dojox/grid/resources/Grid.css";
-@import "../../../../../../dojo-1.3.0/dojox/grid/resources/tundraGrid.css";
-@import "../../../../../../dojo-1.3.0/dijit/tests/css/dijitTests.css";
+@import "../../../../../../dojo-1.3.1/dojo/resources/dojo.css";
+@import "../../../../../../dojo-1.3.1/dijit/themes/tundra/tundra.css";
+@import "../../../../../../dojo-1.3.1/dojox/grid/resources/Grid.css";
+@import "../../../../../../dojo-1.3.1/dojox/grid/resources/tundraGrid.css";
+@import "../../../../../../dojo-1.3.1/dijit/tests/css/dijitTests.css";
 </style>
 
 <script type="text/javascript"
-  src="../../../../../../dojo-1.3.0/dojo/dojo.js"
+  src="../../../../../../dojo-1.3.1/dojo/dojo.js"
   djConfig="modulePaths: {'org' : '../../org'}, isDebug: true, parseOnLoad: true"></script>
 <script type="text/javascript"
-  src="../../../../../../dojo-1.3.0/dijit/tests/_testCommon.js"></script>
+  src="../../../../../../dojo-1.3.1/dijit/tests/_testCommon.js"></script>
 
 <script type="text/javascript">
     dojo.require("doh.runner");
@@ -308,7 +308,7 @@ dojo.addOnLoad(function(){
           var onBeforeAddItemHandle = dojo.connect(edvb, "onBeforeAddItem", addItemDeferred, "callback");
           var onCreateButtonClickHandle = dojo.connect(edvb, "onCreateButtonClick", buttonClickDeferred, "callback");
           edvb.setData([]);
-          edvb._oncreatebuttonclick();
+          edvb._onCreateButtonClick();
           return dohd;
       },
       function testDeleteButtonClick1() {
@@ -323,7 +323,7 @@ dojo.addOnLoad(function(){
           var handle = dojo.connect(edvb, "onDeleteButtonClick", dojod, "callback");
           edvb.setData(dojo.clone(data));
           edvb.selectItem({type: "important"});
-          edvb._ondeletebuttonclick();
+          edvb._onDeleteButtonClick();
           return dohd;
       },
       function testDisableButtons1() {
@@ -381,7 +381,7 @@ dojo.addOnLoad(function(){
           var onBeforeAddItemHandle = dojo.connect(edvb, "onBeforeAddItem", addItemDeferred, "callback");
           var onCreateButtonClickHandle = dojo.connect(edvb, "onCreateButtonClick", buttonClickDeferred, "callback");
           edvb.setData([]);
-          edvb._onmenuitemclick("Email");
+          edvb._onCreateMenuItemClick("Email");
           return dohd;
       },
       function testDisableButtons3() {

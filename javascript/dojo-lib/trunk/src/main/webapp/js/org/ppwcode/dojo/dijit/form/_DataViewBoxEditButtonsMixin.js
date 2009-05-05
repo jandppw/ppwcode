@@ -80,7 +80,7 @@ dojo.declare(
 			// placeholder
 		},
 		
-		_onMenuItemClick: function(value, event) {
+		_onCreateMenuItemClick: function(value, event) {
 			console.error("_DataViewBoxEditButton:  _onCreateMenuItemClick should be overridden");
 			// placeholder
 		},
