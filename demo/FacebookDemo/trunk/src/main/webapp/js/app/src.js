@@ -68,7 +68,8 @@ var fbfriendsmoviesgridlayout = [
                                 	 cells: [[
                                 	          {name: "Title", field: "title", width: "auto"},
                                 	          {name: "Rating", field: "rating", width: "100px", formatter: formatRating},
-                                	          {name: "Media type", field: "mediaType", width: "6em", formatter: formatMediaType}
+                                	          {name: "Media type", field: "mediaType", width: "6em", formatter: formatMediaType},
+                                	          {name: "Comment", field: "comment", width:"40em"}
                                 	          ]]	
                                  }
                                  ];
@@ -87,7 +88,8 @@ var yourMovieFormMap = [
                         { property: "facebookUserId", fieldid: "yourFacebookUserIdHiddenBox"},
                         { property: "id", fieldid: "yourMovieId"},
                         { property: "mediaType", fieldid: "yourMovieMediaType" },
-                        { property: "rating", fieldid: "yourMovieRating" }
+                        { property: "rating", fieldid: "yourMovieRating" },
+                        { property: "comment", fieldid: "yourMovieComment" }
                         ];
 
 function retrieve_movies(fbuid) {
