@@ -103,5 +103,20 @@ public class Movie extends AbstractIntegerIdIntegerVersionedPersistentBean {
 
 	private int $rating = 0;
 	/* </property> */
+	
+	/*
+	 * <property name="comment">
+	 * -------------------------------------------------------------------------
+	 */
+	public String getComment() {
+		return $comment;
+	}
+	
+	public void setComment(String comment) {
+		$comment = comment;
+	}
+	
+	private String $comment;
+	/* </property> */
 
 }
