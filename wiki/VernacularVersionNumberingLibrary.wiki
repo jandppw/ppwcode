@@ -46,6 +46,8 @@ A ppwcode has a major version that is configured in the POM's `version`.  The ve
 
 A general rule is: changes in the minor version are required for any modification that does not affect the mark or major version.
 
+In general, a minor version upgrade is highly advised, maybe even mandatory, for users. If a A b.c exists, we will no longer support A b.d, with d < c.
+
 =Open Issues=
 
   * Do annotations affect the versioning? 
