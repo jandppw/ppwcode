@@ -48,8 +48,8 @@ import org.toryt.annotations_I.Throw;
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$",
          date     = "$Date$")
-@IdentifierIssuingAuthority(name = "MUDO")
-@IdentifierSchemeDescription("MUDO")
+@IdentifierIssuingAuthority(name = "De Post", uri = "http://www.depost.be")
+@IdentifierSchemeDescription("http://nl.wikipedia.org/wiki/Postcode")
 public final class BePostalCode extends AbstractRegexIdentifier implements PostalCode {
 
   /**
