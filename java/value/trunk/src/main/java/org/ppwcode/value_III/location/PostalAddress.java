@@ -20,6 +20,7 @@ package org.ppwcode.value_III.location;
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
@@ -30,6 +31,7 @@ import org.toryt.annotations_I.Basic;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.Invars;
 import org.toryt.annotations_I.MethodContract;
+import org.toryt.annotations_I.Throw;
 
 
 /**
@@ -175,6 +177,7 @@ import org.toryt.annotations_I.MethodContract;
  *   for postal code and city name are allowed as user assistance, but should not be enforced.</p>
  *
  * @author    Jan Dockx
+ * @author    David Van Keer
  * @author    PeopleWare NV
  */
 @Copyright("2008 - $Date$, PeopleWare n.v.")
@@ -184,7 +187,32 @@ import org.toryt.annotations_I.MethodContract;
 @Invars(@Expression("postalCode.country.locales.contains(locale)"))
 public final class PostalAddress extends AbstractImmutableValue {
 
-  public PostalAddress(PostalCode postalCode, Locale locale, String city, String streetAddress) throws ValueException {
+  // TODO (dvankeer): Don't we need a serial version UID?
+  
+  @MethodContract(
+    post = {
+      @Expression("postalCode == _postalCode"),
+      @Expression("locale == _locale"),
+      @Expression("city == _city"),
+      @Expression("streetAddress == _streetAddress")
+    },
+    exc  = {
+      @Throw(type = ValueException.class,
+             cond = @Expression("_postalCode == null")),
+      @Throw(type = ValueException.class,
+             cond = @Expression("_locale == null")),
+      @Throw(type = ValueException.class,
+             cond = @Expression("_city == null || _city == ''")),
+      @Throw(type = ValueException.class,
+             cond = @Expression("_city.matches('.*[\\n\\r].*')")),
+      @Throw(type = ValueException.class,
+             cond = @Expression("_streetAddress == null || _streetAddress == ''")),
+      @Throw(type = ValueException.class,
+             cond = @Expression("! _postalCode.country.locales.contains(_locale)")),
+    }
+  )
+  public PostalAddress(final PostalCode postalCode, final Locale locale, final String city, final String streetAddress)
+      throws ValueException {
     // MUDO compound exception
     if (postalCode == null) {
       throw new ValueException(PostalAddress.class, "POSTALCODE_MANDATORY", null);
@@ -195,13 +223,13 @@ public final class PostalAddress extends AbstractImmutableValue {
     if (city == null || EMPTY.equals(city)) {
       throw new ValueException(PostalAddress.class, "CITY_MANDATORY", null);
     }
-    if (city.matches("[\\n\\r]")) {
+    if (Pattern.compile(".*[\\n\\r]+.*", Pattern.DOTALL).matcher(city).matches()) {
       throw new ValueException(PostalAddress.class, "NO_EOL_ALLOWED_IN_CITY", null);
     }
     if (streetAddress == null || EMPTY.equals(streetAddress)) {
       throw new ValueException(PostalAddress.class, "STREETADDRESS_MANDATORY", null);
     }
-    if (! getPostalCode().getCountry().getLocales().contains(getLocale())) {
+    if (! postalCode.getCountry().getLocales().contains(locale)) {
       throw new ValueException(PostalAddress.class, "LOCALE_NOT_OF_COUNTRY", null);
     }
     $postalCode = postalCode;
@@ -269,6 +297,7 @@ public final class PostalAddress extends AbstractImmutableValue {
     return getPostalCode().localizedAddressRepresentation(this);
   }
 
+  // TODO (dvankeer): Don't we need a updated MethodContract as well?
   @Override
   public boolean equals(Object other) {
     return super.equals(other) && getPostalCode().equals(((PostalAddress)other).getPostalCode()) &&
