@@ -1,19 +1,3 @@
-/*<license>
-Copyright 2004 - $Date$ by PeopleWare n.v..
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-</license>*/
-
 package org.ppwcode.value_III.id11n;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
@@ -31,7 +15,6 @@ import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
 import org.ppwcode.util.reflect_I.InstanceHelpers;
-import org.ppwcode.util.reflect_I.TypeHelpers;
 import org.ppwcode.vernacular.value_III.hibernate3.AbstractImmutableValueCompositeUserType;
 
 /**
@@ -50,8 +33,7 @@ import org.ppwcode.vernacular.value_III.hibernate3.AbstractImmutableValueComposi
  */
 @Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision$",
-         date     = "$Date$")
+@SvnInfo(revision = "$Revision$", date = "$Date$")
 public final class IdentifierCompositeUserType extends AbstractImmutableValueCompositeUserType {
 
   /**
@@ -64,8 +46,7 @@ public final class IdentifierCompositeUserType extends AbstractImmutableValueCom
   }
 
   public Type[] getPropertyTypes() {
-    // TODO (dvankeer): Why do we use the String Type instead of the ClassType to identify the class property?
-    return new Type[] { Hibernate.STRING, Hibernate.STRING };
+    return new Type[] { Hibernate.CLASS, Hibernate.STRING };
   }
 
   public final String[] getPropertyNames() {
@@ -76,7 +57,7 @@ public final class IdentifierCompositeUserType extends AbstractImmutableValueCom
     try {
       Identifier id = (Identifier) obj;
       if (prop == 0) {
-        return id.getClass().getCanonicalName();
+        return id.getClass();
       } else if (prop == 1) {
         return id.getIdentifier();
       } else {
@@ -93,28 +74,28 @@ public final class IdentifierCompositeUserType extends AbstractImmutableValueCom
       throw new HibernateException("this user type can only handle values of type "
           + returnedClass().getCanonicalName() + "; " + value.getClass().getCanonicalName() + " is not supported");
     } else if (value == null) {
-      Hibernate.STRING.nullSafeSet(st, null, index, session);
+      Hibernate.CLASS.nullSafeSet(st, null, index, session);
       Hibernate.STRING.nullSafeSet(st, null, index + 1, session);
     } else {
       Identifier id = (Identifier) value;
-      Hibernate.STRING.nullSafeSet(st, id.getClass().getCanonicalName(), index, session);
+      Hibernate.CLASS.nullSafeSet(st, id.getClass(), index, session);
       Hibernate.STRING.nullSafeSet(st, id.getIdentifier(), index + 1, session);
     }
   }
 
+  @SuppressWarnings("unchecked")
   public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner)
       throws HibernateException, SQLException {
     Identifier result = null;
-    String clazz = null;
+    Class<? extends Identifier> clazz = null;
     String identifier = null;
     try {
-      clazz = (String) Hibernate.STRING.nullSafeGet(rs, names[0], session, owner);
+      clazz = (Class<? extends Identifier>) Hibernate.CLASS.nullSafeGet(rs, names[0], session, owner);
       identifier = (String) Hibernate.STRING.nullSafeGet(rs, names[1], session, owner);
       if (clazz == null && identifier == null) {
         result = null;
       } else {
-        Class<? extends Identifier> idType = TypeHelpers.type(clazz);
-        result = InstanceHelpers.robustNewInstance(idType, identifier);
+        result = InstanceHelpers.robustNewInstance(clazz, identifier);
       }
       return result;
     } catch (ArrayIndexOutOfBoundsException exc) {
