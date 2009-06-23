@@ -5,7 +5,9 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.ppwcode.value_III.location.postalcode.BePostalCode;
 import org.ppwcode.vernacular.value_III.ValueException;
@@ -14,17 +16,14 @@ public class PostalAddressTest {
 
   private static final String EMPTY = "";
 
+  private Set<PostalAddress> $subjects;
+  private Set<String> $cities;
+  private Set<String> $streetAddresses;
   private Set<PostalCode> $postalCodes;
-
   private Set<Locale> $locales;
 
-  private Set<String> $cities;
-
-  private Set<String> $streetAddresses;
-
-  // TODO (dvankeer): This contructor test is lame, but how do we do this these days?
-  @Test
-  public void testPostalAddress() throws ValueException {
+  @Before
+  public void setUp() throws Exception {
     $cities = new HashSet<String>();
     $cities.add("Lier");
     $cities.add("Brussels");
@@ -45,6 +44,29 @@ public class PostalAddressTest {
     $locales.add(new Locale("fr", "be"));
     $locales.add(new Locale("de", "be"));
 
+    $subjects = new HashSet<PostalAddress>();
+    for (PostalCode postalCode : $postalCodes) {
+      for (Locale locale : $locales) {
+        for (String city : $cities) {
+          for (String streetAddress : $streetAddresses) {
+            $subjects.add(new PostalAddress(postalCode, locale, city, streetAddress));
+          }
+        }
+      }
+    }
+  }
+
+  @After
+  public void teardown() {
+    $cities = null;
+    $streetAddresses = null;
+    $postalCodes = null;
+    $locales = null;
+    $subjects = null;
+  }
+
+  @Test
+  public void testPostalAddress() throws ValueException {
     PostalAddress subject;
     for (PostalCode postalCode : $postalCodes) {
       for (Locale locale : $locales) {
@@ -139,6 +161,12 @@ public class PostalAddressTest {
     Assert.assertTrue(EMPTY != subject.getStreetAddress());
   }
 
-  // TODO (dvankeer): postalcode localizationString post condition check.
-
+  @Test
+  public void testLocalizedRepresentation() {
+    for (PostalAddress subject : $subjects) {
+      Assert.assertTrue(subject.getPostalCode().localizedAddressRepresentation(subject).equals(
+          subject.getLocalizedRepresentation()));
+      assertInvariants(subject);
+    }
+  }
 }

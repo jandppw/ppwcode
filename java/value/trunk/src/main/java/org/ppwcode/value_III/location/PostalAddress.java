@@ -292,7 +292,7 @@ public final class PostalAddress extends AbstractImmutableValue {
    * End-of-lines should always be expressed as <code>\n</code> (and not as
    * {@link System#getProperty(String) System.getProperty(&quot;line.separator&quot;)}).
    */
-  @MethodContract(post = @Expression("getPostalCode().localizedAddressRepresentation(this)"))
+  @MethodContract(post = @Expression("result == getPostalCode().localizedAddressRepresentation(this)"))
   public String getLocalizedRepresentation() {
     return getPostalCode().localizedAddressRepresentation(this);
   }
