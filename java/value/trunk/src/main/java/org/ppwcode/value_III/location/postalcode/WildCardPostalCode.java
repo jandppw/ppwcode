@@ -60,7 +60,8 @@ public final class WildCardPostalCode extends AbstractIdentifier implements Post
   public WildCardPostalCode(String identifier) throws IdentifierWellformednessException {
     super(identifier);
   }
-
+  
+  // TODO (dvankeer): Why is the country fixed?
   public Country getCountry() {
     return Country.VALUES.get("BE");
   }

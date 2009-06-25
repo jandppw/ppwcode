@@ -7,6 +7,7 @@ import java.util.Locale;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.ppwcode.value_III.id11n.AbstractIdentifierTest;
 import org.ppwcode.value_III.id11n.AbstractRegexIdentifierTest;
 import org.ppwcode.value_III.id11n.Identifier;
 import org.ppwcode.value_III.id11n.IdentifierWellformednessException;
@@ -16,89 +17,88 @@ import org.ppwcode.value_III.location.PostalAddress;
 import org.ppwcode.value_III.location.PostalCode;
 import org.ppwcode.vernacular.value_III.ValueException;
 
-public class BePostalCodeTest extends AbstractRegexIdentifierTest {
+public class WildCardostalCodeTest extends AbstractIdentifierTest {
 
   @Override
   @Before
   public void setUp() throws Exception {
-    List<BePostalCode> s = new ArrayList<BePostalCode>();
-    BePostalCode subject = new BePostalCode("2500"); // Lier
+    List<WildCardPostalCode> s = new ArrayList<WildCardPostalCode>();
+    WildCardPostalCode subject = new WildCardPostalCode("2500"); // Lier
     s.add(subject);
-    subject = new BePostalCode("2000");
+    subject = new WildCardPostalCode("4597946");
     s.add(subject);
-    subject = new BePostalCode("1000");
+    subject = new WildCardPostalCode("BE 1060");
     s.add(subject);
-    subject = new BePostalCode("1040");
+    subject = new WildCardPostalCode("Placeholder");
     s.add(subject);
-    subject = new BePostalCode("4000");
+    subject = new WildCardPostalCode("Not known");
     s.add(subject);
-    subject = new BePostalCode("6900");
+    subject = new WildCardPostalCode("London");
     s.add(subject);
     $subjects = s;
   }
 
   @SuppressWarnings("unchecked")
   @Override
-  public List<? extends BePostalCode> subjects() {
-    return (List<? extends BePostalCode>) $subjects;
+  public List<? extends WildCardPostalCode> subjects() {
+    return (List<? extends WildCardPostalCode>) $subjects;
   }
 
   // Cannot use the super directly
-  protected void assertInvariants(BePostalCode subject) {
+  protected void assertInvariants(WildCardPostalCode subject) {
     super.assertInvariants((Identifier) subject);
-    Assert.assertEquals(BePostalCode.REGEX_PATTERN.pattern(), BePostalCode.REGEX_PATTERN_STRING);
     Assert.assertEquals(subject.getCountry(), Country.VALUES.get("BE"));
   }
 
-  @Test(expected = IdentifierWellformednessException.class)
-  public void testBePostalCode1() throws IdentifierWellformednessException {
-    new BePostalCode("0123456789");
+  @Test
+  public void testWildCardPostalCode1() throws IdentifierWellformednessException {
+    new WildCardPostalCode("0123456789");
   }
 
   @Test
-  public void testBePostalCode2() throws IdentifierWellformednessException {
+  public void testWildCardPostalCode2() throws IdentifierWellformednessException {
     String identifier = "2500"; // Lier
-    BePostalCode subject = new BePostalCode("2500");
-    testBePostalCode(subject, identifier);
-  }
-
-  @Test(expected = IdentifierWellformednessException.class)
-  public void testBePostalCode2b() throws IdentifierWellformednessException {
-    String identifier = "2500a";
-    BePostalCode subject = new BePostalCode("2500a");
-    testBePostalCode(subject, identifier);
-  }
-
-  @Test(expected = IdentifierWellformednessException.class)
-  public void testBePostalCode3() throws IdentifierWellformednessException {
-    new BePostalCode("BE 2500");
-  }
-
-  @Test(expected = IdentifierWellformednessException.class)
-  public void testBePostalCode4() throws IdentifierWellformednessException {
-    new BePostalCode(" 2500");
-  }
-
-  @Test(expected = IdentifierWellformednessException.class)
-  public void testBePostalCode5() throws IdentifierWellformednessException {
-    new BePostalCode("25.00");
+    WildCardPostalCode subject = new WildCardPostalCode("2500");
+    testWildCardPostalCode(subject, identifier);
   }
 
   @Test
-  public void testBePostalCode6() throws IdentifierWellformednessException {
-    String identifier = "2000";
-    BePostalCode subject = new BePostalCode(identifier);
-    testBePostalCode(subject, identifier);
+  public void testWildCardPostalCode2b() throws IdentifierWellformednessException {
+    String identifier = "2500a";
+    WildCardPostalCode subject = new WildCardPostalCode("2500a");
+    testWildCardPostalCode(subject, identifier);
   }
 
-  private void testBePostalCode(BePostalCode subject, String identifier) {
+  @Test
+  public void testWildCardPostalCode3() throws IdentifierWellformednessException {
+    new WildCardPostalCode("BE 2500");
+  }
+
+  @Test
+  public void testWildCardPostalCode4() throws IdentifierWellformednessException {
+    new WildCardPostalCode(" 2500");
+  }
+
+  @Test
+  public void testWildCardPostalCode5() throws IdentifierWellformednessException {
+    new WildCardPostalCode("25.00");
+  }
+
+  @Test
+  public void testWildCardPostalCode6() throws IdentifierWellformednessException {
+    String identifier = "2000";
+    WildCardPostalCode subject = new WildCardPostalCode(identifier);
+    testWildCardPostalCode(subject, identifier);
+  }
+
+  private void testWildCardPostalCode(WildCardPostalCode subject, String identifier) {
     Assert.assertEquals(identifier, subject.getIdentifier());
     assertInvariants(subject);
   }
 
   @Test
   public void testLocalizedAddressRepresentation() throws ValueException {
-    for (BePostalCode subject : subjects()) {
+    for (WildCardPostalCode subject : subjects()) {
       testLocalizedAddressRepresentation(subject, new PostalAddress(subject, new Locale("NL", "be"), "Lier",
           "Duwijckstraat 17"));
       assertInvariants(subject);
@@ -108,7 +108,7 @@ public class BePostalCodeTest extends AbstractRegexIdentifierTest {
     }
   }
 
-  private void testLocalizedAddressRepresentation(final BePostalCode subject, final PostalAddress postalAddress) {
+  private void testLocalizedAddressRepresentation(final WildCardPostalCode subject, final PostalAddress postalAddress) {
     // TODO (dvankeer): Test written based on possible bogus contract
     CountryEditor ce = new CountryEditor();
     ce.setDisplayLocale(postalAddress.getLocale());

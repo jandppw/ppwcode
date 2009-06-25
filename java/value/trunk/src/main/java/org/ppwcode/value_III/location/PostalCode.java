@@ -71,6 +71,7 @@ public interface PostalCode extends Identifier {
       @Expression("result.contains(_postalAddress.streetAddress)"),
       @Expression("result.contains(identifier)"),
       @Expression("result.contains(_postalAddress.city)"),
+      // TODO (dvankeer): The following expression breaks encapsulation, this should be looked at.
       @Expression("for (CountryEditor ce) {" +
                     "ce.value == _postalAddress.country &&" +
                     "ce.displayLocale = _postalAddress.locale ?" +
