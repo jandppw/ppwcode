@@ -5,6 +5,12 @@ import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
+
+import org.hibernate.annotations.Columns;
+import org.hibernate.annotations.Type;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
@@ -20,7 +26,6 @@ import org.toryt.annotations_I.Throw;
  * <p>
  * General polymorph type for addresses.
  * </p>
- * 
  * <h3>Evaluation of historic practices</h3>
  * <p>
  * Addresses are, globally, a difficult data type. Over the years, a lot of approaches are tried. The approach most
@@ -95,7 +100,6 @@ import org.toryt.annotations_I.Throw;
  * lookup as described above for postal codes / city name pairs, and maintenance of this lookup data, virtually
  * impossible.
  * </p>
- * 
  * <h3>Choices</h3>
  * <p>
  * We understand that the implementation of addresses presented here is incomplete and insufficient. Like the rest of
@@ -114,7 +118,6 @@ import org.toryt.annotations_I.Throw;
  * system of the given country. E.g., in the US, the state is represented as a 2 letter-code in the postal code.</li>
  * <li>Further structuring is not cost-effective and not needed.</li>
  * </ul>
- * 
  * <h3>Framework</h3>
  * <p>
  * All postal address share this class, which defines the minimal needs for a postal address. All fields are required.
@@ -139,7 +142,6 @@ import org.toryt.annotations_I.Throw;
  * pure String representation, applying end-of-lines and no other formatting. We are limited to UTF-8 representations in
  * this version.
  * </p>
- * 
  * <p>
  * This type and its subtypes should be persisted uniformly, independent of the specific subtypes. In a relational
  * database, all postal addresses will be stored in 4 columns, in the table of the entity of which the address is a
@@ -174,6 +176,7 @@ import org.toryt.annotations_I.Throw;
  * @author David Van Keer
  * @author PeopleWare NV
  */
+@Embeddable
 @Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$", date = "$Date$")
@@ -193,7 +196,7 @@ public final class PostalAddress extends AbstractImmutableValue {
     @Throw(type = ValueException.class, cond = @Expression("_city == null || _city == ''")),
     @Throw(type = ValueException.class, cond = @Expression("_city.matches('.*[\\n\\r].*')")),
     @Throw(type = ValueException.class, cond = @Expression("_streetAddress == null || _streetAddress == ''")),
-    @Throw(type = ValueException.class, cond = @Expression("! _postalCode.country.locales.contains(_locale)")),
+    @Throw(type = ValueException.class, cond = @Expression("! _postalCode.country.locales.contains(_locale)"))
   })
   public PostalAddress(final PostalCode postalCode, final Locale locale, final String city, final String streetAddress)
       throws ValueException {
@@ -223,6 +226,7 @@ public final class PostalAddress extends AbstractImmutableValue {
   }
 
   /**
+   * 00
    * The locale of this address.
    */
   @Basic(invars = @Expression("locale != null"))
@@ -230,6 +234,7 @@ public final class PostalAddress extends AbstractImmutableValue {
     return $locale;
   }
 
+  @Column(name = "locale")
   private final Locale $locale;
 
   /**
@@ -242,6 +247,12 @@ public final class PostalAddress extends AbstractImmutableValue {
     return $postalCode;
   }
 
+  @Type(type = "org.ppwcode.value_III.location.PostalCodeUserType")
+   @Columns(columns = {
+    @Column(name = "postalCodeType", length = 255),
+    @Column(name = "postalCodeIdentifier", length = 255),
+    @Column(name = "postalCodeCountry", length = 255)
+  })
   private final PostalCode $postalCode;
 
   /**
@@ -257,6 +268,7 @@ public final class PostalAddress extends AbstractImmutableValue {
     return $city;
   }
 
+  @Column(name = "city")
   private final String $city;
 
   /**
@@ -273,6 +285,7 @@ public final class PostalAddress extends AbstractImmutableValue {
     return $streetAddress;
   }
 
+  @Column(name = "streetAddress")
   private final String $streetAddress;
 
   /**

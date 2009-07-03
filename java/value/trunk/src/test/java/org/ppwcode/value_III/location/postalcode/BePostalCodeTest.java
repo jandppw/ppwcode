@@ -109,12 +109,18 @@ public class BePostalCodeTest extends AbstractRegexIdentifierTest {
   }
 
   private void testLocalizedAddressRepresentation(final BePostalCode subject, final PostalAddress postalAddress) {
-    // TODO (dvankeer): Test written based on possible bogus contract
+    String result = subject.localizedAddressRepresentation(postalAddress);
+
     CountryEditor ce = new CountryEditor();
     ce.setDisplayLocale(postalAddress.getLocale());
     ce.setValue(subject.getCountry());
-    Assert.assertTrue(subject.localizedAddressRepresentation(postalAddress).equals(
-        postalAddress.getStreetAddress() + PostalCode.EOL + subject.getIdentifier() + " " + postalAddress.getCity()
-            + PostalCode.EOL + ce.getLabel()));
+
+    Assert.assertNotNull(result);
+    Assert.assertTrue(result != "");
+    Assert.assertTrue(result.contains(postalAddress.getStreetAddress()));
+    Assert.assertTrue(result.contains(postalAddress.getPostalCode().getIdentifier()));
+    Assert.assertTrue(result.contains(postalAddress.getCity()));
+    Assert.assertTrue(result.equals(postalAddress.getStreetAddress() + PostalCode.EOL + subject.getIdentifier() + " "
+        + postalAddress.getCity() + PostalCode.EOL + ce.getLabel()));
   }
 }

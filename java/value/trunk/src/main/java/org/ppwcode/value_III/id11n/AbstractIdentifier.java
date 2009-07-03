@@ -20,6 +20,8 @@ package org.ppwcode.value_III.id11n;
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import static org.ppwcode.util.exception_III.ProgrammingErrorHelpers.preArgumentNotEmpty;
 
+import javax.persistence.Column;
+
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;

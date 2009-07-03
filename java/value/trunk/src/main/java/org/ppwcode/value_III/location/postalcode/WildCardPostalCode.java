@@ -1,23 +1,9 @@
-/*<license>
-Copyright 2004 - $Date$ by PeopleWare n.v..
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-</license>*/
-
 package org.ppwcode.value_III.location.postalcode;
 
-
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
@@ -33,46 +19,48 @@ import org.ppwcode.value_III.location.PostalCode;
 import org.toryt.annotations_I.Expression;
 import org.toryt.annotations_I.MethodContract;
 
-
 /**
- * <p>Postal code to be used if no applicable type exists.</p>
- *
- * @author    Jan Dockx
- * @author    PeopleWare NV
+ * <p>
+ * Postal code to be used if no applicable type exists.
+ * </p>
+ * 
+ * @author Jan Dockx
+ * @author David Van Keer
+ * @author PeopleWare NV
  */
 @Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision$",
-         date     = "$Date$")
+@SvnInfo(revision = "$Revision$", date = "$Date$")
 @IdentifierIssuingAuthority(name = "MUDO")
 @IdentifierSchemeDescription("MUDO")
 public final class WildCardPostalCode extends AbstractIdentifier implements PostalCode {
 
-  @MethodContract(
-    pre  = {
-      @Expression("_identifier != null"),
-      @Expression("_identifier != EMPTY")
-    },
-    post = {
-      @Expression("identifier == _identifier")
-    }
-  )
-  public WildCardPostalCode(String identifier) throws IdentifierWellformednessException {
+  @MethodContract(pre = {
+    @Expression("_identifier != null"),
+    @Expression("_identifier != EMPTY"),
+    @Expression("_country != null")
+  }, post = {
+    @Expression("identifier == _identifier"),
+    @Expression("country == _Country")
+  })
+  public WildCardPostalCode(String identifier, Country country) throws IdentifierWellformednessException {
     super(identifier);
+    assert country != null;
+    $country = country;
   }
-  
-  // TODO (dvankeer): Why is the country fixed?
+
   public Country getCountry() {
-    return Country.VALUES.get("BE");
+    return $country;
   }
+
+  private final Country $country;
 
   public String localizedAddressRepresentation(PostalAddress postalAddress) {
     CountryEditor ce = new CountryEditor();
     ce.setDisplayLocale(postalAddress.getLocale());
     ce.setValue(getCountry());
-    return postalAddress.getStreetAddress() + EOL +
-           getIdentifier() + " " + postalAddress.getCity() + EOL +
-           ce.getLabel();
+    return postalAddress.getStreetAddress() + EOL + getIdentifier() + " " + postalAddress.getCity() + EOL
+        + ce.getLabel();
   }
 
 }
