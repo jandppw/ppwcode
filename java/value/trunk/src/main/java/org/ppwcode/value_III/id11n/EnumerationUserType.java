@@ -30,9 +30,9 @@ import org.ppwcode.vernacular.value_III.hibernate3.AbstractImmutableValueUserTyp
  * @author David Van Keer
  * @author PeopleWare NV
  */
-@Copyright("2008 - $Date: 2008-11-27 18:07:26 +0100 (Thu, 27 Nov 2008) $, PeopleWare n.v.")
+@Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 3748 $", date = "$Date: 2008-11-27 18:07:26 +0100 (Thu, 27 Nov 2008) $")
+@SvnInfo(revision = "$Revision$", date = "$Date$")
 public class EnumerationUserType extends AbstractImmutableValueUserType {
 
   /**
