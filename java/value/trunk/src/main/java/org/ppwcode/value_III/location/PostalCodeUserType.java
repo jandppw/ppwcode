@@ -30,9 +30,9 @@ import org.ppwcode.vernacular.value_III.hibernate3.AbstractImmutableValueComposi
  * @author David Van Keer
  * @author PeopleWare NV
  */
-@Copyright("2008 - $Date: 2009-06-25 09:44:06 +0200 (Thu, 25 Jun 2009) $, PeopleWare n.v.")
+@Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision: 4400 $", date = "$Date: 2009-06-25 09:44:06 +0200 (Thu, 25 Jun 2009) $")
+@SvnInfo(revision = "$Revision$", date = "$Date$")
 public class PostalCodeUserType extends AbstractImmutableValueCompositeUserType {
 
   /**
