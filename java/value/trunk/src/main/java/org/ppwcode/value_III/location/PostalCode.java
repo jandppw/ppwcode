@@ -11,10 +11,9 @@ package org.ppwcode.value_III.location;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
 
-import org.hibernate.annotations.Columns;
 import org.hibernate.annotations.Type;
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
