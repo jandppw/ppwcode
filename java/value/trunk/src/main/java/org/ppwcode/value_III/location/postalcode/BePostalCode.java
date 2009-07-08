@@ -4,8 +4,6 @@ import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
 import java.util.regex.Pattern;
 
-import javax.persistence.Column;
-
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
@@ -66,11 +64,8 @@ public final class BePostalCode extends AbstractRegexIdentifier implements Posta
   }
 
   public Country getCountry() {
-    return $country;
+    return Country.VALUES.get("BE");
   }
-
-  @Column(name = "country")
-  private final Country $country = Country.VALUES.get("BE");
 
   public String localizedAddressRepresentation(PostalAddress postalAddress) {
     CountryEditor ce = new CountryEditor();

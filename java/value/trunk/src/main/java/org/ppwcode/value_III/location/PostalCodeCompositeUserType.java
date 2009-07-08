@@ -30,10 +30,10 @@ import org.ppwcode.vernacular.value_III.hibernate3.AbstractImmutableValueComposi
  * @author David Van Keer
  * @author PeopleWare NV
  */
-@Copyright("2008 - $Date$, PeopleWare n.v.")
+@Copyright("2008 - $Date: 2009-06-25 09:44:06 +0200 (Thu, 25 Jun 2009) $, PeopleWare n.v.")
 @License(APACHE_V2)
-@SvnInfo(revision = "$Revision$", date = "$Date$")
-public class PostalCodeUserType extends AbstractImmutableValueCompositeUserType {
+@SvnInfo(revision = "$Revision: 4400 $", date = "$Date: 2009-06-25 09:44:06 +0200 (Thu, 25 Jun 2009) $")
+public class PostalCodeCompositeUserType extends AbstractImmutableValueCompositeUserType {
 
   /**
    * Which type we return is defined by a parameter set on the definition of this user type. This should be a subtype of
@@ -48,7 +48,7 @@ public class PostalCodeUserType extends AbstractImmutableValueCompositeUserType 
     return new Type[] {
       Hibernate.CLASS,
       Hibernate.STRING,
-      Hibernate.STRING,
+      Hibernate.STRING
     };
   }
 
@@ -56,7 +56,7 @@ public class PostalCodeUserType extends AbstractImmutableValueCompositeUserType 
     return new String[] {
       "$type",
       "$identifier",
-      "$country"
+      "$country",
     };
   }
 
@@ -67,7 +67,7 @@ public class PostalCodeUserType extends AbstractImmutableValueCompositeUserType 
         return id.getClass();
       } else if (prop == 1) {
         return id.getIdentifier();
-      } else if (prop == 1) {
+      } else if (prop == 2) {
         return id.getCountry().getValue();
       } else {
         throw new HibernateException("getPropertyValue with wrong index for " + returnedClass());
@@ -81,27 +81,31 @@ public class PostalCodeUserType extends AbstractImmutableValueCompositeUserType 
   public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner)
       throws HibernateException, SQLException {
     PostalCode result = null;
-    Class<? extends PostalCode> clazz = null;
+    Class clazz = null;
     String identifier = null;
-    String countryDiscriminator = null;
+    String countryKey = null;
     try {
-      clazz = (Class<? extends PostalCode>) Hibernate.CLASS.nullSafeGet(rs, names[0], session, owner);
+      clazz = (Class) Hibernate.CLASS.nullSafeGet(rs, names[0], session, owner);
       identifier = (String) Hibernate.STRING.nullSafeGet(rs, names[1], session, owner);
-      countryDiscriminator = (String) Hibernate.STRING.nullSafeGet(rs, names[2], session, owner);
-      if (clazz == null && identifier == null && countryDiscriminator == null) {
+      countryKey = (String) Hibernate.STRING.nullSafeGet(rs, names[2], session, owner);
+      if (clazz == null && identifier == null && countryKey == null) {
         result = null;
       } else {
-        result = InstanceHelpers.robustNewInstance(clazz, identifier, Country.VALUES.get(countryDiscriminator));
+        Country country = Country.VALUES.get(countryKey);
+        if (countryKey.equalsIgnoreCase("BE")) {
+          result = (PostalCode) InstanceHelpers.robustNewInstance(clazz, identifier);
+        } else {
+          result = (PostalCode) InstanceHelpers.robustNewInstance(clazz, identifier, country);
+        }
       }
-      // TODO: Country code
       return result;
     } catch (ArrayIndexOutOfBoundsException exc) {
-      throw new HibernateException("data received from database is not as expected: expected array of 2 values", exc);
+      throw new HibernateException("data received from database is not as expected: expected array of 3 values", exc);
     } catch (ClassCastException exc) {
-      throw new HibernateException("data received from database is not as expected: expected array of 2 values", exc);
+      throw new HibernateException("data received from database is not as expected: expected array of 3 values", exc);
     } catch (InvocationTargetException exc) {
-      throw new HibernateException("Creation of identifier of type " + clazz + " failed with an application exception",
-          exc);
+      throw new HibernateException("Creation of identifier of type " + PostalAddress.class
+          + " failed with an application exception", exc);
     }
   }
 

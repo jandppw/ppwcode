@@ -5,9 +5,9 @@ import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
 
 import org.hibernate.annotations.Columns;
 import org.hibernate.annotations.Type;
@@ -176,7 +176,6 @@ import org.toryt.annotations_I.Throw;
  * @author David Van Keer
  * @author PeopleWare NV
  */
-@Embeddable
 @Copyright("2008 - $Date$, PeopleWare n.v.")
 @License(APACHE_V2)
 @SvnInfo(revision = "$Revision$", date = "$Date$")
@@ -184,6 +183,10 @@ import org.toryt.annotations_I.Throw;
 public final class PostalAddress extends AbstractImmutableValue {
 
   // TODO (dvankeer): Don't we need a serial version UID?
+
+  protected PostalAddress() {
+    // Default no arguments constructor for hibernate
+  }
 
   @MethodContract(post = {
     @Expression("postalCode == _postalCode"),
@@ -226,7 +229,6 @@ public final class PostalAddress extends AbstractImmutableValue {
   }
 
   /**
-   * 00
    * The locale of this address.
    */
   @Basic(invars = @Expression("locale != null"))
@@ -234,8 +236,7 @@ public final class PostalAddress extends AbstractImmutableValue {
     return $locale;
   }
 
-  @Column(name = "locale")
-  private final Locale $locale;
+  private Locale $locale;
 
   /**
    * The postal code and the country of this address.
@@ -247,13 +248,13 @@ public final class PostalAddress extends AbstractImmutableValue {
     return $postalCode;
   }
 
-  @Type(type = "org.ppwcode.value_III.location.PostalCodeUserType")
-   @Columns(columns = {
-    @Column(name = "postalCodeType", length = 255),
-    @Column(name = "postalCodeIdentifier", length = 255),
-    @Column(name = "postalCodeCountry", length = 255)
+  @Type(type = "org.ppwcode.value_III.location.PostalCodeCompositeUserType")
+  @Columns(columns = {
+    @Column(name = "type"),
+    @Column(name = "identifier"),
+    @Column(name = "country")
   })
-  private final PostalCode $postalCode;
+  private PostalCode $postalCode;
 
   /**
    * The name of the city of this postal address. This should be expressed in the language of the recipient. This should
@@ -268,8 +269,7 @@ public final class PostalAddress extends AbstractImmutableValue {
     return $city;
   }
 
-  @Column(name = "city")
-  private final String $city;
+  private String $city;
 
   /**
    * Any postal address information more specific that the postal code and city. This data should not be formatted by
@@ -285,8 +285,7 @@ public final class PostalAddress extends AbstractImmutableValue {
     return $streetAddress;
   }
 
-  @Column(name = "streetAddress")
-  private final String $streetAddress;
+  private String $streetAddress;
 
   /**
    * A String representation of this postal address, in a form that is applicable for the country at which this

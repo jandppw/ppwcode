@@ -2,9 +2,6 @@ package org.ppwcode.value_III.location.postalcode;
 
 import static org.ppwcode.metainfo_I.License.Type.APACHE_V2;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-
 import org.ppwcode.metainfo_I.Copyright;
 import org.ppwcode.metainfo_I.License;
 import org.ppwcode.metainfo_I.vcs.SvnInfo;
@@ -23,7 +20,7 @@ import org.toryt.annotations_I.MethodContract;
  * <p>
  * Postal code to be used if no applicable type exists.
  * </p>
- * 
+ *
  * @author Jan Dockx
  * @author David Van Keer
  * @author PeopleWare NV
