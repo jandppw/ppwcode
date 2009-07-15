@@ -270,6 +270,7 @@
     <dependency>
       <groupId>org.directwebremoting</groupId>
       <artifactId>dwr</artifactId>
+      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>javax.mail</groupId>
@@ -281,6 +282,7 @@
     	<groupId>org.hibernate</groupId>
     	<artifactId>hibernate-annotations</artifactId>
     	<version>3.4.0.GA</version>
+        <optional>true</optional>
     </dependency>
   </dependencies>
 
