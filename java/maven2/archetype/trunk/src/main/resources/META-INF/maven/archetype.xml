@@ -1,0 +1,6 @@
+<archetype>
+  <id>ppwcode-archetype</id>
+  <sources>
+    <source>src/main/java/App.java</source>
+  </sources>
+</archetype>

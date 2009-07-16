@@ -1,0 +1,199 @@
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <groupId>org.ppwcode</groupId>
+        <artifactId>ppwcode-library-parent-pom</artifactId>
+        <version>1.2.4-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>${groupId}</groupId>
+    <artifactId>${artifactId}</artifactId>
+    <version>${version}</version>
+
+    <name>My Project Name</name>
+    <description>My Project Description</description>
+
+    <inceptionYear>2009</inceptionYear>
+
+    <url>http://mycompany.com/myproject</url>
+
+    <organization>
+        <name>My Company</name>
+        <url>http://www.mycompany.com/</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>ProprietaryMyCompany</name>
+            <url>LICENSE</url>
+            <distribution>repo</distribution>
+            <comments>NO RIGHTS ARE GRANTED FOR THE USE OF THIS SOFTWARE, EXCEPT, IN WRITING, TO SELECTED PARTIES.</comments>
+        </license>
+    </licenses>
+
+    <mailingLists>
+    </mailingLists>
+
+    <!--
+        Issue management: for example, Bugzilla
+    -->
+    <issueManagement>
+        <system>Bugzilla</system>
+        <url>https://mycompany.com/bugzilla</url>
+    </issueManagement>
+
+    <!--
+       Every project POM should override this
+    -->
+    <developers>
+        <developer>
+            <id>jdoe</id>
+            <name>John Doe</name>
+            <email>john.doe@mycompany.com</email>
+            <timezone>+1</timezone>
+            <organization>My Company</organization>
+            <organizationUrl>http://www.mycompany.com/</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <scm>
+        <!--
+            The public Subversion repository, for anonymous access
+        -->
+        <connection>scm:svn:http://subversion.mycompany.com/myproject/trunk</connection>
+        <!--
+            The secured Subversion repository, for developer access
+        -->
+        <developerConnection>scm:svn:https://subversion.mycompany.com/myproject/trunk</developerConnection>
+        <!--
+            The web frontend, for browsing the repository
+        -->
+        <url>http://subversion.mycompany.com/myproject/trunk</url>
+    </scm>
+
+    <distributionManagement>
+        <!--
+            This is the maven repository where we will upload our releases
+        -->
+        <repository>
+            <id>mycompany-releases</id>
+            <name>My Company release repository</name>
+            <url>dav:http://maven.mycompany.com/archiva/repository/internal</url>
+            <uniqueVersion>true</uniqueVersion>
+        </repository>
+        <!--
+            This is the maven repository where we will upload our snapshots
+        -->
+        <snapshotRepository>
+            <id>mycompany-snapshots</id>
+            <name>My Company snapshot repository</name>
+            <url>dav:http://maven.mycompany.com/archiva/repository/snapshots</url>
+            <uniqueVersion>true</uniqueVersion>
+        </snapshotRepository>
+        <!--
+            And this is where we will upload our maven-generated documentation website
+        -->
+        <site>
+            <id>myproject-site</id>
+            <name>My Project Documentation Site</name>
+            <url>scpexe://docs.mycompany.com/www/projects/mycompany</url>
+        </site>
+    </distributionManagement>
+
+
+    <repositories>
+        <!--
+            add your own repositories here
+        -->
+        <!--
+            ppwCode repositories are required
+        -->
+        <repository>
+            <id>ppwcode-releases</id>
+            <name>ppwcode Maven 2 release repository</name>
+            <url>http://www.ppwcode.org/java/maven2repo</url>
+            <releases>
+                <checksumPolicy>fail</checksumPolicy>
+                <enabled>true</enabled>
+                <!--
+                    A repository that serves only releases should never check
+                    for new versions. Once you have a certain release, it
+                    should never change.
+                -->
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>ppwcode-snapshots</id>
+            <name>ppwcode Maven 2 snapshot repository</name>
+            <url>http://www.ppwcode.org/java/maven2snapshotrepo</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <checksumPolicy>fail</checksumPolicy>
+                <updatePolicy>interval:30</updatePolicy>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+        <repository>
+            <id>torytRepo</id>
+            <name>Toryt Maven 2 repository</name>
+            <url>http://www.ppwcode.org/toryt/maven2repo</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <!--
+            add your own plugin repositories here
+        -->
+    </pluginRepositories>
+
+    <properties>
+        <!-- Java version. Default is 1.5 -->
+        <!--ppwcode.java.version>1.5</ppwcode.java.version-->
+
+        <!-- Maven version. Default is 2.1.0 -->
+        <!--ppwcode.maven.version>2.1.0</ppwcode.maven.version-->
+
+        <!-- EJB version. Default is 3.0 -->
+        <!--ppwcode.ejb.version>3.0</ppwcode.ejb.version-->
+
+        <!--
+        The default java encoding is UTF-8. Override this
+        if you have trouble building. However, if this happens, it is better
+        to fix your project. UTF-8 is always a good idea.
+        -->
+        <!--ppwcode.java.encoding>UTF-8</ppwcode.java.encoding-->
+
+
+        <ppwcode.checkstyle.configLocation></ppwcode.checkstyle.configLocation>
+        <ppwcode.checkstyle.suppressionsLocation></ppwcode.checkstyle.suppressionsLocation>
+        <ppwcode.checkstyle.headerLocation></ppwcode.checkstyle.headerLocation>
+    </properties>
+
+
+    <dependencies>
+      <dependency>
+        <groupId>org.ppwcode.maven2</groupId>
+        <artifactId>ppwcode-maven2-dependencyManagement</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.4</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>
