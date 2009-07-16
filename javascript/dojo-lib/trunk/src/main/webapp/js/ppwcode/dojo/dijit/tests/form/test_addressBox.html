@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Address Widget</title>
+<style type="text/css">
+@import "../../../../../dojo-1.3.0/dojo/resources/dojo.css";
+
+@import "../../../../../dojo-1.3.0/dijit/themes/soria/soria.css";
+</style>
+<script type="text/javascript" src="../../../../../dojo-1.3.0/dojo/dojo.js"
+  djConfig="parseOnLoad:true, modulePaths: {ppwcode: '../../ppwcode'}, locale: 'nl-be'">
+  </script>
+<script type='text/javascript' src='../../../../../../dwr/engine.js'></script>
+<script type="text/javascript">
+    dojo.require("dojo.parser");
+    dojo.require("ppwcode.dojo.dijit.form.AddressBox");
+
+    dojo.require("ppwcode.dojo.dijit.layout.TitledContentPane");
+    dojo.require("dojox.highlight");
+    dojo.require("dojox.highlight.languages._all");
+    dojo.require("dojo.data.ItemFileReadStore");
+    dojo.require("dijit.Tree");
+    dojo.require("dijit.form.Form");
+    dojo.require("dijit.form.Button");
+
+    function showObject() {
+      var text = addressWidget.getValue().postalCode + "\n" + addressWidget.getValue().locale + "\n"
+          + addressWidget.getValue().city + "\n" + addressWidget.getValue().streetAddress + "\n";
+      console.log(text);
+      alert(text);
+    }
+
+    if (typeof BePostalCode != "function") {
+      function BePostalCode() {
+        this.country = "BE";
+        this.identifier = null;
+      }
+    }
+
+    if (typeof PostalAddress != "function") {
+      function PostalAddress() {
+        this.postalCode = null;
+        this.locale = null;
+        this.streetAddress = null;
+        this.city = null;
+      }
+    }
+
+    if (typeof WildCardPostalCode != "function") {
+      function WildCardPostalCode() {
+        this.country = null;
+        this.identifier = null;
+      }
+    }
+
+    dojo.addOnLoad(function() {
+      dojo.query("code").forEach(dojox.highlight.init);
+    });
+
+  </script>
+</head>
+<body class="soria">
+<div class="comment">
+<h1>Address Widget:</h1>
+<span> The address widget is a reusable component. It has 4 fields:<br />
+<br />
+<dl>
+  <dt>Street</dt>
+  <dd>An input field where you can fill in street, number and box number</dd>
+  <dt>Postal Code</dt>
+  <dd>The postal code of your city. This field will be validated against a regular expression depending on the
+  country you have selected.</dd>
+  <dt>City</dt>
+  <dd>An input field which allows you to fill in the city</dd>
+  <dt>Country</dt>
+  <dd>A combobox with search functionalities which will contain country and a regular expression for the postal
+  code.</dd>
+</dl>
+<span> <br>
+<b><u>features:</u></b>
+<ul>
+  <li>Country is filled with live data from the DB through a dataStore</li>
+  <li>Depending of the country there will be a check on the regex check on the postal code</li>
+</ul>
+<br>
+<b><u>example:</u></b> <br>
+<br> Here you see an example of the Address Widget:
+<br />
+<form dojoType="dijit.form.Form" id="test" name="test" encType="multipart/form-data" action="" method="POST"
+  onSubmit="return false;">
+<div dojoType="dojo.data.ItemFileReadStore" jsId="countryStore" url="../_data/countryData.json"></div>
+<div id="addressWidget" jsId="addressWidget" dojoType="ppwcode.dojo.dijit.form.AddressBox"
+  countryDataStore="countryStore" constructorFunction="PostalAddress"></div>
+<button dojoType="dijit.form.Button" type="submit" onclick="showObject();">Submit</button>
+</form></div>
+<br>
+<u>The source code:</u>
+<pre>
+		<code>
+&lt;head&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+    dojo.require(&quot;dojo.parser&quot;);
+    dojo.require(&quot;ppwcode.dojo.dijit.form.AddressBox&quot;);
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+.
+.
+.
+&lt;div dojoType=&quot;ppwcode.dojo.dijit.form.AddressBox&quot;
+	dataStore=&quot;countryStore&quot;&gt;
+&lt;/div&gt;
+.
+.
+.
+&lt;/body&gt;
+		</code>
+  	</pre>
+<br>
+</html>

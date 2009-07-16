@@ -1,0 +1,7 @@
+/* { identifier:"abbreviation",
+ items: [
+        {name:"Belgie", label:"Belgie", abbreviation:"BE"},
+        {name:"Frankrijk", label:"Frankrijk", abbreviation:"FR"},
+        {name:"United States of America", label:"United States of America", abbreviation:"US"},
+        {name:"Nederland", label:"Nederland", abbreviation:"NL"}
+        ]} */

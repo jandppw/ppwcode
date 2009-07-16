@@ -5,45 +5,45 @@
 }
 
 .celldiv {
-	float: left; /*fix for  buggy browsers*/
+	float: left; /*fix for buggy browsers*/
 	display: table-cell;
 	width: 33%;
 	background-color: #ccc;
 }
 
 .celldivtitle {
-	float: left; /*fix for  buggy browsers*/
+	float: left; /*fix for buggy browsers*/
 	display: table-cell;
 	width: 60px;
 	padding: 1px;
 }
 
 .celldivcontent {
-	float: left; 
+	float: left;
 	display: table-cell;
 	width: 224px;
 	padding: 1px;
 }
 
 .celldivtitlePC {
-	float: left; 
+	float: left;
 	display: table-cell;
 	width: 60px;
-	padding: 1px;	
+	padding: 1px;
 }
 
 .celldivcontentPC {
-	float: left; 
+	float: left;
 	display: table-cell;
 	width: 40px;
-	padding: 1px;	
+	padding: 1px;
 }
 
 .celldivtitleC {
-	float: left; 
+	float: left;
 	display: table-cell;
 	width: 80px;
-	padding: 1px;	
+	padding: 1px;
 	text-align: right;
 }
 
@@ -51,7 +51,7 @@
 	float: left;
 	display: table-cell;
 	width: 100px;
-	padding: 1px;	
+	padding: 1px;
 }
 
 .fullLength {
