@@ -36,7 +36,6 @@
     <modelVersion>4.0.0</modelVersion>
 
   <!-- ARTIFACT ID, GROUP ID, VERSION, PACKAGING, NAME & DESCRIPTION: OVERWRITE IN YOUR CHILD POM (know what you are doing :-) ) -->
-  <!-- for the artifactId, see the magic mantra below -->
     <groupId>org.ppwcode</groupId>
     <artifactId>ppwcode-library-parent-pom</artifactId>
     <version>1.2.4-SNAPSHOT</version>
@@ -218,7 +217,7 @@
         <ppwcode.plugin.deploy.version>2.4</ppwcode.plugin.deploy.version>
         <ppwcode.plugin.docbkx.version>2.0.9</ppwcode.plugin.docbkx.version>
         <ppwcode.plugin.ear.version>2.3.2</ppwcode.plugin.ear.version>
-        <ppwcode.plugin.eclipse.version>2.6</ppwcode.plugin.eclipse.version>
+        <ppwcode.plugin.eclipse.version>2.7</ppwcode.plugin.eclipse.version>
         <ppwcode.plugin.ejb.version>2.1</ppwcode.plugin.ejb.version>
         <ppwcode.plugin.enforcer.version>1.0-beta-1</ppwcode.plugin.enforcer.version>
         <ppwcode.plugin.findbugs.version>2.0</ppwcode.plugin.findbugs.version>
@@ -569,16 +568,19 @@
                                 </preProcess>
                                 <targetDirectory>${site.target.docbooks}</targetDirectory>
                                 <htmlhelpEnumerateImages>true</htmlhelpEnumerateImages>
+                                <xincludeSupported>true</xincludeSupported>
                             </configuration>
                         </execution>
                     </executions>
                     <dependencies>
                         <dependency>
-                            <groupId>org.docbook</groupId>
-                            <artifactId>docbook-xml</artifactId>
-                            <version>4.4</version>
-                            <scope>runtime</scope>
-                        </dependency>
+Ê Ê Ê Ê Ê Ê <groupId>net.sf.docbook</groupId>
+Ê Ê Ê Ê Ê Ê <artifactId>docbook-xml</artifactId>  
+<version>5.0</version>
+Ê Ê Ê Ê Ê Ê <scope>runtime</scope>
+Ê Ê Ê Ê Ê Ê <classifier>xsd-resources</classifier>
+Ê Ê Ê Ê Ê Ê <type>zip</type>
+</dependency>
                     </dependencies>
                 </plugin>
             </plugins>
