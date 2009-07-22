@@ -92,7 +92,7 @@
   onSubmit="return false;">
 <div dojoType="dojo.data.ItemFileReadStore" jsId="countryStore" url="../_data/countryData.json"></div>
 <div id="addressWidget" jsId="addressWidget" dojoType="ppwcode.dojo.dijit.form.AddressBox"
-  countryDataStore="countryStore" constructorFunction="PostalAddress"></div>
+  countryDataStore="countryStore" constructorFunction="PostalAddress" required="true"></div>
 <button dojoType="dijit.form.Button" type="submit" onclick="showObject();">Submit</button>
 </form></div>
 <br>
