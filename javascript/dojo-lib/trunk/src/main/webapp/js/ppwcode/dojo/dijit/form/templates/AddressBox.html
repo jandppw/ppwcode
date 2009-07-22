@@ -4,39 +4,39 @@
       <div class="celldivtitle">${_streetLabel}</div>
       <div class="celldivcontent">
         <input
+          class="dijit dijitReset dijitLeft fullLength"
           dojoType="dijit.form.TextBox"
           dojoAttachPoint="_streetBox"
-          class="fullLength"
-          required="true"/>
+          required="${required}"/>
       </div>
     </div>
     <div class="rowdiv">
-      <div class="celldivtitlePC">${_postalCodeLabel}</div>
-      <div class="celldivcontentPC">
+      <div class="celldivtitle">${_postalCodeLabel}</div>
+      <div class="celldivcontent">
         <input
+          class="dijit dijitReset dijitLeft fullLength"
           dojoType="dijit.form.TextBox"
           dojoAttachPoint="_postalCodeBox"
-          class="fullLength"
-          required="true"/>
+          required="${required}"/>
       </div>
-      <div class="celldivtitleC">${_cityNameLabel}</div>
-      <div class="celldivcontentC">
+      <div class="celldivtitle">${_cityNameLabel}</div>
+      <div class="celldivcontent">
         <input
+          class="dijit dijitReset dijitLeft fullLength"
           dojoType="dijit.form.TextBox"
           dojoAttachPoint="_cityBox"
-          class="fullLength"
-          required="true"/>
+          required="${required}"/>
       </div>
     </div>
     <div class="rowdiv">
       <div class="celldivtitle">${_countryLabel}</div>
       <div class="celldivcontent">
         <input
+          class="dijit dijitReset dijitLeft fullLength"
           dojoType="dijit.form.FilteringSelect"
           store="${countryDataStore}"
           dojoAttachPoint="_countryBox"
-          class="fullLength"
-          required="true"/>
+          required="${required}"/>
       </div>
     </div>
   </div>

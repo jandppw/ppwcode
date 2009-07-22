@@ -17,6 +17,7 @@ dojo.declare("ppwcode.dojo.dijit.form.AddressBox", [ dijit._Widget, dijit._Templ
   widgetsInTemplate : true,
 
   countryDataStore : "",
+  required: false,
   constructorFunction : null,
 
   // I18N labels
@@ -62,6 +63,7 @@ dojo.declare("ppwcode.dojo.dijit.form.AddressBox", [ dijit._Widget, dijit._Templ
   },
 
   setAttribute : function(/* String */attr, /* anything */value) {
+    console.log("AddressBox setAttribute on " + attr + " with value " + value);
     this.inherited(arguments);
     switch (attr) {
       case "disabled":
@@ -71,8 +73,31 @@ dojo.declare("ppwcode.dojo.dijit.form.AddressBox", [ dijit._Widget, dijit._Templ
         this._countryBox.setAttribute("disabled", value);
         break;
       default:
-        console.log("AddressBox setAttribute with " + attr);
+        console.log("AddressBox setAttribute on " + attr + " with value " + value);
     }
+  },
+
+  buildRendering : function() {
+    this.inherited(arguments);
+    console.log("Build rendering called.");
+  },
+
+  postCreate : function() {
+    this.inherited(arguments);
+    console.log("Post create called");
+  },
+
+  startup : function() {
+    this.inherited(arguments);
+    console.log("Startup called");
+  },
+
+  reset : function() {
+    this._streetBox.reset();
+    this._postalCodeBox.reset();
+    this._cityBox.reset();
+    this._countryBox.reset();
+    console.log("Reset called");
   }
 
 });
