@@ -18,11 +18,36 @@ dojo.declare(
 		
 		widgetsInTemplate: true,
 
-		buildRendering: function() {
+    // function that returns string with supported operations, e.g. "CRUD"
+    supportedOperations: null,
+
+    // function to query wether an operation ("C", "R", "U", "D") is supported
+    // if supportedOperations has not been set, the by default supported operations are: "C", "R" and "U"
+    supportedOperation: function(/*String*/ operation){
+      if (this.supportedOperations == null) {
+        return ("CRU".indexOf(operation) != -1);
+      } else {
+        return ((this.supportedOperations()).indexOf(operation) != -1);
+      }
+    },
+
+    buildRendering: function() {
 			this.inherited(arguments);
-			dojo.connect(this._createButton, "onClick", this, "_onCreateButtonClick");
-			this._createButtonLabel = dojo.i18n.getLocalization("ppwcode.dojo.dijit.form","MasterView").createButtonLabel;
-			this._createButton.attr("label", this._createButtonLabel);
+
+      // create the 'create'-button
+      var tempButton = dojo.doc.createElement('button');
+      this._buttonPane.setContent(tempButton);
+      dojo.addClass(tempButton, "MasterViewAddButton");
+      this._createButton = new dijit.form.Button({}, tempButton);
+      this._createButton.startup();
+
+      if (!this.supportedOperation("C")) {
+        this._buttonPane.domNode.style.visibility = 'hidden';
+      }
+
+      dojo.connect(this._createButton, "onClick", this, "_onCreateButtonClick");
+  	  this._createButtonLabel = dojo.i18n.getLocalization("ppwcode.dojo.dijit.form","MasterView").createButtonLabel;
+		  this._createButton.attr("label", this._createButtonLabel);
 		},
 		
 		refreshData: function(/*Array*/refreshdata) {
