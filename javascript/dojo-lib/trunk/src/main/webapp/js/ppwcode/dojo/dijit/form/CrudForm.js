@@ -18,7 +18,7 @@ dojo.declare(
 		//   the same functionality as the dijit.form.Form, adds CRUD viewing modes,
 		//   allows to automatically display javascript objects in the form and provides
 		//   an easy way to update and create new javascript objects.
-                // description:
+    // description:
 		//   1) Viewing modes
 		//
 		//   The form supports 3 viewing modes, View mode, Create mode and Update mode.  Each viewing mode
