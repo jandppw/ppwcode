@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Scroller</title>
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.3/dojo/resources/dojo.css"/>
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.3/dijit/themes/tundra/tundra.css"/>
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.3/dojox/form/resources/DropDownSelect.css"/>
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
+
+<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.3/dojo/dojo.xd.js"></script>
+</head>
+
+<body class="tundra document">
+<div class="selectcontainer">
+  Scroll animation:<br/>
+  <select id="easingSelector"dojoType="dojox.form.DropDownSelect">
+    <option value="linear">Linear</option>
+    <option value="slowing">Slowing</option>
+    <option value="overshoot">Overshoot</option>
+    <option value="bouncing">Bouncing</option>
+  </select>
+</div>
+<div class="scrollcontainer">
+  <div class="scrollwindow">
+    <div id="slides" class="slides">
+      <div class="slide first-slide">
+        <img src="pics/Werner_Valgaeren.jpg"></img>
+        <p>Werner Valgaeren</p>
+      </div>
+      <div class="slide">
+        <img src="pics/Marc_Schijvaerts.jpg"></img>
+        <p>Marc Schijvaerts</p>
+      </div>
+      <div class="slide">
+        <img src="pics/Dirk_Couck.jpg"></img>
+        <p>Dirk Couck</p>
+      </div>
+      <div class="slide">
+        <img src="pics/Jan_Dockx.jpg"></img>
+        <p>Jan Dockx</p>
+      </div>
+      <div class="slide">
+        <img src="pics/Tom_Crommen.jpg"></img>
+        <p>Tom Crommen</p>
+      </div>
+      <div class="slide">
+        <img src="pics/Tom_Mahieu.jpg"></img>
+        <p>Tom Mahieu</p>
+      </div>
+      <div class="slide">
+        <img src="pics/Ive_Meermans.jpg"></img>
+        <p>Ive Meermans</p>
+      </div>
+      <div class="slide">
+        <img src="pics/Kristof_Van_Meenen.jpg"></img>
+        <p>Kristof Van Meenen</p>
+      </div>
+      <div class="slide">
+        <img src="pics/Caroline_Hermans.jpg"></img>
+        <p>Caroline Hermans</p>
+      </div>
+    </div>
+  </div>
+  <div class="navigationwindow">
+    <div class="navigation">
+      <div id="prev" class="navigation-box navigation-prev">prev</div>
+      <div id="next" class="navigation-box navigation-next">next</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
