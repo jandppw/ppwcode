@@ -1,0 +1,167 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <!--
+  $Date: 2009-04-16 19:17:36 +0200 (Thu, 16 Apr 2009) $
+  $Revision: 4272 $
+  $HeadURL: https://ppwcode.googlecode.com/svn/java/pom/ppwcode-library-parent-pom/trunk/pom.xml $
+
+  Copyright 2007 - $Date: 2009-04-16 19:17:36 +0200 (Thu, 16 Apr 2009) $ by PeopleWare n.v.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+  <!-- NOTE: you probably have to give Maven more memory:
+             export MAVEN_OPTS=-Xmx1024M -->
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <!-- you need to include the ppwcode repositoryt for this -->
+    <groupId>org.ppwcode</groupId>
+    <artifactId>ppwcode-ppwcode-library-parent-pom</artifactId>
+    <version>1.9.4</version>
+  </parent>
+
+  <properties>
+    <!-- The relative path in the Subversion repository where this project will reside. This should point to a directory
+         that has at least a "trunk" subdirectory. -->
+    <ppwcode.inScmLocation>XXXXXXXX</ppwcode.inScmLocation>
+  </properties>
+
+  <!-- GROUP ID, VERSION, PACKAGING, NAME & DESCRIPTION: OVERWRITE IN YOUR CHILD POM (know what you are doing :-) ) -->
+  <groupId>org.ppwcde.XXXX</groupId>
+  <artifactId>softwareProjectManagement</artifactId>
+  <packaging>pom</packaging>
+  <version>dev-SNAPSHOT</version>
+  <name>Software project management</name>
+  <description>Paper on the software project management vernacular.</description>
+  <inceptionYear>2009</inceptionYear>
+
+  <!-- DEVELOPERS & CONTRIBUTORS: OVERWRITE IN YOUR CHILD POM -->
+  <developers>
+    <developer>
+      <name>Jan Dockx</name>
+      <id>Jan_Dockx</id>
+      <email>jandockx@gmail.com</email>
+      <timezone>+1</timezone>
+      <organization>PeopleWare s.a./n.v.</organization>
+      <organizationUrl>http://www.peopleware.be/</organizationUrl>
+      <roles>
+        <role>author</role>
+      </roles>
+    </developer>
+  </developers>
+  <contributors>
+  </contributors>
+
+  <!-- MAGIC MANTRA -->
+  <!-- The following entries need to be repeated, and can not sensibly be inherited.
+       The reason is, sadly, that Maven 2 has a built in, undocumented "feature" that appends the artifact id to a number of URL's and paths
+       if those URL's or paths are inherited. The reasoning behind that is he use of inheritance inside multi-module projects.
+       It seems that if you are using inheritance outside of multi-module projects, you are out of luck.
+       At least, we are :-(.  -->
+  <url>${ppwcode.url}</url>
+  <scm>
+    <connection>${ppwcode.scm.connection}</connection>
+    <developerConnection>${ppwcode.scm.developerConnection}</developerConnection>
+    <url>${ppwcode.scm.url}</url>
+  </scm>
+  <distributionManagement>
+    <site>
+      <id>${ppwcode.distributionManagement.site.id}</id>
+      <name>${ppwcode.distributionManagement.site.name}</name>
+      <url>${ppwcode.distributionManagement.site.url}</url>
+    </site>
+  </distributionManagement>
+
+
+  <!-- needs to be copied in every pom to find parent -->
+  <repositories>
+    <repository>
+      <id>ppwcodeRepo</id>
+      <!-- This needs to be copied in all child poms, to find the parent -->
+      <name>ppwcode Maven 2 repository</name>
+      <url>http://www.ppwcode.org/java/maven2repo</url>
+    </repository>
+    <repository>
+      <id>ppwcodeSnapshotRepo</id>
+      <!-- This needs to be copied in all child poms, to find the parent -->
+      <name>ppwcode Maven 2 snapshot repository</name>
+      <url>http://www.ppwcode.org/java/maven2snapshotrepo</url>
+    </repository>
+    <repository>
+      <id>torytRepo</id>
+      <name>Toryt Maven 2 repository</name>
+      <url>http://www.ppwcode.org/toryt/maven2repo</url>
+    </repository>
+  </repositories>
+
+
+  <!-- EXTENSIONS SPECIFIC FOR THIS PROJECT -->
+
+  <dependencies>
+
+  </dependencies>
+
+
+
+  <build>
+    <plugins>
+
+      <plugin>
+        <groupId>com.agilejava.docbkx</groupId>
+        <artifactId>docbkx-maven-plugin</artifactId>
+        <version>2.0.9</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate-html</goal>
+              <goal>generate-pdf</goal>
+            </goals>
+            <phase>pre-site</phase>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>net.sf.docbook</groupId>
+            <artifactId>docbook-xml</artifactId>
+            <version>5.0</version>
+            <scope>runtime</scope>
+            <classifier>xsd-resources</classifier>
+            <type>zip</type>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <xincludeSupported>true</xincludeSupported>
+          <!-- Copy images so they would be available for the site -->
+          <preProcess>
+              <copy todir="${site.target.docbooks}/img" failOnError="false" flatten="true">
+                <fileset dir="src/docbkx">
+                <include name="**/img/**/*.png"/>
+                </fileset>
+              </copy>
+          </preProcess>
+          <targetDirectory>${site.target.docbooks}</targetDirectory>
+          <htmlhelpEnumerateImages>true</htmlhelpEnumerateImages>
+          <chunkedOutput>true</chunkedOutput>
+          <!-- Hack to get the images right during PDF generation -->
+          <foCustomization>${basedir}/src/docbkx/resources/foCustomizations.xsl</foCustomization>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+</project>
