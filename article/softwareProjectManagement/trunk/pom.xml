@@ -155,9 +155,11 @@
           </preProcess>
           <targetDirectory>${site.target.docbooks}</targetDirectory>
           <htmlhelpEnumerateImages>true</htmlhelpEnumerateImages>
-          <chunkedOutput>true</chunkedOutput>
+          <chunkedOutput>true</chunkedOutput>          
           <!-- Hack to get the images right during PDF generation -->
+<!--
           <foCustomization>${basedir}/src/docbkx/resources/foCustomizations.xsl</foCustomization>
+-->
         </configuration>
       </plugin>
 
