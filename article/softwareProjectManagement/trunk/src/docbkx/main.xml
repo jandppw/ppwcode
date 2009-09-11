@@ -11,23 +11,15 @@
   <section>
     <title>Context</title>
 
-    <para>Software projects are, from a project management perspective, an
-    amount of work that has to be completed with sufficient quality in a given
-    time interval, just like any other project. Notable differences that set
-    software projects apart from other projects are the relatively low demands
-    for management of resources, other than the people doing the work, and the
-    relatively high amount of changes to the expected result of the project
-    during project execution.</para>
+    <para>In this text we will talk first about project management in a
+    general way, but it is focussed on the management of software projects.
+    Notable differences that set software projects apart from other projects
+    are the relatively low demands for management of resources, other than the
+    people doing the work, and the relatively high amount of changes to the
+    expected result of the project during project execution.</para>
 
-    <para>Humanity knows one basic way to make any amount of stuff manageable:
-    divide et impera. The secret to all management is to divide the stuff into
-    less large chunks, manage each chunk in itself, and manage the interaction
-    between the chunks. Repeat recursively. The part that requires experience
-    and insight here is to divide the amount in such a way that the
-    interaction between the chunks is minimal, and not too difficult to manage
-    itself.</para>
-
-    <para></para>
+    <para>Project management is mostly done by 1 person, the project manager.
+    His responsibilities are generally:</para>
 
     <itemizedlist>
       <listitem>
@@ -55,9 +47,9 @@
 
       <listitem>
         <para>planning the work (estimating resource needs, organizing the
-        work, controlling project execution, issues management, controlling
-        project execution, tracking and reporting progress, identifying,
-        managing &amp; controlling changes, changing the plan, ...)</para>
+        work, controlling project execution, issues management, tracking and
+        reporting progress, identifying, managing &amp; controlling changes,
+        changing the plan, ...)</para>
       </listitem>
 
       <listitem>
@@ -75,21 +67,224 @@
       </listitem>
     </itemizedlist>
 
-    <para>(see <link
+    <para>This list is derived from <link
     xlink:href="http://en.wikipedia.org/wiki/List_of_project_management_topics">the
-    list of project management activities at Wikipedia</link>)</para>
+    list of project management activities at Wikipedia</link>. Some more
+    background, history, and a short description of different approaches to
+    project management can be found on <link
+    xlink:href="http://en.wikipedia.org/wiki/Project_management">Wikipedia</link>
+    too.</para>
 
-    <para>Project risks are internal and external</para>
+    <para>This text focuses on the formalisation of a great number of these
+    tasks in an agile way. The approach discussed here tackles:</para>
 
-    <para></para>
+    <itemizedlist>
+      <listitem>
+        <para>defining the products of the project</para>
+      </listitem>
 
-    <para>list of work chunks</para>
+      <listitem>
+        <para>organisation of the work</para>
+      </listitem>
 
-    <para>list changes</para>
+      <listitem>
+        <para>directing activities</para>
+      </listitem>
 
-    <para>project management triangle cost / scope / schedule</para>
+      <listitem>
+        <para>assigning tasks</para>
+      </listitem>
 
-    <para>http://en.wikipedia.org/wiki/Project_management</para>
+      <listitem>
+        <para>delegating responsibilities </para>
+      </listitem>
+
+      <listitem>
+        <para>issue management</para>
+      </listitem>
+
+      <listitem>
+        <para>estimating resources needs</para>
+      </listitem>
+
+      <listitem>
+        <para>controlling project execution</para>
+      </listitem>
+
+      <listitem>
+        <para>tracking and controlling progress</para>
+      </listitem>
+
+      <listitem>
+        <para>identifying, managing &amp; controlling changes</para>
+      </listitem>
+
+      <listitem>
+        <para>changing the plan</para>
+      </listitem>
+
+      <listitem>
+        <para>forecasting future trends in the project</para>
+      </listitem>
+
+      <listitem>
+        <para>assessing and controlling divergences from the plan</para>
+      </listitem>
+
+      <listitem>
+        <para>project closure</para>
+      </listitem>
+
+      <listitem>
+        <para>project debrief</para>
+      </listitem>
+
+      <listitem>
+        <para>communicating to stakeholders</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>What is not tackled by the approach to software project management
+    in this text from the list above is</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>the grunt work related to allocation of resources and acquiring
+        human resources,</para>
+      </listitem>
+
+      <listitem>
+        <para>the soft tasks of a project manager (people management,
+        coaching),</para>
+      </listitem>
+
+      <listitem>
+        <para>the inspiration and transpiration needed to solve all kinds of
+        issues that arise,</para>
+      </listitem>
+
+      <listitem>
+        <para>QA related tasks (analyzing the results based on the facts
+        achieved, quality management, defect prevention, and the soft tasks in
+        this respect), and</para>
+      </listitem>
+
+      <listitem>
+        <para>analysis and design of objectives and events.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>The latter, we believe, is in software projects often classified
+    under the role of business analists, functional analists, technical
+    analists and designers. It certainly does not harm a project however if
+    all or some of these roles are covered by the same person that carries the
+    role of project manager.</para>
+
+    <section>
+      <title></title>
+
+      <para>Software projects are, from a project management perspective, an
+      amount of work that has to be completed with sufficient quality in a
+      given time interval, just like any other project. </para>
+
+      <para>Project risks are internal and external</para>
+
+      <para>project management triangle cost / scope / schedule</para>
+
+      <para>Humanity knows one basic way to make any amount of stuff
+      manageable: divide et impera. The secret to all management is to divide
+      the stuff into less large chunks, manage each chunk in itself, and
+      manage the interaction between the chunks. Repeat recursively. The part
+      that requires experience and insight here is to divide the amount in
+      such a way that the interaction between the chunks is minimal, and not
+      too difficult to manage itself. Indeed, given the internal complexity of
+      each chunk, the complexity of a project arises mainly from the
+      <emphasis>interaction</emphasis> of the chunks, just like the complexity
+      of software, or any other system, arises from the interaction of its
+      building blocks, recursively. And just like with software, or any other
+      system, this complexity is mitigated by encapsulation and loose
+      coupling, and is heighthened by tigth coupling.</para>
+    </section>
+
+    <section>
+      <title>The project management artifact</title>
+
+      <para>The final goal of a project is to create a previously non-existing
+      artifact, or to affect a change in behavior, or new insights or
+      knowledge, ..., but in any case, to <emphasis>change current reality
+      into an intended reality</emphasis>. That intended reality does not
+      exist yet, but still it is a concept in mans mind (<foreignphrase
+      xml:lang="fr">néant</foreignphrase>). It is the project managers tasks
+      to get that change done, to realize that change, to create that new
+      reality, in all its material and non-material aspects.</para>
+
+      <para>It is often wildy underestimated that the way and manner, the
+      strategy and tactic, to get from the current reality to the new intended
+      reality <emphasis>is in itself an artifact that does not exist
+      beforehand</emphasis>. This way of reaching the final goal of the
+      project needs to be created too, is a creation, an artifact, in and of
+      itself.</para>
+
+      <para>The creation of this project management artifact is the
+      responsibility of the project manager.</para>
+    </section>
+
+    <section>
+      <title>The design of the project management artifact</title>
+
+      <para>Sure, this this way of reaching the final goal of the project can
+      be created on the fly, together with the creation of the final goal of
+      the project itself. That is exactly equivalent to building a material
+      artifact with an intended function ("something to open cans with") but
+      without any intelligent design, schema or, in the extreme, even a rough
+      mental image of its form beforehand. The form of the material artifact
+      emerges while building it, and it not intended. While that resulting
+      form can be beautiful and do perform the intented function in the end,
+      it is a very risky process, without much or any guarantee that the goal
+      of something with the intended function will be reached. Designing the
+      form beforehand mitigates the risk of the effort not reaching the goal.
+      That design does not even have to be completely worked out. Any amount
+      of design of the form beforehand will mitigate the risk of not reaching
+      the goal. Complete design beforehand of the form in all details as a
+      form that is scientifically proven to perform the intended function
+      elliminates the risk completely.</para>
+
+      <para>The same applies to the artifact of project management. The
+      functional intention is clear: this artifact is the something that will
+      get the change in reality the project intends realized. Complete design
+      beforehand of the form of this artifact in all details as a form that is
+      scientifically proven to perform the intended function elliminates the
+      risk completely. With no upfront design of the form of this artifact at
+      all, the accidental form that emerges might still perform the intended
+      function, and thus the goal of the actual project is reached, but this
+      is a very risky process, without much or any guarantee that the intended
+      change of reality will be effected.</para>
+
+      <para>And also, any amount of design of the form beforehand will
+      mitigate the risk of not reaching the goal of artifact, which is
+      reaching the final goal of the project. Most design is not complete in
+      all details, and proven scientifically. In practice, even the most
+      elaborate and painfully checked design of a material form will not be
+      materialized exactly when the actual material artifact is build. During
+      the building, reality kicks in, errors are made, accidents happen,
+      etcetera. And the design often turns out not to achieve the intended
+      function perfectly. But given where we get realizing the design as best
+      as we can, these mismatches are then often repaired, on the fly or in a
+      more formal fashion, to reach a material artifact whose performance is
+      close enough to the intended function for practical purposes. Again, the
+      same applies to the project management artifact. The design of the
+      project management is rarely perfect, but given where we get executing
+      the design as best as we can, the mismatches can be repaired on the fly
+      or in a more formal fashion to indeed get an actual project execution
+      that does result in a finished project with results close enough to the
+      intended goals for practical purposes.</para>
+    </section>
+
+    <section>
+      <title>Projec risk</title>
+
+      <para></para>
+    </section>
 
     <section>
       <title>Manage risk with a plan</title>
