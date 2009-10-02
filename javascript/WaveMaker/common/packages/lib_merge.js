@@ -11,5 +11,4 @@ For project specific widgets, add the dojo.require statement to the project java
 
 // Example:
 // dojo.require("wm.packages.example.Button");
-dojo.require("common.packages.hdp.JethroContentPageTemplate");
 dojo.require("common.packages.ppwcode.NewLineTextArea");
