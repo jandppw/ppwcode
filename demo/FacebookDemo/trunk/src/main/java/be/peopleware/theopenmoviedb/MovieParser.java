@@ -11,12 +11,12 @@ public class MovieParser {
 	
 	public static Movie parseMovie(Element element) {
 		Movie movie = new Movie();
-		movie.setScore(Double.parseDouble(element.getChildText("rating")));
+		movie.setRating(Double.parseDouble(element.getChildText("rating")));
 		movie.setPopularity(Integer.parseInt(element.getChildText("popularity")));
-		movie.setTitle(element.getChildText("name"));
+		movie.setName(element.getChildText("name"));
 		movie.setImdbId(element.getChildText("imdb_id"));
 		movie.setId(element.getChildText("id"));
-		movie.setShortOverview(element.getChildText("overview"));
+		movie.setOverview(element.getChildText("overview"));
 		Element images = element.getChild("images");
 		if (images != null) {
 			for (Element image : (List<Element>)images.getChildren("image")) {

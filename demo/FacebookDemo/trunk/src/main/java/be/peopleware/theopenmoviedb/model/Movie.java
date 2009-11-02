@@ -7,23 +7,23 @@ import java.util.Map;
 
 public class Movie {
 	
-	private double score;
+	private double rating;
 	private int popularity;
-	private String title;
+	private String name;
 	
 	private String imdbId;
 	private String id;
-	private String shortOverview;
+	private String overview;
 	
 	private Map<String, String> posters = new HashMap<String, String>();
 	
 	private List<Actor> actors = new ArrayList<Actor>();
 	
-	public double getScore() {
-		return score;
+	public double getRating() {
+		return rating;
 	}
-	public void setScore(double score) {
-		this.score = score;
+	public void setRating(double rating) {
+		this.rating = rating;
 	}
 	public int getPopularity() {
 		return popularity;
@@ -31,11 +31,11 @@ public class Movie {
 	public void setPopularity(int popularity) {
 		this.popularity = popularity;
 	}
-	public String getTitle() {
-		return title;
+	public String getName() {
+		return name;
 	}
-	public void setTitle(String title) {
-		this.title = title;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getImdbId() {
 		return imdbId;
@@ -43,11 +43,11 @@ public class Movie {
 	public void setImdbId(String imdbId) {
 		this.imdbId = imdbId;
 	}
-	public String getShortOverview() {
-		return shortOverview;
+	public String getOverview() {
+		return overview;
 	}
-	public void setShortOverview(String shortOverview) {
-		this.shortOverview = shortOverview;
+	public void setOverview(String overview) {
+		this.overview = overview;
 	}
 	public Map<String, String> getPosters() {
 		return posters;
