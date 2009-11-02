@@ -5,6 +5,7 @@ import java.util.List;
 import org.jdom.Element;
 
 import be.peopleware.theopenmoviedb.model.Actor;
+import be.peopleware.theopenmoviedb.model.Director;
 import be.peopleware.theopenmoviedb.model.Movie;
 
 public class MovieParser {
@@ -32,6 +33,10 @@ public class MovieParser {
 				if (actor != null) {
 					movie.getActors().add(actor);
 				}
+				Director director = parseDirector(person);
+				if (director != null) {
+					movie.getDirectors().add(director);
+				}
 			}
 		}
 		return movie;
@@ -48,4 +53,16 @@ public class MovieParser {
 		}
 	}
 
+	private static Director parseDirector(Element person) {
+		String name = person.getAttributeValue("name");
+		if (name != null && "Director".equals(person.getAttributeValue("job"))) {
+			Director director = new Director();
+			director.setName(name);
+			return director;
+		} else {
+			return null;
+		}
+	}
+
+	
 }
