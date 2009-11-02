@@ -50,7 +50,6 @@ public class MovieService {
 	public static Document requestDocument(OpenMovieDbMethod method, String query) {
 		try {
 			URL url = new URL(buildURL(method.getUrlPart(), query));
-			System.out.println(url);
 			SAXBuilder builder = new SAXBuilder();
 			Document document = builder.build(url.toString());
 			return document;
