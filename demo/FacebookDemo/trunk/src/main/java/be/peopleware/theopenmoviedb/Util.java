@@ -45,6 +45,17 @@ public class Util {
 		return result;
 	}
 	
+	public static List<String> getDirectors(String id) {
+		Movie movie = getMovie(id);
+		List<String> result = new ArrayList<String>();
+		if (movie != null) {
+			for (int i=0; i < 5 && i < movie.getDirectors().size(); i++) {
+				result.add(movie.getDirectors().get(i).getName());
+			}
+		} 
+		return result;
+	}
+	
 	public static void main(String[] args) {
 		String query = "the matrix";
 		for (Movie movie : getMovies(query)) {
