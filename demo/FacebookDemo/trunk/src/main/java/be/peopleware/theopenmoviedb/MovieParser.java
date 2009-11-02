@@ -11,16 +11,21 @@ public class MovieParser {
 	
 	public static Movie parseMovie(Element element) {
 		Movie movie = new Movie();
-		movie.setScore(Double.parseDouble(element.getChildText("score")));
+		movie.setScore(Double.parseDouble(element.getChildText("rating")));
 		movie.setPopularity(Integer.parseInt(element.getChildText("popularity")));
-		movie.setTitle(element.getChildText("title"));
-		movie.setImdbId(element.getChildText("imdb"));
+		movie.setTitle(element.getChildText("name"));
+		movie.setImdbId(element.getChildText("imdb_id"));
 		movie.setId(element.getChildText("id"));
-		movie.setShortOverview(element.getChildText("short_overview"));
-		for (Element poster : (List<Element>)element.getChildren("poster")) {
-			movie.getPosters().put(poster.getAttributeValue("size"), poster.getText());
+		movie.setShortOverview(element.getChildText("overview"));
+		Element images = element.getChild("images");
+		if (images != null) {
+			for (Element image : (List<Element>)images.getChildren("image")) {
+				if ("poster".equals(image.getAttributeValue("type"))) {
+					movie.getPosters().put(image.getAttributeValue("size"), image.getAttributeValue("url"));
+				}
+			}
 		}
-		Element people = element.getChild("people");
+		Element people = element.getChild("cast");
 		if (people != null) {
 			for (Element person : (List<Element>)people.getChildren("person")) {
 				Actor actor = parseActor(person);
@@ -33,10 +38,10 @@ public class MovieParser {
 	}
 	
 	private static Actor parseActor(Element person) {
-		Element name = person.getChild("name");
-		if (name != null && "actor".equals(person.getAttributeValue("job"))) {
+		String name = person.getAttributeValue("name");
+		if (name != null && "Actor".equals(person.getAttributeValue("job"))) {
 			Actor actor = new Actor();
-			actor.setName(name.getText());
+			actor.setName(name);
 			return actor;
 		} else {
 			return null;
