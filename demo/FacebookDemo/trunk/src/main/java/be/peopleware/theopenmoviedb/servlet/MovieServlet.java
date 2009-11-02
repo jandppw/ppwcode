@@ -16,6 +16,8 @@ import be.peopleware.theopenmoviedb.model.Movie;
 
 public class MovieServlet extends HttpServlet {
 	
+	private static final long serialVersionUID = 4442857337491447538L;
+
 	public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json; charset=UTF-8");
 		ServletOutputStream out = response.getOutputStream();
