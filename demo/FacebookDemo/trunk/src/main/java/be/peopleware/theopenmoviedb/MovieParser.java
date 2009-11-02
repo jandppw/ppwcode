@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.jdom.Element;
 
+import be.peopleware.theopenmoviedb.model.Actor;
+import be.peopleware.theopenmoviedb.model.Movie;
+
 public class MovieParser {
 	
 	public static Movie parseMovie(Element element) {
