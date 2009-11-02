@@ -281,6 +281,19 @@ function updateMovieDetails(movieId) {
 	TheOpenMovieDBUtilWrapper.getOverview(movieId, function(description) {
 		dojo.byId("yourMovieDescription").innerHTML = "<p>" + description + "</p>";
 	});
+	
+	TheOpenMovieDBUtilWrapper.getDirectors(movieId, function(directors) {
+		var directorsHTML = "";
+		if (directors.length > 1) {
+			directorsHTML = "<b>Directors</b><br/>";
+		} else if (directors.length > 0) {
+			directorsHTML = "<b>Director</b><br/>";
+		}
+		for (var i = 0; i < directors.length; i++) {
+			directorsHTML += directors[i] + "<br/>";
+		}
+		dojo.byId("yourMovieDirectors").innerHTML = "<p>" + directorsHTML + "</p>";
+	});
 
 	TheOpenMovieDBUtilWrapper.getMainActors(movieId, function(actors) {
 		var actorsHTML = "";
