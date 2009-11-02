@@ -7,12 +7,16 @@ dojo.declare(
 	"ppwcode.dojo.dijit.form.ImageBox",
 	dijit.form._FormValueWidget,
 	{
+		constructor: function() {
+			console.log("Imagebox, blank Gif:" + this._blankGif);
+		},
+		
 		imgSrc: "",
 		
-		templateString: "<img dojoAttachPoint='focusNode' src='${imgSrc}'></img>",
+		templateString: "<div dojoAttachPoint='focusNode'><img dojoAttachPoint='imgNode' src='${_blankGif}'></img></div>",
 		
 		_setValueAttr: function(newValue) {
-			dojo.attr(this.domNode, "src", newValue);
+			dojo.attr(this.imgNode, "src", newValue);
 			this.inherited(arguments);
 		}
 	}
