@@ -1,4 +1,4 @@
-package be.peopleware.theopenmoviedb;
+package be.peopleware.theopenmoviedb.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;

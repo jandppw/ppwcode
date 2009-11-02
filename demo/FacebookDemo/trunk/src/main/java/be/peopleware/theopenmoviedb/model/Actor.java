@@ -1,4 +1,4 @@
-package be.peopleware.theopenmoviedb;
+package be.peopleware.theopenmoviedb.model;
 
 public class Actor {
 	

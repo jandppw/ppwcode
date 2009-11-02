@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import be.peopleware.theopenmoviedb.Movie;
 import be.peopleware.theopenmoviedb.Util;
+import be.peopleware.theopenmoviedb.model.Movie;
 
 public class MovieServlet extends HttpServlet {
 	

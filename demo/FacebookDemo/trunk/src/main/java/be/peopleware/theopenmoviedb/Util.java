@@ -14,6 +14,8 @@ import org.jdom.JDOMException;
 import org.jdom.Namespace;
 import org.jdom.input.SAXBuilder;
 
+import be.peopleware.theopenmoviedb.model.Movie;
+
 
 public class Util {
 	
