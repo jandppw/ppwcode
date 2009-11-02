@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 import org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdIntegerVersionedPersistentBean;
 
-import be.peopleware.theopenmoviedb.Util;
+import be.peopleware.theopenmoviedb.MovieService;
 
 @NamedQueries({
   @NamedQuery(name  = "findMoviesByFacebookUser",
@@ -58,7 +58,7 @@ public class Movie extends AbstractIntegerIdIntegerVersionedPersistentBean {
 	/* </property> */
 	
 	public String getTitle() {
-		be.peopleware.theopenmoviedb.model.Movie movie = Util.getMovie(getId());
+		be.peopleware.theopenmoviedb.model.Movie movie = MovieService.searchForMovie(getId());
 		if (movie != null) {
 			return movie.getName();
 		} else {

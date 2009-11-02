@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-import be.peopleware.theopenmoviedb.Util;
+import be.peopleware.theopenmoviedb.MovieService;
 import be.peopleware.theopenmoviedb.model.Movie;
 
 public class MovieServlet extends HttpServlet {
@@ -43,7 +43,7 @@ public class MovieServlet extends HttpServlet {
 	
 	private void handleIdRequest(OutputStreamWriter writer, String queryId) throws IOException {
 
-		Movie movie = Util.getMovie(queryId);
+		Movie movie = MovieService.searchForMovie(queryId);
 		if (movie != null) {
 			JSONArray movieList = new JSONArray();
 			movieList.put(new JSONObject().put("name", movie.getName())
@@ -57,7 +57,7 @@ public class MovieServlet extends HttpServlet {
 	}
 	
 	private void handleNameRequest(OutputStreamWriter writer, String queryName) throws IOException {
-		List<Movie> movies = Util.getMovies(queryName);
+		List<Movie> movies = MovieService.searchForMovies(queryName);
 		
 		JSONArray movieList = new JSONArray();
 		for (Movie movie : movies) {
