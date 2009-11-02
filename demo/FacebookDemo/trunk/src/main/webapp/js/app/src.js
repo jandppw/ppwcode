@@ -278,7 +278,7 @@ function updateMovieDetails(movieId) {
 		yourMoviePicture.setValue(url);
 	});
 
-	TheOpenMovieDBUtilWrapper.getShortOverview(movieId, function(description) {
+	TheOpenMovieDBUtilWrapper.getOverview(movieId, function(description) {
 		dojo.byId("yourMovieDescription").innerHTML = "<p>" + description + "</p>";
 	});
 

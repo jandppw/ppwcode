@@ -41,7 +41,7 @@ public class MovieServlet extends HttpServlet {
 		Movie movie = Util.getMovie(queryId);
 		if (movie != null) {
 			writer.write("{ identifier: 'movieId', items:[");
-			writer.write("{title: \"" + movie.getTitle() + "\", movieId: \"" + movie.getId() + "\" }");
+			writer.write("{title: \"" + movie.getName() + "\", movieId: \"" + movie.getId() + "\" }");
 			writer.write("]}");
 		} else {
 			handleEmptyRequest(writer);
@@ -56,7 +56,7 @@ public class MovieServlet extends HttpServlet {
 		writer.write("{ identifier: 'movieId', items:[");
 	
 		for (int i = 0; i < movies.size(); i++) {
-			writer.write("{title: \"" + movies.get(i).getTitle() + "\", movieId: \"" + movies.get(i).getId() + "\" }");
+			writer.write("{title: \"" + movies.get(i).getName() + "\", movieId: \"" + movies.get(i).getId() + "\" }");
 			if (i < movies.size() -1)
 				writer.write(",");
 		}

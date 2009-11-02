@@ -25,10 +25,10 @@ public class Util {
 		}
 	}
 	
-	public static String getShortOverview(String id) {
+	public static String getOverview(String id) {
 		Movie movie = getMovie(id);
 		if (movie != null) {
-			return movie.getShortOverview();
+			return movie.getOverview();
 		} else {
 			return null;
 		}
@@ -48,12 +48,12 @@ public class Util {
 	public static void main(String[] args) {
 		String query = "the matrix";
 		for (Movie movie : getMovies(query)) {
-			System.out.println(movie.getTitle() + " (" + movie.getImdbId() + ") : " + movie.getShortOverview());
+			System.out.println(movie.getName() + " (" + movie.getImdbId() + ") : " + movie.getOverview());
 		}
 		
 		String queryId = "24";
 		Movie movie = getMovie(queryId);
-		System.out.println(movie.getTitle() + " (" + movie.getImdbId() + ") : " + movie.getShortOverview());
+		System.out.println(movie.getName() + " (" + movie.getImdbId() + ") : " + movie.getOverview());
 		System.out.println(movie.getActors());
 		for(String s : getMainActors(queryId)) {
 			System.out.println(s);
