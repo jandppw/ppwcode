@@ -50,11 +50,8 @@ public class MovieService {
 	public static Document requestDocument(OpenMovieDbMethod method, String query) {
 		try {
 			URL url = new URL(buildURL(method.getUrlPart(), query));
-			
 			SAXBuilder builder = new SAXBuilder();
-
 			Document document = builder.build(url.toString());
-			
 			return document;
 		} catch (MalformedURLException ex) {
 			throw new RuntimeException(ex);
@@ -69,15 +66,10 @@ public class MovieService {
 		Movie result;
 		
 		if (movieCache.containsKey(Integer.parseInt(id))) {
-			
 			result = movieCache.get(Integer.parseInt(id));
-			
 		} else {
-		
 			Element root = requestDocument(OpenMovieDbMethod.MOVIE_GETINFO, id).getRootElement();
-			
 			Element movies = root.getChild("movies");
-			
 			if (movies != null && movies.getChildren().size() > 0) {
 				Element movie = movies.getChild("movie");
 				result = MovieParser.parseMovie(movie);
@@ -88,32 +80,23 @@ public class MovieService {
 		}
 		
 		return result;
-		
 	}
 	
 	public static List<Movie> searchForMovies(String query) {
 		List<Movie> result;
 		
 		if (movieQueryCache.containsKey(query)) {
-			
 			result = movieQueryCache.get(query);
-			
 		} else {
-		
 			result = new ArrayList<Movie>();
-		
 			Element root = requestDocument(OpenMovieDbMethod.MOVIE_SEARCH, query).getRootElement();
-
 			Element movies = root.getChild("movies");
-			
 			for (Element element : (List<Element>)movies.getChildren("movie")) {
 				result.add(MovieParser.parseMovie(element));
 			}
-			
 			movieQueryCache.put(query, result);
 		}
 		return result;
 	}
-
 
 }
