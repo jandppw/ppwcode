@@ -18,6 +18,10 @@
       <param-value>true</param-value>
     </init-param>
     <init-param>
+      <param-name>logLevel</param-name>
+      <param-value>DEBUG</param-value>
+    </init-param>
+    <init-param>
       <param-name>org.directwebremoting.extend.AccessControl</param-name>
       <param-value>be.peopleware.facebookdemo.security.dwr.FacebookAccessControl</param-value>
     </init-param>
