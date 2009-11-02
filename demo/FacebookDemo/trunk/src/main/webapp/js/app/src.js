@@ -351,15 +351,15 @@ function fbFriendsGridRowClick(e) {
 
 function frmYourMovieReset(e) {
 	// Hack to work around the problem of resetting a FilteringSelect:
-		// value isn't cleared, invalid-state isn't reset
-		// Should be resolved in dojo 1.2, although I'm not sure that patch
-		// covers our use case
-		var d = dijit.byId("yourMovieId");
-d.valueNode.value = ""; 
-dijit.form.FilteringSelect.superclass.setValue.call(d, "", true, ""); 
-d._lastDisplayedValue = ""; 
-d.state = ""; 
-d._setStateClass(); 	
+	// value isn't cleared, invalid-state isn't reset
+	// Should be resolved in dojo 1.2, although I'm not sure that patch
+	// covers our use case
+	var d = dijit.byId("yourMovieId");
+	d.valueNode.value = ""; 
+	dijit.form.FilteringSelect.superclass.setValue.call(d, "", true, ""); 
+	d._lastDisplayedValue = ""; 
+	d.state = ""; 
+	d._setStateClass(); 	
 }
 
 dojo.addOnLoad(function() {
