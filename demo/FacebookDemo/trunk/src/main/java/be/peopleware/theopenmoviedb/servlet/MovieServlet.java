@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import be.peopleware.theopenmoviedb.Util;
 import be.peopleware.theopenmoviedb.model.Movie;
 
@@ -42,9 +45,14 @@ public class MovieServlet extends HttpServlet {
 
 		Movie movie = Util.getMovie(queryId);
 		if (movie != null) {
-			writer.write("{ identifier: 'movieId', items:[");
-			writer.write("{name: \"" + movie.getName() + "\", movieId: \"" + movie.getId() + "\" }");
-			writer.write("]}");
+			JSONArray movieList = new JSONArray();
+			movieList.put(new JSONObject().put("name", movie.getName())
+					                      .put("movieId", movie.getId()));
+			JSONObject result = new JSONObject();
+			result.put("identifier", "movieId");
+			result.put("items", movieList);
+			
+			writer.write(result.toString());
 		} else {
 			handleEmptyRequest(writer);
 		}
@@ -52,23 +60,27 @@ public class MovieServlet extends HttpServlet {
 	}
 	
 	private void handleNameRequest(OutputStreamWriter writer, String queryName) throws IOException {
-		
 		List<Movie> movies = Util.getMovies(queryName);
 		
-		writer.write("{ identifier: 'movieId', items:[");
-	
-		for (int i = 0; i < movies.size(); i++) {
-			writer.write("{name: \"" + movies.get(i).getName() + "\", movieId: \"" + movies.get(i).getId() + "\" }");
-			if (i < movies.size() -1)
-				writer.write(",");
+		JSONArray movieList = new JSONArray();
+		for (Movie movie : movies) {
+			movieList.put(new JSONObject().put("name", movie.getName())
+					                      .put("movieId", movie.getId()));
 		}
-	
-		writer.write("]}");
 		
+		JSONObject result = new JSONObject();
+		result.put("identifier", "movieId");
+		result.put("items", movieList);
+		
+		writer.write(result.toString());
 	}
 	
 	private void handleEmptyRequest(OutputStreamWriter writer) throws IOException {
-		writer.write("{ identifier: 'movieId', items:[ ]}");
+		JSONObject result = new JSONObject();
+		result.put("identifier", "movieId");
+		result.put("items", new JSONArray());
+		
+		writer.write(result.toString());
 	}
 
 }
