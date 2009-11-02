@@ -58,7 +58,7 @@ public class Util {
 			
 				Element movieMatches = (Element)root.getChild("moviematches");
 				Element element =  movieMatches.getChild("movie");
-				result = parseMovie(element);
+				result = MovieParser.parseMovie(element);
 			
 				movieCache.put(Integer.parseInt(result.getId()), result);
 				
@@ -90,7 +90,7 @@ public class Util {
 				Element movieMatches = (Element)root.getChild("moviematches");
 		
 				for (Element element : (List<Element>)movieMatches.getChildren("movie")) {
-					result.add(parseMovie(element));
+					result.add(MovieParser.parseMovie(element));
 				}
 			}
 			
@@ -98,41 +98,7 @@ public class Util {
 		}
 		return result;
 	}
-	
-	private static Movie parseMovie(Element element) {
-		Movie movie = new Movie();
-		movie.setScore(Double.parseDouble(element.getChildText("score")));
-		movie.setPopularity(Integer.parseInt(element.getChildText("popularity")));
-		movie.setTitle(element.getChildText("title"));
-		movie.setImdbId(element.getChildText("imdb"));
-		movie.setId(element.getChildText("id"));
-		movie.setShortOverview(element.getChildText("short_overview"));
-		for (Element poster : (List<Element>)element.getChildren("poster")) {
-			movie.getPosters().put(poster.getAttributeValue("size"), poster.getText());
-		}
-		Element people = element.getChild("people");
-		if (people != null) {
-			for (Element person : (List<Element>)people.getChildren("person")) {
-				Actor actor = parseActor(person);
-				if (actor != null) {
-					movie.getActors().add(actor);
-				}
-			}
-		}
-		return movie;
-	}
-	
-	private static Actor parseActor(Element person) {
-		Element name = person.getChild("name");
-		if (name != null && "actor".equals(person.getAttributeValue("job"))) {
-			Actor actor = new Actor();
-			actor.setName(name.getText());
-			return actor;
-		} else {
-			return null;
-		}
-	}
-	
+		
 	public static String getPosterThumb(String id) {
 		Movie movie = searchForMovie(id);
 		if (movie != null && movie.getPosters().get("thumb") != null) {
