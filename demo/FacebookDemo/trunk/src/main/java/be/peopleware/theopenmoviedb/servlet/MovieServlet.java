@@ -24,12 +24,12 @@ public class MovieServlet extends HttpServlet {
 		OutputStreamWriter writer = new OutputStreamWriter(out, Charset.forName("UTF-8"));
 		
 		String queryId = request.getParameter("id");
-		String queryTitle = request.getParameter("title");
+		String queryName = request.getParameter("name");
 		
 		if (queryId != null && queryId.length() > 0) {
 			handleIdRequest(writer, queryId);
-		} else if (queryTitle != null && queryTitle.length() >= 3) {
-			handleTitleRequest(writer, queryTitle);
+		} else if (queryName != null && queryName.length() >= 3) {
+			handleNameRequest(writer, queryName);
 		} else {
 			handleEmptyRequest(writer);
 		}
@@ -43,7 +43,7 @@ public class MovieServlet extends HttpServlet {
 		Movie movie = Util.getMovie(queryId);
 		if (movie != null) {
 			writer.write("{ identifier: 'movieId', items:[");
-			writer.write("{title: \"" + movie.getName() + "\", movieId: \"" + movie.getId() + "\" }");
+			writer.write("{name: \"" + movie.getName() + "\", movieId: \"" + movie.getId() + "\" }");
 			writer.write("]}");
 		} else {
 			handleEmptyRequest(writer);
@@ -51,14 +51,14 @@ public class MovieServlet extends HttpServlet {
 		
 	}
 	
-	private void handleTitleRequest(OutputStreamWriter writer, String queryTitle) throws IOException {
+	private void handleNameRequest(OutputStreamWriter writer, String queryName) throws IOException {
 		
-		List<Movie> movies = Util.getMovies(queryTitle);
+		List<Movie> movies = Util.getMovies(queryName);
 		
 		writer.write("{ identifier: 'movieId', items:[");
 	
 		for (int i = 0; i < movies.size(); i++) {
-			writer.write("{title: \"" + movies.get(i).getName() + "\", movieId: \"" + movies.get(i).getId() + "\" }");
+			writer.write("{name: \"" + movies.get(i).getName() + "\", movieId: \"" + movies.get(i).getId() + "\" }");
 			if (i < movies.size() -1)
 				writer.write(",");
 		}
