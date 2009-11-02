@@ -58,7 +58,7 @@ public class Movie extends AbstractIntegerIdIntegerVersionedPersistentBean {
 	/* </property> */
 	
 	public String getTitle() {
-		be.peopleware.theopenmoviedb.model.Movie movie = Util.searchForMovie(getId());
+		be.peopleware.theopenmoviedb.model.Movie movie = Util.getMovie(getId());
 		if (movie != null) {
 			return movie.getTitle();
 		} else {

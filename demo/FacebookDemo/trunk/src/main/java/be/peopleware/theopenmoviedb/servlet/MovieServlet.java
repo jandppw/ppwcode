@@ -38,7 +38,7 @@ public class MovieServlet extends HttpServlet {
 	
 	private void handleIdRequest(OutputStreamWriter writer, String queryId) throws IOException {
 
-		Movie movie = Util.searchForMovie(queryId);
+		Movie movie = Util.getMovie(queryId);
 		if (movie != null) {
 			writer.write("{ identifier: 'movieId', items:[");
 			writer.write("{title: \"" + movie.getTitle() + "\", movieId: \"" + movie.getId() + "\" }");
@@ -51,7 +51,7 @@ public class MovieServlet extends HttpServlet {
 	
 	private void handleTitleRequest(OutputStreamWriter writer, String queryTitle) throws IOException {
 		
-		List<Movie> movies = Util.searchForMovies(queryTitle);
+		List<Movie> movies = Util.getMovies(queryTitle);
 		
 		writer.write("{ identifier: 'movieId', items:[");
 	
