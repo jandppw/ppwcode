@@ -113,13 +113,24 @@ public class Util {
 		Element people = element.getChild("people");
 		if (people != null) {
 			for (Element person : (List<Element>)people.getChildren("person")) {
-				Element name = person.getChild("name");
-				if (name != null && "actor".equals(person.getAttributeValue("job"))) {
-					movie.getActors().add(name.getText());
+				Actor actor = parseActor(person);
+				if (actor != null) {
+					movie.getActors().add(actor);
 				}
 			}
 		}
 		return movie;
+	}
+	
+	private static Actor parseActor(Element person) {
+		Element name = person.getChild("name");
+		if (name != null && "actor".equals(person.getAttributeValue("job"))) {
+			Actor actor = new Actor();
+			actor.setName(name.getText());
+			return actor;
+		} else {
+			return null;
+		}
 	}
 	
 	public static String getPosterThumb(String id) {
@@ -145,7 +156,7 @@ public class Util {
 		List<String> result = new ArrayList<String>();
 		if (movie != null) {
 			for (int i=0; i < 5 && i < movie.getActors().size(); i++) {
-				result.add(movie.getActors().get(i));
+				result.add(movie.getActors().get(i).getName());
 			}
 		} 
 		return result;
