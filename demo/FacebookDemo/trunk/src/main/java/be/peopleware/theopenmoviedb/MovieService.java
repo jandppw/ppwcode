@@ -1,8 +1,10 @@
 package be.peopleware.theopenmoviedb;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +13,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
-import org.jdom.Namespace;
 import org.jdom.input.SAXBuilder;
 
 import be.peopleware.theopenmoviedb.model.Movie;
@@ -24,10 +25,32 @@ public class MovieService {
 	
 	private static final Map<Integer, Movie> movieCache = new ConcurrentHashMap<Integer, Movie>();
 	
-	public static Document requestDocument(String query) {
-		try {
-			URL url = new URL("http://api.themoviedb.org/2.0/" + query + "&api_key=" + API_KEY);
+	private static final String API_BASE_URL = "http://api.themoviedb.org/2.1/";
+	
+	private static final String API_BASE_PATH = "/en/xml/";
+	
+	private enum OpenMovieDbMethod {
+		MOVIE_SEARCH("Movie.search"),
+		MOVIE_GETINFO("Movie.getInfo");
 
+		private OpenMovieDbMethod(String urlPart) {
+			this.urlPart = urlPart;
+		}
+		
+		private String urlPart;
+		private String getUrlPart() {
+			return urlPart;
+		}
+	}
+	
+	private static String buildURL(String method, String query) throws UnsupportedEncodingException {
+		return API_BASE_URL + method + API_BASE_PATH + API_KEY + "/" + URLEncoder.encode(query, "UTF-8");
+	}
+	
+	public static Document requestDocument(OpenMovieDbMethod method, String query) {
+		try {
+			URL url = new URL(buildURL(method.getUrlPart(), query));
+			
 			SAXBuilder builder = new SAXBuilder();
 
 			Document document = builder.build(url.toString());
@@ -51,18 +74,14 @@ public class MovieService {
 			
 		} else {
 		
-			Element root = requestDocument("Movie.getInfo?id=" + id).getRootElement();
-		
-			Element totalResults = root.getChild("totalResults", Namespace.getNamespace("opensearch", "http://a9.com/-/spec/opensearch/1.1/"));
-	
-			if (Integer.parseInt(totalResults.getText()) > 0) {
+			Element root = requestDocument(OpenMovieDbMethod.MOVIE_GETINFO, id).getRootElement();
 			
-				Element movieMatches = (Element)root.getChild("moviematches");
-				Element element =  movieMatches.getChild("movie");
-				result = MovieParser.parseMovie(element);
+			Element movies = root.getChild("movies");
 			
+			if (movies != null && movies.getChildren().size() > 0) {
+				Element movie = movies.getChild("movie");
+				result = MovieParser.parseMovie(movie);
 				movieCache.put(Integer.parseInt(result.getId()), result);
-				
 			} else {
 				result = null;
 			}
@@ -83,16 +102,12 @@ public class MovieService {
 		
 			result = new ArrayList<Movie>();
 		
-			Element root = requestDocument("Movie.search?title=" + query).getRootElement();
-		
-			Element totalResults = root.getChild("totalResults", Namespace.getNamespace("opensearch", "http://a9.com/-/spec/opensearch/1.1/"));
+			Element root = requestDocument(OpenMovieDbMethod.MOVIE_SEARCH, query).getRootElement();
+
+			Element movies = root.getChild("movies");
 			
-			if (Integer.parseInt(totalResults.getText()) > 0) {
-				Element movieMatches = (Element)root.getChild("moviematches");
-		
-				for (Element element : (List<Element>)movieMatches.getChildren("movie")) {
-					result.add(MovieParser.parseMovie(element));
-				}
+			for (Element element : (List<Element>)movies.getChildren("movie")) {
+				result.add(MovieParser.parseMovie(element));
 			}
 			
 			movieQueryCache.put(query, result);
