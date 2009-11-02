@@ -18,6 +18,7 @@ public class Movie {
 	private Map<String, String> posters = new HashMap<String, String>();
 	
 	private List<Actor> actors = new ArrayList<Actor>();
+	private List<Director> directors = new ArrayList<Director>();
 	
 	public double getRating() {
 		return rating;
@@ -60,6 +61,12 @@ public class Movie {
 	}
 	public String getId() {
 		return id;
+	}
+	public void setDirectors(List<Director> directors) {
+		this.directors = directors;
+	}
+	public List<Director> getDirectors() {
+		return directors;
 	}
 
 }
