@@ -262,14 +262,14 @@ function showFriendDetails(user) {
 
 	//console.dir(user);
 	JpaMovieDaoWrapper.findByFacebookUser(user.uid,
-			{
-		callback: function(response) {
-		lstFriendsMoviesGrid.setStore(new ppwcode.dojo.dojo.data.ObjectArrayStore({data: response}));
-	},
-	errorHandler: function(errorString, ex) {
-		//console.error(errorString);
-	}
+		{
+			callback: function(response) {
+				lstFriendsMoviesGrid.setStore(new ppwcode.dojo.dojo.data.ObjectArrayStore({data: response}));
+			},
+			errorHandler: function(errorString, ex) {
+				//console.error(errorString);
 			}
+		}
 	);
 
 }
