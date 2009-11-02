@@ -196,7 +196,8 @@ function createShowMovieDetailsAnimation() {
 	return dojo.fx.combine([
 	                        dojo.fadeIn({node: "yourMoviePicture", duration: 600 }),
 	                        dojo.fadeIn({node: "yourMovieDescription", duration: 600 }),
-	                        dojo.fadeIn({node: "yourMovieActors", duration: 600 })
+	                        dojo.fadeIn({node: "yourMovieActors", duration: 600 }),
+	                        dojo.fadeIn({node: "yourMovieDirectors", duration: 600 })
 	                        ]);
 }
 
@@ -204,7 +205,8 @@ function createHideMovieDetailsAnimation() {
 	return dojo.fx.combine([
 	                        dojo.fadeOut({node: "yourMoviePicture", duration: 400 }),
 	                        dojo.fadeOut({node: "yourMovieDescription", duration: 400 }),
-	                        dojo.fadeOut({node: "yourMovieActors", duration: 400 })
+	                        dojo.fadeOut({node: "yourMovieActors", duration: 400 }),
+	                        dojo.fadeOut({node: "yourMovieDirectors", duration: 400 })
 	                        ]);
 }
 
@@ -313,6 +315,7 @@ function lstYourMoviesAddButtonClick() {
 		yourMoviePicture.setValue("image/blank.gif");
 		dojo.byId("yourMovieDescription").innerHTML = "<p></p>";
 		dojo.byId("yourMovieActors").innerHTML = "<p></p>";
+		dojo.byId("yourMovieDirectors").innerHTML = "<p></p>";
 		createShowMovieAnimation().play();
 	} };
 	dojo.mixin(createHideMovieAnimation(), newProps).play();
