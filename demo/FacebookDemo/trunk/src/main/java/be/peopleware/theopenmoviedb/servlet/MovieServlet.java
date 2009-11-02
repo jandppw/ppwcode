@@ -48,10 +48,9 @@ public class MovieServlet extends HttpServlet {
 			JSONArray movieList = new JSONArray();
 			movieList.put(new JSONObject().put("name", movie.getName())
 					                      .put("movieId", movie.getId()));
-			JSONObject result = new JSONObject();
-			result.put("identifier", "movieId");
-			result.put("items", movieList);
 			
+			JSONObject result = createResult(movieList);
+
 			writer.write(result.toString());
 		} else {
 			handleEmptyRequest(writer);
@@ -68,19 +67,22 @@ public class MovieServlet extends HttpServlet {
 					                      .put("movieId", movie.getId()));
 		}
 		
-		JSONObject result = new JSONObject();
-		result.put("identifier", "movieId");
-		result.put("items", movieList);
+		JSONObject result = createResult(movieList);
 		
 		writer.write(result.toString());
 	}
 	
 	private void handleEmptyRequest(OutputStreamWriter writer) throws IOException {
-		JSONObject result = new JSONObject();
-		result.put("identifier", "movieId");
-		result.put("items", new JSONArray());
+		JSONObject result = createResult(new JSONArray());
 		
 		writer.write(result.toString());
+	}
+	
+	private JSONObject createResult(JSONArray movieList) {
+		JSONObject result = new JSONObject();
+		result.put("identifier", "movieId");
+		result.put("items", movieList);
+		return result;
 	}
 
 }
