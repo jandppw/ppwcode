@@ -95,15 +95,15 @@ var yourMovieFormMap = [
 function retrieve_movies(fbuid) {
 	//console.log("getting movies for user " + fbuid);
 	JpaMovieDaoWrapper.findByFacebookUser(fbuid,
-			{
-		callback: function(response) {
-		//console.log (response.length + " movies for user " + fbuid);
-		lstYourMovies.setData(response);
-	},	
-	errorHandler: function(errorString, exception) {
-		//console.error("could not get movies for user " + fbuid + ": " + errorString);
-	}
+		{
+			callback: function(response) {
+				//console.log (response.length + " movies for user " + fbuid);
+				lstYourMovies.setData(response);
+			},	
+			errorHandler: function(errorString, exception) {
+				//console.error("could not get movies for user " + fbuid + ": " + errorString);
 			}
+		}
 	);
 }
 
