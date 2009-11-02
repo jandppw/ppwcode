@@ -11,6 +11,10 @@ import be.peopleware.theopenmoviedb.model.Movie;
 public class MovieParser {
 	
 	public static Movie parseMovie(Element element) {
+		if (element.getChildren().size() == 0) {
+			// Nothing found.
+			return null;
+		}
 		Movie movie = new Movie();
 		movie.setRating(Double.parseDouble(element.getChildText("rating")));
 		movie.setPopularity(Integer.parseInt(element.getChildText("popularity")));

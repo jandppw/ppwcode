@@ -50,6 +50,7 @@ public class MovieService {
 	public static Document requestDocument(OpenMovieDbMethod method, String query) {
 		try {
 			URL url = new URL(buildURL(method.getUrlPart(), query));
+			System.out.println(url);
 			SAXBuilder builder = new SAXBuilder();
 			Document document = builder.build(url.toString());
 			return document;
@@ -73,7 +74,9 @@ public class MovieService {
 			if (movies != null && movies.getChildren().size() > 0) {
 				Element movie = movies.getChild("movie");
 				result = MovieParser.parseMovie(movie);
-				movieCache.put(Integer.parseInt(result.getId()), result);
+				if (result != null) {
+					movieCache.put(Integer.parseInt(result.getId()), result);
+				}
 			} else {
 				result = null;
 			}
@@ -92,7 +95,10 @@ public class MovieService {
 			Element root = requestDocument(OpenMovieDbMethod.MOVIE_SEARCH, query).getRootElement();
 			Element movies = root.getChild("movies");
 			for (Element element : (List<Element>)movies.getChildren("movie")) {
-				result.add(MovieParser.parseMovie(element));
+				Movie movie = MovieParser.parseMovie(element);
+				if (movie != null) {
+					result.add(movie);
+				}
 			}
 			movieQueryCache.put(query, result);
 		}
