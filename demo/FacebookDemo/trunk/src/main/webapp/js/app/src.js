@@ -116,8 +116,8 @@ function initializeGrids() {
 function initializeDwrControllers() {
 	yourMovieViewFormController = new ppwcode.dojo.dijit.form.ViewFormControllerDwr();
 	yourMovieViewFormController.dwrRetrieveFunction = JpaMovieDaoWrapper.findByFacebookUser;
-	yourMovieViewFormController.dwrCreateFunction = JpaAtomicStatelessCrudDaoWrapper.createPersistentBean;
-	yourMovieViewFormController.dwrUpdateFunction = JpaAtomicStatelessCrudDaoWrapper.updatePersistentBean;
+	yourMovieViewFormController.dwrCreateFunction = FacebookDemoCrudDaoWrapper.createPersistentBean;
+	yourMovieViewFormController.dwrUpdateFunction = FacebookDemoCrudDaoWrapper.updatePersistentBean;
 	yourMovieViewFormController.configure(lstYourMovies, frmYourMovie);
 
 	yourMovieViewFormController.beforeItemCreate = function(item) {
