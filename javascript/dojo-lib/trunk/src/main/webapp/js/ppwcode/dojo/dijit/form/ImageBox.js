@@ -16,7 +16,11 @@ dojo.declare(
 		templateString: "<div dojoAttachPoint='focusNode'><img dojoAttachPoint='imgNode' src='${_blankGif}'></img></div>",
 		
 		_setValueAttr: function(newValue) {
-			dojo.attr(this.imgNode, "src", newValue);
+			if (!newValue) {
+				dojo.attr(this.imgNode, "src", this._blankGif);
+			} else {
+				dojo.attr(this.imgNode, "src", newValue);
+			}
 			this.inherited(arguments);
 		}
 	}
