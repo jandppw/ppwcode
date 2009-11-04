@@ -31,8 +31,8 @@
         	<param name="class" value="be.peopleware.facebookdemo.persistence.jpa.JpaMovieDao"/>
         </create>
         
-		<create javascript="TheOpenMovieDBUtilWrapper" creator="none">
-        	<param name="class" value="be.peopleware.theopenmoviedb.Util"/>
+		<create javascript="TMDBProxyWrapper" creator="none">
+        	<param name="class" value="be.peopleware.theopenmoviedb.TMDBProxy"/>
         </create>
    
         <!--  converters -->

@@ -16,7 +16,7 @@ public class UtilTest {
 		Movie movie = MovieService.searchForMovie(queryId);
 		System.out.println(movie.getName() + " (" + movie.getImdbId() + ") : " + movie.getOverview());
 		System.out.println(movie.getActors());
-		for(String s : Util.getMainActors(queryId)) {
+		for(String s : TMDBProxy.getMainActors(queryId)) {
 			System.out.println(s);
 		}
 	}
