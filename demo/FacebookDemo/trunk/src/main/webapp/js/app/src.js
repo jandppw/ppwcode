@@ -121,6 +121,7 @@ function initializeDwrControllers() {
 	yourMovieViewFormController.configure(lstYourMovies, frmYourMovie);
 
 	yourMovieViewFormController.beforeItemCreate = function(item) {
+		item.name = dijit.byId("yourMovieId").getDisplayedValue();
 		item.facebookUserId = FB.Connect.get_loggedInUser();
 	};
 }
