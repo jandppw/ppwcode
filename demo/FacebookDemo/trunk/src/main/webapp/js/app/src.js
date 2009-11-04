@@ -165,6 +165,7 @@ function do_login() {
 	yourMovieViewFormController.setDwrRetrieveFunctionParameters([FB.Connect.get_loggedInUser()]); 
 	yourMovieViewFormController.fillMasterView();
 	lstYourMovies.disableButtons(false);
+	createShowDetailBoxAnimation().play();
 }
 
 
@@ -180,9 +181,11 @@ function do_logout() {
 		node.innerHTML = "<fb:login-button onlogin='show_user();'></fb:login-button>";
 		FB.XFBML.Host.parseDomTree();
 	});
+	createHideDetailBoxAnimation().play();
 }
 
 function showall() {
+	createHideDetailBoxAnimation().play();
 	setTimeout(function() {
 		dojo.fadeOut({node: 'splashscreen', duration: 1000, onEnd: function() { dojo.query("#splashscreen").orphan(); }}).play();
 		createHideMovieAnimation().play();
@@ -190,6 +193,14 @@ function showall() {
 	},
 	20
 	);
+}
+
+function createShowDetailBoxAnimation() {
+	return dojo.fadeIn({node: "detailbox", duration: 400 });
+}
+
+function createHideDetailBoxAnimation() {
+	return dojo.fadeOut({node: "detailbox", duration: 400 });
 }
 
 function createShowMovieDetailsAnimation() {
