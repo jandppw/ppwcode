@@ -15,6 +15,7 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
+import be.peopleware.theopenmoviedb.model.Cast;
 import be.peopleware.theopenmoviedb.model.Movie;
 
 public class MovieService {
@@ -24,6 +25,8 @@ public class MovieService {
 	private static final Map<String,List<Movie>> movieQueryCache = new ConcurrentHashMap<String, List<Movie>>();
 	
 	private static final Map<Integer, Movie> movieCache = new ConcurrentHashMap<Integer, Movie>();
+
+	private static final Map<Integer, Cast> castCache = new ConcurrentHashMap<Integer, Cast>();
 	
 	private static final String API_BASE_URL = "http://api.themoviedb.org/2.1/";
 	
@@ -31,7 +34,8 @@ public class MovieService {
 	
 	private enum OpenMovieDbMethod {
 		MOVIE_SEARCH("Movie.search"),
-		MOVIE_GETINFO("Movie.getInfo");
+		MOVIE_GETINFO("Movie.getInfo"),
+		PERSON_GETINFO("Person.getInfo");
 
 		private OpenMovieDbMethod(String urlPart) {
 			this.urlPart = urlPart;
@@ -101,6 +105,28 @@ public class MovieService {
 			}
 			movieQueryCache.put(query, result);
 		}
+		return result;
+	}
+	
+	public static Cast searchForPerson(String id) {
+		Cast result;
+		
+		if (castCache.containsKey(Integer.parseInt(id))) {
+			result = castCache.get(Integer.parseInt(id));
+		} else {
+			Element root = requestDocument(OpenMovieDbMethod.PERSON_GETINFO, id).getRootElement();
+			Element people = root.getChild("people");
+			if (people != null && people.getChildren().size() > 0) {
+				Element person = people.getChild("person");
+				result = MovieParser.parsePerson(person);
+				if (result != null) {
+					castCache.put(Integer.parseInt(result.getId()), result);
+				}
+			} else {
+				result = null;
+			}
+		}
+		
 		return result;
 	}
 
