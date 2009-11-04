@@ -3,6 +3,7 @@ package be.peopleware.theopenmoviedb;
 import java.util.ArrayList;
 import java.util.List;
 
+import be.peopleware.theopenmoviedb.model.Cast;
 import be.peopleware.theopenmoviedb.model.Movie;
 
 
@@ -31,7 +32,8 @@ public class TMDBProxy {
 		List<String> result = new ArrayList<String>();
 		if (movie != null) {
 			for (int i=0; i < 5 && i < movie.getActors().size(); i++) {
-				result.add(movie.getActors().get(i).getName());
+				Cast actor = movie.getActors().get(i);
+				result.add(processCast(actor));
 			}
 		} 
 		return result;
@@ -42,10 +44,20 @@ public class TMDBProxy {
 		List<String> result = new ArrayList<String>();
 		if (movie != null) {
 			for (int i=0; i < 5 && i < movie.getDirectors().size(); i++) {
-				result.add(movie.getDirectors().get(i).getName());
+				Cast director = movie.getDirectors().get(i);
+				result.add(processCast(director));
 			}
 		} 
 		return result;
+	}
+	
+	private static String processCast(Cast person) {
+		if (person.getBirthday() != null && person.getBirthplace() != null && !person.getBirthday().equals("") && !person.getBirthplace().equals("")) {
+			String birthYear = person.getBirthday().substring(0, 4);
+			return person.getName() + " (" + birthYear + ", " + person.getBirthplace() + ")";
+		} else {
+			return person.getName();
+		}
 	}
 	
 }

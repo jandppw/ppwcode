@@ -4,8 +4,7 @@ import java.util.List;
 
 import org.jdom.Element;
 
-import be.peopleware.theopenmoviedb.model.Actor;
-import be.peopleware.theopenmoviedb.model.Director;
+import be.peopleware.theopenmoviedb.model.Cast;
 import be.peopleware.theopenmoviedb.model.Movie;
 
 public class MovieParser {
@@ -33,39 +32,50 @@ public class MovieParser {
 		Element people = element.getChild("cast");
 		if (people != null) {
 			for (Element person : (List<Element>)people.getChildren("person")) {
-				Actor actor = parseActor(person);
-				if (actor != null) {
-					movie.getActors().add(actor);
+				String actorId = parseActorId(person);
+				if (actorId != null) {
+					Cast cast = MovieService.searchForPerson(actorId);
+					movie.getActors().add(cast);
 				}
-				Director director = parseDirector(person);
-				if (director != null) {
-					movie.getDirectors().add(director);
+				String directorId = parseDirectorId(person);
+				if (directorId != null) {
+					Cast cast = MovieService.searchForPerson(directorId);
+					movie.getDirectors().add(cast);
 				}
 			}
 		}
 		return movie;
 	}
 	
-	private static Actor parseActor(Element person) {
-		String name = person.getAttributeValue("name");
-		if (name != null && "Actor".equals(person.getAttributeValue("job"))) {
-			Actor actor = new Actor();
-			actor.setName(name);
-			return actor;
+	private static String parseActorId(Element person) {
+		String id = person.getAttributeValue("id");
+		if (id != null && "Actor".equals(person.getAttributeValue("job"))) {
+			return id;
 		} else {
 			return null;
 		}
 	}
 
-	private static Director parseDirector(Element person) {
-		String name = person.getAttributeValue("name");
-		if (name != null && "Director".equals(person.getAttributeValue("job"))) {
-			Director director = new Director();
-			director.setName(name);
-			return director;
+	private static String parseDirectorId(Element person) {
+		String id = person.getAttributeValue("id");
+		if (id != null && "Director".equals(person.getAttributeValue("job"))) {
+			return id;
 		} else {
 			return null;
 		}
+	}
+	
+	public static Cast parsePerson(Element person) {
+		String id = person.getChildText("id");
+		String name = person.getChildText("name");
+		String birthday = person.getChildText("birthday");
+		String birthplace = person.getChildText("birthplace");
+		Cast result = new Cast();
+		result.setId(id);
+		result.setName(name);
+		result.setBirthday(birthday);
+		result.setBirthplace(birthplace);
+		return result;
 	}
 
 	
