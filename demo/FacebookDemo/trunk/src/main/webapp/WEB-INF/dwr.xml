@@ -21,8 +21,8 @@
 
     <allow>
         <!--  creators -->
-        <create javascript="JpaAtomicStatelessCrudDaoWrapper" creator="new">
-        	<param name="class" value="be.peopleware.facebookdemo.persistence.jpa.JpaRemoteAtomicStatelessCrudDao"/>
+        <create javascript="FacebookDemoCrudDaoWrapper" creator="new">
+        	<param name="class" value="be.peopleware.facebookdemo.persistence.jpa.FacebookDemoCrudDao"/>
         	<exclude method="wait"/>
         	<exclude method=""/>
         </create>

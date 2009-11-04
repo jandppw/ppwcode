@@ -6,11 +6,11 @@ import javax.persistence.Persistence;
 import org.ppwcode.vernacular.exception_III.handle.ExceptionHandler;
 import org.ppwcode.vernacular.persistence_III.dao.jpa.JpaOutOfContainerStatelessCrudDao;
 
-public class JpaRemoteAtomicStatelessCrudDao
+public class FacebookDemoCrudDao
 		extends
 		org.ppwcode.vernacular.persistence_III.dao.jpa.JpaRemoteAtomicStatelessCrudDao {
 
-	public JpaRemoteAtomicStatelessCrudDao() {
+	public FacebookDemoCrudDao() {
 		setExceptionHandler(new ExceptionHandler());
 		setStatelessCrudJoinTransactionDao(new JpaOutOfContainerStatelessCrudDao());
 	}
