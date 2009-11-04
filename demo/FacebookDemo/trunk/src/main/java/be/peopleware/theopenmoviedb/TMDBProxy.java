@@ -6,7 +6,7 @@ import java.util.List;
 import be.peopleware.theopenmoviedb.model.Movie;
 
 
-public class Util {
+public class TMDBProxy {
 	
 	public static String getPosterThumb(String id) {
 		Movie movie = MovieService.searchForMovie(id);

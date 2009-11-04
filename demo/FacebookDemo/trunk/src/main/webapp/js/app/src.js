@@ -288,15 +288,15 @@ function showFriendDetails(user) {
 
 function updateMovieDetails(movieId) {
 
-	TheOpenMovieDBUtilWrapper.getPosterThumb(movieId, function(url) {
+	TMDBProxyWrapper.getPosterThumb(movieId, function(url) {
 		yourMoviePicture.setValue(url);
 	});
 
-	TheOpenMovieDBUtilWrapper.getOverview(movieId, function(description) {
+	TMDBProxyWrapper.getOverview(movieId, function(description) {
 		dojo.byId("yourMovieDescription").innerHTML = "<p>" + description + "</p>";
 	});
 	
-	TheOpenMovieDBUtilWrapper.getDirectors(movieId, function(directors) {
+	TMDBProxyWrapper.getDirectors(movieId, function(directors) {
 		var directorsHTML = "";
 		if (directors.length > 1) {
 			directorsHTML = "<b>Directors</b><br/>";
@@ -309,7 +309,7 @@ function updateMovieDetails(movieId) {
 		dojo.byId("yourMovieDirectors").innerHTML = "<p>" + directorsHTML + "</p>";
 	});
 
-	TheOpenMovieDBUtilWrapper.getMainActors(movieId, function(actors) {
+	TMDBProxyWrapper.getMainActors(movieId, function(actors) {
 		var actorsHTML = "";
 		if (actors.length > 0) {
 			actorsHTML = "<b>Main Actors</b><br/>";
