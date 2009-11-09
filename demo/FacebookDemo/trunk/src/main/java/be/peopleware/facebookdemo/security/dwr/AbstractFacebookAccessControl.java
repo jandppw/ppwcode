@@ -16,6 +16,18 @@ import javax.servlet.http.HttpServletRequest;
 
 public abstract class AbstractFacebookAccessControl extends DefaultAccessControl {
 
+	/**
+	 * This method verifies whether the client has a valid Facebook connect session.  Facebook
+	 * Connect is used in JavaScript on the browser.  DWR methods can only be called if
+	 * there is a valid Facebook connect session.
+	 * 
+	 * There are currently no JAAS compatible security checks implemented in the application.
+	 * Application specific security checks are also not implemented.  E.g. It is currently
+	 * possible to create movies for other users than yourself, you can request the list of
+	 * movies of someone that is not in your friendslist, etc.  These checks must obviously be
+	 * added in the future.  To be able to implement the example security checks,
+	 * modififations too PPWCode will be required.
+	 */
 	@Override
 	public void assertExecutionIsPossible(Creator creator, String className, Method method) throws SecurityException {
 		super.assertExecutionIsPossible(creator, className, method);
