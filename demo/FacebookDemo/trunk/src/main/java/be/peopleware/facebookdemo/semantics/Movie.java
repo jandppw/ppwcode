@@ -6,6 +6,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.ppwcode.vernacular.persistence_III.dao.jpa.CreateAllowedBy;
+import org.ppwcode.vernacular.persistence_III.dao.jpa.UpdateAllowedBy;
 import org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdIntegerVersionedPersistentBean;
 
 @NamedQueries({
@@ -14,6 +16,8 @@ import org.ppwcode.vernacular.persistence_III.jpa.AbstractIntegerIdIntegerVersio
 })
 @Entity
 @Table(name="movie")
+@CreateAllowedBy("anonymous")
+@UpdateAllowedBy("anonymous")
 public class Movie extends AbstractIntegerIdIntegerVersionedPersistentBean {
 
 	/**
