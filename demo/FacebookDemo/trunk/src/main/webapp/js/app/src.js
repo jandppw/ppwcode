@@ -34,7 +34,7 @@ var fbfriendsgridlayout = [ fbfriendsgridview ];
 var yourmovielistgridlayout = [
                                {
                             	   cells: [[
-                            	            {name: "Title", field: "title", width: "auto"}
+                            	            {name: "Name", field: "name", width: "auto"}
                             	            ]]	
                                }
                                ];
@@ -66,7 +66,7 @@ function formatMediaType(value) {
 var fbfriendsmoviesgridlayout = [
                                  {
                                 	 cells: [[
-                                	          {name: "Title", field: "title", width: "auto"},
+                                	          {name: "Movie name", field: "name", width: "auto"},
                                 	          {name: "Rating", field: "rating", width: "100px", formatter: formatRating},
                                 	          {name: "Media type", field: "mediaType", width: "6em", formatter: formatMediaType},
                                 	          {name: "Comment", field: "comment", width:"40em"}
