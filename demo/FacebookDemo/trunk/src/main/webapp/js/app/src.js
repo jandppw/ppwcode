@@ -124,6 +124,10 @@ function initializeDwrControllers() {
 		item.name = dijit.byId("yourMovieId").getDisplayedValue();
 		item.facebookUserId = FB.Connect.get_loggedInUser();
 	};
+
+	yourMovieViewFormController.beforeItemUpdate = function(item) {
+		item.name = dijit.byId("yourMovieId").getDisplayedValue();
+	};
 }
 
 function show_user() {
