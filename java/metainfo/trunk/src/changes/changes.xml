@@ -26,8 +26,14 @@
   <properties>
     <title>Changes to ppwcode metainfo</title>
     <author email="Jan_Dockx@peopleware.be">Jan Dockx</author>
+    <author email="Adriaan_Peeters@peopleware.be">Adriaan Peeters</author>
   </properties>
   <body>
+    <release version="I 3.0" date="2010-01-07" description="Provide OSGi bundle">
+      <action dev="adriaan.peeters" type="add">
+        Make sure generated binary jar is an OSGi bundle and source jar is an Eclipse source package.
+      </action>
+    </release>
     <release version="I 2.0" date="2008-10-15" description="Added license type">
       <action dev="jand" type="add">
         Added license type "proprietary". License type url and reader now can be null.
