@@ -574,13 +574,13 @@
                     </executions>
                     <dependencies>
                         <dependency>
-Ê Ê Ê Ê Ê Ê <groupId>net.sf.docbook</groupId>
-Ê Ê Ê Ê Ê Ê <artifactId>docbook-xml</artifactId>  
-<version>5.0</version>
-Ê Ê Ê Ê Ê Ê <scope>runtime</scope>
-Ê Ê Ê Ê Ê Ê <classifier>xsd-resources</classifier>
-Ê Ê Ê Ê Ê Ê <type>zip</type>
-</dependency>
+                            <groupId>net.sf.docbook</groupId>
+                            <artifactId>docbook-xml</artifactId>  
+                            <version>5.0</version>
+                            <scope>runtime</scope>
+                            <classifier>xsd-resources</classifier>
+                            <type>zip</type>
+                        </dependency>
                     </dependencies>
                 </plugin>
             </plugins>
