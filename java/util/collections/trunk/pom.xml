@@ -41,7 +41,7 @@
   <!-- GROUP ID, ARTIFACT ID, VERSION, PACKAGING, NAME & DESCRIPTION: OVERWRITE IN YOUR CHILD POM (know what you are doing :-) ) -->
   <!-- for ppwcode projects, groupId and artifactId are calculated, and used in the magic mantra (see below);
        for parent poms, we cannot do this (all hell breaks loose in the children) -->
-  <version>1.0</version>
+  <version>2.0</version>
   <packaging>jar</packaging>
   <name>ppwcode collections</name>
   <description>Various collections relates classes.</description>
