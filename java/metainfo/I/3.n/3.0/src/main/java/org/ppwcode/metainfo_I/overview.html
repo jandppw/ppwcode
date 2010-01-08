@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<--
+Copyright 2007 - $Date$ by PeopleWare n.v..
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>ppwcode metainfo/title>
+</head>
+<body>
+
+<p>This project offers annotations that are intended to put passive
+  meta information from development into class files. The information
+  can be read using reflection.</p>
+<p>The main intention of this library is to be able to embed meta information
+  (license, version, ...) in the binary distribution, i.e., the class files,
+  of libraries (and other projects).</p>
+<p>IDEA: Currently, the project does not offer a reader. The idea is that
+  some reader is offered in this project which allows to visualize the
+  meta information in classes in a jar easily. By using retention policy
+  {@link java.lang.annotation.RetentionPolicy.RUNTIME}, this would be simple,
+  since then we could use reflection. This was developed in a simple version in
+  a separate branch. As explained in the package documentation though,
+  this would make it a big hurdle for libraries to use this project,
+  because it introduces undue runtime dependencies for their users.
+  A reader that peeks into jar files, and reads (parses) class files,
+  should be made. This seems quite difficult at this time. In any
+  case, having the information in the class files helps a lot. If,
+  without the reader, a developer wants to see the meta information,
+  opening the class file with a text editor works too. The meta
+  information stands out.</p>
+</body>
+</html>
