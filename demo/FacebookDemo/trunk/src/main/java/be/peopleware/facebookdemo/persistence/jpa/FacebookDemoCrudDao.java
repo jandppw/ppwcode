@@ -2,9 +2,7 @@ package be.peopleware.facebookdemo.persistence.jpa;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.servlet.http.HttpServletRequest;
 
-import org.directwebremoting.WebContextFactory;
 import org.ppwcode.vernacular.exception_III.handle.ExceptionHandler;
 import org.ppwcode.vernacular.persistence_III.dao.jpa.JpaOutOfContainerStatelessCrudDao;
 
