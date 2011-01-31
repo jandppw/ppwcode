@@ -1,0 +1,247 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PPWcode.Vernacular.Semantics.I</name>
+    </assembly>
+    <members>
+        <member name="T:PPWCode.Vernacular.Semantics.I.AbstractSemanticObject">
+            <summary>
+            Abstract class that supports things
+            required by <see cref="T:PPWCode.Vernacular.Semantics.I.ISemanticObject"/>.
+            </summary>
+        </member>
+        <member name="T:PPWCode.Vernacular.Semantics.I.ISemanticObject">
+            <summary>
+            A type that formalizes how to work with objects that represent real-world objects
+            (objects with semantic meaning, non-utility objects, non-value objects).
+            </summary>
+            <remarks>
+            <para>Semantic objects should always be used <em>by reference</em>. For this
+            reason, the contracts of <see cref="M:PPWCode.Vernacular.Semantics.I.ISemanticObject.Equals(System.Object)"/> and <see cref="M:PPWCode.Vernacular.Semantics.I.ISemanticObject.GetHashCode"/>
+            inherited from <see cref="T:System.Object"/>, are frozen here.</para>
+            <para>Furthermore, in an ideal world, to keep things under control, there should
+            be exactly <strong>1</strong> computer object for each relevant real-world object
+            (abstraction function should be a surjection). Duplicate representatives of
+            real-world objects make things very hard. Sadly, in very many cicrumstances,
+            we cannot do without multiple representatives. In any case, to guard
+            against accidental copy proliferation, semantic objects are non-cloneable.</para>
+            <para>Note that, as a consequence of the above, reference identity nor
+            <see cref="M:PPWCode.Vernacular.Semantics.I.ISemanticObject.Equals(System.Object)"/> can detect whether two semantic objects represent the
+            same real-world object or not. If this is a concern, a semantically relevant
+            separate method, e.g., <c>RepresentsSame(_T_ other)</c> should be added.
+            Furthermore, note that even if another semantic object has exactly the same
+            properties, it is not necessarily so that they both represent the same
+            real-world object. Indeed, there <em>is</em> at least 1 other person in Belgium
+            that has "Jan Dockx" as his name.</para>
+            <para><see cref="M:PPWCode.Vernacular.Semantics.I.ISemanticObject.ToString"/> should only be used for debugging and logging
+            purposes. For semantic object, <see cref="M:PPWCode.Vernacular.Semantics.I.ISemanticObject.ToString"/> should return a
+            <see cref="T:System.String"/> that shows the class name and hash code (like
+            <see cref="M:System.Object.ToString"/> does, followed by a comma-separated list of
+            <c>PropertyName = propertyValue</c> entries. Experience shows that this is not
+            that hard, but that great care should be taken that no infinite loop is introduced
+            in the code when navigating over the object graph. Therefore, the general rule
+            should be that <em>upstream</em> reference properties are listed (usually
+            to-one associations), but <em>downstream</em> reference properties
+            (usually to-many associations) should not.</para>
+            <para><see cref="T:PPWCode.Vernacular.Semantics.I.AbstractSemanticObject"/> offers hard implementations that
+            enforce the above rules. As this interface doesn't really enforce anything through
+            the compiler, it can be seen as a tagging interface.</para>
+            </remarks>
+        </member>
+        <member name="M:PPWCode.Vernacular.Semantics.I.ISemanticObject.Equals(System.Object)">
+            <summary>
+            Override to make sealed.
+            </summary>
+        </member>
+        <member name="M:PPWCode.Vernacular.Semantics.I.ISemanticObject.GetHashCode">
+            <summary>
+            Override to make sealed.
+            </summary>
+        </member>
+        <member name="M:PPWCode.Vernacular.Semantics.I.ISemanticObject.ToString">
+            <summary>
+            Override to return a string representation intended for debugging and logging.
+            </summary>
+            <returns>
+            <strong>Never</strong> try to print out a representation of objects reached
+            via a to-many association.
+            Otherwise you'll get infinite loops.
+            You can show the number of elements in an association.
+            </returns>
+        </member>
+        <member name="P:PPWCode.Vernacular.Semantics.I.ISemanticObject.IsSerialized">
+            <summary>
+            Did this object go through a serialization-deserialization cycle?
+            </summary>
+        </member>
+        <member name="M:PPWCode.Vernacular.Semantics.I.AbstractSemanticObject.OnPropertyChanged(System.String)">
+            <summary>
+            Triggers the PropertyChangedevent if this event is assigned
+            </summary>
+        </member>
+        <member name="M:PPWCode.Vernacular.Semantics.I.AbstractSemanticObject.LimitedToString">
+            <summary>
+            This method returns a limited string representation
+            of this object, intended for debugging purposes.
+            </summary>
+            <remarks>
+            <para>The method is used in <see cref="M:PPWCode.Vernacular.Semantics.I.AbstractSemanticObject.ToString"/>,
+            when this refers to other <c>AbstractSemanticObject</c>
+            instances via a simple reference.</para>
+            <para>The default implementation of this method does
+            not include representations of other objects, but only
+            a representation of the type and the <see cref="M:PPWCode.Vernacular.Semantics.I.AbstractSemanticObject.GetHashCode"/>.</para>
+            <para>Subclasses can override this method to return
+            a simple string representation that better indentifies this
+            object.</para>
+            </remarks>
+        </member>
+        <member name="E:PPWCode.Vernacular.Semantics.I.AbstractSemanticObject.PropertyChanged">
+            <summary>
+            Is raised whenever a property is changed, part of the INotifyPropertyChanged interface.
+            </summary>
+        </member>
+        <member name="T:PPWCode.Vernacular.Semantics.I.ISemanticObjectContracts">
+            <exclude />
+        </member>
+        <member name="T:PPWCode.Vernacular.Semantics.I.AbstractRousseauObject">
+            <summary>
+            Abstract class that supports things
+            required by <see cref="T:PPWCode.Vernacular.Semantics.I.IRousseauObject"/>.
+            </summary>
+        </member>
+        <member name="T:PPWCode.Vernacular.Semantics.I.IRousseauObject">
+            <summary>
+            A type that formalizes how to work with objects that represent
+            real-world objects during only a part of there life cycle.
+            </summary>
+            <remarks>
+            <a href="http://en.wikipedia.org/wiki/Jean-Jacques_Rousseau">
+            <img src="../img/180px-Jean-Jacques_Rousseau_(painted_portrait).jpg" align="right"/></a>
+            <para>For several reasons, some of which are technical, some of
+            which are best practices, some of which are more design related,
+            classes often have only a default constructor. On the other hand
+            often some properties cannot be given a semantically acceptable value
+            at instantiation. This triggers a pattern where instances of the
+            semantic class can exist in a state where it does not represent a
+            real-world object of the type the class is intended for, i.e.,
+            the instances do not conform to type invariants that would apply
+            direct representations of the real-world objects. Such objects
+            are created in a <em>wild</em> state, then
+            go through a setup phase where a number of properties are set,
+            and then enter a lifecycle phase where they do represent a
+            real-world object of the type the class is intended for (they become
+            <em>civilized</em>).
+            Typically, by changing one or more properties, such objects
+            can also leave the civilized state, which typically happens before
+            the object is terminated.</para>
+            <para>This type offers a number of methods to support this pattern.</para>
+            <para>Normally, invariants are specified and enforced as much as possible.
+            This is possible for all properties for which there exists a
+            <em>civilized</em> default value that can be set in the default
+            constructor. Typically, this is at least not possible with
+            associations, if the association is mandatory.</para>
+            <para>The extra rules that should apply in a <em>civilized</em> state
+            can be checked by calling <see cref="M:PPWCode.Vernacular.Semantics.I.IRousseauObject.WildExceptions"/>.
+            <see cref="M:PPWCode.Vernacular.Semantics.I.IRousseauObject.IsCivilized"/> gives a simple boolean answer about the state
+            of the <c>IRousseauObject</c>.</para>
+            <para><see cref="T:PPWCode.Vernacular.Semantics.I.AbstractRousseauObject"/> offers hard implementations that
+            enforce the above rules. As this interface doesn't really enforce anything through
+            the compiler, it can be seen as a tagging interface.</para>
+            </remarks>
+        </member>
+        <member name="M:PPWCode.Vernacular.Semantics.I.IRousseauObject.IsCivilized">
+            <summary>
+            A call to <see cref="M:PPWCode.Vernacular.Semantics.I.IRousseauObject.WildExceptions"/>
+            returns an <see cref="P:PPWCode.Vernacular.Exceptions.I.CompoundSemanticException.IsEmpty"/>
+            exception.
+            </summary>
+        </member>
+        <member name="M:PPWCode.Vernacular.Semantics.I.IRousseauObject.WildExceptions">
+            <summary>
+            Build a set of <see cref="T:PPWCode.Vernacular.Exceptions.I.CompoundSemanticException"/> instances
+            that tell what is wrong with this instance, with respect to
+            <em>being civilized</em>.
+            </summary>
+            <returns>
+            <para>The result comes in the form of an <strong>unclosed</strong>
+            <see cref="T:PPWCode.Vernacular.Exceptions.I.CompoundSemanticException"/>, of
+            which the set of element exceptions might be empty.</para>
+            <para>This method should work in any state of the object.</para>
+            <para>This method is public instead of
+            protected to make it more easy to describe to users what the business
+            rules for this type are.</para>
+            </returns>
+        </member>
+        <member name="M:PPWCode.Vernacular.Semantics.I.IRousseauObject.ThrowIfNotCivilized">
+            <summary>
+            Call <see cref="M:PPWCode.Vernacular.Semantics.I.IRousseauObject.WildExceptions"/>, and if the result
+            is not <see cref="P:PPWCode.Vernacular.Exceptions.I.CompoundSemanticException.IsEmpty"/>,
+            close the exception and throw it.
+            </summary>
+            <remarks>
+            <para>This method has no effects. If it ends nominally,
+            and if it throws an exception, no state is changed.</para>
+            <para>It is not <c>[Pure]</c> however, since it changes
+            the state of the exception to
+            <see cref="P:PPWCode.Vernacular.Exceptions.I.CompoundSemanticException.Closed"/>.</para>
+            </remarks>
+        </member>
+        <member name="M:PPWCode.Vernacular.Semantics.I.AbstractRousseauObject.WildExceptions">
+            <summary>
+            <inheritdoc cref="M:PPWCode.Vernacular.Semantics.I.IRousseauObject.WildExceptions"/>
+            Default implementation.
+            </summary>
+            <returns>An empty, unclosed
+            <see cref="T:PPWCode.Vernacular.Exceptions.I.CompoundSemanticException"/>. This is not a postcondition
+            that is demanded of subclasses. It is intended as a helper functionality
+            for subclasses.</returns>
+            <remarks>
+            Subclasses that override this method should use the following
+            pattern:
+            <code>
+            [Pure]
+            public override CompoundSemanticException WildExceptions()
+            {
+                CompoundSemanticException cse = base.WildExceptions();
+                if (!some requirement met)
+                {
+                    cse.AddElement(new PropertyException(this, "PropertyName", "EXCEPTION_MESSAGE_KEY", null));
+                                   // or another type of exception
+                }
+                ... // repeat for more requirements
+                return cse;
+            }
+            </code>
+            </remarks>
+        </member>
+        <member name="M:PPWCode.Vernacular.Semantics.I.AbstractRousseauObject.ThrowIfNotCivilized">
+            <summary>
+            <inheritdoc cref="M:PPWCode.Vernacular.Semantics.I.IRousseauObject.ThrowIfNotCivilized"/>
+            </summary>
+        </member>
+        <member name="T:PPWCode.Vernacular.Semantics.I.IRousseauObjectContracts">
+            <exclude />
+        </member>
+        <member name="T:PPWCode.Vernacular.Semantics.I.NamespaceDoc">
+            <summary>
+            Library expressing the PPWCode Semantics Vernacular.
+            </summary>
+            <remarks>
+            <para><see cref="T:PPWCode.Vernacular.Semantics.I.ISemanticObject"/> is the basis of our vernacular.
+            It expresses that semantic objects should be used by reference, and
+            that they should feature a <see cref="M:PPWCode.Vernacular.Semantics.I.ISemanticObject.ToString"/>
+            method aimed at debugging and logging. <see cref="T:PPWCode.Vernacular.Semantics.I.AbstractSemanticObject"/>
+            provides help in implementing these rules.</para>
+            <para><see cref="T:PPWCode.Vernacular.Semantics.I.IRousseauObject"/> introduces the notion of
+            <em>civilized</em> and <em>wild</em> states for semantic objects, making
+            explicit the difference in state that is acceptable for naked computer
+            objects, and the state that is acceptable when those computer objects
+            truly represent a domain object. This depends on the vernacular for
+            semantic exceptions layed out in <see cref="N:PPWCode.Vernacular.Exceptions.I"/>.
+            <see cref="T:PPWCode.Vernacular.Semantics.I.AbstractRousseauObject"/>
+            provides help in implementing this contract.</para>
+            </remarks>
+        </member>
+    </members>
+</doc>
