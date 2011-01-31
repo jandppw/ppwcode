@@ -34,14 +34,13 @@ To get the required DLL:
   to this directory.
 
 
-Spring Core
------------
+PPWCode Exceptions Vernacular
+-----------------------------
 
-Version: Spring.NET 1.3.1, for .net 2.0
+Version: I 2.0 or later
 
-The files are from Spring.NET 1.3.1, downloaded from
-<http://www.springframework.net/download.html>,
-in [bin\net\2.0\].
-Since we are still on .net 3.5, it is the 2.0 files we need to use.
+You can use
+https://ppwcode.googlecode.com/svn/dotnet/Vernacular/Exceptions/I/latest
+from this repository, or a specific version you fill find close by.
 
 These files are released under the Apache License v2.
