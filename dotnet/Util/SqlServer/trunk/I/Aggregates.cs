@@ -27,7 +27,7 @@ using Microsoft.SqlServer.Server;
 
 #endregion
 
-namespace PPWCode.Util.SQLServer.I
+namespace PPWCode.Util.SqlServer.I
 {
     [Serializable]
     [SqlUserDefinedAggregate(

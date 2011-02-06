@@ -26,7 +26,7 @@ using Microsoft.SqlServer.Server;
 
 // ReSharper disable InconsistentNaming
 
-namespace PPWCode.Util.SQLServer.I
+namespace PPWCode.Util.SqlServer.I
 {
     public class TimeFunctions
     {
