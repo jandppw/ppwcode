@@ -7,9 +7,9 @@
     <ProjectGuid>{5C88E6EE-735A-4B84-96AC-3CB27BB4A846}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PPWCode.Util.SQLServer.I</RootNamespace>
+    <RootNamespace>PPWCode.Util.SqlServer.I</RootNamespace>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <AssemblyName>PPWCode.Util.SQLServer.I</AssemblyName>
+    <AssemblyName>PPWCode.Util.SqlServer.I</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
