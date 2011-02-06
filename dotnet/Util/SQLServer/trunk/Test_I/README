@@ -1,8 +1,13 @@
-PPWCode.Vernacular.Exceptions.Test_I
+PPWCode.Util.SQLServer.Test_I
+
 ------------------------------------
 
-This directory could or should contain a project that contains
-unit tests for PPWCode.Vernacular.Exceptions.I.
 
-There are currently no unit tests, because there is little
-or nothing to test for this solution currently.
+
+This directory could or should contain a project that contains
+
+unit tests for PPWCode.Util.SQLServer.I
+.
+
+
+There are currently no unit tests.
