@@ -22,6 +22,8 @@ using System.Data.SqlTypes;
 using System.Text;
 using System.Text.RegularExpressions;
 
+using DM.Build.Yukon.Attributes;
+
 using Microsoft.SqlServer.Server;
 
 #endregion

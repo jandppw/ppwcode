@@ -21,6 +21,8 @@ using System.Data.SqlTypes;
 using System.IO;
 using System.Text;
 
+using DM.Build.Yukon.Attributes;
+
 using Microsoft.SqlServer.Server;
 
 #endregion
