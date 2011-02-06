@@ -17,19 +17,14 @@ original source himself. In this case, this document describes how to
 get the required files.
 
 
-Microsoft SharePoint
---------------------
+log4net
+-------
 
-Version: Microsoft SharePoint Foundation 2010, version 14.0.4536.1000
+Version: 1.2.10, .net 2.0
 
-You need both
-* Microsoft.SharePoint.Client.dll, and
-* Microsoft.SharePoint.Client.Runtime.dll
+log4net is an Open Source project, released under the
+Apache License v2.
 
-These DLL's are part of the Microsoft SharePoint 2010 distribution.
-"Microsoft SharePoint Foundation 2010 installs Microsoft.SharePoint.Client.dll
- and Microsoft.SharePoint.Client.Runtime.dll in
- %ProgramFiles%\Common Files\Microsoft Shared\web server extensions\14\ISAPI
- for easy access in development."
+The project home is at
+http://logging.apache.org/log4net/
 
-You need to copy those files here for this solution to build.
