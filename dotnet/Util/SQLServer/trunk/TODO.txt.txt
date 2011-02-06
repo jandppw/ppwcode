@@ -1,0 +1,3 @@
+- add dependencies in Tools for log4net and sharepoint
+- build and create I 1.0 binary release
+- add license to source code files top
