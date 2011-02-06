@@ -47,12 +47,6 @@
     <None Include="typeconversion.xml">
       <InProject>false</InProject>
     </None>
-    <None Include="SQL Scripts\deploy_assembly.sql" />
-    <None Include="SQL Scripts\deploy_methods.sql" />
-    <None Include="SQL Scripts\deploy_types.sql" />
-    <None Include="SQL Scripts\drop_assembly.sql" />
-    <None Include="SQL Scripts\test_methods.sql" />
-    <None Include="SQL Scripts\test_types.sql" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="typeconversion.xml" />
