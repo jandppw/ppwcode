@@ -1,0 +1,3 @@
+- add dependencies explanation for SqlServer
+- better solution for SLQCLRProject; this project is inactive, and has problems
+- explain that the deliverable is a sql file, not a DLL, how to get there, and how to deploy
