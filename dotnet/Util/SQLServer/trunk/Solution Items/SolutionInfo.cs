@@ -1,8 +1,8 @@
 using System.Reflection;
 
 [assembly: AssemblyCompany("Peopleware NV")]
-[assembly: AssemblyProduct("PPWCode Util SharePoint")]
-[assembly: AssemblyCopyright("Copyright © PeopleWare NV 2010-2011")]
+[assembly: AssemblyProduct("PPWCode Util SQLServer")]
+[assembly: AssemblyCopyright("Copyright © PeopleWare NV 2009-2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
