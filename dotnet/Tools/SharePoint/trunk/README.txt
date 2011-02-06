@@ -17,18 +17,19 @@ original source himself. In this case, this document describes how to
 get the required files.
 
 
-Microsoft Contracts
--------------------
+Microsoft SharePoint
+--------------------
 
-Version: Release 1.4.31130.0 (November 30, 2010)
-(see <http://research.microsoft.com/en-us/projects/contracts/releasenotes.aspx>)
+Version: Microsoft SharePoint Foundation 2010, version 14.0.4536.1000
 
-To get the required DLL:
-* Download the distribution from
-  <http://msdn.microsoft.com/en-us/devlabs/dd491992>.
-  We use the "Standard Edition".
-  The downloaded file is "Contracts.devlab9std.msi".
-* Run the installer (this also installs extra components in Visual Studio)
-* Copy the file "Microsoft.Contracts.dll" from
-  "C:\Program Files\Microsoft\Contracts\PublicAssemblies\v3.5\"
-  to this directory.
+You need both
+* Microsoft.SharePoint.Client.dll, and
+* Microsoft.SharePoint.Client.Runtime.dll
+
+These DLL's are part of the Microsoft SharePoint 2010 distribution.
+"Microsoft SharePoint Foundation 2010 installs Microsoft.SharePoint.Client.dll
+ and Microsoft.SharePoint.Client.Runtime.dll in
+ %ProgramFiles%\Common Files\Microsoft Shared\web server extensions\14\ISAPI
+ for easy access in development."
+
+You need to copy those files here for this solution to build.
