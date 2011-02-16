@@ -126,7 +126,7 @@ namespace PPWCode.Util.SharePoint.I
             catch (Exception e)
             {
                 s_Logger.Error(string.Format("EnsureFolder({0}) failed using ClientContext {1}.", relativeUrl, SharePointSiteUrl), e);
-                throw e;
+                throw;
             }
         }
         public void UploadDocument(string relativeUrl, SharePointDocument doc)
@@ -150,26 +150,29 @@ namespace PPWCode.Util.SharePoint.I
                         spClientContext.ExecuteQuery();
 
                         //Create File information
-                        var fciNewFileFromComputer = new FileCreationInformation();
-                        fciNewFileFromComputer.Content = doc.Content;
-                        fciNewFileFromComputer.Url = filename;
-                        fciNewFileFromComputer.Overwrite = true;
+                        var fciNewFileFromComputer = new FileCreationInformation
+                        {
+                            Content = doc.Content,
+                            Url = filename,
+                            Overwrite = true
+                        };
 
                         //Upload the file
                         Microsoft.SharePoint.Client.File uploadedFile = fldr.Files.Add(fciNewFileFromComputer);
                         spClientContext.Load(uploadedFile);
                         spClientContext.ExecuteQuery();
                     }
-                    catch (ServerException se)
+                    catch (ServerException)
                     {
-                        throw se;
+                        // MUDO jand code smell; log? no try catch? error?
+                        throw;
                     }
                 }
             }
             catch (Exception e)
             {
                 s_Logger.Error(string.Format("UploadDocument({0}) failed using ClientContext {1}.", relativeUrl, SharePointSiteUrl), e);
-                throw e;
+                throw;
             }
         }
         #endregion
