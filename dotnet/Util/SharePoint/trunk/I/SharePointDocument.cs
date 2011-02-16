@@ -14,27 +14,30 @@
  * limitations under the License.
  */
 
-namespace PPWCode.Util.SharePoint.I
+using System.Collections.Generic;
+
+namespace PensioB.SharePoint.Client
 {
-    /// <summary>
-    /// Mock NOP implementation of <see cref="ISharePointClient"/>
-    /// </summary>
-    public class NopSharePointClient : ISharePointClient
-    {
-        #region ISharePointClient Members
+	public class SharePointDocument
+	{
+		public byte[] Content { get; set; }
+		public Dictionary<string, object> Properties { get; set; }
 
-        public string SharePointSiteUrl { get; set; }
+		public SharePointDocument()
+		{
+			this.Properties = new Dictionary<string, object>();
+		}
 
-        public void EnsureFolder(string relativeUrl)
-        {
-            //NOP
-        }
+		public SharePointDocument(byte[] content)
+		{
+			this.Content = content;
+			this.Properties = new Dictionary<string, object>();
+		}
 
-        public void UploadDocument(string relativeUrl, SharePointDocument doc)
-        {
-            //NOP
-        }
-
-        #endregion
-    }
+		public SharePointDocument(byte[] content, Dictionary<string, object> props)
+		{
+			this.Content = content;
+			this.Properties = props;
+		}
+	}
 }
