@@ -16,7 +16,7 @@
 
 using System.Collections.Generic;
 
-namespace PensioB.SharePoint.Client
+namespace PPWCode.Util.SharePoint.I
 {
 	public class SharePointDocument
 	{
