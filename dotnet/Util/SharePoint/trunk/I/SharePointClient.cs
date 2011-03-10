@@ -164,7 +164,7 @@ namespace PPWCode.Util.SharePoint.I
                     }
                     catch (ServerException)
                     {
-                        // MUDO jand code smell; log? no try catch? error?
+                        // TODO jand code smell; log? no try catch? error?
                         throw;
                     }
                 }
