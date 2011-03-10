@@ -17,6 +17,7 @@
 #region Using
 
 using System;
+using System.Diagnostics;
 using System.IO;
 
 using log4net;
@@ -129,6 +130,7 @@ namespace PPWCode.Util.SharePoint.I
                 throw;
             }
         }
+
         public void UploadDocument(string relativeUrl, SharePointDocument doc)
         {
             try
@@ -175,6 +177,61 @@ namespace PPWCode.Util.SharePoint.I
                 throw;
             }
         }
+
+        public bool ValidateUri(Uri sharePointUri)
+        {
+            if (sharePointUri != null)
+            {
+                string baseUrl = sharePointUri.GetLeftPart(UriPartial.Authority);
+
+                if (!string.IsNullOrEmpty(baseUrl))
+                {
+                    using (ClientContext clientContext = new ClientContext(baseUrl))
+                    {
+                        //get the site collection
+                        Web site = clientContext.Web;
+
+                        string localPath = sharePointUri.LocalPath;
+
+                        if (!string.IsNullOrEmpty(localPath))
+                        {
+                            //get the document library folder
+                            site.GetFolderByServerRelativeUrl(localPath);
+                            try
+                            {
+                                clientContext.ExecuteQuery();
+                                return true;
+                            }
+                            catch (ServerException)
+                            {
+                                return false;
+                            }
+                            catch (Exception)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        public void OpenUri(Uri uri)
+        {
+            string url = uri.OriginalString;
+            if (!string.IsNullOrEmpty(url))
+            {
+                Process.Start(new ProcessStartInfo()
+                {
+                    UseShellExecute = true,
+                    FileName = url,
+                    Verb = "Open",
+                    LoadUserProfile = true
+                });
+            }
+        }
+
         #endregion
     }
 }

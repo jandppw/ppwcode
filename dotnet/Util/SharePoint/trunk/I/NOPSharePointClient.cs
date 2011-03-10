@@ -35,6 +35,17 @@ namespace PPWCode.Util.SharePoint.I
             //NOP
         }
 
+        public bool ValidateUri(System.Uri sharePointUri)
+        {
+            //NOP
+            return true;
+        }
+
+        public void OpenUri(System.Uri uri)
+        {
+            //NOP
+        }
+
         #endregion
     }
 }
