@@ -16,6 +16,7 @@
 
 #region Using
 
+using System;
 using System.Diagnostics.Contracts;
 
 #endregion
@@ -49,6 +50,17 @@ namespace PPWCode.Util.SharePoint.I
         /// relative to <see cref="SharePointSiteUrl"/>.</param>
         void EnsureFolder(string relativeUrl);
         void UploadDocument(string relativeUrl, SharePointDocument doc);
+
+        /// <summary>
+        /// Validate existence of specified Uri
+        /// </summary>
+        bool ValidateUri(Uri sharePointUri);
+
+        /// <summary>
+        /// Open specified uri in default web browser
+        /// MUDO: Move this method to other assembly?
+        /// </summary>
+        void OpenUri(Uri uri);
     }
 
     // ReSharper disable InconsistentNaming
@@ -77,11 +89,24 @@ namespace PPWCode.Util.SharePoint.I
 
         public void UploadDocument(string relativeUrl, SharePointDocument doc)
         {
-            Contract.Requires(SharePointSiteUrl != null && SharePointSiteUrl != string.Empty);
+            Contract.Requires(!string.IsNullOrEmpty(SharePointSiteUrl));
             Contract.Requires(relativeUrl != null);
             Contract.Requires(!relativeUrl.StartsWith(SharePointSiteUrl));
             Contract.Requires(doc != null);
         }
+
+        public bool ValidateUri(Uri sharePointUri)
+        {
+            Contract.Requires(sharePointUri != null);
+            Contract.Requires(sharePointUri.OriginalString.StartsWith(SharePointSiteUrl));
+            return default(bool);
+        }
+
+        public void OpenUri(Uri uri)
+        {
+            Contract.Requires(uri != null);
+        }
+
         #endregion
     }
 }
