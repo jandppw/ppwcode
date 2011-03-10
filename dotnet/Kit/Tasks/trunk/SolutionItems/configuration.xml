@@ -1,0 +1,82 @@
+<configuration>
+    <variables env="Debug">
+        <!-- Enable/Disable security / nhibernate profiler -->
+        <var name="UseSecurity" value="true" />
+        <var name="UseProfiler" value="false" />
+
+        <!-- database connection strings -->
+        <var name="TasksConnectionString"          value="Data Source=localhost;Initial Catalog=PensioB.Tasks;Integrated Security=True" />
+
+        <!-- database connection strings used for tests -->
+        <var name="TestTasksConnectionString"      value="Data Source=localhost;Initial Catalog=Test.PensioB.Tasks;Integrated Security=True" />
+
+        <!--<var name="TasksServiceFactory"           value="PPWCode.Kit.Tasks.API_I.ServiceHostingFactory, PPWCode.Kit.Tasks.API_I"/>-->
+        <!--<var name="TasksServiceFactory"           value="PPWCode.Kit.Tasks.Server.Mock.MockTaskServiceFactory, PPWCode.Kit.Tasks.Server.Mock"/>-->
+        <var name="TasksServiceFactory"            value="PPWCode.Kit.Tasks.Server.InProcHostingFactory, PPWCode.Kit.Tasks.Server"/>
+
+        <!-- log4net -->
+        <var name="Log4NetDefaultAppender"         value="EventLogAppender" />
+        <!--<var name="Log4Net.DefaultAppender"    value="rollingFile" /> -->
+        <var name="Log4NetLogFileName"             value="D:\log\log4net.txt" />
+
+        <!-- DAO addresses -->
+        <var name="TasksDaoHost"                           value="localhost" />
+
+        <!-- DAO addresses -->
+        <var name="TasksDaoPort"                           value="9008" />
+        
+    </variables>
+
+    <variables env="Release">
+        <!-- Enable/Disable security / nhibernate profiler -->
+        <var name="UseSecurity" value="true" />
+        <var name="UseProfiler" value="false" />
+
+        <!-- database connection strings -->
+        <var name="TasksConnectionString"           value="Data Source=localhost;Initial Catalog=PensioB.Tasks;Integrated Security=True" />
+
+        <!-- database connection strings used for tests -->
+        <var name="TestTasksConnectionString"       value="Data Source=localhost;Initial Catalog=Test.PensioB.Tasks;Integrated Security=True" />
+
+        <!-- spring objects -->
+        <var name="TasksServiceFactory"              value="PPWCode.Kit.Tasks.Server.Mock.ServiceHostingFactory, PPWCode.Kit.Tasks.Server.Mock"/>
+
+        <!-- log4net -->
+        <var name="Log4NetDefaultAppender"             value="EventLogAppender" />
+        <!--<var name="Log4Net.DefaultAppender"        value="rollingFile" /> -->
+        <var name="Log4NetLogFileName"                 value="D:\log\log4net.txt" />
+
+        <!-- DAO addresses -->
+        <var name="TasksDaoHost"                            value="localhost" />
+
+        <!-- DAO addresses -->
+        <var name="TasksDaoPort"                           value="9008" />
+    </variables>
+
+    <variables env="DebugServiceHosting">
+        <!-- Enable/Disable security / nhibernate profiler -->
+        <var name="UseSecurity" value="true" />
+        <var name="UseProfiler" value="false" />
+
+        <!-- database connection strings -->
+        <var name="TasksConnectionString"              value="Data Source=localhost;Initial Catalog=PensioB.Tasks;Integrated Security=True" />
+
+        <!-- database connection strings used for tests -->
+        <var name="TestTasksConnectionString"          value="Data Source=localhost;Initial Catalog=Test.PensioB.Tasks;Integrated Security=True" />
+
+        <!-- spring objects -->
+        <var name="TasksServiceFactory"                value="PPWCode.Kit.Tasks.API_I.ServiceHostingFactory, PPWCode.Kit.Tasks.API_I"/>
+
+        <!-- log4net -->
+        <var name="Log4NetDefaultAppender"         value="EventLogAppender" />
+        <!--<var name="Log4Net.DefaultAppender"    value="rollingFile" /> -->
+        <var name="Log4NetLogFileName"             value="D:\log\log4net.txt" />
+
+        <!-- DAO addresses -->
+        <var name="TasksDaoHost"                           value="localhost" />
+
+        <!-- DAO addresses -->
+        <var name="TasksDaoPort"                           value="9008" />
+    </variables>
+
+</configuration>

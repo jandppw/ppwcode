@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<hibernate-mapping 
+    xmlns="urn:nhibernate-mapping-2.2" 
+    assembly="PPWCode.Kit.Tasks.API_I" 
+    namespace="PPWCode.Kit.Tasks.API_I" 
+    schema="dbo" 
+    default-lazy="false" 
+    default-access="nosetter.pascalcase-m-underscore">
+
+    <class name="Task" dynamic-update="true">
+        <id name="PersistenceId" column="TaskID">
+            <generator class="native" />
+        </id>
+        <version name="PersistenceVersion" generated="never" />
+        <property name="State" not-null="true" />
+        <property name="InProgressSince" />
+        <property name="InProgressBy" />
+        <property name="CompletedSince" />
+        <property name="CompletedBy" />
+        <property name="TaskType" not-null="true" />
+        <property name="Reference" not-null="true" />
+        <property name="CreatedAt" />
+        <property name="CreatedBy" />
+        <property name="LastModifiedAt" />
+        <property name="LastModifiedBy" />
+    </class>
+</hibernate-mapping>
