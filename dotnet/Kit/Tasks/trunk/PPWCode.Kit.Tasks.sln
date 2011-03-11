@@ -31,6 +31,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL Scripts", "SQL Scripts"
 		SQL Scripts\runme_tasks_localhost.bat = SQL Scripts\runme_tasks_localhost.bat
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{B52C3FE5-2599-461E-A3E2-F7A60DD5C153}"
+	ProjectSection(SolutionItems) = preProject
+		Tools\CleanupBinObj.ps1 = Tools\CleanupBinObj.ps1
+		Tools\CleanupBinObj_How.txt = Tools\CleanupBinObj_How.txt
+		Tools\CreateService.bat = Tools\CreateService.bat
+		Tools\DropService.bat = Tools\DropService.bat
+		Tools\StartService.bat = Tools\StartService.bat
+		Tools\StopService.bat = Tools\StopService.bat
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
