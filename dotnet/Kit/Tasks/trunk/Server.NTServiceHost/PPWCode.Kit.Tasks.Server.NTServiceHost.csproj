@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -269,4 +269,19 @@
     <CallTarget Targets="GenerateConfigFilesDefault" />
     <CallTarget Targets="DeleteUserConfigurationFileTemplate" />
   </Target>
+
+  <Target Name="DistributionCopy">
+      <ItemGroup>
+        <distro
+            Include="$(LocalDistributionProjectRoot)$(Configuration)\**\*.*" 
+            Exclude="$(LocalDistributionProjectRoot)$(Configuration)\**\.svn\**\*.*" />
+        <forcopy 
+            Include="$(OutputPath)%(distro.RecursiveDir)%(distro.Filename)%(distro.Extension)" 
+            Condition="Exists('$(OutputPath)%(distro.RecursiveDir)%(distro.Filename)%(distro.Extension)')" />
+      </ItemGroup>
+      <Copy 
+          SourceFiles="@(forcopy)"
+          DestinationFolder="$(LocalDistributionProjectRoot)$(Configuration)" />
+  </Target>
+
 </Project>

@@ -179,4 +179,18 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+
+  <Target Name="DistributionCopy">
+      <ItemGroup>
+        <distro
+            Include="$(LocalDistributionProjectRoot)$(Configuration)\**\*.*" 
+            Exclude="$(LocalDistributionProjectRoot)$(Configuration)\**\.svn\**\*.*" />
+        <forcopy 
+            Include="$(OutputPath)%(distro.RecursiveDir)%(distro.Filename)%(distro.Extension)" 
+            Condition="Exists('$(OutputPath)%(distro.RecursiveDir)%(distro.Filename)%(distro.Extension)')" />
+      </ItemGroup>
+      <Copy 
+          SourceFiles="@(forcopy)"
+          DestinationFolder="$(LocalDistributionProjectRoot)$(Configuration)" />
+  </Target>
 </Project>
