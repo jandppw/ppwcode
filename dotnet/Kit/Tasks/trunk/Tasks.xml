@@ -12,7 +12,7 @@
   </PropertyGroup>  
 
  <ItemGroup>
-    <DistributionConfig Include="Release" />
+    <DistributionConfig Include="Release;Debug" />
     <DistributionShortProject Include="API_I;Server;Server.Mock;Server.NTServiceHost" />
     <DistributionProject Include="@(DistributionShortProject->'%(Identity)\$(Namespace).%(Identity).csproj')" />
   </ItemGroup>

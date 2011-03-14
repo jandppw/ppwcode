@@ -222,66 +222,14 @@
   -->
   <!-- targets that hook in the BeforeBuild, to generate correct App.config files -->
   <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets" />
-  <PropertyGroup>
-    <ConfigurationFile>$(SolutionDir)SolutionItems\configuration.xml</ConfigurationFile>
-    <UserConfigurationFile>$(SolutionDir)SolutionItems\configuration.user.xml</UserConfigurationFile>
-    <UserConfigurationFileTemplate>App.config.template.user</UserConfigurationFileTemplate>
-  </PropertyGroup>
-  <Choose>
-    <When Condition="Exists('$(UserConfigurationFile)')">
-      <PropertyGroup>
-        <ConfigurationFileTemplate>App.config.template.user</ConfigurationFileTemplate>
-      </PropertyGroup>
-    </When>
-    <Otherwise>
-      <PropertyGroup>
-        <ConfigurationFileTemplate>App.config.template</ConfigurationFileTemplate>
-      </PropertyGroup>
-    </Otherwise>
-  </Choose>
-  <Target Name="GenerateConfigFilesUser" Condition="Exists('$(UserConfigurationFile)')">
-    <XmlQuery XmlFileName="$(UserConfigurationFile)" XPath="//variables[@env='$(Configuration)' and @use='true']/var">
-      <Output TaskParameter="Values" ItemName="UserConfigurationValues" />
-    </XmlQuery>
-    <ItemGroup>
-      <UserTokens Include="%(UserConfigurationValues.name)">
-        <ReplacementValue>%(UserConfigurationValues.value)</ReplacementValue>
-      </UserTokens>
-    </ItemGroup>
-    <TemplateFile Template="App.config.template" OutputFileName="$(UserConfigurationFileTemplate)" Tokens="@(UserTokens)" />
-  </Target>
-  <Target Name="DeleteUserConfigurationFileTemplate" Condition="Exists('$(UserConfigurationFileTemplate)')">
-    <Delete Files="$(UserConfigurationFileTemplate)" />
-  </Target>
-  <Target Name="GenerateConfigFilesDefault">
-    <XmlQuery XmlFileName="$(ConfigurationFile)" XPath="//variables[@env='$(Configuration)']/var">
-      <Output TaskParameter="Values" ItemName="ConfigurationValues" />
-    </XmlQuery>
-    <ItemGroup>
-      <DefaultTokens Include="%(ConfigurationValues.name)">
-        <ReplacementValue>%(ConfigurationValues.value)</ReplacementValue>
-      </DefaultTokens>
-    </ItemGroup>
-    <TemplateFile Template="$(ConfigurationFileTemplate)" OutputFileName="App.config" Tokens="@(DefaultTokens)" />
-  </Target>
+  <Import Project="$(SolutionDir)Tools\GenerateConfigFiles.xml" />
+  <Import Project="$(SolutionDir)Tools\DistributionCopy.xml" />
+  <Import Project="$(SolutionDir)Tools\RealClean.xml" />
+  
   <Target Name="BeforeBuild">
     <CallTarget Targets="GenerateConfigFilesUser" />
     <CallTarget Targets="GenerateConfigFilesDefault" />
     <CallTarget Targets="DeleteUserConfigurationFileTemplate" />
-  </Target>
-
-  <Target Name="DistributionCopy">
-      <ItemGroup>
-        <distro
-            Include="$(LocalDistributionProjectRoot)$(Configuration)\**\*.*" 
-            Exclude="$(LocalDistributionProjectRoot)$(Configuration)\**\.svn\**\*.*" />
-        <forcopy 
-            Include="$(OutputPath)%(distro.RecursiveDir)%(distro.Filename)%(distro.Extension)" 
-            Condition="Exists('$(OutputPath)%(distro.RecursiveDir)%(distro.Filename)%(distro.Extension)')" />
-      </ItemGroup>
-      <Copy 
-          SourceFiles="@(forcopy)"
-          DestinationFolder="$(LocalDistributionProjectRoot)$(Configuration)" />
   </Target>
 
 </Project>
