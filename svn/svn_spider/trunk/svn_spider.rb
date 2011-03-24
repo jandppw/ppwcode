@@ -165,9 +165,11 @@ end
     ctx.commit wc_path
 
     # error handling: just log it for now
-  rescue
+  rescue Exception => e
     File.open File.join(File.dirname(__FILE__), "spider.log"), "w+" do |f|
       f.write "#{Time.now.getutc} :: error in repo: #{repo}\n"
+      f.write "#{Time.now.getutc} :: Exception message: #{e.message}\n"
+      f.write "#{Time.now.getutc} :: Exception backtrace: #{e.backtrace.inspect}\n"
     end
   end
 end
