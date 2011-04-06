@@ -151,6 +151,7 @@
     <Compile Include="SharePointClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SharePointDocument.cs" />
+    <Compile Include="SharePointSearchResult.cs" />
     <Compile Include="SharePointService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
