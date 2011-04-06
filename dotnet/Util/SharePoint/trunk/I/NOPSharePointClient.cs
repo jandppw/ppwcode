@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+using System.Collections.Generic;
+
 namespace PPWCode.Util.SharePoint.I
 {
     /// <summary>
@@ -44,6 +46,11 @@ namespace PPWCode.Util.SharePoint.I
         public void OpenUri(System.Uri uri)
         {
             //NOP
+        }
+
+        public List<SharePointSearchResult> SearchFiles(string relativeUrl)
+        {
+            return new List<SharePointSearchResult>();
         }
 
         #endregion

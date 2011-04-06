@@ -17,12 +17,15 @@
 #region Using
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
 using log4net;
 
 using Microsoft.SharePoint.Client;
+
+using File = Microsoft.SharePoint.Client.File;
 
 #endregion
 
@@ -140,35 +143,27 @@ namespace PPWCode.Util.SharePoint.I
                     Web rootWeb = spClientContext.Site.RootWeb;
 
                     //Check if the url exists
-                    try
+                    int index = relativeUrl.LastIndexOf("/");
+                    string parentFolder = relativeUrl.Substring(0, index);
+                    string filename = relativeUrl.Substring(index + 1);
+
+                    //Create intermediate folders if not exist
+                    EnsureFolder(parentFolder);
+                    Folder fldr = rootWeb.GetFolderByServerRelativeUrl(parentFolder);
+                    spClientContext.ExecuteQuery();
+
+                    //Create File information
+                    var fciNewFileFromComputer = new FileCreationInformation
                     {
-                        int index = relativeUrl.LastIndexOf("/");
-                        string parentFolder = relativeUrl.Substring(0, index);
-                        string filename = relativeUrl.Substring(index+1);
+                        Content = doc.Content,
+                        Url = filename,
+                        Overwrite = true
+                    };
 
-                        //Create intermediate folders if not exist
-                        EnsureFolder(parentFolder);
-                        Folder fldr = rootWeb.GetFolderByServerRelativeUrl(parentFolder);
-                        spClientContext.ExecuteQuery();
-
-                        //Create File information
-                        var fciNewFileFromComputer = new FileCreationInformation
-                        {
-                            Content = doc.Content,
-                            Url = filename,
-                            Overwrite = true
-                        };
-
-                        //Upload the file
-                        Microsoft.SharePoint.Client.File uploadedFile = fldr.Files.Add(fciNewFileFromComputer);
-                        spClientContext.Load(uploadedFile);
-                        spClientContext.ExecuteQuery();
-                    }
-                    catch (ServerException)
-                    {
-                        // TODO jand code smell; log? no try catch? error?
-                        throw;
-                    }
+                    //Upload the file
+                    File uploadedFile = fldr.Files.Add(fciNewFileFromComputer);
+                    spClientContext.Load(uploadedFile);
+                    spClientContext.ExecuteQuery();
                 }
             }
             catch (Exception e)
@@ -222,13 +217,49 @@ namespace PPWCode.Util.SharePoint.I
             string url = uri.OriginalString;
             if (!string.IsNullOrEmpty(url))
             {
-                Process.Start(new ProcessStartInfo()
+                Process.Start(new ProcessStartInfo
                 {
                     UseShellExecute = true,
                     FileName = url,
                     Verb = "Open",
                     LoadUserProfile = true
                 });
+            }
+        }
+
+        public List<SharePointSearchResult> SearchFiles(string relativeUrl)
+        {
+            try
+            {
+                using (ClientContext spClientContext = GetSharePointClientContext())
+                {
+                    Web rootWeb = spClientContext.Site.RootWeb;
+                    Folder spFolder = rootWeb.GetFolderByServerRelativeUrl(relativeUrl); // "/Shared%20Documents/MEERTENS%20MATHIEU%20-%2051062002701/Construo/Actua/");
+                    spClientContext.Load(spFolder.Files);
+                    spClientContext.ExecuteQuery();
+
+                    List<SharePointSearchResult> result = new List<SharePointSearchResult>();
+                    foreach (File spFile in spFolder.Files)
+                    {
+                        var fileInformation = new SharePointSearchResult();
+                        fileInformation.Properties.Add("FileName", spFile.Name);
+                        fileInformation.Properties.Add("Description", spFile.CheckInComment);
+                        fileInformation.Properties.Add("MajorVersion", spFile.MajorVersion);
+                        fileInformation.Properties.Add("MinorVersion", spFile.MinorVersion);
+                        fileInformation.Properties.Add("ModifiedBy", spFile.ModifiedBy);
+                        fileInformation.Properties.Add("DateModified", spFile.TimeLastModified);
+                        fileInformation.Properties.Add("CreatedBy", spFile.Author);
+                        fileInformation.Properties.Add("DateCreated", spFile.TimeCreated);
+                        fileInformation.Properties.Add("ServerRelativeUrl", spFile.ServerRelativeUrl);
+                        result.Add(fileInformation);
+                    }
+                    return result;
+                }
+            }
+            catch (Exception e)
+            {
+                s_Logger.Error(string.Format("SearchFiles({0}) failed using ClientContext {1}.", relativeUrl, SharePointSiteUrl), e);
+                throw;
             }
         }
 

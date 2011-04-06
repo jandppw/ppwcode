@@ -17,6 +17,7 @@
 #region Using
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
 #endregion
@@ -61,6 +62,11 @@ namespace PPWCode.Util.SharePoint.I
         /// MUDO: Move this method to other assembly?
         /// </summary>
         void OpenUri(Uri uri);
+
+        /// <summary>
+        /// Return files found at specified url
+        /// </summary>
+        List<SharePointSearchResult> SearchFiles(string relativeUrl);
     }
 
     // ReSharper disable InconsistentNaming
@@ -105,6 +111,14 @@ namespace PPWCode.Util.SharePoint.I
         public void OpenUri(Uri uri)
         {
             Contract.Requires(uri != null);
+        }
+
+        public List<SharePointSearchResult> SearchFiles(string relativeUrl)
+        {
+            Contract.Requires(!string.IsNullOrEmpty(SharePointSiteUrl));
+            Contract.Requires(relativeUrl != null);
+            Contract.Requires(!relativeUrl.StartsWith(SharePointSiteUrl));
+            return new List<SharePointSearchResult>();
         }
 
         #endregion
