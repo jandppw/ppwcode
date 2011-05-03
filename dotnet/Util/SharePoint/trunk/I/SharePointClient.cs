@@ -54,6 +54,7 @@ namespace PPWCode.Util.SharePoint.I
             ClientContext ctx = new ClientContext(SharePointSiteUrl);
             ctx.Load(ctx.Site.RootWeb);
             ctx.ExecuteQuery();
+            s_Logger.Info(string.Format("Connect to SharePoint using user {0}", ctx.Web.CurrentUser));
             return ctx;
         }
 
