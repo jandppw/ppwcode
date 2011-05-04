@@ -66,7 +66,7 @@ namespace PPWCode.Util.SharePoint.I
         /// <summary>
         /// Return files found at specified url
         /// </summary>
-        List<SharePointSearchResult> SearchFiles(string relativeUrl);
+        List<SharePointSearchResult> SearchFiles(string url);
     }
 
     // ReSharper disable InconsistentNaming
@@ -113,11 +113,10 @@ namespace PPWCode.Util.SharePoint.I
             Contract.Requires(uri != null);
         }
 
-        public List<SharePointSearchResult> SearchFiles(string relativeUrl)
+        public List<SharePointSearchResult> SearchFiles(string url)
         {
             Contract.Requires(!string.IsNullOrEmpty(SharePointSiteUrl));
-            Contract.Requires(relativeUrl != null);
-            Contract.Requires(!relativeUrl.StartsWith(SharePointSiteUrl));
+            Contract.Requires(url != null);
             return new List<SharePointSearchResult>();
         }
 

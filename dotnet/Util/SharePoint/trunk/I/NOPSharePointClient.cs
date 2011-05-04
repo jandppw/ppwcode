@@ -48,7 +48,7 @@ namespace PPWCode.Util.SharePoint.I
             //NOP
         }
 
-        public List<SharePointSearchResult> SearchFiles(string relativeUrl)
+        public List<SharePointSearchResult> SearchFiles(string url)
         {
             return new List<SharePointSearchResult>();
         }

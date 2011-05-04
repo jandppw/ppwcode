@@ -228,14 +228,14 @@ namespace PPWCode.Util.SharePoint.I
             }
         }
 
-        public List<SharePointSearchResult> SearchFiles(string relativeUrl)
+        public List<SharePointSearchResult> SearchFiles(string url)
         {
             try
             {
                 using (ClientContext spClientContext = GetSharePointClientContext())
                 {
                     Web rootWeb = spClientContext.Site.RootWeb;
-                    Folder spFolder = rootWeb.GetFolderByServerRelativeUrl(relativeUrl); // "/Shared%20Documents/MEERTENS%20MATHIEU%20-%2051062002701/Construo/Actua/");
+                    Folder spFolder = rootWeb.GetFolderByServerRelativeUrl(url); // "/Shared%20Documents/MEERTENS%20MATHIEU%20-%2051062002701/Construo/Actua/");
                     spClientContext.Load(spFolder.Files);
                     spClientContext.ExecuteQuery();
 
@@ -259,7 +259,7 @@ namespace PPWCode.Util.SharePoint.I
             }
             catch (Exception e)
             {
-                s_Logger.Error(string.Format("SearchFiles({0}) failed using ClientContext {1}.", relativeUrl, SharePointSiteUrl), e);
+                s_Logger.Error(string.Format("SearchFiles({0}) failed using ClientContext {1}.", url, SharePointSiteUrl), e);
                 throw;
             }
         }
