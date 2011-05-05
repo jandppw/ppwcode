@@ -4,6 +4,12 @@
         <name>PPWcode.Vernacular.Semantics.I</name>
     </assembly>
     <members>
+        <member name="T:PPWCode.Vernacular.Semantics.I.AbstractRousseauObject">
+            <summary>
+            Abstract class that supports things
+            required by <see cref="T:PPWCode.Vernacular.Semantics.I.IRousseauObject"/>.
+            </summary>
+        </member>
         <member name="T:PPWCode.Vernacular.Semantics.I.AbstractSemanticObject">
             <summary>
             Abstract class that supports things
@@ -99,15 +105,6 @@
         <member name="E:PPWCode.Vernacular.Semantics.I.AbstractSemanticObject.PropertyChanged">
             <summary>
             Is raised whenever a property is changed, part of the INotifyPropertyChanged interface.
-            </summary>
-        </member>
-        <member name="T:PPWCode.Vernacular.Semantics.I.ISemanticObjectContracts">
-            <exclude />
-        </member>
-        <member name="T:PPWCode.Vernacular.Semantics.I.AbstractRousseauObject">
-            <summary>
-            Abstract class that supports things
-            required by <see cref="T:PPWCode.Vernacular.Semantics.I.IRousseauObject"/>.
             </summary>
         </member>
         <member name="T:PPWCode.Vernacular.Semantics.I.IRousseauObject">
@@ -220,9 +217,6 @@
             <inheritdoc cref="M:PPWCode.Vernacular.Semantics.I.IRousseauObject.ThrowIfNotCivilized"/>
             </summary>
         </member>
-        <member name="T:PPWCode.Vernacular.Semantics.I.IRousseauObjectContracts">
-            <exclude />
-        </member>
         <member name="T:PPWCode.Vernacular.Semantics.I.NamespaceDoc">
             <summary>
             Library expressing the PPWCode Semantics Vernacular.
@@ -242,6 +236,12 @@
             <see cref="T:PPWCode.Vernacular.Semantics.I.AbstractRousseauObject"/>
             provides help in implementing this contract.</para>
             </remarks>
+        </member>
+        <member name="T:PPWCode.Vernacular.Semantics.I.IRousseauObjectContracts">
+            <exclude />
+        </member>
+        <member name="T:PPWCode.Vernacular.Semantics.I.ISemanticObjectContracts">
+            <exclude />
         </member>
     </members>
 </doc>
