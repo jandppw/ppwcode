@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<HelpKI>
+
+  <HelpKINode Title="AbstractRousseauObject class" Url="html/AllMembers_T_PPWCode_Vernacular_Semantics_I_AbstractRousseauObject.htm" />
+  <HelpKINode Title="AbstractRousseauObject class" Url="html/T_PPWCode_Vernacular_Semantics_I_AbstractRousseauObject.htm" />
+  <HelpKINode Title="AbstractRousseauObject class">
+    <HelpKINode Title="about AbstractRousseauObject class" Url="html/T_PPWCode_Vernacular_Semantics_I_AbstractRousseauObject.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PPWCode_Vernacular_Semantics_I_AbstractRousseauObject.htm" />
+    <HelpKINode Title="constructor" Url="html/M_PPWCode_Vernacular_Semantics_I_AbstractRousseauObject__ctor.htm" />
+    <HelpKINode Title="events" Url="html/Events_T_PPWCode_Vernacular_Semantics_I_AbstractRousseauObject.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PPWCode_Vernacular_Semantics_I_AbstractRousseauObject.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_PPWCode_Vernacular_Semantics_I_AbstractRousseauObject.htm" />
+  </HelpKINode>
+  <HelpKINode Title="AbstractRousseauObject.AbstractRousseauObject constructor" Url="html/M_PPWCode_Vernacular_Semantics_I_AbstractRousseauObject__ctor.htm" />
+  <HelpKINode Title="AbstractRousseauObject.IsCivilized method" Url="html/M_PPWCode_Vernacular_Semantics_I_AbstractRousseauObject_IsCivilized.htm" />
+  <HelpKINode Title="AbstractRousseauObject.ThrowIfNotCivilized method" Url="html/M_PPWCode_Vernacular_Semantics_I_AbstractRousseauObject_ThrowIfNotCivilized.htm" />
+  <HelpKINode Title="AbstractRousseauObject.WildExceptions method" Url="html/M_PPWCode_Vernacular_Semantics_I_AbstractRousseauObject_WildExceptions.htm" />
+  <HelpKINode Title="AbstractSemanticObject class" Url="html/AllMembers_T_PPWCode_Vernacular_Semantics_I_AbstractSemanticObject.htm" />
+  <HelpKINode Title="AbstractSemanticObject class" Url="html/T_PPWCode_Vernacular_Semantics_I_AbstractSemanticObject.htm" />
+  <HelpKINode Title="AbstractSemanticObject class">
+    <HelpKINode Title="about AbstractSemanticObject class" Url="html/T_PPWCode_Vernacular_Semantics_I_AbstractSemanticObject.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PPWCode_Vernacular_Semantics_I_AbstractSemanticObject.htm" />
+    <HelpKINode Title="constructor" Url="html/M_PPWCode_Vernacular_Semantics_I_AbstractSemanticObject__ctor.htm" />
+    <HelpKINode Title="events" Url="html/Events_T_PPWCode_Vernacular_Semantics_I_AbstractSemanticObject.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PPWCode_Vernacular_Semantics_I_AbstractSemanticObject.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_PPWCode_Vernacular_Semantics_I_AbstractSemanticObject.htm" />
+  </HelpKINode>
+  <HelpKINode Title="AbstractSemanticObject.AbstractSemanticObject constructor" Url="html/M_PPWCode_Vernacular_Semantics_I_AbstractSemanticObject__ctor.htm" />
+  <HelpKINode Title="AbstractSemanticObject.Equals method" Url="html/M_PPWCode_Vernacular_Semantics_I_AbstractSemanticObject_Equals.htm" />
+  <HelpKINode Title="AbstractSemanticObject.GetHashCode method" Url="html/M_PPWCode_Vernacular_Semantics_I_AbstractSemanticObject_GetHashCode.htm" />
+  <HelpKINode Title="AbstractSemanticObject.Initialize method" Url="html/M_PPWCode_Vernacular_Semantics_I_AbstractSemanticObject_Initialize.htm" />
+  <HelpKINode Title="AbstractSemanticObject.IsSerialized property" Url="html/P_PPWCode_Vernacular_Semantics_I_AbstractSemanticObject_IsSerialized.htm" />
+  <HelpKINode Title="AbstractSemanticObject.LimitedToString method" Url="html/M_PPWCode_Vernacular_Semantics_I_AbstractSemanticObject_LimitedToString.htm" />
+  <HelpKINode Title="AbstractSemanticObject.OnPropertyChanged method" Url="html/M_PPWCode_Vernacular_Semantics_I_AbstractSemanticObject_OnPropertyChanged.htm" />
+  <HelpKINode Title="AbstractSemanticObject.PropertyChanged event" Url="html/E_PPWCode_Vernacular_Semantics_I_AbstractSemanticObject_PropertyChanged.htm" />
+  <HelpKINode Title="AbstractSemanticObject.ToString method" Url="html/M_PPWCode_Vernacular_Semantics_I_AbstractSemanticObject_ToString.htm" />
+  <HelpKINode Title="Equals method" Url="html/M_PPWCode_Vernacular_Semantics_I_AbstractSemanticObject_Equals.htm" />
+  <HelpKINode Title="Equals method" Url="html/M_PPWCode_Vernacular_Semantics_I_ISemanticObject_Equals.htm" />
+  <HelpKINode Title="GetHashCode method" Url="html/M_PPWCode_Vernacular_Semantics_I_AbstractSemanticObject_GetHashCode.htm" />
+  <HelpKINode Title="GetHashCode method" Url="html/M_PPWCode_Vernacular_Semantics_I_ISemanticObject_GetHashCode.htm" />
+  <HelpKINode Title="Initialize method" Url="html/M_PPWCode_Vernacular_Semantics_I_AbstractSemanticObject_Initialize.htm" />
+  <HelpKINode Title="IRousseauObject interface" Url="html/AllMembers_T_PPWCode_Vernacular_Semantics_I_IRousseauObject.htm" />
+  <HelpKINode Title="IRousseauObject interface" Url="html/T_PPWCode_Vernacular_Semantics_I_IRousseauObject.htm" />
+  <HelpKINode Title="IRousseauObject interface">
+    <HelpKINode Title="about IRousseauObject interface" Url="html/T_PPWCode_Vernacular_Semantics_I_IRousseauObject.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PPWCode_Vernacular_Semantics_I_IRousseauObject.htm" />
+    <HelpKINode Title="events" Url="html/Events_T_PPWCode_Vernacular_Semantics_I_IRousseauObject.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PPWCode_Vernacular_Semantics_I_IRousseauObject.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_PPWCode_Vernacular_Semantics_I_IRousseauObject.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IRousseauObject.IsCivilized method" Url="html/M_PPWCode_Vernacular_Semantics_I_IRousseauObject_IsCivilized.htm" />
+  <HelpKINode Title="IRousseauObject.ThrowIfNotCivilized method" Url="html/M_PPWCode_Vernacular_Semantics_I_IRousseauObject_ThrowIfNotCivilized.htm" />
+  <HelpKINode Title="IRousseauObject.WildExceptions method" Url="html/M_PPWCode_Vernacular_Semantics_I_IRousseauObject_WildExceptions.htm" />
+  <HelpKINode Title="IsCivilized method" Url="html/M_PPWCode_Vernacular_Semantics_I_AbstractRousseauObject_IsCivilized.htm" />
+  <HelpKINode Title="IsCivilized method" Url="html/M_PPWCode_Vernacular_Semantics_I_IRousseauObject_IsCivilized.htm" />
+  <HelpKINode Title="ISemanticObject interface" Url="html/AllMembers_T_PPWCode_Vernacular_Semantics_I_ISemanticObject.htm" />
+  <HelpKINode Title="ISemanticObject interface" Url="html/T_PPWCode_Vernacular_Semantics_I_ISemanticObject.htm" />
+  <HelpKINode Title="ISemanticObject interface">
+    <HelpKINode Title="about ISemanticObject interface" Url="html/T_PPWCode_Vernacular_Semantics_I_ISemanticObject.htm" />
+    <HelpKINode Title="all members" Url="html/AllMembers_T_PPWCode_Vernacular_Semantics_I_ISemanticObject.htm" />
+    <HelpKINode Title="events" Url="html/Events_T_PPWCode_Vernacular_Semantics_I_ISemanticObject.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_PPWCode_Vernacular_Semantics_I_ISemanticObject.htm" />
+    <HelpKINode Title="properties" Url="html/Properties_T_PPWCode_Vernacular_Semantics_I_ISemanticObject.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ISemanticObject.Equals method" Url="html/M_PPWCode_Vernacular_Semantics_I_ISemanticObject_Equals.htm" />
+  <HelpKINode Title="ISemanticObject.GetHashCode method" Url="html/M_PPWCode_Vernacular_Semantics_I_ISemanticObject_GetHashCode.htm" />
+  <HelpKINode Title="ISemanticObject.IsSerialized property" Url="html/P_PPWCode_Vernacular_Semantics_I_ISemanticObject_IsSerialized.htm" />
+  <HelpKINode Title="ISemanticObject.ToString method" Url="html/M_PPWCode_Vernacular_Semantics_I_ISemanticObject_ToString.htm" />
+  <HelpKINode Title="IsSerialized property" Url="html/P_PPWCode_Vernacular_Semantics_I_AbstractSemanticObject_IsSerialized.htm" />
+  <HelpKINode Title="IsSerialized property" Url="html/P_PPWCode_Vernacular_Semantics_I_ISemanticObject_IsSerialized.htm" />
+  <HelpKINode Title="LimitedToString method" Url="html/M_PPWCode_Vernacular_Semantics_I_AbstractSemanticObject_LimitedToString.htm" />
+  <HelpKINode Title="OnPropertyChanged method" Url="html/M_PPWCode_Vernacular_Semantics_I_AbstractSemanticObject_OnPropertyChanged.htm" />
+  <HelpKINode Title="PPWCode.Vernacular.Semantics.I namespace" Url="html/N_PPWCode_Vernacular_Semantics_I.htm" />
+  <HelpKINode Title="PPWCode.Vernacular.Semantics.I.AbstractRousseauObject class" Url="html/AllMembers_T_PPWCode_Vernacular_Semantics_I_AbstractRousseauObject.htm" />
+  <HelpKINode Title="PPWCode.Vernacular.Semantics.I.AbstractRousseauObject class" Url="html/T_PPWCode_Vernacular_Semantics_I_AbstractRousseauObject.htm" />
+  <HelpKINode Title="PPWCode.Vernacular.Semantics.I.AbstractSemanticObject class" Url="html/AllMembers_T_PPWCode_Vernacular_Semantics_I_AbstractSemanticObject.htm" />
+  <HelpKINode Title="PPWCode.Vernacular.Semantics.I.AbstractSemanticObject class" Url="html/T_PPWCode_Vernacular_Semantics_I_AbstractSemanticObject.htm" />
+  <HelpKINode Title="PPWCode.Vernacular.Semantics.I.IRousseauObject interface" Url="html/AllMembers_T_PPWCode_Vernacular_Semantics_I_IRousseauObject.htm" />
+  <HelpKINode Title="PPWCode.Vernacular.Semantics.I.IRousseauObject interface" Url="html/T_PPWCode_Vernacular_Semantics_I_IRousseauObject.htm" />
+  <HelpKINode Title="PPWCode.Vernacular.Semantics.I.ISemanticObject interface" Url="html/AllMembers_T_PPWCode_Vernacular_Semantics_I_ISemanticObject.htm" />
+  <HelpKINode Title="PPWCode.Vernacular.Semantics.I.ISemanticObject interface" Url="html/T_PPWCode_Vernacular_Semantics_I_ISemanticObject.htm" />
+  <HelpKINode Title="PropertyChanged event" Url="html/E_PPWCode_Vernacular_Semantics_I_AbstractSemanticObject_PropertyChanged.htm" />
+  <HelpKINode Title="ThrowIfNotCivilized method" Url="html/M_PPWCode_Vernacular_Semantics_I_AbstractRousseauObject_ThrowIfNotCivilized.htm" />
+  <HelpKINode Title="ThrowIfNotCivilized method" Url="html/M_PPWCode_Vernacular_Semantics_I_IRousseauObject_ThrowIfNotCivilized.htm" />
+  <HelpKINode Title="ToString method" Url="html/M_PPWCode_Vernacular_Semantics_I_AbstractSemanticObject_ToString.htm" />
+  <HelpKINode Title="ToString method" Url="html/M_PPWCode_Vernacular_Semantics_I_ISemanticObject_ToString.htm" />
+  <HelpKINode Title="WildExceptions method" Url="html/M_PPWCode_Vernacular_Semantics_I_AbstractRousseauObject_WildExceptions.htm" />
+  <HelpKINode Title="WildExceptions method" Url="html/M_PPWCode_Vernacular_Semantics_I_IRousseauObject_WildExceptions.htm" />
+</HelpKI>
