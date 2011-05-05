@@ -34,7 +34,8 @@ namespace PPWCode.Vernacular.Semantics.I
     /// </summary>
     [Serializable, DataContract(IsReference = true)]
     public abstract class AbstractSemanticObject :
-        ISemanticObject
+        ISemanticObject,
+        IExtensibleDataObject
     {
         #region Contructor
 
@@ -117,7 +118,7 @@ namespace PPWCode.Vernacular.Semantics.I
                     }
                     else if (value is string)
                     {
-                        sb.AppendFormat("'{0}'", ((string)value));
+                        sb.AppendFormat("'{0}'", value);
                     }
                     else if (value is IEnumerable)
                     {
@@ -172,10 +173,7 @@ namespace PPWCode.Vernacular.Semantics.I
 
         public bool IsSerialized
         {
-            get
-            {
-                return m_IsSerialized;
-            }
+            get { return m_IsSerialized; }
         }
 
         #endregion
@@ -187,6 +185,12 @@ namespace PPWCode.Vernacular.Semantics.I
         {
             Initialize(true);
         }
+
+        #endregion
+
+        #region Implementation of IExtensibleDataObject
+
+        ExtensionDataObject IExtensibleDataObject.ExtensionData { get; set; }
 
         #endregion
     }
