@@ -34,8 +34,7 @@ namespace PPWCode.Vernacular.Semantics.I
     /// </summary>
     [Serializable, DataContract(IsReference = true)]
     public abstract class AbstractSemanticObject :
-        ISemanticObject,
-        IExtensibleDataObject
+        ISemanticObject
     {
         #region Contructor
 
@@ -185,12 +184,6 @@ namespace PPWCode.Vernacular.Semantics.I
         {
             Initialize(true);
         }
-
-        #endregion
-
-        #region Implementation of IExtensibleDataObject
-
-        ExtensionDataObject IExtensibleDataObject.ExtensionData { get; set; }
 
         #endregion
     }
