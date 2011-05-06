@@ -180,6 +180,9 @@
       <Name>PPWCode.Kit.Tasks.API_I</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="API_I\Task.hbm.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project=".\..\lib\Microsoft StyleCop\Microsoft.StyleCop.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

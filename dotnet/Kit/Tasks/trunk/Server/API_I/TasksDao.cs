@@ -46,7 +46,6 @@ namespace PPWCode.Kit.Tasks.Server.API_I
     [ServiceBehavior(
         InstanceContextMode = InstanceContextMode.PerCall,
         TransactionIsolationLevel = IsolationLevel.ReadCommitted,
-        TransactionTimeout = "00:01:00",
         UseSynchronizationContext = false)]
     public class TasksDao :
         NHibernateWcfCrudDao,
@@ -64,18 +63,8 @@ namespace PPWCode.Kit.Tasks.Server.API_I
         {
             return new Dictionary<FactoryKey, Func<IPersistentObject, IPersistentObject>>
             {
-                // TAsks
-                // create
-                {
-                    new FactoryKey(typeof(Task), Operation.CREATE), CreateTask
-                    },
-                //
-                // update
-                {
-                    new FactoryKey(typeof(Task), Operation.UPDATE), UpdateTask
-                    },
-                //
-                // delete
+                { new FactoryKey(typeof(Task), Operation.CREATE), CreateTask },
+                { new FactoryKey(typeof(Task), Operation.UPDATE), UpdateTask },
             };
         }
 

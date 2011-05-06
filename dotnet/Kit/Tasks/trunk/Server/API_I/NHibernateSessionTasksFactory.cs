@@ -21,7 +21,6 @@ using System.Reflection;
 
 using NHibernate;
 
-using PPWCode.Kit.Tasks.API_I;
 using PPWCode.Vernacular.Persistence.I.Dao.NHibernate;
 
 #endregion
@@ -36,7 +35,7 @@ namespace PPWCode.Kit.Tasks.Server.API_I
         {
             List<Assembly> assemblies = new List<Assembly>
             {
-                typeof(ClientTasksDao).Assembly,
+                typeof(NHibernateSessionTasksFactory).Assembly,
             };
             NHibernateSessionFactory.CreateSessionFactory(TasksConnectionString, null, new HashSet<Assembly>(assemblies));
         }
