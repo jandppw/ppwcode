@@ -4,6 +4,12 @@
     <name>PPWcode.Vernacular.Semantics.I</name>
   </assembly>
   <members>
+    <member name="T:PPWCode.Vernacular.Semantics.I.AbstractRousseauObject">
+      <summary>
+            Abstract class that supports things
+            required by <see cref="T:PPWCode.Vernacular.Semantics.I.IRousseauObject" />.
+            </summary>
+    </member>
     <member name="T:PPWCode.Vernacular.Semantics.I.AbstractSemanticObject">
       <summary>
             Abstract class that supports things
@@ -106,15 +112,6 @@
     <member name="E:PPWCode.Vernacular.Semantics.I.AbstractSemanticObject.PropertyChanged">
       <summary>
             Is raised whenever a property is changed, part of the INotifyPropertyChanged interface.
-            </summary>
-    </member>
-    <member name="T:PPWCode.Vernacular.Semantics.I.ISemanticObjectContracts">
-      <exclude />
-    </member>
-    <member name="T:PPWCode.Vernacular.Semantics.I.AbstractRousseauObject">
-      <summary>
-            Abstract class that supports things
-            required by <see cref="T:PPWCode.Vernacular.Semantics.I.IRousseauObject" />.
             </summary>
     </member>
     <member name="T:PPWCode.Vernacular.Semantics.I.IRousseauObject">
@@ -248,9 +245,6 @@
       <exception cref="T:PPWCode.Vernacular.Exceptions.I.CompoundSemanticException">
                 ! IsCivilized() will be true on throw.</exception>
     </member>
-    <member name="T:PPWCode.Vernacular.Semantics.I.IRousseauObjectContracts">
-      <exclude />
-    </member>
     <member name="T:PPWCode.Vernacular.Semantics.I.NamespaceDoc">
       <summary>
             Library expressing the PPWCode Semantics Vernacular.
@@ -273,15 +267,21 @@
             provides help in implementing this contract.</para>
       </remarks>
     </member>
+    <member name="T:PPWCode.Vernacular.Semantics.I.IRousseauObjectContracts">
+      <exclude />
+    </member>
+    <member name="T:PPWCode.Vernacular.Semantics.I.ISemanticObjectContracts">
+      <exclude />
+    </member>
     <member name="M:PPWCode.Vernacular.Semantics.I.AbstractRousseauObject.IsCivilized">
       <pure />
       <ensures inheritedFrom="M:PPWCode.Vernacular.Semantics.I.IRousseauObject.IsCivilized" inheritedFromTypeName="IRousseauObject">Contract.Result&lt;bool&gt;() == WildExceptions().IsEmpty</ensures>
     </member>
-    <member name="M:PPWCode.Vernacular.Semantics.I.AbstractSemanticObject.Equals(System.Object)">
-      <ensures inheritedFrom="M:PPWCode.Vernacular.Semantics.I.ISemanticObject.Equals(System.Object)" inheritedFromTypeName="ISemanticObject">Contract.Result&lt;bool&gt;() == ReferenceEquals(this, other)</ensures>
-    </member>
     <member name="M:PPWCode.Vernacular.Semantics.I.AbstractSemanticObject.ToString">
       <ensures inheritedFrom="M:System.Object.ToString" inheritedFromTypeName="Object">Contract.Result&lt;string&gt;() != null</ensures>
+    </member>
+    <member name="M:PPWCode.Vernacular.Semantics.I.AbstractSemanticObject.Equals(System.Object)">
+      <ensures inheritedFrom="M:PPWCode.Vernacular.Semantics.I.ISemanticObject.Equals(System.Object)" inheritedFromTypeName="ISemanticObject">Contract.Result&lt;bool&gt;() == ReferenceEquals(this, other)</ensures>
     </member>
   </members>
 </doc>
