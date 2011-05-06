@@ -17,6 +17,7 @@
 #region Using
 
 using System.Diagnostics.Contracts;
+using System.Security.Principal;
 
 using PPWCode.Vernacular.Persistence.I.Dao;
 
@@ -64,33 +65,40 @@ namespace PPWCode.Kit.Tasks.API_I
 
         #region Constructors
 
-        public ClientTasksDao(ITasksDao taskDao)
-            : base(taskDao)
+        public ClientTasksDao(ITasksDao tasksDao)
+            : base(tasksDao)
         {
-            Contract.Requires(taskDao != null);
-            Contract.Ensures(TasksDao == taskDao);
+            Contract.Requires(tasksDao != null);
+            Contract.Ensures(TasksDao == tasksDao);
+            Contract.Ensures(WindowsIdentity == null);
+        }
 
-            m_TasksDao = taskDao;
+        public ClientTasksDao(ITasksDao tasksDao, WindowsIdentity windowsIdentity)
+            : base(tasksDao, windowsIdentity)
+        {
+            Contract.Requires(tasksDao != null);
+            Contract.Requires(windowsIdentity == null
+                              || (windowsIdentity.IsAuthenticated
+                                  && (windowsIdentity.ImpersonationLevel == TokenImpersonationLevel.Impersonation
+                                      || windowsIdentity.ImpersonationLevel == TokenImpersonationLevel.Delegation)));
+            Contract.Ensures(TasksDao == tasksDao);
+            Contract.Ensures(WindowsIdentity == windowsIdentity);
         }
 
         #endregion
 
         #region Properties
 
-        private ITasksDao m_TasksDao;
-
-        // ReSharper disable MemberCanBePrivate.Global
         [Pure]
         public ITasksDao TasksDao
         {
             get
             {
                 CheckObjectAlreadyDisposed();
-                return m_TasksDao;
+
+                return (ITasksDao)Obj;
             }
         }
-
-        // ReSharper restore MemberCanBePrivate.Global
 
         #endregion
 
@@ -99,19 +107,18 @@ namespace PPWCode.Kit.Tasks.API_I
         /// <inheritdoc cref="ITasksDao.FindTasks"/>
         public FindTasksResult FindTasks(string taskType, string reference, TaskStateEnum? taskState)
         {
+            Contract.Requires(!string.IsNullOrEmpty(reference));
+            Contract.Ensures(Contract.Result<FindTasksResult>() != null);
+
             CheckObjectAlreadyDisposed();
-
-            return m_TasksDao.FindTasks(taskType, reference, taskState);
-        }
-
-        #endregion
-
-        #region Overrides of ClientCrudDao
-
-        protected override void Cleanup()
-        {
-            base.Cleanup();
-            m_TasksDao = null;
+            if (WindowsIdentity != null)
+            {
+                using (WindowsIdentity.Impersonate())
+                {
+                    return TasksDao.FindTasks(taskType, reference, taskState);
+                }
+            }
+            return TasksDao.FindTasks(taskType, reference, taskState);
         }
 
         #endregion
