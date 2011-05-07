@@ -16,6 +16,8 @@
 
 #region Using
 
+using System.Security.Principal;
+
 using PPWCode.Util.OddsAndEnds.I.Extensions;
 
 using Spring.Context.Support;
@@ -26,13 +28,21 @@ namespace PPWCode.Kit.Tasks.API_I
 {
     public static class TasksService
     {
-        public static ClientTasksDao CreateTaskService()
+        private static ITasksDao CreateITaskDao()
         {
-            ITasksDao tasksDao = ContextRegistry
+            return ContextRegistry
                 .GetContext()
                 .GetObject<ITasksDao>("TasksFactory");
+        }
 
-            return new ClientTasksDao(tasksDao);
+        public static ClientTasksDao CreateTaskService()
+        {
+            return new ClientTasksDao(CreateITaskDao());
+        }
+
+        public static ClientTasksDao CreateTaskService(WindowsIdentity windowsIdentity)
+        {
+            return new ClientTasksDao(CreateITaskDao(), windowsIdentity);
         }
     }
 }
