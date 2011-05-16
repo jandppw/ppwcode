@@ -23,6 +23,7 @@
     </configSections>
 
     <connectionStrings>
+        <!-- database connection for the PensioB.Tasks database -->
         <add name="TasksConnectionString"
              connectionString="${TasksConnectionString}"
              providerName="System.Data.SqlClient" />
@@ -94,6 +95,7 @@
                    contract="PPWCode.Kit.Tasks.API_I.ITasksDao" />
                 <host>
                     <baseAddresses>
+                        <!-- host address and port where this WCF service is hosted -->
                         <add baseAddress="net.tcp://${TasksDaoHost}:${TasksDaoPort}" />
                     </baseAddresses>
                 </host>
