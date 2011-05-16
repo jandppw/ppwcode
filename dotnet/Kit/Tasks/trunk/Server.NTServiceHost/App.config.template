@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <configuration>
-<!--
+    <!--
 /*
  * Copyright 2004 - $Date: 2008-11-15 23:58:07 +0100 (za, 15 nov 2008) $ by PeopleWare n.v..
  *
@@ -100,7 +100,6 @@
                     </baseAddresses>
                 </host>
             </service>
-
         </services>
 
         <bindings>
@@ -109,7 +108,8 @@
                       name="netTcpBinding_Dao"
                       maxReceivedMessageSize="5000000"
                       sendTimeout="00:02:00"
-                      receiveTimeout="00:02:00" >
+                      receiveTimeout="00:02:00"
+                      transactionFlow="true">
                     <reliableSession
                        ordered="true"
                        inactivityTimeout="00:02:00"

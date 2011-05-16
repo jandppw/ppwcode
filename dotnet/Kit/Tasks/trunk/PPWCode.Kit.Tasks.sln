@@ -42,6 +42,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{B52C3FE5
 		Tools\StopService.bat = Tools\StopService.bat
 	EndProjectSection
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PPWCode.Kit.Tasks.Setup", "PPWCode.Kit.Tasks.Setup\PPWCode.Kit.Tasks.Setup.vdproj", "{3882B476-1F63-4799-9FAF-77B4267AECFB}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -94,6 +96,10 @@ Global
 		{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3882B476-1F63-4799-9FAF-77B4267AECFB}.Debug|Any CPU.ActiveCfg = Debug
+		{3882B476-1F63-4799-9FAF-77B4267AECFB}.DebugServiceHosting|Any CPU.ActiveCfg = Debug
+		{3882B476-1F63-4799-9FAF-77B4267AECFB}.Documentation|Any CPU.ActiveCfg = Debug
+		{3882B476-1F63-4799-9FAF-77B4267AECFB}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

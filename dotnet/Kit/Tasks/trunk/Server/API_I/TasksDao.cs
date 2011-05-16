@@ -81,9 +81,8 @@ namespace PPWCode.Kit.Tasks.Server.API_I
 
         #region ITasksDao members
 
-        [OperationBehavior(
-            TransactionScopeRequired = true,
-            TransactionAutoComplete = true)]
+        [OperationBehavior(TransactionScopeRequired = true, TransactionAutoComplete = true)]
+        [TransactionFlow(TransactionFlowOption.Allowed)]
         public FindTasksResult FindTasks(string tasktype, string reference, TaskStateEnum? taskState)
         {
             const int MaximumResults = 50;
