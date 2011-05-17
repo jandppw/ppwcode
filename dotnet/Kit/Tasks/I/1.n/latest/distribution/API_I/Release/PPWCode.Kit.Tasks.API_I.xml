@@ -1,0 +1,275 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PPWCode.Kit.Tasks.API_I</name>
+    </assembly>
+    <members>
+        <member name="T:PPWCode.Kit.Tasks.API_I.Roles">
+            <summary>
+            The strings used as role names in the remote Tasks API.
+            </summary>
+        </member>
+        <member name="F:PPWCode.Kit.Tasks.API_I.Roles.User">
+            <summary>
+            Any user that is allowed access to tasks.
+            </summary>
+        </member>
+        <member name="T:PPWCode.Kit.Tasks.API_I.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:PPWCode.Kit.Tasks.API_I.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:PPWCode.Kit.Tasks.API_I.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:PPWCode.Kit.Tasks.API_I.Properties.Resources.TaskStateEnum_COMPLETED">
+            <summary>
+              Looks up a localized string similar to Completed.
+            </summary>
+        </member>
+        <member name="P:PPWCode.Kit.Tasks.API_I.Properties.Resources.TaskStateEnum_CREATED">
+            <summary>
+              Looks up a localized string similar to Open.
+            </summary>
+        </member>
+        <member name="P:PPWCode.Kit.Tasks.API_I.Properties.Resources.TaskStateEnum_IN_PROGRESS">
+            <summary>
+              Looks up a localized string similar to In progress.
+            </summary>
+        </member>
+        <member name="T:PPWCode.Kit.Tasks.API_I.ClientTasksDao">
+            <summary>
+            Convenience class for clients that use the remote Tasks API.
+            Clients are advised to use a subclass of this class instead
+            of instances of type <see cref="T:PPWCode.Kit.Tasks.API_I.ITasksDao"/> directly.
+            </summary>
+            <remarks>
+            <para>The remote Actua API, expressed in <see cref="T:PPWCode.Kit.Tasks.API_I.ITasksDao"/>
+            offers all functionality needed to work with the Tasks server.
+            Instances of this class wrap around an instance of <see cref="T:PPWCode.Kit.Tasks.API_I.ITasksDao"/>
+            to offer that functionality in even easier ways to client users.
+            This obviously only contains code that is applicable to all or most
+            clients. (Actually, this class would better be put in a separate
+            assembly, away from the API assembly, since it is irrelevant to the server,
+            but that would be overdoing it a bit).</para>
+            <para>Clients are advised not to use this class directly, but to create
+            a subclass, where client specific helper methods for communication with
+            the Tasks back-end can be added.</para>
+            <para>Contracts of these methods do not define ensures clauses
+            formally completely. A part is only described in comments.
+            In most cases, execution of the ensures clauses would mean another call to the server,
+            and that is not workable.</para>
+            </remarks>
+        </member>
+        <member name="M:PPWCode.Kit.Tasks.API_I.ClientTasksDao.FindTasks(System.String,System.String,System.Nullable{PPWCode.Kit.Tasks.API_I.TaskStateEnum})">
+            <inheritdoc cref="M:PPWCode.Kit.Tasks.API_I.ITasksDao.FindTasks(System.String,System.String,System.Nullable{PPWCode.Kit.Tasks.API_I.TaskStateEnum})"/>
+        </member>
+        <member name="T:PPWCode.Kit.Tasks.API_I.TaskStateEnum">
+            <summary>
+            Possible values of <see cref="P:PPWCode.Kit.Tasks.API_I.Task.State"/>.
+            </summary>
+        </member>
+        <member name="F:PPWCode.Kit.Tasks.API_I.TaskStateEnum.CREATED">
+            <summary>
+            The task is not yet in progress.
+            </summary>
+        </member>
+        <member name="F:PPWCode.Kit.Tasks.API_I.TaskStateEnum.IN_PROGRESS">
+            <summary>
+            The task is in progress, but not yet completed.
+            </summary>
+        </member>
+        <member name="F:PPWCode.Kit.Tasks.API_I.TaskStateEnum.COMPLETED">
+            <summary>
+            The task is completed
+            </summary>
+        </member>
+        <member name="T:PPWCode.Kit.Tasks.API_I.Task">
+            <summary>
+            The registration of a task, a "to do" for humans.
+            </summary>
+            <remarks>
+            <para>Tasks are identified by client systems by
+            a <see cref="P:PPWCode.Kit.Tasks.API_I.Task.TaskType"/> and a <see cref="P:PPWCode.Kit.Tasks.API_I.Task.Reference"/>,
+            which can later be used to retrieve collections of
+            <c>Tasks</c>. These values are free text, limited
+            by good practice.</para>
+            <para><c>Tasks</c> have a <see cref="P:PPWCode.Kit.Tasks.API_I.Task.State"/>. When
+            a <c>Task</c> is marked <see cref="F:PPWCode.Kit.Tasks.API_I.TaskStateEnum.IN_PROGRESS"/>,
+            the back-end automatically stores
+            <see cref="P:PPWCode.Kit.Tasks.API_I.Task.InProgressSince"/> and <see cref="P:PPWCode.Kit.Tasks.API_I.Task.InProgressBy"/>.
+            When a <c>Task</c> is marked <see cref="F:PPWCode.Kit.Tasks.API_I.TaskStateEnum.COMPLETED"/>
+            the back-end automatically stores the
+            <see cref="P:PPWCode.Kit.Tasks.API_I.Task.CompletedSince"/> and <see cref="P:PPWCode.Kit.Tasks.API_I.Task.CompletedBy"/>.
+            These properties can not be changed
+            by clients.</para>
+            </remarks>
+        </member>
+        <member name="F:PPWCode.Kit.Tasks.API_I.Task.MandatoryMessage">
+            <summary>
+            A string that can be used, if you wish, as the message to signal that
+            the property is mandatory, but was not filled out.
+            </summary>
+        </member>
+        <member name="M:PPWCode.Kit.Tasks.API_I.Task.IsSingleTaskState(PPWCode.Kit.Tasks.API_I.TaskStateEnum)">
+            <summary>
+            Since <see cref="P:PPWCode.Kit.Tasks.API_I.Task.State"/> is implemented as a bitfield,
+            it is technically possibly to store multiple states in
+            the field. In this class this is not allowed.
+            </summary>
+            <returns>
+            <paramref name="taskState"/> is singular.
+            </returns>
+        </member>
+        <member name="M:PPWCode.Kit.Tasks.API_I.Task.WildExceptions">
+            <summary>
+            <c>Tasks</c> are civilized if they have a singular <see cref="P:PPWCode.Kit.Tasks.API_I.Task.State"/>
+            (see <see cref="M:PPWCode.Kit.Tasks.API_I.Task.IsSingleTaskState(PPWCode.Kit.Tasks.API_I.TaskStateEnum)"/>),
+            a <see cref="P:PPWCode.Kit.Tasks.API_I.Task.TaskType"/> and a <see cref="P:PPWCode.Kit.Tasks.API_I.Task.Reference"/>.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:PPWCode.Kit.Tasks.API_I.Task.State">
+            <summary>
+            <c>Tasks</c> are <see cref="F:PPWCode.Kit.Tasks.API_I.TaskStateEnum.CREATED"/>,
+            <see cref="F:PPWCode.Kit.Tasks.API_I.TaskStateEnum.IN_PROGRESS"/> or
+            <see cref="F:PPWCode.Kit.Tasks.API_I.TaskStateEnum.COMPLETED"/>.
+            </summary>
+        </member>
+        <member name="P:PPWCode.Kit.Tasks.API_I.Task.InProgressSince">
+            <summary>
+            When did work on the <c>Task</c> start?
+            </summary>
+            <remarks>
+            Filled out automatically by the back-end
+            when the task is marked <see cref="F:PPWCode.Kit.Tasks.API_I.TaskStateEnum.IN_PROGRESS"/>.
+            </remarks>
+        </member>
+        <member name="P:PPWCode.Kit.Tasks.API_I.Task.InProgressBy">
+            <summary>
+            Who started working on the <c>Task</c>?
+            </summary>
+            <remarks>
+            Filled out automatically by the back-end
+            when the task is marked <see cref="F:PPWCode.Kit.Tasks.API_I.TaskStateEnum.IN_PROGRESS"/>
+            with the user name received in the
+            remote call over WCF.
+            </remarks>
+        </member>
+        <member name="P:PPWCode.Kit.Tasks.API_I.Task.CompletedSince">
+            <summary>
+            When was the <c>Task</c> completed?
+            </summary>
+            <remarks>
+            Filled out automatically by the back-end
+            when the task is marked <see cref="F:PPWCode.Kit.Tasks.API_I.TaskStateEnum.COMPLETED"/>.
+            </remarks>
+        </member>
+        <member name="P:PPWCode.Kit.Tasks.API_I.Task.CompletedBy">
+            <summary>
+            Who completed the <c>Task</c>?
+            </summary>
+            <remarks>
+            Filled out automatically by the back-end
+            when the task is marked <see cref="F:PPWCode.Kit.Tasks.API_I.TaskStateEnum.COMPLETED"/>,
+            with the user name received in the
+            remote call over WCF.
+            </remarks>
+        </member>
+        <member name="P:PPWCode.Kit.Tasks.API_I.Task.TaskType">
+            <summary>
+            A programmatic name defined by the client application,
+            to distinguish different types of <c>Tasks</c>. Mandatory.
+            </summary>
+            <remarks>
+            The <c>TaskType</c> can be combined with the <see cref="P:PPWCode.Kit.Tasks.API_I.Task.Reference"/>
+            when retrieving <c>Tasks</c>.
+            </remarks>
+        </member>
+        <member name="P:PPWCode.Kit.Tasks.API_I.Task.Reference">
+            <summary>
+            A reference defined by the client application,
+            stored from creation in the <c>Task</c>, to enable
+            the client to later retrieve relevant collections
+            of <c>Tasks</c>. Mandatory.
+            </summary>
+            <remarks>
+            <para>This system is used by several different back-end
+            systems. Client systems must make sure that
+            these references do not collide with the usage of this
+            system by other systems. Therefor, it is an <strong>obligation
+            of client systems</strong> to start <c>References</c>
+            with an identification of the client system itself.</para>
+            <para>In general, <c>References</c> should take the form
+            of a <c>/</c>-separated path. This string is used in
+            retrieval methods in a "starts with" fashion.
+            The path should specify the entity in the client system
+            with which it is associated, from left to right, in a gradual
+            finer fashion.</para>
+            <para>Imagine for example a system that uses that namespace
+            <c>Foo.Bar</c>, in which there are <c>Dossiers</c> with a
+            primary key, that have entries of different types,
+            also with a primary key, and that we want to associate a task
+            with such an entry. The <c>Reference</c> choosen might then
+            be:</para>
+            <code>"Foo/Bar/Dossier/79867498/SomeTypeOfEntry/789673"</code>
+            <para>In this way, we might retrieve:</para>
+            <list type="bullet">
+              <item>all the tasks for <c>Foo</c></item>
+              <item>all the tasks for <c>Foo.Bar</c></item>
+              <item>all the tasks for any <c>Dossier</c> in <c>Foo.Bar</c></item>
+              <item>all the tasks for the given <c>Dossier</c> with PK <c>79867498</c>
+                in <c>Foo.Bar</c></item>
+              <item>all the tasks for any <c>SomeTypeOfEntry</c> of the given
+                <c>Dossier</c> with PK <c>79867498</c> in <c>Foo.Bar</c></item>
+              <item>all the tasks for the given <c>SomeTypeOfEntry</c> with PK
+                <c>789673</c> of the given <c>Dossier</c> with PK <c>79867498</c>
+                in <c>Foo.Bar</c></item>
+            </list>
+            <para>It is then not possible to retrieve pratically all the tasks
+            for any <c>SomeTypeOfEntry</c> of any <c>Dossier</c> in <c>Foo.Bar</c>.</para>
+            <para>In retrieval methods, the <c>Reference</c> can be combined
+            with the <see cref="P:PPWCode.Kit.Tasks.API_I.Task.TaskType"/>.</para>
+            </remarks>
+        </member>
+        <member name="T:PPWCode.Kit.Tasks.API_I.FindTasksResult">
+            <summary>
+            When finding tasks, only a limited number of results
+            are returned (to protect from saturating the network,
+            and to guarantee client responsiveness).
+            For a good interface, the <see cref="M:PPWCode.Kit.Tasks.API_I.ITasksDao.FindTasks(System.String,System.String,System.Nullable{PPWCode.Kit.Tasks.API_I.TaskStateEnum})"/> method returns
+            the found results, limited, and the number of tasks
+            that match the criterion.
+            </summary>
+        </member>
+        <member name="T:PPWCode.Kit.Tasks.API_I.ITasksDao">
+            <summary>
+            The main remote method API of <c>Tasks</c>.
+            </summary>
+            <remarks>
+            <para>Apart from the CRUD methods, there is only
+            1 extra method, to retrieve <c>Tasks</c>.</para>
+            </remarks>
+        </member>
+        <member name="M:PPWCode.Kit.Tasks.API_I.ITasksDao.FindTasks(System.String,System.String,System.Nullable{PPWCode.Kit.Tasks.API_I.TaskStateEnum})">
+            <summary>
+            Return a <see cref="T:PPWCode.Kit.Tasks.API_I.Task">collection of <c>Tasks</c></see>,
+            with the exact given <paramref name="tasktype"/>,
+            whose <see cref="P:PPWCode.Kit.Tasks.API_I.Task.Reference"/> starts with <paramref name="reference"/>,
+            and whose <see cref="P:PPWCode.Kit.Tasks.API_I.Task.State"/> is one of the states included
+            in <paramref name="taskState"/>.
+            </summary>
+        </member>
+        <member name="T:PPWCode.Kit.Tasks.API_I.ITasksDaoContract">
+            <exclude />
+        </member>
+    </members>
+</doc>
