@@ -1,0 +1,100 @@
+<configuration>
+<!--
+/*
+ * Copyright 2004 - $Date: 2008-11-15 23:58:07 +0100 (za, 15 nov 2008) $ by PeopleWare n.v..
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+  
+    <variables env="Debug">
+        <!-- Enable/Disable security / nhibernate profiler -->
+        <var name="UseSecurity" value="true" />
+        <var name="UseProfiler" value="false" />
+
+        <!-- database connection strings -->
+        <var name="TasksConnectionString"          value="Data Source=localhost;Initial Catalog=PensioB.Tasks;Integrated Security=True" />
+
+        <!-- database connection strings used for tests -->
+        <var name="TestTasksConnectionString"      value="Data Source=localhost;Initial Catalog=Test.PensioB.Tasks;Integrated Security=True" />
+
+        <!--<var name="TasksServiceFactory"           value="PPWCode.Kit.Tasks.API_I.ServiceHostingFactory, PPWCode.Kit.Tasks.API_I"/>-->
+        <!--<var name="TasksServiceFactory"           value="PPWCode.Kit.Tasks.Server.Mock.MockTaskServiceFactory, PPWCode.Kit.Tasks.Server.Mock"/>-->
+        <var name="TasksServiceFactory"            value="PPWCode.Kit.Tasks.Server.InProcHostingFactory, PPWCode.Kit.Tasks.Server"/>
+
+        <!-- log4net -->
+        <var name="Log4NetDefaultAppender"         value="EventLogAppender" />
+        <!--<var name="Log4Net.DefaultAppender"    value="rollingFile" /> -->
+        <var name="Log4NetLogFileName"             value="D:\log\log4net.txt" />
+
+        <!-- DAO addresses -->
+        <var name="TasksDaoHost"                           value="localhost" />
+
+        <!-- DAO addresses -->
+        <var name="TasksDaoPort"                           value="9008" />
+        
+    </variables>
+
+    <variables env="Release">
+        <!-- Enable/Disable security / nhibernate profiler -->
+        <var name="UseSecurity" value="true" />
+        <var name="UseProfiler" value="false" />
+
+        <!-- database connection strings -->
+        <var name="TasksConnectionString"           value="Data Source=localhost;Initial Catalog=PensioB.Tasks;Integrated Security=True" />
+
+        <!-- database connection strings used for tests -->
+        <var name="TestTasksConnectionString"       value="Data Source=localhost;Initial Catalog=Test.PensioB.Tasks;Integrated Security=True" />
+
+        <!-- spring objects -->
+        <var name="TasksServiceFactory"              value="PPWCode.Kit.Tasks.Server.Mock.ServiceHostingFactory, PPWCode.Kit.Tasks.Server.Mock"/>
+
+        <!-- log4net -->
+        <var name="Log4NetDefaultAppender"             value="EventLogAppender" />
+        <!--<var name="Log4Net.DefaultAppender"        value="rollingFile" /> -->
+        <var name="Log4NetLogFileName"                 value="D:\log\log4net.txt" />
+
+        <!-- DAO addresses -->
+        <var name="TasksDaoHost"                            value="localhost" />
+
+        <!-- DAO addresses -->
+        <var name="TasksDaoPort"                           value="9008" />
+    </variables>
+
+    <variables env="DebugServiceHosting">
+        <!-- Enable/Disable security / nhibernate profiler -->
+        <var name="UseSecurity" value="true" />
+        <var name="UseProfiler" value="false" />
+
+        <!-- database connection strings -->
+        <var name="TasksConnectionString"              value="Data Source=localhost;Initial Catalog=PensioB.Tasks;Integrated Security=True" />
+
+        <!-- database connection strings used for tests -->
+        <var name="TestTasksConnectionString"          value="Data Source=localhost;Initial Catalog=Test.PensioB.Tasks;Integrated Security=True" />
+
+        <!-- spring objects -->
+        <var name="TasksServiceFactory"                value="PPWCode.Kit.Tasks.API_I.ServiceHostingFactory, PPWCode.Kit.Tasks.API_I"/>
+
+        <!-- log4net -->
+        <var name="Log4NetDefaultAppender"         value="EventLogAppender" />
+        <!--<var name="Log4Net.DefaultAppender"    value="rollingFile" /> -->
+        <var name="Log4NetLogFileName"             value="D:\log\log4net.txt" />
+
+        <!-- DAO addresses -->
+        <var name="TasksDaoHost"                           value="localhost" />
+
+        <!-- DAO addresses -->
+        <var name="TasksDaoPort"                           value="9008" />
+    </variables>
+
+</configuration>
