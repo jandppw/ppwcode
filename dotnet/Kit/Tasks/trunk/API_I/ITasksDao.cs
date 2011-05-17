@@ -51,6 +51,7 @@ namespace PPWCode.Kit.Tasks.API_I
         /// in <paramref name="taskState"/>.
         /// </summary>
         [OperationContract]
+        [TransactionFlow(TransactionFlowOption.Allowed)]
         FindTasksResult FindTasks(string tasktype, string reference, TaskStateEnum? taskState);
     }
 
