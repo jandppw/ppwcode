@@ -24,5 +24,5 @@ using System.Reflection;
 [assembly: AssemblyProduct("PPWCode Kit Tasks")]
 [assembly: AssemblyCopyright("Copyright © PeopleWare NV 2010-2011")]
 [assembly: AssemblyTrademark("")]
-[assembly: AssemblyVersion("1.1.0.0")]
-[assembly: AssemblyFileVersion("1.1.5035.0")]
+[assembly: AssemblyVersion("1.2.0.0")]
+[assembly: AssemblyFileVersion("1.2.5107.0")]

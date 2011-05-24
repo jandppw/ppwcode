@@ -20,6 +20,10 @@
     <configSections>
         <section name="hibernate-configuration" type="NHibernate.Cfg.ConfigurationSectionHandler, NHibernate" />
         <section name="log4net" type="log4net.Config.Log4NetConfigurationSectionHandler,log4net" />
+        <sectionGroup name="spring">
+          <section name="context" type="Spring.Context.Support.ContextHandler, Spring.Core" />
+          <section name="objects" type="Spring.Context.Support.DefaultSectionHandler, Spring.Core" />
+        </sectionGroup>
     </configSections>
 
     <connectionStrings>
@@ -83,7 +87,7 @@
     </log4net>
 
     <system.serviceModel>
-
+        
         <services>
             <service
                  name="PPWCode.Kit.Tasks.Server.API_I.TasksDao"
@@ -136,5 +140,22 @@
                 </behavior>
             </serviceBehaviors>
         </behaviors>
+        
     </system.serviceModel>
+
+    <!-- spring -->
+    <spring>
+        <context>
+            <resource uri="config://spring/objects" />
+        </context>
+        
+        <objects xmlns="http://www.springframework.net">
+            <object
+                id="NHibernateSessionFactory"
+                name="NHibernateSessionFactory"
+                type="PPWCode.Kit.Tasks.Server.API_I.NHibernateSessionTasksFactory, PPWCode.Kit.Tasks.Server"
+                factory-method="GetSessionFactory"
+                singleton="true"/>
+        </objects>
+    </spring>
 </configuration>
