@@ -42,6 +42,7 @@ using PPWCode.Vernacular.Persistence.I.Dao.Wcf.Helpers.Errors;
 namespace PPWCode.Kit.Tasks.Server.API_I
 {
     [NHibernateSerializationBehavior]
+    [NHibernateContext]
     [ErrorLogBehavior]
     [ServiceBehavior(
         InstanceContextMode = InstanceContextMode.PerCall,
@@ -66,15 +67,6 @@ namespace PPWCode.Kit.Tasks.Server.API_I
                 { new FactoryKey(typeof(Task), Operation.CREATE), CreateTask },
                 { new FactoryKey(typeof(Task), Operation.UPDATE), UpdateTask },
             };
-        }
-
-        #endregion
-
-        #region Abstract method GetSessionFactory
-
-        protected override ISessionFactory GetSessionFactory()
-        {
-            return NHibernateSessionTasksFactory.GetSessionFactory();
         }
 
         #endregion
