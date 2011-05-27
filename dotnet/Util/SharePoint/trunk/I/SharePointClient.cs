@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 
 using log4net;
 
@@ -52,9 +53,15 @@ namespace PPWCode.Util.SharePoint.I
         private ClientContext GetSharePointClientContext()
         {
             ClientContext ctx = new ClientContext(SharePointSiteUrl);
+
+            if (Credentials != null)
+            {
+                ctx.Credentials = Credentials;
+            }
+
             ctx.Load(ctx.Site.RootWeb);
             ctx.ExecuteQuery();
-            s_Logger.Info(string.Format("Connect to SharePoint using user {0}", ctx.Web.CurrentUser));
+            s_Logger.Debug(string.Format("Connect to SharePoint using user {0}", ctx.Web.CurrentUser));
             return ctx;
         }
 
@@ -102,6 +109,8 @@ namespace PPWCode.Util.SharePoint.I
         #region ISharePointClient interface
 
         public string SharePointSiteUrl { get; set; }
+
+        public ICredentials Credentials { get; set; }
 
         /// <inheritdoc cref="ISharePointClient.EnsureFolder" />
         public void EnsureFolder(string relativeUrl)
