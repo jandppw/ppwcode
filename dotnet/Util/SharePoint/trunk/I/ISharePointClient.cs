@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Net;
 
 #endregion
 
@@ -36,6 +37,11 @@ namespace PPWCode.Util.SharePoint.I
         /// site this instance will work on.
         /// </summary>
         string SharePointSiteUrl { get; set; }
+
+        /// <summary>
+        /// Optional credentials for authentication
+        /// </summary>
+        ICredentials Credentials { get; set; }
 
         /// <summary>
         /// Ensure the folder whose name is given
@@ -83,6 +89,14 @@ namespace PPWCode.Util.SharePoint.I
             set
             {
                 //NOP;
+            }
+        }
+
+        public ICredentials Credentials
+        {
+            get { return default(ICredentials); }
+            set 
+            { // NOP;
             }
         }
 

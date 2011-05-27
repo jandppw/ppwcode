@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
+using System;
 using System.Collections.Generic;
+using System.Net;
 
 namespace PPWCode.Util.SharePoint.I
 {
@@ -26,6 +28,8 @@ namespace PPWCode.Util.SharePoint.I
         #region ISharePointClient Members
 
         public string SharePointSiteUrl { get; set; }
+
+        public ICredentials Credentials { get; set; }
 
         public void EnsureFolder(string relativeUrl)
         {
