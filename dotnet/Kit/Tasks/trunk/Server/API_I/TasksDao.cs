@@ -41,7 +41,7 @@ using PPWCode.Vernacular.Persistence.I.Dao.Wcf.Helpers.Errors;
 
 namespace PPWCode.Kit.Tasks.Server.API_I
 {
-    [NHibernateSerializationBehavior]
+    [NHibernateSerializationServiceBehavior]
     [NHibernateContext]
     [ErrorLogBehavior]
     [ServiceBehavior(
