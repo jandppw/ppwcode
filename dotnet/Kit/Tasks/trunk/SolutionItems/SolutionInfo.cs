@@ -25,4 +25,4 @@ using System.Reflection;
 [assembly: AssemblyCopyright("Copyright © PeopleWare NV 2010-2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyVersion("1.2.0.0")]
-[assembly: AssemblyFileVersion("1.2.5107.0")]
+[assembly: AssemblyFileVersion("1.2.5149.0")]
