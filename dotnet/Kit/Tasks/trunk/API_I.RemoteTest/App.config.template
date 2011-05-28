@@ -155,6 +155,12 @@
           type="${TasksServiceFactory}"
           factory-method="CreateTasksInstance"
           singleton="false"/>
+      <object
+          id="NHibernateSessionFactory"
+          name="NHibernateSessionFactory"
+          type="PPWCode.Kit.Tasks.Server.API_I.NHibernateSessionTasksFactory, PPWCode.Kit.Tasks.Server"
+          factory-method="GetSessionFactory"
+          singleton="true"/>
     </objects>
   </spring>
 
