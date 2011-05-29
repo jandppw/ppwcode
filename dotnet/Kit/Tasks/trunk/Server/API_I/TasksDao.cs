@@ -41,8 +41,8 @@ using PPWCode.Vernacular.Persistence.I.Dao.Wcf.Helpers.Errors;
 
 namespace PPWCode.Kit.Tasks.Server.API_I
 {
+    [NHibernateContext(SessionFactory = @"NHibernateSessionTasksFactory")]
     [NHibernateSerializationServiceBehavior]
-    [NHibernateContext]
     [ErrorLogBehavior]
     [ServiceBehavior(
         InstanceContextMode = InstanceContextMode.PerCall,
