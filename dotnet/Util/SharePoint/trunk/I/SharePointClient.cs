@@ -56,7 +56,13 @@ namespace PPWCode.Util.SharePoint.I
 
             if (Credentials != null)
             {
+                s_Logger.Debug("GetSharePointClientContext: Credentials ok");
                 ctx.Credentials = Credentials;
+            }
+            else
+            {
+                s_Logger.Debug("GetSharePointClientContext: Credentials not ok");
+                
             }
 
             ctx.Load(ctx.Site.RootWeb);
@@ -193,6 +199,11 @@ namespace PPWCode.Util.SharePoint.I
                 {
                     using (ClientContext clientContext = new ClientContext(baseUrl))
                     {
+                        if (Credentials != null)
+                        {
+                            clientContext.Credentials = Credentials;
+                        }
+
                         //get the site collection
                         Web site = clientContext.Web;
 
