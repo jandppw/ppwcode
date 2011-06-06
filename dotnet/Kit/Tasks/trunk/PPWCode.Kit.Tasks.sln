@@ -4,7 +4,7 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{92BE80A7-9616-422A-A704-DD2C09F9E058}"
 	ProjectSection(SolutionItems) = preProject
 		SolutionItems\App.config.Description.txt = SolutionItems\App.config.Description.txt
-		configuration.user.xml = configuration.user.xml
+		SolutionItems\configuration.user.xml = SolutionItems\configuration.user.xml
 		SolutionItems\configuration.xml = SolutionItems\configuration.xml
 		PensioB.Tasks.RemoteTest\PPWCode.Kit.Tasks.API_I.RemoteTest.testrunconfig = PensioB.Tasks.RemoteTest\PPWCode.Kit.Tasks.API_I.RemoteTest.testrunconfig
 		SolutionItems\Security.txt = SolutionItems\Security.txt
@@ -37,7 +37,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{B52C3FE5
 		Tools\CleanupBinObj.ps1 = Tools\CleanupBinObj.ps1
 		Tools\CleanupBinObj_How.txt = Tools\CleanupBinObj_How.txt
 		Tools\CreateService.bat = Tools\CreateService.bat
+		Tools\DistributionCopy.xml = Tools\DistributionCopy.xml
 		Tools\DropService.bat = Tools\DropService.bat
+		Tools\GenerateConfigFiles.xml = Tools\GenerateConfigFiles.xml
+		Tools\RealClean.xml = Tools\RealClean.xml
 		Tools\StartService.bat = Tools\StartService.bat
 		Tools\StopService.bat = Tools\StopService.bat
 	EndProjectSection
