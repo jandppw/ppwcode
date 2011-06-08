@@ -56,6 +56,9 @@ namespace PPWCode.Util.SharePoint.I
         /// <param name="relativeUrl">The URL of a folder in a SharePoint document library,
         /// relative to <see cref="SharePointSiteUrl"/>.</param>
         void EnsureFolder(string relativeUrl);
+
+        SharePointDocument DownloadDocument(string relativeUrl);
+
         void UploadDocument(string relativeUrl, SharePointDocument doc);
 
         /// <summary>
@@ -105,6 +108,14 @@ namespace PPWCode.Util.SharePoint.I
             Contract.Requires(!string.IsNullOrEmpty(SharePointSiteUrl));
             Contract.Requires(!string.IsNullOrEmpty(relativeUrl));
             Contract.Requires(!relativeUrl.StartsWith(SharePointSiteUrl));
+        }
+
+        public SharePointDocument DownloadDocument(string relativeUrl)
+        {
+            Contract.Requires(!string.IsNullOrEmpty(SharePointSiteUrl));
+            Contract.Requires(!string.IsNullOrEmpty(relativeUrl));
+            Contract.Requires(!relativeUrl.StartsWith(SharePointSiteUrl));
+            return default(SharePointDocument);
         }
 
         public void UploadDocument(string relativeUrl, SharePointDocument doc)

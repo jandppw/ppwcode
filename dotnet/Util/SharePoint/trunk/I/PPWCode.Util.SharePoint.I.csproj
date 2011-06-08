@@ -145,6 +145,7 @@
     <Compile Include="..\Solution Items\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="Helpers\StreamHelperExtensions.cs" />
     <Compile Include="ISharePointClient.cs" />
     <Compile Include="NamespaceDoc.cs" />
     <Compile Include="NOPSharePointClient.cs" />

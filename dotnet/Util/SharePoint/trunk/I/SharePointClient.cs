@@ -26,6 +26,8 @@ using log4net;
 
 using Microsoft.SharePoint.Client;
 
+using PPWCode.Util.SharePoint.I.Helpers;
+
 using File = Microsoft.SharePoint.Client.File;
 
 #endregion
@@ -62,7 +64,6 @@ namespace PPWCode.Util.SharePoint.I
             else
             {
                 s_Logger.Debug("GetSharePointClientContext: Credentials not ok");
-                
             }
 
             ctx.Load(ctx.Site.RootWeb);
@@ -146,6 +147,38 @@ namespace PPWCode.Util.SharePoint.I
             catch (Exception e)
             {
                 s_Logger.Error(string.Format("EnsureFolder({0}) failed using ClientContext {1}.", relativeUrl, SharePointSiteUrl), e);
+                throw;
+            }
+        }
+
+        public SharePointDocument DownloadDocument(string relativeUrl)
+        {
+            try
+            {
+                using (ClientContext spClientContext = GetSharePointClientContext())
+                {
+                    Web currentWeb = spClientContext.Web;
+
+                    spClientContext.Load(currentWeb);
+                    spClientContext.ExecuteQuery();
+
+                    var fi = File.OpenBinaryDirect(spClientContext, relativeUrl);
+
+                    if (fi == null)
+                    {
+                        throw new ApplicationException(@"fi == null");
+                    }
+
+                    if (fi.Stream == null)
+                    {
+                        throw new ApplicationException(@"fi.Stream == null");
+                    }
+                    return new SharePointDocument(fi.Stream.ConvertToByteArray());
+                }
+            }
+            catch (Exception e)
+            {
+                s_Logger.Error(string.Format("DownloadDocument({0}) failed using ClientContext {1}.", relativeUrl, SharePointSiteUrl), e);
                 throw;
             }
         }
