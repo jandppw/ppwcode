@@ -36,6 +36,12 @@ namespace PPWCode.Util.SharePoint.I
             //NOP
         }
 
+        public SharePointDocument DownloadDocument(string relativeUrl)
+        {
+            // NOP
+            return default(SharePointDocument);
+        }
+
         public void UploadDocument(string relativeUrl, SharePointDocument doc)
         {
             //NOP
