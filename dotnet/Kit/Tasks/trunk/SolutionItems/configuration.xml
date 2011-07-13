@@ -32,17 +32,35 @@
         <!--<var name="TasksServiceFactory"           value="PPWCode.Kit.Tasks.Server.Mock.MockTaskServiceFactory, PPWCode.Kit.Tasks.Server.Mock"/>-->
         <var name="TasksServiceFactory"            value="PPWCode.Kit.Tasks.Server.InProcHostingFactory, PPWCode.Kit.Tasks.Server"/>
 
-        <!-- log4net -->
-        <var name="Log4NetDefaultAppender"         value="EventLogAppender" />
-        <!--<var name="Log4Net.DefaultAppender"    value="rollingFile" /> -->
-        <var name="Log4NetLogFileName"             value="D:\log\log4net.txt" />
-
         <!-- DAO addresses -->
         <var name="TasksDaoHost"                           value="localhost" />
 
         <!-- DAO addresses -->
-        <var name="TasksDaoPort"                           value="9008" />
-        
+        <var name="TasksDaoPort"                           value="27300" />
+
+        <!-- log4net -->
+
+        <!-- activate RollingFileAppender or not -->
+        <var name="Log4NetRollingFileAppender" value="" />
+        <!--
+        <var name="Log4NetRollingFileAppender"
+             value="&lt;appender-ref ref=&quot;RollingFileAppender&quot; /&gt;" />
+             -->
+
+        <!-- activate EmailAppender or not -->
+        <var name="Log4NetEmailAppender"       value="" />
+        <!--
+        <var name="Log4NetEmailAppender"
+             value="&lt;appender-ref ref=&quot;EmailAppender&quot; /&gt;" />
+            -->
+
+        <var name="Log4NetLogFileName" value="logs\log-file.txt" />
+        <var name="Log4NetSmtpSubject" value="" />
+        <var name="Log4NetSmtpFrom"    value="" />
+        <var name="Log4NetSmtpTo"      value="" />
+        <var name="Log4NetSmtpHost"    value="" />
+        <var name="Log4NetSmtpPort"    value="" />
+
     </variables>
 
     <variables env="Release">
@@ -59,16 +77,35 @@
         <!-- spring objects -->
         <var name="TasksServiceFactory"              value="PPWCode.Kit.Tasks.Server.Mock.ServiceHostingFactory, PPWCode.Kit.Tasks.Server.Mock"/>
 
-        <!-- log4net -->
-        <var name="Log4NetDefaultAppender"             value="EventLogAppender" />
-        <!--<var name="Log4Net.DefaultAppender"        value="rollingFile" /> -->
-        <var name="Log4NetLogFileName"                 value="D:\log\log4net.txt" />
-
         <!-- DAO addresses -->
         <var name="TasksDaoHost"                            value="localhost" />
 
         <!-- DAO addresses -->
-        <var name="TasksDaoPort"                           value="9008" />
+        <var name="TasksDaoPort"                           value="27300" />
+
+        <!-- log4net -->
+
+        <!-- activate RollingFileAppender or not -->
+        <var name="Log4NetRollingFileAppender" value="" />
+        <!--
+        <var name="Log4NetRollingFileAppender"
+             value="&lt;appender-ref ref=&quot;RollingFileAppender&quot; /&gt;" />
+             -->
+
+        <!-- activate EmailAppender or not -->
+        <var name="Log4NetEmailAppender"       value="" />
+        <!--
+        <var name="Log4NetEmailAppender"
+             value="&lt;appender-ref ref=&quot;EmailAppender&quot; /&gt;" />
+            -->
+
+        <var name="Log4NetLogFileName" value="logs\log-file.txt" />
+        <var name="Log4NetSmtpSubject" value="" />
+        <var name="Log4NetSmtpFrom"    value="" />
+        <var name="Log4NetSmtpTo"      value="" />
+        <var name="Log4NetSmtpHost"    value="" />
+        <var name="Log4NetSmtpPort"    value="" />
+
     </variables>
 
     <variables env="DebugServiceHosting">
@@ -85,16 +122,35 @@
         <!-- spring objects -->
         <var name="TasksServiceFactory"                value="PPWCode.Kit.Tasks.API_I.ServiceHostingFactory, PPWCode.Kit.Tasks.API_I"/>
 
-        <!-- log4net -->
-        <var name="Log4NetDefaultAppender"         value="EventLogAppender" />
-        <!--<var name="Log4Net.DefaultAppender"    value="rollingFile" /> -->
-        <var name="Log4NetLogFileName"             value="D:\log\log4net.txt" />
-
         <!-- DAO addresses -->
         <var name="TasksDaoHost"                           value="localhost" />
 
         <!-- DAO addresses -->
-        <var name="TasksDaoPort"                           value="9008" />
+        <var name="TasksDaoPort"                           value="27300" />
+
+        <!-- log4net -->
+
+        <!-- activate RollingFileAppender or not -->
+        <var name="Log4NetRollingFileAppender" value="" />
+        <!--
+        <var name="Log4NetRollingFileAppender"
+             value="&lt;appender-ref ref=&quot;RollingFileAppender&quot; /&gt;" />
+             -->
+
+        <!-- activate EmailAppender or not -->
+        <var name="Log4NetEmailAppender"       value="" />
+        <!--
+        <var name="Log4NetEmailAppender"
+             value="&lt;appender-ref ref=&quot;EmailAppender&quot; /&gt;" />
+            -->
+
+        <var name="Log4NetLogFileName" value="logs\log-file.txt" />
+        <var name="Log4NetSmtpSubject" value="" />
+        <var name="Log4NetSmtpFrom"    value="" />
+        <var name="Log4NetSmtpTo"      value="" />
+        <var name="Log4NetSmtpHost"    value="" />
+        <var name="Log4NetSmtpPort"    value="" />
+
     </variables>
 
 </configuration>
