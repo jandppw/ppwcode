@@ -1,0 +1,5 @@
+name: ppwcode-exceptions
+build: msbuild;project=src\I\PPWCode.Vernacular.Exceptions.I.csproj
+depends: openwrap anchored content
+depends: microsoft-contracts >= 1.0 < 2.0
+use-symlinks: false
