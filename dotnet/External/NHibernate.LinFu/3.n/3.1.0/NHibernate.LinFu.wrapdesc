@@ -1,0 +1,9 @@
+﻿name: NHibernate.LinFu
+build: files; 
+    file=bin-net35 -> src\NHibernate.ByteCode.LinFu.dll; 
+    file=bin-net35 -> src\NHibernate.ByteCode.LinFu.xml;
+    file=bin-net35 -> src\LinFu.DynamicProxy.dll; 
+    file=. -> src\LinFu.license.txt;
+    file=. -> src\lgpl.txt;
+use-symlinks: false
+depends: openwrap anchored content
