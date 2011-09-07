@@ -1,0 +1,8 @@
+﻿name: Microsoft.Contracts
+description: Microsoft.Contract.dll library, needed for compiling code that contains Contracts.
+build: files; 
+  file=bin-net35 -> src\Microsoft.Contracts.dll; 
+  file=. -> src\License.rtf;
+  file=. -> src\Redist.txt;
+use-symlinks: false
+depends: openwrap anchored content
