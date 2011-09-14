@@ -312,12 +312,36 @@
         <ensures>Closed</ensures>
       </setter>
     </member>
-    <member name="M:PPWCode.Vernacular.Exceptions.I.ImmutableException.#ctor">
-      <ensures>(Message == UnspecifiedProgrammingErrorMessage) &amp;&amp; (InnerException == null)</ensures>
+    <member name="T:PPWCode.Vernacular.Exceptions.I.ObjectAlreadyDisposedError">
+      <summary>
+        <see cref="T:System.ObjectDisposedException" />
+      </summary>
     </member>
-    <member name="M:PPWCode.Vernacular.Exceptions.I.ImmutableException.#ctor(System.String)">
-      <ensures>(message != null ? Message == message : Message == UnspecifiedProgrammingErrorMessage)
-                &amp;&amp; (InnerException == null)</ensures>
+    <member name="M:PPWCode.Vernacular.Exceptions.I.ValueException.Like(PPWCode.Vernacular.Exceptions.I.SemanticException)">
+      <pure />
+      <ensures>(base.Like(other)
+ &amp;&amp; object.Equals(((ValueException)other).OldValue, OldValue)
+ &amp;&amp; object.Equals(((ValueException)other).NewValue, NewValue))
+    == Contract.Result&lt;bool&gt;()</ensures>
+      <ensures inheritedFrom="M:PPWCode.Vernacular.Exceptions.I.PropertyException.Like(PPWCode.Vernacular.Exceptions.I.SemanticException)" inheritedFromTypeName="PropertyException">(base.Like(other)
+ &amp;&amp; ((PropertyException)other).Sender == Sender
+ &amp;&amp; ((PropertyException)other).PropertyName == PropertyName)
+    == Contract.Result&lt;bool&gt;()</ensures>
+      <ensures inheritedFrom="M:PPWCode.Vernacular.Exceptions.I.SemanticException.Like(PPWCode.Vernacular.Exceptions.I.SemanticException)" inheritedFromTypeName="SemanticException">other == null
+    ? Contract.Result&lt;bool&gt;() == false
+    : true</ensures>
+    </member>
+    <member name="M:PPWCode.Vernacular.Exceptions.I.ValueException.ToString">
+      <ensures inheritedFrom="M:System.Object.ToString" inheritedFromTypeName="Object">Contract.Result&lt;string&gt;() != null</ensures>
+    </member>
+    <member name="M:PPWCode.Vernacular.Exceptions.I.ValueException.#ctor(System.Object,System.String,System.Object,System.Object,System.String,System.Exception)">
+      <requires>propertyName != null</requires>
+      <ensures>Sender == sender</ensures>
+      <ensures>PropertyName == propertyName</ensures>
+      <ensures>Message == message</ensures>
+      <ensures>InnerException == innerException</ensures>
+      <ensures>OldValue == oldValue</ensures>
+      <ensures>NewValue == newValue</ensures>
     </member>
     <member name="M:PPWCode.Vernacular.Exceptions.I.ImmutableException.#ctor(System.String,System.Exception)">
       <ensures>(message != null
@@ -325,8 +349,47 @@
                     : Message == (innerException == null ? UnspecifiedProgrammingErrorMessage : ExceptionWithProgrammingCauseMessage))
                 &amp;&amp; (InnerException == innerException)</ensures>
     </member>
-    <member name="M:PPWCode.Vernacular.Exceptions.I.PropertyException.ToString">
-      <ensures inheritedFrom="M:System.Object.ToString" inheritedFromTypeName="Object">Contract.Result&lt;string&gt;() != null</ensures>
+    <member name="M:PPWCode.Vernacular.Exceptions.I.ImmutableException.#ctor(System.String)">
+      <ensures>(message != null ? Message == message : Message == UnspecifiedProgrammingErrorMessage)
+                &amp;&amp; (InnerException == null)</ensures>
+    </member>
+    <member name="M:PPWCode.Vernacular.Exceptions.I.ImmutableException.#ctor">
+      <ensures>(Message == UnspecifiedProgrammingErrorMessage) &amp;&amp; (InnerException == null)</ensures>
+    </member>
+    <member name="M:PPWCode.Vernacular.Exceptions.I.ExternalError.#ctor(System.String,System.Exception)">
+      <ensures>(message != null
+                    ? Message == message
+                    : Message == (innerException == null ? UnspecifiedExternalErrorMessage : ExceptionWithExternalCauseMessage))
+                &amp;&amp; (InnerException == innerException)</ensures>
+    </member>
+    <member name="M:PPWCode.Vernacular.Exceptions.I.ExternalError.#ctor(System.String)">
+      <ensures>(message != null ? Message == message : Message == UnspecifiedExternalErrorMessage)
+                &amp;&amp; (InnerException == null)</ensures>
+    </member>
+    <member name="M:PPWCode.Vernacular.Exceptions.I.ExternalError.#ctor">
+      <ensures>(Message == UnspecifiedExternalErrorMessage) &amp;&amp; (InnerException == null)</ensures>
+    </member>
+    <member name="M:PPWCode.Vernacular.Exceptions.I.ExternalError.#ctor(System.Exception)">
+      <ensures>(Message == (innerException == null ? UnspecifiedExternalErrorMessage : ExceptionWithExternalCauseMessage)) &amp;&amp; (InnerException == innerException)</ensures>
+    </member>
+    <member name="M:PPWCode.Vernacular.Exceptions.I.ObjectAlreadyDisposedError.#ctor(System.String)">
+      <ensures>Message == message</ensures>
+    </member>
+    <member name="M:PPWCode.Vernacular.Exceptions.I.ProgrammingError.#ctor(System.String,System.Exception)">
+      <ensures>(message != null
+                    ? Message == message
+                    : Message == (innerException == null ? UnspecifiedProgrammingErrorMessage : ExceptionWithProgrammingCauseMessage))
+                &amp;&amp; (InnerException == innerException)</ensures>
+    </member>
+    <member name="M:PPWCode.Vernacular.Exceptions.I.ProgrammingError.#ctor(System.String)">
+      <ensures>(message != null ? Message == message : Message == UnspecifiedProgrammingErrorMessage)
+                &amp;&amp; (InnerException == null)</ensures>
+    </member>
+    <member name="M:PPWCode.Vernacular.Exceptions.I.ProgrammingError.#ctor">
+      <ensures>(Message == UnspecifiedProgrammingErrorMessage) &amp;&amp; (InnerException == null)</ensures>
+    </member>
+    <member name="M:PPWCode.Vernacular.Exceptions.I.SemanticException.#ctor(System.String)">
+      <ensures>Message == message</ensures>
     </member>
     <member name="M:PPWCode.Vernacular.Exceptions.I.PropertyException.#ctor(System.Object,System.String,System.String,System.Exception)">
       <requires>sender != null</requires>
@@ -345,78 +408,23 @@
     ? Contract.Result&lt;bool&gt;() == false
     : true</ensures>
     </member>
-    <member name="M:PPWCode.Vernacular.Exceptions.I.ProgrammingError.#ctor">
-      <ensures>(Message == UnspecifiedProgrammingErrorMessage) &amp;&amp; (InnerException == null)</ensures>
-    </member>
-    <member name="M:PPWCode.Vernacular.Exceptions.I.ProgrammingError.#ctor(System.String)">
-      <ensures>(message != null ? Message == message : Message == UnspecifiedProgrammingErrorMessage)
-                &amp;&amp; (InnerException == null)</ensures>
-    </member>
-    <member name="M:PPWCode.Vernacular.Exceptions.I.ProgrammingError.#ctor(System.String,System.Exception)">
-      <ensures>(message != null
-                    ? Message == message
-                    : Message == (innerException == null ? UnspecifiedProgrammingErrorMessage : ExceptionWithProgrammingCauseMessage))
-                &amp;&amp; (InnerException == innerException)</ensures>
-    </member>
-    <member name="M:PPWCode.Vernacular.Exceptions.I.SemanticException.#ctor(System.String)">
-      <ensures>Message == message</ensures>
-    </member>
-    <member name="M:PPWCode.Vernacular.Exceptions.I.ValueException.ToString">
+    <member name="M:PPWCode.Vernacular.Exceptions.I.PropertyException.ToString">
       <ensures inheritedFrom="M:System.Object.ToString" inheritedFromTypeName="Object">Contract.Result&lt;string&gt;() != null</ensures>
-    </member>
-    <member name="M:PPWCode.Vernacular.Exceptions.I.ValueException.#ctor(System.Object,System.String,System.Object,System.Object,System.String,System.Exception)">
-      <requires>propertyName != null</requires>
-      <ensures>Sender == sender</ensures>
-      <ensures>PropertyName == propertyName</ensures>
-      <ensures>Message == message</ensures>
-      <ensures>InnerException == innerException</ensures>
-      <ensures>OldValue == oldValue</ensures>
-      <ensures>NewValue == newValue</ensures>
-    </member>
-    <member name="M:PPWCode.Vernacular.Exceptions.I.ValueException.Like(PPWCode.Vernacular.Exceptions.I.SemanticException)">
-      <pure />
-      <ensures>(base.Like(other)
- &amp;&amp; object.Equals(((ValueException)other).OldValue, OldValue)
- &amp;&amp; object.Equals(((ValueException)other).NewValue, NewValue))
-    == Contract.Result&lt;bool&gt;()</ensures>
-      <ensures inheritedFrom="M:PPWCode.Vernacular.Exceptions.I.PropertyException.Like(PPWCode.Vernacular.Exceptions.I.SemanticException)" inheritedFromTypeName="PropertyException">(base.Like(other)
- &amp;&amp; ((PropertyException)other).Sender == Sender
- &amp;&amp; ((PropertyException)other).PropertyName == PropertyName)
-    == Contract.Result&lt;bool&gt;()</ensures>
-      <ensures inheritedFrom="M:PPWCode.Vernacular.Exceptions.I.SemanticException.Like(PPWCode.Vernacular.Exceptions.I.SemanticException)" inheritedFromTypeName="SemanticException">other == null
-    ? Contract.Result&lt;bool&gt;() == false
-    : true</ensures>
-    </member>
-    <member name="M:PPWCode.Vernacular.Exceptions.I.SecurityException.#ctor(System.String,System.Exception)">
-      <ensures>Message == message &amp;&amp; InnerException == innerException</ensures>
     </member>
     <member name="M:PPWCode.Vernacular.Exceptions.I.CompoundSemanticException.ToString">
       <ensures inheritedFrom="M:System.Object.ToString" inheritedFromTypeName="Object">Contract.Result&lt;string&gt;() != null</ensures>
     </member>
-    <member name="M:PPWCode.Vernacular.Exceptions.I.Error.#ctor">
-      <ensures>(Message == null) &amp;&amp; (InnerException == null)</ensures>
+    <member name="M:PPWCode.Vernacular.Exceptions.I.Error.#ctor(System.String,System.Exception)">
+      <ensures>(Message == message) &amp;&amp; (InnerException == innerException)</ensures>
     </member>
     <member name="M:PPWCode.Vernacular.Exceptions.I.Error.#ctor(System.String)">
       <ensures>(Message == message) &amp;&amp; (InnerException == null)</ensures>
     </member>
-    <member name="M:PPWCode.Vernacular.Exceptions.I.Error.#ctor(System.String,System.Exception)">
-      <ensures>(Message == message) &amp;&amp; (InnerException == innerException)</ensures>
+    <member name="M:PPWCode.Vernacular.Exceptions.I.Error.#ctor">
+      <ensures>(Message == null) &amp;&amp; (InnerException == null)</ensures>
     </member>
-    <member name="M:PPWCode.Vernacular.Exceptions.I.ExternalError.#ctor">
-      <ensures>(Message == UnspecifiedExternalErrorMessage) &amp;&amp; (InnerException == null)</ensures>
-    </member>
-    <member name="M:PPWCode.Vernacular.Exceptions.I.ExternalError.#ctor(System.String)">
-      <ensures>(message != null ? Message == message : Message == UnspecifiedExternalErrorMessage)
-                &amp;&amp; (InnerException == null)</ensures>
-    </member>
-    <member name="M:PPWCode.Vernacular.Exceptions.I.ExternalError.#ctor(System.String,System.Exception)">
-      <ensures>(message != null
-                    ? Message == message
-                    : Message == (innerException == null ? UnspecifiedExternalErrorMessage : ExceptionWithExternalCauseMessage))
-                &amp;&amp; (InnerException == innerException)</ensures>
-    </member>
-    <member name="M:PPWCode.Vernacular.Exceptions.I.ExternalError.#ctor(System.Exception)">
-      <ensures>(Message == (innerException == null ? UnspecifiedExternalErrorMessage : ExceptionWithExternalCauseMessage)) &amp;&amp; (InnerException == innerException)</ensures>
+    <member name="M:PPWCode.Vernacular.Exceptions.I.SecurityException.#ctor(System.String,System.Exception)">
+      <ensures>Message == message &amp;&amp; InnerException == innerException</ensures>
     </member>
   </members>
 </doc>
