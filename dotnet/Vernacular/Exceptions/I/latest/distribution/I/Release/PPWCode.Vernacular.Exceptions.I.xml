@@ -280,5 +280,10 @@
             instead.</para>
             </summary>
         </member>
+        <member name="T:PPWCode.Vernacular.Exceptions.I.ObjectAlreadyDisposedError">
+            <summary>
+            <see cref="T:System.ObjectDisposedException"/>
+            </summary>
+        </member>
     </members>
 </doc>
