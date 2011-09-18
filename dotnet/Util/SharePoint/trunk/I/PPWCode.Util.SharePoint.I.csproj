@@ -129,6 +129,7 @@
       <HintPath>..\lib\Spring Core 2.0\release\Spring.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -145,6 +146,7 @@
     <Compile Include="..\Solution Items\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="FileSharePointClient.cs" />
     <Compile Include="Helpers\StreamHelperExtensions.cs" />
     <Compile Include="ISharePointClient.cs" />
     <Compile Include="NamespaceDoc.cs" />

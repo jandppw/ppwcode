@@ -14,9 +14,13 @@
  * limitations under the License.
  */
 
+#region Using
+
 using System;
 using System.Collections.Generic;
 using System.Net;
+
+#endregion
 
 namespace PPWCode.Util.SharePoint.I
 {
@@ -27,37 +31,45 @@ namespace PPWCode.Util.SharePoint.I
     {
         #region ISharePointClient Members
 
+        /// <inheritdoc cref="ISharePointClient.SharePointSiteUrl" />
         public string SharePointSiteUrl { get; set; }
 
+        /// <inheritdoc cref="ISharePointClient.Credentials" />
         public ICredentials Credentials { get; set; }
 
+        /// <inheritdoc cref="ISharePointClient.EnsureFolder" />
         public void EnsureFolder(string relativeUrl)
         {
             //NOP
         }
 
+        /// <inheritdoc cref="ISharePointClient.DownloadDocument" />
         public SharePointDocument DownloadDocument(string relativeUrl)
         {
             // NOP
             return default(SharePointDocument);
         }
 
+        /// <inheritdoc cref="ISharePointClient.UploadDocument" />
         public void UploadDocument(string relativeUrl, SharePointDocument doc)
         {
             //NOP
         }
 
-        public bool ValidateUri(System.Uri sharePointUri)
+        /// <inheritdoc cref="ISharePointClient.ValidateUri" />
+        public bool ValidateUri(Uri sharePointUri)
         {
             //NOP
             return true;
         }
 
-        public void OpenUri(System.Uri uri)
+        /// <inheritdoc cref="ISharePointClient.OpenUri" />
+        public void OpenUri(Uri uri)
         {
             //NOP
         }
 
+        /// <inheritdoc cref="ISharePointClient.SearchFiles" />
         public List<SharePointSearchResult> SearchFiles(string url)
         {
             return new List<SharePointSearchResult>();
