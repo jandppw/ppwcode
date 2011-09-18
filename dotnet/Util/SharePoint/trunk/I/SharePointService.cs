@@ -16,16 +16,15 @@
 
 #region Using
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-#endregion
+#region Using
 
 using PPWCode.Util.OddsAndEnds.I.Extensions;
 
 using Spring.Context.Support;
+
+    #endregion
+
+#endregion
 
 namespace PPWCode.Util.SharePoint.I
 {

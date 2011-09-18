@@ -14,30 +14,33 @@
  * limitations under the License.
  */
 
+#region Using
+
 using System.Collections.Generic;
+
+#endregion
 
 namespace PPWCode.Util.SharePoint.I
 {
-	public class SharePointDocument
-	{
-		public byte[] Content { get; set; }
-		public Dictionary<string, object> Properties { get; set; }
+    public class SharePointDocument
+    {
+        public byte[] Content { get; set; }
+        public Dictionary<string, object> Properties { get; set; }
 
-		public SharePointDocument()
-		{
-			this.Properties = new Dictionary<string, object>();
-		}
+        public SharePointDocument() :
+            this(null)
+        {
+        }
 
-		public SharePointDocument(byte[] content)
-		{
-			this.Content = content;
-			this.Properties = new Dictionary<string, object>();
-		}
+        public SharePointDocument(byte[] content) :
+            this(content, new Dictionary<string, object>())
+        {
+        }
 
-		public SharePointDocument(byte[] content, Dictionary<string, object> props)
-		{
-			this.Content = content;
-			this.Properties = props;
-		}
-	}
+        public SharePointDocument(byte[] content, Dictionary<string, object> props)
+        {
+            Content = content;
+            Properties = props;
+        }
+    }
 }
