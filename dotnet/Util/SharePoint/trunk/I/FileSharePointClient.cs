@@ -58,12 +58,11 @@ namespace PPWCode.Util.SharePoint.I
 
         private static byte[] ReadFile(string filePath)
         {
-            using(FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
             {
                 return fileStream.ConvertToByteArray();
             }
         }
-
 
         #endregion
 
@@ -125,13 +124,14 @@ namespace PPWCode.Util.SharePoint.I
             string url = uri.OriginalString;
             if (!string.IsNullOrEmpty(url))
             {
-                Process.Start(new ProcessStartInfo
-                {
-                    UseShellExecute = true,
-                    FileName = url,
-                    Verb = "Open",
-                    LoadUserProfile = true
-                });
+                Process.Start(
+                    new ProcessStartInfo
+                    {
+                        UseShellExecute = true,
+                        FileName = url,
+                        Verb = "Open",
+                        LoadUserProfile = true
+                    });
             }
         }
 
