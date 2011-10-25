@@ -4,4 +4,4 @@ build: files;
   file=bin-net35 -> src\Iesi.Collections.xml;
   file=. -> src\lgpl.txt;
 use-symlinks: false
-depends: openwrap anchored content
+depends: openwrap = 2.0 anchored content
