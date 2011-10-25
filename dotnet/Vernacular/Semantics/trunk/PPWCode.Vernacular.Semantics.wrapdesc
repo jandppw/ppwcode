@@ -1,0 +1,12 @@
+﻿name: PPWCode.Vernacular.Semantics
+build: msbuild;
+  project=src\I\PPWCode.Vernacular.Semantics.I.csproj;
+  profile=net35;
+build: files; 
+  file=. -> LICENSE; 
+  file=. -> NOTICE; 
+use-symlinks: false
+depends: openwrap = 2.0 anchored content
+depends: Microsoft.StyleCop-PPWStyle >= 1.0 < 2.0
+depends: Microsoft.Contracts >= 1.0 < 2.0
+depends: PPWCode.Vernacular.Exceptions >= 2.0 < 3.0
