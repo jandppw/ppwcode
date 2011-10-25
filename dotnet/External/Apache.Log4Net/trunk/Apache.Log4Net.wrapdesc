@@ -1,0 +1,5 @@
+﻿name: Apache.Log4Net
+description: Apache log4net dll
+use-symlinks: false
+build: files; file=bin-net35 -> src\log4net.dll; file=bin-net35 -> src\log4net.xml; file=. -> license.txt; 
+depends: openwrap anchored content
