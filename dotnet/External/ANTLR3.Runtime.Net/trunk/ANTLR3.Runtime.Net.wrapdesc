@@ -1,0 +1,5 @@
+﻿name: ANTLR3.Runtime.Net
+build: files;
+  file=bin-net35 -> src\Antlr3.Runtime.dll
+use-symlinks: false
+depends: openwrap = 2.0 anchored content
