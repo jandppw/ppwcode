@@ -1,0 +1,6 @@
+﻿name: HibernatingRhinos.Profiler.Appender
+description: Appender dll for using NHibernate profiler
+build: files; 
+  file=bin-net35 -> src/HibernatingRhinos.Profiler.Appender.dll
+use-symlinks: false
+depends: openwrap = 2.0 anchored content
