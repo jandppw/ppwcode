@@ -6,4 +6,4 @@ build: files;
     file=. -> src\LinFu.license.txt;
     file=. -> src\lgpl.txt;
 use-symlinks: false
-depends: openwrap anchored content
+depends: openwrap = 2.0 anchored content
