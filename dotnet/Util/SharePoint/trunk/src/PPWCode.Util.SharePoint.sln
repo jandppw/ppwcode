@@ -15,14 +15,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		DebugServiceHosting|Any CPU = DebugServiceHosting|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1A239F63-2015-4AFB-8904-F7C73EE9F09D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1A239F63-2015-4AFB-8904-F7C73EE9F09D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1A239F63-2015-4AFB-8904-F7C73EE9F09D}.DebugServiceHosting|Any CPU.ActiveCfg = DebugServiceHosting|Any CPU
-		{1A239F63-2015-4AFB-8904-F7C73EE9F09D}.DebugServiceHosting|Any CPU.Build.0 = DebugServiceHosting|Any CPU
 		{1A239F63-2015-4AFB-8904-F7C73EE9F09D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A239F63-2015-4AFB-8904-F7C73EE9F09D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
