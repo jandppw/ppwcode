@@ -3,4 +3,5 @@ description: Microsoft.StyleCop libraries, with PeopleWare style configuration.
 build: files; file=build -> src\*;
 use-symlinks: false
 anchored: true
-depends: openwrap anchored content
+depends: openwrap = 2.0 anchored content
+
