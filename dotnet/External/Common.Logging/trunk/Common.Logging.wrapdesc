@@ -1,0 +1,7 @@
+﻿name: Common.Logging
+description: Common.Logging
+build: files;
+  file=bin-net35 -> src\Common.Logging.dll; 
+  file=. -> src\license.txt; 
+use-symlinks: false
+depends: openwrap = 2.0 anchored content
