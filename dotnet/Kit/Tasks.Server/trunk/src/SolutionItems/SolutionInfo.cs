@@ -26,9 +26,9 @@ using System.Reflection;
 [assembly: AssemblyTrademark("")]
 
 // version used by Windows for binary compatibility
-[assembly: AssemblyVersion("1.3.0.0")]
+[assembly: AssemblyVersion("2.0.0.0")]
 
 // version used for informational purposes
 // for bugfixes, this version number should be increased
 // and a tag should be made in subversion
-[assembly: AssemblyFileVersion("1.3.5311.0")]
+[assembly: AssemblyFileVersion("2.0.0.0")]
