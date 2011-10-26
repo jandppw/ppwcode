@@ -1,5 +1,5 @@
 <configuration>
-<!--
+    <!--
 /*
  * Copyright 2004 - $Date: 2008-11-15 23:58:07 +0100 (za, 15 nov 2008) $ by PeopleWare n.v..
  *
@@ -23,20 +23,22 @@
         <var name="UseProfiler" value="false" />
 
         <!-- database connection strings -->
-        <var name="TasksConnectionString"          value="Data Source=localhost;Initial Catalog=PensioB.Tasks;Integrated Security=True" />
+        <var name="TasksConnectionString"
+             value="Data Source=localhost;Initial Catalog=PensioB.Tasks;Integrated Security=True" />
 
         <!-- database connection strings used for tests -->
-        <var name="TestTasksConnectionString"      value="Data Source=localhost;Initial Catalog=Test.PensioB.Tasks;Integrated Security=True" />
+        <var name="TestTasksConnectionString"
+             value="Data Source=localhost;Initial Catalog=Test.PensioB.Tasks;Integrated Security=True" />
 
-        <!--<var name="TasksServiceFactory"           value="PPWCode.Kit.Tasks.API_I.ServiceHostingFactory, PPWCode.Kit.Tasks.API_I"/>-->
-        <!--<var name="TasksServiceFactory"           value="PPWCode.Kit.Tasks.Server.Mock.MockTaskServiceFactory, PPWCode.Kit.Tasks.Server.Mock"/>-->
-        <var name="TasksServiceFactory"            value="PPWCode.Kit.Tasks.Server.InProcHostingFactory, PPWCode.Kit.Tasks.Server"/>
-
-        <!-- DAO addresses -->
-        <var name="TasksDaoHost"                           value="localhost" />
+        <var name="TasksServiceFactory" value="PPWCode.Kit.Tasks.API_I.ServiceHostingFactory, PPWCode.Kit.Tasks.API_I" />
+        <!--<var name="TasksServiceFactory" value="PPWCode.Kit.Tasks.Server.Mock.MockTaskServiceFactory, PPWCode.Kit.Tasks.Server.Mock"/>-->
+        <!--<var name="TasksServiceFactory" value="PPWCode.Kit.Tasks.Server.InProcHostingFactory, PPWCode.Kit.Tasks.Server" />-->
 
         <!-- DAO addresses -->
-        <var name="TasksDaoPort"                           value="27300" />
+        <var name="TasksDaoHost" value="localhost" />
+
+        <!-- DAO addresses -->
+        <var name="TasksDaoPort" value="27300" />
 
         <!-- log4net -->
 
@@ -48,7 +50,7 @@
              -->
 
         <!-- activate EmailAppender or not -->
-        <var name="Log4NetEmailAppender"       value="" />
+        <var name="Log4NetEmailAppender" value="" />
         <!--
         <var name="Log4NetEmailAppender"
              value="&lt;appender-ref ref=&quot;EmailAppender&quot; /&gt;" />
@@ -56,10 +58,10 @@
 
         <var name="Log4NetLogFileName" value="logs\log-file.txt" />
         <var name="Log4NetSmtpSubject" value="" />
-        <var name="Log4NetSmtpFrom"    value="" />
-        <var name="Log4NetSmtpTo"      value="" />
-        <var name="Log4NetSmtpHost"    value="" />
-        <var name="Log4NetSmtpPort"    value="" />
+        <var name="Log4NetSmtpFrom" value="" />
+        <var name="Log4NetSmtpTo" value="" />
+        <var name="Log4NetSmtpHost" value="" />
+        <var name="Log4NetSmtpPort" value="" />
 
     </variables>
 
@@ -69,19 +71,21 @@
         <var name="UseProfiler" value="false" />
 
         <!-- database connection strings -->
-        <var name="TasksConnectionString"           value="Data Source=localhost;Initial Catalog=PensioB.Tasks;Integrated Security=True" />
+        <var name="TasksConnectionString"
+             value="Data Source=localhost;Initial Catalog=PensioB.Tasks;Integrated Security=True" />
 
         <!-- database connection strings used for tests -->
-        <var name="TestTasksConnectionString"       value="Data Source=localhost;Initial Catalog=Test.PensioB.Tasks;Integrated Security=True" />
+        <var name="TestTasksConnectionString"
+             value="Data Source=localhost;Initial Catalog=Test.PensioB.Tasks;Integrated Security=True" />
 
         <!-- spring objects -->
-        <var name="TasksServiceFactory"              value="PPWCode.Kit.Tasks.Server.Mock.ServiceHostingFactory, PPWCode.Kit.Tasks.Server.Mock"/>
+        <var name="TasksServiceFactory" value="PPWCode.Kit.Tasks.API_I.ServiceHostingFactory, PPWCode.Kit.Tasks.API_I" />
 
         <!-- DAO addresses -->
-        <var name="TasksDaoHost"                            value="localhost" />
+        <var name="TasksDaoHost" value="localhost" />
 
         <!-- DAO addresses -->
-        <var name="TasksDaoPort"                           value="27300" />
+        <var name="TasksDaoPort" value="27300" />
 
         <!-- log4net -->
 
@@ -93,7 +97,7 @@
              -->
 
         <!-- activate EmailAppender or not -->
-        <var name="Log4NetEmailAppender"       value="" />
+        <var name="Log4NetEmailAppender" value="" />
         <!--
         <var name="Log4NetEmailAppender"
              value="&lt;appender-ref ref=&quot;EmailAppender&quot; /&gt;" />
@@ -101,55 +105,10 @@
 
         <var name="Log4NetLogFileName" value="logs\log-file.txt" />
         <var name="Log4NetSmtpSubject" value="" />
-        <var name="Log4NetSmtpFrom"    value="" />
-        <var name="Log4NetSmtpTo"      value="" />
-        <var name="Log4NetSmtpHost"    value="" />
-        <var name="Log4NetSmtpPort"    value="" />
-
-    </variables>
-
-    <variables env="DebugServiceHosting">
-        <!-- Enable/Disable security / nhibernate profiler -->
-        <var name="UseSecurity" value="true" />
-        <var name="UseProfiler" value="false" />
-
-        <!-- database connection strings -->
-        <var name="TasksConnectionString"              value="Data Source=localhost;Initial Catalog=PensioB.Tasks;Integrated Security=True" />
-
-        <!-- database connection strings used for tests -->
-        <var name="TestTasksConnectionString"          value="Data Source=localhost;Initial Catalog=Test.PensioB.Tasks;Integrated Security=True" />
-
-        <!-- spring objects -->
-        <var name="TasksServiceFactory"                value="PPWCode.Kit.Tasks.API_I.ServiceHostingFactory, PPWCode.Kit.Tasks.API_I"/>
-
-        <!-- DAO addresses -->
-        <var name="TasksDaoHost"                           value="localhost" />
-
-        <!-- DAO addresses -->
-        <var name="TasksDaoPort"                           value="27300" />
-
-        <!-- log4net -->
-
-        <!-- activate RollingFileAppender or not -->
-        <var name="Log4NetRollingFileAppender" value="" />
-        <!--
-        <var name="Log4NetRollingFileAppender"
-             value="&lt;appender-ref ref=&quot;RollingFileAppender&quot; /&gt;" />
-             -->
-
-        <!-- activate EmailAppender or not -->
-        <var name="Log4NetEmailAppender"       value="" />
-        <!--
-        <var name="Log4NetEmailAppender"
-             value="&lt;appender-ref ref=&quot;EmailAppender&quot; /&gt;" />
-            -->
-
-        <var name="Log4NetLogFileName" value="logs\log-file.txt" />
-        <var name="Log4NetSmtpSubject" value="" />
-        <var name="Log4NetSmtpFrom"    value="" />
-        <var name="Log4NetSmtpTo"      value="" />
-        <var name="Log4NetSmtpHost"    value="" />
-        <var name="Log4NetSmtpPort"    value="" />
+        <var name="Log4NetSmtpFrom" value="" />
+        <var name="Log4NetSmtpTo" value="" />
+        <var name="Log4NetSmtpHost" value="" />
+        <var name="Log4NetSmtpPort" value="" />
 
     </variables>
 
