@@ -1,4 +1,4 @@
-name: PPWCode.Kit.Tasks.API_I
+name: PPWCode.Kit.Tasks.Server
 build: none
 use-symlinks: false
 depends: openwrap = 2.0 anchored content
