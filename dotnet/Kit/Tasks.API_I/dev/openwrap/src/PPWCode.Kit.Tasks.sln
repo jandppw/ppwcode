@@ -1,0 +1,110 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{92BE80A7-9616-422A-A704-DD2C09F9E058}"
+	ProjectSection(SolutionItems) = preProject
+		SolutionItems\App.config.Description.txt = SolutionItems\App.config.Description.txt
+		SolutionItems\configuration.user.xml = SolutionItems\configuration.user.xml
+		SolutionItems\configuration.xml = SolutionItems\configuration.xml
+		PensioB.Tasks.RemoteTest\PPWCode.Kit.Tasks.API_I.RemoteTest.testrunconfig = PensioB.Tasks.RemoteTest\PPWCode.Kit.Tasks.API_I.RemoteTest.testrunconfig
+		SolutionItems\Security.txt = SolutionItems\Security.txt
+		SolutionItems\SolutionInfo.cs = SolutionItems\SolutionInfo.cs
+		Tasks.xml = Tasks.xml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Kit.Tasks.API_I", "API_I\PPWCode.Kit.Tasks.API_I.csproj", "{7F2A56FD-2E56-4721-8DA8-3FA65FA2CFDD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Kit.Tasks.Server", "Server\PPWCode.Kit.Tasks.Server.csproj", "{43C0CF91-F289-48D3-96CD-1D56C0372227}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Kit.Tasks.Server.NTServiceHost", "Server.NTServiceHost\PPWCode.Kit.Tasks.Server.NTServiceHost.csproj", "{62C214CA-3FA5-47C0-AA49-6F0BEDF75C89}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Kit.Tasks.API_I.RemoteTest", "API_I.RemoteTest\PPWCode.Kit.Tasks.API_I.RemoteTest.csproj", "{6F6DCD3C-9E12-4BBA-AB8B-984FCC7ED8E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Kit.Tasks.Server.Mock", "Server.Mock\PPWCode.Kit.Tasks.Server.Mock.csproj", "{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL Scripts", "SQL Scripts", "{9ED9BBB6-2DFD-40A9-871D-244528BECF86}"
+	ProjectSection(SolutionItems) = preProject
+		SQL Scripts\DropObjects.sql = SQL Scripts\DropObjects.sql
+		SQL Scripts\ExecScript.bat = SQL Scripts\ExecScript.bat
+		SQL Scripts\PPWCode.Kit.Tasks.sql = SQL Scripts\PPWCode.Kit.Tasks.sql
+		SQL Scripts\runme_tasks.bat = SQL Scripts\runme_tasks.bat
+		SQL Scripts\runme_tasks.txt = SQL Scripts\runme_tasks.txt
+		SQL Scripts\runme_tasks_localhost.bat = SQL Scripts\runme_tasks_localhost.bat
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{B52C3FE5-2599-461E-A3E2-F7A60DD5C153}"
+	ProjectSection(SolutionItems) = preProject
+		Tools\CleanupBinObj.ps1 = Tools\CleanupBinObj.ps1
+		Tools\CleanupBinObj_How.txt = Tools\CleanupBinObj_How.txt
+		Tools\CreateService.bat = Tools\CreateService.bat
+		Tools\DistributionCopy.xml = Tools\DistributionCopy.xml
+		Tools\DropService.bat = Tools\DropService.bat
+		Tools\GenerateConfigFiles.xml = Tools\GenerateConfigFiles.xml
+		Tools\RealClean.xml = Tools\RealClean.xml
+		Tools\StartService.bat = Tools\StartService.bat
+		Tools\StopService.bat = Tools\StopService.bat
+	EndProjectSection
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PPWCode.Kit.Tasks.Setup", "PPWCode.Kit.Tasks.Setup\PPWCode.Kit.Tasks.Setup.vdproj", "{3882B476-1F63-4799-9FAF-77B4267AECFB}"
+EndProject
+Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		DebugServiceHosting|Any CPU = DebugServiceHosting|Any CPU
+		Documentation|Any CPU = Documentation|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7F2A56FD-2E56-4721-8DA8-3FA65FA2CFDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F2A56FD-2E56-4721-8DA8-3FA65FA2CFDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F2A56FD-2E56-4721-8DA8-3FA65FA2CFDD}.DebugServiceHosting|Any CPU.ActiveCfg = DebugServiceHosting|Any CPU
+		{7F2A56FD-2E56-4721-8DA8-3FA65FA2CFDD}.DebugServiceHosting|Any CPU.Build.0 = DebugServiceHosting|Any CPU
+		{7F2A56FD-2E56-4721-8DA8-3FA65FA2CFDD}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F2A56FD-2E56-4721-8DA8-3FA65FA2CFDD}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{7F2A56FD-2E56-4721-8DA8-3FA65FA2CFDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F2A56FD-2E56-4721-8DA8-3FA65FA2CFDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43C0CF91-F289-48D3-96CD-1D56C0372227}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43C0CF91-F289-48D3-96CD-1D56C0372227}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43C0CF91-F289-48D3-96CD-1D56C0372227}.DebugServiceHosting|Any CPU.ActiveCfg = DebugServiceHosting|Any CPU
+		{43C0CF91-F289-48D3-96CD-1D56C0372227}.DebugServiceHosting|Any CPU.Build.0 = DebugServiceHosting|Any CPU
+		{43C0CF91-F289-48D3-96CD-1D56C0372227}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{43C0CF91-F289-48D3-96CD-1D56C0372227}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{43C0CF91-F289-48D3-96CD-1D56C0372227}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43C0CF91-F289-48D3-96CD-1D56C0372227}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62C214CA-3FA5-47C0-AA49-6F0BEDF75C89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62C214CA-3FA5-47C0-AA49-6F0BEDF75C89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62C214CA-3FA5-47C0-AA49-6F0BEDF75C89}.DebugServiceHosting|Any CPU.ActiveCfg = DebugServiceHosting|Any CPU
+		{62C214CA-3FA5-47C0-AA49-6F0BEDF75C89}.DebugServiceHosting|Any CPU.Build.0 = DebugServiceHosting|Any CPU
+		{62C214CA-3FA5-47C0-AA49-6F0BEDF75C89}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{62C214CA-3FA5-47C0-AA49-6F0BEDF75C89}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{62C214CA-3FA5-47C0-AA49-6F0BEDF75C89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62C214CA-3FA5-47C0-AA49-6F0BEDF75C89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F6DCD3C-9E12-4BBA-AB8B-984FCC7ED8E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F6DCD3C-9E12-4BBA-AB8B-984FCC7ED8E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F6DCD3C-9E12-4BBA-AB8B-984FCC7ED8E6}.DebugServiceHosting|Any CPU.ActiveCfg = DebugServiceHosting|Any CPU
+		{6F6DCD3C-9E12-4BBA-AB8B-984FCC7ED8E6}.DebugServiceHosting|Any CPU.Build.0 = DebugServiceHosting|Any CPU
+		{6F6DCD3C-9E12-4BBA-AB8B-984FCC7ED8E6}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F6DCD3C-9E12-4BBA-AB8B-984FCC7ED8E6}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{6F6DCD3C-9E12-4BBA-AB8B-984FCC7ED8E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F6DCD3C-9E12-4BBA-AB8B-984FCC7ED8E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}.DebugServiceHosting|Any CPU.ActiveCfg = DebugServiceHosting|Any CPU
+		{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}.DebugServiceHosting|Any CPU.Build.0 = DebugServiceHosting|Any CPU
+		{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3882B476-1F63-4799-9FAF-77B4267AECFB}.Debug|Any CPU.ActiveCfg = Debug
+		{3882B476-1F63-4799-9FAF-77B4267AECFB}.DebugServiceHosting|Any CPU.ActiveCfg = Debug
+		{3882B476-1F63-4799-9FAF-77B4267AECFB}.Documentation|Any CPU.ActiveCfg = Debug
+		{3882B476-1F63-4799-9FAF-77B4267AECFB}.Release|Any CPU.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
