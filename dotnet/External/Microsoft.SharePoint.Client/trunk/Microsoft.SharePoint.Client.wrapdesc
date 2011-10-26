@@ -1,0 +1,8 @@
+name: Microsoft.SharePoint.Client
+description: Microsoft SharePoint client libraries.
+build: files; 
+  file=bin-net35 -> src\Microsoft.SharePoint.Client.dll; 
+  file=bin-net35 -> src\Microsoft.SharePoint.Client.Runtime.dll; 
+  file=. -> src\README.txt;
+use-symlinks: false
+depends: openwrap = 2.0 anchored content
