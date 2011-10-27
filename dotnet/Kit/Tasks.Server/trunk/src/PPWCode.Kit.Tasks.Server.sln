@@ -17,8 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Kit.Tasks.Server.NT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Kit.Tasks.API_I.RemoteTest", "API_I.RemoteTest\PPWCode.Kit.Tasks.API_I.RemoteTest.csproj", "{6F6DCD3C-9E12-4BBA-AB8B-984FCC7ED8E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Kit.Tasks.Server.Mock", "Server.Mock\PPWCode.Kit.Tasks.Server.Mock.csproj", "{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL Scripts", "SQL Scripts", "{9ED9BBB6-2DFD-40A9-871D-244528BECF86}"
 	ProjectSection(SolutionItems) = preProject
 		SQL Scripts\DropObjects.sql = SQL Scripts\DropObjects.sql
