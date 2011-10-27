@@ -1,6 +1,7 @@
 name: PPWCode.Kit.Tasks.API_I
 build: msbuild;
   project=src\API_I\PPWCode.Kit.Tasks.API_I.csproj;
+  project=src\Server.Mock\PPWCode.Kit.Tasks.Server.Mock.csproj;
   profile=net35;
 build: files;
   file=. -> LICENSE;
