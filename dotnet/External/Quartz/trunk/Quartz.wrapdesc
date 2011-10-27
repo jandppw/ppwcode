@@ -1,0 +1,12 @@
+﻿name: Quartz
+build: files; 
+  file=bin-net35 -> src\Quartz.dll;
+  file=bin-net35 -> src\Quartz.xml;
+  file=. -> src\readme.txt;
+  file=. -> src\license.txt;
+  file=. -> src\changelog.txt;
+  
+use-symlinks: false
+
+depends: openwrap = 2.0 anchored content
+depends: Common.Logging = 1.2.0
