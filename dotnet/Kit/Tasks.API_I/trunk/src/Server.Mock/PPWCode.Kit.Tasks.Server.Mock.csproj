@@ -123,9 +123,9 @@
     <Compile Include="MockTaskServiceFactory.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Server\PPWCode.Kit.Tasks.Server.csproj">
-      <Project>{43C0CF91-F289-48D3-96CD-1D56C0372227}</Project>
-      <Name>PPWCode.Kit.Tasks.Server</Name>
+    <ProjectReference Include="..\API_I\PPWCode.Kit.Tasks.API_I.csproj">
+      <Project>{7F2A56FD-2E56-4721-8DA8-3FA65FA2CFDD}</Project>
+      <Name>PPWCode.Kit.Tasks.API_I</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\..\wraps\openwrap\build\OpenWrap.CSharp.targets" />
