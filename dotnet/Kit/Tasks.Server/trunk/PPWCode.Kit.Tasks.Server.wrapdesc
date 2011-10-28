@@ -1,8 +1,15 @@
 # name
 name: PPWCode.Kit.Tasks.Server
 
-# meta package, used only for dependencies
-build: none
+# package contains Server project, can be used with inproc hosting
+# for integration tests in other projects
+# build configuration
+build: msbuild;
+  project=src\Server\PPWCode.Kit.Tasks.Server.csproj;
+  profile=net35;
+build: files;
+  file=. -> LICENSE;
+  file=. -> NOTICE; 
 
 # symlinks
 use-symlinks: false
