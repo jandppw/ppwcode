@@ -1,4 +1,11 @@
+# package name
 name: PPWCode.Kit.Tasks.API_I
+description: Tasks API mark I
+
+# version
+version: 2.1.0.*
+
+# build configuration
 build: msbuild;
   project=src\API_I\PPWCode.Kit.Tasks.API_I.csproj;
   project=src\Server.Mock\PPWCode.Kit.Tasks.Server.Mock.csproj;
@@ -6,7 +13,10 @@ build: msbuild;
 build: files;
   file=. -> LICENSE;
   file=. -> NOTICE; 
+
 use-symlinks: false
+
+# dependencies
 depends: openwrap = 2.0 anchored content
 depends: Microsoft.StyleCop-PPWStyle >= 1.0 < 2.0
 depends: Microsoft.Contracts >= 1.0 < 2.0
