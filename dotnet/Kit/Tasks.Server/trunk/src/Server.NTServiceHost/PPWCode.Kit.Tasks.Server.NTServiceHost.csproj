@@ -173,7 +173,7 @@
   -->
   <!-- targets that hook in the BeforeBuild, to generate correct App.config files -->
   <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets" />
-  <Import Project="$(SolutionDir)Tools\GenerateConfigFiles.xml" />
+  <Import Project="..\Tools\GenerateConfigFiles.xml" />
   <Target Name="BeforeBuild">
     <CallTarget Targets="GenerateConfigFilesUser" />
     <CallTarget Targets="GenerateConfigFilesDefault" />
