@@ -94,10 +94,6 @@
     <Compile Include="RemoteTestHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Server.Mock\PPWCode.Kit.Tasks.Server.Mock.csproj">
-      <Project>{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}</Project>
-      <Name>PPWCode.Kit.Tasks.Server.Mock</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Server\PPWCode.Kit.Tasks.Server.csproj">
       <Project>{43C0CF91-F289-48D3-96CD-1D56C0372227}</Project>
       <Name>PPWCode.Kit.Tasks.Server</Name>
@@ -124,5 +120,4 @@
     <CallTarget Targets="GenerateConfigFilesDefault" />
     <CallTarget Targets="DeleteUserConfigurationFileTemplate" />
   </Target>
-
 </Project>
