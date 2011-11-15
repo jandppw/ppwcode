@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{788185DD-7404-47DF-AFF3-698298A6F934}"
 	ProjectSection(SolutionItems) = preProject
+		..\PPWCode.Util.SharePoint.wrapdesc = ..\PPWCode.Util.SharePoint.wrapdesc
 		Solution Items\SolutionInfo.cs = Solution Items\SolutionInfo.cs
+		..\version = ..\version
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Util.SharePoint.I", "I\PPWCode.Util.SharePoint.I.csproj", "{1A239F63-2015-4AFB-8904-F7C73EE9F09D}"
@@ -25,5 +27,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+		OpenWrap.VisualStudioIntegration2008 = 1;Ensures OpenWrap initialization when a solution is opened.;OpenWrap Visual Studio Solution Add-in
 	EndGlobalSection
 EndGlobal
