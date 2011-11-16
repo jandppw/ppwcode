@@ -185,40 +185,60 @@ namespace PPWCode.Util.SharePoint.I
 
         public void UploadDocument(string relativeUrl, SharePointDocument doc)
         {
-            try
+            using (ClientContext spClientContext = GetSharePointClientContext())
             {
-                using (ClientContext spClientContext = GetSharePointClientContext())
+                //Check if the url exists
+                int index = relativeUrl.LastIndexOf("/");
+                string parentFolder = relativeUrl.Substring(0, index);
+
+                //Create intermediate folders if not exist
+                EnsureFolder(parentFolder);
+                spClientContext.ExecuteQuery();
+
+                try
                 {
-                    Web rootWeb = spClientContext.Site.RootWeb;
+                    string targetUrl = string.Format("{0}{1}", SharePointSiteUrl, relativeUrl);
+ 
+                    // Create a PUT Web request to upload the file.
+                    WebRequest request = WebRequest.Create(targetUrl);
 
-                    //Check if the url exists
-                    int index = relativeUrl.LastIndexOf("/");
-                    string parentFolder = relativeUrl.Substring(0, index);
-                    string filename = relativeUrl.Substring(index + 1);
+                    //Set credentials of the current security context
+                    request.Credentials = CredentialCache.DefaultCredentials;
+                    request.Method = "PUT";
 
-                    //Create intermediate folders if not exist
-                    EnsureFolder(parentFolder);
-                    Folder fldr = rootWeb.GetFolderByServerRelativeUrl(parentFolder);
-                    spClientContext.ExecuteQuery();
+                    // Create buffer to transfer file
+                    byte[] fileBuffer = new byte[1024];
 
-                    //Create File information
-                    var fciNewFileFromComputer = new FileCreationInformation
+                    // Write the contents of the local file to the request stream.
+                    using (Stream stream = request.GetRequestStream())
                     {
-                        Content = doc.Content,
-                        Url = filename,
-                        Overwrite = true
-                    };
+                        //Load the content from local file to stream
+                        using (MemoryStream ms = new MemoryStream(doc.Content))
+                        {
+                            ms.Position = 0;
+                            
+                            // Get the start point
+                            int startBuffer = ms.Read(fileBuffer, 0, fileBuffer.Length);
+                            for (int i = startBuffer; i > 0; i = ms.Read(fileBuffer, 0, fileBuffer.Length))
+                            {
+                                stream.Write(fileBuffer, 0, i);
+                            }
+                        }
+                    }
 
-                    //Upload the file
-                    File uploadedFile = fldr.Files.Add(fciNewFileFromComputer);
-                    spClientContext.Load(uploadedFile);
-                    spClientContext.ExecuteQuery();
+                    // Perform the PUT request
+                    WebResponse response = request.GetResponse();
+                    if (response != null)
+                    {
+                        //Close response
+                        response.Close();
+                    }
                 }
-            }
-            catch (Exception e)
-            {
-                s_Logger.Error(string.Format("UploadDocument({0}) failed using ClientContext {1}.", relativeUrl, SharePointSiteUrl), e);
-                throw;
+                catch (Exception e)
+                {
+                    s_Logger.Error(string.Format("UploadDocument({0}) failed using ClientContext {1}.", relativeUrl, SharePointSiteUrl), e);
+                    throw;
+                }
             }
         }
 
