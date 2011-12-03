@@ -8,8 +8,8 @@
     <ProjectGuid>{66A99D74-8A8F-4509-BD57-60CC6C1F5E29}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PPWCode.Util.OddsAndEnds.I</RootNamespace>
-    <AssemblyName>PPWCode.Util.OddsAndEnds.I</AssemblyName>
+    <RootNamespace>PPWCode.Value.I</RootNamespace>
+    <AssemblyName>PPWCode.Value.I</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <CodeContractsAssemblyMode>0</CodeContractsAssemblyMode>
@@ -109,7 +109,6 @@
     <Reference Include="System.ServiceModel">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -123,34 +122,14 @@
     <Compile Include="..\Solution Items\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
-    <Compile Include="ActiveDirectory\ADSearch.cs" />
-    <Compile Include="AssemblyHelpers\AssemblyHelper.cs" />
-    <Compile Include="EnumHelpers\EnumHelpers.cs" />
-    <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\DateTimeHelper.cs" />
-    <Compile Include="Extensions\EnumExtensions.cs" />
-    <Compile Include="Extensions\Grouping.cs" />
-    <Compile Include="Extensions\MathExtensions.cs" />
-    <Compile Include="Extensions\NamespaceDoc.cs" />
-    <Compile Include="Extensions\ObjectExtentions.cs" />
-    <Compile Include="Extensions\SpringExtensions.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="NamespaceDoc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Security\IdentityNameHelper.cs" />
-    <Compile Include="Serialization\GenericSerializationInfo.cs" />
-    <Compile Include="Extensions\SQLServerExtensions.cs" />
-    <Compile Include="Serialization\SerializationHelper.cs" />
-    <Compile Include="TypeConverter\LocalizedEnumConverter.cs" />
-    <Compile Include="TypeConverter\TypeConverterHelper.cs" />
-    <Compile Include="UnitTestHelpers\SequenceGenerator.cs" />
-    <Compile Include="UnitTestHelpers\ValueTypeSequences.cs" />
   </ItemGroup>
   <Import Project="..\..\wraps\openwrap\build\OpenWrap.CSharp.targets" />
   <Import Project="..\..\wraps\Microsoft.Stylecop-PPWStyle\build\Microsoft.StyleCop.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
