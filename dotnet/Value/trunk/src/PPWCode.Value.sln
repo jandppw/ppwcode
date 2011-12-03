@@ -1,14 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Value.I", "I\PPWCode.Value.I.csproj", "{66A99D74-8A8F-4509-BD57-60CC6C1F5E29}"
+Project("{B8397031-5002-4236-8B4D-974BED125D52}") = "PPWCode.Value.I", "I\PPWCode.Value.I.csproj", "{888D90A0-AC0D-4c37-9801-09B379576CE8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{788185DD-7404-47DF-AFF3-698298A6F934}"
+Project("{DCBC8387-9342-450e-97D0-8B3C3A944709}") = "Solution Items", "Solution Items", "{A2710124-E902-42c1-844C-B145E51ADD4B}"
 	ProjectSection(SolutionItems) = preProject
 		Solution Items\SolutionInfo.cs = Solution Items\SolutionInfo.cs
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Value.Test_I", "Test_I\PPWCode.Value.Test_I.csproj", "{F0A3B7A1-1089-41BC-BB7A-8662B7495CF9}"
+Project("{FF181B6F-F6A2-436a-AA0F-047A64E8C6AE}") = "PPWCode.Value.Test_I", "Test_I\PPWCode.Value.Test_I.csproj", "{07D8E691-3C1B-4ab5-BAF4-DC928CDD1EAE}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution

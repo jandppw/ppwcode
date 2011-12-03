@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F0A3B7A1-1089-41BC-BB7A-8662B7495CF9}</ProjectGuid>
+    <ProjectGuid>{07D8E691-3C1B-4ab5-BAF4-DC928CDD1EAE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PPWCode.Value.Test_I</RootNamespace>
@@ -115,7 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\I\PPWCode.Value.I.csproj">
-      <Project>{66A99D74-8A8F-4509-BD57-60CC6C1F5E29}</Project>
+      <Project>{888D90A0-AC0D-4c37-9801-09B379576CE8}</Project>
       <Name>PPWCode.Value.I</Name>
     </ProjectReference>
   </ItemGroup>
