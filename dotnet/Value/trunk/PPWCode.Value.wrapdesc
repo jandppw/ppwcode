@@ -1,10 +1,10 @@
-﻿name: PPWCode.Util.OddsAndEnds
+﻿name: PPWCode.Value
 build: msbuild;
-  project=src\I\PPWCode.Util.OddsAndEnds.I.csproj;
+  project=src\I\PPWCode.Value.I.csproj;
   profile=net35;
-build: files; 
-  file=. -> LICENSE; 
-  file=. -> NOTICE; 
+build: files;
+  file=. -> LICENSE;
+  file=. -> NOTICE;
 use-symlinks: false
 depends: openwrap = 2.0 anchored content
 depends: Microsoft.StyleCop-PPWStyle >= 1.0 < 2.0
