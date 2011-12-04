@@ -30,7 +30,15 @@ namespace PPWCode.Value.I.Time.Interval
     /// </summary>
     public abstract class AbstractBeginEndTimeInterval : AbstractTimeInterval
     {
-        //        @Invars(@Expression("! (begin == null && end == null)"))
+        #region Type invariants
+
+        [ContractInvariantMethod]
+        private void TypeInvariants()
+        {
+            Contract.Invariant(!(Begin == null && End == null));
+        }
+
+        #endregion
 
         #region Construction
 
