@@ -35,9 +35,8 @@ namespace PPWCode.Value.I.Time.Interval
         [ContractInvariantMethod]
         private void TypeInvariants()
         {
-            //Contract.Invariant(Begin != null || End != null);
-            Contract.Invariant(!(Begin == null && End == null));
-            // PROBLEM: IS EXECUTED ALSO WHEN CONSTRUCTOR FAILS WITH EXCEPTION!!!!
+            Contract.Invariant(m_Initialized ? !(Begin == null && End == null) : true, "QUICK FIX: m_Initialized is a workaround. See code.");
+            // PROBLEM: see http://msdn.microsoft.com/en-us/magazine/hh205755.aspx
             // SEE QUICK FIX IN CONSTRUCTOR
         }
 
@@ -45,19 +44,19 @@ namespace PPWCode.Value.I.Time.Interval
 
         #region Construction
 
+        private bool m_Initialized;
+
         protected AbstractBeginEndTimeInterval(DateTime? begin, DateTime? end)
         {
             Contract.Ensures(Begin == begin);
             Contract.Ensures(End == end);
-            Contract.EnsuresOnThrow<IllegalTimeIntervalException>(begin == null && end == null || begin > end);
+            Contract.EnsuresOnThrow<IllegalTimeIntervalException>((begin == null && end == null) || (begin > end));
 
+            /* START QUICK FIX (see invariant) */
+            m_Initialized = false;
+            /* END QUICK FIX */
             if (begin == null && end == null)
             {
-                ///* START QUICK FIX */
-                //// invariant is executed also when exception is thrown in constructor (which is idiotic)
-                //m_Begin = DateTime.Now;
-                //m_End = m_Begin;
-                ///* END QUICK FIX */
                 throw new IllegalTimeIntervalException(GetType(), null, null, "NOT_BEGIN_AND_END_NULL", null);
             }
             if (begin > end)
@@ -66,6 +65,9 @@ namespace PPWCode.Value.I.Time.Interval
             }
             m_Begin = begin;
             m_End = end;
+            /* START QUICK FIX (see invariant) */
+            m_Initialized = true;
+            /* END QUICK FIX */
         }
 
         #endregion

@@ -90,9 +90,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
             DateTime past = new DateTime(1995, 4, 24);
             DateTime future = new DateTime(2223, 5, 13);
             DateTime now = DateTime.Now;
-            DateTime?[] dates = {
-                null, past, now, future
-            };
+            DateTime?[] dates = { null, past, now, future };
             foreach (DateTime? d1 in dates)
             {
                 foreach (DateTime? d2 in dates)
@@ -108,5 +106,97 @@ namespace PPWCode.Value.Test_I.Time.Interval
                 }
             }
         }
+
+        #region extra constructor tests
+        // extra constructor tests to find test failures in above method
+
+        [TestMethod]
+        public virtual void TestConstructorNotNullNotNull()
+        {
+            try
+            {
+                DateTime past = new DateTime(1995, 4, 24);
+                DateTime future = new DateTime(2223, 5, 13);
+                AbstractBeginEndTimeInterval subject = new StubAbstractBeginEndTimeInterval(past, future);
+            }
+            catch (IllegalTimeIntervalException)
+            {
+                Assert.Fail();
+            }
+        }
+
+        [TestMethod]
+        public virtual void TestConstructorNotNullNotNullZeroDuration()
+        {
+            try
+            {
+                DateTime d = new DateTime(1995, 4, 24);
+                AbstractBeginEndTimeInterval subject = new StubAbstractBeginEndTimeInterval(d, d);
+            }
+            catch (IllegalTimeIntervalException)
+            {
+                Assert.Fail();
+            }
+        }
+
+        [TestMethod]
+        public virtual void TestConstructorNotNullNull()
+        {
+            try
+            {
+                DateTime past = new DateTime(1995, 4, 24);
+                AbstractBeginEndTimeInterval subject = new StubAbstractBeginEndTimeInterval(past, null);
+            }
+            catch (IllegalTimeIntervalException)
+            {
+                Assert.Fail();
+            }
+        }
+
+        [TestMethod]
+        public virtual void TestConstructorNullNotNull()
+        {
+            try
+            {
+                DateTime future = new DateTime(2223, 5, 13);
+                AbstractBeginEndTimeInterval subject = new StubAbstractBeginEndTimeInterval(null, future);
+            }
+            catch (IllegalTimeIntervalException)
+            {
+                Assert.Fail();
+            }
+        }
+
+        [TestMethod]
+        public virtual void TestConstructorNotNullNotNullReversed()
+        {
+            try
+            {
+                DateTime past = new DateTime(1995, 4, 24);
+                DateTime future = new DateTime(2223, 5, 13);
+                AbstractBeginEndTimeInterval subject = new StubAbstractBeginEndTimeInterval(future, past);
+                Assert.Fail();
+            }
+            catch (IllegalTimeIntervalException)
+            {
+                // NOP
+            }
+        }
+
+        [TestMethod]
+        public virtual void TestConstructorNullNull()
+        {
+            try
+            {
+                AbstractBeginEndTimeInterval subject = new StubAbstractBeginEndTimeInterval(null, null);
+                Assert.Fail();
+            }
+            catch (IllegalTimeIntervalException)
+            {
+                // NOP
+            }
+        }
+
+        #endregion
     }
 }

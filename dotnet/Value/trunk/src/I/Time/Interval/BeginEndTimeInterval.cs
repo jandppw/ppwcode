@@ -35,7 +35,7 @@ namespace PPWCode.Value.I.Time.Interval
         {
             Contract.Ensures(Begin == begin);
             Contract.Ensures(End == end);
-            Contract.EnsuresOnThrow<IllegalTimeIntervalException>(begin == null && end == null || begin > end);
+            Contract.EnsuresOnThrow<IllegalTimeIntervalException>((begin == null && end == null) || (begin > end));
 
             // NOP
         }
