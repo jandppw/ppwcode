@@ -47,19 +47,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
 
         #region Additional test attributes
 
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-
-        public IList<AbstractBeginEndTimeInterval> BeginEndSubjects
+        public IList<AbstractBeginEndTimeInterval> AbstractBeginEndSubjects
         {
             get
             {
@@ -68,21 +56,20 @@ namespace PPWCode.Value.Test_I.Time.Interval
         }
 
         [TestInitialize()]
-        public override void MyTestInitialize()
+        public override void TestInitialize()
         {
-            List<AbstractTimeInterval> s = new List<AbstractTimeInterval>();
+            InitSubjects();
             DateTime now = DateTime.Now;
             AbstractBeginEndTimeInterval subject = new StubAbstractBeginEndTimeInterval(now, null);
-            s.Add(subject);
+            AddSubject(subject);
             subject = new StubAbstractBeginEndTimeInterval(null, now);
-            s.Add(subject);
+            AddSubject(subject);
             subject = new StubAbstractBeginEndTimeInterval(now, now);
-            s.Add(subject);
+            AddSubject(subject);
             DateTime b = new DateTime(2000, 1, 1);
             DateTime e = new DateTime(2122, 12, 31);
             subject = new StubAbstractBeginEndTimeInterval(b, e);
-            s.Add(subject);
-            MSubjects = s;
+            AddSubject(subject);
         }
 
         #endregion
@@ -91,14 +78,14 @@ namespace PPWCode.Value.Test_I.Time.Interval
         public void TestDuration()
         {
             TimeSpan? result = null;
-            foreach (AbstractBeginEndTimeInterval subject in BeginEndSubjects)
+            foreach (AbstractBeginEndTimeInterval subject in AbstractBeginEndSubjects)
             {
                 result = subject.Duration;
             }
         }
 
         [TestMethod]
-        public void TestConstructor()
+        public virtual void TestConstructor()
         {
             DateTime past = new DateTime(1995, 4, 24);
             DateTime future = new DateTime(2223, 5, 13);

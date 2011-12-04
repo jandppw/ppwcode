@@ -17,6 +17,7 @@ limitations under the License.
 #region Using
 
 using System;
+using System.Diagnostics.Contracts;
 
 #endregion
 
@@ -41,10 +42,10 @@ namespace PPWCode.Value.I.Time.Interval
         public override sealed bool Equals(object obj)
         {
             // F*CK
-            //Contract.Ensures(Contract.Result<bool>() == 
-            //    ((obj == null || GetType() != obj.GetType())
-            //        ? false
-            //        : (TimeIntervalRelation.MostCertainTimeIntervalRelation(this, (ITimeInterval)obj) == TimeIntervalRelation.EQUALS)));
+            Contract.Ensures(Contract.Result<bool>() ==
+                ((obj == null || GetType() != obj.GetType())
+                    ? false
+                    : (TimeIntervalRelation.MostCertainTimeIntervalRelation(this, (ITimeInterval)obj) == TimeIntervalRelation.EQUALS)));
 
             return (obj != null) && GetType().IsInstanceOfType(obj)
                    && (TimeIntervalRelation.MostCertainTimeIntervalRelation(this, (ITimeInterval)obj)

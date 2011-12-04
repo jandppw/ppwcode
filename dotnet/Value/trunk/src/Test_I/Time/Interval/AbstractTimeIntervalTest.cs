@@ -75,56 +75,53 @@ namespace PPWCode.Value.Test_I.Time.Interval
 
         #region Additional test attributes
 
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-
-        protected List<AbstractTimeInterval> MSubjects;
+        private List<AbstractTimeInterval> m_Subjects;
 
         public IList<AbstractTimeInterval> Subjects
         {
             get
             {
-                return MSubjects;
+                return m_Subjects;
             }
         }
 
-        [TestInitialize()]
-        public virtual void MyTestInitialize()
+        protected void InitSubjects()
         {
-            List<AbstractTimeInterval> s = new List<AbstractTimeInterval>();
+            m_Subjects = new List<AbstractTimeInterval>();
+        }
+
+        protected void AddSubject(AbstractTimeInterval subject)
+        {
+            m_Subjects.Add(subject);
+        }
+
+        [TestInitialize()]
+        public virtual void TestInitialize()
+        {
+            InitSubjects();
             DateTime now = DateTime.Now;
             AbstractTimeInterval subject = new StubAbstractTimeInterval(now, null, null);
-            s.Add(subject);
+            AddSubject(subject);
             subject = new StubAbstractTimeInterval(null, now, null);
-            s.Add(subject);
+            AddSubject(subject);
             subject = new StubAbstractTimeInterval(now, null, new TimeSpan());
-            s.Add(subject);
+            AddSubject(subject);
             subject = new StubAbstractTimeInterval(now, now, null);
-            s.Add(subject);
+            AddSubject(subject);
             subject = new StubAbstractTimeInterval(now, now, new TimeSpan());
-            s.Add(subject);
+            AddSubject(subject);
             DateTime b = new DateTime(2000, 1, 1);
             DateTime e = new DateTime(2122, 12, 31);
             subject = new StubAbstractTimeInterval(b, e, null);
-            s.Add(subject);
+            AddSubject(subject);
             subject = new StubAbstractTimeInterval(b, e, e - b);
-            s.Add(subject);
-            MSubjects = s;
+            AddSubject(subject);
         }
 
         [TestCleanup()]
-        public virtual void MyTestCleanup()
+        public virtual void TestCleanup()
         {
-            MSubjects = null;
+            m_Subjects = null;
         }
 
         #endregion
