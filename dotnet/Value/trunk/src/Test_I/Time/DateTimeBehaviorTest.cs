@@ -6,9 +6,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace PPWCode.Value.Test_I.Time
 {
-    /// <summary>
-    /// Summary description for DateTimeBehaviorTest
-    /// </summary>
     [TestClass]
     public class DateTimeBehaviorTest
     {
