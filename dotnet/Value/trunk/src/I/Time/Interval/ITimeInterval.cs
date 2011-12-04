@@ -150,11 +150,9 @@ namespace PPWCode.Value.I.Time.Interval
             Contract.Invariant(Begin != null && End != null ? Duration != null : true);
             Contract.Invariant(Begin != null && Duration != null ? End != null : true);
             Contract.Invariant(End != null && Duration != null ? Begin != null : true);
-            Contract.Invariant(Begin != null && End != null ? Begin.Value <= End.Value : true);
-            Contract.Invariant(Duration != null ? TimeSpan.Zero <= Duration.Value : true);
-            Contract.Invariant((Begin != null && End != null && Duration != null)
-                ? Duration.Value == End.Value - Begin.Value
-                : true);
+            Contract.Invariant(Begin != null && End != null ? Begin <= End : true);
+            Contract.Invariant(Duration != null ? TimeSpan.Zero <= Duration : true);
+            Contract.Invariant((Begin != null && End != null && Duration != null) ? Duration == End - Begin : true);
         }
 
         #endregion

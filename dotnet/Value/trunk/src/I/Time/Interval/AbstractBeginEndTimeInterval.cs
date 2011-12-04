@@ -52,7 +52,7 @@ namespace PPWCode.Value.I.Time.Interval
             {
                 throw new IllegalTimeIntervalException(GetType(), null, null, "NOT_BEGIN_AND_END_NULL", null);
             }
-            if (begin != null && end != null && (begin.Value > end.Value))
+            if (begin > end)
             {
                 throw new IllegalTimeIntervalException(GetType(), begin, end, "NOT_BEGIN_LE_END", null);
             }
@@ -93,6 +93,7 @@ namespace PPWCode.Value.I.Time.Interval
             get
             {
                 Contract.Ensures(Contract.Result<TimeSpan?>() == (Begin == null || End == null ? null : End - Begin));
+
                 if (m_Begin == null || m_End == null)
                 {
                     return null;

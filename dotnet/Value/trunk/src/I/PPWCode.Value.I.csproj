@@ -129,6 +129,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Time\Interval\AbstractBeginEndTimeInterval.cs" />
     <Compile Include="Time\Interval\AbstractTimeInterval.cs" />
+    <Compile Include="Time\Interval\BeginEndTimeInterval.cs" />
     <Compile Include="Time\Interval\IllegalTimeIntervalException.cs" />
     <Compile Include="Time\Interval\ITimeInterval.cs" />
     <Compile Include="Time\Interval\TimeIntervalRelation.cs" />
