@@ -21,7 +21,7 @@ using System.Linq;
 
 #endregion
 
-namespace PPWCode.Util.OddsAndEnds.I.Extensions
+namespace PPWCode.Value.I.Extensions
 {
     public static class DateTimeHelper
     {
@@ -113,7 +113,7 @@ namespace PPWCode.Util.OddsAndEnds.I.Extensions
             // ReSharper disable PossibleInvalidOperationException
             IEnumerable<DateTime> dts = dt.Where(o => o.HasValue).Select(o => o.Value);
             // ReSharper restore PossibleInvalidOperationException
-            return !dts.IsEmpty()
+            return dts.Count() > 0
                        ? dts.Min()
                        : default(DateTime?);
         }
@@ -162,7 +162,7 @@ namespace PPWCode.Util.OddsAndEnds.I.Extensions
             // ReSharper disable PossibleInvalidOperationException
             IEnumerable<DateTime> dts = dt.Where(o => o.HasValue).Select(o => o.Value);
             // ReSharper restore PossibleInvalidOperationException
-            return !dts.IsEmpty()
+            return dts.Count() > 0
                        ? dts.Max()
                        : default(DateTime?);
         }
