@@ -98,7 +98,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
         }
 
         [TestInitialize()]
-        public void MyTestInitialize()
+        public virtual void MyTestInitialize()
         {
             List<AbstractTimeInterval> s = new List<AbstractTimeInterval>();
             DateTime now = DateTime.Now;
@@ -122,7 +122,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
         }
 
         [TestCleanup()]
-        public void MyTestCleanup()
+        public virtual void MyTestCleanup()
         {
             MSubjects = null;
         }
