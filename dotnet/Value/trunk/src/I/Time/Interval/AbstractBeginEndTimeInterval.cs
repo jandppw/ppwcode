@@ -38,14 +38,13 @@ namespace PPWCode.Value.I.Time.Interval
         {
             Contract.Ensures(Begin == begin);
             Contract.Ensures(End == end);
-            Contract.EnsuresOnThrow<IllegalTimeIntervalException>(begin == null && end == null);
-            Contract.EnsuresOnThrow<IllegalTimeIntervalException>(begin > end);
+            Contract.EnsuresOnThrow<IllegalTimeIntervalException>(begin == null && end == null || begin > end);
 
             if (begin == null && end == null)
             {
-                throw new IllegalTimeIntervalException(GetType(), begin, end, "NOT_BEGIN_AND_END_NULL", null);
+                throw new IllegalTimeIntervalException(GetType(), null, null, "NOT_BEGIN_AND_END_NULL", null);
             }
-            if (begin != null && end != null && (begin > end))
+            if (begin != null && end != null && (begin.Value > end.Value))
             {
                 throw new IllegalTimeIntervalException(GetType(), begin, end, "NOT_BEGIN_LE_END", null);
             }
