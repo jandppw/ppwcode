@@ -20,11 +20,11 @@ using System.Linq;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using PPWCode.Util.OddsAndEnds.I.Extensions;
+using PPWCode.Value.I.Extensions;
 
 #endregion
 
-namespace PPWCode.Util.OddsAndEnds.Test_I
+namespace PPWCode.Value.Test_I
 {
     [TestClass]
     public class DateTimeHelperTest

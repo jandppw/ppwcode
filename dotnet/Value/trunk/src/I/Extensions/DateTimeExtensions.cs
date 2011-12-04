@@ -22,7 +22,7 @@ using System.Linq;
 
 #endregion
 
-namespace PPWCode.Util.OddsAndEnds.I.Extensions
+namespace PPWCode.Value.I.Extensions
 {
     public static class DateTimeExtensions
     {

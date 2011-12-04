@@ -16,14 +16,14 @@ using System;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using PPWCode.Util.OddsAndEnds.I.Extensions;
+using PPWCode.Value.I.Extensions;
 
-namespace PPWCode.Util.OddsAndEnds.Test_I
+namespace PPWCode.Value.Test_I
 {
     [TestClass]
     public class DateTimeExtensionsTest
     {
-        [TestMethod, Description("DateTimeExtensions FirstDayOfCurrentQuarter")]
+        [TestMethod, Description("DateTimeExtensions2 FirstDayOfCurrentQuarter")]
         public void TestFirstDayOfCurrentQuarter()
         {
             Assert.AreEqual(new DateTime(2000, 1, 1), new DateTime(2000, 3, 28).FirstDayOfQuarter());
@@ -31,7 +31,7 @@ namespace PPWCode.Util.OddsAndEnds.Test_I
             Assert.AreEqual(new DateTime(2000, 7, 1), new DateTime(2000, 7, 1).FirstDayOfQuarter());
         }
 
-        [TestMethod, Description("DateTimeExtensions FirstDayOfNextQuarter")]
+        [TestMethod, Description("DateTimeExtensions2 FirstDayOfNextQuarter")]
         public void TestFirstDayOfNextQuarter()
         {
             Assert.AreEqual(new DateTime(2000, 4, 1), new DateTime(2000, 3, 28).FirstDayOfNextQuarter());
@@ -40,7 +40,7 @@ namespace PPWCode.Util.OddsAndEnds.Test_I
             Assert.AreEqual(new DateTime(2011, 1, 1), new DateTime(2010, 10, 1).FirstDayOfNextQuarter());
         }
 
-        [TestMethod, Description("DateTimeExtensions LastDayOfCurrentQuarter")]
+        [TestMethod, Description("DateTimeExtensions2 LastDayOfCurrentQuarter")]
         public void TestLastDayOfCurrentQuarter()
         {
             Assert.AreEqual(new DateTime(2000, 3, 31), new DateTime(2000, 3, 28).LastDayOfCurrentQuarter());
@@ -48,7 +48,7 @@ namespace PPWCode.Util.OddsAndEnds.Test_I
             Assert.AreEqual(new DateTime(2000, 9, 30), new DateTime(2000, 7, 1).LastDayOfCurrentQuarter());
         }
 
-        [TestMethod, Description("DateTimeExtensions LastDayOfNextQuarter")]
+        [TestMethod, Description("DateTimeExtensions2 LastDayOfNextQuarter")]
         public void TestLastDayOfNextQuarter()
         {
             Assert.AreEqual(new DateTime(2000, 6, 30), new DateTime(2000, 3, 28).LastDayOfNextQuarter());
@@ -56,7 +56,7 @@ namespace PPWCode.Util.OddsAndEnds.Test_I
             Assert.AreEqual(new DateTime(2000, 12, 31), new DateTime(2000, 7, 1).LastDayOfNextQuarter());
         }
 
-        [TestMethod, Description("DateTimeExtensions FirstDayOfQuarter(string)")]
+        [TestMethod, Description("DateTimeExtensions2 FirstDayOfQuarter(string)")]
         public void TestFirstDayOfQuarterString()
         {
             Assert.AreEqual(new DateTime(2000, 1, 1), "20001".FirstDayOfQuarter());
@@ -64,7 +64,7 @@ namespace PPWCode.Util.OddsAndEnds.Test_I
             Assert.AreEqual(new DateTime(2000, 10, 1), "20004".FirstDayOfQuarter());
         }
 
-        [TestMethod, Description("DateTimeExtensions FirstDayOfQuarter(int)")]
+        [TestMethod, Description("DateTimeExtensions2 FirstDayOfQuarter(int)")]
         public void TestFirstDayOfQuarterInt()
         {
             Assert.AreEqual(new DateTime(2000, 1, 1), 20001.FirstDayOfQuarter());
