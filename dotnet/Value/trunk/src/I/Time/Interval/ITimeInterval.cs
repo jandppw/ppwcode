@@ -23,53 +23,58 @@ using System.Diagnostics.Contracts;
 
 namespace PPWCode.Value.I.Time.Interval
 {
-/**
- * <p>A time interval is a duration between 2 points in time. <strong>Time in general, and intervals in particular,
- *   are treacherously difficult to reason a about. Beware.</strong> Experience shows that falling back to
- *   the begin and end dates as separated dates and reasoning about them does not solve the complexity, and results
- *   in even more difficult reasonings and is even more error prone.</p>
- * <p><em>We strongly suggest that you use {@link TimeIntervalRelation} for reasoning about time intervals.</em></p>
- * <p>For time intervals, we impose a few choices that, in our experience, are good choices.</p>
- *
- * <h3>Interval</h3>
- * <p>We choose for all time intervals to express <em>half, right-open</em> time intervals. A consistent half-open
- *   interval helps in avoiding awkward border conditions. We have chosen to always use half, <em>right</em>-open
- *   intervals for several reasons, stemming from philosophy, the similarity between limitations in physics due to
- *   the finite speed of light and processing and remote communication, the similarity between the impossibility to
- *   express simultaneity of events in physics due to relativity (see
- *   <a href="http://www.amazon.com/About-Time-Einsteins-Unfinished-Revolution/dp/0684818221/ref=sr_1_1?ie=UTF8&amp;s=books&amp;qid=1224448626&amp;sr=1-1">About
- *   Time: Einstein's Unfinished Revolution; <cite>Paul Davies</cite></a>) and the drift of clocks in different
- *   computers in distributed systems, and other half-baked (or half-drunk) reflections. If you bring a bottle, we
- *   can talk about this.<p>
- *
- * <h3>Three properties and incomplete data</h3>
- * <p>A time interval has a {@link #getBegin() begin time}, an {@link #getEnd() end time}, and a
- *   {@link #getDuration() duration}, which are interrelated. The interface does not define which of the 2 of those
- *   3 should be stored, and which should be calculated.</p>
- * <p>The begin date, the end date and the duration can be {@code null}. The semantics of this is to be defined by
- *   the user case by case. We often encounter the use case of open-ended time intervals: an employment spans a time
- *   interval of time, but during most of that time interval, only the begin time is known. In such cases, a
- *   mandatory begin date, and an unknown end date and duration is used, until the end date is decided on. How to deal
- *   with unknown or constrained begin and end times is described in {@link TimeIntervalRelation}.</p>
- * <p>When one basic property is {@code null}, there can be no calculations, and the derived property will be
- *   {@code null} also.</p>
- * <p>{@code TimeInterval TimeIntervals} with all 3 properties {@code null} make no sense
- *   and are prohibited.</p>
- *
- * <h3>Implementations</h3>
- * <p>This package offers many subtypes of {@code TimeInterval}. We believe it is, in this case, more appropriate to
- *   introduce different subtypes for different constraints on time intervals, instead of limiting a general time
- *   interval implementation in the use code. This way, we can add specialized user interfaces, Hibernate user types,
- *   JPA value handlers, etcetera, that are tweaked to specific constraints. E.g., a time interval that uses days as
- *   a time quant, will have a simpler user interface than a time interval that needs a user interface that is precise
- *   to the millisecond.</p>
- * <p>Since this is an {@link ImmutableValue}, implementations should offer a good public constructor, and should
- *   be declared {@code final}.
- *
- * @author Nele Smeets
- * @author Jan Dockx
- * @author Peopleware n.v.
- */
+    /// <summary>
+    /// <para>A time interval is a duration between 2 points in time.
+    /// <strong>Time in general, and intervals in particular, are treacherously difficult to reason
+    /// about. Beware.</strong></para>
+    /// </summary>
+    /// <remarks>
+    /// <para><strong>Time in general, and intervals in particular, are treacherously difficult to reason
+    /// about. Beware.</strong> Experience shows that falling back to the begin and end dates as 
+    /// separated dates and reasoning about them does not solve the complexity, and results in even
+    /// more difficult reasonings and is even more error prone.</para>
+    /// <para><em>We strongly suggest that you use <see cref="TimeIntervalRelation"/> for reasoning 
+    /// about time intervals.</em></para>
+    /// <para>For time intervals, we impose a few choices that, in our experience, are good
+    /// choices.</para>
+    /// 
+    /// <h3>Interval</h3>
+    /// <para>We choose for all time intervals to express <em>half, right-open</em> time intervals.
+    /// A consistent half-open interval helps in avoiding awkward border conditions. We have chosen
+    /// to always use half, <em>right</em>-open intervals for several reasons, stemming from philosophy,
+    /// the similarity between limitations in physics due to the finite speed of light and processing and remote
+    /// communication, the similarity between the impossibility to express simultaneity of events in physics due to
+    /// relativity (see
+    /// <a href="http://www.amazon.com/About-Time-Einsteins-Unfinished-Revolution/dp/0684818221/ref=sr_1_1?ie=UTF8&amp;s=books&amp;qid=1224448626&amp;sr=1-1">About
+    /// Time: Einstein's Unfinished Revolution; <cite>Paul Davies</cite></a>) and the drift of clocks in different
+    /// computers in distributed systems, and other half-baked (or half-drunk) reflections. If you bring a bottle,
+    /// we can talk about this.</para>
+    /// 
+    /// <h3>Three properties and incomplete data</h3>
+    /// <para>A time interval has a <see cref="Begin">begin time</see>, an <see cref="End">end time</see>
+    /// <see cref="Duration">duration</see>, which are interrelated. The interface does not define which
+    /// 2 of those 3 should be stored, and which should be calculated.</para>
+    /// <para>The begin date, the end date and the duration can be <c>null</c>. The semantics of this is 
+    /// to be defined by the user case by case. We often encounter the use case of open-ended time intervals:
+    /// an employment spans a time interval of time, but during most of that time interval, only the begin
+    /// time is known. In such cases, a mandatory begin date, and an unknown end date and duration is used,
+    /// until the end date is decided on. How to deal with unknown or constrained begin and end times is 
+    /// described in <see cref="TimeIntervalRelation"/>.</para>
+    /// <para>When one basic property is <c>null</c>, there can be no calculations, and the derived 
+    /// property will be <c>null</c> also.</para>
+    /// <para><c>ITimeIntervals</c> with all 3 properties <c>null</c> make no sense and are
+    /// prohibited.</para>
+    /// 
+    /// <h3>Implementations</h3>
+    /// <para>This namespace offers many subtypes of <c>ITimeInterval</c>. We believe it is, in this case, 
+    /// more appropriate to introduce different subtypes for different constraints on time intervals,
+    /// instead of limiting a general time interval implementation in the use code. This way, we can add
+    /// specialized user interfaces, Hibernate user types, etcetera, that are tweaked to specific constraints. 
+    /// E.g., a time interval that uses days as a time quant, will have a simpler user interface than a time 
+    /// interval that needs a user interface that is precise to the millisecond.</para>
+    /// <para>Since this is an <see cref="MUDOIImmutableValue"/>, implementations should offer a good public
+    /// constructor, and should be declared <c>sealed</c>.</para>
+    /// </remarks>
     [ContractClass(typeof(ITimeIntervalContract))]
     public interface ITimeInterval /* MUDO extends IImmutableValue */
     {
@@ -136,6 +141,24 @@ namespace PPWCode.Value.I.Time.Interval
     [ContractClassFor(typeof(ITimeInterval))]
     public abstract class ITimeIntervalContract : ITimeInterval
     {
+        #region Type invariants
+
+        [ContractInvariantMethod]
+        private void TypeInvariants()
+        {
+            Contract.Invariant(! (Begin == null && End == null && Duration == null));
+            Contract.Invariant(Begin != null && End != null ? Duration != null : true);
+            Contract.Invariant(Begin != null && Duration != null ? End != null : true);
+            Contract.Invariant(End != null && Duration != null ? Begin != null : true);
+            Contract.Invariant(Begin != null && End != null ? Begin.Value <= End.Value : true);
+            Contract.Invariant(Duration != null ? TimeSpan.Zero <= Duration.Value : true);
+            Contract.Invariant((Begin != null && End != null && Duration != null)
+                ? Duration.Value == End.Value - Begin.Value
+                : true);
+        }
+
+        #endregion
+
         #region Implementation of IPerson
 
         public DateTime? Begin
