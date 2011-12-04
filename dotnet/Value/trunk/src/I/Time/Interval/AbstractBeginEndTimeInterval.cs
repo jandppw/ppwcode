@@ -35,7 +35,10 @@ namespace PPWCode.Value.I.Time.Interval
         [ContractInvariantMethod]
         private void TypeInvariants()
         {
+            //Contract.Invariant(Begin != null || End != null);
             Contract.Invariant(!(Begin == null && End == null));
+            // PROBLEM: IS EXECUTED ALSO WHEN CONSTRUCTOR FAILS WITH EXCEPTION!!!!
+            // SEE QUICK FIX IN CONSTRUCTOR
         }
 
         #endregion
@@ -50,6 +53,11 @@ namespace PPWCode.Value.I.Time.Interval
 
             if (begin == null && end == null)
             {
+                ///* START QUICK FIX */
+                //// invariant is executed also when exception is thrown in constructor (which is idiotic)
+                //m_Begin = DateTime.Now;
+                //m_End = m_Begin;
+                ///* END QUICK FIX */
                 throw new IllegalTimeIntervalException(GetType(), null, null, "NOT_BEGIN_AND_END_NULL", null);
             }
             if (begin > end)
