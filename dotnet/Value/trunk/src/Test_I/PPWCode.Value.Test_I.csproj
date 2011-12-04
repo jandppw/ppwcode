@@ -112,6 +112,7 @@
     <Compile Include="DateTimeExtensionsTest.cs" />
     <Compile Include="DateTimeHelperTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Time\DateTimeBehaviorTest.cs" />
     <Compile Include="Time\Interval\AbstractTimeIntervalTest.cs" />
     <Compile Include="Time\Interval\AbstractBeginEndTimeIntervalTest.cs" />
   </ItemGroup>
