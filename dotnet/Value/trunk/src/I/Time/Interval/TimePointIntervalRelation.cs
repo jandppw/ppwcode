@@ -363,11 +363,15 @@ namespace PPWCode.Value.I.Time.Interval
         /// <para>Although this is intended to create any disjunction of the basic relations,
         /// you can use any relation in the argument list.</para>
         /// </summary>
-        /// <return>
+        /// <returns>
         /// <para>This is the union of all time point-interval relations in
         /// <paramref name="tpirs"/>, when they are considered as sets of basic
         /// relations.</para>
-        /// </return>
+        /// </returns>
+        /// <remarks>
+        /// <para><see cref="op_BitwiseOr">|</see> is a binary operator version of this method.</para>
+        /// </remarks>
+        [Pure]
         public static TimePointIntervalRelation Or(params TimePointIntervalRelation[] tpirs)
         {
             Contract.Ensures(Contract.ForAll(
@@ -383,6 +387,24 @@ namespace PPWCode.Value.I.Time.Interval
                 EMPTY_BIT_PATTERN,
                 (current, tpir) => current | tpir.m_BitPattern);
             return VALUES[acc];
+        }
+
+        /// <summary>
+        /// <param>Binary operator version of <see cref="Or"/>.</param>
+        /// <inheritdoc cref="Or"/>
+        /// </summary>
+        /// <returns>
+        /// <inheritdoc cref="Or"/>
+        /// </returns>
+        [Pure]
+        public static TimePointIntervalRelation operator | (TimePointIntervalRelation tpir1, TimePointIntervalRelation tpir2)
+        {
+            /* TODO
+             * This contract crashes Contracts. Probably because of the var params of Or.
+            Contract.Ensures(Contract.Result<TimePointIntervalRelation>() == Or(tpir1, tpir2));
+             */
+
+            return Or(tpir1, tpir2);
         }
 
         #endregion
