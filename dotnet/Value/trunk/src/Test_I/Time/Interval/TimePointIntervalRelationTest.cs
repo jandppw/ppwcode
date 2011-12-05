@@ -263,6 +263,31 @@ namespace PPWCode.Value.Test_I.Time.Interval
                 {
                     Assert.AreEqual(1, result);
                 }
+                // Console.WriteLine(FullBitPattern(tpir) + ": " + result + tpir.ToString());
+            }
+        }
+
+        [TestMethod]
+        public void TestComplement()
+        {
+            TimePointIntervalRelation result;
+            foreach (TimePointIntervalRelation tpir in TimePointIntervalRelation.VALUES)
+            {
+                result = tpir.Complement;
+                //Console.WriteLine(FullBitPattern(tpir) + " ### " + FullBitPattern(result));
+            }
+        }
+
+        [TestMethod]
+        public void TestAreComplementary()
+        {
+            bool result;
+            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.VALUES)
+            {
+                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.VALUES)
+                {
+                    result = TimePointIntervalRelation.AreComplementary(tpir1, tpir2);
+                }
             }
         }
     }
