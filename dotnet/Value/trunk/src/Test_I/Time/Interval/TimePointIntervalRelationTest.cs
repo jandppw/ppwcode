@@ -254,6 +254,137 @@ namespace PPWCode.Value.Test_I.Time.Interval
         }
 
         [TestMethod]
+        public void TestLeastUncertainTimePointIntervalRelation1A()
+        {
+            DateTime? t = null;
+            ITimeInterval i = new BeginEndTimeInterval(DateTime.Now, null);
+            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
+            //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
+            Assert.AreEqual(TimePointIntervalRelation.FULL, result);
+        }
+
+        [TestMethod]
+        public void TestLeastUncertainTimePointIntervalRelation1B()
+        {
+            DateTime? t = null;
+            ITimeInterval i = new BeginEndTimeInterval(null, DateTime.Now);
+            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
+            //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
+            Assert.AreEqual(TimePointIntervalRelation.FULL, result);
+        }
+
+        [TestMethod]
+        public void TestLeastUncertainTimePointIntervalRelation1C()
+        {
+            DateTime? t = null;
+            DateTime now = DateTime.Now;
+            ITimeInterval i = new BeginEndTimeInterval(now, now);
+            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
+            //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
+            Assert.AreEqual(TimePointIntervalRelation.FULL, result);
+        }
+
+        [TestMethod]
+        public void TestLeastUncertainTimePointIntervalRelation2A()
+        {
+            DateTime? t = DateTime.Now;
+            ITimeInterval i = new BeginEndTimeInterval(t, null);
+            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
+            //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
+            Assert.AreEqual(TimePointIntervalRelation.BEGINS, result);
+        }
+
+        [TestMethod]
+        public void TestLeastUncertainTimePointIntervalRelation2B()
+        {
+            DateTime? t = DateTime.Now;
+            ITimeInterval i = new BeginEndTimeInterval(null, t);
+            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
+            //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
+            Assert.AreEqual(TimePointIntervalRelation.ENDS, result);
+        }
+
+        [TestMethod]
+        public void TestLeastUncertainTimePointIntervalRelation3A()
+        {
+            DateTime? t = new DateTime(1995, 6, 23);
+            ITimeInterval i = new BeginEndTimeInterval(new DateTime(1996, 7, 4), null);
+            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
+            //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
+            Assert.AreEqual(TimePointIntervalRelation.BEFORE, result);
+        }
+
+        [TestMethod]
+        public void TestLeastUncertainTimePointIntervalRelation3B()
+        {
+            DateTime? t = new DateTime(1995, 6, 23);
+            ITimeInterval i = new BeginEndTimeInterval(new DateTime(1996, 7, 4), new DateTime(2010, 3, 12));
+            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
+            //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
+            Assert.AreEqual(TimePointIntervalRelation.BEFORE, result);
+        }
+
+        [TestMethod]
+        public void TestLeastUncertainTimePointIntervalRelation3C()
+        {
+            DateTime? t = new DateTime(1995, 6, 23);
+            ITimeInterval i = new BeginEndTimeInterval(null, new DateTime(2010, 3, 12));
+            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
+            //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
+            Assert.AreEqual(TimePointIntervalRelation.BEFORE_END, result);
+        }
+
+        [TestMethod]
+        public void TestLeastUncertainTimePointIntervalRelation4()
+        {
+            DateTime? t = new DateTime(1995, 6, 23);
+            ITimeInterval i = new BeginEndTimeInterval(new DateTime(1991, 11, 17), new DateTime(2010, 3, 12));
+            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
+            //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
+            Assert.AreEqual(TimePointIntervalRelation.IN, result);
+        }
+
+        [TestMethod]
+        public void TestLeastUncertainTimePointIntervalRelation5()
+        {
+            DateTime? t = new DateTime(2010, 3, 12);
+            ITimeInterval i = new BeginEndTimeInterval(new DateTime(1991, 11, 17), new DateTime(2010, 3, 12));
+            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
+            //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
+            Assert.AreEqual(TimePointIntervalRelation.ENDS, result);
+        }
+
+        [TestMethod]
+        public void TestLeastUncertainTimePointIntervalRelation6A()
+        {
+            DateTime? t = new DateTime(2011, 3, 12);
+            ITimeInterval i = new BeginEndTimeInterval(new DateTime(1991, 11, 17), new DateTime(2010, 3, 12));
+            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
+            //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
+            Assert.AreEqual(TimePointIntervalRelation.AFTER, result);
+        }
+
+        [TestMethod]
+        public void TestLeastUncertainTimePointIntervalRelation6B()
+        {
+            DateTime? t = new DateTime(2011, 3, 12);
+            ITimeInterval i = new BeginEndTimeInterval(null, new DateTime(2010, 3, 12));
+            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
+            //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
+            Assert.AreEqual(TimePointIntervalRelation.AFTER, result);
+        }
+
+        [TestMethod]
+        public void TestLeastUncertainTimePointIntervalRelation6C()
+        {
+            DateTime? t = new DateTime(2011, 3, 12);
+            ITimeInterval i = new BeginEndTimeInterval(new DateTime(1991, 11, 17), null);
+            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
+            //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
+            Assert.AreEqual(TimePointIntervalRelation.AFTER_BEGIN, result);
+        }
+
+        [TestMethod]
         public void TestBasicRelationalOrdinal()
         {
             int result = 0;
