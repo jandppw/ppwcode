@@ -434,6 +434,24 @@ namespace PPWCode.Value.I.Time.Interval
             return VALUES[acc];
         }
 
+        /// <summary>
+        /// <param>Binary operator version of <see cref="And"/>.</param>
+        /// <inheritdoc cref="And"/>
+        /// </summary>
+        /// <returns>
+        /// <inheritdoc cref="And"/>
+        /// </returns>
+        [Pure]
+        public static TimePointIntervalRelation operator &(TimePointIntervalRelation tpir1, TimePointIntervalRelation tpir2)
+        {
+            /* TODO
+             * This contract crashes Contracts. Probably because of the var params of And.
+            Contract.Ensures(Contract.Result<TimePointIntervalRelation>() == And(tpir1, tpir2));
+             */
+
+            return And(tpir1, tpir2);
+        }
+
         #endregion
 
         #region Instance operations
