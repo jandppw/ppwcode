@@ -66,7 +66,7 @@ namespace PPWCode.Value.I.Time.Interval
                     ? false
                     : (TimeIntervalRelation.MostCertainTimeIntervalRelation(this, other) == TimeIntervalRelation.EQUALS)));
 
-            return (other == null) && GetType().IsInstanceOfType(other)
+            return (other != null) && GetType().IsInstanceOfType(other)
                    && (TimeIntervalRelation.MostCertainTimeIntervalRelation(this, other)
                        == TimeIntervalRelation.EQUALS);
         }

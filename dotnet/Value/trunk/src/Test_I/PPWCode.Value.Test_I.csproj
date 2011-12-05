@@ -116,6 +116,7 @@
     <Compile Include="Time\Interval\AbstractTimeIntervalTest.cs" />
     <Compile Include="Time\Interval\AbstractBeginEndTimeIntervalTest.cs" />
     <Compile Include="Time\Interval\BeginEndTimeIntervalTest.cs" />
+    <Compile Include="Time\Interval\TimePointIntervalRelationTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\I\PPWCode.Value.I.csproj">

@@ -79,6 +79,9 @@ namespace PPWCode.Value.I.Time.Interval
     /// <para>Time intervals are designed as class instances, because we require inheritance,
     /// and we cannot have a sensible 0-element. Why the latter is important, see
     /// <a href="http://msdn.microsoft.com/en-us/library/ms229031(v=VS.90).aspx">Structure Design</a>.</para>
+    /// 
+    /// <h3>Equality and comparison</h3>
+    /// MUDO
     /// </remarks>
     [ContractClass(typeof(ITimeIntervalContract))]
     public interface ITimeInterval : IEquatable<ITimeInterval> /* MUDO extends IImmutableValue */
@@ -109,8 +112,9 @@ namespace PPWCode.Value.I.Time.Interval
         /// <para>Note that this definition also applies to <see cref="IEquatable.Equals"/>,
         /// <c>operator ==</c> and <c>operator !=</c>, which should also be overriden.</para>
         /// <para>See the
-        //  <a href="http://go.microsoft.com/fwlink/?LinkID=85237">full list of guidelines</a>
-        //  and also the guidance for <a href="http://go.microsoft.com/fwlink/?LinkId=85238">operator==</a>.</para>
+        /// <a href="http://go.microsoft.com/fwlink/?LinkID=85237">full list of guidelines</a>
+        /// and also the guidance for
+        /// <a href="http://go.microsoft.com/fwlink/?LinkId=85238">operator==</a>.</para>
         /// </remarks>
         bool Equals(object obj);
 
