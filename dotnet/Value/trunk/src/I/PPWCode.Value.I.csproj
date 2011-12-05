@@ -133,6 +133,7 @@
     <Compile Include="Time\Interval\IllegalTimeIntervalException.cs" />
     <Compile Include="Time\Interval\ITimeInterval.cs" />
     <Compile Include="Time\Interval\TimeIntervalRelation.cs" />
+    <Compile Include="Time\Interval\TimePointIntervalRelation.cs" />
   </ItemGroup>
   <Import Project="..\..\wraps\openwrap\build\OpenWrap.CSharp.targets" />
   <Import Project="..\..\wraps\Microsoft.Stylecop-PPWStyle\build\Microsoft.StyleCop.targets" />
