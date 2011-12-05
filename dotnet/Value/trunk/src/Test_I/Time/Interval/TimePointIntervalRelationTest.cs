@@ -279,6 +279,17 @@ namespace PPWCode.Value.Test_I.Time.Interval
         }
 
         [TestMethod]
+        public void TestComplementOperator()
+        {
+            TimePointIntervalRelation result;
+            foreach (TimePointIntervalRelation tpir in TimePointIntervalRelation.VALUES)
+            {
+                result = ~tpir;
+                //Console.WriteLine(FullBitPattern(tpir) + " ### " + FullBitPattern(result));
+            }
+        }
+
+        [TestMethod]
         public void TestAreComplementary()
         {
             bool result;

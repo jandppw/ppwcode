@@ -605,6 +605,7 @@ namespace PPWCode.Value.I.Time.Interval
         /// effect is obviously even stronger with non-basic relations.</para>
         /// <para>Note that it is exactly this counter-intuitivity that makes reasoning with time
         /// intervals so difficult.</para>
+        /// <para>The operator version of the complement is <see cref="op_OnesComplement">~</see>.</para>
         /// </remarks>
         public TimePointIntervalRelation Complement
         {
@@ -620,6 +621,22 @@ namespace PPWCode.Value.I.Time.Interval
                 return VALUES[result];
             }
         }
+
+        /// <summary>
+        /// Operator version of the <see cref="Complement"/> of a <c>TimePointIntervalRelation</c>.
+        /// <inheritdoc cref="Complement"/>
+        /// </summary>
+        /// <remarks>
+        /// <inheritdoc cref="Complement"/>
+        /// </remarks>
+        [Pure]
+        public static TimePointIntervalRelation operator ~(TimePointIntervalRelation tpir)
+        {
+            Contract.Ensures(Contract.Result<TimePointIntervalRelation>() == tpir.Complement);
+
+            return tpir.Complement;
+        }
+
 
         [Pure]
         public static bool AreComplementary(TimePointIntervalRelation tpir1, TimePointIntervalRelation tpir2)
