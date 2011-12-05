@@ -452,6 +452,50 @@ namespace PPWCode.Value.I.Time.Interval
             return And(tpir1, tpir2);
         }
 
+        /// <summary>
+        /// <para>Remove basic relations in <paramref name="term2"/> from
+        /// <paramref name="term1"/>.</para>
+        /// </summary>
+        /// <returns>
+        /// <para>This is the difference between the time point-interval relations in
+        /// <paramref name="term1"/> and <paramref name="term2"/>, 
+        /// when they are considered as sets of basic relations.</para>
+        /// </returns>
+        /// <remarks>
+        /// <para><see cref="op_Subtraction">-</see> is a operator version of this method.</para>
+        /// </remarks>
+        [Pure]
+        public static TimePointIntervalRelation Min(TimePointIntervalRelation term1, TimePointIntervalRelation term2)
+        {
+            Contract.Ensures(Contract.ForAll(
+                BASIC_RELATIONS,
+                br => (br.Implies(Contract.Result<TimePointIntervalRelation>())
+                           ? br.Implies(term1) && (! br.Implies(term2))
+                           : true)
+                      && (br.Implies(term1) && (!br.Implies(term2))
+                              ? br.Implies(Contract.Result<TimePointIntervalRelation>())
+                              : true)));
+
+            uint xor = term1.m_BitPattern ^ term2.m_BitPattern;
+            uint min = term1.m_BitPattern & xor;
+            return VALUES[min];
+        }
+
+        /// <summary>
+        /// <param>Operator version of <see cref="Min"/>.</param>
+        /// <inheritdoc cref="Min"/>
+        /// </summary>
+        /// <returns>
+        /// <inheritdoc cref="Min"/>
+        /// </returns>
+        [Pure]
+        public static TimePointIntervalRelation operator -(TimePointIntervalRelation term1, TimePointIntervalRelation term2)
+        {
+            Contract.Ensures(Contract.Result<TimePointIntervalRelation>() == Min(term1, term2));
+
+            return Min(term1, term2);
+        }
+
         #endregion
 
         #region Instance operations
