@@ -59,6 +59,11 @@ namespace PPWCode.Value.I.Time.Interval
             Contract.Invariant(ClassInitialized ? BASIC_RELATIONS[3] == ENDS : true);
             Contract.Invariant(ClassInitialized ? BASIC_RELATIONS[4] == AFTER : true);
 
+            // Secondary relations
+            Contract.Invariant(ClassInitialized ? CONCURS_WITH == (BEGINS | IN) : true);
+            Contract.Invariant(ClassInitialized ? BEFORE_END == (BEFORE | BEGINS | IN) : true);
+            Contract.Invariant(ClassInitialized ? AFTER_BEGIN == (IN | ENDS | AFTER) : true);
+
             // About relations
             Contract.Invariant(ImpliedBy(this));
             Contract.Invariant(ClassInitialized && IsBasic ? IsNotImpliedByBasicTpirs(this) : true);
@@ -144,6 +149,17 @@ namespace PPWCode.Value.I.Time.Interval
             BASIC_RELATIONS = new TimePointIntervalRelation[]
             {
                 BEFORE, BEGINS, IN, ENDS, AFTER
+            };
+            CONCURS_WITH = BEGINS | IN;
+            BEFORE_END = Or(BEFORE, BEGINS, IN);
+            AFTER_BEGIN = Or(IN, ENDS, AFTER);
+            BASIC_COMPOSITIONS = new TimePointIntervalRelation[][]
+            {
+                new TimePointIntervalRelation[] { BEFORE, BEFORE, BEFORE, BEFORE, BEFORE, BEFORE, BEFORE, BEFORE, BEFORE_END, BEFORE_END, BEFORE_END, BEFORE_END, FULL },
+                new TimePointIntervalRelation[] { BEFORE, BEFORE, BEFORE, BEFORE, BEFORE, BEGINS, BEGINS, BEGINS, IN, IN, IN, ENDS, AFTER },
+                new TimePointIntervalRelation[] { BEFORE, BEFORE, BEFORE_END, BEFORE_END, FULL, IN, IN, AFTER_BEGIN, IN, IN, AFTER_BEGIN, AFTER, AFTER },
+                new TimePointIntervalRelation[] { BEFORE, BEGINS, IN, ENDS, AFTER, IN, ENDS, AFTER, IN, ENDS, AFTER, AFTER, AFTER },
+                new TimePointIntervalRelation[] { FULL, AFTER_BEGIN, AFTER_BEGIN, AFTER, AFTER, AFTER_BEGIN, AFTER, AFTER, AFTER_BEGIN, AFTER, AFTER, AFTER, AFTER }
             };
             ClassInitialized = true;
         }
@@ -354,6 +370,45 @@ namespace PPWCode.Value.I.Time.Interval
 
         #region Secondary relations
 
+        /// <summary>
+        /// <para>A non-basic time point-interval relation that is often handy to use,
+        /// which expresses that a time point <var>t</var> and an interval <var>I</var>
+        /// are concurrent in some way.</para>
+        /// <para>Thus, <var>t</var> does <em>not</em> come before <var>I</var>,
+        /// <var>t</var> is not the end time of <var>I</var>, and <var>t</var> does <em>not</em> 
+        /// come after <var>I</var> 
+        /// (remember that we define time intervals as right half-open).</para>
+        /// </summary>
+        public static readonly TimePointIntervalRelation CONCURS_WITH;
+
+        /// <summary>
+        /// <para>A non-basic time point-interval relation that is often handy to use,
+        /// which expresses that a time point <var>t</var> is earlier than an interval
+        /// <var>I</var> ends:</para>
+        /// <code>
+        /// (I.End != null) &amp;&amp; (t &lt; I.End)
+        /// </code>
+        /// </summary>
+        /// <remarks>
+        /// <para>This relation is introduced because it is the possible result of the
+        /// <see cref="Compose">composition</see> of 2 basic relations.</para>
+        /// </remarks>
+        public static readonly TimePointIntervalRelation BEFORE_END;
+
+        /// <summary>
+        /// <para>A non-basic time point-interval relation that is often handy to use,
+        /// which expresses that a time point <var>t</var> is later than an interval 
+        /// <var>I</var> begins:</para>
+        /// <code>
+        /// (I.Begin != null) &amp;&amp; (t &gt; I.Begin)
+        /// </code>
+        /// </summary>
+        /// <remarks>
+        /// <para>This relation is introduced because it is the possible result of the
+        /// <see cref="Compose">composition</see> of 2 basic relations.</para>
+        /// </remarks>
+        public static readonly TimePointIntervalRelation AFTER_BEGIN;
+
         #endregion
 
         #region N-ary operations
@@ -495,6 +550,13 @@ namespace PPWCode.Value.I.Time.Interval
 
             return Min(term1, term2);
         }
+
+        /// <summary>
+        /// This matrix holds the compositions of basic time point-interval relations with Allen relations.
+        /// These are part of the given semantics, and cannot be calculated.
+        /// See <see cref="Compose"/>.
+        /// </summary>
+        public static readonly TimePointIntervalRelation[][] BASIC_COMPOSITIONS;
 
         #endregion
 
