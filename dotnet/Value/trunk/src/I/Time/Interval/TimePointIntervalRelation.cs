@@ -377,11 +377,11 @@ namespace PPWCode.Value.I.Time.Interval
             Contract.Ensures(Contract.ForAll(
                 BASIC_RELATIONS,
                 br => (Contract.Exists(tpirs, tpir => tpir.ImpliedBy(br))
-                        ? Contract.Result<TimePointIntervalRelation>().ImpliedBy(br)
-                        : true)
-                    && (Contract.Result<TimePointIntervalRelation>().ImpliedBy(br)
-                        ? Contract.Exists(tpirs, tpir => tpir.ImpliedBy(br))
-                        : true)));
+                           ? Contract.Result<TimePointIntervalRelation>().ImpliedBy(br)
+                           : true)
+                      && (Contract.Result<TimePointIntervalRelation>().ImpliedBy(br)
+                              ? Contract.Exists(tpirs, tpir => tpir.ImpliedBy(br))
+                              : true)));
 
             uint acc = tpirs.Aggregate<TimePointIntervalRelation, uint>(
                 EMPTY_BIT_PATTERN,
@@ -397,7 +397,7 @@ namespace PPWCode.Value.I.Time.Interval
         /// <inheritdoc cref="Or"/>
         /// </returns>
         [Pure]
-        public static TimePointIntervalRelation operator | (TimePointIntervalRelation tpir1, TimePointIntervalRelation tpir2)
+        public static TimePointIntervalRelation operator |(TimePointIntervalRelation tpir1, TimePointIntervalRelation tpir2)
         {
             /* TODO
              * This contract crashes Contracts. Probably because of the var params of Or.
@@ -405,6 +405,33 @@ namespace PPWCode.Value.I.Time.Interval
              */
 
             return Or(tpir1, tpir2);
+        }
+
+        /// <summary>
+        /// <para>The conjunction of the time point-interval relations in <paramref name="tpirs"/>.</para>
+        /// </summary>
+        /// <returns>
+        /// <para>This is the intersection of all time point-interval relations in
+        /// <paramref name="tpirs"/>, when they are considered as sets of basic relations.</para>
+        /// </returns>
+        /// <remarks>
+        /// <para><see cref="op_BitwiseAnd">&amp;</see> is a binary operator version of this method.</para>
+        /// </remarks>
+        public static TimePointIntervalRelation And(params TimePointIntervalRelation[] tpirs)
+        {
+            Contract.Ensures(Contract.ForAll(
+                BASIC_RELATIONS,
+                br => (Contract.ForAll(tpirs, tpir => tpir.ImpliedBy(br))
+                           ? Contract.Result<TimePointIntervalRelation>().ImpliedBy(br)
+                           : true)
+                      && Contract.Result<TimePointIntervalRelation>().ImpliedBy(br)
+                          ? Contract.ForAll(tpirs, tpir => tpir.ImpliedBy(br))
+                          : true));
+
+            uint acc = tpirs.Aggregate<TimePointIntervalRelation, uint>(
+                FULL_BIT_PATTERN,
+                (current, tpir) => current & tpir.m_BitPattern);
+            return VALUES[acc];
         }
 
         #endregion
