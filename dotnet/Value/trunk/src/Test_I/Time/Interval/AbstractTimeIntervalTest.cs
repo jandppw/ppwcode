@@ -126,8 +126,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
 
         #endregion
 
-        public
-            void TestEqualsObject(AbstractTimeInterval subject, object other)
+        public void TestEqualsObject(AbstractTimeInterval subject, object other)
         {
             bool result = subject.Equals(other);
             //    System.out.println(subject + ".Equals(" + other + ") == " + result);
@@ -136,8 +135,11 @@ namespace PPWCode.Value.Test_I.Time.Interval
             //}
         }
 
+        /// <summary>
+        /// Tests both overloaded methods
+        /// </summary>
         [TestMethod]
-        public void TestEqualsObject()
+        public void TestEquals()
         {
             foreach (AbstractTimeInterval subject in Subjects)
             {
@@ -146,6 +148,42 @@ namespace PPWCode.Value.Test_I.Time.Interval
                 foreach (AbstractTimeInterval other in Subjects)
                 {
                     TestEqualsObject(subject, other);
+                    object otherAsObject = other;
+                    TestEqualsObject(subject, otherAsObject);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void TestEquality()
+        {
+            bool result = false;
+            foreach (AbstractTimeInterval subject in Subjects)
+            {
+                result = (subject == null);
+#pragma warning disable 252,253
+                result = (subject == new object());
+#pragma warning restore 252,253
+                foreach (AbstractTimeInterval other in Subjects)
+                {
+                    result = (subject == other);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void TestInequality()
+        {
+            bool result = false;
+            foreach (AbstractTimeInterval subject in Subjects)
+            {
+                result = (subject != null);
+#pragma warning disable 252,253
+                result = (subject != new object());
+#pragma warning restore 252,253
+                foreach (AbstractTimeInterval other in Subjects)
+                {
+                    result = (subject != other);
                 }
             }
         }

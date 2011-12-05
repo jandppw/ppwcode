@@ -74,9 +74,14 @@ namespace PPWCode.Value.I.Time.Interval
     /// interval that needs a user interface that is precise to the millisecond.</para>
     /// <para>Since this is an <see cref="MUDOIImmutableValue"/>, implementations should offer a good public
     /// constructor, and should be declared <c>sealed</c>.</para>
+    /// 
+    /// <h3>Struct or class</h3>
+    /// <para>Time intervals are designed as class instances, because we require inheritance,
+    /// and we cannot have a sensible 0-element. Why the latter is important, see
+    /// <a href="http://msdn.microsoft.com/en-us/library/ms229031(v=VS.90).aspx">Structure Design</a>.</para>
     /// </remarks>
     [ContractClass(typeof(ITimeIntervalContract))]
-    public interface ITimeInterval /* MUDO extends IImmutableValue */
+    public interface ITimeInterval : IEquatable<ITimeInterval> /* MUDO extends IImmutableValue */
     {
         /// <summary>
         /// This time interval begins at this time, inclusive. This can be <c>null</c>,
@@ -101,9 +106,11 @@ namespace PPWCode.Value.I.Time.Interval
         /// and <see cref="TimeIntervalRelation.EQUALS"/>.
         /// </summary>
         /// <remarks>
-        /// See the
+        /// <para>Note that this definition also applies to <see cref="IEquatable.Equals"/>,
+        /// <c>operator ==</c> and <c>operator !=</c>, which should also be overriden.</para>
+        /// <para>See the
         //  <a href="http://go.microsoft.com/fwlink/?LinkID=85237">full list of guidelines</a>
-        //  and also the guidance for <a href="http://go.microsoft.com/fwlink/?LinkId=85238">operator==</a>.
+        //  and also the guidance for <a href="http://go.microsoft.com/fwlink/?LinkId=85238">operator==</a>.</para>
         /// </remarks>
         bool Equals(object obj);
 
@@ -183,10 +190,21 @@ namespace PPWCode.Value.I.Time.Interval
             }
         }
 
-        public override bool Equals(object obj)
+        public bool Equals(ITimeInterval other)
         {
             // F*CK
             //Contract.Ensures(Contract.Result<bool>() == 
+            //    ((other == null)
+            //        ? false
+            //        : (TimeIntervalRelation.MostCertainTimeIntervalRelation(this, other) == TimeIntervalRelation.EQUALS)));
+
+            return false;
+        }
+
+        public override bool Equals(object obj)
+        {
+            // F*CK
+            //Contract.Ensures(Contract.Result<bool>() ==
             //    ((obj == null || GetType() != obj.GetType())
             //        ? false
             //        : (TimeIntervalRelation.MostCertainTimeIntervalRelation(this, (ITimeInterval)obj) == TimeIntervalRelation.EQUALS)));

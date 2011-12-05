@@ -47,9 +47,79 @@ namespace PPWCode.Value.I.Time.Interval
                     ? false
                     : (TimeIntervalRelation.MostCertainTimeIntervalRelation(this, (ITimeInterval)obj) == TimeIntervalRelation.EQUALS)));
 
-            return (obj != null) && GetType().IsInstanceOfType(obj)
-                   && (TimeIntervalRelation.MostCertainTimeIntervalRelation(this, (ITimeInterval)obj)
+            return this.Equals(obj as ITimeInterval);
+        }
+
+        /// <summary>
+        /// Equals as defined by <see cref="TimeIntervalRelation.TimeIntervalRelation"/>
+        /// and <see cref="TimeIntervalRelation.EQUALS"/>.
+        /// </summary>
+        /// <remarks>
+        /// See the
+        //  <a href="http://go.microsoft.com/fwlink/?LinkID=85237">full list of guidelines</a>
+        //  and also the guidance for <a href="http://go.microsoft.com/fwlink/?LinkId=85238">operator==</a>.
+        /// </remarks>
+        public bool Equals(ITimeInterval other)
+        {
+            Contract.Ensures(Contract.Result<bool>() == 
+                ((other == null)
+                    ? false
+                    : (TimeIntervalRelation.MostCertainTimeIntervalRelation(this, other) == TimeIntervalRelation.EQUALS)));
+
+            return (other == null) && GetType().IsInstanceOfType(other)
+                   && (TimeIntervalRelation.MostCertainTimeIntervalRelation(this, other)
                        == TimeIntervalRelation.EQUALS);
+        }
+
+        /// <summary>
+        /// Equality as defined by <see cref="TimeIntervalRelation.TimeIntervalRelation"/>
+        /// and <see cref="TimeIntervalRelation.EQUALS"/>.
+        /// </summary>
+        /// <remarks>
+        /// See the
+        //  <a href="http://go.microsoft.com/fwlink/?LinkID=85237">full list of guidelines</a>
+        //  and also the guidance for <a href="http://go.microsoft.com/fwlink/?LinkId=85238">operator==</a>.
+        /// </remarks>
+        public static bool operator ==(AbstractTimeInterval ati1, AbstractTimeInterval ati2)
+        {
+            // NO CONTRACT HERE, TO AVOID INFINITE RECURSION
+            //Contract.Ensures(Contract.Result<bool>() == (ati1 == null ? ati2 == null : ati1.Equals(ati2)));
+
+            return SaveIsNull(ati1) ? SaveIsNull(ati2) : ati1.Equals(ati2);
+        }
+
+        /// <summary>
+        /// Equality as defined by <see cref="TimeIntervalRelation.TimeIntervalRelation"/>
+        /// and <see cref="TimeIntervalRelation.EQUALS"/>.
+        /// </summary>
+        /// <remarks>
+        /// See the
+        //  <a href="http://go.microsoft.com/fwlink/?LinkID=85237">full list of guidelines</a>
+        //  and also the guidance for <a href="http://go.microsoft.com/fwlink/?LinkId=85238">operator==</a>.
+        /// </remarks>
+        public static bool operator !=(AbstractTimeInterval ati1, AbstractTimeInterval ati2)
+        {
+            Contract.Ensures(Contract.Result<bool>() == (! (ati1 == ati2)));
+
+            return (SaveIsNull(ati1) && SaveIsNotNull(ati2)) || (SaveIsNotNull(ati1) && (! ati1.Equals(ati2)));
+        }
+
+        /// <summary>
+        /// Compare to null without using the overridden operator.
+        /// </summary>
+        private static bool SaveIsNull(AbstractTimeInterval ati)
+        {
+            object atiAsObject = ati;
+            return atiAsObject == null;            
+        }
+
+        /// <summary>
+        /// Compare to null without using the overridden operator.
+        /// </summary>
+        private static bool SaveIsNotNull(AbstractTimeInterval ati)
+        {
+            object atiAsObject = ati;
+            return atiAsObject != null;
         }
 
         public override sealed int GetHashCode()
