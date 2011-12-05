@@ -155,11 +155,26 @@ namespace PPWCode.Value.I.Time.Interval
             AFTER_BEGIN = Or(IN, ENDS, AFTER);
             BASIC_COMPOSITIONS = new TimePointIntervalRelation[][]
             {
-                new TimePointIntervalRelation[] { BEFORE, BEFORE, BEFORE, BEFORE, BEFORE, BEFORE, BEFORE, BEFORE, BEFORE_END, BEFORE_END, BEFORE_END, BEFORE_END, FULL },
-                new TimePointIntervalRelation[] { BEFORE, BEFORE, BEFORE, BEFORE, BEFORE, BEGINS, BEGINS, BEGINS, IN, IN, IN, ENDS, AFTER },
-                new TimePointIntervalRelation[] { BEFORE, BEFORE, BEFORE_END, BEFORE_END, FULL, IN, IN, AFTER_BEGIN, IN, IN, AFTER_BEGIN, AFTER, AFTER },
-                new TimePointIntervalRelation[] { BEFORE, BEGINS, IN, ENDS, AFTER, IN, ENDS, AFTER, IN, ENDS, AFTER, AFTER, AFTER },
-                new TimePointIntervalRelation[] { FULL, AFTER_BEGIN, AFTER_BEGIN, AFTER, AFTER, AFTER_BEGIN, AFTER, AFTER, AFTER_BEGIN, AFTER, AFTER, AFTER, AFTER }
+                new TimePointIntervalRelation[]
+                {
+                    BEFORE, BEFORE, BEFORE, BEFORE, BEFORE, BEFORE, BEFORE, BEFORE, BEFORE_END, BEFORE_END, BEFORE_END, BEFORE_END, FULL
+                },
+                new TimePointIntervalRelation[]
+                {
+                    BEFORE, BEFORE, BEFORE, BEFORE, BEFORE, BEGINS, BEGINS, BEGINS, IN, IN, IN, ENDS, AFTER
+                },
+                new TimePointIntervalRelation[]
+                {
+                    BEFORE, BEFORE, BEFORE_END, BEFORE_END, FULL, IN, IN, AFTER_BEGIN, IN, IN, AFTER_BEGIN, AFTER, AFTER
+                },
+                new TimePointIntervalRelation[]
+                {
+                    BEFORE, BEGINS, IN, ENDS, AFTER, IN, ENDS, AFTER, IN, ENDS, AFTER, AFTER, AFTER
+                },
+                new TimePointIntervalRelation[]
+                {
+                    FULL, AFTER_BEGIN, AFTER_BEGIN, AFTER, AFTER, AFTER_BEGIN, AFTER, AFTER, AFTER_BEGIN, AFTER, AFTER, AFTER, AFTER
+                }
             };
             ClassInitialized = true;
         }
@@ -557,6 +572,95 @@ namespace PPWCode.Value.I.Time.Interval
         /// See <see cref="Compose"/>.
         /// </summary>
         public static readonly TimePointIntervalRelation[][] BASIC_COMPOSITIONS;
+
+        //        /**
+        // * <p>Given a point in time <code><var>t</var></code> and 2 time intervals <code><var>I1</var></code>, <code><var>I2</var></code>,
+        // *   given <code>tpir = timePointIntervalRelation(<var>t</var>, <var>I1</var>)</code> and
+        // *   <code>ar == allenRelation(<var>I1</var>, <var>I2</var>)</code>,
+        // *   <code>compose(tpir, ar) == timePointIntervalRelation(<var>t</var>, <var>I2</var>)</code>.</p>
+        // */
+        //@MethodContract(
+        //  pre  = {
+        //    @Expression("_tpir != null"),
+        //    @Expression("_ar != null")
+        //  },
+        //  post = {
+        //    @Expression("for (TimePointIntervalRelation bTpir : BASIC_RELATIONS) {for (TimeIntervalRelation bAr: TimeIntervalRelation.BASIC_RELATIONS) {" +
+        //                  "bTpir.implies(_tpir) && bAr.implies(_ar) ? result.impliedBy(BASIC_COMPOSITIONS[btPir.basicRelationOrdinal()][bAr.basicRelationOrdinal()])" +
+        //                "}}")
+        //})
+        //public static TimePointIntervalRelation compose(TimePointIntervalRelation tpir, TimeIntervalRelation ar) {
+        //  assert preArgumentNotNull(tpir, "tpir");
+        //  assert preArgumentNotNull(ar, "ar");
+        //  TimePointIntervalRelation acc = EMPTY;
+        //  for (TimePointIntervalRelation bTpir : BASIC_RELATIONS) {
+        //    if (tpir.impliedBy(tpir)) {
+        //      for (TimeIntervalRelation bAr : TimeIntervalRelation.BASIC_RELATIONS) {
+        //        if (ar.impliedBy(bAr)) {
+        //          acc = or(acc, BASIC_COMPOSITIONS[bTpir.basicRelationOrdinal()][bAr.basicRelationOrdinal()]);
+        //        }
+        //      }
+        //    }
+        //  }
+        //  return acc;
+        //}
+
+        /// <summary>
+        /// The relation of <paramref name="t"/> with <paramref name="i"/> with the lowest
+        /// possible <see cref="Uncertainty"/>.
+        /// </summary>
+        /// <returns>
+        /// <c>null</c> as <see cref="ITimeInterval.Begin"/> or <see cref="ITimeInterval.End"/>
+        /// is considered as unknown, and thus is not used to restrict the relation more, 
+        /// leaving it with more <see cref="Uncertainty"/>.
+        /// </returns>
+        public static TimePointIntervalRelation LeastUncertainTimePointIntervalRelation(DateTime? t, ITimeInterval i)
+        {
+            // MUDO contract
+
+            if (t == null)
+            {
+                return FULL;
+            }
+            DateTime? iBegin = i.Begin;
+            DateTime? iEnd = i.End;
+            TimePointIntervalRelation result = FULL;
+            if (iBegin != null)
+            {
+                if (t < iBegin)
+                {
+                    return BEFORE;
+                }
+                else if (t == iBegin)
+                {
+                    return BEGINS;
+                }
+                else
+                {
+                    Contract.Assume(t > iBegin);
+                    result -= BEFORE;
+                    result -= BEGINS;
+                }
+            }
+            if (iEnd != null)
+            {
+                if (t < iEnd)
+                {
+                    result -= ENDS;
+                    result -= AFTER;
+                }
+                else if (t == iEnd)
+                {
+                    return ENDS;
+                }
+                else
+                {
+                    Contract.Assume(t > iEnd);
+                    return AFTER;
+                }
+            }
+            return result;
+        }
 
         #endregion
 
