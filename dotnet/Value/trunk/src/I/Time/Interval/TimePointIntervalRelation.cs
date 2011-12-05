@@ -354,6 +354,9 @@ namespace PPWCode.Value.I.Time.Interval
 
         #region Instance operations
 
+        /// <summary>
+        /// An ordinal for basic relations.
+        /// </summary>
         public int BasicRelationalOrdinal
         {
             get
@@ -519,6 +522,132 @@ namespace PPWCode.Value.I.Time.Interval
             i = i + (i >> 16);
             return (int)(i & 0x3f);
         }
+
+        /// <summary>
+        /// <para>The complement of a time point-interval relation is the logic negation of the condition
+        /// the time point-interval relation expresses.</para>
+        /// <para>The complement of a basic time point-interval relation is the disjunction of all the
+        /// other basic time point-interval relations.</para>
+        /// <para>The complement of a general time point-interval relation is the disjunction of all 
+        /// basic time point-interval relations that are not implied by the general time point-interval
+        /// relation.</para>
+        /// </summary>
+        /// <remarks>
+        /// <para>This method is key to validating semantic constraints on time intervals, using the
+        /// following idiom:</para>
+        /// <code>
+        ///   ...
+        ///   DateTime t1 = ...;
+        ///   DateTime t2 = ...;
+        ///   TimePointIntervalRelation condition = ...;
+        ///   TimePointIntervalRelation actual = timePointIntervalRelation(t1, t2);
+        ///   if (! actual.Implies(condition)) {
+        ///     throw new ....
+        ///   }
+        ///   ...
+        /// </code>
+        /// <para><strong>Be aware that the complement has in general not the same meaning as
+        /// a logic negation.</strong> For a <em>basic relation</em> <var>br</var> and a 
+        /// general time point-interval relation <var>cond</var>, it is true that</para>
+        /// <code>
+        /// <var>br</var>.Implies(<var>cond</var>) ==>! <var>br</var>.Implies(<var>cond</var>.Complement)
+        /// </code>
+        /// <para><strong>This is however not so for <em>non-basic, and thus general time 
+        /// point-interval relations</em></strong>, as the following counterexample proofs.
+        /// Suppose a condition is that, for a general relation <var>gr</var>:
+        /// <c><var>gr</var>.Implies(<var>cond</var>)</c></para>
+        /// <para>Suppose <c><var>gr</var> == (=[&lt; &gt;&lt;)</c>. Then we can rewrite in
+        /// the following way:</para>
+        /// <code>
+        /// <var>gr</var>.Implies(<var>cond</var>)
+        /// ==>(=[&lt; &gt;&lt;).Implies(<var>cond</var>)
+        /// ==>(=[&lt; &gt;&lt;) SUBSETOREQUAL <var>cond</var>
+        /// ==>(=[&lt; ISIN <var>cond</var>) &amp;&amp; (&gt;&lt; ISIN <var>cond</var>)
+        /// </code>
+        /// <para>From the definition of the complement, it follows that, for a basic relation
+        /// <var>br</var> and a general relation <var>GR</var> as set</para>
+        /// <code>
+        /// br ISIN GR ==>br NOTIN GR.Complement
+        /// </code>
+        /// <para>Thus:</para>
+        /// <code>
+        /// ==>(=[&lt; NOTIN <var>cond</var>.Complement) &amp;&amp; (&gt;&lt; NOTIN <var>cond</var>.Complement)
+        /// ==>! ((=[&lt; ISIN <var>cond</var>.Complement) || (&gt;&lt; ISIN <var>cond</var>.Complement) (1)
+        /// </code>
+        /// <para>While, from the other side:</para>
+        /// <code>
+        /// ! <var>gr</var>.implies(<var>cond</var>.Complement)
+        /// ==>! (=[&lt; &gt;&lt;).Implies(<var>cond</var>.Complement)
+        /// ==>! (=[&lt; &gt;&lt;) SUBSETOREQUAL (<var>cond</var>.Complement)
+        /// ==>! ((=[&lt; ISIN <var>cond</var>.Complement) &amp;&amp; (&gt;&lt; ISIN <var>cond</var>.Complement) (2)
+        /// </code>
+        /// <para>It is clear that (1) is incompatible with (2), except for the case where the
+        /// initial relation is basic.</para>
+        /// <para>In the reverse case, for a basic relation <var>br</var> and a general time
+        /// point-interval relation <var>actual</var>, nothing special can be said about the
+        /// complement of <var>actual</var>, as the following reasoning illustrates:</para>
+        /// <code>
+        /// <var>actual</var>.Implies(<var>br</var>)
+        /// ==><var>actual</var> SUBSETOREQUAL <var>br</var>
+        /// ==><var>actual</var> SUBSETOREQUAL (<var>br</var>)
+        /// ==><var>actual</var> == (<var>br</var>) || <var>actual</var> == EMPTYSET
+        /// ==><var>actual</var>.Complement == (<var>br</var>).Complement || <var>actual</var>.Complement == FULL (3)
+        /// </code>
+        /// <para>From the other side:</para>
+        /// <code>
+        /// ! <var>actual</var>.Complement.Implies(<var>br</var>)
+        /// ==>! (<var>actual</var>.Complement SUBSETOREQUAL <var>br</var>)
+        /// ==>! (<var>actual</var>.Complement SUBSETOREQUAL (<var>br</var>))
+        /// ==>! (<var>actual</var>.Complement == (<var>br</var>) || <var>actual</var>.Complement == EMPTYSET)
+        /// ==><var>actual</var>.Complement != (<var>br</var>) &amp;&amp; <var>actual</var>.Complement != EMPTYSET (4)
+        /// </code>
+        /// <para>It is clear that (3) expresses something completely different then (4), and this 
+        /// effect is obviously even stronger with non-basic relations.</para>
+        /// <para>Note that it is exactly this counter-intuitivity that makes reasoning with time
+        /// intervals so difficult.</para>
+        /// </remarks>
+        public TimePointIntervalRelation Complement
+        {
+            get
+            {
+                Contract.Ensures(AreComplementary(this, Contract.Result<TimePointIntervalRelation>()));
+
+                /*
+                 * implemented as the XOR of the FULL bit pattern with this bit pattern;
+                 * this simply replaces 0 with 1 and 1 with 0.
+                 */
+                uint result = FULL_BIT_PATTERN ^ m_BitPattern;
+                return VALUES[result];
+            }
+        }
+
+        [Pure]
+        public static bool AreComplementary(TimePointIntervalRelation tpir1, TimePointIntervalRelation tpir2)
+        {
+            Contract.Ensures(Contract.Result<bool>() ==
+                             Contract.ForAll(
+                                 BASIC_RELATIONS,
+                                 br => (tpir1.ImpliedBy(br) ? (!tpir2.ImpliedBy(br)) : tpir2.ImpliedBy(br))
+                                       && (tpir2.ImpliedBy(br) ? (!tpir1.ImpliedBy(br)) : tpir1.ImpliedBy(br))));
+
+            return BASIC_RELATIONS.All(
+                br => (tpir1.ImpliedBy(br) ? (!tpir2.ImpliedBy(br)) : tpir2.ImpliedBy(br))
+                      && (tpir2.ImpliedBy(br) ? (!tpir1.ImpliedBy(br)) : tpir1.ImpliedBy(br)));
+        }
+
+        //public static IEnumerable<TimePointIntervalRelation> BasicRelationsOf(TimePointIntervalRelation tpir)
+        //{
+        //    Contract.Ensures(Contract.ForAll(
+        //        Contract.Result<IEnumerable<TimePointIntervalRelation>>(),
+        //        rTpir => rTpir.IsBasic && tpir.ImpliedBy(rTpir)));
+        //    Contract.Ensures(Contract.ForAll(
+        //        BASIC_RELATIONS,
+        //        br => tpir.ImpliedBy(br)
+        //            ? Contract.Result<IEnumerable<TimePointIntervalRelation>>().Contains(br)
+        //            : true));
+
+        //    return BASIC_RELATIONS.Where(br => tpir.ImpliedBy(br));
+        //}
 
         /// <summary>
         /// <para>Is <c>this</c> implied by <paramref name="tpir"/>?</para>
