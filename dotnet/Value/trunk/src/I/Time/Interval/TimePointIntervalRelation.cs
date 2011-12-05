@@ -33,36 +33,36 @@ namespace PPWCode.Value.I.Time.Interval
         private void TypeInvariants()
         {
             // VALUES
-            Contract.Invariant(ClassInitialized ? VALUES != null : true);
-            Contract.Invariant(ClassInitialized ? VALUES.Length == NR_OF_RELATIONS : true);
+            Contract.Invariant(ClassInitialized ? Values != null : true);
+            Contract.Invariant(ClassInitialized ? Values.Length == NrOfRelations : true);
             Contract.Invariant(
                 ClassInitialized
                     ? Contract.ForAll(
                         0,
-                        NR_OF_RELATIONS - 1,
-                        i => Contract.ForAll(i + 1, NR_OF_RELATIONS - 1, j => VALUES[i] != VALUES[j]))
+                        NrOfRelations - 1,
+                        i => Contract.ForAll(i + 1, NrOfRelations - 1, j => Values[i] != Values[j]))
                     : true,
                 "No duplicate entries.");
             Contract.Invariant(
-                ClassInitialized ? VALUES.Contains(this) : true,
+                ClassInitialized ? Values.Contains(this) : true,
                 "Any instance there ever can be is mentioned in VALUES. There are no other instances.");
 
             // Basic relations
-            Contract.Invariant(ClassInitialized ? BASIC_RELATIONS != null : true);
+            Contract.Invariant(ClassInitialized ? BasicRelations != null : true);
             // MUDO Contract.Invariant(ClassInitialized ? Contract.ForAll(BASIC_RELATIONS, basic => ! EMPTY.impliedBy(basic)) : true);
 
             // MUDO Contract.Invariant(ClassInitialized ? FULL == or(BEFORE, BEGINS, IN, ENDS, AFTER) : true);
             // MUDO Contract.Invariant(ClassInitialized ? Contract.ForAll(BASIC_RELATIONS, br => BASIC_RELATIONS[br.BasicRelationOrdinal] == br) : true);
-            Contract.Invariant(ClassInitialized ? BASIC_RELATIONS[0] == BEFORE : true);
-            Contract.Invariant(ClassInitialized ? BASIC_RELATIONS[1] == BEGINS : true);
-            Contract.Invariant(ClassInitialized ? BASIC_RELATIONS[2] == IN : true);
-            Contract.Invariant(ClassInitialized ? BASIC_RELATIONS[3] == ENDS : true);
-            Contract.Invariant(ClassInitialized ? BASIC_RELATIONS[4] == AFTER : true);
+            Contract.Invariant(ClassInitialized ? BasicRelations[0] == Before : true);
+            Contract.Invariant(ClassInitialized ? BasicRelations[1] == Begins : true);
+            Contract.Invariant(ClassInitialized ? BasicRelations[2] == In : true);
+            Contract.Invariant(ClassInitialized ? BasicRelations[3] == Ends : true);
+            Contract.Invariant(ClassInitialized ? BasicRelations[4] == After : true);
 
             // Secondary relations
-            Contract.Invariant(ClassInitialized ? CONCURS_WITH == (BEGINS | IN) : true);
-            Contract.Invariant(ClassInitialized ? BEFORE_END == (BEFORE | BEGINS | IN) : true);
-            Contract.Invariant(ClassInitialized ? AFTER_BEGIN == (IN | ENDS | AFTER) : true);
+            Contract.Invariant(ClassInitialized ? ConcursWith == (Begins | In) : true);
+            Contract.Invariant(ClassInitialized ? BeforeEnd == (Before | Begins | In) : true);
+            Contract.Invariant(ClassInitialized ? AfterBegin == (In | Ends | After) : true);
 
             // About relations
             Contract.Invariant(ImpliedBy(this));
@@ -79,9 +79,9 @@ namespace PPWCode.Value.I.Time.Interval
         [Pure]
         public static bool IsNotImpliedByBasicTpirs(TimePointIntervalRelation tpir)
         {
-            Contract.Ensures(Contract.ForAll(BASIC_RELATIONS, br => br != tpir ? (!tpir.ImpliedBy(br)) : true));
+            Contract.Ensures(Contract.ForAll(BasicRelations, br => br != tpir ? (!tpir.ImpliedBy(br)) : true));
 
-            return BASIC_RELATIONS.All(br => br != tpir ? (!tpir.ImpliedBy(br)) : true);
+            return BasicRelations.All(br => br != tpir ? (!tpir.ImpliedBy(br)) : true);
         }
 
         /// <summary>
@@ -95,15 +95,15 @@ namespace PPWCode.Value.I.Time.Interval
         {
             Contract.Ensures(Contract.Result<bool>() ==
                              Contract.ForAll(
-                                 VALUES,
+                                 Values,
                                  v => tpir.ImpliedBy(v) ==
                                       Contract.ForAll(
-                                          BASIC_RELATIONS,
+                                          BasicRelations,
                                           br => v.ImpliedBy(br) ? tpir.ImpliedBy(br) : true)));
 
-            return VALUES
+            return Values
                 .Where(tpir.ImpliedBy)
-                .All(v => BASIC_RELATIONS.Where(v.ImpliedBy).All(tpir.ImpliedBy));
+                .All(v => BasicRelations.Where(v.ImpliedBy).All(tpir.ImpliedBy));
         }
 
         #endregion
@@ -124,56 +124,56 @@ namespace PPWCode.Value.I.Time.Interval
         /// The total number of possible time point-interval relations <strong>= 32</strong>
         /// (i.e., <c>2<sup>5</sup></c>).
         /// </summary>
-        public const int NR_OF_RELATIONS = 32;
+        public const int NrOfRelations = 32;
 
         /// <summary>
         /// All possible time point-interval relations.
         /// </summary>
-        public static readonly TimePointIntervalRelation[] VALUES;
+        public static readonly TimePointIntervalRelation[] Values;
 
         static TimePointIntervalRelation()
         {
             ClassInitialized = false;
-            VALUES = new TimePointIntervalRelation[NR_OF_RELATIONS];
-            for (uint i = 0; i < NR_OF_RELATIONS; i++)
+            Values = new TimePointIntervalRelation[NrOfRelations];
+            for (uint i = 0; i < NrOfRelations; i++)
             {
-                VALUES[i] = new TimePointIntervalRelation(i);
+                Values[i] = new TimePointIntervalRelation(i);
             }
-            EMPTY = VALUES[EMPTY_BIT_PATTERN];
-            BEFORE = VALUES[BEFORE_BIT_PATTERN];
-            BEGINS = VALUES[BEGINS_BIT_PATTERN];
-            IN = VALUES[IN_BIT_PATTERN];
-            ENDS = VALUES[ENDS_BY_BIT_PATTERN];
-            AFTER = VALUES[AFTER_BIT_PATTERN];
-            FULL = VALUES[FULL_BIT_PATTERN];
-            BASIC_RELATIONS = new TimePointIntervalRelation[]
+            Empty = Values[EmptyBitPattern];
+            Before = Values[BeforeBitPattern];
+            Begins = Values[BeginsBitPattern];
+            In = Values[InBitPattern];
+            Ends = Values[EndsByBitPattern];
+            After = Values[AfterBitPattern];
+            Full = Values[FullBitPattern];
+            BasicRelations = new TimePointIntervalRelation[]
             {
-                BEFORE, BEGINS, IN, ENDS, AFTER
+                Before, Begins, In, Ends, After
             };
-            CONCURS_WITH = BEGINS | IN;
-            BEFORE_END = Or(BEFORE, BEGINS, IN);
-            AFTER_BEGIN = Or(IN, ENDS, AFTER);
-            BASIC_COMPOSITIONS = new TimePointIntervalRelation[][]
+            ConcursWith = Begins | In;
+            BeforeEnd = Or(Before, Begins, In);
+            AfterBegin = Or(In, Ends, After);
+            BasicCompositions = new TimePointIntervalRelation[][]
             {
                 new TimePointIntervalRelation[]
                 {
-                    BEFORE, BEFORE, BEFORE, BEFORE, BEFORE, BEFORE, BEFORE, BEFORE, BEFORE_END, BEFORE_END, BEFORE_END, BEFORE_END, FULL
+                    Before, Before, Before, Before, Before, Before, Before, Before, BeforeEnd, BeforeEnd, BeforeEnd, BeforeEnd, Full
                 },
                 new TimePointIntervalRelation[]
                 {
-                    BEFORE, BEFORE, BEFORE, BEFORE, BEFORE, BEGINS, BEGINS, BEGINS, IN, IN, IN, ENDS, AFTER
+                    Before, Before, Before, Before, Before, Begins, Begins, Begins, In, In, In, Ends, After
                 },
                 new TimePointIntervalRelation[]
                 {
-                    BEFORE, BEFORE, BEFORE_END, BEFORE_END, FULL, IN, IN, AFTER_BEGIN, IN, IN, AFTER_BEGIN, AFTER, AFTER
+                    Before, Before, BeforeEnd, BeforeEnd, Full, In, In, AfterBegin, In, In, AfterBegin, After, After
                 },
                 new TimePointIntervalRelation[]
                 {
-                    BEFORE, BEGINS, IN, ENDS, AFTER, IN, ENDS, AFTER, IN, ENDS, AFTER, AFTER, AFTER
+                    Before, Begins, In, Ends, After, In, Ends, After, In, Ends, After, After, After
                 },
                 new TimePointIntervalRelation[]
                 {
-                    FULL, AFTER_BEGIN, AFTER_BEGIN, AFTER, AFTER, AFTER_BEGIN, AFTER, AFTER, AFTER_BEGIN, AFTER, AFTER, AFTER, AFTER
+                    Full, AfterBegin, AfterBegin, After, After, AfterBegin, After, After, AfterBegin, After, After, After, After
                 }
             };
             ClassInitialized = true;
@@ -188,20 +188,20 @@ namespace PPWCode.Value.I.Time.Interval
 
         #region Basic relations
 
-        private const int EMPTY_BIT_PATTERN = 0; // 00000
-        private const int BEFORE_BIT_PATTERN = 1; // 00001 <
-        private const int BEGINS_BIT_PATTERN = 2; // 00010 =[<
-        private const int IN_BIT_PATTERN = 4; // 00100 ><
-        private const int ENDS_BY_BIT_PATTERN = 8; // 01000 =[>
-        private const int AFTER_BIT_PATTERN = 16; // 10000 >
-        private const int FULL_BIT_PATTERN = 31; // 11111 < =[< >< =[> >
+        private const int EmptyBitPattern = 0; // 00000
+        private const int BeforeBitPattern = 1; // 00001 <
+        private const int BeginsBitPattern = 2; // 00010 =[<
+        private const int InBitPattern = 4; // 00100 ><
+        private const int EndsByBitPattern = 8; // 01000 =[>
+        private const int AfterBitPattern = 16; // 10000 >
+        private const int FullBitPattern = 31; // 11111 < =[< >< =[> >
 
         /// <summary>
         /// This empty relation is not a true time point-interval relation. It does not express a
         /// relational condition between intervals. Yet, it is needed for
         /// consistencey with some operations on time point-interval relations.
         /// </summary>
-        public static readonly TimePointIntervalRelation EMPTY;
+        public static readonly TimePointIntervalRelation Empty;
 
         /// <summary>
         /// <para>A <strong>basic</strong> time point-interval relation that says that a point in time
@@ -216,7 +216,7 @@ namespace PPWCode.Value.I.Time.Interval
         /// </code>
         /// <img style="text-align: center;" src="TimePointIntervalRelation-before.png"/>
         /// </remarks>
-        public static readonly TimePointIntervalRelation BEFORE;
+        public static readonly TimePointIntervalRelation Before;
 
         /// <summary>
         /// <para>A <strong>basic</strong> time point-interval relation that says that a point in time
@@ -231,7 +231,7 @@ namespace PPWCode.Value.I.Time.Interval
         /// </code>
         /// <img style="text-align: center;" src="TimePointIntervalRelation-begins.png"/>
         /// </remarks>
-        public static readonly TimePointIntervalRelation BEGINS;
+        public static readonly TimePointIntervalRelation Begins;
 
         /// <summary>
         /// <para>A <strong>basic</strong> time point-interval relation that says that a point in time
@@ -246,7 +246,7 @@ namespace PPWCode.Value.I.Time.Interval
         /// </code>
         /// <img style="text-align: center;" src="TimePointIntervalRelation-in.png"/>
         /// </remarks>
-        public static readonly TimePointIntervalRelation IN;
+        public static readonly TimePointIntervalRelation In;
 
         /// <summary>
         /// <para>A <strong>basic</strong> time point-interval relation that says that a point in time
@@ -261,7 +261,7 @@ namespace PPWCode.Value.I.Time.Interval
         /// </code>
         /// <img style="text-align: center;" src="TimePointIntervalRelation-ends.png"/>
         /// </remarks>
-        public static readonly TimePointIntervalRelation ENDS;
+        public static readonly TimePointIntervalRelation Ends;
 
         /// <summary>
         /// <para>A <strong>basic</strong> time point-interval relation that says that a point in time
@@ -276,22 +276,22 @@ namespace PPWCode.Value.I.Time.Interval
         /// </code>
         /// <img style="text-align: center;" src="TimePointIntervalRelation-after.png"/>
         /// </remarks>
-        public static readonly TimePointIntervalRelation AFTER;
+        public static readonly TimePointIntervalRelation After;
 
         /// <summary>
         /// The full time point-interval relation, which expresses that nothing definite can be
         /// said about the relationship between a time point and a time interval.
         /// </summary>
-        public static readonly TimePointIntervalRelation FULL;
+        public static readonly TimePointIntervalRelation Full;
 
         /// <summary>
         /// The set of all 5 basic time point-interval relations. That they are presented here in
         /// a particular order, is a pleasant side note, but in general not relevant
         /// for the user.
         /// </summary>
-        public static readonly TimePointIntervalRelation[] BASIC_RELATIONS;
+        public static readonly TimePointIntervalRelation[] BasicRelations;
 
-        private static readonly string[] BASIC_CODES =
+        private static readonly string[] s_BasicCodes =
             {
                 "<", "=[<", "><", "=[>", ">"
             };
@@ -302,15 +302,15 @@ namespace PPWCode.Value.I.Time.Interval
 
         /// <summary>
         /// There is only 1 private constructor, that constructs the wrapper object
-        /// around the bitpattern. This is used exclusively in <see cref="VALUES"/> 
+        /// around the bitpattern. This is used exclusively in <see cref="Values"/> 
         /// initialization code, in the <see cref="TimePointIntervalRelation">static
         /// constructor</see>.
         /// </summary>
         /// <param name="bitPattern"></param>
         private TimePointIntervalRelation(uint bitPattern)
         {
-            Contract.Requires(bitPattern >= EMPTY_BIT_PATTERN);
-            Contract.Requires(bitPattern <= FULL_BIT_PATTERN);
+            Contract.Requires(bitPattern >= EmptyBitPattern);
+            Contract.Requires(bitPattern <= FullBitPattern);
             // Cannot express this postcondition in a struct for compiler reasons
             // Contract.Ensures(m_BitPattern == bitPattern);
 
@@ -394,7 +394,7 @@ namespace PPWCode.Value.I.Time.Interval
         /// come after <var>I</var> 
         /// (remember that we define time intervals as right half-open).</para>
         /// </summary>
-        public static readonly TimePointIntervalRelation CONCURS_WITH;
+        public static readonly TimePointIntervalRelation ConcursWith;
 
         /// <summary>
         /// <para>A non-basic time point-interval relation that is often handy to use,
@@ -408,7 +408,7 @@ namespace PPWCode.Value.I.Time.Interval
         /// <para>This relation is introduced because it is the possible result of the
         /// <see cref="Compose">composition</see> of 2 basic relations.</para>
         /// </remarks>
-        public static readonly TimePointIntervalRelation BEFORE_END;
+        public static readonly TimePointIntervalRelation BeforeEnd;
 
         /// <summary>
         /// <para>A non-basic time point-interval relation that is often handy to use,
@@ -422,7 +422,7 @@ namespace PPWCode.Value.I.Time.Interval
         /// <para>This relation is introduced because it is the possible result of the
         /// <see cref="Compose">composition</see> of 2 basic relations.</para>
         /// </remarks>
-        public static readonly TimePointIntervalRelation AFTER_BEGIN;
+        public static readonly TimePointIntervalRelation AfterBegin;
 
         #endregion
 
@@ -445,7 +445,7 @@ namespace PPWCode.Value.I.Time.Interval
         public static TimePointIntervalRelation Or(params TimePointIntervalRelation[] tpirs)
         {
             Contract.Ensures(Contract.ForAll(
-                BASIC_RELATIONS,
+                BasicRelations,
                 br => (Contract.Exists(tpirs, tpir => tpir.ImpliedBy(br))
                            ? Contract.Result<TimePointIntervalRelation>().ImpliedBy(br)
                            : true)
@@ -454,9 +454,9 @@ namespace PPWCode.Value.I.Time.Interval
                               : true)));
 
             uint acc = tpirs.Aggregate<TimePointIntervalRelation, uint>(
-                EMPTY_BIT_PATTERN,
+                EmptyBitPattern,
                 (current, tpir) => current | tpir.m_BitPattern);
-            return VALUES[acc];
+            return Values[acc];
         }
 
         /// <summary>
@@ -490,7 +490,7 @@ namespace PPWCode.Value.I.Time.Interval
         public static TimePointIntervalRelation And(params TimePointIntervalRelation[] tpirs)
         {
             Contract.Ensures(Contract.ForAll(
-                BASIC_RELATIONS,
+                BasicRelations,
                 br => (Contract.ForAll(tpirs, tpir => tpir.ImpliedBy(br))
                            ? Contract.Result<TimePointIntervalRelation>().ImpliedBy(br)
                            : true)
@@ -499,9 +499,9 @@ namespace PPWCode.Value.I.Time.Interval
                           : true));
 
             uint acc = tpirs.Aggregate<TimePointIntervalRelation, uint>(
-                FULL_BIT_PATTERN,
+                FullBitPattern,
                 (current, tpir) => current & tpir.m_BitPattern);
-            return VALUES[acc];
+            return Values[acc];
         }
 
         /// <summary>
@@ -538,7 +538,7 @@ namespace PPWCode.Value.I.Time.Interval
         public static TimePointIntervalRelation Min(TimePointIntervalRelation term1, TimePointIntervalRelation term2)
         {
             Contract.Ensures(Contract.ForAll(
-                BASIC_RELATIONS,
+                BasicRelations,
                 br => (br.Implies(Contract.Result<TimePointIntervalRelation>())
                            ? br.Implies(term1) && (! br.Implies(term2))
                            : true)
@@ -548,7 +548,7 @@ namespace PPWCode.Value.I.Time.Interval
 
             uint xor = term1.m_BitPattern ^ term2.m_BitPattern;
             uint min = term1.m_BitPattern & xor;
-            return VALUES[min];
+            return Values[min];
         }
 
         /// <summary>
@@ -571,7 +571,7 @@ namespace PPWCode.Value.I.Time.Interval
         /// These are part of the given semantics, and cannot be calculated.
         /// See <see cref="Compose"/>.
         /// </summary>
-        public static readonly TimePointIntervalRelation[][] BASIC_COMPOSITIONS;
+        public static readonly TimePointIntervalRelation[][] BasicCompositions;
 
         // MUDO TimeIntervalRelation NIY
         ///// <summary>
@@ -625,43 +625,43 @@ namespace PPWCode.Value.I.Time.Interval
 
             if (t == null)
             {
-                return FULL;
+                return Full;
             }
             DateTime? iBegin = i.Begin;
             DateTime? iEnd = i.End;
-            TimePointIntervalRelation result = FULL;
+            TimePointIntervalRelation result = Full;
             if (iBegin != null)
             {
                 if (t < iBegin)
                 {
-                    return BEFORE;
+                    return Before;
                 }
                 else if (t == iBegin)
                 {
-                    return BEGINS;
+                    return Begins;
                 }
                 else
                 {
                     Contract.Assume(t > iBegin);
-                    result -= BEFORE;
-                    result -= BEGINS;
+                    result -= Before;
+                    result -= Begins;
                 }
             }
             if (iEnd != null)
             {
                 if (t < iEnd)
                 {
-                    result -= ENDS;
-                    result -= AFTER;
+                    result -= Ends;
+                    result -= After;
                 }
                 else if (t == iEnd)
                 {
-                    return ENDS;
+                    return Ends;
                 }
                 else
                 {
                     Contract.Assume(t > iEnd);
-                    return AFTER;
+                    return After;
                 }
             }
             return result;
@@ -743,7 +743,7 @@ namespace PPWCode.Value.I.Time.Interval
         {
             get
             {
-                Contract.Ensures(Contract.Result<bool>() == BASIC_RELATIONS.Contains(this));
+                Contract.Ensures(Contract.Result<bool>() == BasicRelations.Contains(this));
 
                 return IsBasicBitPattern(m_BitPattern);
             }
@@ -771,20 +771,20 @@ namespace PPWCode.Value.I.Time.Interval
         /// </summary>
         /// <return>
         /// <para>This is the fraction of the 5 basic relations that imply this general relation.</para>
-        /// <para><see cref="FULL"/> is complete uncertainty, and returns <c>1</c>.</para>
+        /// <para><see cref="Full"/> is complete uncertainty, and returns <c>1</c>.</para>
         /// <para>A <see cref="IsBasic">basic relation</see> is complete certainty,
         /// and returns <c>0</c>.</para>
-        /// <para>The <see cref="EMPTY"/> relation has no meaningful uncertainty.
-        /// This method returns <see cref="Float.NaN"/> as value for <see cref="EMPTY"/>.</para>
+        /// <para>The <see cref="Empty"/> relation has no meaningful uncertainty.
+        /// This method returns <see cref="Float.NaN"/> as value for <see cref="Empty"/>.</para>
         /// </return>
         public float Uncertainty
         {
             get
             {
-                Contract.Ensures(this != EMPTY
+                Contract.Ensures(this != Empty
                                      ? Contract.Result<float>() == (NrOfBasicRelations - 1) / 4.0F
                                      : true);
-                Contract.Ensures(this == EMPTY ? float.IsNaN(Contract.Result<float>()) : true);
+                Contract.Ensures(this == Empty ? float.IsNaN(Contract.Result<float>()) : true);
 
                 int count = BitCount(m_BitPattern);
                 if (count == 0)
@@ -816,9 +816,9 @@ namespace PPWCode.Value.I.Time.Interval
         [Pure]
         public static int CalcNrOfBasicRelations(TimePointIntervalRelation tpir)
         {
-            Contract.Ensures(Contract.Result<int>() == BASIC_RELATIONS.Count(br => br.Implies(tpir)));
+            Contract.Ensures(Contract.Result<int>() == BasicRelations.Count(br => br.Implies(tpir)));
 
-            return BASIC_RELATIONS.Count(br => br.Implies(tpir));
+            return BasicRelations.Count(br => br.Implies(tpir));
         }
 
         /// <summary>
@@ -934,8 +934,8 @@ namespace PPWCode.Value.I.Time.Interval
                  * implemented as the XOR of the FULL bit pattern with this bit pattern;
                  * this simply replaces 0 with 1 and 1 with 0.
                  */
-                uint result = FULL_BIT_PATTERN ^ m_BitPattern;
-                return VALUES[result];
+                uint result = FullBitPattern ^ m_BitPattern;
+                return Values[result];
             }
         }
 
@@ -959,11 +959,11 @@ namespace PPWCode.Value.I.Time.Interval
         {
             Contract.Ensures(Contract.Result<bool>() ==
                              Contract.ForAll(
-                                 BASIC_RELATIONS,
+                                 BasicRelations,
                                  br => (tpir1.ImpliedBy(br) ? (!tpir2.ImpliedBy(br)) : tpir2.ImpliedBy(br))
                                        && (tpir2.ImpliedBy(br) ? (!tpir1.ImpliedBy(br)) : tpir1.ImpliedBy(br))));
 
-            return BASIC_RELATIONS.All(
+            return BasicRelations.All(
                 br => (tpir1.ImpliedBy(br) ? (!tpir2.ImpliedBy(br)) : tpir2.ImpliedBy(br))
                       && (tpir2.ImpliedBy(br) ? (!tpir1.ImpliedBy(br)) : tpir1.ImpliedBy(br)));
         }
@@ -1023,20 +1023,20 @@ namespace PPWCode.Value.I.Time.Interval
             result.Append("(");
             if (IsBasic)
             {
-                result.Append(BASIC_CODES[BasicRelationalOrdinal]);
+                result.Append(s_BasicCodes[BasicRelationalOrdinal]);
             }
             else
             {
                 bool first = true;
-                for (int i = 0; i < BASIC_CODES.Length; i++)
+                for (int i = 0; i < s_BasicCodes.Length; i++)
                 {
-                    if (ImpliedBy(BASIC_RELATIONS[i]))
+                    if (ImpliedBy(BasicRelations[i]))
                     {
                         if (! first)
                         {
                             result.Append(" ");
                         }
-                        result.Append(BASIC_CODES[i]);
+                        result.Append(s_BasicCodes[i]);
                         if (first)
                         {
                             first = false;
