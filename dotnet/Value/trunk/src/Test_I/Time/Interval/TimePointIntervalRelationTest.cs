@@ -46,16 +46,16 @@ namespace PPWCode.Value.Test_I.Time.Interval
         [TestMethod]
         public void TestVALUES()
         {
-            Assert.IsNotNull(TimePointIntervalRelation.VALUES);
-            Assert.AreEqual(TimePointIntervalRelation.NR_OF_RELATIONS, TimePointIntervalRelation.VALUES.Length);
-            for (int i = 0; i < TimePointIntervalRelation.VALUES.Length; i++)
+            Assert.IsNotNull(TimePointIntervalRelation.Values);
+            Assert.AreEqual(TimePointIntervalRelation.NrOfRelations, TimePointIntervalRelation.Values.Length);
+            for (int i = 0; i < TimePointIntervalRelation.Values.Length; i++)
             {
-                TimePointIntervalRelation v = TimePointIntervalRelation.VALUES[i];
+                TimePointIntervalRelation v = TimePointIntervalRelation.Values[i];
                 Assert.IsNotNull(v);
                 Assert.AreEqual(i, v.GetHashCode());
-                for (int j = i + 1; j < TimePointIntervalRelation.VALUES.Length; j++)
+                for (int j = i + 1; j < TimePointIntervalRelation.Values.Length; j++)
                 {
-                    Assert.AreNotEqual(v, TimePointIntervalRelation.VALUES[j]);
+                    Assert.AreNotEqual(v, TimePointIntervalRelation.Values[j]);
                 }
             }
         }
@@ -64,13 +64,13 @@ namespace PPWCode.Value.Test_I.Time.Interval
         public void ShowBitPatterns()
         {
             Console.WriteLine("ALL VALUES");
-            foreach (TimePointIntervalRelation tpir in TimePointIntervalRelation.VALUES)
+            foreach (TimePointIntervalRelation tpir in TimePointIntervalRelation.Values)
             {
                 Console.WriteLine(tpir + ": " + FullBitPattern(tpir));
             }
             Console.WriteLine();
             Console.WriteLine("BASIC RELATIONS");
-            foreach (TimePointIntervalRelation tpir in TimePointIntervalRelation.BASIC_RELATIONS)
+            foreach (TimePointIntervalRelation tpir in TimePointIntervalRelation.BasicRelations)
             {
                 Console.WriteLine(tpir + ": " + FullBitPattern(tpir));
             }
@@ -92,11 +92,11 @@ namespace PPWCode.Value.Test_I.Time.Interval
         public void TestEquals()
         {
             bool result = false;
-            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.VALUES)
+            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.Values)
             {
                 result = tpir1.Equals(null);
                 result = tpir1.Equals(new object());
-                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.VALUES)
+                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.Values)
                 {
                     result = tpir1.Equals(tpir2);
                 }
@@ -107,9 +107,9 @@ namespace PPWCode.Value.Test_I.Time.Interval
         public void TestOperatorEq()
         {
             bool result = false;
-            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.VALUES)
+            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.Values)
             {
-                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.VALUES)
+                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.Values)
                 {
                     result = tpir1 == tpir2;
                 }
@@ -120,9 +120,9 @@ namespace PPWCode.Value.Test_I.Time.Interval
         public void TestOperatorNe()
         {
             bool result = false;
-            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.VALUES)
+            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.Values)
             {
-                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.VALUES)
+                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.Values)
                 {
                     result = tpir1 != tpir2;
                 }
@@ -133,7 +133,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
         public void TestGetHashCode()
         {
             int result = 0;
-            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.VALUES)
+            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.Values)
             {
                 result = tpir1.GetHashCode();
             }
@@ -144,16 +144,16 @@ namespace PPWCode.Value.Test_I.Time.Interval
         {
             TimePointIntervalRelation result;
             result = TimePointIntervalRelation.Or();
-            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.VALUES)
+            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.Values)
             {
                 result = TimePointIntervalRelation.Or(tpir1);
-                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.VALUES)
+                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.Values)
                 {
                     result = TimePointIntervalRelation.Or(tpir1, tpir2);
-                    foreach (TimePointIntervalRelation tpir3 in TimePointIntervalRelation.VALUES)
+                    foreach (TimePointIntervalRelation tpir3 in TimePointIntervalRelation.Values)
                     {
                         result = TimePointIntervalRelation.Or(tpir1, tpir2, tpir3);
-                        foreach (TimePointIntervalRelation tpir4 in TimePointIntervalRelation.VALUES)
+                        foreach (TimePointIntervalRelation tpir4 in TimePointIntervalRelation.Values)
                         {
                             result = TimePointIntervalRelation.Or(tpir1, tpir2, tpir3, tpir4);
                         }
@@ -166,15 +166,15 @@ namespace PPWCode.Value.Test_I.Time.Interval
         public void TestOrOperator()
         {
             TimePointIntervalRelation result;
-            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.VALUES)
+            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.Values)
             {
-                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.VALUES)
+                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.Values)
                 {
                     result = tpir1 | tpir2;
-                    foreach (TimePointIntervalRelation tpir3 in TimePointIntervalRelation.VALUES)
+                    foreach (TimePointIntervalRelation tpir3 in TimePointIntervalRelation.Values)
                     {
                         result = tpir1 | tpir2 | tpir3;
-                        foreach (TimePointIntervalRelation tpir4 in TimePointIntervalRelation.VALUES)
+                        foreach (TimePointIntervalRelation tpir4 in TimePointIntervalRelation.Values)
                         {
                             result = tpir1 | tpir2 | tpir3 | tpir4;
                         }
@@ -188,16 +188,16 @@ namespace PPWCode.Value.Test_I.Time.Interval
         {
             TimePointIntervalRelation result;
             result = TimePointIntervalRelation.And();
-            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.VALUES)
+            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.Values)
             {
                 result = TimePointIntervalRelation.And(tpir1);
-                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.VALUES)
+                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.Values)
                 {
                     result = TimePointIntervalRelation.And(tpir1, tpir2);
-                    foreach (TimePointIntervalRelation tpir3 in TimePointIntervalRelation.VALUES)
+                    foreach (TimePointIntervalRelation tpir3 in TimePointIntervalRelation.Values)
                     {
                         result = TimePointIntervalRelation.And(tpir1, tpir2, tpir3);
-                        foreach (TimePointIntervalRelation tpir4 in TimePointIntervalRelation.VALUES)
+                        foreach (TimePointIntervalRelation tpir4 in TimePointIntervalRelation.Values)
                         {
                             result = TimePointIntervalRelation.And(tpir1, tpir2, tpir3, tpir4);
                         }
@@ -210,15 +210,15 @@ namespace PPWCode.Value.Test_I.Time.Interval
         public void TestAndOperator()
         {
             TimePointIntervalRelation result;
-            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.VALUES)
+            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.Values)
             {
-                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.VALUES)
+                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.Values)
                 {
                     result = tpir1 & tpir2;
-                    foreach (TimePointIntervalRelation tpir3 in TimePointIntervalRelation.VALUES)
+                    foreach (TimePointIntervalRelation tpir3 in TimePointIntervalRelation.Values)
                     {
                         result = tpir1 & tpir2 & tpir3;
-                        foreach (TimePointIntervalRelation tpir4 in TimePointIntervalRelation.VALUES)
+                        foreach (TimePointIntervalRelation tpir4 in TimePointIntervalRelation.Values)
                         {
                             result = tpir1 & tpir2 & tpir3 & tpir4;
                         }
@@ -231,9 +231,9 @@ namespace PPWCode.Value.Test_I.Time.Interval
         public void TestMin()
         {
             TimePointIntervalRelation result;
-            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.VALUES)
+            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.Values)
             {
-                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.VALUES)
+                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.Values)
                 {
                     result = TimePointIntervalRelation.Min(tpir1, tpir2);
                 }
@@ -244,9 +244,9 @@ namespace PPWCode.Value.Test_I.Time.Interval
         public void TestMinOperator()
         {
             TimePointIntervalRelation result;
-            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.VALUES)
+            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.Values)
             {
-                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.VALUES)
+                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.Values)
                 {
                     result = tpir1 - tpir2;
                 }
@@ -260,7 +260,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
             ITimeInterval i = new BeginEndTimeInterval(DateTime.Now, null);
             TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
             //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
-            Assert.AreEqual(TimePointIntervalRelation.FULL, result);
+            Assert.AreEqual(TimePointIntervalRelation.Full, result);
         }
 
         [TestMethod]
@@ -270,7 +270,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
             ITimeInterval i = new BeginEndTimeInterval(null, DateTime.Now);
             TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
             //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
-            Assert.AreEqual(TimePointIntervalRelation.FULL, result);
+            Assert.AreEqual(TimePointIntervalRelation.Full, result);
         }
 
         [TestMethod]
@@ -281,7 +281,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
             ITimeInterval i = new BeginEndTimeInterval(now, now);
             TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
             //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
-            Assert.AreEqual(TimePointIntervalRelation.FULL, result);
+            Assert.AreEqual(TimePointIntervalRelation.Full, result);
         }
 
         [TestMethod]
@@ -291,7 +291,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
             ITimeInterval i = new BeginEndTimeInterval(t, null);
             TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
             //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
-            Assert.AreEqual(TimePointIntervalRelation.BEGINS, result);
+            Assert.AreEqual(TimePointIntervalRelation.Begins, result);
         }
 
         [TestMethod]
@@ -301,7 +301,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
             ITimeInterval i = new BeginEndTimeInterval(null, t);
             TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
             //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
-            Assert.AreEqual(TimePointIntervalRelation.ENDS, result);
+            Assert.AreEqual(TimePointIntervalRelation.Ends, result);
         }
 
         [TestMethod]
@@ -311,7 +311,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
             ITimeInterval i = new BeginEndTimeInterval(new DateTime(1996, 7, 4), null);
             TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
             //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
-            Assert.AreEqual(TimePointIntervalRelation.BEFORE, result);
+            Assert.AreEqual(TimePointIntervalRelation.Before, result);
         }
 
         [TestMethod]
@@ -321,7 +321,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
             ITimeInterval i = new BeginEndTimeInterval(new DateTime(1996, 7, 4), new DateTime(2010, 3, 12));
             TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
             //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
-            Assert.AreEqual(TimePointIntervalRelation.BEFORE, result);
+            Assert.AreEqual(TimePointIntervalRelation.Before, result);
         }
 
         [TestMethod]
@@ -331,7 +331,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
             ITimeInterval i = new BeginEndTimeInterval(null, new DateTime(2010, 3, 12));
             TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
             //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
-            Assert.AreEqual(TimePointIntervalRelation.BEFORE_END, result);
+            Assert.AreEqual(TimePointIntervalRelation.BeforeEnd, result);
         }
 
         [TestMethod]
@@ -341,7 +341,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
             ITimeInterval i = new BeginEndTimeInterval(new DateTime(1991, 11, 17), new DateTime(2010, 3, 12));
             TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
             //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
-            Assert.AreEqual(TimePointIntervalRelation.IN, result);
+            Assert.AreEqual(TimePointIntervalRelation.In, result);
         }
 
         [TestMethod]
@@ -351,7 +351,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
             ITimeInterval i = new BeginEndTimeInterval(new DateTime(1991, 11, 17), new DateTime(2010, 3, 12));
             TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
             //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
-            Assert.AreEqual(TimePointIntervalRelation.ENDS, result);
+            Assert.AreEqual(TimePointIntervalRelation.Ends, result);
         }
 
         [TestMethod]
@@ -361,7 +361,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
             ITimeInterval i = new BeginEndTimeInterval(new DateTime(1991, 11, 17), new DateTime(2010, 3, 12));
             TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
             //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
-            Assert.AreEqual(TimePointIntervalRelation.AFTER, result);
+            Assert.AreEqual(TimePointIntervalRelation.After, result);
         }
 
         [TestMethod]
@@ -371,7 +371,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
             ITimeInterval i = new BeginEndTimeInterval(null, new DateTime(2010, 3, 12));
             TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
             //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
-            Assert.AreEqual(TimePointIntervalRelation.AFTER, result);
+            Assert.AreEqual(TimePointIntervalRelation.After, result);
         }
 
         [TestMethod]
@@ -381,14 +381,14 @@ namespace PPWCode.Value.Test_I.Time.Interval
             ITimeInterval i = new BeginEndTimeInterval(new DateTime(1991, 11, 17), null);
             TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
             //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
-            Assert.AreEqual(TimePointIntervalRelation.AFTER_BEGIN, result);
+            Assert.AreEqual(TimePointIntervalRelation.AfterBegin, result);
         }
 
         [TestMethod]
         public void TestBasicRelationalOrdinal()
         {
             int result = 0;
-            foreach (TimePointIntervalRelation tpir in TimePointIntervalRelation.BASIC_RELATIONS)
+            foreach (TimePointIntervalRelation tpir in TimePointIntervalRelation.BasicRelations)
             {
                 result = tpir.BasicRelationalOrdinal;
                 //Console.WriteLine(result);
@@ -400,7 +400,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
         {
             bool result = false;
             int counter = 0;
-            foreach (TimePointIntervalRelation tpir in TimePointIntervalRelation.VALUES)
+            foreach (TimePointIntervalRelation tpir in TimePointIntervalRelation.Values)
             {
                 result = tpir.IsBasic;
                 if (result)
@@ -415,9 +415,9 @@ namespace PPWCode.Value.Test_I.Time.Interval
         public void TestImpliedBy()
         {
             bool result = false;
-            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.VALUES)
+            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.Values)
             {
-                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.VALUES)
+                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.Values)
                 {
                     result = tpir1.ImpliedBy(tpir2);
                 }
@@ -428,9 +428,9 @@ namespace PPWCode.Value.Test_I.Time.Interval
         public void TestImplies()
         {
             bool result = false;
-            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.VALUES)
+            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.Values)
             {
-                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.VALUES)
+                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.Values)
                 {
                     result = tpir1.Implies(tpir2);
                 }
@@ -441,7 +441,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
         public void TestToString()
         {
             string result = null;
-            foreach (TimePointIntervalRelation tpir in TimePointIntervalRelation.VALUES)
+            foreach (TimePointIntervalRelation tpir in TimePointIntervalRelation.Values)
             {
                 result = tpir.ToString();
                 Assert.IsFalse(string.IsNullOrEmpty(result));
@@ -453,18 +453,18 @@ namespace PPWCode.Value.Test_I.Time.Interval
         public void TestNrOfBasicRelations()
         {
             int result = 0;
-            foreach (TimePointIntervalRelation tpir in TimePointIntervalRelation.VALUES)
+            foreach (TimePointIntervalRelation tpir in TimePointIntervalRelation.Values)
             {
                 result = tpir.NrOfBasicRelations;
                 if (tpir.IsBasic)
                 {
                     Assert.AreEqual(1, result);
                 }
-                if (tpir == TimePointIntervalRelation.FULL)
+                if (tpir == TimePointIntervalRelation.Full)
                 {
                     Assert.AreEqual(5, result);
                 }
-                if (tpir == TimePointIntervalRelation.EMPTY)
+                if (tpir == TimePointIntervalRelation.Empty)
                 {
                     Assert.AreEqual(0, result);
                 }
@@ -475,18 +475,18 @@ namespace PPWCode.Value.Test_I.Time.Interval
         public void TestCalcNrOfBasicRelations()
         {
             int result = 0;
-            foreach (TimePointIntervalRelation tpir in TimePointIntervalRelation.VALUES)
+            foreach (TimePointIntervalRelation tpir in TimePointIntervalRelation.Values)
             {
                 result = TimePointIntervalRelation.CalcNrOfBasicRelations(tpir);
                 if (tpir.IsBasic)
                 {
                     Assert.AreEqual(1, result);
                 }
-                if (tpir == TimePointIntervalRelation.FULL)
+                if (tpir == TimePointIntervalRelation.Full)
                 {
                     Assert.AreEqual(5, result);
                 }
-                if (tpir == TimePointIntervalRelation.EMPTY)
+                if (tpir == TimePointIntervalRelation.Empty)
                 {
                     Assert.AreEqual(0, result);
                 }
@@ -497,14 +497,14 @@ namespace PPWCode.Value.Test_I.Time.Interval
         public void TestUncertainty()
         {
             float result = 0;
-            foreach (TimePointIntervalRelation tpir in TimePointIntervalRelation.VALUES)
+            foreach (TimePointIntervalRelation tpir in TimePointIntervalRelation.Values)
             {
                 result = tpir.Uncertainty;
                 if (tpir.IsBasic)
                 {
                     Assert.AreEqual(0, result);
                 }
-                if (tpir == TimePointIntervalRelation.FULL)
+                if (tpir == TimePointIntervalRelation.Full)
                 {
                     Assert.AreEqual(1, result);
                 }
@@ -516,7 +516,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
         public void TestComplement()
         {
             TimePointIntervalRelation result;
-            foreach (TimePointIntervalRelation tpir in TimePointIntervalRelation.VALUES)
+            foreach (TimePointIntervalRelation tpir in TimePointIntervalRelation.Values)
             {
                 result = tpir.Complement;
                 //Console.WriteLine(FullBitPattern(tpir) + " ### " + FullBitPattern(result));
@@ -527,7 +527,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
         public void TestComplementOperator()
         {
             TimePointIntervalRelation result;
-            foreach (TimePointIntervalRelation tpir in TimePointIntervalRelation.VALUES)
+            foreach (TimePointIntervalRelation tpir in TimePointIntervalRelation.Values)
             {
                 result = ~tpir;
                 //Console.WriteLine(FullBitPattern(tpir) + " ### " + FullBitPattern(result));
@@ -538,9 +538,9 @@ namespace PPWCode.Value.Test_I.Time.Interval
         public void TestAreComplementary()
         {
             bool result;
-            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.VALUES)
+            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.Values)
             {
-                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.VALUES)
+                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.Values)
                 {
                     result = TimePointIntervalRelation.AreComplementary(tpir1, tpir2);
                 }

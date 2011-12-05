@@ -160,13 +160,13 @@ namespace PPWCode.Value.Test_I.Time.Interval
             bool result = false;
             foreach (AbstractTimeInterval subject in Subjects)
             {
-                result = (subject == null);
+                result = subject == null;
 #pragma warning disable 252,253
-                result = (subject == new object());
+                result = subject == new object();
 #pragma warning restore 252,253
                 foreach (AbstractTimeInterval other in Subjects)
                 {
-                    result = (subject == other);
+                    result = subject == other;
                 }
             }
         }
@@ -177,13 +177,13 @@ namespace PPWCode.Value.Test_I.Time.Interval
             bool result = false;
             foreach (AbstractTimeInterval subject in Subjects)
             {
-                result = (subject != null);
+                result = subject != null;
 #pragma warning disable 252,253
-                result = (subject != new object());
+                result = subject != new object();
 #pragma warning restore 252,253
                 foreach (AbstractTimeInterval other in Subjects)
                 {
-                    result = (subject != other);
+                    result = subject != other;
                 }
             }
         }
