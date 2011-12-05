@@ -228,6 +228,32 @@ namespace PPWCode.Value.Test_I.Time.Interval
         }
 
         [TestMethod]
+        public void TestMin()
+        {
+            TimePointIntervalRelation result;
+            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.VALUES)
+            {
+                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.VALUES)
+                {
+                    result = TimePointIntervalRelation.Min(tpir1, tpir2);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void TestMinOperator()
+        {
+            TimePointIntervalRelation result;
+            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.VALUES)
+            {
+                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.VALUES)
+                {
+                    result = tpir1 - tpir2;
+                }
+            }
+        }
+
+        [TestMethod]
         public void TestBasicRelationalOrdinal()
         {
             int result = 0;
