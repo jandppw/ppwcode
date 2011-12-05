@@ -352,6 +352,41 @@ namespace PPWCode.Value.I.Time.Interval
 
         #endregion
 
+        #region Secondary relations
+
+        #endregion
+
+        #region N-ary operations
+
+        /// <summary>
+        /// <para>The main factory method for <c>TimePointIntervalRelations</c>.</para>
+        /// <para>Although this is intended to create any disjunction of the basic relations,
+        /// you can use any relation in the argument list.</para>
+        /// </summary>
+        /// <return>
+        /// <para>This is the union of all time point-interval relations in
+        /// <paramref name="tpirs"/>, when they are considered as sets of basic
+        /// relations.</para>
+        /// </return>
+        public static TimePointIntervalRelation Or(params TimePointIntervalRelation[] tpirs)
+        {
+            Contract.Ensures(Contract.ForAll(
+                BASIC_RELATIONS,
+                br => (Contract.Exists(tpirs, tpir => tpir.ImpliedBy(br))
+                        ? Contract.Result<TimePointIntervalRelation>().ImpliedBy(br)
+                        : true)
+                    && (Contract.Result<TimePointIntervalRelation>().ImpliedBy(br)
+                        ? Contract.Exists(tpirs, tpir => tpir.ImpliedBy(br))
+                        : true)));
+
+            uint acc = tpirs.Aggregate<TimePointIntervalRelation, uint>(
+                EMPTY_BIT_PATTERN,
+                (current, tpir) => current | tpir.m_BitPattern);
+            return VALUES[acc];
+        }
+
+        #endregion
+
         #region Instance operations
 
         /// <summary>
@@ -636,7 +671,6 @@ namespace PPWCode.Value.I.Time.Interval
 
             return tpir.Complement;
         }
-
 
         [Pure]
         public static bool AreComplementary(TimePointIntervalRelation tpir1, TimePointIntervalRelation tpir2)

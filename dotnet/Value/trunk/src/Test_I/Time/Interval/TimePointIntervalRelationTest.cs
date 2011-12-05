@@ -140,6 +140,29 @@ namespace PPWCode.Value.Test_I.Time.Interval
         }
 
         [TestMethod]
+        public void TestOr()
+        {
+            TimePointIntervalRelation result;
+            result = TimePointIntervalRelation.Or();
+            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.VALUES)
+            {
+                result = TimePointIntervalRelation.Or(tpir1);
+                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.VALUES)
+                {
+                    result = TimePointIntervalRelation.Or(tpir1, tpir2);
+                    foreach (TimePointIntervalRelation tpir3 in TimePointIntervalRelation.VALUES)
+                    {
+                        result = TimePointIntervalRelation.Or(tpir1, tpir2, tpir3);
+                        foreach (TimePointIntervalRelation tpir4 in TimePointIntervalRelation.VALUES)
+                        {
+                            result = TimePointIntervalRelation.Or(tpir1, tpir2, tpir3, tpir4);
+                        }
+                    }
+                }
+            }
+        }
+
+        [TestMethod]
         public void TestBasicRelationalOrdinal()
         {
             int result = 0;
