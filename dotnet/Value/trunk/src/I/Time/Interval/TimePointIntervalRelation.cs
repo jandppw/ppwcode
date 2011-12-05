@@ -447,6 +447,80 @@ namespace PPWCode.Value.I.Time.Interval
         }
 
         /// <summary>
+        /// A measure about the uncertainty this time point-interval relation expresses.
+        /// </summary>
+        /// <return>
+        /// <para>This is the fraction of the 5 basic relations that imply this general relation.</para>
+        /// <para><see cref="FULL"/> is complete uncertainty, and returns <c>1</c>.</para>
+        /// <para>A <see cref="IsBasic">basic relation</see> is complete certainty,
+        /// and returns <c>0</c>.</para>
+        /// <para>The <see cref="EMPTY"/> relation has no meaningful uncertainty.
+        /// This method returns <see cref="Float.NaN"/> as value for <see cref="EMPTY"/>.</para>
+        /// </return>
+        public float Uncertainty
+        {
+            get
+            {
+                Contract.Ensures(this != EMPTY
+                                     ? Contract.Result<float>() == (NrOfBasicRelations - 1) / 4.0F
+                                     : true);
+                Contract.Ensures(this == EMPTY ? float.IsNaN(Contract.Result<float>()) : true);
+
+                int count = BitCount(m_BitPattern);
+                if (count == 0)
+                {
+                    return float.NaN;
+                }
+                count--;
+                float result = count / 4.0F;
+                return result;
+            }
+        }
+
+        public int NrOfBasicRelations
+        {
+            get
+            {
+                Contract.Ensures(Contract.Result<int>() == CalcNrOfBasicRelations(this));
+
+                return CalcNrOfBasicRelations(this);
+            }
+        }
+
+        /// <summary>
+        /// Introduced to technically make postcondition possible.
+        /// </summary>
+        /// <remarks>
+        /// Cannot refer to "this" in lambda function if this is a struct.
+        /// </remarks>
+        [Pure]
+        public static int CalcNrOfBasicRelations(TimePointIntervalRelation tpir)
+        {
+            Contract.Ensures(Contract.Result<int>() == BASIC_RELATIONS.Count(br => br.Implies(tpir)));
+
+            return BASIC_RELATIONS.Count(br => br.Implies(tpir));
+        }
+
+        /// <summary>
+        /// Based on Java, Integer.bitCount.
+        /// </summary>
+        /// <remarks>
+        /// (Based on Java documentation):
+        /// Returns the number of one-bits in binary
+        /// representation of the specified <c>uint</c> value. This function is
+        /// sometimes referred to as the <dfn>population count</dfn>.
+        /// </remarks>
+        private static int BitCount(uint i)
+        {
+            i = i - ((i >> 1) & 0x55555555);
+            i = (i & 0x33333333) + ((i >> 2) & 0x33333333);
+            i = (i + (i >> 4)) & 0x0f0f0f0f;
+            i = i + (i >> 8);
+            i = i + (i >> 16);
+            return (int)(i & 0x3f);
+        }
+
+        /// <summary>
         /// <para>Is <c>this</c> implied by <paramref name="tpir"/>?</para>
         /// <para>In other words, when considering the relations as a set of basic relations, is
         /// <c>this</c> a superset of <paramref name="tpir"/>
@@ -458,6 +532,19 @@ namespace PPWCode.Value.I.Time.Interval
         public bool ImpliedBy(TimePointIntervalRelation tpir)
         {
             return (m_BitPattern & tpir.m_BitPattern) == tpir.m_BitPattern;
+        }
+
+        /// <summary>
+        /// Does <c>this</c> imply <paramref name="tpir"/>? In other words, when considering
+        /// the relations as a set of basic relations, is <c>this</c> a subset of
+        /// <paramref name="tpir"/> (considering equality as also acceptable)?
+        /// </summary>
+        [Pure]
+        public bool Implies(TimePointIntervalRelation tpir)
+        {
+            Contract.Ensures(Contract.Result<bool>() == tpir.ImpliedBy(this));
+
+            return (tpir.m_BitPattern & m_BitPattern) == m_BitPattern;
         }
 
         #endregion

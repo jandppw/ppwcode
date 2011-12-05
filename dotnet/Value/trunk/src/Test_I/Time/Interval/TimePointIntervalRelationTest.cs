@@ -180,6 +180,19 @@ namespace PPWCode.Value.Test_I.Time.Interval
         }
 
         [TestMethod]
+        public void TestImplies()
+        {
+            bool result = false;
+            foreach (TimePointIntervalRelation tpir1 in TimePointIntervalRelation.VALUES)
+            {
+                foreach (TimePointIntervalRelation tpir2 in TimePointIntervalRelation.VALUES)
+                {
+                    result = tpir1.Implies(tpir2);
+                }
+            }
+        }
+
+        [TestMethod]
         public void TestToString()
         {
             string result = null;
@@ -188,6 +201,68 @@ namespace PPWCode.Value.Test_I.Time.Interval
                 result = tpir.ToString();
                 Assert.IsFalse(string.IsNullOrEmpty(result));
                 Console.WriteLine(FullBitPattern(tpir) + ": " + result);
+            }
+        }
+
+        [TestMethod]
+        public void TestNrOfBasicRelations()
+        {
+            int result = 0;
+            foreach (TimePointIntervalRelation tpir in TimePointIntervalRelation.VALUES)
+            {
+                result = tpir.NrOfBasicRelations;
+                if (tpir.IsBasic)
+                {
+                    Assert.AreEqual(1, result);
+                }
+                if (tpir == TimePointIntervalRelation.FULL)
+                {
+                    Assert.AreEqual(5, result);
+                }
+                if (tpir == TimePointIntervalRelation.EMPTY)
+                {
+                    Assert.AreEqual(0, result);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void TestCalcNrOfBasicRelations()
+        {
+            int result = 0;
+            foreach (TimePointIntervalRelation tpir in TimePointIntervalRelation.VALUES)
+            {
+                result = TimePointIntervalRelation.CalcNrOfBasicRelations(tpir);
+                if (tpir.IsBasic)
+                {
+                    Assert.AreEqual(1, result);
+                }
+                if (tpir == TimePointIntervalRelation.FULL)
+                {
+                    Assert.AreEqual(5, result);
+                }
+                if (tpir == TimePointIntervalRelation.EMPTY)
+                {
+                    Assert.AreEqual(0, result);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void TestUncertainty()
+        {
+            float result = 0;
+            foreach (TimePointIntervalRelation tpir in TimePointIntervalRelation.VALUES)
+            {
+                result = tpir.Uncertainty;
+                if (tpir.IsBasic)
+                {
+                    Assert.AreEqual(0, result);
+                }
+                if (tpir == TimePointIntervalRelation.FULL)
+                {
+                    Assert.AreEqual(1, result);
+                }
             }
         }
     }
