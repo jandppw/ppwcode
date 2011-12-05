@@ -573,36 +573,41 @@ namespace PPWCode.Value.I.Time.Interval
         /// </summary>
         public static readonly TimePointIntervalRelation[][] BASIC_COMPOSITIONS;
 
-        //        /**
-        // * <p>Given a point in time <code><var>t</var></code> and 2 time intervals <code><var>I1</var></code>, <code><var>I2</var></code>,
-        // *   given <code>tpir = timePointIntervalRelation(<var>t</var>, <var>I1</var>)</code> and
-        // *   <code>ar == allenRelation(<var>I1</var>, <var>I2</var>)</code>,
-        // *   <code>compose(tpir, ar) == timePointIntervalRelation(<var>t</var>, <var>I2</var>)</code>.</p>
-        // */
-        //@MethodContract(
-        //  pre  = {
-        //    @Expression("_tpir != null"),
-        //    @Expression("_ar != null")
-        //  },
-        //  post = {
-        //    @Expression("for (TimePointIntervalRelation bTpir : BASIC_RELATIONS) {for (TimeIntervalRelation bAr: TimeIntervalRelation.BASIC_RELATIONS) {" +
-        //                  "bTpir.implies(_tpir) && bAr.implies(_ar) ? result.impliedBy(BASIC_COMPOSITIONS[btPir.basicRelationOrdinal()][bAr.basicRelationOrdinal()])" +
-        //                "}}")
-        //})
-        //public static TimePointIntervalRelation compose(TimePointIntervalRelation tpir, TimeIntervalRelation ar) {
-        //  assert preArgumentNotNull(tpir, "tpir");
-        //  assert preArgumentNotNull(ar, "ar");
-        //  TimePointIntervalRelation acc = EMPTY;
-        //  for (TimePointIntervalRelation bTpir : BASIC_RELATIONS) {
-        //    if (tpir.impliedBy(tpir)) {
-        //      for (TimeIntervalRelation bAr : TimeIntervalRelation.BASIC_RELATIONS) {
-        //        if (ar.impliedBy(bAr)) {
-        //          acc = or(acc, BASIC_COMPOSITIONS[bTpir.basicRelationOrdinal()][bAr.basicRelationOrdinal()]);
+        // MUDO TimeIntervalRelation NIY
+        ///// <summary>
+        ///// Given a point in time <c><var>t</var></c> and a 2 time intervals <c><var>I1</var></c>,
+        ///// <c><var>I2</var></c>, given
+        ///// <c>tpir = LeastUncertainTimePointIntervalRelation(<var>t</var>, <var>I1</var>)</c> 
+        ///// and <c>tir == LeastUncertainTimeIntervalRelation(<var>I1</var>, <var>I2</var>)</c>,
+        ///// <c>compose(tpir, tir) == LeastUncertainTimePointIntervalRelation(<var>t</var>, <var>I2</var>)</c>.
+        ///// </summary>
+        //public static TimePointIntervalRelation Compose(TimePointIntervalRelation tpir, TimeIntervalRelation tir)
+        //{
+        //    //@MethodContract(
+        //    //  pre  = {
+        //    //    @Expression("_tpir != null"),
+        //    //    @Expression("_ar != null")
+        //    //  },
+        //    //  post = {
+        //    //    @Expression("for (TimePointIntervalRelation bTpir : BASIC_RELATIONS) {for (TimeIntervalRelation bAr: TimeIntervalRelation.BASIC_RELATIONS) {" +
+        //    //                  "bTpir.implies(_tpir) && bAr.implies(_ar) ? result.impliedBy(BASIC_COMPOSITIONS[btPir.basicRelationOrdinal()][bAr.basicRelationOrdinal()])" +
+        //    //                "}}")
+        //    //})
+        //    TimePointIntervalRelation acc = EMPTY;
+        //    foreach (TimePointIntervalRelation bTpir in BASIC_RELATIONS)
+        //    {
+        //        if (tpir.ImpliedBy(bTpir))
+        //        {
+        //            foreach (TimeIntervalRelation bTir in TimeIntervalRelation.BASIC_RELATIONS)
+        //            {
+        //                if (tir.ImpliedBy(bTir))
+        //                {
+        //                    acc |= BASIC_COMPOSITIONS[bTpir.BasicRelationalOrdinal][bTir.BasicRelationalOrdinal];
+        //                }
+        //            }
         //        }
-        //      }
         //    }
-        //  }
-        //  return acc;
+        //    return acc;
         //}
 
         /// <summary>
