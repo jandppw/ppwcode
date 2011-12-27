@@ -20,16 +20,19 @@ using System.Runtime.CompilerServices;
 
 #endregion
 
-namespace PPWCode.Value.I
+namespace PPWCode.Value.I.Time
 {
     /// <summary>
-    /// <para>This assembly containts this namespace, which gathers different
-    /// fully implemented and supported value types. Supporting assemblies
-    /// can be found that add, e.g., persistence support for the value types
-    /// in a given technology.</para>
+    /// <para>Time is dangerously and treacherously difficult to reason about.
+    /// The classes supported by .net are a good start, but don't fully
+    /// do the subject justice. In this namespace and its sub-namespaces we try to offer
+    /// some help.</para>
+    /// <para>Time intervals and reasoning with time intervals is a very complex subject
+    /// matter. Support for working with time intervals is based around <em>Allen's Interval
+    /// Algebra</em>, and gathered in <see cref="PPWCode.Value.I.Time.Interval"/>.</para>
     /// </summary>
     [CompilerGenerated]
-    internal sealed class NamespaceDoc
+    internal class NamespaceDoc
     {
     }
 }

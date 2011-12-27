@@ -132,8 +132,33 @@
     <Compile Include="Time\Interval\BeginEndTimeInterval.cs" />
     <Compile Include="Time\Interval\IllegalTimeIntervalException.cs" />
     <Compile Include="Time\Interval\ITimeInterval.cs" />
+    <Compile Include="Time\Interval\NamespaceDoc.cs" />
     <Compile Include="Time\Interval\TimeIntervalRelation.cs" />
     <Compile Include="Time\Interval\TimePointIntervalRelation.cs" />
+    <Compile Include="Time\NamespaceDoc.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Time\Interval\img\Allen Relations.odg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Time\Interval\img\AllenRelation-contains.png" />
+    <Content Include="Time\Interval\img\AllenRelation-during.png" />
+    <Content Include="Time\Interval\img\AllenRelation-equals.png" />
+    <Content Include="Time\Interval\img\AllenRelation-finishedBy.png" />
+    <Content Include="Time\Interval\img\AllenRelation-finishes.png" />
+    <Content Include="Time\Interval\img\AllenRelation-meets.png" />
+    <Content Include="Time\Interval\img\AllenRelation-metBy.png" />
+    <Content Include="Time\Interval\img\AllenRelation-overlappedBy.png" />
+    <Content Include="Time\Interval\img\AllenRelation-overlaps.png" />
+    <Content Include="Time\Interval\img\AllenRelation-precededBy.png" />
+    <Content Include="Time\Interval\img\AllenRelation-precedes.png" />
+    <Content Include="Time\Interval\img\AllenRelation-startedBy.png" />
+    <Content Include="Time\Interval\img\AllenRelation-starts.png" />
+    <Content Include="Time\Interval\img\TimePointIntervalRelation-after.png" />
+    <Content Include="Time\Interval\img\TimePointIntervalRelation-before.png" />
+    <Content Include="Time\Interval\img\TimePointIntervalRelation-begins.png" />
+    <Content Include="Time\Interval\img\TimePointIntervalRelation-ends.png" />
+    <Content Include="Time\Interval\img\TimePointIntervalRelation-in.png" />
   </ItemGroup>
   <Import Project="..\..\wraps\openwrap\build\OpenWrap.CSharp.targets" />
   <Import Project="..\..\wraps\Microsoft.Stylecop-PPWStyle\build\Microsoft.StyleCop.targets" />
