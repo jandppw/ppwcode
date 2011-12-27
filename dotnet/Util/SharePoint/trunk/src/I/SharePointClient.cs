@@ -74,7 +74,9 @@ namespace PPWCode.Util.SharePoint.I
 
         private static void CreateFolder(ClientContext spClientContext, string relativeUrl)
         {
-            var workUrl = (relativeUrl.StartsWith("/")) ? relativeUrl.Substring(1) : relativeUrl;
+            string workUrl = relativeUrl.StartsWith("/")
+                                 ? relativeUrl.Substring(1)
+                                 : relativeUrl;
             string[] foldernames = workUrl.Split('/');
 
             spClientContext.Load(spClientContext.Site.RootWeb.RootFolder);
@@ -198,7 +200,7 @@ namespace PPWCode.Util.SharePoint.I
                 try
                 {
                     string targetUrl = string.Format("{0}{1}", SharePointSiteUrl, relativeUrl);
- 
+
                     // Create a PUT Web request to upload the file.
                     WebRequest request = WebRequest.Create(targetUrl);
 
@@ -216,7 +218,7 @@ namespace PPWCode.Util.SharePoint.I
                         using (MemoryStream ms = new MemoryStream(doc.Content))
                         {
                             ms.Position = 0;
-                            
+
                             // Get the start point
                             int startBuffer = ms.Read(fileBuffer, 0, fileBuffer.Length);
                             for (int i = startBuffer; i > 0; i = ms.Read(fileBuffer, 0, fileBuffer.Length))
