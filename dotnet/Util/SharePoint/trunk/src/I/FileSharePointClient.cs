@@ -227,9 +227,10 @@ namespace PPWCode.Util.SharePoint.I
             }
             else
             {
+                string extension = Path.GetExtension(relativeUrl);
                 string tempFullFileName = Path
                     .GetTempFileName()
-                    .Replace(".tmp", ".bin");
+                    .Replace(".tmp", extension ?? ".bin");
                 fileName = Path.GetFileName(tempFullFileName);
                 documentMap.Add(relativeUrl, fileName);
                 SaveDocumentMap(documentMap);
@@ -261,10 +262,10 @@ namespace PPWCode.Util.SharePoint.I
             List<SharePointSearchResult> result = new List<SharePointSearchResult>();
             IDictionary<string, string> documentMap = GetDocumentMap();
             Uri fileUri = new Uri(url);
-            string relativeUrl = @"/" + fileUri.GetComponents(UriComponents.Path, UriFormat.SafeUnescaped);
-            var pairs = documentMap
+            string relativeUrl = @"/" + fileUri.GetComponents(UriComponents.Path, UriFormat.UriEscaped);
+            IEnumerable<KeyValuePair<string, string>> pairs = documentMap
                 .Where(p => p.Key.StartsWith(relativeUrl));
-            foreach (var pair in pairs)
+            foreach (KeyValuePair<string, string> pair in pairs)
             {
                 SharePointSearchResult fileInformation = new SharePointSearchResult();
                 string physicalPathName = Path.Combine(s_SharepointMock, pair.Value);
@@ -272,7 +273,7 @@ namespace PPWCode.Util.SharePoint.I
                 IdentityReference sid = fs.GetOwner(typeof(SecurityIdentifier));
                 IdentityReference ntAccount = sid.Translate(typeof(NTAccount));
 
-                fileInformation.Properties.Add("FileName", Path.GetFileName(pair.Key));
+                fileInformation.Properties.Add("FileName", Uri.UnescapeDataString(Path.GetFileName(pair.Key) ?? string.Empty));
                 fileInformation.Properties.Add("ServerRelativeUrl", pair.Key);
                 fileInformation.Properties.Add("Description", string.Empty);
                 fileInformation.Properties.Add("MajorVersion", 1);
