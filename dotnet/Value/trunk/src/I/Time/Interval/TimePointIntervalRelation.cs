@@ -32,9 +32,11 @@ namespace PPWCode.Value.I.Time.Interval
         [ContractInvariantMethod]
         private void TypeInvariants()
         {
-            // VALUES
+            // Values
             Contract.Invariant(ClassInitialized ? Values != null : true);
             Contract.Invariant(ClassInitialized ? Values.Length == NrOfRelations : true);
+            // Values cannot contain null, because the type is TimePointIntervalRelation[], not
+            // TimePointIntervalRelation?[]
             Contract.Invariant(
                 ClassInitialized
                     ? Contract.ForAll(
@@ -49,10 +51,10 @@ namespace PPWCode.Value.I.Time.Interval
 
             // Basic relations
             Contract.Invariant(ClassInitialized ? BasicRelations != null : true);
-            // MUDO Contract.Invariant(ClassInitialized ? Contract.ForAll(BASIC_RELATIONS, basic => ! EMPTY.impliedBy(basic)) : true);
-
-            // MUDO Contract.Invariant(ClassInitialized ? FULL == or(BEFORE, BEGINS, IN, ENDS, AFTER) : true);
-            // MUDO Contract.Invariant(ClassInitialized ? Contract.ForAll(BASIC_RELATIONS, br => BASIC_RELATIONS[br.BasicRelationOrdinal] == br) : true);
+            Contract.Invariant(ClassInitialized ? Contract.ForAll(BasicRelations, basic => ! Empty.ImpliedBy(basic)) : true);           
+            // TODO Contract.Invariant(ClassInitialized ? Full == Or(Before, Begins, In, Ends, After) : true);
+            // Contracts sees an assignment here
+            Contract.Invariant(ClassInitialized ? Contract.ForAll(BasicRelations, br => BasicRelations[br.BasicRelationalOrdinal] == br) : true);
             Contract.Invariant(ClassInitialized ? BasicRelations[0] == Before : true);
             Contract.Invariant(ClassInitialized ? BasicRelations[1] == Begins : true);
             Contract.Invariant(ClassInitialized ? BasicRelations[2] == In : true);
@@ -188,13 +190,13 @@ namespace PPWCode.Value.I.Time.Interval
 
         #region Basic relations
 
-        private const int EmptyBitPattern = 0; // 00000
-        private const int BeforeBitPattern = 1; // 00001 <
-        private const int BeginsBitPattern = 2; // 00010 =[<
-        private const int InBitPattern = 4; // 00100 ><
-        private const int EndsByBitPattern = 8; // 01000 =[>
-        private const int AfterBitPattern = 16; // 10000 >
-        private const int FullBitPattern = 31; // 11111 < =[< >< =[> >
+        private const int EmptyBitPattern  =  0; // 00000
+        private const int BeforeBitPattern =  1; // 00001 <
+        private const int BeginsBitPattern =  2; // 00010 =[<
+        private const int InBitPattern     =  4; // 00100 ><
+        private const int EndsByBitPattern =  8; // 01000 =[>
+        private const int AfterBitPattern  = 16; // 10000 >
+        private const int FullBitPattern   = 31; // 11111 < =[< >< =[> >
 
         /// <summary>
         /// This empty relation is not a true time point-interval relation. It does not express a
@@ -306,7 +308,6 @@ namespace PPWCode.Value.I.Time.Interval
         /// initialization code, in the <see cref="TimePointIntervalRelation">static
         /// constructor</see>.
         /// </summary>
-        /// <param name="bitPattern"></param>
         private TimePointIntervalRelation(uint bitPattern)
         {
             Contract.Requires(bitPattern >= EmptyBitPattern);
@@ -686,54 +687,8 @@ namespace PPWCode.Value.I.Time.Interval
                  * This is the bit position, 0-based, in the 5-bit bit pattern, of the bit
                  * representing this as basic relation.
                  */
-                return NumberOfTrailingZeros(m_BitPattern);
+                return m_BitPattern.NumberOfTrailingZeros();
             }
-        }
-
-        /// <summary>
-        /// Based on Java, Integer.numberOfTrailingZeros.
-        /// </summary>
-        /// <remarks>
-        /// (Based on Java documentation):
-        /// Returns the number of zero bits following the lowest-order ("rightmost")
-        /// one-bit in the representation of the specified
-        /// <c>uint</c> value.  Returns 32 if the specified value has no
-        /// one-bits in its representation, in other words if it is
-        /// equal to zero.
-        /// </remarks>
-        private static int NumberOfTrailingZeros(uint i)
-        {
-            uint y;
-            if (i == 0)
-            {
-                return 32;
-            }
-            uint n = 31;
-            y = i << 16;
-            if (y != 0)
-            {
-                n = n - 16;
-                i = y;
-            }
-            y = i << 8;
-            if (y != 0)
-            {
-                n = n - 8;
-                i = y;
-            }
-            y = i << 4;
-            if (y != 0)
-            {
-                n = n - 4;
-                i = y;
-            }
-            y = i << 2;
-            if (y != 0)
-            {
-                n = n - 2;
-                i = y;
-            }
-            return (int)(n - ((i << 1) >> 31));
         }
 
         /// <summary>
@@ -745,25 +700,8 @@ namespace PPWCode.Value.I.Time.Interval
             {
                 Contract.Ensures(Contract.Result<bool>() == BasicRelations.Contains(this));
 
-                return IsBasicBitPattern(m_BitPattern);
+                return m_BitPattern.IsBasicBitPattern();
             }
-        }
-
-        /// <summary>
-        /// A basic relation is expressed by a single bit in the bit pattern.
-        /// </summary>
-        private static bool IsBasicBitPattern(uint bitPattern)
-        {
-            /* http://graphics.stanford.edu/~seander/bithacks.html
-             * Determining if an integer is a power of 2
-             * unsigned int v; // we want to see if v is a power of 2
-             * bool f;         // the result goes here
-             * f = (v & (v - 1)) == 0;
-             *
-             * Note that 0 is incorrectly considered a power of 2 here. To remedy this, use:
-             * f = !(v & (v - 1)) && v;
-             */
-            return ((bitPattern & (bitPattern - 1)) == 0) && (bitPattern != 0);
         }
 
         /// <summary>
@@ -786,7 +724,7 @@ namespace PPWCode.Value.I.Time.Interval
                                      : true);
                 Contract.Ensures(this == Empty ? float.IsNaN(Contract.Result<float>()) : true);
 
-                int count = BitCount(m_BitPattern);
+                int count = m_BitPattern.BitCount();
                 if (count == 0)
                 {
                     return float.NaN;
@@ -819,25 +757,6 @@ namespace PPWCode.Value.I.Time.Interval
             Contract.Ensures(Contract.Result<int>() == BasicRelations.Count(br => br.Implies(tpir)));
 
             return BasicRelations.Count(br => br.Implies(tpir));
-        }
-
-        /// <summary>
-        /// Based on Java, Integer.bitCount.
-        /// </summary>
-        /// <remarks>
-        /// (Based on Java documentation):
-        /// Returns the number of one-bits in binary
-        /// representation of the specified <c>uint</c> value. This function is
-        /// sometimes referred to as the <dfn>population count</dfn>.
-        /// </remarks>
-        private static int BitCount(uint i)
-        {
-            i = i - ((i >> 1) & 0x55555555);
-            i = (i & 0x33333333) + ((i >> 2) & 0x33333333);
-            i = (i + (i >> 4)) & 0x0f0f0f0f;
-            i = i + (i >> 8);
-            i = i + (i >> 16);
-            return (int)(i & 0x3f);
         }
 
         /// <summary>
