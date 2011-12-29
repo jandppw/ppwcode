@@ -130,6 +130,7 @@
     <Compile Include="Time\Interval\AbstractBeginEndTimeInterval.cs" />
     <Compile Include="Time\Interval\AbstractTimeInterval.cs" />
     <Compile Include="Time\Interval\BeginEndTimeInterval.cs" />
+    <Compile Include="Time\Interval\Bitpattern.cs" />
     <Compile Include="Time\Interval\IllegalTimeIntervalException.cs" />
     <Compile Include="Time\Interval\ITimeInterval.cs" />
     <Compile Include="Time\Interval\NamespaceDoc.cs" />
