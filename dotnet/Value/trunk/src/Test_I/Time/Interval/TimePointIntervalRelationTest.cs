@@ -79,13 +79,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
 
         private static string FullBitPattern(TimePointIntervalRelation ar)
         {
-            int bitpattern = ar.GetHashCode();
-            string bitString = Convert.ToString(bitpattern, 2);
-            while (bitString.Length < 5)
-            {
-                bitString = "0" + bitString;
-            }
-            return bitString;
+            return ((uint)ar.GetHashCode()).FullBitPattern(5);
         }
 
         [TestMethod]
