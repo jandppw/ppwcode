@@ -19,6 +19,7 @@ limitations under the License.
 using System;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Text;
 
 #endregion
 
@@ -1008,5 +1009,34 @@ namespace PPWCode.Value.I.Time.Interval
         }
 
         #endregion
+
+        /// <summary>
+        /// This returns a representation of the time point-interval
+        /// relation in the most used short notation
+        /// (&lt; =[&lt; &gt;&lt; =[&gt; &gt;).
+        /// </summary>
+        [Pure]
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            result.Append("(");
+            if (IsBasic)
+            {
+                result.Append(s_BasicCodes[BasicRelationalOrdinal]);
+            }
+            else
+            {
+                for (int i = 0; i < s_BasicCodes.Length; i++)
+                {
+                    if (ImpliedBy(BasicRelations[i]))
+                    {
+                        result.Append(s_BasicCodes[i]);
+                    }
+                }
+            }
+            result.Append(")");
+            return result.ToString();
+        }
+
     }
 }

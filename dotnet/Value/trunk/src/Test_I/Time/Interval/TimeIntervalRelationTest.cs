@@ -346,17 +346,17 @@ namespace PPWCode.Value.Test_I.Time.Interval
             }
         }
 
-        //[TestMethod]
-        //public void TestToString()
-        //{
-        //    string result = null;
-        //    foreach (TimeIntervalRelation tir in TimeIntervalRelation.Values)
-        //    {
-        //        result = tir.ToString();
-        //        Assert.IsFalse(string.IsNullOrEmpty(result));
-        //        Console.WriteLine(FullBitPattern(tir) + ": " + result);
-        //    }
-        //}
+        [TestMethod]
+        public void TestToString()
+        {
+            string result = null;
+            foreach (TimeIntervalRelation tir in TimeIntervalRelation.Values)
+            {
+                result = tir.ToString();
+                Assert.IsFalse(string.IsNullOrEmpty(result));
+                Console.WriteLine(FullBitPattern(tir) + ": " + result);
+            }
+        }
 
         [TestMethod]
         public void TestNrOfBasicRelations()
