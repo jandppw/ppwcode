@@ -36,7 +36,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
             new DateTime(2002, 4, 14),
             new DateTime(2004, 9, 30),
             new DateTime(2011, 12, 22),
-            new DateTime(2043, 3, 3), 
+            new DateTime(2043, 3, 3),
         };
 
         public static readonly ITimeInterval[] Tis = new ITimeInterval[]
@@ -62,14 +62,41 @@ namespace PPWCode.Value.Test_I.Time.Interval
             new BeginEndTimeInterval(Dts[3], Dts[3]),
         };
 
+        public static readonly bool FullTests = false;
+        
+        public static readonly int NrOfRandomValues = 300;
+
+        public TimeIntervalRelation[] Subjects { get; set; }
+
         [TestInitialize]
         public void TestInitialize()
         {
+            if (FullTests)
+            {
+                Subjects = TimeIntervalRelation.Values;
+            }
+            else
+            {
+                Subjects = new TimeIntervalRelation[NrOfRandomValues];
+                Subjects[0] = TimeIntervalRelation.Empty;
+                for (int i = 1; i < (TimeIntervalRelation.BasicRelations.Length + 1); i++)
+                {
+                    Subjects[i] = TimeIntervalRelation.BasicRelations[i - 1];
+                }
+                Subjects[14] = TimeIntervalRelation.Full;
+                    Random r = new Random();
+                for (int i = 15; i < NrOfRandomValues; i++)
+                {
+                    int index = r.Next(TimeIntervalRelation.NrOfRelations);
+                    Subjects[i] = TimeIntervalRelation.Values[index];
+                }
+            }
         }
 
         [TestCleanup]
         public void TestCleanup()
         {
+            Subjects = null;
         }
 
         #endregion
@@ -100,12 +127,12 @@ namespace PPWCode.Value.Test_I.Time.Interval
                 Console.WriteLine(tir + ": " + FullBitPattern(tir));
             }
             Console.WriteLine();
-            ////Console.WriteLine("BASIC RELATIONS");
-            ////foreach (TimeIntervalRelation tir in TimeIntervalRelation.BasicRelations)
-            ////{
-            ////    Console.WriteLine(tir + ": " + FullBitPattern(tir));
-            ////}
-            ////Console.WriteLine();
+            Console.WriteLine("BASIC RELATIONS");
+            foreach (TimeIntervalRelation tir in TimeIntervalRelation.BasicRelations)
+            {
+                Console.WriteLine(tir + ": " + FullBitPattern(tir));
+            }
+            Console.WriteLine();
         }
 
         private static string FullBitPattern(TimeIntervalRelation ar)
@@ -117,11 +144,11 @@ namespace PPWCode.Value.Test_I.Time.Interval
         public void TestEquals()
         {
             bool result = false;
-            foreach (TimeIntervalRelation tir1 in TimeIntervalRelation.Values)
+            foreach (TimeIntervalRelation tir1 in Subjects)
             {
                 result = tir1.Equals(null);
                 result = tir1.Equals(new object());
-                foreach (TimeIntervalRelation tir2 in TimeIntervalRelation.Values)
+                foreach (TimeIntervalRelation tir2 in Subjects)
                 {
                     result = tir1.Equals(tir2);
                 }
@@ -132,9 +159,9 @@ namespace PPWCode.Value.Test_I.Time.Interval
         public void TestOperatorEq()
         {
             bool result = false;
-            foreach (TimeIntervalRelation tir1 in TimeIntervalRelation.Values)
+            foreach (TimeIntervalRelation tir1 in Subjects)
             {
-                foreach (TimeIntervalRelation tir2 in TimeIntervalRelation.Values)
+                foreach (TimeIntervalRelation tir2 in Subjects)
                 {
                     result = tir1 == tir2;
                 }
@@ -145,9 +172,9 @@ namespace PPWCode.Value.Test_I.Time.Interval
         public void TestOperatorNe()
         {
             bool result = false;
-            foreach (TimeIntervalRelation tir1 in TimeIntervalRelation.Values)
+            foreach (TimeIntervalRelation tir1 in Subjects)
             {
-                foreach (TimeIntervalRelation tir2 in TimeIntervalRelation.Values)
+                foreach (TimeIntervalRelation tir2 in Subjects)
                 {
                     result = tir1 != tir2;
                 }
@@ -164,49 +191,125 @@ namespace PPWCode.Value.Test_I.Time.Interval
             }
         }
 
-        //[TestMethod]
-        //public void TestOr()
-        //{
-        //    TimeIntervalRelation result;
-        //    result = TimeIntervalRelation.Or();
-        //    foreach (TimeIntervalRelation tir1 in TimeIntervalRelation.Values)
-        //    {
-        //        result = TimeIntervalRelation.Or(tir1);
-        //        foreach (TimeIntervalRelation tir2 in TimeIntervalRelation.Values)
-        //        {
-        //            result = TimeIntervalRelation.Or(tir1, tir2);
-        //            foreach (TimeIntervalRelation tir3 in TimeIntervalRelation.Values)
-        //            {
-        //                result = TimeIntervalRelation.Or(tir1, tir2, tir3);
-        //                foreach (TimeIntervalRelation tir4 in TimeIntervalRelation.Values)
-        //                {
-        //                    result = TimeIntervalRelation.Or(tir1, tir2, tir3, tir4);
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
+        [TestMethod]
+        public void TestOr0()
+        {
+            foreach (TimeIntervalRelation tir1 in TimeIntervalRelation.BasicRelations)
+            {
+                foreach (TimeIntervalRelation tir2 in TimeIntervalRelation.BasicRelations)
+                {
+                    TimeIntervalRelation result = TimeIntervalRelation.Or(tir1, tir2);
+                }
+            }
+        }
 
-        //[TestMethod]
-        //public void TestOrOperator()
-        //{
-        //    TimeIntervalRelation result;
-        //    foreach (TimeIntervalRelation tir1 in TimeIntervalRelation.Values)
-        //    {
-        //        foreach (TimeIntervalRelation tir2 in TimeIntervalRelation.Values)
-        //        {
-        //            result = tir1 | tir2;
-        //            foreach (TimeIntervalRelation tir3 in TimeIntervalRelation.Values)
-        //            {
-        //                result = tir1 | tir2 | tir3;
-        //                foreach (TimeIntervalRelation tir4 in TimeIntervalRelation.Values)
-        //                {
-        //                    result = tir1 | tir2 | tir3 | tir4;
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
+        [TestMethod]
+        public void TestOr1()
+        {
+            long total = (TimeIntervalRelation.NrOfRelations * (TimeIntervalRelation.NrOfRelations + 2)) + 1;
+            Console.WriteLine("Starting test over " + total + " cases");
+            long count = 0;
+            TimeIntervalRelation result;
+            result = TimeIntervalRelation.Or();
+            count++;
+            foreach (TimeIntervalRelation tir1 in Subjects)
+            {
+                result = TimeIntervalRelation.Or(tir1);
+                result = TimeIntervalRelation.Or(tir1, tir1);
+                count += 2;
+                foreach (TimeIntervalRelation tir2 in Subjects)
+                {
+                    result = TimeIntervalRelation.Or(tir1, tir2);
+                    count++;
+                    float percentage = ((float)count / total) * 100;
+                    if (count % 100000 == 0)
+                    {
+                        Console.WriteLine("  progress: " + count + " / " + total + " done (" + percentage + "%)");
+                    }
+                }
+            }
+        }
+
+        [TestMethod]
+        public void TestOr2()
+        {
+            TimeIntervalRelation result = TimeIntervalRelation.Or(TimeIntervalRelation.Values);
+            Assert.AreEqual(TimeIntervalRelation.Full, result);
+        }
+
+        public static readonly int NrOfCombinationTestSubjects = 50;
+
+        [TestMethod]
+        public void TestOr()
+        {
+            TimeIntervalRelation[] localSubjects = new TimeIntervalRelation[NrOfCombinationTestSubjects];
+            for (int i = 0; i < (NrOfCombinationTestSubjects - 1); i++)
+            {
+                localSubjects[i] = Subjects[i];
+            }
+            double total = Math.Pow(NrOfCombinationTestSubjects, 4);
+            Console.WriteLine("Starting test over more than " + total + " cases");
+            long count = 0;
+            double totalForPercentage = total / 100;
+            double percentage = 0.00;
+            TimeIntervalRelation result;
+            result = TimeIntervalRelation.Or();
+            count++;
+            foreach (TimeIntervalRelation tir1 in localSubjects)
+            {
+                result = TimeIntervalRelation.Or(tir1);
+                result = TimeIntervalRelation.Or(tir1, tir1);
+                result = TimeIntervalRelation.Or(tir1, tir1, tir1);
+                result = TimeIntervalRelation.Or(tir1, tir1, tir1, tir1);
+                count += 4;
+                foreach (TimeIntervalRelation tir2 in localSubjects)
+                {
+                    result = TimeIntervalRelation.Or(tir1, tir2);
+                    count++;
+                    foreach (TimeIntervalRelation tir3 in localSubjects)
+                    {
+                        result = TimeIntervalRelation.Or(tir1, tir2, tir3);
+                        count++;
+                        foreach (TimeIntervalRelation tir4 in localSubjects)
+                        {
+                            result = TimeIntervalRelation.Or(tir1, tir2, tir3, tir4);
+                            count++;
+                            percentage = count / totalForPercentage;
+                            if (count % 100000 == 0)
+                            {
+                                Console.WriteLine("  progress: " + count + " / " + total + " done (" + percentage + "%)");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        [TestMethod]
+        public void TestOrOperator()
+        {
+            TimeIntervalRelation[] localSubjects = new TimeIntervalRelation[NrOfCombinationTestSubjects];
+            for (int i = 0; i < (NrOfCombinationTestSubjects - 1); i++)
+            {
+                localSubjects[i] = Subjects[i];
+            }
+            TimeIntervalRelation result;
+            foreach (TimeIntervalRelation tir1 in localSubjects)
+            {
+                foreach (TimeIntervalRelation tir2 in localSubjects)
+                {
+                    result = tir1 | tir2;
+                    foreach (TimeIntervalRelation tir3 in localSubjects)
+                    {
+                        result = tir1 | tir2 | tir3;
+                        foreach (TimeIntervalRelation tir4 in localSubjects)
+                        {
+                            result = tir1 | tir2 | tir3 | tir4;
+                        }
+                    }
+                }
+            }
+        }
 
         //[TestMethod]
         //public void TestAnd()
@@ -252,31 +355,31 @@ namespace PPWCode.Value.Test_I.Time.Interval
         //    }
         //}
 
-        //[TestMethod]
-        //public void TestMin()
-        //{
-        //    TimeIntervalRelation result;
-        //    foreach (TimeIntervalRelation tir1 in TimeIntervalRelation.Values)
-        //    {
-        //        foreach (TimeIntervalRelation tir2 in TimeIntervalRelation.Values)
-        //        {
-        //            result = TimeIntervalRelation.Min(tir1, tir2);
-        //        }
-        //    }
-        //}
+        [TestMethod]
+        public void TestMin()
+        {
+            TimeIntervalRelation result;
+            foreach (TimeIntervalRelation tir1 in Subjects)
+            {
+                foreach (TimeIntervalRelation tir2 in Subjects)
+                {
+                    result = TimeIntervalRelation.Min(tir1, tir2);
+                }
+            }
+        }
 
-        //[TestMethod]
-        //public void TestMinOperator()
-        //{
-        //    TimeIntervalRelation result;
-        //    foreach (TimeIntervalRelation tir1 in TimeIntervalRelation.Values)
-        //    {
-        //        foreach (TimeIntervalRelation tir2 in TimeIntervalRelation.Values)
-        //        {
-        //            result = tir1 - tir2;
-        //        }
-        //    }
-        //}
+        [TestMethod]
+        public void TestMinOperator()
+        {
+            TimeIntervalRelation result;
+            foreach (TimeIntervalRelation tir1 in Subjects)
+            {
+                foreach (TimeIntervalRelation tir2 in Subjects)
+                {
+                    result = tir1 - tir2;
+                }
+            }
+        }
 
         [TestMethod]
         public void TestLeastUncertainTimeIntervalRelation1()
