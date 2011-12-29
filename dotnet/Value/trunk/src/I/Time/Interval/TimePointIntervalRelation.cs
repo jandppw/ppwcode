@@ -51,7 +51,7 @@ namespace PPWCode.Value.I.Time.Interval
 
             // Basic relations
             Contract.Invariant(ClassInitialized ? BasicRelations != null : true);
-            Contract.Invariant(ClassInitialized ? Contract.ForAll(BasicRelations, basic => ! Empty.ImpliedBy(basic)) : true);           
+            Contract.Invariant(ClassInitialized ? Contract.ForAll(BasicRelations, basic => ! Empty.ImpliedBy(basic)) : true);
             // TODO Contract.Invariant(ClassInitialized ? Full == Or(Before, Begins, In, Ends, After) : true);
             // Contracts sees an assignment here
             Contract.Invariant(ClassInitialized ? Contract.ForAll(BasicRelations, br => BasicRelations[br.BasicRelationalOrdinal] == br) : true);
@@ -190,13 +190,13 @@ namespace PPWCode.Value.I.Time.Interval
 
         #region Basic relations
 
-        private const int EmptyBitPattern  =  0; // 00000
-        private const int BeforeBitPattern =  1; // 00001 <
-        private const int BeginsBitPattern =  2; // 00010 =[<
-        private const int InBitPattern     =  4; // 00100 ><
-        private const int EndsByBitPattern =  8; // 01000 =[>
-        private const int AfterBitPattern  = 16; // 10000 >
-        private const int FullBitPattern   = 31; // 11111 < =[< >< =[> >
+        private const int EmptyBitPattern = 0; // 00000
+        private const int BeforeBitPattern = 1; // 00001 <
+        private const int BeginsBitPattern = 2; // 00010 =[<
+        private const int InBitPattern = 4; // 00100 ><
+        private const int EndsByBitPattern = 8; // 01000 =[>
+        private const int AfterBitPattern = 16; // 10000 >
+        private const int FullBitPattern = 31; // 11111 < =[< >< =[> >
 
         /// <summary>
         /// This empty relation is not a true time point-interval relation. It does not express a
@@ -448,11 +448,7 @@ namespace PPWCode.Value.I.Time.Interval
             Contract.Ensures(Contract.ForAll(
                 BasicRelations,
                 br => (Contract.Exists(tpirs, tpir => tpir.ImpliedBy(br))
-                           ? Contract.Result<TimePointIntervalRelation>().ImpliedBy(br)
-                           : true)
-                      && (Contract.Result<TimePointIntervalRelation>().ImpliedBy(br)
-                              ? Contract.Exists(tpirs, tpir => tpir.ImpliedBy(br))
-                              : true)));
+                       == Contract.Result<TimePointIntervalRelation>().ImpliedBy(br))));
 
             uint acc = tpirs.Aggregate<TimePointIntervalRelation, uint>(
                 EmptyBitPattern,
