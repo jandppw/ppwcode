@@ -26,280 +26,280 @@ using System.Text;
 namespace PPWCode.Value.I.Time.Interval
 {
     /// <summary>
- //* <p>Support for reasoning about relations between time intervals and constraints on time intervals.
- //*   <strong>We highly advise to use this class when working with relations between time intervals.
- //*   Reasoning about relations between time intervals is treacherously difficult.</strong></p>
- //* <p>When working with time intervals, we often want to express constraints (invariants) that limit
- //*   acceptable intervals. Expressing this correctly proves extremely difficult in practice. Falling
- //*   back to working with isolated begin and end dates, and reasoning about their relations, in
- //*   practice proves to be even much more difficult and error prone.</p>
- //* <p>This problem was tackled in 1983 by James Allen
- //*   (<a href="http://www.cs.brandeis.edu/~cs101a/readings/allen-1983.pdf"><cite>Allen, James F. &quot;Maintaining knowledge
- //*   about temporal intervals&quot;; Communications of the ACM 26(11) pages 832-843; November 1983</cite></a>).
- //*   A good synopsis of this theory is
- //*   <a href="http://www.isr.uci.edu/~alspaugh/foundations/allen.html"><cite>Thomas A. Alspaugh &quot;Allen's interval
- //*   algebra&quot;</cite></a>. This class implements this theory, and in this text we give some guidelines
- //*   on how to use this class.</p>
- //*
- //* <h3>Quick overview</h3>
- //* <p>Allen found that there are 13 <em>basic relations</em> possible between 2 definite time intervals:</p>
- //* <table>
- //*   <tr>
- //*     <td><code><var>I1</var> {@link #PRECEDES} <var>I2</var></code> </td>
- //*     <td><img src="doc-files/AllenRelation-precedes.png" width="296" /></td>
- //*     <td><b>p</b></td>
- //*   </tr>
- //*   <tr>
- //*     <td><code><var>I1</var> {@link #MEETS} <var>I2</var></code></td>
- //*     <td><img src="doc-files/AllenRelation-meets.png" width="296" /></td>
- //*     <td><b>m</b></td>
- //*   </tr>
- //*   <tr>
- //*     <td><code><var>I1</var> {@link #OVERLAPS} <var>I2</var></code></td>
- //*     <td><img src="doc-files/AllenRelation-overlaps.png" width="296" /></td>
- //*     <td><b>o</b></td>
- //*   </tr>
- //*   <tr>
- //*     <td><code><var>I1</var> {@link #FINISHED_BY} <var>I2</var></code></td>
- //*     <td><img src="doc-files/AllenRelation-finishedBy.png" width="296" /></td>
- //*     <td><b>F</b></td>
- //*   </tr>
- //*   <tr>
- //*     <td><code><var>I1</var> {@link #CONTAINS} <var>I2</var></code></td>
- //*     <td><img src="doc-files/AllenRelation-contains.png" width="296" /></td>
- //*     <td><b>D</b></td>
- //*   </tr>
- //*   <tr>
- //*     <td><code><var>I1</var> {@link #STARTS} <var>I2</var></code></td>
- //*     <td><img src="doc-files/AllenRelation-starts.png" width="296" /></td>
- //*     <td><b>s</b></td>
- //*   </tr>
- //*   <tr>
- //*     <td><code><var>I1</var> {@link #EQUALS} <var>I2</var></code></td>
- //*     <td><img src="doc-files/AllenRelation-equals.png" width="296" /></td>
- //*     <td><b>e</b></td>
- //*   </tr>
- //*   <tr>
- //*     <td><code><var>I1</var> {@link #STARTED_BY} <var>I2</var></code></td>
- //*     <td><img src="doc-files/AllenRelation-startedBy.png" width="296" /></td>
- //*     <td><b>S</b></td>
- //*   </tr>
- //*   <tr>
- //*     <td><code><var>I1</var> {@link #DURING} <var>I2</var></code></td>
- //*     <td><img src="doc-files/AllenRelation-during.png" width="296" /></td>
- //*     <td><b>d</b></td>
- //*   </tr>
- //*   <tr>
- //*     <td><code><var>I1</var> {@link #FINISHES} <var>I2</var></code></td>
- //*     <td><img src="doc-files/AllenRelation-finishes.png" width="296" /></td>
- //*     <td><b>f</b></td>
- //*   </tr>
- //*   <tr>
- //*     <td><code><var>I1</var> {@link #OVERLAPPED_BY} <var>I2</var></code></td>
- //*     <td><img src="doc-files/AllenRelation-overlappedBy.png" width="296" /></td>
- //*     <td><b>O</b></td>
- //*   </tr>
- //*   <tr>
- //*     <td><code><var>I1</var> {@link #MET_BY} <var>I2</var></code></td>
- //*     <td><img src="doc-files/AllenRelation-metBy.png" width="296" /></td>
- //*     <td><b>M</b></td>
- //*   </tr>
- //*   <tr>
- //*     <td><code><var>I1</var> {@link #PRECEDED_BY} <var>I2</var></code></td>
- //*     <td><img src="doc-files/AllenRelation-precededBy.png" width="296" /></td>
- //*     <td><b>P</b></td>
- //*   </tr>
- //* </table>
- //* <ul>
- //* </ul>
- //* <p>These basic relations can be compared to <code>&lt;</code>, <code>==</code> and <code>></code>
- //*   with time instances.</p>
- //* <p>When reasoning about the relationship between time intervals however, like when comparing time instances,
- //*   we also often employ indeterminate relations, such as
- //*   <code><var>I1</var> ({@link #PRECEDES} || {@link #MEETS}) <var>I2</var></code>. This is comparable to
- //*   reasoning with <code>&le;</code>, <code>&ge;</code> and <code>!=</code> with time instances.
- //*   For time intervals, given 13 basic relations, we get 8192 (== 2<sup>13</sup>) possible <em>general
- //*   relations</em>. This includes the {@link #EMPTY empty relationship} for algebraic reasons, and the
- //*   {@link #FULL full relationship} (comparable to <code>&lt; || == || &gt;</code> with time instances),
- //*   which expresses the maximal uncertainty about the relation between 2 time intervals.</p>
- //*
- //* <h3>Interval constraints</h3>
- //* <p>Time interval relations will most often be used in business code to constrain relations between time intervals.
- //*  This is notoriously, treacherously difficult. It is for this reason that you should use code like this,
- //*  that at least forces you to think things trough, and tries to offers tools to ease reasoning. The idiom
- //*  todo this is explained next.</p>
- //* <p>First we need to determine the relation we want to uphold (<code><var>cond</var></code>). E.g., we want
- //*  to assert that 2 given intervals <code><var>I1</var></code> and <code><var>I2</var></code> do not concur.
- //*  The relationship that expresses this is <code><var>cond</var> == {@link #CONCURS_WITH}.complement()</code>.</p>
- //* <p>Next, we want to determine the relationship from <code><var>I1</var></code> to <code><var>I2</var></code>
- //*  as precisely as possible. If both <code><var>I1</var></code> and <code><var>I2</var></code> are completely
- //*  determined, i.e., neither their begin date nor their end date is {@code null}, the result will be a
- //*  {@link #BASIC_RELATIONS basic relation}. Otherwise, the result will be a less certain relation. To determine
- //*  this relationship, use {@link #timeIntervalRelation(TimeInterval, TimeInterval)}. See below for dealing
- //*  with constrained begin and end dates.</p>
- //* <p>The idiom for the assertion we want to express is then:</p>
- //* <pre>
- //*   timeIntervalRelation(<var>I1</var>, <var>I2</var>).implies(<var>cond</var>)
- //* </pre>
- //* <p>This is often the form of an invariant. Note that this can fail, on the one hand because the actual
- //*   relation is not acceptable, but also because <em>we cannot be 100% sure that the actual relationship
- //*   satisfies the condition</em>. In our example, we would have:</p>
- //* <pre>
- //*   timeIntervalRelation(<var>I1</var>, <var>I2</var>).implies(CONCURS_WITH.complement())
- //* </pre>
- //* <p>{@link #CONCURS_WITH} being {@code (oFDseSdfO)}, <code>CONCURS_WITH.complement() == (pmMP)</code>.
- //*  If the actual relation results in {@code (e)}, e.g., the constraint is clearly not satisfied. If
- //*  the actual relation results in {@code (OMP)} for example, it means that it is possible that the relation
- //*  is satisfied, but there is also a chance that it is not (if <code><var>I1</var></code> begins before
- //*  <code><var>I2</var></code> ends).</p>
- //* <p>In code then, we often want to throw an exception to interrupt an algorithm that would violate the
- //*   invariant. The idiom for this is usually of the form:</p>
- //* <pre>
- //*   ...
- //*   TimeInterval i1 = ...;
- //*   TimeInterval i2 = ...;
- //*   TimeIntervalRelation condition = ...;
- //*   TimeIntervalRelation actual = timeIntervalRelation(i1, i2);
- //*   if (! actual.implies(condition)) {
- //*     throw new ....
- //*   }
- //*   ...
- //* </pre>
- //* <p>In our example, this would become</p>
- //* <pre>
- //*   ...
- //*   TimeInterval i1 = ...;
- //*   TimeInterval i2 = ...;
- //*   if (! timeIntervalRelation(i1, i2).implies(CONCURS_WITH.complement())) {
- //*     throw new ....
- //*   }
- //*   ...
- //* </pre>
- //* <p><strong>Note that in general {@code (! actual.implies(condition))} is <em>not equivalent</em> with
- //*   {@code actual.implies(condition.complement())} (see {@link #complement()}).</strong> In our example
- //*   this is already clear. If the actual relation results in {@code (e)},
- //*   {@code ! timeIntervalRelation(i1, i2).implies(CONCURS_WITH.complement())} evaluates to</p>
- //* <pre>
- //*    ! timeIntervalRelation(i1, i2).implies(CONCURS_WITH.complement())
- //* == ! (e).implies((pmMP))
- //* == ! false
- //* == true
- //* </pre>
- //* <p>and {@code timeIntervalRelation(i1, i2).implies(CONCURS_WITH)} evaluates to</p>
- //* <pre>
- //*    timeIntervalRelation(i1, i2).implies(CONCURS_WITH)
- //* == (e).implies((oFDseSdfO))
- //* == true
- //* </pre>
- //* <p>But in the case where the actual relation results in {@code (OMP)},
- //*   {@code ! timeIntervalRelation(i1, i2).implies(CONCURS_WITH.complement())} evaluates to</p>
- //* <pre>
- //*    ! timeIntervalRelation(i1, i2).implies(CONCURS_WITH.complement())
- //* == ! (OMP).implies((pmMP))
- //* == ! false
- //* == true
- //* </pre>
- //* <p>and {@code timeIntervalRelation(i1, i2).implies(CONCURS_WITH)} evaluates to</p>
- //* <pre>
- //*    timeIntervalRelation(i1, i2).implies(CONCURS_WITH)
- //* == (OMP).implies((oFDseSdfO))
- //* == <strong>false</strong>
- //* </pre>
- //* <p>{@code ! timeIntervalRelation(i1, i2).implies(CONCURS_WITH.complement())} expresses that [we want to throw an
- //*   exception if] <em>it is not guaranteed that <code><var>i1</var></code> and <code><var>i2</var></code> do
- //*   not concur</em>. {@code timeIntervalRelation(i1, i2).implies(CONCURS_WITH)} expresses that [we want to throw an
- //*   exception if] <em>it is guaranteed that <code><var>i1</var></code> and <code><var>i2</var></code> do
- //*   concur</em>. <strong>These 2 phrases are not equivalent.</strong></p>
- //*
- //* <h3 id="constrainedDates">Reasoning with unknown but constrained begin and end dates</h3>
- //* <p>In time intervals, the begin or end end can be {@code null}. The semantics of this is in general that
- //*  the begin date, respectively the end date, is unknown. Comparing such an interval with another interval
- //*  results in a relatively broad time interval relation, expression an amount of uncertainty.</p>
- //* <p>In several use cases however, we do no know a definite begin or end date, but we do know that the
- //*  begin or end date have constraints. E.g., consider contracts that have a definite begin date, but are
- //*  open ended. The contract interval thus is incompletely known. However, since at the moment of our reasoning
- //*  no definite end date is set, we know that the end date is at least later than {@code now}. In comparing
- //*  this contract interval with another interval, this constraint can be of use to limit the extend, i.e., the
- //*  uncertainty, of the time interval relation. The same applies, e.g., with contracts that will start once payment is
- //*  received. Since it is not received yet at the moment of our evaluation, we know that the begin date is at
- //*  least later than or equal to {@code now}.</p>
- //* <p>In such cases, the interval object <code><var>I</var></code> we are focusing on can be interpreted in
- //*  another way. Suppose we are comparing <code><var>I</var></code> with <code><var>Other</var></code>. We are
- //*  actually not interested in <code>timeIntervalRelation(<var>I</var>, <var>Other</var>)</code>, but rather in
- //*  <code>timeIntervalRelation(<var>I<sub>constrained</sub></var>, <var>Other</var>)</code>. Sadly, there is no easy
- //*  syntax (or code) to express <code><var>I<sub>constrained</sub></var></code>. What we can express is an
- //*  <var>I<sub>determinate</sub></var>, where the border times are filled out in place of the unknown begin
- //*  date or end date. <code>timeIntervalRelation(<var>I<sub>determinate</sub></var>, <var>Other</var>)</code>
- //*  can be calculated, and will be much less uncertain than
- //*  <code>timeIntervalRelation(<var>I</var>, <var>Other</var>)</code>. If now can determine the time interval relation from
- //*  <code><var>I<sub>constrained</sub></var></code> to <code><var>I<sub>determinate</sub></var></code>,
- //*  we can find <code>timeIntervalRelation(<var>I<sub>constrained</sub></var>, <var>Other</var>)</code> as:</p>
- //* <pre>
- //*   timeIntervalRelation(<var>I<sub>constrained</sub></var>, <var>Other</var>) ==
- //*     compose(timeIntervalRelation(<var>I<sub>constrained</sub></var>, <var>I<sub>determinate</sub></var>), timeIntervalRelation(<var>I<sub>determinate</sub></var>, <var>Other</var>))
- //* </pre>
- //* <p>The time interval relation from an interval we are focusing on with constrained semantics to a determinate
- //*   interval is a constant that can be determined by reasoning. E.g., for our open ended contract, that lasts
- //*   at least longer than today (<code>[I<sub>begin</sub>, &gt; now[</code>, supposing <code>I<sub>begin</sub> &le;
- //*   yesterday</code>), we can say that its relation to the determinate interval <code>[I<sub>begin</sub>, now[</code> is
- //*   {@code (S)} ({@link #STARTED_BY}). Suppose
- //*   <code>timeIntervalRelation(<var>I<sub>determinate</sub></var>, <var>Other</var>) == (o)</code> (say
- //*   <code><var>Other</var> == [<var>yesterday</var>, <var>next year</var>[</code>), we can now say
- //*   that <code>timeIntervalRelation(<var>I<sub>constrained</sub></var>, <var>Other</var>) == (S).(o) == (oFD)</code>.
- //*   The comparison of the indeterminate interval with <code><var>Other</var></code>,
- //*   <code>timeIntervalRelation(<var>I</var>, <var>Other</var>)</code>, would have resulted in:</p>
- //* <pre>
- //*    timeIntervalRelation(<var>I</var>, <var>Other</var>)
- //* == timeIntervalRelation([I<sub>begin</sub>, null[, [<var>yesterday</var>, <var>next year</var>[)
- //* == (pmoFD)
- //* </pre>
- //* <p>If you reason directly about <code>timeIntervalRelation(<var>I<sub>constrained</sub></var>, <var>Other</var>)</code></p>
- //* <pre>
- //*    timeIntervalRelation(<var>I<sub>constrained</sub></var>, <var>Other</var>)
- //* == timeIntervalRelation([I<sub>begin</sub>, &gt; now[, [<var>yesterday</var>, <var>next year</var>[)
- //* == (oFD)
- //* </pre>
- //* <p>you will see that {@code (oFD)} is  indeed the most certain answer.
- //* <p>Be aware that in a number of cases, the non-determinate character of <code><var>I</var></code> doesn't matter.
- //*   If you suppose in the previous example that
- //*   <code>timeIntervalRelation(<var>I<sub>determinate</sub></var>, <var>Other</var>) == (p)</code> (say
- //*   <code><var>Other</var> == [<var>next year</var>, Other<sub>end</sub>[</code>),
- //*   <code>timeIntervalRelation(<var>I<sub>constrained</sub></var>, <var>Other</var>) == (S).(p) == (pmoFD)</code>.
- //*   The comparison of the indeterminate interval with <code><var>Other</var></code>,
- //*   <code>timeIntervalRelation(<var>I</var>, <var>Other</var>)</code>, in this case, results in the same time interval relation:</p>
- //* <pre>
- //*    timeIntervalRelation(<var>I</var>, <var>Other</var>)
- //* == timeIntervalRelation([I<sub>begin</sub>, null[, [<var>next year</var>, Other<sub>end</sub>[)
- //* == (pmoFD)
- //* </pre>
- //*
- //* <h3>Inference</h3>
- //* <p><strong>Be aware that, in general, inference over intervals, also using Allen relations, is NP-complete.</strong>
- //*   This means that the time the execution of algorithms will take, is at least difficult to ascertain, and quickly
- //*   completely impractical (i.e., with realistic parameters the algorithm would take longer than the universe exists
- //*   &mdash; no kidding).</p>
- //* <p>There are subsets of the Allen relations for which there exist algorithms that perform much better. These issues
- //*   are not implemented here at this time.</p>
- //*
- //* <h3>About the code</h3>
- //* <p>We have chosen to introduce a full-featured type for working with Allen relations, to make encapsulation as
- //*   good as possible. This has a slight performance overhead, but we believe that this is worth it, considering the
- //*   immense complexity of reasoning about relations between time intervals.</p>
- //* <p>Time interval relations are not implemented as a value according to the ppwcode value vernacular, although they do form
- //*   an algebra. We presume time interval relations are never shown to end users as values.</p>
- //* <p>Time interval relations follow the &quot;8192-fold singleton pattern&quot;. All possible instances are created when this
- //*   class is loaded, and it is impossible for a user of the class to create new instances. This means that  reference
- //*   equality (&quot;{@code ==}&quot;) can be used to compare time interval relations, Instances are to be obtained
- //*   using the constants this class offers, or using the combination methods {@link #or(TimeIntervalRelation...)},
- //*   {@link #and(TimeIntervalRelation...)}, {@link #compose(TimeIntervalRelation, TimeIntervalRelation)}, and
- //*   {@link #min(TimeIntervalRelation, TimeIntervalRelation)}, and the unary methods {@link #complement()} and {@link #converse()}.
- //*   Also, an TimeIntervalRelation can be determined {@link #timeIntervalRelation(TimeInterval, TimeInterval) based on 2 time intervals}.
- //*   {@link #VALUES} lists all possible time interval relations.</p>
- //* <p>The {@link Object#equals(Object)} is not overridden, because we want to use this type with reference equality.
- //*   {@link #hashCode()} is overridden nevertheless, to guarantee a better spread (it also happens to give a peek inside
- //*   the encapsulation, for people who know the implementation details).</p>
- //* <p>All methods in this class are O(n), i.e., work in constant time, although {@link #compose(TimeIntervalRelation, TimeIntervalRelation)}
- //*   takes a significant longer constant time than the other methods.
+    //* <p>Support for reasoning about relations between time intervals and constraints on time intervals.
+    //*   <strong>We highly advise to use this class when working with relations between time intervals.
+    //*   Reasoning about relations between time intervals is treacherously difficult.</strong></p>
+    //* <p>When working with time intervals, we often want to express constraints (invariants) that limit
+    //*   acceptable intervals. Expressing this correctly proves extremely difficult in practice. Falling
+    //*   back to working with isolated begin and end dates, and reasoning about their relations, in
+    //*   practice proves to be even much more difficult and error prone.</p>
+    //* <p>This problem was tackled in 1983 by James Allen
+    //*   (<a href="http://www.cs.brandeis.edu/~cs101a/readings/allen-1983.pdf"><cite>Allen, James F. &quot;Maintaining knowledge
+    //*   about temporal intervals&quot;; Communications of the ACM 26(11) pages 832-843; November 1983</cite></a>).
+    //*   A good synopsis of this theory is
+    //*   <a href="http://www.isr.uci.edu/~alspaugh/foundations/allen.html"><cite>Thomas A. Alspaugh &quot;Allen's interval
+    //*   algebra&quot;</cite></a>. This class implements this theory, and in this text we give some guidelines
+    //*   on how to use this class.</p>
+    //*
+    //* <h3>Quick overview</h3>
+    //* <p>Allen found that there are 13 <em>basic relations</em> possible between 2 definite time intervals:</p>
+    //* <table>
+    //*   <tr>
+    //*     <td><code><var>I1</var> {@link #PRECEDES} <var>I2</var></code> </td>
+    //*     <td><img src="doc-files/AllenRelation-precedes.png" width="296" /></td>
+    //*     <td><b>p</b></td>
+    //*   </tr>
+    //*   <tr>
+    //*     <td><code><var>I1</var> {@link #MEETS} <var>I2</var></code></td>
+    //*     <td><img src="doc-files/AllenRelation-meets.png" width="296" /></td>
+    //*     <td><b>m</b></td>
+    //*   </tr>
+    //*   <tr>
+    //*     <td><code><var>I1</var> {@link #OVERLAPS} <var>I2</var></code></td>
+    //*     <td><img src="doc-files/AllenRelation-overlaps.png" width="296" /></td>
+    //*     <td><b>o</b></td>
+    //*   </tr>
+    //*   <tr>
+    //*     <td><code><var>I1</var> {@link #FINISHED_BY} <var>I2</var></code></td>
+    //*     <td><img src="doc-files/AllenRelation-finishedBy.png" width="296" /></td>
+    //*     <td><b>F</b></td>
+    //*   </tr>
+    //*   <tr>
+    //*     <td><code><var>I1</var> {@link #CONTAINS} <var>I2</var></code></td>
+    //*     <td><img src="doc-files/AllenRelation-contains.png" width="296" /></td>
+    //*     <td><b>D</b></td>
+    //*   </tr>
+    //*   <tr>
+    //*     <td><code><var>I1</var> {@link #STARTS} <var>I2</var></code></td>
+    //*     <td><img src="doc-files/AllenRelation-starts.png" width="296" /></td>
+    //*     <td><b>s</b></td>
+    //*   </tr>
+    //*   <tr>
+    //*     <td><code><var>I1</var> {@link #EQUALS} <var>I2</var></code></td>
+    //*     <td><img src="doc-files/AllenRelation-equals.png" width="296" /></td>
+    //*     <td><b>e</b></td>
+    //*   </tr>
+    //*   <tr>
+    //*     <td><code><var>I1</var> {@link #STARTED_BY} <var>I2</var></code></td>
+    //*     <td><img src="doc-files/AllenRelation-startedBy.png" width="296" /></td>
+    //*     <td><b>S</b></td>
+    //*   </tr>
+    //*   <tr>
+    //*     <td><code><var>I1</var> {@link #DURING} <var>I2</var></code></td>
+    //*     <td><img src="doc-files/AllenRelation-during.png" width="296" /></td>
+    //*     <td><b>d</b></td>
+    //*   </tr>
+    //*   <tr>
+    //*     <td><code><var>I1</var> {@link #FINISHES} <var>I2</var></code></td>
+    //*     <td><img src="doc-files/AllenRelation-finishes.png" width="296" /></td>
+    //*     <td><b>f</b></td>
+    //*   </tr>
+    //*   <tr>
+    //*     <td><code><var>I1</var> {@link #OVERLAPPED_BY} <var>I2</var></code></td>
+    //*     <td><img src="doc-files/AllenRelation-overlappedBy.png" width="296" /></td>
+    //*     <td><b>O</b></td>
+    //*   </tr>
+    //*   <tr>
+    //*     <td><code><var>I1</var> {@link #MET_BY} <var>I2</var></code></td>
+    //*     <td><img src="doc-files/AllenRelation-metBy.png" width="296" /></td>
+    //*     <td><b>M</b></td>
+    //*   </tr>
+    //*   <tr>
+    //*     <td><code><var>I1</var> {@link #PRECEDED_BY} <var>I2</var></code></td>
+    //*     <td><img src="doc-files/AllenRelation-precededBy.png" width="296" /></td>
+    //*     <td><b>P</b></td>
+    //*   </tr>
+    //* </table>
+    //* <ul>
+    //* </ul>
+    //* <p>These basic relations can be compared to <code>&lt;</code>, <code>==</code> and <code>></code>
+    //*   with time instances.</p>
+    //* <p>When reasoning about the relationship between time intervals however, like when comparing time instances,
+    //*   we also often employ indeterminate relations, such as
+    //*   <code><var>I1</var> ({@link #PRECEDES} || {@link #MEETS}) <var>I2</var></code>. This is comparable to
+    //*   reasoning with <code>&le;</code>, <code>&ge;</code> and <code>!=</code> with time instances.
+    //*   For time intervals, given 13 basic relations, we get 8192 (== 2<sup>13</sup>) possible <em>general
+    //*   relations</em>. This includes the {@link #EMPTY empty relationship} for algebraic reasons, and the
+    //*   {@link #FULL full relationship} (comparable to <code>&lt; || == || &gt;</code> with time instances),
+    //*   which expresses the maximal uncertainty about the relation between 2 time intervals.</p>
+    //*
+    //* <h3>Interval constraints</h3>
+    //* <p>Time interval relations will most often be used in business code to constrain relations between time intervals.
+    //*  This is notoriously, treacherously difficult. It is for this reason that you should use code like this,
+    //*  that at least forces you to think things trough, and tries to offers tools to ease reasoning. The idiom
+    //*  todo this is explained next.</p>
+    //* <p>First we need to determine the relation we want to uphold (<code><var>cond</var></code>). E.g., we want
+    //*  to assert that 2 given intervals <code><var>I1</var></code> and <code><var>I2</var></code> do not concur.
+    //*  The relationship that expresses this is <code><var>cond</var> == {@link #CONCURS_WITH}.complement()</code>.</p>
+    //* <p>Next, we want to determine the relationship from <code><var>I1</var></code> to <code><var>I2</var></code>
+    //*  as precisely as possible. If both <code><var>I1</var></code> and <code><var>I2</var></code> are completely
+    //*  determined, i.e., neither their begin date nor their end date is {@code null}, the result will be a
+    //*  {@link #BASIC_RELATIONS basic relation}. Otherwise, the result will be a less certain relation. To determine
+    //*  this relationship, use {@link #timeIntervalRelation(TimeInterval, TimeInterval)}. See below for dealing
+    //*  with constrained begin and end dates.</p>
+    //* <p>The idiom for the assertion we want to express is then:</p>
+    //* <pre>
+    //*   timeIntervalRelation(<var>I1</var>, <var>I2</var>).implies(<var>cond</var>)
+    //* </pre>
+    //* <p>This is often the form of an invariant. Note that this can fail, on the one hand because the actual
+    //*   relation is not acceptable, but also because <em>we cannot be 100% sure that the actual relationship
+    //*   satisfies the condition</em>. In our example, we would have:</p>
+    //* <pre>
+    //*   timeIntervalRelation(<var>I1</var>, <var>I2</var>).implies(CONCURS_WITH.complement())
+    //* </pre>
+    //* <p>{@link #CONCURS_WITH} being {@code (oFDseSdfO)}, <code>CONCURS_WITH.complement() == (pmMP)</code>.
+    //*  If the actual relation results in {@code (e)}, e.g., the constraint is clearly not satisfied. If
+    //*  the actual relation results in {@code (OMP)} for example, it means that it is possible that the relation
+    //*  is satisfied, but there is also a chance that it is not (if <code><var>I1</var></code> begins before
+    //*  <code><var>I2</var></code> ends).</p>
+    //* <p>In code then, we often want to throw an exception to interrupt an algorithm that would violate the
+    //*   invariant. The idiom for this is usually of the form:</p>
+    //* <pre>
+    //*   ...
+    //*   TimeInterval i1 = ...;
+    //*   TimeInterval i2 = ...;
+    //*   TimeIntervalRelation condition = ...;
+    //*   TimeIntervalRelation actual = timeIntervalRelation(i1, i2);
+    //*   if (! actual.implies(condition)) {
+    //*     throw new ....
+    //*   }
+    //*   ...
+    //* </pre>
+    //* <p>In our example, this would become</p>
+    //* <pre>
+    //*   ...
+    //*   TimeInterval i1 = ...;
+    //*   TimeInterval i2 = ...;
+    //*   if (! timeIntervalRelation(i1, i2).implies(CONCURS_WITH.complement())) {
+    //*     throw new ....
+    //*   }
+    //*   ...
+    //* </pre>
+    //* <p><strong>Note that in general {@code (! actual.implies(condition))} is <em>not equivalent</em> with
+    //*   {@code actual.implies(condition.complement())} (see {@link #complement()}).</strong> In our example
+    //*   this is already clear. If the actual relation results in {@code (e)},
+    //*   {@code ! timeIntervalRelation(i1, i2).implies(CONCURS_WITH.complement())} evaluates to</p>
+    //* <pre>
+    //*    ! timeIntervalRelation(i1, i2).implies(CONCURS_WITH.complement())
+    //* == ! (e).implies((pmMP))
+    //* == ! false
+    //* == true
+    //* </pre>
+    //* <p>and {@code timeIntervalRelation(i1, i2).implies(CONCURS_WITH)} evaluates to</p>
+    //* <pre>
+    //*    timeIntervalRelation(i1, i2).implies(CONCURS_WITH)
+    //* == (e).implies((oFDseSdfO))
+    //* == true
+    //* </pre>
+    //* <p>But in the case where the actual relation results in {@code (OMP)},
+    //*   {@code ! timeIntervalRelation(i1, i2).implies(CONCURS_WITH.complement())} evaluates to</p>
+    //* <pre>
+    //*    ! timeIntervalRelation(i1, i2).implies(CONCURS_WITH.complement())
+    //* == ! (OMP).implies((pmMP))
+    //* == ! false
+    //* == true
+    //* </pre>
+    //* <p>and {@code timeIntervalRelation(i1, i2).implies(CONCURS_WITH)} evaluates to</p>
+    //* <pre>
+    //*    timeIntervalRelation(i1, i2).implies(CONCURS_WITH)
+    //* == (OMP).implies((oFDseSdfO))
+    //* == <strong>false</strong>
+    //* </pre>
+    //* <p>{@code ! timeIntervalRelation(i1, i2).implies(CONCURS_WITH.complement())} expresses that [we want to throw an
+    //*   exception if] <em>it is not guaranteed that <code><var>i1</var></code> and <code><var>i2</var></code> do
+    //*   not concur</em>. {@code timeIntervalRelation(i1, i2).implies(CONCURS_WITH)} expresses that [we want to throw an
+    //*   exception if] <em>it is guaranteed that <code><var>i1</var></code> and <code><var>i2</var></code> do
+    //*   concur</em>. <strong>These 2 phrases are not equivalent.</strong></p>
+    //*
+    //* <h3 id="constrainedDates">Reasoning with unknown but constrained begin and end dates</h3>
+    //* <p>In time intervals, the begin or end end can be {@code null}. The semantics of this is in general that
+    //*  the begin date, respectively the end date, is unknown. Comparing such an interval with another interval
+    //*  results in a relatively broad time interval relation, expression an amount of uncertainty.</p>
+    //* <p>In several use cases however, we do no know a definite begin or end date, but we do know that the
+    //*  begin or end date have constraints. E.g., consider contracts that have a definite begin date, but are
+    //*  open ended. The contract interval thus is incompletely known. However, since at the moment of our reasoning
+    //*  no definite end date is set, we know that the end date is at least later than {@code now}. In comparing
+    //*  this contract interval with another interval, this constraint can be of use to limit the extend, i.e., the
+    //*  uncertainty, of the time interval relation. The same applies, e.g., with contracts that will start once payment is
+    //*  received. Since it is not received yet at the moment of our evaluation, we know that the begin date is at
+    //*  least later than or equal to {@code now}.</p>
+    //* <p>In such cases, the interval object <code><var>I</var></code> we are focusing on can be interpreted in
+    //*  another way. Suppose we are comparing <code><var>I</var></code> with <code><var>Other</var></code>. We are
+    //*  actually not interested in <code>timeIntervalRelation(<var>I</var>, <var>Other</var>)</code>, but rather in
+    //*  <code>timeIntervalRelation(<var>I<sub>constrained</sub></var>, <var>Other</var>)</code>. Sadly, there is no easy
+    //*  syntax (or code) to express <code><var>I<sub>constrained</sub></var></code>. What we can express is an
+    //*  <var>I<sub>determinate</sub></var>, where the border times are filled out in place of the unknown begin
+    //*  date or end date. <code>timeIntervalRelation(<var>I<sub>determinate</sub></var>, <var>Other</var>)</code>
+    //*  can be calculated, and will be much less uncertain than
+    //*  <code>timeIntervalRelation(<var>I</var>, <var>Other</var>)</code>. If now can determine the time interval relation from
+    //*  <code><var>I<sub>constrained</sub></var></code> to <code><var>I<sub>determinate</sub></var></code>,
+    //*  we can find <code>timeIntervalRelation(<var>I<sub>constrained</sub></var>, <var>Other</var>)</code> as:</p>
+    //* <pre>
+    //*   timeIntervalRelation(<var>I<sub>constrained</sub></var>, <var>Other</var>) ==
+    //*     compose(timeIntervalRelation(<var>I<sub>constrained</sub></var>, <var>I<sub>determinate</sub></var>), timeIntervalRelation(<var>I<sub>determinate</sub></var>, <var>Other</var>))
+    //* </pre>
+    //* <p>The time interval relation from an interval we are focusing on with constrained semantics to a determinate
+    //*   interval is a constant that can be determined by reasoning. E.g., for our open ended contract, that lasts
+    //*   at least longer than today (<code>[I<sub>begin</sub>, &gt; now[</code>, supposing <code>I<sub>begin</sub> &le;
+    //*   yesterday</code>), we can say that its relation to the determinate interval <code>[I<sub>begin</sub>, now[</code> is
+    //*   {@code (S)} ({@link #STARTED_BY}). Suppose
+    //*   <code>timeIntervalRelation(<var>I<sub>determinate</sub></var>, <var>Other</var>) == (o)</code> (say
+    //*   <code><var>Other</var> == [<var>yesterday</var>, <var>next year</var>[</code>), we can now say
+    //*   that <code>timeIntervalRelation(<var>I<sub>constrained</sub></var>, <var>Other</var>) == (S).(o) == (oFD)</code>.
+    //*   The comparison of the indeterminate interval with <code><var>Other</var></code>,
+    //*   <code>timeIntervalRelation(<var>I</var>, <var>Other</var>)</code>, would have resulted in:</p>
+    //* <pre>
+    //*    timeIntervalRelation(<var>I</var>, <var>Other</var>)
+    //* == timeIntervalRelation([I<sub>begin</sub>, null[, [<var>yesterday</var>, <var>next year</var>[)
+    //* == (pmoFD)
+    //* </pre>
+    //* <p>If you reason directly about <code>timeIntervalRelation(<var>I<sub>constrained</sub></var>, <var>Other</var>)</code></p>
+    //* <pre>
+    //*    timeIntervalRelation(<var>I<sub>constrained</sub></var>, <var>Other</var>)
+    //* == timeIntervalRelation([I<sub>begin</sub>, &gt; now[, [<var>yesterday</var>, <var>next year</var>[)
+    //* == (oFD)
+    //* </pre>
+    //* <p>you will see that {@code (oFD)} is  indeed the most certain answer.
+    //* <p>Be aware that in a number of cases, the non-determinate character of <code><var>I</var></code> doesn't matter.
+    //*   If you suppose in the previous example that
+    //*   <code>timeIntervalRelation(<var>I<sub>determinate</sub></var>, <var>Other</var>) == (p)</code> (say
+    //*   <code><var>Other</var> == [<var>next year</var>, Other<sub>end</sub>[</code>),
+    //*   <code>timeIntervalRelation(<var>I<sub>constrained</sub></var>, <var>Other</var>) == (S).(p) == (pmoFD)</code>.
+    //*   The comparison of the indeterminate interval with <code><var>Other</var></code>,
+    //*   <code>timeIntervalRelation(<var>I</var>, <var>Other</var>)</code>, in this case, results in the same time interval relation:</p>
+    //* <pre>
+    //*    timeIntervalRelation(<var>I</var>, <var>Other</var>)
+    //* == timeIntervalRelation([I<sub>begin</sub>, null[, [<var>next year</var>, Other<sub>end</sub>[)
+    //* == (pmoFD)
+    //* </pre>
+    //*
+    //* <h3>Inference</h3>
+    //* <p><strong>Be aware that, in general, inference over intervals, also using Allen relations, is NP-complete.</strong>
+    //*   This means that the time the execution of algorithms will take, is at least difficult to ascertain, and quickly
+    //*   completely impractical (i.e., with realistic parameters the algorithm would take longer than the universe exists
+    //*   &mdash; no kidding).</p>
+    //* <p>There are subsets of the Allen relations for which there exist algorithms that perform much better. These issues
+    //*   are not implemented here at this time.</p>
+    //*
+    //* <h3>About the code</h3>
+    //* <p>We have chosen to introduce a full-featured type for working with Allen relations, to make encapsulation as
+    //*   good as possible. This has a slight performance overhead, but we believe that this is worth it, considering the
+    //*   immense complexity of reasoning about relations between time intervals.</p>
+    //* <p>Time interval relations are not implemented as a value according to the ppwcode value vernacular, although they do form
+    //*   an algebra. We presume time interval relations are never shown to end users as values.</p>
+    //* <p>Time interval relations follow the &quot;8192-fold singleton pattern&quot;. All possible instances are created when this
+    //*   class is loaded, and it is impossible for a user of the class to create new instances. This means that  reference
+    //*   equality (&quot;{@code ==}&quot;) can be used to compare time interval relations, Instances are to be obtained
+    //*   using the constants this class offers, or using the combination methods {@link #or(TimeIntervalRelation...)},
+    //*   {@link #and(TimeIntervalRelation...)}, {@link #compose(TimeIntervalRelation, TimeIntervalRelation)}, and
+    //*   {@link #min(TimeIntervalRelation, TimeIntervalRelation)}, and the unary methods {@link #complement()} and {@link #converse()}.
+    //*   Also, an TimeIntervalRelation can be determined {@link #timeIntervalRelation(TimeInterval, TimeInterval) based on 2 time intervals}.
+    //*   {@link #VALUES} lists all possible time interval relations.</p>
+    //* <p>The {@link Object#equals(Object)} is not overridden, because we want to use this type with reference equality.
+    //*   {@link #hashCode()} is overridden nevertheless, to guarantee a better spread (it also happens to give a peek inside
+    //*   the encapsulation, for people who know the implementation details).</p>
+    //* <p>All methods in this class are O(n), i.e., work in constant time, although {@link #compose(TimeIntervalRelation, TimeIntervalRelation)}
+    //*   takes a significant longer constant time than the other methods.
     /// </summary>
     public struct TimeIntervalRelation : IEquatable<TimeIntervalRelation>
     {
@@ -330,21 +330,34 @@ namespace PPWCode.Value.I.Time.Interval
             Contract.Invariant(ClassInitialized ? Contract.ForAll(BasicRelations, basic => ! Empty.ImpliedBy(basic)) : true);
             // MUDO Contract.Invariant(ClassInitialized ? FULL == or(PRECEDES, MEETS, OVERLAPS, FINISHED_BY, CONTAINS, STARTS, EQUALS, STARTED_BY, DURING, FINISHES, OVERLAPPED_BY, MET_BY, PRECEDED_BY) : true);
             Contract.Invariant(ClassInitialized ? Contract.ForAll(BasicRelations, br => BasicRelations[br.BasicRelationalOrdinal] == br) : true);
-            Contract.Invariant(ClassInitialized ? BasicRelations[ 0] == Precedes : true);
-            Contract.Invariant(ClassInitialized ? BasicRelations[ 1] == Meets : true);
-            Contract.Invariant(ClassInitialized ? BasicRelations[ 2] == Overlaps : true);
-            Contract.Invariant(ClassInitialized ? BasicRelations[ 3] == FinishedBy : true);
-            Contract.Invariant(ClassInitialized ? BasicRelations[ 4] == Contains : true);
-            Contract.Invariant(ClassInitialized ? BasicRelations[ 5] == Starts : true);
-            Contract.Invariant(ClassInitialized ? BasicRelations[ 6] == EQUALS : true);
-            Contract.Invariant(ClassInitialized ? BasicRelations[ 7] == StartedBy : true);
-            Contract.Invariant(ClassInitialized ? BasicRelations[ 8] == During : true);
-            Contract.Invariant(ClassInitialized ? BasicRelations[ 9] == Finishes : true);
+            Contract.Invariant(ClassInitialized ? BasicRelations[0] == Precedes : true);
+            Contract.Invariant(ClassInitialized ? BasicRelations[1] == Meets : true);
+            Contract.Invariant(ClassInitialized ? BasicRelations[2] == Overlaps : true);
+            Contract.Invariant(ClassInitialized ? BasicRelations[3] == FinishedBy : true);
+            Contract.Invariant(ClassInitialized ? BasicRelations[4] == Contains : true);
+            Contract.Invariant(ClassInitialized ? BasicRelations[5] == Starts : true);
+            Contract.Invariant(ClassInitialized ? BasicRelations[6] == EQUALS : true);
+            Contract.Invariant(ClassInitialized ? BasicRelations[7] == StartedBy : true);
+            Contract.Invariant(ClassInitialized ? BasicRelations[8] == During : true);
+            Contract.Invariant(ClassInitialized ? BasicRelations[9] == Finishes : true);
             Contract.Invariant(ClassInitialized ? BasicRelations[10] == OverlappedBy : true);
             Contract.Invariant(ClassInitialized ? BasicRelations[11] == MetBy : true);
             Contract.Invariant(ClassInitialized ? BasicRelations[12] == PrecededBy : true);
 
             // Secondary relations
+            Contract.Invariant(ClassInitialized ? ConcursWith == (Overlaps | FinishedBy | Contains | Starts | EQUALS | StartedBy | During | Finishes | OverlappedBy) : true);
+            Contract.Invariant(ClassInitialized ? BeginsEarlier == (Precedes | Meets | Overlaps | FinishedBy | Contains) : true);
+            Contract.Invariant(ClassInitialized ? BeginTogether == (Starts | EQUALS | StartedBy) : true);
+            Contract.Invariant(ClassInitialized ? BeginsLater == (During | Finishes | OverlappedBy | MetBy | PrecededBy) : true);
+            Contract.Invariant(ClassInitialized ? BeginsIn == (During | Finishes | OverlappedBy) : true);
+            Contract.Invariant(ClassInitialized ? BeginsEarlierAndEndsEarlier == (Precedes | Meets | Overlaps) : true);
+            Contract.Invariant(ClassInitialized ? BeginsLaterAndEndsLater == (OverlappedBy | MetBy | PrecededBy) : true);
+            Contract.Invariant(ClassInitialized ? EndsEarlier == (Precedes | Meets | Overlaps | Starts | During) : true);
+            Contract.Invariant(ClassInitialized ? EndsIn == (Overlaps | Starts | During) : true);
+            Contract.Invariant(ClassInitialized ? EndTogether == (FinishedBy | EQUALS | Finishes) : true);
+            Contract.Invariant(ClassInitialized ? EndsLater == (Contains | StartedBy | OverlappedBy | MetBy | PrecededBy) : true);
+            Contract.Invariant(ClassInitialized ? ContainsBegin == (Overlaps | FinishedBy | Contains) : true);
+            Contract.Invariant(ClassInitialized ? ContainsEnd == (Contains | StartedBy | OverlappedBy) : true);
 
             // About relations
             Contract.Invariant(ImpliedBy(this));
@@ -442,9 +455,20 @@ namespace PPWCode.Value.I.Time.Interval
                 EQUALS,
                 StartedBy, During, Finishes, OverlappedBy, MetBy, PrecededBy
             };
-            //ConcursWith = Begins | In;
-            //BeforeEnd = Or(Before, Begins, In);
-            //AfterBegin = Or(In, Ends, After);
+            ConcursWith
+                = Or(Overlaps, FinishedBy, Contains, Starts, EQUALS, StartedBy, During, Finishes, OverlappedBy);
+            BeginsEarlier = Or(Precedes, Meets, Overlaps, FinishedBy, Contains);
+            BeginTogether = Or(Starts, EQUALS, StartedBy);
+            BeginsLater = Or(During, Finishes, OverlappedBy, MetBy, PrecededBy);
+            BeginsIn = Or(During, Finishes, OverlappedBy);
+            BeginsEarlierAndEndsEarlier = Or(Precedes, Meets, Overlaps);
+            BeginsLaterAndEndsLater = Or(OverlappedBy, MetBy, PrecededBy);
+            EndsEarlier = Or(Precedes, Meets, Overlaps, Starts, During);
+            EndsIn = Or(Overlaps, Starts, During);
+            EndTogether = Or(FinishedBy, EQUALS, Finishes);
+            EndsLater = Or(Contains, StartedBy, OverlappedBy, MetBy, PrecededBy);
+            ContainsBegin = Or(Overlaps, FinishedBy, Contains);
+            ContainsEnd = Or(Contains, StartedBy, OverlappedBy);
             //BasicCompositions = new TimePointIntervalRelation[][]
             //{
             //    new TimePointIntervalRelation[]
@@ -481,21 +505,21 @@ namespace PPWCode.Value.I.Time.Interval
         #region Basic relations
 
         // with these bit patterns, converse is reverse of 13-bit pattern
-        private const int EmptyBitPattern         =    0; // 0000000000000 -
-        private const int PrecedesBitPattern      =    1; // 0000000000001 p
-        private const int MeetsBitPattern         =    2; // 0000000000010 m
-        private const int OverlapsBitPattern      =    4; // 0000000000100 o
-        private const int FinishedByBitPattern    =    8; // 0000000001000 F
-        private const int ContainsBitPattern      =   16; // 0000000010000 D
-        private const int StartsBitPattern        =   32; // 0000000100000 s
-        private const int EqualsBitPattern        =   64; // 0000001000000 e
-        private const int StartedByBitPattern     =  128; // 0000010000000 S
-        private const int DuringBitPattern        =  256; // 0000100000000 d
-        private const int FinishesBitPattern      =  512; // 0001000000000 f
-        private const int OverlappedByBitPattern  = 1024; // 0010000000000 O
-        private const int MetByBitPattern         = 2048; // 0100000000000 M
-        private const int PrecededByBitPattern    = 4096; // 1000000000000 P
-        private const int FullBitPattern          = 8191; // 1111111111111 pmoFDseSdfOMP
+        private const int EmptyBitPattern = 0; // 0000000000000 -
+        private const int PrecedesBitPattern = 1; // 0000000000001 p
+        private const int MeetsBitPattern = 2; // 0000000000010 m
+        private const int OverlapsBitPattern = 4; // 0000000000100 o
+        private const int FinishedByBitPattern = 8; // 0000000001000 F
+        private const int ContainsBitPattern = 16; // 0000000010000 D
+        private const int StartsBitPattern = 32; // 0000000100000 s
+        private const int EqualsBitPattern = 64; // 0000001000000 e
+        private const int StartedByBitPattern = 128; // 0000010000000 S
+        private const int DuringBitPattern = 256; // 0000100000000 d
+        private const int FinishesBitPattern = 512; // 0001000000000 f
+        private const int OverlappedByBitPattern = 1024; // 0010000000000 O
+        private const int MetByBitPattern = 2048; // 0100000000000 M
+        private const int PrecededByBitPattern = 4096; // 1000000000000 P
+        private const int FullBitPattern = 8191; // 1111111111111 pmoFDseSdfOMP
 
         /// <summary>
         /// This empty relation is not a true time interval relation. It does not express a
@@ -784,7 +808,399 @@ namespace PPWCode.Value.I.Time.Interval
         /// </remarks>
         public static readonly TimeIntervalRelation[] BasicRelations;
 
-        private static readonly string[] s_BasicCodes = { "p", "m", "o", "F", "D", "s", "e", "S", "d", "f", "O", "M", "P" };
+        private static readonly string[] s_BasicCodes =
+        {
+            "p", "m", "o", "F", "D", "s", "e", "S", "d", "f", "O", "M", "P"
+        };
+
+        #endregion
+
+        #region Secondary relations
+
+        /// <summary>
+        /// A non-basic time interval relation that is often handy to use,
+        /// which expresses that an interval <c>I1</c> and an interval <c>I2</c> 
+        /// are concurrent in some way.
+        /// </summary>
+        /// <remarks>
+        /// Thus, <c>I1</c> does <em>not</em> precede <c>I2</c>, 
+        /// <c>I1</c> does <em>not</em> meet <c>I2</c>,
+        /// <c>I1</c> is <em>not</em> met be <c>I2</c>, 
+        /// and <c>I1</c> is <em>not</em> preceded by <c>I2</c>.
+        /// This relation is introduced because it is the possible result of
+        /// the composition of 2 basic relations.
+        /// </remarks>
+        public static readonly TimeIntervalRelation ConcursWith;
+
+        /// <summary>
+        /// A non-basic time interval relation that is often handy to use,
+        /// which expresses that an interval <c>I1</c> begins earlier than
+        /// an interval <c>I2</c> begins.
+        /// </summary>
+        /// <remarks>
+        /// <code>
+        /// (I1.Begin != null) &amp;&amp; (I2.Begin != null) &amp;&amp; (I1.Begin &lt; I2.Begin)
+        /// </code>
+        /// <para>This relation is introduced because it is the possible result of
+        /// the composition of 2 basic relations.</para>
+        /// </remarks>
+        public static readonly TimeIntervalRelation BeginsEarlier;
+
+        /// <summary>
+        /// A non-basic time interval relation that is often handy to use,
+        /// which expresses that an interval <c>I1</c> and an interval <c>I2</c>
+        /// begin at the same time.
+        /// </summary>
+        /// <remarks>
+        /// <code>
+        /// (I1.Begin != null) &amp;&amp; (I2.Begin != null) &amp;&amp; (I1.Begin == I2.Begin)
+        /// </code>
+        /// <para>This relation is introduced because it is the possible result of
+        /// the composition of 2 basic relations.</para>
+        /// </remarks>
+        public static readonly TimeIntervalRelation BeginTogether;
+
+        /// <summary>
+        /// A non-basic time interval relation that is often handy to use,
+        /// which expresses that an interval <c>I1</c> begins later than
+        /// an interval <c>I2</c>.
+        /// </summary>
+        /// <remarks>
+        /// <code>
+        /// (I1.Begin != null) &amp;&amp; (I2.Begin != null) &amp;&amp; (I1.Begin &gt; I2.Begin)
+        /// </code>
+        /// <para>This relation is introduced because it is the possible result of
+        /// the composition of 2 basic relations.</para>
+        /// </remarks>
+        public static readonly TimeIntervalRelation BeginsLater;
+
+        /// <summary>
+        /// A non-basic time interval relation that is often handy to use,
+        /// which expresses that an interval <c>I1</c> begins inside
+        /// an interval <c>I2</c>.
+        /// </summary>
+        /// <remarks>
+        /// <code>
+        /// (I1.Begin != null) &amp;&amp; (I2.Begin != null) &amp;&amp; (I2.End != null)
+        /// &amp;&amp; (I1.Begin &gt; I2.Begin) &amp;&amp; (I1.Begin &lt; I2.End)
+        /// </code>
+        /// <para>This relation is introduced because it is the possible result of
+        /// the composition of 2 basic relations.</para>
+        /// </remarks>
+        public static readonly TimeIntervalRelation BeginsIn;
+
+        /// <summary>
+        /// A non-basic time interval relation that is often handy to use,
+        /// which expresses that an interval <c>I1</c> begins earlier and ends earlier
+        /// an interval <c>I2</c> begins and ends.
+        /// </summary>
+        /// <remarks>
+        /// <code>
+        /// (I1.Begin != null) &amp;&amp; (I2.Begin != null)
+        /// &amp;&amp; (I1.End != null) &amp;&amp; (I2.End != null)
+        /// &amp;&amp; (I1.Begin &lt; I2.Begin) &amp;&amp; (I1.End &lt; I2.End)
+        /// </code>
+        /// <para>This relation is introduced because it is the possible result of
+        /// the composition of 2 basic relations.</para>
+        /// </remarks>
+        public static readonly TimeIntervalRelation BeginsEarlierAndEndsEarlier;
+
+        /// <summary>
+        /// A non-basic time interval relation that is often handy to use,
+        /// which expresses that an interval <c>I1</c> begins later and ends later than
+        /// an interval <c>I2</c> begins and ends.
+        /// </summary>
+        /// <remarks>
+        /// <code>
+        /// (I1.Begin != null) &amp;&amp; (I2.Begin != null)
+        /// &amp;&amp; (I1.End != null) &amp;&amp; (I2.End != null)
+        /// &amp;&amp; (I1.Begin &gt; I2.Begin) &amp;&amp; (I1.End &gt; I2.End)
+        /// </code>
+        /// <para>This relation is introduced because it is the possible result of
+        /// the composition of 2 basic relations.</para>
+        /// </remarks>
+        public static readonly TimeIntervalRelation BeginsLaterAndEndsLater;
+
+        /// <summary>
+        /// A non-basic time interval relation that is often handy to use,
+        /// which expresses that an interval <c>I1</c> ends earlier than
+        /// an interval <c>I2</c> ends.
+        /// </summary>
+        /// <remarks>
+        /// <code>
+        /// (I1.End != null) &amp;&amp; (I2.End != null)
+        /// &amp;&amp; (I1.End &lt; I2.End)
+        /// </code>
+        /// <para>This relation is introduced because it is the possible result of
+        /// the composition of 2 basic relations.</para>
+        /// </remarks>
+        public static readonly TimeIntervalRelation EndsEarlier;
+
+        /// <summary>
+        /// A non-basic time interval relation that is often handy to use,
+        /// which expresses that an interval <c>I1</c> ends inside
+        /// an interval <c>I2</c>.
+        /// </summary>
+        /// <remarks>
+        /// <code>
+        /// (I1.End != null) &amp;&amp; (I2.Begin != null) &amp;&amp; (I2.End != null)
+        /// &amp;&amp; (I1.End &gt; I2.Begin) &amp;&amp; (I1.End &lt; I2.End)
+        /// </code>
+        /// <para>This relation is introduced because it is the possible result of
+        /// the composition of 2 basic relations.</para>
+        /// </remarks>
+        public static readonly TimeIntervalRelation EndsIn;
+
+        /// <summary>
+        /// A non-basic time interval relation that is often handy to use,
+        /// which expresses that an interval <c>I1</c> and an interval <c>I2</c>
+        /// end at the same time.
+        /// </summary>
+        /// <remarks>
+        /// <code>
+        /// (I1.End != null) &amp;&amp; (I2.End != null)
+        /// &amp;&amp; (I1.End == I2.End)
+        /// </code>
+        /// <para>This relation is introduced because it is the possible result of
+        /// the composition of 2 basic relations.</para>
+        /// </remarks>
+        public static readonly TimeIntervalRelation EndTogether;
+
+        /// <summary>
+        /// A non-basic time interval relation that is often handy to use,
+        /// which expresses that an interval <c>I1</c> ends later than an 
+        /// interval <c>I2</c> ends.
+        /// </summary>
+        /// <remarks>
+        /// <code>
+        /// (I1.End != null) &amp;&amp; (I2.End != null)
+        /// &amp;&amp; (I1.End &gt; I2.End)
+        /// </code>
+        /// <para>This relation is introduced because it is the possible result of
+        /// the composition of 2 basic relations.</para>
+        /// </remarks>
+        public static readonly TimeIntervalRelation EndsLater;
+
+        /// <summary>
+        /// A non-basic time interval relation that is often handy to use,
+        /// which expresses that an interval <c>I1</c> contains the begin of
+        /// an interval <c>I2</c>.
+        /// </summary>
+        /// <remarks>
+        /// <code>
+        /// (I1.Begin != null) &amp;&amp; (I1.End != null) &amp;&amp; (I2.Begin != null)
+        /// &amp;&amp; (I1.Begin &lt; I2.Begin) &amp;&amp; (I1.End &gt; I2.Begin)
+        /// </code>
+        /// <para>This relation is introduced because it is the possible result of
+        /// the composition of 2 basic relations.</para>
+        /// </remarks>
+        public static readonly TimeIntervalRelation ContainsBegin;
+
+        /// <summary>
+        /// A non-basic time interval relation that is often handy to use,
+        /// which expresses that an interval <c>I1</c> contains the end of
+        /// an interval <c>I2</c>.
+        /// </summary>
+        /// <remarks>
+        /// <code>
+        /// (I1.Begin != null) &amp;&amp; (I1.End != null) &amp;&amp; (I2.End != null)
+        /// &amp;&amp; (I1.Begin &lt; I2.End) &amp;&amp; (I1.End &gt; I2.End)
+        /// </code>
+        /// <para>This relation is introduced because it is the possible result of
+        /// the composition of 2 basic relations.</para>
+        /// </remarks>
+        public static readonly TimeIntervalRelation ContainsEnd;
+
+        #endregion
+
+        #region N-ary operations
+
+        /// <summary>
+        /// <para>The main factory method for AllenRelations.</para>
+        /// <para>Although this is intended to create any disjunction of the basic relations,
+        /// you can use any relation in the argument list.</para>
+        /// </summary>
+        /// <returns>
+        /// <para>This is the union of all time interval relations in
+        /// <paramref name="tirs"/>, when they are considered as sets of basic
+        /// relations.</para>
+        /// </returns>
+        /// <remarks>
+        /// <para><see cref="op_BitwiseOr">|</see> is a binary operator version 
+        /// of this method.</para>
+        /// </remarks>
+        [Pure]
+        public static TimeIntervalRelation Or(params TimeIntervalRelation[] tirs)
+        {
+            Contract.Ensures(Contract.ForAll(
+                BasicRelations,
+                br => Contract.Exists(tirs, tir => tir.ImpliedBy(br))
+                      == Contract.Result<TimeIntervalRelation>().ImpliedBy(br)));
+
+            uint acc = tirs.Aggregate<TimeIntervalRelation, uint>(
+                EmptyBitPattern,
+                (current, tir) => current | tir.m_BitPattern);
+            return Values[acc];
+        }
+
+        /// <summary>
+        /// <param>Binary operator version of <see cref="Or"/>.</param>
+        /// <inheritdoc cref="Or"/>
+        /// </summary>
+        /// <returns>
+        /// <inheritdoc cref="Or"/>
+        /// </returns>
+        [Pure]
+        public static TimeIntervalRelation operator |(TimeIntervalRelation tir1, TimeIntervalRelation tir2)
+        {
+            /* TODO
+             * This contract crashes Contracts. Probably because of the var params of Or.
+            Contract.Ensures(Contract.Result<TimeIntervalRelation>() == Or(tir1, tir2));
+             */
+
+            return Or(tir1, tir2);
+        }
+
+  //**
+  // * The conjunction of the time interval relations in {@code gr}.
+  // * This is the intersection of all time interval relations in {@code gr}, when they are considered
+  // * as sets of basic relations.
+  // */
+  //@MethodContract(post = {
+  //  @Expression("for (TimeIntervalRelation br : BASIC_RELATIONS) {for (TimeIntervalRelation ar : _gr) {ar.impliedBy(br)} ?? result.impliedBy(br)}")
+  //})
+  //public static TimeIntervalRelation and(TimeIntervalRelation... gr) {
+  //  int acc = FULL_BIT_PATTERN;
+  //  for (TimeIntervalRelation tir : gr) {
+  //    acc &= tir.$bitPattern;
+  //  }
+  //  return VALUES[acc];
+  //}
+
+        /// <summary>
+        /// <para>Remove basic relations in <paramref name="term2"/> from
+        /// <paramref name="term1"/>.</para>
+        /// </summary>
+        /// <returns>
+        /// <para>This is the difference between the time point-interval relations in
+        /// <paramref name="term1"/> and <paramref name="term2"/>, 
+        /// when they are considered as sets of basic relations.</para>
+        /// </returns>
+        /// <remarks>
+        /// <para><see cref="op_Subtraction">-</see> is a operator version of this method.</para>
+        /// </remarks>
+        [Pure]
+        public static TimeIntervalRelation Min(TimeIntervalRelation term1, TimeIntervalRelation term2)
+        {
+            Contract.Ensures(Contract.ForAll(
+                BasicRelations,
+                br => (br.Implies(Contract.Result<TimeIntervalRelation>())
+                    == (br.Implies(term1) && (! br.Implies(term2))))));
+
+            uint xor = term1.m_BitPattern ^ term2.m_BitPattern;
+            uint min = term1.m_BitPattern & xor;
+            return Values[min];
+        }
+
+        /// <summary>
+        /// <param>Operator version of <see cref="Min"/>.</param>
+        /// <inheritdoc cref="Min"/>
+        /// </summary>
+        /// <returns>
+        /// <inheritdoc cref="Min"/>
+        /// </returns>
+        [Pure]
+        public static TimeIntervalRelation operator -(TimeIntervalRelation term1, TimeIntervalRelation term2)
+        {
+            Contract.Ensures(Contract.Result<TimeIntervalRelation>() == Min(term1, term2));
+
+            return Min(term1, term2);
+        }
+
+        /// <summary>
+        /// The relation from <paramref name="i1"/> to <paramref name="i2"/> with the lowest possible
+        /// <see cref="Uncertainty"/>.
+        /// </summary>
+        /// <returns>
+        /// <c>null</c> as <see cref="ITimeInterval.Begin"/> or <see cref="ITimeInterval.End"/>
+        /// is considered as unknown, and thus is not used to restrict the relation more, leaving
+        /// it with more <see cref="Uncertainty"/>.
+        /// </returns>
+        [Pure]
+        public static TimeIntervalRelation LeastUncertainTimeIntervalRelation(ITimeInterval i1, ITimeInterval i2)
+        {
+            // MUDO contract
+            TimeIntervalRelation result = Full;
+            //if (i1.Begin != null) {
+            //  if (i2.Begin != null) {
+            //    if (i1.Begin < i2.Begin) {
+            //      result = Min(result, BeginsEarlier.complement());
+            //    }
+            //    else if (i1.Begin == i2.Begin) {
+            //      result = Min(result, BeginTogether.complement());
+            //    }
+            //    else {
+            //        Contract.Assume(i1.Begin > i2.Begin);
+            //      result = Min(result, BeginsLater.complement());
+            //    }
+            //  }
+            //  if (i2.End != null) {
+            //    if (i1.Begin< i2.End)) { // pmoFDseSdfO, not MP; begins before end
+            //      result = Min(result, MetBy);
+            //      result = Min(result, PrecededBy);
+            //    }
+            //    else if (i1.Begin == i2.End) {
+            //      if (i1.End != null && i2.Begin != null && i1.End == i2.Begin)
+            //      {
+            //          Contract.Assume(i1.Begin == i1.End);
+            //          Contract.Assume(i2.Begin == i2.End);
+            //        return EQUALS;
+            //      }
+            //      else {
+            //        return MetBy;
+            //      }
+            //    }
+            //    else
+            //    {
+            //        Contract.Assume(i1.Begin > i2.End);
+            //      return PrecededBy;
+            //    }
+            //  }
+            //}
+            //if (i1.End != null) {
+            //  if (i2.Begin != null) {
+            //    if (i1.End < i2.Begin) {
+            //      return Precedes;
+            //    }
+            //    else if (i1.End == i2.Begin) {
+            //      if (i1.Begin != null && i2.End != null && i1.Begin == i2.End) {
+            //          Contract.Assume(i1.Begin == i1.End);
+            //          Contract.Assume(i2.Begin == i2.End);
+            //        return EQUALS;
+            //      }
+            //      return Meets;
+            //    }
+            //    else {
+            //        Contract.Assume(i1.End > i2.Begin) // not pm, oFDseSdfOMP, ends after begin
+            //      result = Min(result, Precedes);
+            //      result = Min(result, Meets);
+            //    }
+            //  }
+            //  if (i2.End != null) {
+            //    if (i1.End < i2.End) {
+            //      result = Min(result, EndsEarlier.complement());
+            //    }
+            //    else if (i1.End == i2.End) {
+            //      result = Min(result, EndTogether.complement());
+            //    }
+            //    else {
+            //      Contract.Assume(i1.End > i2.End);
+            //      result = Min(result, EndsLater);
+            //    }
+            //  }
+            //}
+            return result;
+        }
 
         #endregion
 
@@ -872,26 +1288,6 @@ namespace PPWCode.Value.I.Time.Interval
 
         #endregion
 
-        #region N-ary operations
-
-        /// <summary>
-        /// The relation from <paramref name="i1"/> to <paramref name="i2"/> with the lowest possible
-        /// <see cref="Uncertainty"/>.
-        /// </summary>
-        /// <returns>
-        /// <c>null</c> as <see cref="ITimeInterval.Begin"/> or <see cref="ITimeInterval.End"/>
-        /// is considered as unknown, and thus is not used to restrict the relation more, leaving
-        /// it with more <see cref="Uncertainty"/>.
-        /// </returns>
-        [Pure]
-        public static TimeIntervalRelation LeastUncertainTimeIntervalRelation(ITimeInterval i1, ITimeInterval i2)
-        {
-            // MUDO contract
-            throw new NotImplementedException();
-        }
-
-        #endregion
-
         #region Instance operations
 
         /// <summary>
@@ -942,7 +1338,7 @@ namespace PPWCode.Value.I.Time.Interval
             get
             {
                 Contract.Ensures(this != Empty
-                                     ? Math.Abs(Contract.Result<float>() - (NrOfBasicRelations - 1) / 12.0F) <= 0.1e-6F
+                                     ? Math.Abs(Contract.Result<float>() - ((NrOfBasicRelations - 1) / 12.0F)) <= 0.1e-6F
                                      : true);
                 Contract.Ensures(this == Empty ? float.IsNaN(Contract.Result<float>()) : true);
 
@@ -1037,6 +1433,5 @@ namespace PPWCode.Value.I.Time.Interval
             result.Append(")");
             return result.ToString();
         }
-
     }
 }
