@@ -524,39 +524,39 @@ namespace PPWCode.Value.Test_I.Time.Interval
             }
         }
 
-        //[TestMethod]
-        //public void TestComplement()
-        //{
-        //    TimeIntervalRelation result;
-        //    foreach (TimeIntervalRelation tir in TimeIntervalRelation.Values)
-        //    {
-        //        result = tir.Complement;
-        //        //Console.WriteLine(FullBitPattern(tir) + " ### " + FullBitPattern(result));
-        //    }
-        //}
+        [TestMethod]
+        public void TestComplement()
+        {
+            TimeIntervalRelation result;
+            foreach (TimeIntervalRelation tir in TimeIntervalRelation.Values)
+            {
+                result = tir.Complement;
+                Console.WriteLine(FullBitPattern(tir) + " ### " + FullBitPattern(result));
+            }
+        }
 
-        //[TestMethod]
-        //public void TestComplementOperator()
-        //{
-        //    TimeIntervalRelation result;
-        //    foreach (TimeIntervalRelation tir in TimeIntervalRelation.Values)
-        //    {
-        //        result = ~tir;
-        //        //Console.WriteLine(FullBitPattern(tir) + " ### " + FullBitPattern(result));
-        //    }
-        //}
+        [TestMethod]
+        public void TestComplementOperator()
+        {
+            TimeIntervalRelation result;
+            foreach (TimeIntervalRelation tir in TimeIntervalRelation.Values)
+            {
+                result = ~tir;
+                Console.WriteLine(FullBitPattern(tir) + " ### " + FullBitPattern(result));
+            }
+        }
 
-        //[TestMethod]
-        //public void TestAreComplementary()
-        //{
-        //    bool result;
-        //    foreach (TimeIntervalRelation tir1 in TimeIntervalRelation.Values)
-        //    {
-        //        foreach (TimeIntervalRelation tir2 in TimeIntervalRelation.Values)
-        //        {
-        //            result = TimeIntervalRelation.AreComplementary(tir1, tir2);
-        //        }
-        //    }
-        //}
+        [TestMethod]
+        public void TestAreComplementary()
+        {
+            bool result;
+            foreach (TimeIntervalRelation tir1 in Subjects)
+            {
+                foreach (TimeIntervalRelation tir2 in Subjects)
+                {
+                    result = TimeIntervalRelation.AreComplementary(tir1, tir2);
+                }
+            }
+        }
     }
 }

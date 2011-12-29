@@ -809,9 +809,9 @@ namespace PPWCode.Value.I.Time.Interval
         public static readonly TimeIntervalRelation[] BasicRelations;
 
         private static readonly string[] s_BasicCodes =
-        {
-            "p", "m", "o", "F", "D", "s", "e", "S", "d", "f", "O", "M", "P"
-        };
+            {
+                "p", "m", "o", "F", "D", "s", "e", "S", "d", "f", "O", "M", "P"
+            };
 
         #endregion
 
@@ -1061,21 +1061,21 @@ namespace PPWCode.Value.I.Time.Interval
             return Or(tir1, tir2);
         }
 
-  //**
-  // * The conjunction of the time interval relations in {@code gr}.
-  // * This is the intersection of all time interval relations in {@code gr}, when they are considered
-  // * as sets of basic relations.
-  // */
-  //@MethodContract(post = {
-  //  @Expression("for (TimeIntervalRelation br : BASIC_RELATIONS) {for (TimeIntervalRelation ar : _gr) {ar.impliedBy(br)} ?? result.impliedBy(br)}")
-  //})
-  //public static TimeIntervalRelation and(TimeIntervalRelation... gr) {
-  //  int acc = FULL_BIT_PATTERN;
-  //  for (TimeIntervalRelation tir : gr) {
-  //    acc &= tir.$bitPattern;
-  //  }
-  //  return VALUES[acc];
-  //}
+        //**
+        // * The conjunction of the time interval relations in {@code gr}.
+        // * This is the intersection of all time interval relations in {@code gr}, when they are considered
+        // * as sets of basic relations.
+        // */
+        //@MethodContract(post = {
+        //  @Expression("for (TimeIntervalRelation br : BASIC_RELATIONS) {for (TimeIntervalRelation ar : _gr) {ar.impliedBy(br)} ?? result.impliedBy(br)}")
+        //})
+        //public static TimeIntervalRelation and(TimeIntervalRelation... gr) {
+        //  int acc = FULL_BIT_PATTERN;
+        //  for (TimeIntervalRelation tir : gr) {
+        //    acc &= tir.$bitPattern;
+        //  }
+        //  return VALUES[acc];
+        //}
 
         /// <summary>
         /// <para>Remove basic relations in <paramref name="term2"/> from
@@ -1095,7 +1095,7 @@ namespace PPWCode.Value.I.Time.Interval
             Contract.Ensures(Contract.ForAll(
                 BasicRelations,
                 br => (br.Implies(Contract.Result<TimeIntervalRelation>())
-                    == (br.Implies(term1) && (! br.Implies(term2))))));
+                       == (br.Implies(term1) && (! br.Implies(term2))))));
 
             uint xor = term1.m_BitPattern ^ term2.m_BitPattern;
             uint min = term1.m_BitPattern & xor;
@@ -1131,73 +1131,94 @@ namespace PPWCode.Value.I.Time.Interval
         {
             // MUDO contract
             TimeIntervalRelation result = Full;
-            //if (i1.Begin != null) {
-            //  if (i2.Begin != null) {
-            //    if (i1.Begin < i2.Begin) {
-            //      result = Min(result, BeginsEarlier.complement());
-            //    }
-            //    else if (i1.Begin == i2.Begin) {
-            //      result = Min(result, BeginTogether.complement());
-            //    }
-            //    else {
-            //        Contract.Assume(i1.Begin > i2.Begin);
-            //      result = Min(result, BeginsLater.complement());
-            //    }
-            //  }
-            //  if (i2.End != null) {
-            //    if (i1.Begin< i2.End)) { // pmoFDseSdfO, not MP; begins before end
-            //      result = Min(result, MetBy);
-            //      result = Min(result, PrecededBy);
-            //    }
-            //    else if (i1.Begin == i2.End) {
-            //      if (i1.End != null && i2.Begin != null && i1.End == i2.Begin)
-            //      {
-            //          Contract.Assume(i1.Begin == i1.End);
-            //          Contract.Assume(i2.Begin == i2.End);
-            //        return EQUALS;
-            //      }
-            //      else {
-            //        return MetBy;
-            //      }
-            //    }
-            //    else
+            //if (i1.Begin != null)
+            //{
+            //    if (i2.Begin != null)
             //    {
-            //        Contract.Assume(i1.Begin > i2.End);
-            //      return PrecededBy;
+            //        if (i1.Begin < i2.Begin)
+            //        {
+            //            result = Min(result, BeginsEarlier.complement());
+            //        }
+            //        else if (i1.Begin == i2.Begin)
+            //        {
+            //            result = Min(result, BeginTogether.complement());
+            //        }
+            //        else
+            //        {
+            //            Contract.Assume(i1.Begin > i2.Begin);
+            //            result = Min(result, BeginsLater.complement());
+            //        }
             //    }
-            //  }
+            //    if (i2.End != null)
+            //    {
+            //        if (i1.Begin < i2.End)
+            //        {
+            //            // pmoFDseSdfO, not MP; begins before end
+            //            result = Min(result, MetBy);
+            //            result = Min(result, PrecededBy);
+            //        }
+            //    else
+            //        if (i1.Begin == i2.End)
+            //        {
+            //            if (i1.End != null && i2.Begin != null && i1.End == i2.Begin)
+            //            {
+            //                Contract.Assume(i1.Begin == i1.End);
+            //                Contract.Assume(i2.Begin == i2.End);
+            //                return EQUALS;
+            //            }
+            //            else
+            //            {
+            //                return MetBy;
+            //            }
+            //        }
+            //        else
+            //        {
+            //            Contract.Assume(i1.Begin > i2.End);
+            //            return PrecededBy;
+            //        }
+            //    }
             //}
-            //if (i1.End != null) {
-            //  if (i2.Begin != null) {
-            //    if (i1.End < i2.Begin) {
-            //      return Precedes;
+            //if (i1.End != null)
+            //{
+            //    if (i2.Begin != null)
+            //    {
+            //        if (i1.End < i2.Begin)
+            //        {
+            //            return Precedes;
+            //        }
+            //        else if (i1.End == i2.Begin)
+            //        {
+            //            if (i1.Begin != null && i2.End != null && i1.Begin == i2.End)
+            //            {
+            //                Contract.Assume(i1.Begin == i1.End);
+            //                Contract.Assume(i2.Begin == i2.End);
+            //                return EQUALS;
+            //            }
+            //            return Meets;
+            //        }
+            //        else
+            //        {
+            //            Contract.Assume(i1.End > i2.Begin); // not pm, oFDseSdfOMP, ends after begin
+            //            result = Min(result, Precedes);
+            //            result = Min(result, Meets);
+            //        }
             //    }
-            //    else if (i1.End == i2.Begin) {
-            //      if (i1.Begin != null && i2.End != null && i1.Begin == i2.End) {
-            //          Contract.Assume(i1.Begin == i1.End);
-            //          Contract.Assume(i2.Begin == i2.End);
-            //        return EQUALS;
-            //      }
-            //      return Meets;
+            //    if (i2.End != null)
+            //    {
+            //        if (i1.End < i2.End)
+            //        {
+            //            result = Min(result, EndsEarlier.complement());
+            //        }
+            //        else if (i1.End == i2.End)
+            //        {
+            //            result = Min(result, EndTogether.complement());
+            //        }
+            //        else
+            //        {
+            //            Contract.Assume(i1.End > i2.End);
+            //            result = Min(result, EndsLater);
+            //        }
             //    }
-            //    else {
-            //        Contract.Assume(i1.End > i2.Begin) // not pm, oFDseSdfOMP, ends after begin
-            //      result = Min(result, Precedes);
-            //      result = Min(result, Meets);
-            //    }
-            //  }
-            //  if (i2.End != null) {
-            //    if (i1.End < i2.End) {
-            //      result = Min(result, EndsEarlier.complement());
-            //    }
-            //    else if (i1.End == i2.End) {
-            //      result = Min(result, EndTogether.complement());
-            //    }
-            //    else {
-            //      Contract.Assume(i1.End > i2.End);
-            //      result = Min(result, EndsLater);
-            //    }
-            //  }
             //}
             return result;
         }
@@ -1375,6 +1396,176 @@ namespace PPWCode.Value.I.Time.Interval
             Contract.Ensures(Contract.Result<int>() == BasicRelations.Count(br => br.Implies(tpir)));
 
             return BasicRelations.Count(br => br.Implies(tpir));
+        }
+
+  // * <p><code><var>br</var>.implies(<var>cond</var>)</code> &hArr;
+  // *   <code>! <var>br</var>.implies(<var>cond</var>.complement())</code></p>
+  // * <p><strong>This is however not so for non-basic, and thus general time interval relations</strong>, as the following
+  // *   counterexample proofs. Suppose a condition is that, for a general relation <var>gr</var>:</p>
+  // * <pre><var>gr</var>.implies(<var>cond</var>)</pre>
+  // * <p>Suppose <code><var>gr</var> == (mFO)</code>. Then we can rewrite in the following way:</p>
+  // * <p>&nbsp;&nbsp;&nbsp;<code><var>gr</var>.implies(<var>cond</var>)</code><br />
+  // *   &hArr; <code>(mFO).implies(<var>cond</var>)</code><br />
+  // *   &hArr; <code>(mFO) &sube; <var>cond</var></code><br />
+  // *   &hArr; <code>(mFO) &sube; <var>cond</var></code><br />
+  // *   &hArr; <code>(m &isin; <var>cond</var>) && (F &isin; <var>cond</var>) && (O &isin; <var>cond</var>)</code></p>
+  // * <p>From the definition of the complement, it follows that, for a basic relation <var>br</var> and a general
+  // *   relation <var>GR</var> as set</p>
+  // * <p><code>br &isin; GR</code> &hArr; <code>br &notin; GR.complement()</code></p>
+  // * <p>Thus:</p>
+  // * <p>&hArr; <code>(m &notin; <var>cond</var>.complement()) && (F &notin; <var>cond</var>.complement()) &&
+  // *   (O &notin; <var>cond</var>.complement())</code><br />
+  // *   &hArr; <code>! ((m &isin; <var>cond</var>.complement()) || (F &isin; <var>cond</var>.complement()) ||
+  // *   (O &isin; <var>cond</var>.complement())</code> (1)</p>
+  // * <p>While, from the other side:</p>
+  // * <p>&nbsp;&nbsp;&nbsp;<code>! <var>gr</var>.implies(<var>cond</var>.complement())</code><br />
+  // *   &hArr; <code>! (mFO).implies(<var>cond</var>.complement())</code><br />
+  // *   &hArr; <code>! (mFO) &sube; (<var>cond</var>.complement())</code><br />
+  // *   &hArr; <code>! ((m &isin; <var>cond</var>.complement()) && (F &isin; <var>cond</var>.complement()) &&
+  // *   (O &isin; <var>cond</var>.complement()))</code> (2)</p>
+  // * <p>It is clear that (1) is incompatible with (2), except for the case where the initial relation is basic.</p>
+  // * <p>In the reverse case, for a basic relation <var>br</var> and a general time interval relation <var>actual</var>, nothing
+  // *   special can be said about the complement of <var>actual</var>, as the following reasoning illustrates:</p>
+  // * <p>&nbsp;&nbsp;&nbsp;<code><var>actual</var>.implies(<var>br</var>)</code><br />
+  // *   &hArr;<code><var>actual</var> &sube; <var>br</var></code><br />
+  // *   &hArr;<code><var>actual</var> &sube; (<var>br</var>)</code><br />
+  // *   &hArr;<code><var>actual</var> == (<var>br</var>) || <var>actual</var> == &empty;</code><br />
+  // *   &hArr;<code><var>actual</var>.complement() == (<var>br</var>).complement() || <var>actual</var>.complement() == FULL</code> (3)</p>
+  // * <p>From the other side:</p>
+  // * <p>&nbsp;&nbsp;&nbsp;<code>! <var>actual</var>.complement().implies(<var>br</var>)</code><br />
+  // *   &hArr;<code>! (<var>actual</var>.complement() &sube; <var>br</var>)</code><br />
+  // *   &hArr;<code>! (<var>actual</var>.complement() &sube; (<var>br</var>))</code><br />
+  // *   &hArr;<code>! (<var>actual</var>.complement() == (<var>br</var>) || <var>actual</var>.complement() == &empty;)</code><br />
+  // *   &hArr;<code><var>actual</var>.complement() != (<var>br</var>) && <var>actual</var>.complement() != &empty;</code> (4)</p>
+  // * <p>It is clear that (3) expresses something completely different then (4), and this effect is obviously even stronger with
+  // *   non-basic relations.</p>
+  // * <p>Note that it is exactly this counter-intuitivity that makes reasoning with time intervals so difficult.</p>
+  // */
+        /// <summary>
+        /// <para>The complement of a time interval relation is the logic negation of the condition
+        /// the time interval relation expresses.</para>
+        /// <para>The complement of a basic time interval relation is the disjunction of all the
+        /// other basic time interval relations.</para>
+        /// <para>The complement of a general time interval relation is the disjunction of all 
+        /// basic time interval relations that are not implied by the general time interval
+        /// relation.</para>
+        /// </summary>
+        /// <remarks>
+        /// <para>This method is key to validating semantic constraints on time intervals, using the
+        /// following idiom:</para>
+        /// <code>
+        /// ...
+        /// TimeInterval i1 = ...;
+        /// TimeInterval i2 = ...;
+        /// TimeIntervalRelation condition = ...;
+        /// TimeIntervalRelation actual = LeastUncertainTimeIntervalRelation(i1, i2);
+        /// if (! actual.implies(condition)) {
+        ///   throw new ....
+        /// }
+        /// ...
+        /// </code>
+        /// <para><strong>Be aware that the complement has in general not the same meaning as
+        /// a logic negation.</strong> For a <em>basic relation</em> <var>br</var> and a 
+        /// general time interval relation <var>cond</var>, it is true that</para>
+        /// <code>
+        /// <var>br</var>.Implies(<var>cond</var>) ==>! <var>br</var>.Implies(<var>cond</var>.Complement)
+        /// </code>
+        /// <para><strong>This is however not so for <em>non-basic, and thus general time 
+        /// point-interval relations</em></strong>, as the following counterexample proofs.
+        /// Suppose a condition is that, for a general relation <var>gr</var>:
+        /// <c><var>gr</var>.Implies(<var>cond</var>)</c></para>
+        /// <para>Suppose <c><var>gr</var> == (=[&lt; &gt;&lt;)</c>. Then we can rewrite in
+        /// the following way:</para>
+        /// <code>
+        /// <var>gr</var>.Implies(<var>cond</var>)
+        /// ==>(=[&lt; &gt;&lt;).Implies(<var>cond</var>)
+        /// ==>(=[&lt; &gt;&lt;) SUBSETOREQUAL <var>cond</var>
+        /// ==>(=[&lt; ISIN <var>cond</var>) &amp;&amp; (&gt;&lt; ISIN <var>cond</var>)
+        /// </code>
+        /// <para>From the definition of the complement, it follows that, for a basic relation
+        /// <var>br</var> and a general relation <var>GR</var> as set</para>
+        /// <code>
+        /// br ISIN GR ==>br NOTIN GR.Complement
+        /// </code>
+        /// <para>Thus:</para>
+        /// <code>
+        /// ==>(=[&lt; NOTIN <var>cond</var>.Complement) &amp;&amp; (&gt;&lt; NOTIN <var>cond</var>.Complement)
+        /// ==>! ((=[&lt; ISIN <var>cond</var>.Complement) || (&gt;&lt; ISIN <var>cond</var>.Complement) (1)
+        /// </code>
+        /// <para>While, from the other side:</para>
+        /// <code>
+        /// ! <var>gr</var>.implies(<var>cond</var>.Complement)
+        /// ==>! (=[&lt; &gt;&lt;).Implies(<var>cond</var>.Complement)
+        /// ==>! (=[&lt; &gt;&lt;) SUBSETOREQUAL (<var>cond</var>.Complement)
+        /// ==>! ((=[&lt; ISIN <var>cond</var>.Complement) &amp;&amp; (&gt;&lt; ISIN <var>cond</var>.Complement) (2)
+        /// </code>
+        /// <para>It is clear that (1) is incompatible with (2), except for the case where the
+        /// initial relation is basic.</para>
+        /// <para>In the reverse case, for a basic relation <var>br</var> and a general time
+        /// point-interval relation <var>actual</var>, nothing special can be said about the
+        /// complement of <var>actual</var>, as the following reasoning illustrates:</para>
+        /// <code>
+        /// <var>actual</var>.Implies(<var>br</var>)
+        /// ==><var>actual</var> SUBSETOREQUAL <var>br</var>
+        /// ==><var>actual</var> SUBSETOREQUAL (<var>br</var>)
+        /// ==><var>actual</var> == (<var>br</var>) || <var>actual</var> == EMPTYSET
+        /// ==><var>actual</var>.Complement == (<var>br</var>).Complement || <var>actual</var>.Complement == FULL (3)
+        /// </code>
+        /// <para>From the other side:</para>
+        /// <code>
+        /// ! <var>actual</var>.Complement.Implies(<var>br</var>)
+        /// ==>! (<var>actual</var>.Complement SUBSETOREQUAL <var>br</var>)
+        /// ==>! (<var>actual</var>.Complement SUBSETOREQUAL (<var>br</var>))
+        /// ==>! (<var>actual</var>.Complement == (<var>br</var>) || <var>actual</var>.Complement == EMPTYSET)
+        /// ==><var>actual</var>.Complement != (<var>br</var>) &amp;&amp; <var>actual</var>.Complement != EMPTYSET (4)
+        /// </code>
+        /// <para>It is clear that (3) expresses something completely different then (4), and this 
+        /// effect is obviously even stronger with non-basic relations.</para>
+        /// <para>Note that it is exactly this counter-intuitivity that makes reasoning with time
+        /// intervals so difficult.</para>
+        /// <para>The operator version of the complement is <see cref="op_OnesComplement">~</see>.</para>
+        /// </remarks>
+        public TimeIntervalRelation Complement
+        {
+            get
+            {
+                Contract.Ensures(AreComplementary(this, Contract.Result<TimeIntervalRelation>()));
+
+                /*
+                 * implemented as the XOR of the FULL bit pattern with this bit pattern;
+                 * this simply replaces 0 with 1 and 1 with 0.
+                 */
+                uint result = FullBitPattern ^ m_BitPattern;
+                return Values[result];
+            }
+        }
+        /// <summary>
+        /// Operator version of the <see cref="Complement"/> of a <c>TimeIntervalRelation</c>.
+        /// <inheritdoc cref="Complement"/>
+        /// </summary>
+        /// <remarks>
+        /// <inheritdoc cref="Complement"/>
+        /// </remarks>
+        [Pure]
+        public static TimeIntervalRelation operator ~(TimeIntervalRelation tir)
+        {
+            Contract.Ensures(Contract.Result<TimeIntervalRelation>() == tir.Complement);
+
+            return tir.Complement;
+        }
+
+        [Pure]
+        public static bool AreComplementary(TimeIntervalRelation tir1, TimeIntervalRelation tir2)
+        {
+            Contract.Ensures(Contract.Result<bool>() ==
+                             Contract.ForAll(
+                                 BasicRelations,
+                                 br => (tir1.ImpliedBy(br) ? (!tir2.ImpliedBy(br)) : tir2.ImpliedBy(br))
+                                       && (tir2.ImpliedBy(br) ? (!tir1.ImpliedBy(br)) : tir1.ImpliedBy(br))));
+
+            return BasicRelations.All(
+                br => (tir1.ImpliedBy(br) ? (!tir2.ImpliedBy(br)) : tir2.ImpliedBy(br))
+                      && (tir2.ImpliedBy(br) ? (!tir1.ImpliedBy(br)) : tir1.ImpliedBy(br)));
         }
 
         /// <summary>
