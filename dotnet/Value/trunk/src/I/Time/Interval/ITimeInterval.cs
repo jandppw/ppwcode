@@ -200,7 +200,7 @@ namespace PPWCode.Value.I.Time.Interval
             //Contract.Ensures(Contract.Result<bool>() == 
             //    ((other == null)
             //        ? false
-            //        : (TimeIntervalRelation.MostCertainTimeIntervalRelation(this, other) == TimeIntervalRelation.EQUALS)));
+            //        : (TimeIntervalRelation.LeastUncertainTimeIntervalRelation(this, other) == TimeIntervalRelation.EQUALS)));
 
             return false;
         }
@@ -211,7 +211,7 @@ namespace PPWCode.Value.I.Time.Interval
             //Contract.Ensures(Contract.Result<bool>() ==
             //    ((obj == null || GetType() != obj.GetType())
             //        ? false
-            //        : (TimeIntervalRelation.MostCertainTimeIntervalRelation(this, (ITimeInterval)obj) == TimeIntervalRelation.EQUALS)));
+            //        : (TimeIntervalRelation.LeastUncertainTimeIntervalRelation(this, (ITimeInterval)obj) == TimeIntervalRelation.EQUALS)));
 
             return false;
         }

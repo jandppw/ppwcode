@@ -45,7 +45,7 @@ namespace PPWCode.Value.I.Time.Interval
             Contract.Ensures(Contract.Result<bool>() ==
                 ((obj == null || GetType() != obj.GetType())
                     ? false
-                    : (TimeIntervalRelation.MostCertainTimeIntervalRelation(this, (ITimeInterval)obj) == TimeIntervalRelation.EQUALS)));
+                    : (TimeIntervalRelation.LeastUncertainTimeIntervalRelation(this, (ITimeInterval)obj) == TimeIntervalRelation.EQUALS)));
 
             return this.Equals(obj as ITimeInterval);
         }
@@ -64,10 +64,10 @@ namespace PPWCode.Value.I.Time.Interval
             Contract.Ensures(Contract.Result<bool>() == 
                 ((other == null)
                     ? false
-                    : (TimeIntervalRelation.MostCertainTimeIntervalRelation(this, other) == TimeIntervalRelation.EQUALS)));
+                    : (TimeIntervalRelation.LeastUncertainTimeIntervalRelation(this, other) == TimeIntervalRelation.EQUALS)));
 
             return (other != null) && GetType().IsInstanceOfType(other)
-                   && (TimeIntervalRelation.MostCertainTimeIntervalRelation(this, other)
+                   && (TimeIntervalRelation.LeastUncertainTimeIntervalRelation(this, other)
                        == TimeIntervalRelation.EQUALS);
         }
 
@@ -134,7 +134,7 @@ namespace PPWCode.Value.I.Time.Interval
                 result += End.GetHashCode();
             }
             /* since we need to be consistent with equals, we can only take into account properties
-               that are used by MostCertainTimeIntervalRelation, i.e., begin and end */
+               that are used by LeastUncertainTimeIntervalRelation, i.e., begin and end */
             return result;
         }
 
