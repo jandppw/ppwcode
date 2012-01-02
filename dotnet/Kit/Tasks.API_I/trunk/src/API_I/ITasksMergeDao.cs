@@ -22,6 +22,7 @@ using System.ServiceModel;
 using System.Transactions;
 
 using PPWCode.Vernacular.Persistence.I.Dao.Wcf.Helpers.Errors;
+using PPWCode.Vernacular.Persistence.I.Dao;
 
 #endregion
 
@@ -35,7 +36,7 @@ namespace PPWCode.Kit.Tasks.API_I
     [ServiceContract(Namespace = "http://PPWCode.Kit.Tasks/I/TasksMergeDao")]
     [ServiceKnownType("GetKnownTypes", typeof(TasksDaoHelper))]
     [ExceptionMarshallingBehavior]
-    public interface ITasksMergeDao : IDisposable
+    public interface ITasksMergeDao : IDao
     {
         [OperationContract]
         [TransactionFlow(TransactionFlowOption.Allowed)]
@@ -56,6 +57,19 @@ namespace PPWCode.Kit.Tasks.API_I
             Contract.Requires(Transaction.Current != null);
             Contract.Requires(!string.IsNullOrEmpty(oldReference));
             Contract.Requires(!string.IsNullOrEmpty(newReference));
+            Contract.Requires(IsOperational);
+        }
+
+        #endregion
+
+        #region Implementation of IDao
+
+        public bool IsOperational
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
         #endregion
