@@ -20,12 +20,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Security.Permissions;
 using System.ServiceModel;
 using System.Transactions;
 
 using Iesi.Collections.Generic;
-
-using log4net;
 
 using NHibernate;
 using NHibernate.Criterion;
@@ -34,8 +33,9 @@ using PPWCode.Kit.Tasks.API_I;
 using PPWCode.Vernacular.Persistence.I;
 using PPWCode.Vernacular.Persistence.I.Dao;
 using PPWCode.Vernacular.Persistence.I.Dao.NHibernate;
-using PPWCode.Vernacular.Persistence.I.Dao.Wcf.Helpers;
 using PPWCode.Vernacular.Persistence.I.Dao.Wcf.Helpers.Errors;
+
+using log4net;
 
 #endregion
 
@@ -74,6 +74,7 @@ namespace PPWCode.Kit.Tasks.Server.API_I
         #region ITasksDao members
 
         [OperationBehavior(TransactionScopeRequired = true, TransactionAutoComplete = true)]
+        [PrincipalPermission(SecurityAction.Demand, Role = Roles.User)]
         public FindTasksResult FindTasks(string tasktype, string reference, TaskStateEnum? taskState)
         {
             const int MaximumResults = 50;
