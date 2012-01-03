@@ -16,6 +16,7 @@
 
 #region Using
 
+using System;
 using System.Diagnostics.Contracts;
 using System.Security.Principal;
 
@@ -105,6 +106,7 @@ namespace PPWCode.Kit.Tasks.API_I
         #region Methods
 
         /// <inheritdoc cref="ITasksDao.FindTasks"/>
+        [Obsolete("FindTasks method is moved to ClientTasks")]
         public FindTasksResult FindTasks(string taskType, string reference, TaskStateEnum? taskState)
         {
             Contract.Requires(!string.IsNullOrEmpty(reference));

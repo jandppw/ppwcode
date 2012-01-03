@@ -16,6 +16,7 @@
 
 #region Using
 
+using System;
 using System.Diagnostics.Contracts;
 using System.Security.Principal;
 
@@ -28,29 +29,29 @@ namespace PPWCode.Kit.Tasks.API_I
     /// <summary>
     /// Convenience class for clients that use the remote TasksMerge API.
     /// Clients are advised to use this class or a subclass instaed
-    /// of instances of type <see cref="ITasksMergeDao"/> directly.
+    /// of instances of type <see cref="ITasks"/> directly.
     /// </summary>
-    public class ClientTasksMergeDao : ClientDao
+    public class ClientTasks : ClientDao
     {
         #region Constructors
 
-        public ClientTasksMergeDao(ITasksMergeDao tasksMergeDao)
-            : base(tasksMergeDao)
+        public ClientTasks(ITasks tasks)
+            : base(tasks)
         {
-            Contract.Requires(tasksMergeDao != null);
-            Contract.Ensures(TasksMergeDao == tasksMergeDao);
+            Contract.Requires(tasks != null);
+            Contract.Ensures(Tasks == tasks);
             Contract.Ensures(WindowsIdentity == null);
         }
 
-        public ClientTasksMergeDao(ITasksMergeDao tasksMergeDao, WindowsIdentity windowsIdentity)
-            : base(tasksMergeDao, windowsIdentity)
+        public ClientTasks(ITasks tasks, WindowsIdentity windowsIdentity)
+            : base(tasks, windowsIdentity)
         {
-            Contract.Requires(tasksMergeDao != null);
+            Contract.Requires(tasks != null);
             Contract.Requires(windowsIdentity == null
                               || (windowsIdentity.IsAuthenticated
                                   && (windowsIdentity.ImpersonationLevel == TokenImpersonationLevel.Impersonation
                                       || windowsIdentity.ImpersonationLevel == TokenImpersonationLevel.Delegation)));
-            Contract.Ensures(TasksMergeDao == tasksMergeDao);
+            Contract.Ensures(Tasks == tasks);
             Contract.Ensures(WindowsIdentity == windowsIdentity);
         }
 
@@ -59,19 +60,37 @@ namespace PPWCode.Kit.Tasks.API_I
         #region Properties
 
         [Pure]
-        public ITasksMergeDao TasksMergeDao
+        public ITasks Tasks
         {
             get
             {
                 CheckObjectAlreadyDisposed();
 
-                return (ITasksMergeDao)Obj;
+                return (ITasks)Obj;
             }
         }
 
         #endregion
 
         #region Methods
+
+        /// <inheritdoc cref="ITasks.FindTasks"/>
+        [Obsolete("FindTasks method is moved to ClientTasks")]
+        public FindTasksResult FindTasks(string taskType, string reference, TaskStateEnum? taskState)
+        {
+            Contract.Requires(!string.IsNullOrEmpty(reference));
+            Contract.Ensures(Contract.Result<FindTasksResult>() != null);
+
+            CheckObjectAlreadyDisposed();
+            if (WindowsIdentity != null)
+            {
+                using (WindowsIdentity.Impersonate())
+                {
+                    return Tasks.FindTasks(taskType, reference, taskState);
+                }
+            }
+            return Tasks.FindTasks(taskType, reference, taskState);
+        }
 
         public void MergeTasksByReference(string oldReference, string newReference)
         {
@@ -83,12 +102,12 @@ namespace PPWCode.Kit.Tasks.API_I
             {
                 using (WindowsIdentity.Impersonate())
                 {
-                    TasksMergeDao.MergeTasksByReference(oldReference, newReference);
+                    Tasks.MergeTasksByReference(oldReference, newReference);
                 }
             }
             else
             {
-                TasksMergeDao.MergeTasksByReference(oldReference, newReference);
+                Tasks.MergeTasksByReference(oldReference, newReference);
             }
         }
 
