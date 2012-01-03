@@ -44,7 +44,8 @@ namespace PPWCode.Kit.Tasks.Server.NTServiceHost
 
         private static readonly List<HostDef> s_Hosts = new List<HostDef>
         {
-            new HostDef(typeof(TasksDao))
+            new HostDef(typeof(TasksDao)),
+            new HostDef(typeof(TasksMergeDao))
         };
 
         public Service()
