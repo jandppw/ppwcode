@@ -63,7 +63,14 @@ namespace PPWCode.Kit.Tasks.Server.API_I
         {
             CheckObjectAlreadyDisposed();
 
-            // MUDO: implementation
+            // MUDO: add implementation MergeTasksByReference
+
+            // find all Tasks for which the reference starts with oldReference
+            // update those Tasks by replacing the "oldReference" part of the reference
+            // with newReference
+
+            // this must be done inside one big transaction, because the rename has to be considered
+            // one atomic action... either it succeeds completely, or either the whole rename is rolled back
         }
 
         #endregion
