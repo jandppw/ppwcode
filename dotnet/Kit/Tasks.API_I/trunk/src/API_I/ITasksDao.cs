@@ -16,6 +16,7 @@
 
 #region Using
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.ServiceModel;
@@ -52,6 +53,7 @@ namespace PPWCode.Kit.Tasks.API_I
         /// </summary>
         [OperationContract]
         [TransactionFlow(TransactionFlowOption.Allowed)]
+        [Obsolete("FindTasks method is moved to ITasks")]
         FindTasksResult FindTasks(string tasktype, string reference, TaskStateEnum? taskState);
     }
 

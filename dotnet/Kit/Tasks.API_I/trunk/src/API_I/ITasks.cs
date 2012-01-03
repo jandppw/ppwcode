@@ -32,26 +32,46 @@ namespace PPWCode.Kit.Tasks.API_I
     /// The remote method API of Tasks for anything
     /// that is related to merging <c>Tasks</c>.
     /// </summary>
-    [ContractClass(typeof(ITasksMergeDaoContract))]
-    [ServiceContract(Namespace = "http://PPWCode.Kit.Tasks/I/TasksMergeDao")]
+    [ContractClass(typeof(TasksContract))]
+    [ServiceContract(Namespace = "http://PPWCode.Kit.Tasks/I/ITasks")]
     [ServiceKnownType("GetKnownTypes", typeof(TasksDaoHelper))]
     [ExceptionMarshallingBehavior]
-    public interface ITasksMergeDao : IDao
+    public interface ITasks : IDao
     {
+        /// <summary>
+        /// Return a <see cref="Task">collection of <c>Tasks</c></see>,
+        /// with the exact given <paramref name="tasktype"/>,
+        /// whose <see cref="Task.Reference"/> starts with <paramref name="reference"/>,
+        /// and whose <see cref="Task.State"/> is one of the states included
+        /// in <paramref name="taskState"/>.
+        /// </summary>
+        [OperationContract]
+        [TransactionFlow(TransactionFlowOption.Allowed)]
+        FindTasksResult FindTasks(string tasktype, string reference, TaskStateEnum? taskState);
+
         [OperationContract]
         [TransactionFlow(TransactionFlowOption.Allowed)]
         void MergeTasksByReference(string oldReference, string newReference);
     }
 
     /// <exclude />
-    [ContractClassFor(typeof(ITasksMergeDao))]
+    [ContractClassFor(typeof(ITasks))]
     // ReSharper disable InconsistentNaming
-    public abstract class ITasksMergeDaoContract :
+    public abstract class TasksContract :
         // ReSharper restore InconsistentNaming
-        ITasksMergeDao
+        ITasks
     {
-        #region Implementation of ITasksMergeDao
+        #region Implementation of ITasks
 
+        public FindTasksResult FindTasks(string tasktype, string reference, TaskStateEnum? taskState)
+        {
+            Contract.Requires(Transaction.Current != null);
+            Contract.Requires(!string.IsNullOrEmpty(reference));
+            Contract.Ensures(Contract.Result<FindTasksResult>() != null);
+
+            return default(FindTasksResult);
+        }
+        
         public void MergeTasksByReference(string oldReference, string newReference)
         {
             Contract.Requires(Transaction.Current != null);
