@@ -21,7 +21,7 @@ namespace PPWCode.Util.SharePoint.I
 
         public void Undo()
         {
-            Sharepoint.RenameFolder(BaseRelativeUrl, NewFolderName, OldFolderName);
+           Sharepoint.RenameFolder(BaseRelativeUrl, NewFolderName, OldFolderName);
         }
         public ISharePointClient Sharepoint { get; set; }
         public string BaseRelativeUrl { get; set; }
