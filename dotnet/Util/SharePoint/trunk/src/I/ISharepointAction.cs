@@ -2,7 +2,7 @@
 {
     public interface ISharepointAction
     {
-        void Execute();
+        void Do();
         void Undo();
     }
 }
