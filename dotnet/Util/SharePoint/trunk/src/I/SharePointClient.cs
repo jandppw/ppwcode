@@ -74,15 +74,17 @@ namespace PPWCode.Util.SharePoint.I
 
         private static void CreateFolder(ClientContext spClientContext, string relativeUrl)
         {
-            string workUrl = relativeUrl.StartsWith("/")
+           
+           string workUrl = relativeUrl.StartsWith("/")
                                  ? relativeUrl.Substring(1)
                                  : relativeUrl;
             string[] foldernames = workUrl.Split('/');
-
+           
             spClientContext.Load(spClientContext.Site.RootWeb.RootFolder);
             spClientContext.ExecuteQuery();
 
             Folder parentfolder = spClientContext.Site.RootWeb.RootFolder;
+
             string workname = String.Empty;
             string parentfoldername = String.Empty;
             foreach (string folderName in foldernames)
@@ -93,6 +95,8 @@ namespace PPWCode.Util.SharePoint.I
                     Folder workfolder = spClientContext.Site.RootWeb.GetFolderByServerRelativeUrl(workname);
                     spClientContext.Load(workfolder);
                     spClientContext.ExecuteQuery();
+                  
+                    
                     parentfolder = workfolder;
                 }
                 catch (ServerException se)
@@ -103,6 +107,7 @@ namespace PPWCode.Util.SharePoint.I
                         {
                             parentfolder = spClientContext.Site.RootWeb.GetFolderByServerRelativeUrl(parentfoldername);
                             spClientContext.Load(parentfolder);
+                            
                         }
                         parentfolder.Folders.Add(folderName);
                         spClientContext.ExecuteQuery();
@@ -335,6 +340,194 @@ namespace PPWCode.Util.SharePoint.I
             catch (Exception e)
             {
                 s_Logger.Error(string.Format("SearchFiles({0}) failed using ClientContext {1}.", url, SharePointSiteUrl), e);
+                throw;
+            }
+        }
+
+        // renameFolder(string baseRelativeUrl, string oldFolderName, string newFolderName)
+        // ex. renameFolder("/PensioB", "NAME, FIRSTNAME@123409876@12", "NAME, FIRSTNAME@123409876@9876")
+        // ex. renameFolder("/PensioB/NAME, FIRSTNAME@123409876@12/Payments/Beneficiaries", "NAME, FIRSTNAME@123409876@12", "NAME, FIRSTNAME@123409876@9876")
+        // list /PensioB
+        // --> listitem NAME, FIRSTNAME@123409876@12
+        //   --> list
+        //     --> listitem Payments
+        // ....
+        // ("PensioB", "AAA-Test/test1/test2", "AAA-Test1/test3/test9")
+        public void RenameFolder(string urlContainingFolder, string oldFolderName, string newFolderName)
+        {
+            try
+            {
+                using (ClientContext spClientContext = GetSharePointClientContext())
+                {
+                    Web web = spClientContext.Site.RootWeb;
+
+                    // get document library
+                    List list = web.Lists.GetByTitle(ExtractListName(urlContainingFolder));
+
+                    // find all items with given name inside the baseRelativeUrl
+                    CamlQuery query = CreateCamlQueryFindExactFolderPath(
+                        urlContainingFolder, 
+                        string.Format("{0}/{1}", urlContainingFolder, oldFolderName));
+                    ListItemCollection listItemCollection = list.GetItems(query);
+
+                    // To load all fields, take the following
+                    // spClientContext.Load(listItemCollection);
+
+                    // only load required fields
+                    spClientContext.Load(
+                        listItemCollection,
+                        fs => fs.Include(
+                            fi => fi["Title"],
+                            fi => fi["FileLeafRef"],
+                            fi => fi["FileRef"]));
+                    spClientContext.ExecuteQuery();
+
+                    // for all found folders, rename them
+                    if (listItemCollection.Count != 0)
+                    {
+                        ListItem listitem = listItemCollection[0];
+                        s_Logger.DebugFormat("Title:       {0}", listitem["Title"]);
+                        s_Logger.DebugFormat("FileLeafRef: {0}", listitem["FileLeafRef"]);
+                        s_Logger.DebugFormat("FileRef:     {0}", listitem["FileRef"]);
+                        listitem["Title"] = newFolderName;
+                        listitem["FileLeafRef"] = newFolderName;
+                        listitem.Update();
+                        spClientContext.ExecuteQuery();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                s_Logger.ErrorFormat(
+                    "Error renaming in [{0}] from old name [{1}] to new name [{2}]. Exception({3}).",
+                    urlContainingFolder,
+                    oldFolderName,
+                    newFolderName,
+                    e);
+                throw;
+            }
+        }
+
+        #region private helper methods
+
+        private static string ExtractListName(string relativeUrl)
+        {
+            string listBase = relativeUrl;
+            if (listBase.StartsWith("/"))
+            {
+                listBase = listBase.Remove(0, 1);
+            }
+            listBase = listBase.Split('/')[0];
+            return listBase;
+        }
+
+        #endregion
+
+        #region Caml queries
+
+        // ReSharper disable MemberCanBeMadeStatic.Local
+        private CamlQuery CreateCamlQueryFindExactFolderPath(string baseRelativeUrl, string oldFolderName)
+        // ReSharper restore MemberCanBeMadeStatic.Local
+        {
+            CamlQuery query = new CamlQuery();
+            query.ViewXml = "<View Scope=\"RecursiveAll\"> " +
+                            "<Query>" +
+                            "<Where>" +
+                            "<And>" +
+                            "<Eq>" +
+                            "<FieldRef Name=\"FSObjType\" />" +
+                            "<Value Type=\"Integer\">1</Value>" +
+                            "</Eq>" +
+                            "<Eq>" +
+                            "<FieldRef Name=\"FileRef\"/>" +
+                            "<Value Type=\"Text\">" + oldFolderName + "</Value>" +
+                            "</Eq>" +
+                            "</And>" +
+                            "</Where>" +
+                            "</Query>" +
+                            "</View>";
+            query.FolderServerRelativeUrl = baseRelativeUrl;
+            return query;
+        }
+
+        // ReSharper disable MemberCanBeMadeStatic.Local
+        private CamlQuery CreateCamlQueryFindAllOccurencesOfFolder(string baseRelativeUrl, string oldFolderName)
+            // ReSharper restore MemberCanBeMadeStatic.Local
+        {
+            CamlQuery query = new CamlQuery();
+            query.ViewXml = "<View Scope=\"RecursiveAll\"> " +
+                            "<Query>" +
+                            "<Where>" +
+                            "<And>" +
+                            "<Eq>" +
+                            "<FieldRef Name=\"FSObjType\" />" +
+                            "<Value Type=\"Integer\">1</Value>" +
+                            "</Eq>" +
+                            "<Eq>" +
+                            "<FieldRef Name=\"FileLeafRef\"/>" +
+                            "<Value Type=\"Text\">" + oldFolderName + "</Value>" +
+                            "</Eq>" +
+                            "</And>" +
+                            "</Where>" +
+                            "</Query>" +
+                            "</View>";
+            query.FolderServerRelativeUrl = baseRelativeUrl;
+            return query;
+        }
+
+        #endregion
+
+        public void RenameAllOccurrences(string baseRelativeUrl, string oldFolderName, string newFolderName)
+        {
+            try
+            {
+                using (ClientContext spClientContext = GetSharePointClientContext())
+                {
+                    Web web = spClientContext.Site.RootWeb;
+
+                    // get document library
+                    List list = web.Lists.GetByTitle(ExtractListName(baseRelativeUrl));
+
+                    // find all items with given name inside the baseRelativeUrl
+                    CamlQuery query = CreateCamlQueryFindAllOccurencesOfFolder(baseRelativeUrl, oldFolderName);
+                    ListItemCollection listItemCollection = list.GetItems(query);
+
+                    // To load all fields, take the following
+                    // spClientContext.Load(listItemCollection);
+
+                    // only load required fields
+                    spClientContext.Load(
+                        listItemCollection, 
+                        fs => fs.Include(
+                            fi => fi["Title"],
+                            fi => fi["FileLeafRef"],
+                            fi => fi["FileRef"]));
+                    spClientContext.ExecuteQuery();
+
+                    // for all found folders, rename them
+                    if (listItemCollection.Count != 0)
+                    {
+                        foreach (var listitem in listItemCollection)
+                        {
+                            s_Logger.DebugFormat("Title:       {0}", listitem["Title"]);
+                            s_Logger.DebugFormat("FileLeafRef: {0}", listitem["FileLeafRef"]);
+                            s_Logger.DebugFormat("FileRef:     {0}", listitem["FileRef"]);
+                            listitem["Title"] = newFolderName;
+                            listitem["FileLeafRef"] = newFolderName;
+                            listitem.Update();
+                        }
+                        spClientContext.ExecuteQuery();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                s_Logger.ErrorFormat(
+                    "Error renaming in [{0}] from old name [{1}] to new name [{2}]. Exception({3}).",
+                    baseRelativeUrl,
+                    oldFolderName,
+                    newFolderName,
+                    e);
                 throw;
             }
         }
