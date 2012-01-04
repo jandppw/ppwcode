@@ -76,6 +76,9 @@ namespace PPWCode.Util.SharePoint.I
         /// Return files found at specified url
         /// </summary>
         List<SharePointSearchResult> SearchFiles(string url);
+
+
+        void RenameFolder(string baseRelativeUrl, string originalRelativeUrl, string newRelativeUrl);
     }
 
     // ReSharper disable InconsistentNaming
@@ -143,6 +146,21 @@ namespace PPWCode.Util.SharePoint.I
             Contract.Requires(!string.IsNullOrEmpty(SharePointSiteUrl));
             Contract.Requires(url != null);
             return new List<SharePointSearchResult>();
+        }
+
+        public void RenameFolder(string baseRelativeUrl, string originalRelativeUrl, string newRelativeUrl)
+        {
+            Contract.Requires(!string.IsNullOrEmpty(SharePointSiteUrl));
+            Contract.Requires(!string.IsNullOrEmpty(originalRelativeUrl));
+            Contract.Requires(!string.IsNullOrEmpty(newRelativeUrl));
+        }
+
+        public void RenameAllOccurrences(string baseRelativeUrl, string oldFolderName, string newFolderName)
+        {
+            Contract.Requires(!string.IsNullOrEmpty(SharePointSiteUrl));
+            Contract.Requires(!string.IsNullOrEmpty(baseRelativeUrl));
+            Contract.Requires(!string.IsNullOrEmpty(oldFolderName));
+            Contract.Requires(!string.IsNullOrEmpty(newFolderName));
         }
 
         #endregion

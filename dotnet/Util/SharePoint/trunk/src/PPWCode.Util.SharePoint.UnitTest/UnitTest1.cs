@@ -1,11 +1,13 @@
-﻿using System;
+﻿#region Using
+
+using System;
 using System.IO;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PPWCode.Util.SharePoint.I;
+
+#endregion
 
 namespace PPWCode.Util.SharePoint.UnitTest
 {
@@ -15,7 +17,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
     [TestClass]
     public class UnitTest1
     {
-         private static ISharePointClient GetSharePointService(Uri uri)
+        private static ISharePointClient GetSharePointService(Uri uri)
         {
             ISharePointClient sharePointClient = new SharePointClient();
             sharePointClient.SharePointSiteUrl = uri.GetLeftPart(UriPartial.Authority);
@@ -37,14 +39,31 @@ namespace PPWCode.Util.SharePoint.UnitTest
 
             string fileName = Path.GetFileName(sourceUri.LocalPath);
             fileName = string.Format(
-                        "{0}{1}{2}",
-                        targetUri.AbsolutePath,
-                        targetUri.OriginalString.EndsWith("/")
-                            ? string.Empty
-                            : "/",
-                        fileName);
+                "{0}{1}{2}",
+                targetUri.AbsolutePath,
+                targetUri.OriginalString.EndsWith("/")
+                    ? string.Empty
+                    : "/",
+                fileName);
 
             sharePointClient.UploadDocument(fileName, targetSpDoc);
+        }
+
+        [TestMethod]
+        public void TestChangeName()
+        {
+            Uri startUri = new Uri(@"http://pensiob-sp2010/PensioB/");
+            SharePointClient sharePointClient = (SharePointClient)GetSharePointService(startUri);
+            if (sharePointClient != null)
+            {
+                // sharePointClient.EnsureFolder("/PensioB/A-Test/test1/test2/test1/test2/test3/test1");
+                // sharePointClient.EnsureFolder("/PensioB/AA-Test/test1");
+                // sharePointClient.RenameAllOccurrences("/PensioB", "test1111", "test1");
+                // sharePointClient.RenameAllOccurrences("/PensioB", "ALAGOZLU,LUCIEN@81021034701@9999999999", "ALAGOZLU,LUCIEN@81021034701@775");
+                // sharePointClient.RenameAllOccurrences("/PensioB/AAA-Test", "atest1", "atest3");
+                // sharePointClient.EnsureFolder("/PensioB/AAAA/test1/test2/test3/test2");
+                sharePointClient.RenameAllOccurrences("/PensioB/AAAA", "test1", "test9");
+            }
         }
     }
 }

@@ -75,6 +75,11 @@ namespace PPWCode.Util.SharePoint.I
             return new List<SharePointSearchResult>();
         }
 
+        public void RenameFolder(string baseRelativeUrl, string originalRelativeUrl, string newRelativeUrl)
+        {
+            // NOP
+        }
+
         #endregion
     }
 }
