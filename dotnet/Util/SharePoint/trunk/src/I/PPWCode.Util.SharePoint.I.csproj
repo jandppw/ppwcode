@@ -91,6 +91,8 @@
     <Compile Include="ISharePointClient.cs" />
     <Compile Include="NamespaceDoc.cs" />
     <Compile Include="NOPSharePointClient.cs" />
+    <Compile Include="RenameAllOccurences.cs" />
+    <Compile Include="ISharepointAction.cs" />
     <Compile Include="SharePointClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SharePointDocument.cs" />

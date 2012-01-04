@@ -72,7 +72,7 @@ namespace PPWCode.Util.SharePoint.I
             return ctx;
         }
 
-        private static void CreateFolder(ClientContext spClientContext, string relativeUrl)
+        private static void CreateFolderForEnsure(ClientContext spClientContext, string relativeUrl)
         {
            
            string workUrl = relativeUrl.StartsWith("/")
@@ -146,7 +146,7 @@ namespace PPWCode.Util.SharePoint.I
                         // If not, create it.
                         if (se.ServerErrorTypeName == typeof(FileNotFoundException).FullName)
                         {
-                            CreateFolder(spClientContext, relativeUrl);
+                            CreateFolderForEnsure(spClientContext, relativeUrl);
                         }
                     }
                 }
@@ -477,14 +477,14 @@ namespace PPWCode.Util.SharePoint.I
 
         #endregion
 
-        public void RenameAllOccurrences(string baseRelativeUrl, string oldFolderName, string newFolderName)
+        public void RenameAllOccurrencesOfFolder(string baseRelativeUrl, string oldFolderName, string newFolderName)
         {
             try
             {
                 using (ClientContext spClientContext = GetSharePointClientContext())
                 {
                     Web web = spClientContext.Site.RootWeb;
-
+                    
                     // get document library
                     List list = web.Lists.GetByTitle(ExtractListName(baseRelativeUrl));
 
