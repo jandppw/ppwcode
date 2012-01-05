@@ -65,5 +65,17 @@ namespace PPWCode.Util.SharePoint.UnitTest
                 sharePointClient.RenameAllOccurrencesOfFolder("/PensioB/AAAA", "test9", "test1");
             }
         }
+
+        [TestMethod]
+        public void TestNewFolder()
+        {
+           Uri startUri = new Uri(@"http://pensiob-sp2010/PensioB/");
+           SharePointClient sharePointClient = (SharePointClient)GetSharePointService(startUri);
+           if (sharePointClient != null)
+           {
+               sharePointClient.CreateFolder("/PensioB/aaa-Kristel/aaa-Kristel2","aaa-kristel3");
+           }
+
+        }
     }
 }

@@ -533,5 +533,24 @@ namespace PPWCode.Util.SharePoint.I
         }
 
         #endregion
+
+        public void CreateFolder(string baseRelativeUrl, string newFolderName)
+        {
+            using (ClientContext spClientContext = GetSharePointClientContext())
+            {
+                Web web = spClientContext.Web;
+                List list = web.Lists.GetByTitle(ExtractListName(baseRelativeUrl));
+
+                ListItemCreationInformation newItem = new ListItemCreationInformation();
+
+                newItem.UnderlyingObjectType = FileSystemObjectType.Folder;
+                newItem.FolderUrl = baseRelativeUrl; 
+            
+                newItem.LeafName = newFolderName;
+                ListItem item = list.AddItem(newItem);
+                item.Update();
+                spClientContext.ExecuteQuery();
+            }
+        }
     }
 }
