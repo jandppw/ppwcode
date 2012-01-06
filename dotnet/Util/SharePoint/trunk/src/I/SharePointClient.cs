@@ -541,9 +541,10 @@ namespace PPWCode.Util.SharePoint.I
                 string[] foldernames = newFolderName.Split('/');
 
                 Web web = spClientContext.Web;
+                //get document library
                 List list = web.Lists.GetByTitle(ExtractListName(baseRelativeUrl));
 
-                if (foldernames.Length > 0)
+                if (newFolderName != string.Empty)
                 {
                     string url = string.Empty;
                     for (int teller = 0; teller < foldernames.Length; teller++)
@@ -572,18 +573,18 @@ namespace PPWCode.Util.SharePoint.I
 
         public void DeleteFolder(string baseRelativeUrl, string folderNameToDelete)
         {
-            using (ClientContext spCliencontext = GetSharePointClientContext())
+            using (ClientContext spClientcontext = GetSharePointClientContext())
             {
-                Web web = spCliencontext.Web;
+                Web web = spClientcontext.Web;
                 List list = web.Lists.GetByTitle(ExtractListName(baseRelativeUrl));
 
                 CamlQuery query = CreateCamlQueryFindExactFolderPath(baseRelativeUrl, string.Format("{0}/{1}", baseRelativeUrl, folderNameToDelete));
 
                 ListItemCollection listItemCollection = list.GetItems(query);
 
-                spCliencontext.Load(list);
-                spCliencontext.Load(listItemCollection);
-                spCliencontext.ExecuteQuery();
+                spClientcontext.Load(list);
+                spClientcontext.Load(listItemCollection);
+                spClientcontext.ExecuteQuery();
 
                 if (listItemCollection.Count != 0)
                 {
@@ -592,7 +593,7 @@ namespace PPWCode.Util.SharePoint.I
                         listitem.DeleteObject();
                         
                     }
-                    spCliencontext.ExecuteQuery();
+                    spClientcontext.ExecuteQuery();
                 }
             }
         }
