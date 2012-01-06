@@ -545,15 +545,16 @@ namespace PPWCode.Util.SharePoint.I
 
                 if (foldernames.Length > 0)
                 {
-
+                    string url = string.Empty;
                     for (int teller = 0; teller < foldernames.Length; teller++)
                     {
                         ListItemCreationInformation newItem = new ListItemCreationInformation();
-
+                        
                         newItem.UnderlyingObjectType = FileSystemObjectType.Folder;
                         if (teller > 0)
                         {
-                            newItem.FolderUrl = baseRelativeUrl + "/" + foldernames[teller - 1];
+                            url += "/" + foldernames[teller - 1];
+                            newItem.FolderUrl = baseRelativeUrl + url;
                         }
                         else
                         {
@@ -576,7 +577,7 @@ namespace PPWCode.Util.SharePoint.I
                 Web web = spCliencontext.Web;
                 List list = web.Lists.GetByTitle(ExtractListName(baseRelativeUrl));
 
-                CamlQuery query = CreateCamlQueryFindAllOccurencesOfFolder(baseRelativeUrl, folderNameToDelete);
+                CamlQuery query = CreateCamlQueryFindExactFolderPath(baseRelativeUrl, string.Format("{0}/{1}", baseRelativeUrl, folderNameToDelete));
 
                 ListItemCollection listItemCollection = list.GetItems(query);
 
