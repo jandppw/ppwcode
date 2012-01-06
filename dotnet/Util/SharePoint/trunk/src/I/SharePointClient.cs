@@ -538,18 +538,61 @@ namespace PPWCode.Util.SharePoint.I
         {
             using (ClientContext spClientContext = GetSharePointClientContext())
             {
+                string[] foldernames = newFolderName.Split('/');
+
                 Web web = spClientContext.Web;
                 List list = web.Lists.GetByTitle(ExtractListName(baseRelativeUrl));
 
-                ListItemCreationInformation newItem = new ListItemCreationInformation();
+                if (foldernames.Length > 0)
+                {
 
-                newItem.UnderlyingObjectType = FileSystemObjectType.Folder;
-                newItem.FolderUrl = baseRelativeUrl; 
-            
-                newItem.LeafName = newFolderName;
-                ListItem item = list.AddItem(newItem);
-                item.Update();
+                    for (int teller = 0; teller < foldernames.Length; teller++)
+                    {
+                        ListItemCreationInformation newItem = new ListItemCreationInformation();
+
+                        newItem.UnderlyingObjectType = FileSystemObjectType.Folder;
+                        if (teller > 0)
+                        {
+                            newItem.FolderUrl = baseRelativeUrl + "/" + foldernames[teller - 1];
+                        }
+                        else
+                        {
+                            newItem.FolderUrl = baseRelativeUrl;
+                        }
+                        newItem.LeafName = foldernames[teller];
+                        ListItem item = list.AddItem(newItem);
+                        item.Update();
+                    }
+                    
+                }
                 spClientContext.ExecuteQuery();
+            }
+        }
+
+        public void DeleteFolder(string baseRelativeUrl, string folderNameToDelete)
+        {
+            using (ClientContext spCliencontext = GetSharePointClientContext())
+            {
+                Web web = spCliencontext.Web;
+                List list = web.Lists.GetByTitle(ExtractListName(baseRelativeUrl));
+
+                CamlQuery query = CreateCamlQueryFindAllOccurencesOfFolder(baseRelativeUrl, folderNameToDelete);
+
+                ListItemCollection listItemCollection = list.GetItems(query);
+
+                spCliencontext.Load(list);
+                spCliencontext.Load(listItemCollection);
+                spCliencontext.ExecuteQuery();
+
+                if (listItemCollection.Count != 0)
+                {
+                    foreach (var listitem in listItemCollection)
+                    {
+                        listitem.DeleteObject();
+                        
+                    }
+                    spCliencontext.ExecuteQuery();
+                }
             }
         }
     }
