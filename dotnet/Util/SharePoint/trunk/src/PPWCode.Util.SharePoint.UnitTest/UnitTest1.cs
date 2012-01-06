@@ -74,7 +74,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
            SharePointClient sharePointClient = (SharePointClient)GetSharePointService(startUri);
            if (sharePointClient != null)
            {
-               sharePointClient.CreateFolder("/PensioB/aaa-Kristel1/aaa-Kristel2/aaa-Kristel3/aaa-Kristel4","aaa-Kristel5/aaa-Kristel6/aaa-Kristel7");
+               sharePointClient.CreateFolder("/PensioB/aaa-Kristel1/aaa-Kristel2/aaa-Kristel3/aaa-Kristel4","Kristel9");
            }
 
         }
@@ -85,7 +85,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
             SharePointClient sharePointClient = (SharePointClient)GetSharePointService(startUri);
             if (sharePointClient != null)
             {
-                sharePointClient.DeleteFolder("/PensioB","aaa-Kristel1");
+                sharePointClient.DeleteFolder("/PensioB/aaa-Kristel1/aaa-Kristel2/aaa-Kristel3/aaa-Kristel4", "aaa-Kristel5");
             }
         }
     }
