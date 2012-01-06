@@ -622,6 +622,28 @@ namespace PPWCode.Util.SharePoint.I
                 throw;   
             }
         }
+        public int CheckExcistenceAllOccurencesFolder(string baseRelativeUrl, string folderName)
+        {
+            using (ClientContext spClientcontext = GetSharePointClientContext())
+            {
+                Web web = spClientcontext.Web;
+                //get document library
+                List list = web.Lists.GetByTitle(ExtractListName(baseRelativeUrl));
+                CamlQuery query = CreateCamlQueryFindAllOccurencesOfFolder(baseRelativeUrl, folderName);
+
+                ListItemCollection listItemCollection = list.GetItems(query);
+                spClientcontext.Load(list);
+                spClientcontext.Load(listItemCollection);
+                spClientcontext.ExecuteQuery();
+
+                if (listItemCollection.Count != 0)
+                {
+                    return listItemCollection.Count;
+                }
+            }
+            return 0;
+
+        }
 
     }
 }
