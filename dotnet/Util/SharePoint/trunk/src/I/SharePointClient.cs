@@ -565,6 +565,7 @@ namespace PPWCode.Util.SharePoint.I
                             }
                             newItem.LeafName = foldernames[teller];
                             ListItem item = list.AddItem(newItem);
+                            item["Title"] = foldernames[teller];
                             item.Update();
                         }
 
