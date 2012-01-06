@@ -62,7 +62,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
                 // sharePointClient.RenameAllOccurrencesOfFolder("/PensioB", "ALAGOZLU,LUCIEN@81021034701@9999999999", "ALAGOZLU,LUCIEN@81021034701@775");
                 // sharePointClient.RenameAllOccurrencesOfFolder("/PensioB/AAA-Test", "atest1", "atest3");
                 // sharePointClient.EnsureFolder("/PensioB/AAAA/test1/test2/test3/test2");
-                sharePointClient.RenameFolder("/PensioB/AAAA", "test1", "test2");
+                sharePointClient.RenameAllOccurrencesOfFolder("/PensioB/CCCC/DDDD", "EEEE", "FFFF");
                 //sharePointClient.RenameAllOccurrencesOfFolder("/PensioB/AAAA", "test9", "test1");
             }
         }
@@ -74,7 +74,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
            SharePointClient sharePointClient = (SharePointClient)GetSharePointService(startUri);
            if (sharePointClient != null)
            {
-               sharePointClient.CreateFolder("/PensioB/aaa-Kristel1/aaa-Kristel2/aaa-Kristel3/aaa-Kristel4","Kristel9");
+               sharePointClient.CreateFolder("/PensioB/CCCC","DDDD/EEEE");
            }
 
         }
