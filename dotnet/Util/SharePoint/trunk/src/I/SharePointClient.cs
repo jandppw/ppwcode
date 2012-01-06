@@ -536,66 +536,91 @@ namespace PPWCode.Util.SharePoint.I
 
         public void CreateFolder(string baseRelativeUrl, string newFolderName)
         {
-            using (ClientContext spClientContext = GetSharePointClientContext())
+            try
             {
-                string[] foldernames = newFolderName.Split('/');
-
-                Web web = spClientContext.Web;
-                //get document library
-                List list = web.Lists.GetByTitle(ExtractListName(baseRelativeUrl));
-
-                if (newFolderName != string.Empty)
+                using (ClientContext spClientContext = GetSharePointClientContext())
                 {
-                    string url = string.Empty;
-                    for (int teller = 0; teller < foldernames.Length; teller++)
+                    string[] foldernames = newFolderName.Split('/');
+
+                    Web web = spClientContext.Web;
+                    //get document library
+                    List list = web.Lists.GetByTitle(ExtractListName(baseRelativeUrl));
+
+                    if (newFolderName != string.Empty)
                     {
-                        ListItemCreationInformation newItem = new ListItemCreationInformation();
-                        
-                        newItem.UnderlyingObjectType = FileSystemObjectType.Folder;
-                        if (teller > 0)
+                        string url = string.Empty;
+                        for (int teller = 0; teller < foldernames.Length; teller++)
                         {
-                            url += "/" + foldernames[teller - 1];
-                            newItem.FolderUrl = baseRelativeUrl + url;
+                            ListItemCreationInformation newItem = new ListItemCreationInformation();
+
+                            newItem.UnderlyingObjectType = FileSystemObjectType.Folder;
+                            if (teller > 0)
+                            {
+                                url += "/" + foldernames[teller - 1];
+                                newItem.FolderUrl = baseRelativeUrl + url;
+                            }
+                            else
+                            {
+                                newItem.FolderUrl = baseRelativeUrl;
+                            }
+                            newItem.LeafName = foldernames[teller];
+                            ListItem item = list.AddItem(newItem);
+                            item.Update();
                         }
-                        else
-                        {
-                            newItem.FolderUrl = baseRelativeUrl;
-                        }
-                        newItem.LeafName = foldernames[teller];
-                        ListItem item = list.AddItem(newItem);
-                        item.Update();
+
                     }
-                    
+                    spClientContext.ExecuteQuery();
                 }
-                spClientContext.ExecuteQuery();
+            }
+            catch(Exception ex)
+            {
+                s_Logger.ErrorFormat(
+                   "Error creating folder [{0}] in [{1}]. Exception({2}).",
+                   newFolderName,
+                   baseRelativeUrl,
+                   ex);
+                throw; 
             }
         }
 
         public void DeleteFolder(string baseRelativeUrl, string folderNameToDelete)
         {
-            using (ClientContext spClientcontext = GetSharePointClientContext())
+            try
             {
-                Web web = spClientcontext.Web;
-                List list = web.Lists.GetByTitle(ExtractListName(baseRelativeUrl));
-
-                CamlQuery query = CreateCamlQueryFindExactFolderPath(baseRelativeUrl, string.Format("{0}/{1}", baseRelativeUrl, folderNameToDelete));
-
-                ListItemCollection listItemCollection = list.GetItems(query);
-
-                spClientcontext.Load(list);
-                spClientcontext.Load(listItemCollection);
-                spClientcontext.ExecuteQuery();
-
-                if (listItemCollection.Count != 0)
+                using (ClientContext spClientcontext = GetSharePointClientContext())
                 {
-                    foreach (var listitem in listItemCollection)
-                    {
-                        listitem.DeleteObject();
-                        
-                    }
+                    Web web = spClientcontext.Web;
+                    List list = web.Lists.GetByTitle(ExtractListName(baseRelativeUrl));
+
+                    CamlQuery query = CreateCamlQueryFindExactFolderPath(baseRelativeUrl, string.Format("{0}/{1}", baseRelativeUrl, folderNameToDelete));
+
+                    ListItemCollection listItemCollection = list.GetItems(query);
+
+                    spClientcontext.Load(list);
+                    spClientcontext.Load(listItemCollection);
                     spClientcontext.ExecuteQuery();
+
+                    if (listItemCollection.Count != 0)
+                    {
+                        foreach (var listitem in listItemCollection)
+                        {
+                            listitem.DeleteObject();
+
+                        }
+                        spClientcontext.ExecuteQuery();
+                    }
                 }
             }
+            catch(Exception ex)
+            {
+                s_Logger.ErrorFormat(
+                    "Error deleting folder [{0}] in [{1}]. Exception({2}).",
+                    folderNameToDelete,
+                    baseRelativeUrl,
+                    ex);
+                throw;   
+            }
         }
+
     }
 }
