@@ -17,6 +17,7 @@
 #region Using
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -479,8 +480,9 @@ namespace PPWCode.Util.SharePoint.I
 
         public void RenameAllOccurrencesOfFolder(string baseRelativeUrl, string oldFolderName, string newFolderName)
         {
-            try
-            {
+           List<string> renamedListItemCollection = new List<string>();
+           try
+           {
                 using (ClientContext spClientContext = GetSharePointClientContext())
                 {
                     Web web = spClientContext.Site.RootWeb;
@@ -491,6 +493,7 @@ namespace PPWCode.Util.SharePoint.I
                     // find all items with given name inside the baseRelativeUrl
                     CamlQuery query = CreateCamlQueryFindAllOccurencesOfFolder(baseRelativeUrl, oldFolderName);
                     ListItemCollection listItemCollection = list.GetItems(query);
+
 
                     // To load all fields, take the following
                     // spClientContext.Load(listItemCollection);
@@ -507,28 +510,50 @@ namespace PPWCode.Util.SharePoint.I
                     // for all found folders, rename them
                     if (listItemCollection.Count != 0)
                     {
-                        foreach (var listitem in listItemCollection)
+                        for (var counter = 0; counter < listItemCollection.Count; counter++)
                         {
-                            s_Logger.DebugFormat("Title:       {0}", listitem["Title"]);
-                            s_Logger.DebugFormat("FileLeafRef: {0}", listitem["FileLeafRef"]);
-                            s_Logger.DebugFormat("FileRef:     {0}", listitem["FileRef"]);
-                            listitem["Title"] = newFolderName;
-                            listitem["FileLeafRef"] = newFolderName;
-                            listitem.Update();
+                            s_Logger.DebugFormat("Title:       {0}", listItemCollection[counter]["Title"]);
+                            s_Logger.DebugFormat("FileLeafRef: {0}", listItemCollection[counter]["FileLeafRef"]);
+                            s_Logger.DebugFormat("FileRef:     {0}", listItemCollection[counter]["FileRef"]);
+                            listItemCollection[counter]["Title"] = newFolderName;
+                            listItemCollection[counter]["FileLeafRef"] = newFolderName;
+                            listItemCollection[counter].Update();
+                            spClientContext.ExecuteQuery();
+                            string newFileRef = listItemCollection[counter]["FileRef"].ToString();
+                            renamedListItemCollection.Add(newFileRef);
                         }
-                        spClientContext.ExecuteQuery();
-                    }
+                     }
                 }
             }
             catch (Exception e)
             {
+                renamedListItemCollection.Reverse();
+                foreach (string item in renamedListItemCollection)
+                {
+                    string relativeUrl = ExtractRelativeUrlFromBaseRelativeUrl(item);
+                    try
+                    {
+                        RenameFolder(relativeUrl, newFolderName, oldFolderName);
+                    }
+                    catch (Exception exception)
+                    {
+                        s_Logger.ErrorFormat(
+                                "Error during cleanup (folder={0}, old={1}, new={2}) of failed rename. Exception({3}).",
+                                relativeUrl,
+                                newFolderName,
+                                oldFolderName,
+                                exception);
+                    }
+                }
+               
                 s_Logger.ErrorFormat(
-                    "Error renaming in [{0}] from old name [{1}] to new name [{2}]. Exception({3}).",
-                    baseRelativeUrl,
-                    oldFolderName,
-                    newFolderName,
-                    e);
+                        "Error renaming in [{0}] from old name [{1}] to new name [{2}]. Exception({3}).",
+                        baseRelativeUrl,
+                        oldFolderName,
+                        newFolderName,
+                        e);
                 throw;
+            
             }
         }
 
@@ -726,6 +751,25 @@ namespace PPWCode.Util.SharePoint.I
             return false;
   
         }
+        private string ExtractFolderNameFromeBaseRelativeUrl(string baseRelativeUrl)
+        {
+            string[] foldernames = baseRelativeUrl.Split('/');
+            return foldernames[foldernames.Length - 1];
+        
+        }
+        private string ExtractRelativeUrlFromBaseRelativeUrl(string baseRelativeUrl)
+        {
+            string[] foldernames = baseRelativeUrl.Split('/');
+            string relativeUrl = '/' + foldernames[1];
 
+            if (foldernames.Length > 2)
+            {
+                for (int teller = 2; teller < foldernames.Length - 1; teller++)
+                {
+                    relativeUrl += '/' + foldernames[teller];
+                }
+            }
+            return relativeUrl;
+        }
     }
 }

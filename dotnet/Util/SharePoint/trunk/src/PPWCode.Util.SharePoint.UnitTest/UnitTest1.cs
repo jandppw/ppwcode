@@ -56,14 +56,44 @@ namespace PPWCode.Util.SharePoint.UnitTest
             SharePointClient sharePointClient = (SharePointClient)GetSharePointService(startUri);
             if (sharePointClient != null)
             {
-                // sharePointClient.EnsureFolder("/PensioB/A-Test/test1/test2/test1/test2/test3/test1");
-                // sharePointClient.EnsureFolder("/PensioB/AA-Test/test1");
-                // sharePointClient.RenameAllOccurrencesOfFolder("/PensioB", "test1111", "test1");
-                // sharePointClient.RenameAllOccurrencesOfFolder("/PensioB", "ALAGOZLU,LUCIEN@81021034701@9999999999", "ALAGOZLU,LUCIEN@81021034701@775");
-                // sharePointClient.RenameAllOccurrencesOfFolder("/PensioB/AAA-Test", "atest1", "atest3");
-                // sharePointClient.EnsureFolder("/PensioB/AAAA/test1/test2/test3/test2");
-                sharePointClient.RenameAllOccurrencesOfFolder("", "FFFF", "GGGG");
-                //sharePointClient.RenameAllOccurrencesOfFolder("/PensioB/AAAA", "test9", "test1");
+                try
+                {
+                    // sharePointClient.EnsureFolder("/PensioB/A-Test/test1/test2/test1/test2/test3/test1");
+                    // sharePointClient.EnsureFolder("/PensioB/AA-Test/test1");
+                    // sharePointClient.RenameAllOccurrencesOfFolder("/PensioB", "test1111", "test1");
+                    // sharePointClient.RenameAllOccurrencesOfFolder("/PensioB", "ALAGOZLU,LUCIEN@81021034701@9999999999", "ALAGOZLU,LUCIEN@81021034701@775");
+                    // sharePointClient.RenameAllOccurrencesOfFolder("/PensioB/AAA-Test", "atest1", "atest3");
+                    // sharePointClient.EnsureFolder("/PensioB/AAAA/test1/test2/test3/test2");
+                    sharePointClient.RenameAllOccurrencesOfFolder("/PensioB/AAAA", "CCCC", "AAAA");
+                    //sharePointClient.RenameAllOccurrencesOfFolder("/PensioB/AAAA", "test9", "test1");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(string.Format("Exception: {0}", ex));     
+                }
+              
+            }
+        }
+
+        [TestMethod]
+        public void TestFailingChangeFolderName()
+        {
+            Uri startUri = new Uri(@"http://pensiob-sp2010/PensioB/");
+            SharePointClient sharePointClient = (SharePointClient)GetSharePointService(startUri);
+            if (sharePointClient != null)
+            {
+                try
+                {
+                    sharePointClient.EnsureFolder("/PensioB/A-Test/test1/test2/test1/test2/test3/test1");
+                    sharePointClient.EnsureFolder("/PensioB/A-Test/test1/test2/test1/test2/test1");
+                    sharePointClient.EnsureFolder("/PensioB/AA-Test/test1/test1");
+                    sharePointClient.EnsureFolder("/PensioB/AA-Test/test1/test1234");
+                    sharePointClient.RenameAllOccurrencesOfFolder("/PensioB", "test1", "test1234");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(string.Format("Exception: {0}", ex));
+                }
             }
         }
 
@@ -74,9 +104,16 @@ namespace PPWCode.Util.SharePoint.UnitTest
            SharePointClient sharePointClient = (SharePointClient)GetSharePointService(startUri);
            if (sharePointClient != null)
            {
-           //    sharePointClient.CreateFolder("/PensioB","aaaa-Kristel5");
-               sharePointClient.CreateFolder("/PensioB/AAAA", "AAAA");
-               //sharePointClient.CreateFolder("/PensioB","GGGG/DDDD");
+               try
+               {
+                   //    sharePointClient.CreateFolder("/PensioB","aaaa-Kristel5");
+                   sharePointClient.CreateFolder("/PensioB/AAAA/AAAA/AAAA/AAAA", "DDDD");
+                   //sharePointClient.CreateFolder("/PensioB","GGGG/DDDD");
+               }
+               catch(Exception ex)
+               {
+                   Console.WriteLine(string.Format("Exception: {0}", ex));   
+               }
            }
 
         }
@@ -87,7 +124,14 @@ namespace PPWCode.Util.SharePoint.UnitTest
             SharePointClient sharePointClient = (SharePointClient)GetSharePointService(startUri);
             if (sharePointClient != null)
             {
-                sharePointClient.DeleteFolder("/PensioB/BBBB", "FFFF");
+                try
+                {
+                    sharePointClient.DeleteFolder("", "FFFF");
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine(string.Format("Exception: {0}", e));   
+                }
             }
         }
         [TestMethod]
@@ -127,5 +171,25 @@ namespace PPWCode.Util.SharePoint.UnitTest
               }
           } 
       }
+        [TestMethod]
+        public void TestAll()
+        {
+            Uri startUri = new Uri(@"http://pensiob-sp2010/PensioB/");
+            SharePointClient sharePointClient = (SharePointClient)GetSharePointService(startUri);
+            if (sharePointClient != null)
+            {
+                try
+                {
+
+                    bool exists = sharePointClient.CheckExistenceFolderWithExactPath("ALAGOZLU,LUCIEN@81021034701@773");
+                    Console.WriteLine(exists);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(string.Format("Exception: {0}", e));
+                }
+            } 
+ 
+        }
     }
 }
