@@ -623,27 +623,56 @@ namespace PPWCode.Util.SharePoint.I
                 throw;   
             }
         }
-        public int CheckExcistenceAllOccurencesFolder(string baseRelativeUrl)
+        public bool CheckExcistenceAllOccurencesFolder(string baseRelativeUrl)
         {
             using (ClientContext spClientcontext = GetSharePointClientContext())
             {
-
-                Web web = spClientcontext.Web;
-                //get document library
-                List list = web.Lists.GetByTitle(ExtractListName(baseRelativeUrl));
-                CamlQuery query = CreateCamlQueryFindAllOccurencesOfFolder(baseRelativeUrl,baseRelativeUrl);
-
-                ListItemCollection listItemCollection = list.GetItems(query);
-                spClientcontext.Load(list);
-                spClientcontext.Load(listItemCollection);
-                spClientcontext.ExecuteQuery();
-
-                if (listItemCollection.Count != 0)
+                if (!string.IsNullOrEmpty(baseRelativeUrl))
                 {
-                    return listItemCollection.Count;
+                    // make sure url starts with "/"
+                    if (!baseRelativeUrl.StartsWith("/"))
+                    {
+                        baseRelativeUrl = '/' + baseRelativeUrl;
+                    }
+                    string[] foldernames = baseRelativeUrl.Split('/');
+
+                    //get foldername
+                    string folderName = foldernames[foldernames.Length-1];
+
+                    //make relativeUrl
+                    string relativeUrl = '/' + foldernames[1];
+                    if (foldernames.Length > 2)
+                    {
+                        for (int teller = 2; teller < foldernames.Length - 1; teller++)
+                        {
+                            relativeUrl += '/' + foldernames[teller];
+                        }
+                    }
+                    try
+                    {
+                        Web web = spClientcontext.Web;
+                        //get document library
+                        List list = web.Lists.GetByTitle(ExtractListName(baseRelativeUrl));
+                        CamlQuery query = CreateCamlQueryFindAllOccurencesOfFolder(relativeUrl, folderName);
+
+                        ListItemCollection listItemCollection = list.GetItems(query);
+                        spClientcontext.Load(list);
+                        spClientcontext.Load(listItemCollection);
+                        spClientcontext.ExecuteQuery();
+
+                        return (listItemCollection.Count != 0);
+                    }
+                    catch(Exception ex)
+                    {
+                        s_Logger.ErrorFormat(
+                                         "Error searching folder [{0}]. Exception({1}).",
+                                         baseRelativeUrl,
+                                         ex);
+                        throw;     
+                    }
                 }
             }
-            return 0;
+            return false;
 
         }
 
