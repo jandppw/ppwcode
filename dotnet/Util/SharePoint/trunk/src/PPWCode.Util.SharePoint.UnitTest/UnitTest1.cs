@@ -126,7 +126,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
             {
                 try
                 {
-                    sharePointClient.DeleteFolder("", "FFFF");
+                    sharePointClient.DeleteFolder("PensioB/AAAA/FFFF/aaaa-Kristel5");
                 }
                 catch(Exception e)
                 {
@@ -153,7 +153,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
             }
         }
       [TestMethod]
-      [ExpectedException(typeof(Exception))]
+      //[ExpectedException(typeof(Exception))]
       public void CheckExistenceFolderWithExactPath()
       {
           Uri startUri = new Uri(@"http://pensiob-sp2010/PensioB/");
@@ -162,7 +162,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
           {
               try
               {
-                  bool exists = sharePointClient.CheckExistenceFolderWithExactPath("ALAGOZLU,LUCIEN@81021034701@773");
+                  bool exists = sharePointClient.CheckExistenceFolderWithExactPath("/AAAA");
                   Console.WriteLine(exists);
               }
               catch (Exception e)
