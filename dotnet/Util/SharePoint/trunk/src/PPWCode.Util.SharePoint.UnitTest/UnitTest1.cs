@@ -62,7 +62,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
                 // sharePointClient.RenameAllOccurrencesOfFolder("/PensioB", "ALAGOZLU,LUCIEN@81021034701@9999999999", "ALAGOZLU,LUCIEN@81021034701@775");
                 // sharePointClient.RenameAllOccurrencesOfFolder("/PensioB/AAA-Test", "atest1", "atest3");
                 // sharePointClient.EnsureFolder("/PensioB/AAAA/test1/test2/test3/test2");
-                sharePointClient.RenameAllOccurrencesOfFolder("/PensioB/CCCC/DDDD", "FFFF", "GGGG");
+                sharePointClient.RenameAllOccurrencesOfFolder("", "FFFF", "GGGG");
                 //sharePointClient.RenameAllOccurrencesOfFolder("/PensioB/AAAA", "test9", "test1");
             }
         }
@@ -75,7 +75,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
            if (sharePointClient != null)
            {
            //    sharePointClient.CreateFolder("/PensioB","aaaa-Kristel5");
-               sharePointClient.CreateFolder("/PensioB", "DDDD/FFFF/aaaa-Kristel5");
+               sharePointClient.CreateFolder("/PensioB/AAAA", "AAAA");
                //sharePointClient.CreateFolder("/PensioB","GGGG/DDDD");
            }
 
@@ -87,19 +87,38 @@ namespace PPWCode.Util.SharePoint.UnitTest
             SharePointClient sharePointClient = (SharePointClient)GetSharePointService(startUri);
             if (sharePointClient != null)
             {
-                sharePointClient.DeleteFolder("/PensioB", "GGGG");
+                sharePointClient.DeleteFolder("/PensioB/BBBB", "FFFF");
             }
         }
         [TestMethod]
-        public void CheckExcistenceAllOccurencesFolder()
+        public void CheckExistenceAllOccurencesFolder()
         {
              Uri startUri = new Uri(@"http://pensiob-sp2010/PensioB/");
             SharePointClient sharePointClient = (SharePointClient)GetSharePointService(startUri);
             if (sharePointClient != null)
             {
-                int nr = sharePointClient.CheckExcistenceAllOccurencesFolder("/PensioB", "aaaa-Kristel5");
+                int nr = sharePointClient.CheckExcistenceAllOccurencesFolder("/PensioB/AAAA/AAAA");
                 Console.WriteLine(nr);
             }
         }
+      [TestMethod]
+      [ExpectedException(typeof(Exception))]
+      public void CheckExistenceFolderWithExactPath()
+      {
+          Uri startUri = new Uri(@"http://pensiob-sp2010/PensioB/");
+          SharePointClient sharePointClient = (SharePointClient)GetSharePointService(startUri);
+          if (sharePointClient != null)
+          {
+              try
+              {
+                  bool exists = sharePointClient.CheckExistenceFolderWithExactPath("ALAGOZLU,LUCIEN@81021034701@773");
+                  Console.WriteLine(exists);
+              }
+              catch (Exception e)
+              {
+                  Console.WriteLine(string.Format("Exception: {0}", e));
+              }
+          } 
+      }
     }
 }
