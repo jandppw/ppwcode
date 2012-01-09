@@ -97,8 +97,15 @@ namespace PPWCode.Util.SharePoint.UnitTest
             SharePointClient sharePointClient = (SharePointClient)GetSharePointService(startUri);
             if (sharePointClient != null)
             {
-                int nr = sharePointClient.CheckExcistenceAllOccurencesFolder("/PensioB/AAAA/AAAA");
-                Console.WriteLine(nr);
+                try
+                {
+                    bool exists = sharePointClient.CheckExcistenceAllOccurencesFolder("AAAA");
+                    Console.WriteLine(exists);
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine(string.Format("Exception: {0}", e)); 
+                }
             }
         }
       [TestMethod]
