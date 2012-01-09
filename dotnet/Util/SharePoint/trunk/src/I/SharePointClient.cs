@@ -610,16 +610,23 @@ namespace PPWCode.Util.SharePoint.I
             }
         }
 
-        public void DeleteFolder(string baseRelativeUrl, string folderNameToDelete)
+        public void DeleteFolder(string baseRelativeUrl)
         {
             try
             {
                 using (ClientContext spClientcontext = GetSharePointClientContext())
                 {
+                    // make sure url starts with "/"
+                    if (!baseRelativeUrl.StartsWith("/"))
+                    {
+                        baseRelativeUrl = '/' + baseRelativeUrl;
+                    }
+                    string relativeUrl = ExtractRelativeUrlFromBaseRelativeUrl(baseRelativeUrl);
+                    
                     Web web = spClientcontext.Web;
                     List list = web.Lists.GetByTitle(ExtractListName(baseRelativeUrl));
 
-                    CamlQuery query = CreateCamlQueryFindExactFolderPath(baseRelativeUrl, string.Format("{0}/{1}", baseRelativeUrl, folderNameToDelete));
+                    CamlQuery query = CreateCamlQueryFindExactFolderPath(relativeUrl,baseRelativeUrl);
 
                     ListItemCollection listItemCollection = list.GetItems(query);
 
@@ -641,8 +648,7 @@ namespace PPWCode.Util.SharePoint.I
             catch(Exception ex)
             {
                 s_Logger.ErrorFormat(
-                    "Error deleting folder [{0}] in [{1}]. Exception({2}).",
-                    folderNameToDelete,
+                    "Error deleting folder [{0}]. Exception({1}).",
                     baseRelativeUrl,
                     ex);
                 throw;   
@@ -712,18 +718,8 @@ namespace PPWCode.Util.SharePoint.I
                     {
                         baseRelativeUrl = '/' + baseRelativeUrl;
                     }
-                    string[] foldernames = baseRelativeUrl.Split('/');
+                    string relativeUrl = ExtractRelativeUrlFromBaseRelativeUrl(baseRelativeUrl);
                     
-                    // 
-                    string relativeUrl = '/' + foldernames[1];
-                    if (foldernames.Length > 2)
-                    {
-                        for (int teller = 2; teller < foldernames.Length - 1; teller++)
-                        {
-                            relativeUrl += '/' + foldernames[teller];
-                        }
-                    }
-
                     try
                     {
                         //get document library
@@ -749,16 +745,15 @@ namespace PPWCode.Util.SharePoint.I
                 }
             }
             return false;
-  
         }
-        private string ExtractFolderNameFromeBaseRelativeUrl(string baseRelativeUrl)
-        {
-            string[] foldernames = baseRelativeUrl.Split('/');
-            return foldernames[foldernames.Length - 1];
-        
-        }
+       
         private string ExtractRelativeUrlFromBaseRelativeUrl(string baseRelativeUrl)
         {
+            // make sure url starts with "/"
+            if (!baseRelativeUrl.StartsWith("/"))
+            {
+                baseRelativeUrl = '/' + baseRelativeUrl;
+            }
             string[] foldernames = baseRelativeUrl.Split('/');
             string relativeUrl = '/' + foldernames[1];
 
