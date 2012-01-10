@@ -84,11 +84,12 @@ namespace PPWCode.Util.SharePoint.UnitTest
             {
                 try
                 {
-                    sharePointClient.EnsureFolder("/PensioB/A-Test/test1/test2/test1/test2/test3/test1");
-                    sharePointClient.EnsureFolder("/PensioB/A-Test/test1/test2/test1/test2/test1");
-                    sharePointClient.EnsureFolder("/PensioB/AA-Test/test1/test1");
-                    sharePointClient.EnsureFolder("/PensioB/AA-Test/test1/test1234");
-                    sharePointClient.RenameAllOccurrencesOfFolder("/PensioB", "test1", "test1234");
+                    //sharePointClient.CreateFolder("/PensioB","A-Test/test1/test2/test1/test2/test3/test1");
+                    //sharePointClient.CreateFolder("/PensioB/A-Test/test1/test2/test1/test2","test1");
+                    //sharePointClient.CreateFolder("/PensioB","AA-Test/test1/test1");
+                    //sharePointClient.CreateFolder("/PensioB/AA-Test/test1","test1234");
+                    sharePointClient.CreateFolder("/PensioB","ABB/TTT");
+                    //sharePointClient.RenameAllOccurrencesOfFolder("/PensioB", "test1", "test1234");
                 }
                 catch (Exception ex)
                 {
@@ -126,7 +127,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
             {
                 try
                 {
-                    sharePointClient.DeleteFolder("/PensioB/AAAA/FFFF");
+                    sharePointClient.DeleteFolder("/PensioB/AA-test");
                 }
                 catch(Exception e)
                 {
@@ -143,7 +144,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
             {
                 try
                 {
-                    bool exists = sharePointClient.CheckExcistenceAllOccurencesFolder("PensioB/AAAA");
+                    bool exists = sharePointClient.CheckExcistenceAllOccurencesFolderInList("PensioB/AAAA");
                     Console.WriteLine(exists);
                 }
                 catch(Exception e)
@@ -162,7 +163,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
           {
               try
               {
-                  bool exists = sharePointClient.CheckExistenceFolderWithExactPath("/PensioB");
+                  bool exists = sharePointClient.CheckExistenceFolderWithExactPathInList("/PensioB");
                   Console.WriteLine(exists);
               }
               catch (Exception e)
@@ -181,7 +182,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
                 try
                 {
 
-                    bool exists = sharePointClient.CheckExistenceFolderWithExactPath("/PensioB");
+                    bool exists = sharePointClient.CheckExistenceFolderWithExactPathInList("/PensioB");
                     Console.WriteLine(exists);
                 }
                 catch (Exception e)
