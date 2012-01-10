@@ -107,7 +107,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
                try
                {
                    //    sharePointClient.CreateFolder("/PensioB","aaaa-Kristel5");
-                   sharePointClient.CreateFolder("/PensioB/AAAA/AAAA/AAAA/AAAA", "DDDD");
+                   sharePointClient.CreateFolder("/PensioB/AAAA/FFFF", "DDDD");
                    //sharePointClient.CreateFolder("/PensioB","GGGG/DDDD");
                }
                catch(Exception ex)
@@ -126,7 +126,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
             {
                 try
                 {
-                    sharePointClient.DeleteFolder("PensioB/AAAA/FFFF/aaaa-Kristel5");
+                    sharePointClient.DeleteFolder("/PensioB/AAAA/FFFF");
                 }
                 catch(Exception e)
                 {
@@ -143,7 +143,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
             {
                 try
                 {
-                    bool exists = sharePointClient.CheckExcistenceAllOccurencesFolder("AAAA");
+                    bool exists = sharePointClient.CheckExcistenceAllOccurencesFolder("PensioB/AAAA");
                     Console.WriteLine(exists);
                 }
                 catch(Exception e)
@@ -162,7 +162,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
           {
               try
               {
-                  bool exists = sharePointClient.CheckExistenceFolderWithExactPath("/AAAA");
+                  bool exists = sharePointClient.CheckExistenceFolderWithExactPath("/PensioB");
                   Console.WriteLine(exists);
               }
               catch (Exception e)
@@ -181,7 +181,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
                 try
                 {
 
-                    bool exists = sharePointClient.CheckExistenceFolderWithExactPath("ALAGOZLU,LUCIEN@81021034701@773");
+                    bool exists = sharePointClient.CheckExistenceFolderWithExactPath("/PensioB");
                     Console.WriteLine(exists);
                 }
                 catch (Exception e)
