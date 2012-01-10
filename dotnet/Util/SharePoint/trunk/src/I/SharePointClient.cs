@@ -580,6 +580,7 @@ namespace PPWCode.Util.SharePoint.I
                             ListItemCreationInformation newItem = new ListItemCreationInformation();
 
                             newItem.UnderlyingObjectType = FileSystemObjectType.Folder;
+                            
                             if (teller > 0)
                             {
                                 url += "/" + foldernames[teller - 1];
@@ -654,7 +655,9 @@ namespace PPWCode.Util.SharePoint.I
                 throw;   
             }
         }
-        public bool CheckExcistenceAllOccurencesFolder(string baseRelativeUrl)
+        //checks if folder exists in list
+        //Parameter baseRelativeUrl has to start with List ex.PensioB/test1
+        public bool CheckExcistenceAllOccurencesFolderInList(string baseRelativeUrl)
         {
             using (ClientContext spClientcontext = GetSharePointClientContext())
             {
@@ -706,8 +709,9 @@ namespace PPWCode.Util.SharePoint.I
             return false;
 
         }
-
-        public bool CheckExistenceFolderWithExactPath(string baseRelativeUrl)
+        //checks if folder exists in certain path in list
+        //parameter baseRelativeUrl has to start with list ex.PensioB/test1
+        public bool CheckExistenceFolderWithExactPathInList(string baseRelativeUrl)
         {
             using (ClientContext spClientcontext = GetSharePointClientContext())
             {
