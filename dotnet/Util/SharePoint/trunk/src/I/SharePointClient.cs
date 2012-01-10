@@ -558,7 +558,10 @@ namespace PPWCode.Util.SharePoint.I
         }
 
         #endregion
-
+        //parameter baseRelativeUrl is path where folder will be created
+        //if baseRelativeUrl does not exist, exception will be thrown;
+        //parameter newFolderName is new path or new foldername
+        //if newFolderName does exist, exception will be thrown
         public void CreateFolder(string baseRelativeUrl, string newFolderName)
         {
             try
