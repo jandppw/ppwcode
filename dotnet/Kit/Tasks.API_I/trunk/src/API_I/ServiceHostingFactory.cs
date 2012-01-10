@@ -43,7 +43,7 @@ namespace PPWCode.Kit.Tasks.API_I
             }
         }
 
-        public static ITasks CreateTasksMergeDaoInstance()
+        public static ITasks CreateTasks()
         {
             lock (s_TasksMergeChannelStaticLock)
             {
