@@ -478,6 +478,16 @@ namespace PPWCode.Util.SharePoint.I
 
         #endregion
 
+
+        // renameFolder(string baseRelativeUrl, string oldFolderName, string newFolderName)
+        // ex. renameAllOccurencesOfFolder("/PensioB", "NAME, FIRSTNAME@123409876@12", "NAME, FIRSTNAME@123409876@9876")
+        // ex. renameAllOccurencesOfFolder("/PensioB/NAME, FIRSTNAME@123409876@12/Payments/Beneficiaries", "NAME, FIRSTNAME@123409876@12", "NAME, FIRSTNAME@123409876@9876")
+        // list /PensioB
+        // --> listitem NAME, FIRSTNAME@123409876@12
+        //   --> list
+        //     --> listitem Payments
+        // ....
+        // ("PensioB", "AAA-Test/test1/test2", "AAA-Test1/test3/test9")
         public void RenameAllOccurrencesOfFolder(string baseRelativeUrl, string oldFolderName, string newFolderName)
         {
            List<string> renamedListItemCollection = new List<string>();
@@ -558,7 +568,7 @@ namespace PPWCode.Util.SharePoint.I
         }
 
         #endregion
-        //parameter baseRelativeUrl is path where folder will be created
+        //parameter baseRelativeUrl is path where folder will be created in
         //if baseRelativeUrl does not exist, exception will be thrown;
         //parameter newFolderName is new path or new foldername
         //if newFolderName does exist, exception will be thrown
