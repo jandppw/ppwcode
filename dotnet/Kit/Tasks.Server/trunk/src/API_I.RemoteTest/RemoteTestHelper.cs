@@ -59,7 +59,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
         {
             ClearContentOfTables();
 
-            ITasksDao tasks = ContextRegistry.GetContext().GetObject<ITasksDao>("TasksFactory");
+            ITasksDao tasks = ContextRegistry.GetContext().GetObject<ITasksDao>("TasksDaoFactory");
             ClientTasksDao result = new ClientTasksDao(tasks);
 
             result.FlushAllCaches();

@@ -135,13 +135,13 @@
             </service>
 
           <service
-               name="PPWCode.Kit.Tasks.Server.API_I.TasksMergeDao"
+               name="PPWCode.Kit.Tasks.Server.API_I.Tasks"
                behaviorConfiguration="Standard.ServiceBehavior" >
             <endpoint
-               address="I/TasksMergeDao"
+               address="I/Tasks"
                binding="netTcpBinding"
                bindingConfiguration="netTcpBinding_Dao"
-               contract="PPWCode.Kit.Tasks.API_I.ITasksMergeDao" />
+               contract="PPWCode.Kit.Tasks.API_I.ITasks" />
             <host>
               <baseAddresses>
                 <!-- host address and port where this WCF service is hosted -->

@@ -96,6 +96,14 @@
          bindingConfiguration="netTcpBinding_Dao"
          behaviorConfiguration="ImpersonationBehavior"
          contract="PPWCode.Kit.Tasks.API_I.ITasksDao" />
+
+      <endpoint
+         name="PPWCode.Kit.Tasks.Server.API_I.Tasks"
+         address="net.tcp://${TasksDaoHost}:${TasksDaoPort}/I/Tasks"
+         binding="netTcpBinding"
+         bindingConfiguration="netTcpBinding_Dao"
+         behaviorConfiguration="ImpersonationBehavior"
+         contract="PPWCode.Kit.Tasks.API_I.ITasks" />
     </client>
 
     <behaviors>
@@ -150,10 +158,16 @@
     </context>
     <objects xmlns="http://www.springframework.net">
       <object
+          id="TasksDaoFactory"
+          name="TasksDaoFactory"
+          type="${TasksServiceFactory}"
+          factory-method="CreateTasksInstance"
+          singleton="false"/>
+      <object
           id="TasksFactory"
           name="TasksFactory"
           type="${TasksServiceFactory}"
-          factory-method="CreateTasksInstance"
+          factory-method="CreateTasks"
           singleton="false"/>
       <object
           id="NHibernateSessionTasksFactory"

@@ -37,9 +37,9 @@ namespace PPWCode.Kit.Tasks.Server.API_I
         InstanceContextMode = InstanceContextMode.PerCall,
         TransactionIsolationLevel = IsolationLevel.ReadCommitted,
         UseSynchronizationContext = false)]
-    public class TasksMergeDao : ITasksMergeDao
+    public class Tasks : ITasks
     {
-        private static readonly ILog s_Logger = LogManager.GetLogger(typeof(TasksMergeDao));
+        private static readonly ILog s_Logger = LogManager.GetLogger(typeof(Tasks));
 
         #region Properties
 
@@ -56,6 +56,11 @@ namespace PPWCode.Kit.Tasks.Server.API_I
         #endregion 
 
         #region Implementation of ITasksMergeDao
+
+        public FindTasksResult FindTasks(string tasktype, string reference, TaskStateEnum? taskState)
+        {
+            return TasksDao.FindTasks(tasktype, reference, taskState);
+        }
 
         [OperationBehavior(TransactionScopeRequired = true, TransactionAutoComplete = true)]
         [PrincipalPermission(SecurityAction.Demand, Role = Roles.User)]
@@ -89,7 +94,7 @@ namespace PPWCode.Kit.Tasks.Server.API_I
 
         #region Implementation of IDisposable
 
-        ~TasksMergeDao()
+        ~Tasks()
         {
             Cleanup();
         }
@@ -133,7 +138,7 @@ namespace PPWCode.Kit.Tasks.Server.API_I
 
         private void Cleanup()
         {
-            s_Logger.Debug("Disposing TasksMergeDao");
+            s_Logger.Debug("Disposing Tasks");
             try
             {
                 if (TasksDao != null)
@@ -143,7 +148,7 @@ namespace PPWCode.Kit.Tasks.Server.API_I
             }
             catch (Exception e)
             {
-                s_Logger.Error(@"Cleanup TasksDao in TasksMergeDao", e);
+                s_Logger.Error(@"Cleanup TasksDao in Tasks", e);
             }
         }
 
