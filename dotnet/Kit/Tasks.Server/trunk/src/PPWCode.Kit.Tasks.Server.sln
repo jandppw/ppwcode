@@ -4,6 +4,8 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{92BE80A7-9616-422A-A704-DD2C09F9E058}"
 	ProjectSection(SolutionItems) = preProject
 		SolutionItems\App.config.Description.txt = SolutionItems\App.config.Description.txt
+		SolutionItems\configuration.hoefnix.xml = SolutionItems\configuration.hoefnix.xml
+		SolutionItems\configuration.readme.txt = SolutionItems\configuration.readme.txt
 		SolutionItems\configuration.user.xml = SolutionItems\configuration.user.xml
 		SolutionItems\configuration.xml = SolutionItems\configuration.xml
 		PensioB.Tasks.RemoteTest\PPWCode.Kit.Tasks.API_I.RemoteTest.testrunconfig = PensioB.Tasks.RemoteTest\PPWCode.Kit.Tasks.API_I.RemoteTest.testrunconfig
@@ -78,8 +80,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityAddIns) = postSolution
-		OpenWrap.VisualStudioIntegration2008 = 1;Ensures OpenWrap initialization when a solution is opened.;OpenWrap Visual Studio Solution Add-in
 	EndGlobalSection
 EndGlobal
