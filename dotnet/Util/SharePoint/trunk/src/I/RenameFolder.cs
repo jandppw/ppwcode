@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace PPWCode.Util.SharePoint.I
+﻿namespace PPWCode.Util.SharePoint.I
 {
     public class RenameFolder : ISharepointAction
     {
@@ -14,19 +9,23 @@ namespace PPWCode.Util.SharePoint.I
             OldFolderName = oldFolderName;
             NewFolderName = newFolderName;
         }
+
         public void Do()
         {
-           Sharepoint.RenameFolder(BaseRelativeUrl, OldFolderName, NewFolderName);
+            Sharepoint.RenameFolder(BaseRelativeUrl, OldFolderName, NewFolderName);
         }
 
         public void Undo()
         {
-           Sharepoint.RenameFolder(BaseRelativeUrl, NewFolderName, OldFolderName);
+            Sharepoint.RenameFolder(BaseRelativeUrl, NewFolderName, OldFolderName);
         }
+
         public ISharePointClient Sharepoint { get; set; }
+
         public string BaseRelativeUrl { get; set; }
+
         public string OldFolderName { get; set; }
+
         public string NewFolderName { get; set; }
     }
-      
 }
