@@ -75,7 +75,6 @@ namespace PPWCode.Util.SharePoint.I
 
         private static void CreateFolderForEnsure(ClientContext spClientContext, string relativeUrl)
         {
-           
            string workUrl = relativeUrl.StartsWith("/")
                                  ? relativeUrl.Substring(1)
                                  : relativeUrl;
@@ -108,7 +107,6 @@ namespace PPWCode.Util.SharePoint.I
                         {
                             parentfolder = spClientContext.Site.RootWeb.GetFolderByServerRelativeUrl(parentfoldername);
                             spClientContext.Load(parentfolder);
-                            
                         }
                         parentfolder.Folders.Add(folderName);
                         spClientContext.ExecuteQuery();
@@ -563,11 +561,11 @@ namespace PPWCode.Util.SharePoint.I
                         newFolderName,
                         e);
                 throw;
-            
             }
         }
 
         #endregion
+
         //parameter baseRelativeUrl is path where folder will be created in
         //if baseRelativeUrl does not exist, exception will be thrown;
         //parameter newFolderName is new path or new foldername
@@ -578,7 +576,6 @@ namespace PPWCode.Util.SharePoint.I
             {
                 using (ClientContext spClientContext = GetSharePointClientContext())
                 {
-                  
                     string[] foldernames = newFolderName.Split('/');
 
                     Web web = spClientContext.Web;
@@ -608,12 +605,11 @@ namespace PPWCode.Util.SharePoint.I
                             item["Title"] = foldernames[teller];
                             item.Update();
                         }
-
                     }
                     spClientContext.ExecuteQuery();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 s_Logger.ErrorFormat(
                    "Error creating folder [{0}] in [{1}]. Exception({2}).",
@@ -640,7 +636,7 @@ namespace PPWCode.Util.SharePoint.I
                     Web web = spClientcontext.Web;
                     List list = web.Lists.GetByTitle(ExtractListName(baseRelativeUrl));
 
-                    CamlQuery query = CreateCamlQueryFindExactFolderPath(relativeUrl,baseRelativeUrl);
+                    CamlQuery query = CreateCamlQueryFindExactFolderPath(relativeUrl, baseRelativeUrl);
 
                     ListItemCollection listItemCollection = list.GetItems(query);
 
@@ -653,13 +649,12 @@ namespace PPWCode.Util.SharePoint.I
                         foreach (var listitem in listItemCollection)
                         {
                             listitem.DeleteObject();
-
                         }
                         spClientcontext.ExecuteQuery();
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 s_Logger.ErrorFormat(
                     "Error deleting folder [{0}]. Exception({1}).",
@@ -684,7 +679,7 @@ namespace PPWCode.Util.SharePoint.I
                     string[] foldernames = baseRelativeUrl.Split('/');
 
                     //get foldername
-                    string folderName = foldernames[foldernames.Length-1];
+                    string folderName = foldernames[foldernames.Length - 1];
 
                     //make relativeUrl
                     string relativeUrl = '/' + foldernames[1];
@@ -707,9 +702,9 @@ namespace PPWCode.Util.SharePoint.I
                         spClientcontext.Load(listItemCollection);
                         spClientcontext.ExecuteQuery();
 
-                        return (listItemCollection.Count != 0);
+                        return listItemCollection.Count != 0;
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         s_Logger.ErrorFormat(
                                          "Error searching folder [{0}]. Exception({1}).",
@@ -720,8 +715,8 @@ namespace PPWCode.Util.SharePoint.I
                 }
             }
             return false;
-
         }
+
         //checks if folder exists in certain path in list
         //parameter baseRelativeUrl has to start with list ex.PensioB/test1
         public bool CheckExistenceFolderWithExactPathInList(string baseRelativeUrl)
@@ -747,17 +742,15 @@ namespace PPWCode.Util.SharePoint.I
                         spClientcontext.Load(list);
                         spClientcontext.Load(listItemCollection);
                         spClientcontext.ExecuteQuery();
-                        return (listItemCollection.Count != 0);
+                        return listItemCollection.Count != 0;
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         s_Logger.ErrorFormat(
                                           "Error searching folder [{0}]. Exception({1}).",
                                           baseRelativeUrl,
                                           ex);
                         throw;   
-
-                        
                     }
                 }
             }

@@ -287,7 +287,7 @@ namespace PPWCode.Util.SharePoint.I
             return result;
         }
 
-        public void RenameFolder(string baseRelativeUrl,string originalRelativeUrl, string newRelativeUrl)
+        public void RenameFolder(string baseRelativeUrl, string originalRelativeUrl, string newRelativeUrl)
         {
             throw new NotImplementedException();
         }
