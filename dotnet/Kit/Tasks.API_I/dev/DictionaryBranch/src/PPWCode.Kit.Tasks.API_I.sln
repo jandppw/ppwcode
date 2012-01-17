@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{92BE80A7-9616-422A-A704-DD2C09F9E058}"
+	ProjectSection(SolutionItems) = preProject
+		..\PPWCode.Kit.Tasks.API_I.wrapdesc = ..\PPWCode.Kit.Tasks.API_I.wrapdesc
+		SolutionItems\SolutionInfo.cs = SolutionItems\SolutionInfo.cs
+		..\version = ..\version
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Kit.Tasks.API_I", "API_I\PPWCode.Kit.Tasks.API_I.csproj", "{7F2A56FD-2E56-4721-8DA8-3FA65FA2CFDD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Kit.Tasks.Server.Mock", "Server.Mock\PPWCode.Kit.Tasks.Server.Mock.csproj", "{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}"
+EndProject
+Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		DebugServiceHosting|Any CPU = DebugServiceHosting|Any CPU
+		Documentation|Any CPU = Documentation|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7F2A56FD-2E56-4721-8DA8-3FA65FA2CFDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F2A56FD-2E56-4721-8DA8-3FA65FA2CFDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F2A56FD-2E56-4721-8DA8-3FA65FA2CFDD}.DebugServiceHosting|Any CPU.ActiveCfg = DebugServiceHosting|Any CPU
+		{7F2A56FD-2E56-4721-8DA8-3FA65FA2CFDD}.DebugServiceHosting|Any CPU.Build.0 = DebugServiceHosting|Any CPU
+		{7F2A56FD-2E56-4721-8DA8-3FA65FA2CFDD}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F2A56FD-2E56-4721-8DA8-3FA65FA2CFDD}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{7F2A56FD-2E56-4721-8DA8-3FA65FA2CFDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F2A56FD-2E56-4721-8DA8-3FA65FA2CFDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}.DebugServiceHosting|Any CPU.ActiveCfg = DebugServiceHosting|Any CPU
+		{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}.DebugServiceHosting|Any CPU.Build.0 = DebugServiceHosting|Any CPU
+		{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}.Documentation|Any CPU.ActiveCfg = DebugServiceHosting|Any CPU
+		{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}.Documentation|Any CPU.Build.0 = DebugServiceHosting|Any CPU
+		{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+		OpenWrap.VisualStudioIntegration2008 = 1;Ensures OpenWrap initialization when a solution is opened.;OpenWrap Visual Studio Solution Add-in
+	EndGlobalSection
+EndGlobal
