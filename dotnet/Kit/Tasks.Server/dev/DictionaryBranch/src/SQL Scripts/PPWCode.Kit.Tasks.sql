@@ -71,3 +71,17 @@ create index IX_Task_State on dbo.Task([State]);
 create index IX_Task_Reference on dbo.Task(Reference);
 create index IX_Task_TaskType on dbo.Task(TaskType);
 go
+
+
+print 'Creating table dbo.TaskAttributes';
+create table dbo.TaskAttributes (
+  TaskID bigint not null,
+  AttributeName varchar(64) not null,
+  AttributeValue varchar(256) null,
+
+  constraint PK_TaskAttributes primary key (TaskID, AttributeName),
+  constraint FK_TaskAttributes_Task foreign key (TaskID) references dbo.Task (TaskId)
+ );
+go
+create index IX_TaskAttributes_Attribute on dbo.TaskAttributes(AttributeValue, AttributeName);
+go
