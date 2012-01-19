@@ -24,7 +24,6 @@ print '';
 print 'Upgrading from v2 to v3 ...';
 print '';
 
-
 print 'Creating table dbo.TaskAttributes';
 create table dbo.TaskAttributes (
   TaskID bigint not null,
@@ -39,6 +38,8 @@ create index IX_TaskAttributes_Attribute on dbo.TaskAttributes(AttributeValue, A
 go
 
 print 'Converting dbo.Task.Reference into records of dbo.TaskAttributes'
+
+begin tran
 
 delete from dbo.TaskAttributes
 
@@ -178,16 +179,10 @@ from
 where
 	att.AttributeValue is not NULL
 
-go
-
 if exists
 (
 select
-	tatn.AttributeValue + '/' + tapn.AttributeValue + '/' + taas.AttributeValue + '@' +
-	isnull(taai.AttributeValue, '') + isnull(tapd.AttributeValue, '') + '/' +
-	isnull(tabs.AttributeValue + '@', '') + isnull(tabi.AttributeValue + '/', '') +
-	isnull(tado.AttributeValue + '/', ''),
-	t.*
+	1
 from
 	dbo.Task t
 	join dbo.TaskAttributes tatn on tatn.TaskID = t.TaskID and tatn.AttributeName = 'TypeName'
@@ -206,8 +201,34 @@ where
 	<> t.Reference
 )
 begin
-	print 'ERROR: dbo.TaskAttributes is not consistent with dbo.Task.Reference !!!'
+	select
+		tatn.AttributeValue + '/' + tapn.AttributeValue + '/' + taas.AttributeValue + '@' +
+		isnull(taai.AttributeValue, '') + isnull(tapd.AttributeValue, '') + '/' +
+		isnull(tabs.AttributeValue + '@', '') + isnull(tabi.AttributeValue + '/', '') +
+		isnull(tado.AttributeValue + '/', ''),
+		t.*
+	from
+		dbo.Task t
+		join dbo.TaskAttributes tatn on tatn.TaskID = t.TaskID and tatn.AttributeName = 'TypeName'
+		join dbo.TaskAttributes tapn on tapn.TaskID = t.TaskID and tapn.AttributeName = 'RetirementPlanName'
+		join dbo.TaskAttributes taas on taas.TaskID = t.TaskID and taas.AttributeName = 'AffiliateSynergyID'
+		left outer join dbo.TaskAttributes taai on taai.TaskID = t.TaskID and taai.AttributeName = 'AffiliationID'
+		left outer join dbo.TaskAttributes tapd on tapd.TaskID = t.TaskID and tapd.AttributeName = 'PaymentDossierID'
+		left outer join dbo.TaskAttributes tabs on tabs.TaskID = t.TaskID and tabs.AttributeName = 'BeneficiarySynergyID'
+		left outer join dbo.TaskAttributes tabi on tabi.TaskID = t.TaskID and tabi.AttributeName = 'BeneficiaryID'
+		left outer join dbo.TaskAttributes tado on tado.TaskID = t.TaskID and tado.AttributeName = 'DocumentMetaDataID'
+	where
+		tatn.AttributeValue + '/' + tapn.AttributeValue + '/' + taas.AttributeValue + '@' +
+		isnull(taai.AttributeValue, '') + isnull(tapd.AttributeValue, '') + '/' +
+		isnull(tabs.AttributeValue + '@', '') + isnull(tabi.AttributeValue + '/', '') +
+		isnull(tado.AttributeValue + '/', '')
+		<> t.Reference
+		
+	rollback tran
+	raiserror ('ERROR: dbo.TaskAttributes is not consistent with dbo.Task.Reference !!!', 16, 1)
 end
+
+commit tran
 
 go
 	
