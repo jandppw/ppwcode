@@ -17,6 +17,7 @@
 #region Using
 
 using System;
+using System.Collections.Generic;
 using System.Security.Permissions;
 using System.ServiceModel;
 using System.Transactions;
@@ -57,9 +58,11 @@ namespace PPWCode.Kit.Tasks.Server.API_I
 
         #region Implementation of ITasksMergeDao
 
-        public FindTasksResult FindTasks(string tasktype, string reference, TaskStateEnum? taskState)
+        [OperationBehavior(TransactionScopeRequired = true, TransactionAutoComplete = true)]
+        [PrincipalPermission(SecurityAction.Demand, Role = Roles.User)]
+        public FindTasksResult FindTasks(string tasktype, IDictionary<string, string> searchAttributes, TaskStateEnum? taskState)
         {
-            return TasksDao.FindTasks(tasktype, reference, taskState);
+            return TasksDao.FindTasks(tasktype, searchAttributes, taskState);
         }
 
         [OperationBehavior(TransactionScopeRequired = true, TransactionAutoComplete = true)]

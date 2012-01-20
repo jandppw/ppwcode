@@ -42,5 +42,11 @@
         <property name="CreatedBy" />
         <property name="LastModifiedAt" />
         <property name="LastModifiedBy" />
-    </class>
+
+		<map name="Attributes" table="TaskAttributes">
+			<key column="TaskID" />
+			<index column="AttributeName" type="System.String" />
+			<element column="AttributeValue" type="System.String"/>
+		</map>
+	</class>
 </hibernate-mapping>
