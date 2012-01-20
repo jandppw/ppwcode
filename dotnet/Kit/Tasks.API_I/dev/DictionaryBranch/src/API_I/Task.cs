@@ -17,6 +17,7 @@
 #region Using
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
 
@@ -89,10 +90,7 @@ namespace PPWCode.Kit.Tasks.API_I
         /// </summary>
         public TaskStateEnum? State
         {
-            get
-            {
-                return m_State;
-            }
+            get { return m_State; }
             set
             {
                 if (value != m_State)
@@ -132,10 +130,7 @@ namespace PPWCode.Kit.Tasks.API_I
         [PPWAuditLogPropertyIgnore]
         public DateTime? InProgressSince
         {
-            get
-            {
-                return m_InProgressSince;
-            }
+            get { return m_InProgressSince; }
             private set
             {
                 if (value != m_InProgressSince)
@@ -161,10 +156,7 @@ namespace PPWCode.Kit.Tasks.API_I
         [PPWAuditLogPropertyIgnore]
         public string InProgressBy
         {
-            get
-            {
-                return m_InProgressBy;
-            }
+            get { return m_InProgressBy; }
             private set
             {
                 if (value != m_InProgressBy)
@@ -188,10 +180,7 @@ namespace PPWCode.Kit.Tasks.API_I
         [PPWAuditLogPropertyIgnore]
         public DateTime? CompletedSince
         {
-            get
-            {
-                return m_CompletedSince;
-            }
+            get { return m_CompletedSince; }
             private set
             {
                 if (value != m_CompletedSince)
@@ -217,10 +206,7 @@ namespace PPWCode.Kit.Tasks.API_I
         [PPWAuditLogPropertyIgnore]
         public string CompletedBy
         {
-            get
-            {
-                return m_CompletedBy;
-            }
+            get { return m_CompletedBy; }
             private set
             {
                 if (value != m_CompletedBy)
@@ -244,10 +230,7 @@ namespace PPWCode.Kit.Tasks.API_I
         /// </remarks>
         public string TaskType
         {
-            get
-            {
-                return m_TaskType;
-            }
+            get { return m_TaskType; }
             set
             {
                 if (State != TaskStateEnum.CREATED)
@@ -311,10 +294,7 @@ namespace PPWCode.Kit.Tasks.API_I
         /// </remarks>
         public string Reference
         {
-            get
-            {
-                return m_Reference;
-            }
+            get { return m_Reference; }
             set
             {
                 if (State != TaskStateEnum.CREATED)
@@ -325,6 +305,26 @@ namespace PPWCode.Kit.Tasks.API_I
                 {
                     m_Reference = value;
                     OnPropertyChanged("Reference");
+                }
+            }
+        }
+
+        [DataMember]
+        private IDictionary<string, string> m_Attributes;
+
+        public IDictionary<string, string> Attributes
+        {
+            get { return m_Attributes; }
+            set
+            {
+                if (State != TaskStateEnum.CREATED)
+                {
+                    throw new ProgrammingError("Attributes is immutable when state is different from CREATED.");
+                }
+                if (value != m_Attributes)
+                {
+                    m_Attributes = value;
+                    OnPropertyChanged("Attributes");
                 }
             }
         }

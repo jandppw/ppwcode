@@ -17,6 +17,7 @@
 #region Using
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Security.Principal;
 
@@ -75,10 +76,10 @@ namespace PPWCode.Kit.Tasks.API_I
         #region Methods
 
         /// <inheritdoc cref="ITasks.FindTasks"/>
-        [Obsolete("FindTasks method is moved to ClientTasks")]
-        public FindTasksResult FindTasks(string taskType, string reference, TaskStateEnum? taskState)
+        public FindTasksResult FindTasks(string taskType, IDictionary<string,string> searchAttributes, TaskStateEnum? taskState)
         {
-            Contract.Requires(!string.IsNullOrEmpty(reference));
+            Contract.Requires(searchAttributes != null);
+            Contract.Requires(searchAttributes.Count > 0);
             Contract.Ensures(Contract.Result<FindTasksResult>() != null);
 
             CheckObjectAlreadyDisposed();
@@ -86,10 +87,10 @@ namespace PPWCode.Kit.Tasks.API_I
             {
                 using (WindowsIdentity.Impersonate())
                 {
-                    return Tasks.FindTasks(taskType, reference, taskState);
+                    return Tasks.FindTasks(taskType, searchAttributes, taskState);
                 }
             }
-            return Tasks.FindTasks(taskType, reference, taskState);
+            return Tasks.FindTasks(taskType, searchAttributes, taskState);
         }
 
         public void MergeTasksByReference(string oldReference, string newReference)
