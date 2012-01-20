@@ -17,6 +17,7 @@
 #region Using
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -75,7 +76,7 @@ namespace PPWCode.Kit.Tasks.Server.API_I
 
         [OperationBehavior(TransactionScopeRequired = true, TransactionAutoComplete = true)]
         [PrincipalPermission(SecurityAction.Demand, Role = Roles.User)]
-        public FindTasksResult FindTasks(string tasktype, string reference, TaskStateEnum? taskState)
+        public FindTasksResult FindTasks(string tasktype, IDictionary<string, string> searchAttributes, TaskStateEnum? taskState)
         {
             const int MaximumResults = 50;
             const string MethodName = "FindTasks";
@@ -92,7 +93,7 @@ namespace PPWCode.Kit.Tasks.Server.API_I
                         "{0}({1},{2},{3})",
                         MethodName,
                         tasktype ?? string.Empty,
-                        reference,
+                        searchAttributes,
                         taskState.HasValue
                             ? taskState.ToString()
                             : string.Empty));
@@ -100,7 +101,7 @@ namespace PPWCode.Kit.Tasks.Server.API_I
 
             try
             {
-                ICriteria criteria = BuildFindTasksQuery(tasktype, reference, taskState, MaximumResults);
+                ICriteria criteria = BuildFindTasksQuery(tasktype, searchAttributes, taskState, MaximumResults);
                 result = criteria.List<Task>();
                 if (result.Count < MaximumResults)
                 {
@@ -108,7 +109,7 @@ namespace PPWCode.Kit.Tasks.Server.API_I
                 }
                 else
                 {
-                    criteria = BuildCountTasksQuery(tasktype, reference, taskState);
+                    criteria = BuildCountTasksQuery(tasktype, searchAttributes, taskState);
                     numberOfMatchingTasks = criteria.UniqueResult<int>();
                 }
             }
@@ -119,7 +120,7 @@ namespace PPWCode.Kit.Tasks.Server.API_I
                     "{0}({1},{2},{3})",
                     MethodName,
                     tasktype ?? string.Empty,
-                    reference,
+                    searchAttributes,
                     taskState.HasValue ?
                                            taskState.ToString()
                         : string.Empty);
@@ -134,7 +135,7 @@ namespace PPWCode.Kit.Tasks.Server.API_I
                         "{0}({1},{2},{3}) result {4}",
                         MethodName,
                         tasktype ?? string.Empty,
-                        reference,
+                        searchAttributes,
                         taskState.HasValue
                             ? taskState.ToString()
                             : string.Empty, result));
@@ -146,23 +147,32 @@ namespace PPWCode.Kit.Tasks.Server.API_I
             return new FindTasksResult(allowedResult, numberOfMatchingTasks);
         }
 
-        private ICriteria BuildBaseTasksQuery(string tasktype, string reference, TaskStateEnum? taskState)
+        private ICriteria BuildBaseTasksQuery(string tasktype, IEnumerable<KeyValuePair<string, string>> searchAttributes, TaskStateEnum? taskState)
         {
-            if (!reference.EndsWith("%"))
+            ICriteria criteria = Session.CreateCriteria<Task>();
+
+            // Handle searchAttributes
+            IDictionary untypedSearchtAttributes = new Hashtable();
+            foreach (var searchAttribute in searchAttributes)
             {
-                reference = string.Concat(reference, "%");
+                untypedSearchtAttributes.Add(searchAttribute.Key, searchAttribute.Value);
             }
+            if (untypedSearchtAttributes.Count > 0)
+            {
+                criteria.Add(Restrictions.AllEq(untypedSearchtAttributes));
+            }
+
+            // Handle taskType
             if (!(string.IsNullOrEmpty(tasktype) || tasktype.EndsWith("/")))
             {
                 tasktype = string.Concat(tasktype, "/");
             }
-            ICriteria criteria = Session
-                .CreateCriteria<Task>()
-                .Add(Restrictions.Like("Reference", reference));
             if (!string.IsNullOrEmpty(tasktype))
             {
                 criteria.Add(Restrictions.Eq("TaskType", tasktype));
             }
+
+            // Handle taskState
             if (taskState.HasValue)
             {
                 int value = (int)taskState.Value;
@@ -181,17 +191,17 @@ namespace PPWCode.Kit.Tasks.Server.API_I
             return criteria;
         }
 
-        private ICriteria BuildFindTasksQuery(string tasktype, string reference, TaskStateEnum? taskState, int maximumResults)
+        private ICriteria BuildFindTasksQuery(string tasktype, IEnumerable<KeyValuePair<string, string>> searchAttributes, TaskStateEnum? taskState, int maximumResults)
         {
-            ICriteria criteria = BuildBaseTasksQuery(tasktype, reference, taskState);
+            ICriteria criteria = BuildBaseTasksQuery(tasktype, searchAttributes, taskState);
             criteria.AddOrder(Order.Asc("CreatedAt"));
             criteria.SetMaxResults(maximumResults);
             return criteria;
         }
 
-        private ICriteria BuildCountTasksQuery(string tasktype, string reference, TaskStateEnum? taskState)
+        private ICriteria BuildCountTasksQuery(string tasktype, IEnumerable<KeyValuePair<string, string>> searchAttributes, TaskStateEnum? taskState)
         {
-            ICriteria criteria = BuildBaseTasksQuery(tasktype, reference, taskState);
+            ICriteria criteria = BuildBaseTasksQuery(tasktype, searchAttributes, taskState);
             criteria.SetProjection(Projections.RowCount());
             return criteria;
         }

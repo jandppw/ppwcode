@@ -94,12 +94,6 @@
     <Compile Include="RemoteTestHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Server\PPWCode.Kit.Tasks.Server.csproj">
-      <Project>{43C0CF91-F289-48D3-96CD-1D56C0372227}</Project>
-      <Name>PPWCode.Kit.Tasks.Server</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.config" />
     <None Include="App.config.template" />
   </ItemGroup>
