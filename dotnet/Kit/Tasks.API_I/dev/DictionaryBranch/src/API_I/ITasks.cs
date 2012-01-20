@@ -17,6 +17,8 @@
 #region Using
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.ServiceModel;
 using System.Transactions;
@@ -47,7 +49,7 @@ namespace PPWCode.Kit.Tasks.API_I
         /// </summary>
         [OperationContract]
         [TransactionFlow(TransactionFlowOption.Allowed)]
-        FindTasksResult FindTasks(string tasktype, string reference, TaskStateEnum? taskState);
+        FindTasksResult FindTasks(string tasktype, IDictionary<string, string> searchAttributes, TaskStateEnum? taskState);
 
         [OperationContract]
         [TransactionFlow(TransactionFlowOption.Allowed)]
@@ -63,15 +65,16 @@ namespace PPWCode.Kit.Tasks.API_I
     {
         #region Implementation of ITasks
 
-        public FindTasksResult FindTasks(string tasktype, string reference, TaskStateEnum? taskState)
+        public FindTasksResult FindTasks(string tasktype, IDictionary<string, string> searchAttributes, TaskStateEnum? taskState)
         {
             Contract.Requires(Transaction.Current != null);
-            Contract.Requires(!string.IsNullOrEmpty(reference));
+            Contract.Requires(searchAttributes != null);
+            Contract.Requires(searchAttributes.Count > 0);
             Contract.Ensures(Contract.Result<FindTasksResult>() != null);
 
             return default(FindTasksResult);
         }
-        
+
         public void MergeTasksByReference(string oldReference, string newReference)
         {
             Contract.Requires(Transaction.Current != null);

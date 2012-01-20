@@ -17,6 +17,7 @@
 #region Using
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Security.Principal;
 
@@ -102,27 +103,5 @@ namespace PPWCode.Kit.Tasks.API_I
         }
 
         #endregion
-
-        #region Methods
-
-        /// <inheritdoc cref="ITasksDao.FindTasks"/>
-        [Obsolete("FindTasks method is moved to ClientTasks")]
-        public FindTasksResult FindTasks(string taskType, string reference, TaskStateEnum? taskState)
-        {
-            Contract.Requires(!string.IsNullOrEmpty(reference));
-            Contract.Ensures(Contract.Result<FindTasksResult>() != null);
-
-            CheckObjectAlreadyDisposed();
-            if (WindowsIdentity != null)
-            {
-                using (WindowsIdentity.Impersonate())
-                {
-                    return TasksDao.FindTasks(taskType, reference, taskState);
-                }
-            }
-            return TasksDao.FindTasks(taskType, reference, taskState);
-        }
-
-        #endregion
-    }
+   }
 }
