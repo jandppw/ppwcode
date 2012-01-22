@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright 2004 - $Date: 2008-11-15 23:58:07 +0100 (za, 15 nov 2008) $ by PeopleWare n.v..
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,8 +29,29 @@ using Spring.Context.Support;
 
 namespace PPWCode.Kit.Tasks.API_I.RemoteTest
 {
-    public static class RemoteTestHelper
+    [TestClass]
+    public abstract class BaseTaskTests
     {
+        #region Test Setup
+
+        protected ClientTasksDao Svc { get; private set; }
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            Svc = GetClientTasksDao();
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            Svc.Dispose();
+        }
+
+        #endregion
+
+        #region Private Helpers
+
         private static void ClearContentOfTables()
         {
             string connectionString = ConfigurationManager.ConnectionStrings["TasksConnectionString"].ConnectionString;
@@ -55,7 +76,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             }
         }
 
-        public static ClientTasksDao CreateTaskService()
+        private static ClientTasksDao GetClientTasksDao()
         {
             ClearContentOfTables();
 
@@ -65,5 +86,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             result.FlushAllCaches();
             return result;
         }
+
+        #endregion
     }
 }

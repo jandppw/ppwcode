@@ -25,26 +25,8 @@ using PPWCode.Vernacular.Exceptions.I;
 namespace PPWCode.Kit.Tasks.API_I.RemoteTest
 {
     [TestClass]
-    public class TaskTests
+    public class TaskTests : BaseTaskTests
     {
-        #region Test Setup
-
-        private ClientTasksDao Svc { get; set; }
-
-        [TestInitialize]
-        public void RetirementPlanTestInitialize()
-        {
-            Svc = RemoteTestHelper.CreateTaskService();
-        }
-
-        [TestCleanup]
-        public void MyTestCleanup()
-        {
-            Svc.Dispose();
-        }
-
-        #endregion
-
         [TestMethod]
         public void CreateTask()
         {
