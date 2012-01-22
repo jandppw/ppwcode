@@ -17,6 +17,7 @@
 #region Using
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
 
@@ -242,6 +243,7 @@ namespace PPWCode.Kit.Tasks.API_I
         /// The <c>TaskType</c> can be combined with the <see cref="Reference"/>
         /// when retrieving <c>Tasks</c>.
         /// </remarks>
+        [PPWAuditLogPropertyIgnore(AuditLogAction = PPWAuditLogActionEnum.ALL)]
         public string TaskType
         {
             get
@@ -263,10 +265,10 @@ namespace PPWCode.Kit.Tasks.API_I
         }
 
         [DataMember]
-        private string m_Reference;
+        private IDictionary<string, string> m_Attributes;
 
         /// <summary>
-        /// A reference defined by the client application,
+        /// A set of attributes defined by the client application,
         /// stored from creation in the <c>Task</c>, to enable
         /// the client to later retrieve relevant collections
         /// of <c>Tasks</c>. Mandatory.
@@ -274,58 +276,77 @@ namespace PPWCode.Kit.Tasks.API_I
         /// <remarks>
         /// <para>This system is used by several different back-end
         /// systems. Client systems must make sure that
-        /// these references do not collide with the usage of this
-        /// system by other systems. Therefor, it is an <strong>obligation
-        /// of client systems</strong> to start <c>References</c>
-        /// with an identification of the client system itself.</para>
-        /// <para>In general, <c>References</c> should take the form
-        /// of a <c>/</c>-separated path. This string is used in
-        /// retrieval methods in a &quot;starts with&quot; fashion.
-        /// The path should specify the entity in the client system
-        /// with which it is associated, from left to right, in a gradual
-        /// finer fashion.</para>
-        /// <para>Imagine for example a system that uses that namespace
-        /// <c>Foo.Bar</c>, in which there are <c>Dossiers</c> with a
-        /// primary key, that have entries of different types,
-        /// also with a primary key, and that we want to associate a task
-        /// with such an entry. The <c>Reference</c> choosen might then
-        /// be:</para>
-        /// <code>&quot;Foo/Bar/Dossier/79867498/SomeTypeOfEntry/789673&quot;</code>
-        /// <para>In this way, we might retrieve:</para>
-        /// <list type="bullet">
-        ///   <item>all the tasks for <c>Foo</c></item>
-        ///   <item>all the tasks for <c>Foo.Bar</c></item>
-        ///   <item>all the tasks for any <c>Dossier</c> in <c>Foo.Bar</c></item>
-        ///   <item>all the tasks for the given <c>Dossier</c> with PK <c>79867498</c>
-        ///     in <c>Foo.Bar</c></item>
-        ///   <item>all the tasks for any <c>SomeTypeOfEntry</c> of the given
-        ///     <c>Dossier</c> with PK <c>79867498</c> in <c>Foo.Bar</c></item>
-        ///   <item>all the tasks for the given <c>SomeTypeOfEntry</c> with PK
-        ///     <c>789673</c> of the given <c>Dossier</c> with PK <c>79867498</c>
-        ///     in <c>Foo.Bar</c></item>
-        /// </list>
-        /// <para>It is then not possible to retrieve pratically all the tasks
-        /// for any <c>SomeTypeOfEntry</c> of any <c>Dossier</c> in <c>Foo.Bar</c>.</para>
-        /// <para>In retrieval methods, the <c>Reference</c> can be combined
-        /// with the <see cref="TaskType"/>.</para>
+        /// these attributes do not collide with the usage of this
         /// </remarks>
-        public string Reference
+        [PPWAuditLogPropertyIgnore(AuditLogAction = PPWAuditLogActionEnum.ALL)]
+        public IDictionary<string, string> Attributes
         {
             get
             {
-                return m_Reference;
+                return new Dictionary<string, string>(m_Attributes);
             }
-            set
+            private set
             {
-                if (State != TaskStateEnum.CREATED)
+                if (value != m_Attributes)
                 {
-                    throw new ProgrammingError("Reference is immutable when state is different from CREATED.");
+                    m_Attributes = value;
+                    OnPropertyChanged("Attributes");
                 }
-                if (value != m_Reference)
-                {
-                    m_Reference = value;
-                    OnPropertyChanged("Reference");
-                }
+            }
+        }
+
+        public void AddAttribute(string key, string value)
+        {
+            if (State != TaskStateEnum.CREATED)
+            {
+                throw new ProgrammingError("Attributes are immutable when state is different from CREATED.");
+            }
+
+            if (m_Attributes == null)
+            {
+                m_Attributes = new Dictionary<string, string>();
+            }
+            m_Attributes[key] = value;
+        }
+
+        public void AddAttribute(KeyValuePair<string, string> pair)
+        {
+            AddAttribute(pair.Key, pair.Value);
+        }
+
+        public void AddAttributes(IEnumerable<KeyValuePair<string, string>> pairs)
+        {
+            foreach (var pair in pairs)
+            {
+                AddAttribute(pair);
+            }
+        }
+
+        public void RemoveAttribute(string key)
+        {
+            if (State != TaskStateEnum.CREATED)
+            {
+                throw new ProgrammingError("Attributes are immutable when state is different from CREATED.");
+            }
+
+            m_Attributes.Remove(key);
+        }
+
+        public void RemoveAttribute(KeyValuePair<string, string> pair)
+        {
+            if (State != TaskStateEnum.CREATED)
+            {
+                throw new ProgrammingError("Attributes are immutable when state is different from CREATED.");
+            }
+
+            m_Attributes.Remove(pair);
+        }
+
+        public void RemoveAttributes(IEnumerable<KeyValuePair<string, string>> pairs)
+        {
+            foreach (var pair in pairs)
+            {
+                RemoveAttribute(pair);
             }
         }
 
@@ -393,10 +414,6 @@ namespace PPWCode.Kit.Tasks.API_I
             if (string.IsNullOrEmpty(TaskType))
             {
                 cse.AddElement(new PropertyException(this, "TaskType", MandatoryMessage, null));
-            }
-            if (string.IsNullOrEmpty(Reference))
-            {
-                cse.AddElement(new PropertyException(this, "Reference", MandatoryMessage, null));
             }
 
             return cse;

@@ -39,7 +39,7 @@ namespace PPWCode.Kit.Tasks.Server.Mock.API_I
 
         #region ITasksDao Members
 
-        public FindTasksResult FindTasks(string tasktype, string reference, TaskStateEnum? taskState)
+        public FindTasksResult FindTasks(string tasktype, IDictionary<string, string> searchAttributes, TaskStateEnum? taskState)
         {
             // NOP
             return null;

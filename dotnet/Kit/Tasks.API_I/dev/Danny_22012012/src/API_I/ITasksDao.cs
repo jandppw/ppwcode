@@ -52,7 +52,7 @@ namespace PPWCode.Kit.Tasks.API_I
         /// </summary>
         [OperationContract]
         [TransactionFlow(TransactionFlowOption.Allowed)]
-        FindTasksResult FindTasks(string tasktype, string reference, TaskStateEnum? taskState);
+        FindTasksResult FindTasks(string tasktype, IDictionary<string, string> searchAttributes, TaskStateEnum? taskState);
     }
 
     // ReSharper disable InconsistentNaming
@@ -63,10 +63,9 @@ namespace PPWCode.Kit.Tasks.API_I
     {
         #region Implementation of ITasksDao
 
-        public FindTasksResult FindTasks(string tasktype, string reference, TaskStateEnum? taskState)
+        public FindTasksResult FindTasks(string tasktype, IDictionary<string, string> searchAttributes, TaskStateEnum? taskState)
         {
             Contract.Requires(Transaction.Current != null);
-            Contract.Requires(!string.IsNullOrEmpty(reference));
             Contract.Ensures(Contract.Result<FindTasksResult>() != null);
 
             return default(FindTasksResult);
@@ -77,7 +76,6 @@ namespace PPWCode.Kit.Tasks.API_I
         #region Implementation of IWcfCrudDao
 
         public abstract void FlushAllCaches();
-
         public abstract IPersistentObject DeleteById(string PersistentObjectType, long? Id);
 
         public abstract IPersistentObject Retrieve(string PersistentObjectType, long? Id);
