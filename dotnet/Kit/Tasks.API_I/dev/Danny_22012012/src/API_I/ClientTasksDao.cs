@@ -16,6 +16,7 @@
 
 #region Using
 
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Security.Principal;
 
@@ -105,9 +106,8 @@ namespace PPWCode.Kit.Tasks.API_I
         #region Methods
 
         /// <inheritdoc cref="ITasksDao.FindTasks"/>
-        public FindTasksResult FindTasks(string taskType, string reference, TaskStateEnum? taskState)
+        public FindTasksResult FindTasks(string taskType, IDictionary<string, string> searchAttributes, TaskStateEnum? taskState)
         {
-            Contract.Requires(!string.IsNullOrEmpty(reference));
             Contract.Ensures(Contract.Result<FindTasksResult>() != null);
 
             CheckObjectAlreadyDisposed();
@@ -115,10 +115,10 @@ namespace PPWCode.Kit.Tasks.API_I
             {
                 using (WindowsIdentity.Impersonate())
                 {
-                    return TasksDao.FindTasks(taskType, reference, taskState);
+                    return TasksDao.FindTasks(taskType, searchAttributes, taskState);
                 }
             }
-            return TasksDao.FindTasks(taskType, reference, taskState);
+            return TasksDao.FindTasks(taskType, searchAttributes, taskState);
         }
 
         #endregion
