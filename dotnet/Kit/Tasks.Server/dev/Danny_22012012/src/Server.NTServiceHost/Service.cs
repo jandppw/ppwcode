@@ -18,11 +18,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
 using System.ServiceProcess;
 
+using log4net;
+
 using PPWCode.Kit.Tasks.Server.API_I;
+using PPWCode.Vernacular.Persistence.I.Dao.Wcf.Helpers.Hosting;
 
 #endregion
 
@@ -30,48 +32,90 @@ namespace PPWCode.Kit.Tasks.Server.NTServiceHost
 {
     public partial class Service : ServiceBase
     {
-        private sealed class HostDef
-        {
-            public ServiceHost Svc { get; set; }
-            public Type SvcType { get; private set; }
+        #region fields
 
-            public HostDef(Type svcType)
-            {
-                Svc = null;
-                SvcType = svcType;
-            }
-        }
+        private static readonly ILog s_Logger = LogManager.GetLogger(typeof(Service));
 
-        private static readonly List<HostDef> s_Hosts = new List<HostDef>
+        private static readonly List<ServiceHost> s_ServiceHosts = new List<ServiceHost>
         {
-            new HostDef(typeof(TasksDao))
+            new ServiceHost<TasksDao>(),
         };
+
+        #endregion
+
+        #region Constructors
 
         public Service()
         {
             InitializeComponent();
         }
 
+        #endregion
+
+        #region Private static helpers
+
+        private static void StartWcfServices()
+        {
+            foreach (ServiceHost serviceHost in s_ServiceHosts)
+            {
+                serviceHost.Open();
+            }
+        }
+
+        private static void StopWcfServices()
+        {
+            foreach (ServiceHost serviceHost in s_ServiceHosts)
+            {
+                ICommunicationObject co = serviceHost;
+                switch (co.State)
+                {
+                    case CommunicationState.Created:
+                    case CommunicationState.Closing:
+                    case CommunicationState.Closed:
+                        break;
+                    case CommunicationState.Opening:
+                    case CommunicationState.Opened:
+                        co.Close();
+                        break;
+                    case CommunicationState.Faulted:
+                        co.Abort();
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
+
+        #endregion
+
+        #region Overrided members
+
         protected override void OnStart(string[] args)
         {
-            foreach (HostDef host in s_Hosts)
+            try
             {
-                if (host.Svc != null)
-                {
-                    host.Svc.Close();
-                }
-                host.Svc = new ServiceHost(host.SvcType);
-                host.Svc.Open();
+                StartWcfServices();
+            }
+            catch (Exception e)
+            {
+                s_Logger.Fatal(e);
+                throw;
             }
         }
 
         protected override void OnStop()
         {
-            foreach (HostDef host in s_Hosts.Where(host => host.Svc != null))
+            try
             {
-                host.Svc.Close();
-                host.Svc = null;
+                StopWcfServices();
+            }
+            catch (Exception e)
+            {
+                s_Logger.Fatal(e);
+                throw;
             }
         }
+
+        #endregion
     }
 }
