@@ -51,8 +51,7 @@ create table dbo.Task (
   PersistenceVersion int not null,
 
   [State] tinyint not null,
-  TaskType varchar(128) not null,
-  Reference varchar(512) not null,
+  TaskType varchar(128) collate SQL_Latin1_General_CP1_CS_AS not null,
   
   InProgressSince datetime null,
   InProgressBy nvarchar(64) null,
@@ -68,6 +67,19 @@ create table dbo.Task (
 );
 go
 create index IX_Task_State on dbo.Task([State]);
-create index IX_Task_Reference on dbo.Task(Reference);
 create index IX_Task_TaskType on dbo.Task(TaskType);
+go
+
+
+print 'Creating table dbo.TaskAttributes';
+create table dbo.TaskAttributes (
+  TaskID bigint not null,
+  AttributeName varchar(64) collate SQL_Latin1_General_CP1_CS_AS not null,
+  AttributeValue varchar(256) collate SQL_Latin1_General_CP1_CS_AS null,
+
+  constraint PK_TaskAttributes primary key (TaskID, AttributeName),
+  constraint FK_TaskAttributes_Task foreign key (TaskID) references dbo.Task (TaskId)
+ );
+go
+create index IX_TaskAttributes_Attribute on dbo.TaskAttributes(AttributeValue, AttributeName);
 go

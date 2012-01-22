@@ -18,29 +18,35 @@
  */
 -->
 
-<hibernate-mapping 
-    xmlns="urn:nhibernate-mapping-2.2" 
-    assembly="PPWCode.Kit.Tasks.API_I" 
-    namespace="PPWCode.Kit.Tasks.API_I" 
-    schema="dbo" 
-    default-lazy="false" 
-    default-access="nosetter.pascalcase-m-underscore">
+<hibernate-mapping
+    xmlns="urn:nhibernate-mapping-2.2"
+    assembly="PPWCode.Kit.Tasks.API_I"
+    namespace="PPWCode.Kit.Tasks.API_I"
+    schema="dbo"
+    default-lazy="false"
+    default-access="field.pascalcase-m-underscore">
 
     <class name="Task" dynamic-update="true">
-        <id name="PersistenceId" column="TaskID">
+        <id name="PersistenceId" column="TaskID" unsaved-value="null">
             <generator class="native" />
         </id>
         <version name="PersistenceVersion" generated="never" />
-        <property name="State" not-null="true" />
+        <property name="CreatedAt" />
+        <property name="CreatedBy" />
+        <property name="LastModifiedAt" />
+        <property name="LastModifiedBy" />
+
+        <property name="State" column="`State`" not-null="true" />
         <property name="InProgressSince" />
         <property name="InProgressBy" />
         <property name="CompletedSince" />
         <property name="CompletedBy" />
         <property name="TaskType" not-null="true" />
-        <property name="Reference" not-null="true" />
-        <property name="CreatedAt" />
-        <property name="CreatedBy" />
-        <property name="LastModifiedAt" />
-        <property name="LastModifiedBy" />
+
+        <map name="Attributes" table="TaskAttributes" fetch="select" batch-size="50">
+            <key column="TaskID" />
+            <index column="AttributeName" type="System.String" length="64" />
+            <element column="AttributeValue" type="System.String" length ="256" />
+        </map>
     </class>
 </hibernate-mapping>

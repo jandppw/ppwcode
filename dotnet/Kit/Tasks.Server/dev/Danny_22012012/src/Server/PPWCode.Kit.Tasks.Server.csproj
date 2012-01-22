@@ -123,6 +123,7 @@
     <Compile Include="..\SolutionItems\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="API_I\TaskQuery.cs" />
     <Compile Include="InProcHostingFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="API_I\TasksDao.cs" />
