@@ -16,6 +16,7 @@
 
 #region Using
 
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 
@@ -50,9 +51,137 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
 
         #endregion
 
+        #region Protected Helpers
+
+        protected static Task CreateTasksWithOneAttribute()
+        {
+            Task task = new Task
+            {
+                State = TaskStateEnum.CREATED,
+                TaskType = "taskType/",
+            };
+            task.AddAttribute(@"key1", @"value1");
+
+            return task;
+        }
+
+        protected static Task CreateTasksWithTwoAttributes()
+        {
+            Task task = new Task
+            {
+                State = TaskStateEnum.CREATED,
+                TaskType = "taskType/",
+            };
+            task.AddAttribute(@"key1", @"value1");
+            task.AddAttribute(@"key2", @"value2");
+
+            return task;
+        }
+
+        protected static Task CreateTasksWithThreeAttributes()
+        {
+            Task task = new Task
+            {
+                State = TaskStateEnum.CREATED,
+                TaskType = "/PensioB/Sempera/Affiliation/ManualCapitalAcquiredVerificationNeeded/",
+            };
+            task.AddAttribute(@"key1", @"value1");
+            task.AddAttribute(@"key2", @"value2");
+            task.AddAttribute(@"key3", @"value3");
+
+            return task;
+        }
+
+        protected IEnumerable<Task> CreateSomeTasksForSearching()
+        {
+            IList<Task> result = new List<Task>();
+
+            {
+                IDictionary<string, string> attributes = new Dictionary<string, string>
+                {
+                    { "TypeName", "/PensioB/Sempera/Affiliation" },
+                    { "RetirementPlanName", "construo" },
+                    { "AffiliateSynergyId", "2752" },
+                    { "AffiliationID", "107" },
+                };
+                Task task = new Task
+                {
+                    State = TaskStateEnum.CREATED,
+                    TaskType = "/PensioB/Sempera/Affiliation/ManualCapitalAcquiredVerificationNeeded/",
+                };
+                task.AddAttributes(attributes);
+                result.Add(SaveTask(task));
+            }
+            {
+                IDictionary<string, string> attributes = new Dictionary<string, string>
+                {
+                    { "TypeName", "/PensioB/Sempera/Affiliation" },
+                    { "RetirementPlanName", "construo" },
+                    { "AffiliateSynergyId", "2787" },
+                    { "AffiliationID", "246" },
+                };
+                Task task = new Task
+                {
+                    State = TaskStateEnum.CREATED,
+                    TaskType = "/PensioB/Sempera/Affiliation/ManualCapitalAcquiredVerificationNeeded/",
+                };
+                task.AddAttributes(attributes);
+                result.Add(SaveTask(task));
+            }
+            {
+                IDictionary<string, string> attributes = new Dictionary<string, string>
+                {
+                    { "TypeName", "/PensioB/Sempera/Affiliation" },
+                    { "RetirementPlanName", "construo" },
+                    { "AffiliateSynergyId", "6788" },
+                    { "AffiliationID", "285" },
+                };
+                Task task = new Task
+                {
+                    State = TaskStateEnum.CREATED,
+                    TaskType = "/PensioB/Sempera/Affiliation/ManualCapitalAcquiredVerificationNeeded/",
+                };
+                task.AddAttributes(attributes);
+                result.Add(SaveTask(task));
+            }
+
+            return result;
+        }
+
+        protected static bool EqualAttributes(Task t1, Task t2)
+        {
+            bool result = t1.Attributes.Count == t2.Attributes.Count;
+            if (result)
+            {
+                foreach (var pair in t1.Attributes)
+                {
+                    string value;
+                    result = t2.Attributes.TryGetValue(pair.Key, out value);
+                    result &= pair.Value.Equals(value);
+                    if (!result)
+                    {
+                        break;
+                    }
+                }
+            }
+            return result;
+        }
+
+        protected Task SaveTask(Task task)
+        {
+            Task createdTask = Svc.Create(task);
+            Assert.IsNotNull(createdTask);
+            Assert.AreEqual(task.State, createdTask.State);
+            Assert.AreEqual(task.TaskType, createdTask.TaskType);
+            EqualAttributes(task, createdTask);
+            return createdTask;
+        }
+
+        #endregion
+
         #region Private Helpers
 
-        private static void ClearContentOfTables()
+        protected static void ClearContentOfTables()
         {
             string connectionString = ConfigurationManager.ConnectionStrings["TasksConnectionString"].ConnectionString;
             Assert.IsFalse(connectionString == null);
@@ -60,8 +189,9 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             {
                 string[] tblNames = new[]
                 {
-                    "dbo.Task",
-                    "dbo.AuditLog",
+                    @"dbo.TaskAttributes",
+                    @"dbo.Task",
+                    @"dbo.AuditLog",
                 };
                 con.Open();
                 foreach (string tblName in tblNames)

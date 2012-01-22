@@ -20,21 +20,19 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
+using System.Reflection;
 using System.ServiceModel;
+using System.Text;
 using System.Transactions;
-
-using Iesi.Collections.Generic;
 
 using log4net;
 
 using NHibernate;
-using NHibernate.Criterion;
 
 using PPWCode.Kit.Tasks.API_I;
 using PPWCode.Vernacular.Persistence.I;
 using PPWCode.Vernacular.Persistence.I.Dao;
 using PPWCode.Vernacular.Persistence.I.Dao.NHibernate;
-using PPWCode.Vernacular.Persistence.I.Dao.Wcf.Helpers;
 using PPWCode.Vernacular.Persistence.I.Dao.Wcf.Helpers.Errors;
 
 #endregion
@@ -74,15 +72,15 @@ namespace PPWCode.Kit.Tasks.Server.API_I
         #region ITasksDao members
 
         [OperationBehavior(TransactionScopeRequired = true, TransactionAutoComplete = true)]
-        public FindTasksResult FindTasks(string tasktype, string reference, TaskStateEnum? taskState)
+        public FindTasksResult FindTasks(string tasktype, IDictionary<string, string> searchAttributes, TaskStateEnum? taskState)
         {
             const int MaximumResults = 50;
             const string MethodName = "FindTasks";
 
             CheckObjectAlreadyDisposed();
 
-            ICollection<Task> result = new HashedSet<Task>();
-            int numberOfMatchingTasks = -1;
+            ICollection<Task> result;
+            int numberOfMatchingTasks;
 
             if (s_Logger.IsDebugEnabled)
             {
@@ -91,24 +89,28 @@ namespace PPWCode.Kit.Tasks.Server.API_I
                         "{0}({1},{2},{3})",
                         MethodName,
                         tasktype ?? string.Empty,
-                        reference,
+                        searchAttributes,
                         taskState.HasValue
                             ? taskState.ToString()
                             : string.Empty));
             }
 
+            if (searchAttributes == null)
+            {
+                searchAttributes = new Dictionary<string, string>();
+            }
             try
             {
-                ICriteria criteria = BuildFindTasksQuery(tasktype, reference, taskState, MaximumResults);
-                result = criteria.List<Task>();
+                IQuery query = BuildFindTasksQuery(tasktype, searchAttributes, taskState, MaximumResults);
+                result = query.List<Task>();
                 if (result.Count < MaximumResults)
                 {
                     numberOfMatchingTasks = result.Count;
                 }
                 else
                 {
-                    criteria = BuildCountTasksQuery(tasktype, reference, taskState);
-                    numberOfMatchingTasks = criteria.UniqueResult<int>();
+                    query = BuildCountTasksQuery(tasktype, searchAttributes, taskState);
+                    numberOfMatchingTasks = query.UniqueResult<int>();
                 }
             }
             catch (HibernateException he)
@@ -118,12 +120,15 @@ namespace PPWCode.Kit.Tasks.Server.API_I
                     "{0}({1},{2},{3})",
                     MethodName,
                     tasktype ?? string.Empty,
-                    reference,
+                    searchAttributes,
                     taskState.HasValue ?
                                            taskState.ToString()
                         : string.Empty);
                 s_Logger.Fatal(message, he);
                 StatelessCrudDao.TriageException(he, message);
+                // Line needed to keep resharper happy :) 
+                // triageException should give an exception back instead of throwing it already
+                throw new Exception();
             }
 
             if (s_Logger.IsDebugEnabled)
@@ -133,7 +138,7 @@ namespace PPWCode.Kit.Tasks.Server.API_I
                         "{0}({1},{2},{3}) result {4}",
                         MethodName,
                         tasktype ?? string.Empty,
-                        reference,
+                        searchAttributes,
                         taskState.HasValue
                             ? taskState.ToString()
                             : string.Empty, result));
@@ -145,54 +150,135 @@ namespace PPWCode.Kit.Tasks.Server.API_I
             return new FindTasksResult(allowedResult, numberOfMatchingTasks);
         }
 
-        private ICriteria BuildBaseTasksQuery(string tasktype, string reference, TaskStateEnum? taskState)
+        private static TaskQuery BuildBaseTasksQuery(
+            string tasktype,
+            IEnumerable<KeyValuePair<string, string>> searchAttributes,
+            TaskStateEnum? taskState,
+            string optionalOrdebyClause)
         {
-            if (!reference.EndsWith("%"))
+            Contract.Requires(searchAttributes != null);
+            Contract.Ensures(Contract.Result<TaskQuery>() != null);
+
+            // Start with base query
+            StringBuilder queryString = new StringBuilder(@"from Task t", 1024);
+            List<string> wherePredicates = new List<string>();
+            IDictionary<string, object> parameters = new Dictionary<string, object>();
+
+            // Handle searchAttributes
             {
-                reference = string.Concat(reference, "%");
+                int i = 0;
+                foreach (KeyValuePair<string, string> pair in searchAttributes)
+                {
+                    queryString.AppendFormat(@" join t.Attributes a{0}", i);
+                    wherePredicates.Add(string.Format(@"index(a{0}) = :AttributeName{0} and a{0} = :AttributeValue{0}", i));
+                    parameters.Add(@"AttributeName" + i, pair.Key);
+                    parameters.Add(@"AttributeValue" + i, pair.Value);
+                    i++;
+                }
             }
-            if (!(string.IsNullOrEmpty(tasktype) || tasktype.EndsWith("/")))
-            {
-                tasktype = string.Concat(tasktype, "/");
-            }
-            ICriteria criteria = Session
-                .CreateCriteria<Task>()
-                .Add(Restrictions.Like("Reference", reference));
+
+            // Handle taskType
             if (!string.IsNullOrEmpty(tasktype))
             {
-                criteria.Add(Restrictions.Eq("TaskType", tasktype));
+                if (!tasktype.EndsWith("/"))
+                {
+                    tasktype = string.Concat(tasktype, "/");
+                }
+                wherePredicates.Add(@"t.TaskType = :TaskType");
+                parameters.Add(@"TaskType", tasktype);
             }
-            if (taskState.HasValue)
+
+            // Handle taskState
+            if (taskState != null)
             {
                 int value = (int)taskState.Value;
-                Junction disjunction = Restrictions.Disjunction();
+                StringBuilder taskStatePredicate = new StringBuilder(64);
+                bool firstStatePredicate = true;
                 int state = 1;
+                int i = 0;
                 while (state <= value)
                 {
                     if ((state & value) != 0)
                     {
-                        disjunction.Add(Restrictions.Eq("State", (TaskStateEnum)state));
+                        if (firstStatePredicate)
+                        {
+                            taskStatePredicate.AppendFormat(@"(t.State = :State{0}", i);
+                            firstStatePredicate = false;
+                        }
+                        else
+                        {
+                            taskStatePredicate.AppendFormat(@" or t.State = :State{0}", i);
+                        }
+                        parameters.Add(@"State" + i, (TaskStateEnum)state);
                     }
                     state <<= 1;
+                    i++;
                 }
-                criteria.Add(disjunction);
+                if (!firstStatePredicate)
+                {
+                    taskStatePredicate.Append(')');
+                }
+                wherePredicates.Add(taskStatePredicate.ToString());
             }
-            return criteria;
+
+            // join query with where predicates
+            bool firstPredicate = true;
+            foreach (string predicate in wherePredicates)
+            {
+                if (firstPredicate)
+                {
+                    queryString.AppendFormat(@" where {0}", predicate);
+                    firstPredicate = false;
+                }
+                else
+                {
+                    queryString.AppendFormat(@" and {0}", predicate);
+                }
+            }
+
+            // Append 'order by' clause if specified
+            if (!string.IsNullOrEmpty(optionalOrdebyClause))
+            {
+                queryString.AppendFormat(@" order by {0}", optionalOrdebyClause);
+            }
+
+            return new TaskQuery(queryString.ToString(), parameters);
         }
 
-        private ICriteria BuildFindTasksQuery(string tasktype, string reference, TaskStateEnum? taskState, int maximumResults)
+        private IQuery BuildFindTasksQuery(
+            string tasktype,
+            IEnumerable<KeyValuePair<string, string>> searchAttributes,
+            TaskStateEnum? taskState,
+            int maximumResults)
         {
-            ICriteria criteria = BuildBaseTasksQuery(tasktype, reference, taskState);
-            criteria.AddOrder(Order.Asc("CreatedAt"));
-            criteria.SetMaxResults(maximumResults);
-            return criteria;
+            Contract.Requires(searchAttributes != null);
+            Contract.Ensures(Contract.Result<IQuery>() != null);
+
+            TaskQuery taskQuery = BuildBaseTasksQuery(tasktype, searchAttributes, taskState, @"t.CreatedAt asc");
+            IQuery query = Session.CreateQuery(taskQuery.QueryString);
+            foreach (KeyValuePair<string, object> parameter in taskQuery.Parameters)
+            {
+                query.SetParameter(parameter.Key, parameter.Value);
+            }
+            query.SetMaxResults(maximumResults);
+            return query;
         }
 
-        private ICriteria BuildCountTasksQuery(string tasktype, string reference, TaskStateEnum? taskState)
+        private IQuery BuildCountTasksQuery(
+            string tasktype,
+            IEnumerable<KeyValuePair<string, string>> searchAttributes,
+            TaskStateEnum? taskState)
         {
-            ICriteria criteria = BuildBaseTasksQuery(tasktype, reference, taskState);
-            criteria.SetProjection(Projections.RowCount());
-            return criteria;
+            Contract.Requires(searchAttributes != null);
+            Contract.Ensures(Contract.Result<IQuery>() != null);
+
+            TaskQuery taskQuery = BuildBaseTasksQuery(tasktype, searchAttributes, taskState, null);
+            IQuery query = Session.CreateQuery(@"select count(*) " + taskQuery.QueryString);
+            foreach (KeyValuePair<string, object> parameter in taskQuery.Parameters)
+            {
+                query.SetParameter(parameter.Key, parameter.Value);
+            }
+            return query;
         }
 
         #endregion
@@ -212,49 +298,37 @@ namespace PPWCode.Kit.Tasks.Server.API_I
                 {
                     task.TaskType += "/";
                 }
-
-                // Make sure that a ref always end with a /
-                if (!task.Reference.EndsWith("/"))
-                {
-                    task.Reference += "/";
-                }
             }
         }
 
         private IPersistentObject CreateTask(IPersistentObject po)
         {
+            Contract.Requires(po != null);
             Contract.Requires(typeof(Task).IsAssignableFrom(po.GetType()));
-
-            const string MethodName = "CreateTask";
+            Contract.Ensures(Contract.Result<IPersistentObject>() != null);
 
             CheckObjectAlreadyDisposed();
-
             Task task = po as Task;
-
             CheckTask(task);
-
             if (s_Logger.IsDebugEnabled)
             {
-                s_Logger.Debug(string.Format("{0}({1})", MethodName, task));
+                s_Logger.Debug(string.Format("{0}({1})", MethodBase.GetCurrentMethod().Name, task));
             }
             return BaseCreate(task);
         }
 
         private IPersistentObject UpdateTask(IPersistentObject po)
         {
+            Contract.Requires(po != null);
             Contract.Requires(typeof(Task).IsAssignableFrom(po.GetType()));
-
-            const string MethodName = "UpdateTask";
+            Contract.Ensures(Contract.Result<IPersistentObject>() != null);
 
             CheckObjectAlreadyDisposed();
-
             Task task = po as Task;
-
             CheckTask(task);
-
             if (s_Logger.IsDebugEnabled)
             {
-                s_Logger.Debug(string.Format("{0}({1})", MethodName, task));
+                s_Logger.Debug(string.Format("{0}({1})", MethodBase.GetCurrentMethod().Name, task));
             }
             return BaseUpdate(task);
         }
