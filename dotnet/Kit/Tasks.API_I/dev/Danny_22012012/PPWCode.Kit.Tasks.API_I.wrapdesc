@@ -1,0 +1,27 @@
+# package name
+name: PPWCode.Kit.Tasks.API_I
+description: Tasks API mark I
+
+# build configuration
+build: msbuild;
+  project=src\API_I\PPWCode.Kit.Tasks.API_I.csproj;
+  project=src\Server.Mock\PPWCode.Kit.Tasks.Server.Mock.csproj;
+  profile=net35;
+build: files;
+  file=. -> LICENSE;
+  file=. -> NOTICE; 
+
+# symlinks
+use-symlinks: false
+
+# dependencies
+depends: openwrap = 2.0 anchored content
+depends: Microsoft.StyleCop-PPWStyle >= 1.0 < 2.0
+depends: Microsoft.Contracts >= 1.0 < 2.0
+depends: Apache.Log4Net = 1.2.10
+depends: Spring.Core = 1.3.1
+depends: NHibernate = 3.1.0
+depends: PPWCode.Util.OddsAndEnds >= 1.7 < 2.0
+depends: PPWCode.Vernacular.Exceptions >= 2.0 < 3.0
+depends: PPWCode.Vernacular.Semantics >= 2.0 < 3.0
+depends: PPWCode.Vernacular.Persistence >= 1.3 < 2.0
