@@ -110,7 +110,7 @@ namespace PPWCode.Kit.Tasks.Server.API_I
                 else
                 {
                     query = BuildCountTasksQuery(tasktype, searchAttributes, taskState);
-                    numberOfMatchingTasks = query.UniqueResult<int>();
+                    numberOfMatchingTasks = (int)query.UniqueResult<long>();
                 }
             }
             catch (HibernateException he)
@@ -154,7 +154,7 @@ namespace PPWCode.Kit.Tasks.Server.API_I
             string tasktype,
             IEnumerable<KeyValuePair<string, string>> searchAttributes,
             TaskStateEnum? taskState,
-            string optionalOrdebyClause)
+            string optionalOrderbyClause)
         {
             Contract.Requires(searchAttributes != null);
             Contract.Ensures(Contract.Result<TaskQuery>() != null);
@@ -237,9 +237,9 @@ namespace PPWCode.Kit.Tasks.Server.API_I
             }
 
             // Append 'order by' clause if specified
-            if (!string.IsNullOrEmpty(optionalOrdebyClause))
+            if (!string.IsNullOrEmpty(optionalOrderbyClause))
             {
-                queryString.AppendFormat(@" order by {0}", optionalOrdebyClause);
+                queryString.AppendFormat(@" order by {0}", optionalOrderbyClause);
             }
 
             return new TaskQuery(queryString.ToString(), parameters);
