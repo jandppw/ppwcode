@@ -77,8 +77,35 @@ namespace PPWCode.Util.SharePoint.I
         /// </summary>
         List<SharePointSearchResult> SearchFiles(string url);
 
+        void RenameFolder(string baseRelativeUrl, string originalFolderName, string newFolderName);
 
-        void RenameFolder(string baseRelativeUrl, string originalRelativeUrl, string newRelativeUrl);
+        void RenameAllOccurrencesOfFolder(string baseRelativeUrl, string oldFolderName, string newFolderName);
+
+        /// <summary>
+        /// Create folder with given path.
+        /// <para>
+        /// Depending on the parameter "createFullPath", also create all intermediate missing folders,
+        /// or otherwise, throw an exception if any of the intermediate folders is missing.
+        /// </para>
+        /// </summary>
+        /// <param name="folderPath">path of folder to be created</param>
+        /// <param name="createFullPath">create all intermediate missing folders</param>
+        void CreateFolder(string folderPath, bool createFullPath);
+
+        /// <summary>
+        /// Delete folder with given path.
+        /// <para>
+        /// Depending on the parameter "deleteChildren", also delete all children if any exist,
+        /// or otherwise, throw an exception if any children exist.
+        /// </para>
+        /// </summary>
+        /// <param name="folderPath">path of folder to be deleted</param>
+        /// <param name="deleteChildren">delete all children of folder if any exist</param>
+        void DeleteFolder(string folderPath, bool deleteChildren);
+
+        int CountAllOccurencesOfFolderInPath(string baseRelativeUrl, string folderName);
+
+        bool CheckExistenceOfFolderWithExactPath(string folderPath);
     }
 
     // ReSharper disable InconsistentNaming
@@ -101,11 +128,16 @@ namespace PPWCode.Util.SharePoint.I
         public ICredentials Credentials
         {
             get { return default(ICredentials); }
-            set 
-            { // NOP;
+            set
+            {
+                // NOP;
             }
         }
 
+        /// <summary>
+        /// Create all folder in the given folder path, that do not yet exist in SharePoint.
+        /// </summary>
+        /// <param name="relativeUrl">the folder path </param>
         public void EnsureFolder(string relativeUrl)
         {
             Contract.Requires(!string.IsNullOrEmpty(SharePointSiteUrl));
@@ -148,19 +180,69 @@ namespace PPWCode.Util.SharePoint.I
             return new List<SharePointSearchResult>();
         }
 
-        public void RenameFolder(string baseRelativeUrl, string originalRelativeUrl, string newRelativeUrl)
+        /// <summary>
+        /// Rename the folder in the given base path that has the given name.
+        /// </summary>
+        /// <param name="baseRelativeUrl">base folder</param>
+        /// <param name="originalFolderName">folder in base path that has to be renamed</param>
+        /// <param name="newFolderName">new name of the folder</param>
+        public void RenameFolder(string baseRelativeUrl, string originalFolderName, string newFolderName)
         {
             Contract.Requires(!string.IsNullOrEmpty(SharePointSiteUrl));
-            Contract.Requires(!string.IsNullOrEmpty(originalRelativeUrl));
-            Contract.Requires(!string.IsNullOrEmpty(newRelativeUrl));
+            Contract.Requires(!string.IsNullOrEmpty(originalFolderName));
+            Contract.Requires(!string.IsNullOrEmpty(newFolderName));
         }
 
-        public void RenameAllOccurrences(string baseRelativeUrl, string oldFolderName, string newFolderName)
+        /// <summary>
+        /// Rename all folders within the given base path, that have the given name.
+        /// </summary>
+        /// <param name="baseRelativeUrl">base path</param>
+        /// <param name="oldFolderName">folder that has to be renamed</param>
+        /// <param name="newFolderName">new name of the folder</param>
+        public void RenameAllOccurrencesOfFolder(string baseRelativeUrl, string oldFolderName, string newFolderName)
         {
             Contract.Requires(!string.IsNullOrEmpty(SharePointSiteUrl));
             Contract.Requires(!string.IsNullOrEmpty(baseRelativeUrl));
             Contract.Requires(!string.IsNullOrEmpty(oldFolderName));
             Contract.Requires(!string.IsNullOrEmpty(newFolderName));
+        }
+
+        public void CreateFolder(string folderPath, bool createFullPath)
+        {
+            Contract.Requires(!string.IsNullOrEmpty(SharePointSiteUrl));
+            Contract.Requires(!string.IsNullOrEmpty(folderPath));
+        }
+
+        public void DeleteFolder(string folderPath, bool deleteChildren )
+        {
+            Contract.Requires(!string.IsNullOrEmpty(SharePointSiteUrl));
+            Contract.Requires(!string.IsNullOrEmpty(folderPath));
+        }
+
+        /// <summary>
+        /// Search and count the occurrences of folders with the given name in the given path.
+        /// </summary>
+        /// <param name="baseRelativeUrl">path to search</param>
+        /// <param name="folderName">name of folder</param>
+        /// <returns>number of occurrences</returns>
+        public int CountAllOccurencesOfFolderInPath(string baseRelativeUrl, string folderName)
+        {
+            Contract.Requires(!string.IsNullOrEmpty(SharePointSiteUrl));
+            Contract.Requires(!string.IsNullOrEmpty(baseRelativeUrl));
+            Contract.Requires(!string.IsNullOrEmpty(folderName));
+            return default(int);
+        }
+
+        /// <summary>
+        /// Check whether the folder with the given path exists in SharePoint.
+        /// </summary>
+        /// <param name="folderPath">folder path</param>
+        /// <returns></returns>
+        public bool CheckExistenceOfFolderWithExactPath(string folderPath)
+        {
+            Contract.Requires(!string.IsNullOrEmpty(SharePointSiteUrl));
+            Contract.Requires(!string.IsNullOrEmpty(folderPath));
+            return default(bool);
         }
 
         #endregion

@@ -287,7 +287,33 @@ namespace PPWCode.Util.SharePoint.I
             return result;
         }
 
+
         public void RenameFolder(string baseRelativeUrl, string originalRelativeUrl, string newRelativeUrl)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RenameAllOccurrencesOfFolder(string baseRelativeUrl, string originalRelativeUrl, string newRelativeUrl)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CreateFolder(string foldername, bool createFullPath)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteFolder(string foldername, bool deleteChildren)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int CountAllOccurencesOfFolderInPath(string baseRelativeUrl, string foldername)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool CheckExistenceOfFolderWithExactPath(string baseRelativeUrl)
         {
             throw new NotImplementedException();
         }

@@ -570,40 +570,75 @@ namespace PPWCode.Util.SharePoint.I
         //if baseRelativeUrl does not exist, exception will be thrown;
         //parameter newFolderName is new path or new foldername
         //if newFolderName does exist, exception will be thrown
-        public void CreateFolder(string baseRelativeUrl, string newFolderName)
+        public void CreateFolder(string newFolderName, bool createAll)
         {
             try
             {
                 using (ClientContext spClientContext = GetSharePointClientContext())
                 {
+                    if (!newFolderName.StartsWith("/"))
+                    {
+                        newFolderName = '/' + newFolderName;
+                    }
                     string[] foldernames = newFolderName.Split('/');
+
+                    if (string.IsNullOrEmpty(foldernames[foldernames.Length-1]))
+                    {
+                        newFolderName = ExtractRelativeUrlFromBaseRelativeUrl(newFolderName);
+                        foldernames = newFolderName.Split('/');
+                    }
+
+                    string listName = foldernames[1];
+
+                    if (foldernames.Length < 3 || foldernames.Length == 3 && string.IsNullOrEmpty(foldernames[2]))
+                    {
+                        string errorInformation = string.Format("Path ({0}) is not valid",newFolderName);
+                        throw new Exception(string.Format("Error in deleting form [{0}].Exeption[{1}]", newFolderName,errorInformation));
+                    }
+                    if (CheckExistenceOfFolderWithExactPath(newFolderName))
+                    {
+                        string errorInformation = string.Format("Path ({0}) already exist", newFolderName);
+                        throw new Exception(string.Format("Error in deleting form [{0}].Exeption[{1}]", newFolderName, errorInformation)); 
+                    }
 
                     Web web = spClientContext.Web;
                     //get document library
-                    List list = web.Lists.GetByTitle(ExtractListName(baseRelativeUrl));
+                    List list = web.Lists.GetByTitle(ExtractListName(newFolderName));
 
                     if (newFolderName != string.Empty)
                     {
-                        string url = string.Empty;
-                        for (int teller = 0; teller < foldernames.Length; teller++)
+                        if (createAll)
                         {
-                            ListItemCreationInformation newItem = new ListItemCreationInformation();
-
-                            newItem.UnderlyingObjectType = FileSystemObjectType.Folder;
-                            
-                            if (teller > 0)
+                            string url = listName;
+                            for (int teller = 2; teller < foldernames.Length; teller++)
                             {
-                                url += "/" + foldernames[teller - 1];
-                                newItem.FolderUrl = baseRelativeUrl + url;
+                                url += "/" + foldernames[teller];
+                                if (!CheckExistenceOfFolderWithExactPath(url))
+                                {
+                                    string relativeUrl = ExtractRelativeUrlFromBaseRelativeUrl(url);
+                                    Create(list, foldernames, teller, relativeUrl);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            string url = ExtractRelativeUrlFromBaseRelativeUrl(newFolderName);
+                            if (foldernames.Length == 3)
+                            {
+                                Create(list, foldernames, 2, url);
                             }
                             else
                             {
-                                newItem.FolderUrl = baseRelativeUrl;
+                                if (CheckExistenceOfFolderWithExactPath(url))
+                                {
+                                    Create(list, foldernames, foldernames.Length - 1, url);
+                                }
+                                else
+                                {
+                                    string errorInformation = string.Format("Path {0} does not exist", url);
+                                    throw new Exception(string.Format("Error in deleting form [{0}].Exeption[{1}]", newFolderName, errorInformation));
+                                }
                             }
-                            newItem.LeafName = foldernames[teller];
-                            ListItem item = list.AddItem(newItem);
-                            item["Title"] = foldernames[teller];
-                            item.Update();
                         }
                     }
                     spClientContext.ExecuteQuery();
@@ -612,15 +647,25 @@ namespace PPWCode.Util.SharePoint.I
             catch (Exception ex)
             {
                 s_Logger.ErrorFormat(
-                   "Error creating folder [{0}] in [{1}]. Exception({2}).",
+                   "Error creating folder [{0}]. Exception({1}).",
                    newFolderName,
-                   baseRelativeUrl,
                    ex);
                 throw; 
             }
         }
+        private void Create(List list, string[] foldernames, int teller, string url)
+        {
+            ListItemCreationInformation newItem = new ListItemCreationInformation();
 
-        public void DeleteFolder(string baseRelativeUrl)
+            newItem.UnderlyingObjectType = FileSystemObjectType.Folder;
+            newItem.FolderUrl = url;
+            newItem.LeafName = foldernames[teller];
+            ListItem item = list.AddItem(newItem);
+            item["Title"] = foldernames[teller];
+            item.Update(); 
+        }
+
+        public void DeleteFolder(string baseRelativeUrl, bool deleteChildren)
         {
             try
             {
@@ -665,7 +710,7 @@ namespace PPWCode.Util.SharePoint.I
         }
         //checks if folder exists in list
         //Parameter baseRelativeUrl has to start with List ex.PensioB/test1
-        public bool CheckExcistenceAllOccurencesFolderInList(string baseRelativeUrl)
+        public int CountAllOccurencesOfFolderInPath(string baseRelativeUrl, string foldername)
         {
             using (ClientContext spClientcontext = GetSharePointClientContext())
             {
@@ -702,7 +747,7 @@ namespace PPWCode.Util.SharePoint.I
                         spClientcontext.Load(listItemCollection);
                         spClientcontext.ExecuteQuery();
 
-                        return listItemCollection.Count != 0;
+                        return listItemCollection.Count;
                     }
                     catch (Exception ex)
                     {
@@ -714,12 +759,12 @@ namespace PPWCode.Util.SharePoint.I
                     }
                 }
             }
-            return false;
+            return 0;
         }
 
         //checks if folder exists in certain path in list
         //parameter baseRelativeUrl has to start with list ex.PensioB/test1
-        public bool CheckExistenceFolderWithExactPathInList(string baseRelativeUrl)
+        public bool CheckExistenceOfFolderWithExactPath(string baseRelativeUrl)
         {
             using (ClientContext spClientcontext = GetSharePointClientContext())
             {
