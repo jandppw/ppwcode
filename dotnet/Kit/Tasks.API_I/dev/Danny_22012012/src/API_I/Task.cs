@@ -276,7 +276,7 @@ namespace PPWCode.Kit.Tasks.API_I
         /// <remarks>
         /// <para>This system is used by several different back-end
         /// systems. Client systems must make sure that
-        /// these attributes do not collide with the usage of this
+        /// these attributes do not collide with the usage of this.</para>
         /// </remarks>
         [PPWAuditLogPropertyIgnore(AuditLogAction = PPWAuditLogActionEnum.ALL)]
         public IDictionary<string, string> Attributes
