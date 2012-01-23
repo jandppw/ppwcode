@@ -75,9 +75,36 @@ namespace PPWCode.Util.SharePoint.I
             return new List<SharePointSearchResult>();
         }
 
-        public void RenameFolder(string baseRelativeUrl, string originalRelativeUrl, string newRelativeUrl)
+        public void RenameFolder(string baseRelativeUrl, string originalFolderName, string newFolderName)
         {
             // NOP
+        }
+
+        public void RenameAllOccurrencesOfFolder(string baseRelativeUrl, string originalRelativeUrl, string newRelativeUrl)
+        {
+            //NOP
+        }
+
+        public void CreateFolder(string foldername, bool createFullPath)
+        {
+            //NOP
+        }
+
+        public void DeleteFolder(string foldername, bool deleteChildren)
+        {
+            //NOP
+        }
+
+        public int CountAllOccurencesOfFolderInPath(string baseRelativeUrl, string foldername)
+        {
+            //NOP
+            return default(int);
+        }
+
+        public bool CheckExistenceOfFolderWithExactPath(string baseRelativeUrl)
+        {
+            //NOP
+            return true;
         }
 
         #endregion
