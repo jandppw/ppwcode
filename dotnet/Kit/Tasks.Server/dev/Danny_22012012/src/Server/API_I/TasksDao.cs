@@ -217,8 +217,8 @@ namespace PPWCode.Kit.Tasks.Server.API_I
                 if (!firstStatePredicate)
                 {
                     taskStatePredicate.Append(')');
+                    wherePredicates.Add(taskStatePredicate.ToString());
                 }
-                wherePredicates.Add(taskStatePredicate.ToString());
             }
 
             // join query with where predicates
