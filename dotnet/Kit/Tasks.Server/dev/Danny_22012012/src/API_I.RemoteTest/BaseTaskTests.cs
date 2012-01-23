@@ -95,7 +95,6 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
         protected IEnumerable<Task> CreateSomeTasksForSearching()
         {
             IList<Task> result = new List<Task>();
-
             {
                 IDictionary<string, string> attributes = new Dictionary<string, string>
                 {

@@ -90,7 +90,6 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
                 Assert.AreEqual(0, findTasksResult.NumberOfMatchingTasks);
                 Assert.AreEqual(findTasksResult.NumberOfMatchingTasks, findTasksResult.Tasks.Count);
             }
-
             {
                 ClearContentOfTables();
                 Svc.FlushAllCaches();
@@ -100,7 +99,6 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
                 Assert.AreEqual(3, findTasksResult.NumberOfMatchingTasks);
                 Assert.AreEqual(findTasksResult.NumberOfMatchingTasks, findTasksResult.Tasks.Count);
             }
-
             {
                 ClearContentOfTables();
                 Svc.FlushAllCaches();
@@ -110,7 +108,6 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
                 Assert.AreEqual(3, findTasksResult.NumberOfMatchingTasks);
                 Assert.AreEqual(findTasksResult.NumberOfMatchingTasks, findTasksResult.Tasks.Count);
             }
-
             {
                 ClearContentOfTables();
                 Svc.FlushAllCaches();
@@ -125,7 +122,6 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
                 Assert.AreEqual(3, findTasksResult.NumberOfMatchingTasks);
                 Assert.AreEqual(findTasksResult.NumberOfMatchingTasks, findTasksResult.Tasks.Count);
             }
-
             {
                 ClearContentOfTables();
                 Svc.FlushAllCaches();
@@ -134,7 +130,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
                 {
                     { "TypeName", "/PensioB/Sempera/Affiliation" },
                     { "RetirementPlanName", "construo" },
-                    { "AffiliateSynergyId", "6788" },
+                    { "AffiliateSynergyID", "6788" },
                     { "AffiliationID", "285" },
                 };
                 FindTasksResult findTasksResult = Svc.FindTasks(@"/PensioB/Sempera/Affiliation/ManualCapitalAcquiredVerificationNeeded", searchAttributes, TaskStateEnum.CREATED);
@@ -142,7 +138,6 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
                 Assert.AreEqual(1, findTasksResult.NumberOfMatchingTasks);
                 Assert.AreEqual(findTasksResult.NumberOfMatchingTasks, findTasksResult.Tasks.Count);
             }
-
             {
                 ClearContentOfTables();
                 Svc.FlushAllCaches();
@@ -151,14 +146,13 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
                 {
                     { "TypeName", "/PensioB/Sempera/Affiliation" },
                     { "RetirementPlanName", "construo" },
-                    { "AffiliateSynergyId", "6788" },
+                    { "AffiliateSynergyID", "6788" },
                 };
                 FindTasksResult findTasksResult = Svc.FindTasks(@"/PensioB/Sempera/Affiliation/ManualCapitalAcquiredVerificationNeeded", searchAttributes, TaskStateEnum.CREATED);
                 Assert.IsNotNull(findTasksResult);
                 Assert.AreEqual(1, findTasksResult.NumberOfMatchingTasks);
                 Assert.AreEqual(findTasksResult.NumberOfMatchingTasks, findTasksResult.Tasks.Count);
             }
-
             {
                 ClearContentOfTables();
                 Svc.FlushAllCaches();
