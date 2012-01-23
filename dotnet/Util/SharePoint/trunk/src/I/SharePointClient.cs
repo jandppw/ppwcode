@@ -665,23 +665,36 @@ namespace PPWCode.Util.SharePoint.I
             item.Update(); 
         }
 
-        public void DeleteFolder(string baseRelativeUrl, bool deleteChildren)
+        public void DeleteFolder(string folderNameToDelete , bool deleteChildren)
         {
             try
             {
                 using (ClientContext spClientcontext = GetSharePointClientContext())
                 {
                     // make sure url starts with "/"
-                    if (!baseRelativeUrl.StartsWith("/"))
+                    if (!folderNameToDelete.StartsWith("/"))
                     {
-                        baseRelativeUrl = '/' + baseRelativeUrl;
+                        folderNameToDelete = '/' + folderNameToDelete;
                     }
-                    string relativeUrl = ExtractRelativeUrlFromBaseRelativeUrl(baseRelativeUrl);
+
+                    string[] foldernames = folderNameToDelete.Split('/');
+
+                    if (string.IsNullOrEmpty(foldernames[foldernames.Length - 1]))
+                    {
+                        folderNameToDelete = ExtractRelativeUrlFromBaseRelativeUrl(folderNameToDelete);
+                        foldernames = folderNameToDelete.Split('/');
+                    }
+                    if (!CheckExistenceOfFolderWithExactPath(folderNameToDelete))
+                    {
+                        string errorInformation = string.Format("Path ({0}) does not exist", folderNameToDelete);
+                        throw new Exception(string.Format("Error in deleting form [{0}].Exeption[{1}]", folderNameToDelete, errorInformation));
+                    }
+                    string relativeUrl = ExtractRelativeUrlFromBaseRelativeUrl(folderNameToDelete);
                     
                     Web web = spClientcontext.Web;
-                    List list = web.Lists.GetByTitle(ExtractListName(baseRelativeUrl));
+                    List list = web.Lists.GetByTitle(ExtractListName(folderNameToDelete));
 
-                    CamlQuery query = CreateCamlQueryFindExactFolderPath(relativeUrl, baseRelativeUrl);
+                    CamlQuery query = CreateCamlQueryFindExactFolderPath(relativeUrl, folderNameToDelete);
 
                     ListItemCollection listItemCollection = list.GetItems(query);
 
@@ -689,13 +702,36 @@ namespace PPWCode.Util.SharePoint.I
                     spClientcontext.Load(listItemCollection);
                     spClientcontext.ExecuteQuery();
 
-                    if (listItemCollection.Count != 0)
+                    if (deleteChildren)
                     {
-                        foreach (var listitem in listItemCollection)
+                        if (listItemCollection.Count != 0)
                         {
-                            listitem.DeleteObject();
+                            foreach (var listitem in listItemCollection)
+                            {
+                                listitem.DeleteObject();
+                            }
+                            spClientcontext.ExecuteQuery();
                         }
+                    }
+                    else
+                    {
+                        Folder folderToDelete = spClientcontext.Site.RootWeb.GetFolderByServerRelativeUrl(folderNameToDelete);
+                        spClientcontext.Load(folderToDelete.Files);
+                        spClientcontext.Load(folderToDelete.Folders);
                         spClientcontext.ExecuteQuery();
+                        if (folderToDelete.Files.Count != 0 || folderToDelete.Folders.Count != 0)
+                        {
+                            string errorInformation = string.Format("Folder has children");
+                            throw new Exception(string.Format("Error in deleting form [{0}].Exeption[{1}]", folderNameToDelete, errorInformation));
+                        }
+                        if (listItemCollection.Count != 0)
+                        {
+                            foreach (var listitem in listItemCollection)
+                            {
+                                listitem.DeleteObject();
+                            }
+                            spClientcontext.ExecuteQuery();
+                        }
                     }
                 }
             }
@@ -703,7 +739,7 @@ namespace PPWCode.Util.SharePoint.I
             {
                 s_Logger.ErrorFormat(
                     "Error deleting folder [{0}]. Exception({1}).",
-                    baseRelativeUrl,
+                    folderNameToDelete,
                     ex);
                 throw;   
             }

@@ -138,7 +138,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
             {
                 try
                 {
-                    sharePointClient.DeleteFolder("/PensioB/aaaa/ ", false);
+                    sharePointClient.DeleteFolder("/PensioB/aaaa/bbbb/cccc/dddd/eeee/ffff ", false);
                 }
                 catch(Exception e)
                 {
