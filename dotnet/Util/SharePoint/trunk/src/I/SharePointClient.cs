@@ -566,10 +566,11 @@ namespace PPWCode.Util.SharePoint.I
 
         #endregion
 
-        //parameter baseRelativeUrl is path where folder will be created in
-        //if baseRelativeUrl does not exist, exception will be thrown;
-        //parameter newFolderName is new path or new foldername
-        //if newFolderName does exist, exception will be thrown
+        //create folder
+        //if parameter createAll is true
+        //the whole path of newFolderName that does not exist, will be created 
+        //if parameter createAll is false
+        //only the last path in parameter newFolderName will be created if the the rest of the path already exist
         public void CreateFolder(string newFolderName, bool createAll)
         {
             try
@@ -676,6 +677,11 @@ namespace PPWCode.Util.SharePoint.I
             item.Update(); 
         }
 
+        //delete folder 
+        //if parameter deleteChildren is true
+        //all subfolders will be deleted
+        //if parameter deleteChildren is false
+        //folder will only by deleted if folder has no children
         public void DeleteFolder(string folderNameToDelete , bool deleteChildren)
         {
             try
