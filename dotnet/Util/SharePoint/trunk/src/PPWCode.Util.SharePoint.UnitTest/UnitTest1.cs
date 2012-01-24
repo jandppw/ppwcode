@@ -119,7 +119,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
            {
                try
                {
-                   sharePointClient.CreateFolder("Pensio/", true);
+                   sharePointClient.CreateFolder("PensioB/aaaa/bbbb/ /cccc/ ", true);
                   
                }
                catch(Exception ex)
@@ -138,7 +138,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
             {
                 try
                 {
-                    sharePointClient.DeleteFolder("/PensioB/aaaa/bbbb/cccc/dddd/eeee/ffff ", false);
+                    sharePointClient.DeleteFolder("/Pensio/bbbb", true);
                 }
                 catch(Exception e)
                 {
@@ -155,7 +155,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
             {
                 try
                 {
-                    int exists = sharePointClient.CountAllOccurencesOfFolderInPath("PensioB/bbbb/","aaaa");
+                    bool exists = sharePointClient.CheckExistenceOfFolderWithExactPath("PensioB");
                     Console.WriteLine(exists);
                 }
                 catch(Exception e)

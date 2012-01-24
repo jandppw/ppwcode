@@ -576,33 +576,33 @@ namespace PPWCode.Util.SharePoint.I
             {
                 using (ClientContext spClientContext = GetSharePointClientContext())
                 {
+                    string theNewFolderName = newFolderName;
                     if (!newFolderName.StartsWith("/"))
                     {
                         newFolderName = '/' + newFolderName;
                     }
                     string[] foldernames = newFolderName.Split('/');
 
-                    if (string.IsNullOrEmpty(foldernames[foldernames.Length-1]))
-                    {
+                   if (string.IsNullOrEmpty(foldernames[foldernames.Length - 1]))
+                   {
                         newFolderName = ExtractRelativeUrlFromBaseRelativeUrl(newFolderName);
                         foldernames = newFolderName.Split('/');
-                    }
+                   }
 
                     string listName = foldernames[1];
 
                     if (foldernames.Length < 3 || foldernames.Length == 3 && string.IsNullOrEmpty(foldernames[2]))
                     {
-                        string errorInformation = string.Format("Path ({0}) is not valid",newFolderName);
-                        throw new Exception(string.Format("Error in deleting form [{0}].Exeption[{1}]", newFolderName,errorInformation));
+                        string errorInformation = string.Format("Path [{0}] is not valid",newFolderName);
+                        throw new Exception(string.Format("Error in creating form [{0}].Exeption({1})", theNewFolderName,errorInformation));
                     }
                     if (CheckExistenceOfFolderWithExactPath(newFolderName))
                     {
-                        string errorInformation = string.Format("Path ({0}) already exist", newFolderName);
-                        throw new Exception(string.Format("Error in deleting form [{0}].Exeption[{1}]", newFolderName, errorInformation)); 
+                        string errorInformation = string.Format("Path [{0}] already exist", newFolderName);
+                        throw new Exception(string.Format("Error in creating form [{0}].Exeption({1})", theNewFolderName, errorInformation)); 
                     }
 
                     Web web = spClientContext.Web;
-                    //get document library
                     List list = web.Lists.GetByTitle(ExtractListName(newFolderName));
 
                     if (newFolderName != string.Empty)
@@ -612,11 +612,17 @@ namespace PPWCode.Util.SharePoint.I
                             string url = listName;
                             for (int teller = 2; teller < foldernames.Length; teller++)
                             {
-                                url += "/" + foldernames[teller];
+                                string folderName = foldernames[teller].Trim();
+                                if (folderName != foldernames[teller] && !string.IsNullOrEmpty(folderName))
+                                {
+                                    string errorInformation = string.Format("Path [{0}] is invalid", newFolderName);
+                                    throw new Exception(string.Format("Error in creating form [{0}].Exeption({1})", theNewFolderName, errorInformation));  
+                                }
+                                url += "/" + folderName;
                                 if (!CheckExistenceOfFolderWithExactPath(url))
                                 {
                                     string relativeUrl = ExtractRelativeUrlFromBaseRelativeUrl(url);
-                                    Create(list, foldernames, teller, relativeUrl);
+                                    Create(list, foldernames, teller, relativeUrl, newFolderName);
                                 }
                             }
                         }
@@ -625,18 +631,18 @@ namespace PPWCode.Util.SharePoint.I
                             string url = ExtractRelativeUrlFromBaseRelativeUrl(newFolderName);
                             if (foldernames.Length == 3)
                             {
-                                Create(list, foldernames, 2, url);
+                                Create(list, foldernames, 2, url, newFolderName);
                             }
                             else
                             {
                                 if (CheckExistenceOfFolderWithExactPath(url))
                                 {
-                                    Create(list, foldernames, foldernames.Length - 1, url);
+                                    Create(list, foldernames, foldernames.Length - 1, url, newFolderName);
                                 }
                                 else
                                 {
-                                    string errorInformation = string.Format("Path {0} does not exist", url);
-                                    throw new Exception(string.Format("Error in deleting form [{0}].Exeption[{1}]", newFolderName, errorInformation));
+                                    string errorInformation = string.Format("Path [{0}] does not exist", url);
+                                    throw new Exception(string.Format("Error in creating form [{0}].Exeption({1})", theNewFolderName, errorInformation));
                                 }
                             }
                         }
@@ -653,13 +659,19 @@ namespace PPWCode.Util.SharePoint.I
                 throw; 
             }
         }
-        private void Create(List list, string[] foldernames, int teller, string url)
+        private void Create(List list, string[] foldernames, int teller, string url, string newFolderName)
         {
             ListItemCreationInformation newItem = new ListItemCreationInformation();
 
             newItem.UnderlyingObjectType = FileSystemObjectType.Folder;
             newItem.FolderUrl = url;
-            newItem.LeafName = foldernames[teller];
+            string folderName = foldernames[teller].Trim();
+            if (folderName != foldernames[teller] && !string.IsNullOrEmpty(folderName))
+            {
+                string errorInformation = string.Format("Path [{0}] is invalid", newFolderName);
+                throw new Exception(string.Format("Error in creating form [{0}].Exeption({1})",newFolderName , errorInformation)); 
+            }
+            newItem.LeafName = folderName;
             ListItem item = list.AddItem(newItem);
             item["Title"] = foldernames[teller];
             item.Update(); 
@@ -678,15 +690,15 @@ namespace PPWCode.Util.SharePoint.I
                     }
 
                     string[] foldernames = folderNameToDelete.Split('/');
-
+                   
                     if (string.IsNullOrEmpty(foldernames[foldernames.Length - 1]))
                     {
                         folderNameToDelete = ExtractRelativeUrlFromBaseRelativeUrl(folderNameToDelete);
-                        foldernames = folderNameToDelete.Split('/');
+                       
                     }
                     if (!CheckExistenceOfFolderWithExactPath(folderNameToDelete))
                     {
-                        string errorInformation = string.Format("Path ({0}) does not exist", folderNameToDelete);
+                        string errorInformation = string.Format("Path ({0}) does not exist or can not be deleted", folderNameToDelete);
                         throw new Exception(string.Format("Error in deleting form [{0}].Exeption[{1}]", folderNameToDelete, errorInformation));
                     }
                     string relativeUrl = ExtractRelativeUrlFromBaseRelativeUrl(folderNameToDelete);
@@ -810,6 +822,14 @@ namespace PPWCode.Util.SharePoint.I
                     if (!baseRelativeUrl.StartsWith("/"))
                     {
                         baseRelativeUrl = '/' + baseRelativeUrl;
+                    }
+
+                    string[] foldernames = baseRelativeUrl.Split('/');
+
+                    if (string.IsNullOrEmpty(foldernames[foldernames.Length - 1]))
+                    {
+                        baseRelativeUrl = ExtractRelativeUrlFromBaseRelativeUrl(baseRelativeUrl);
+
                     }
                     string relativeUrl = ExtractRelativeUrlFromBaseRelativeUrl(baseRelativeUrl);
                     
