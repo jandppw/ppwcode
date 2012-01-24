@@ -614,7 +614,7 @@ namespace PPWCode.Util.SharePoint.I
                                 string folderName = foldernames[teller].Trim();
                                 if (folderName != foldernames[teller] || folderName == string.Empty)
                                 {
-                                    string errorInformation = string.Format("Path [{0}] is invalid", theNewFolderName);
+                                    string errorInformation = string.Format("Path [{0}] is not valid", theNewFolderName);
                                     throw new Exception(string.Format("Error in creating form [{0}].Exeption({1})", theNewFolderName, errorInformation));
                                 }
                                 url += "/" + foldernames[teller];
@@ -667,7 +667,7 @@ namespace PPWCode.Util.SharePoint.I
             string folderName = foldernames[teller].Trim();
             if (folderName != foldernames[teller] || folderName == string.Empty)
             {
-                string errorInformation = string.Format("Path [{0}] is invalid", newFolderName);
+                string errorInformation = string.Format("Path [{0}] is not valid", newFolderName);
                 throw new Exception(string.Format("Error in creating form [{0}].Exeption({1})", newFolderName, errorInformation));
             }
             newItem.LeafName = foldernames[teller];
