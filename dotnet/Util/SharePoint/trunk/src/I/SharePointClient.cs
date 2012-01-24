@@ -583,12 +583,20 @@ namespace PPWCode.Util.SharePoint.I
                     }
                     string[] foldernames = newFolderName.Split('/');
 
+                    for (int counter = 1; counter < foldernames.Length - 1; counter++)
+                    {
+                        string foldername = foldernames[counter].Trim();
+                        if (foldername == string.Empty)
+                        {
+                            string errorInformation = string.Format("Path [{0}] is not valid", newFolderName);
+                            throw new Exception(string.Format("Error in creating form [{0}].Exeption({1})", theNewFolderName, errorInformation));
+                        }
+                    }
                    if (string.IsNullOrEmpty(foldernames[foldernames.Length - 1]))
                    {
                         newFolderName = ExtractRelativeUrlFromBaseRelativeUrl(newFolderName);
                         foldernames = newFolderName.Split('/');
                    }
-
                     string listName = foldernames[1];
 
                     if (foldernames.Length < 3 || foldernames.Length == 3 && string.IsNullOrEmpty(foldernames[2]))
@@ -772,13 +780,13 @@ namespace PPWCode.Util.SharePoint.I
                     string[] foldernames = baseRelativeUrl.Split('/');
 
                     //get foldername
-                    string folderName = foldernames[foldernames.Length - 1];
+                    //string folderName = foldernames[foldernames.Length - 1];
 
                     //make relativeUrl
                     string relativeUrl = '/' + foldernames[1];
                     if (foldernames.Length > 2)
                     {
-                        for (int teller = 2; teller < foldernames.Length - 1; teller++)
+                        for (int teller = 2; teller <= foldernames.Length - 1; teller++)
                         {
                             relativeUrl += '/' + foldernames[teller];
                         }
@@ -788,7 +796,7 @@ namespace PPWCode.Util.SharePoint.I
                         Web web = spClientcontext.Web;
                         //get document library
                         List list = web.Lists.GetByTitle(ExtractListName(baseRelativeUrl));
-                        CamlQuery query = CreateCamlQueryFindAllOccurencesOfFolder(relativeUrl, folderName);
+                        CamlQuery query = CreateCamlQueryFindAllOccurencesOfFolder(relativeUrl, foldername);
 
                         ListItemCollection listItemCollection = list.GetItems(query);
                         spClientcontext.Load(list);
