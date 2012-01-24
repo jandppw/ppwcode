@@ -597,7 +597,7 @@ namespace PPWCode.Util.SharePoint.I
                     }
                     if (CheckExistenceOfFolderWithExactPath(newFolderName))
                     {
-                        string errorInformation = string.Format("Path [{0}] already exist", newFolderName);
+                        string errorInformation = string.Format("Path [{0}] already exist", theNewFolderName);
                         throw new Exception(string.Format("Error in creating form [{0}].Exeption({1})", theNewFolderName, errorInformation)); 
                     }
 
@@ -630,7 +630,7 @@ namespace PPWCode.Util.SharePoint.I
                             string url = ExtractRelativeUrlFromBaseRelativeUrl(newFolderName);
                             if (foldernames.Length == 3)
                             {
-                                Create(list, foldernames, 2, url, newFolderName);
+                                Create(list, foldernames, 2, url, theNewFolderName);
                             }
                             else
                             {
@@ -697,7 +697,7 @@ namespace PPWCode.Util.SharePoint.I
                     }
                     if (!CheckExistenceOfFolderWithExactPath(folderNameToDelete))
                     {
-                        string errorInformation = string.Format("Path ({0}) does not exist or can not be deleted", folderNameToDelete);
+                        string errorInformation = string.Format("Path ({0}) does not exist or can not be deleted", theFolderNameToDelete);
                         throw new Exception(string.Format("Error in deleting form [{0}].Exeption[{1}]", theFolderNameToDelete, errorInformation));
                     }
                     string relativeUrl = ExtractRelativeUrlFromBaseRelativeUrl(folderNameToDelete);
@@ -738,7 +738,7 @@ namespace PPWCode.Util.SharePoint.I
                         if (folderToDelete.Files.Count != 0 || folderToDelete.Folders.Count != 0)
                         {
                             string errorInformation = string.Format("Folder has children");
-                            throw new Exception(string.Format("Error in deleting form [{0}].Exeption[{1}]", folderNameToDelete, errorInformation));
+                            throw new Exception(string.Format("Error in deleting form [{0}].Exeption[{1}]", theFolderNameToDelete, errorInformation));
                         }
                         if (listItemCollection.Count != 0)
                         {
@@ -751,7 +751,7 @@ namespace PPWCode.Util.SharePoint.I
                         else
                         {
                             string errorInformation = string.Format("Folder to delete does not exist");
-                            throw new Exception(string.Format("Error in deleting form [{0}].Exeption[{1}]", folderNameToDelete, errorInformation));  
+                            throw new Exception(string.Format("Error in deleting form [{0}].Exeption[{1}]", theFolderNameToDelete, errorInformation));  
                         }
                     }
                 }
