@@ -94,12 +94,15 @@ namespace PPWCode.Kit.Tasks.API_I
             }
         }
 
-        public bool IsAllMatchingTasks()
+        public bool IsAllMatchingTasks
         {
-            Contract.Ensures(Contract.Result<bool>() == (Tasks.Count == NumberOfMatchingTasks));
+            get
+            {
+                Contract.Ensures(Contract.Result<bool>() == (Tasks.Count == NumberOfMatchingTasks));
 
-            int numberOfResults = m_Tasks.Count;
-            return numberOfResults == m_NumberOfMatchingTasks;
+                int numberOfResults = m_Tasks.Count;
+                return numberOfResults == m_NumberOfMatchingTasks;
+            }
         }
 
         #endregion
