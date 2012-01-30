@@ -51,7 +51,7 @@ create table dbo.Task (
   PersistenceVersion int not null,
 
   [State] tinyint not null,
-  TaskType varchar(128) collate SQL_Latin1_General_CP1_CS_AS not null,
+  TaskType varchar(128) collate Latin1_General_CS_AS not null,
   
   InProgressSince datetime null,
   InProgressBy nvarchar(64) null,
@@ -74,8 +74,8 @@ go
 print 'Creating table dbo.TaskAttributes';
 create table dbo.TaskAttributes (
   TaskID bigint not null,
-  AttributeName varchar(64) collate SQL_Latin1_General_CP1_CS_AS not null,
-  AttributeValue varchar(256) collate SQL_Latin1_General_CP1_CS_AS null,
+  AttributeName varchar(64) collate Latin1_General_CS_AS not null,
+  AttributeValue varchar(256) collate Latin1_General_CS_AS null,
 
   constraint PK_TaskAttributes primary key (TaskID, AttributeName),
   constraint FK_TaskAttributes_Task foreign key (TaskID) references dbo.Task (TaskId)
