@@ -24,11 +24,20 @@ print '';
 print 'Upgrading from v2 to v3 ...';
 print '';
 
+
+print 'Altering dbo.Task, make Reference CS and AS'
+drop index IX_Task_Reference on dbo.Task;
+alter table dbo.Task
+  alter column Reference varchar(512) collate Latin1_General_CS_AS;
+create index IX_Task_Reference on dbo.Task(Reference);
+go
+
+
 print 'Creating table dbo.TaskAttributes';
 create table dbo.TaskAttributes (
   TaskID bigint not null,
-  AttributeName varchar(64) not null,
-  AttributeValue varchar(256) null,
+  AttributeName varchar(64) collate Latin1_General_CS_AS not null,
+  AttributeValue varchar(256) collate Latin1_General_CS_AS null,
 
   constraint PK_TaskAttributes primary key (TaskID, AttributeName),
   constraint FK_TaskAttributes_Task foreign key (TaskID) references dbo.Task (TaskId)
@@ -225,10 +234,17 @@ begin
 		<> t.Reference
 		
 	rollback tran
-	raiserror ('ERROR: dbo.TaskAttributes is not consistent with dbo.Task.Reference !!!', 16, 1)
+	raiserror ('ERROR: dbo.TaskAttributes is not consistent with dbo.Task.Reference !!!', 16, 1);
+	goto eob
 end
 
 commit tran
 
+print 'Altering dbo.Task, drop unneeded column Reference'
+drop index IX_Task_Reference on dbo.Task;
+alter table dbo.Task
+  drop column Reference;
+
+eob:
 go
 	
