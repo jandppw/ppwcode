@@ -16,6 +16,8 @@
 
 #region Using
 
+using System.Collections.Generic;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PPWCode.Vernacular.Exceptions.I;
@@ -24,70 +26,30 @@ using PPWCode.Vernacular.Exceptions.I;
 
 namespace PPWCode.Kit.Tasks.API_I.RemoteTest
 {
+    // ReSharper disable InconsistentNaming
     [TestClass]
-    public class TaskTests
+    public class TaskTests : BaseTaskTests
     {
-        #region Test Setup
-
-        private ClientTasksDao Svc { get; set; }
-
-        [TestInitialize]
-        public void RetirementPlanTestInitialize()
-        {
-            Svc = RemoteTestHelper.CreateTaskService();
-        }
-
-        [TestCleanup]
-        public void MyTestCleanup()
-        {
-            Svc.Dispose();
-        }
-
-        #endregion
-
         [TestMethod]
         public void CreateTask()
         {
-            Task task = new Task
-            {
-                State = TaskStateEnum.CREATED,
-                TaskType = "taskType",
-                Reference = "123",
-            };
-            task = Svc.Create(task);
-            Assert.IsNotNull(task);
+            SaveTask(CreateTasksWithOneAttribute());
+            SaveTask(CreateTasksWithTwoAttributes());
+            SaveTask(CreateTasksWithThreeAttributes());
         }
 
         [TestMethod]
         [ExpectedException(typeof(ProgrammingError))]
         public void CreateTaskAndDelete()
         {
-            Task task = new Task
-            {
-                State = TaskStateEnum.CREATED,
-                TaskType = "taskType",
-                Reference = "123",
-            };
-            task = Svc.Create(task);
-            Assert.IsNotNull(task);
+            Task task = SaveTask(CreateTasksWithOneAttribute());
             Svc.Delete(task);
         }
 
         [TestMethod]
-        public void CreateAndUpdateTask1()
+        public void CreateAndUpdateStates()
         {
-            Task task = new Task
-            {
-                State = TaskStateEnum.CREATED,
-                TaskType = "taskType",
-                Reference = "123",
-            };
-            task = Svc.Create(task);
-            Assert.IsNotNull(task);
-            Assert.AreEqual(task.State, TaskStateEnum.CREATED);
-            Assert.AreEqual(task.TaskType, "taskType/");
-            Assert.AreEqual(task.Reference, "123/");
-            //
+            Task task = SaveTask(CreateTasksWithOneAttribute());
             {
                 task.State = TaskStateEnum.IN_PROGRESS;
                 task = Svc.Update(task);
@@ -104,20 +66,9 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
 
         [TestMethod]
         [ExpectedException(typeof(ProgrammingError))]
-        public void CreateAndUpdateTask2()
+        public void CreateAndUpdateStateThenTaskType()
         {
-            Task task = new Task
-            {
-                State = TaskStateEnum.CREATED,
-                TaskType = "taskType",
-                Reference = "123",
-            };
-            task = Svc.Create(task);
-            Assert.IsNotNull(task);
-            Assert.AreEqual(task.State, TaskStateEnum.CREATED);
-            Assert.AreEqual(task.TaskType, "taskType/");
-            Assert.AreEqual(task.Reference, "123/");
-            //
+            Task task = SaveTask(CreateTasksWithOneAttribute());
             {
                 task.State = TaskStateEnum.IN_PROGRESS;
                 task = Svc.Update(task);
@@ -125,56 +76,117 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
                 Assert.AreEqual(task.State, TaskStateEnum.IN_PROGRESS);
             }
             {
-                task.TaskType = "taskType2";
+                task.TaskType = "taskType2/";
                 Svc.Update(task);
             }
         }
 
-#pragma warning disable 612,618
         [TestMethod]
-        public void CreateAndUpdateAndSelectTask()
+        public void SelectTask_UnknownTaskType_CreatedState_NoAttributes()
         {
-            Task task = new Task
-            {
-                State = TaskStateEnum.CREATED,
-                TaskType = "taskType",
-                Reference = "123",
-            };
-            task = Svc.Create(task);
-            Assert.IsNotNull(task);
-            task.State = TaskStateEnum.IN_PROGRESS;
-            task = Svc.Update(task);
-            Assert.IsNotNull(task);
-            Assert.AreEqual(task.State, TaskStateEnum.IN_PROGRESS);
-            {
-                FindTasksResult result = Svc.FindTasks(null, "1", null);
-                Assert.IsNotNull(result);
-                Assert.IsNotNull(result.Tasks);
-                Assert.AreEqual(result.Tasks.Count, 1);
-                Assert.AreEqual(result.NumberOfMatchingTasks, 1);
-            }
-            {
-                FindTasksResult result = Svc.FindTasks("taskTyPe", "1", null);
-                Assert.IsNotNull(result);
-                Assert.IsNotNull(result.Tasks);
-                Assert.AreEqual(result.Tasks.Count, 1);
-                Assert.AreEqual(result.NumberOfMatchingTasks, 1);
-            }
-            {
-                FindTasksResult result = Svc.FindTasks("taskTyPe", "1", TaskStateEnum.CREATED | TaskStateEnum.IN_PROGRESS | TaskStateEnum.COMPLETED);
-                Assert.IsNotNull(result);
-                Assert.IsNotNull(result.Tasks);
-                Assert.AreEqual(result.Tasks.Count, 1);
-                Assert.AreEqual(result.NumberOfMatchingTasks, 1);
-            }
-            {
-                FindTasksResult result = Svc.FindTasks(null, "0", null);
-                Assert.IsNotNull(result);
-                Assert.IsNotNull(result.Tasks);
-                Assert.AreEqual(result.Tasks.Count, 0);
-                Assert.AreEqual(result.NumberOfMatchingTasks, 0);
-            }
+            CreateSomeTasksForSearching();
+            FindTasksResult findTasksResult = Svc.FindTasks(@"Unknown", null, TaskStateEnum.CREATED);
+            Assert.IsNotNull(findTasksResult);
+            Assert.AreEqual(0, findTasksResult.NumberOfMatchingTasks);
+            Assert.AreEqual(findTasksResult.NumberOfMatchingTasks, findTasksResult.Tasks.Count);
         }
-#pragma warning restore 612,618
+
+        [TestMethod]
+        public void SelectTask_TaskType_CreatedState_NoAttributes()
+        {
+            ClearContentOfTables();
+            Svc.FlushAllCaches();
+            CreateSomeTasksForSearching();
+            FindTasksResult findTasksResult = Svc.FindTasks(@"/PensioB/Sempera/Affiliation/ManualCapitalAcquiredVerificationNeeded", null, TaskStateEnum.CREATED);
+            Assert.IsNotNull(findTasksResult);
+            Assert.AreEqual(3, findTasksResult.NumberOfMatchingTasks);
+            Assert.AreEqual(findTasksResult.NumberOfMatchingTasks, findTasksResult.Tasks.Count);
+        }
+
+        [TestMethod]
+        public void SelectTask_TaskType_CreatedAndInProgressState_NoAttributes()
+        {
+            ClearContentOfTables();
+            Svc.FlushAllCaches();
+            CreateSomeTasksForSearching();
+            FindTasksResult findTasksResult = Svc.FindTasks(@"/PensioB/Sempera/Affiliation/ManualCapitalAcquiredVerificationNeeded", null, TaskStateEnum.CREATED | TaskStateEnum.IN_PROGRESS);
+            Assert.IsNotNull(findTasksResult);
+            Assert.AreEqual(3, findTasksResult.NumberOfMatchingTasks);
+            Assert.AreEqual(findTasksResult.NumberOfMatchingTasks, findTasksResult.Tasks.Count);
+        }
+
+        [TestMethod]
+        public void SelectTask_TaskType_CreatedState_TwoCorrectAttributes()
+        {
+            ClearContentOfTables();
+            Svc.FlushAllCaches();
+            CreateSomeTasksForSearching();
+            IDictionary<string, string> searchAttributes = new Dictionary<string, string>
+            {
+                { "TypeName", "/PensioB/Sempera/Affiliation" },
+                { "RetirementPlanName", "construo" },
+            };
+            FindTasksResult findTasksResult = Svc.FindTasks(@"/PensioB/Sempera/Affiliation/ManualCapitalAcquiredVerificationNeeded", searchAttributes, TaskStateEnum.CREATED);
+            Assert.IsNotNull(findTasksResult);
+            Assert.AreEqual(3, findTasksResult.NumberOfMatchingTasks);
+            Assert.AreEqual(findTasksResult.NumberOfMatchingTasks, findTasksResult.Tasks.Count);
+        }
+
+        [TestMethod]
+        public void SelectTask_TaskType_CreatedState_ThreeCorrectAttributes()
+        {
+            ClearContentOfTables();
+            Svc.FlushAllCaches();
+            CreateSomeTasksForSearching();
+            IDictionary<string, string> searchAttributes = new Dictionary<string, string>
+            {
+                { "TypeName", "/PensioB/Sempera/Affiliation" },
+                { "RetirementPlanName", "construo" },
+                { "AffiliateSynergyID", "6788" },
+            };
+            FindTasksResult findTasksResult = Svc.FindTasks(@"/PensioB/Sempera/Affiliation/ManualCapitalAcquiredVerificationNeeded", searchAttributes, TaskStateEnum.CREATED);
+            Assert.IsNotNull(findTasksResult);
+            Assert.AreEqual(1, findTasksResult.NumberOfMatchingTasks);
+            Assert.AreEqual(findTasksResult.NumberOfMatchingTasks, findTasksResult.Tasks.Count);
+        }
+
+        [TestMethod]
+        public void SelectTask_TaskType_CreatedState_FourCorrectAttributes()
+        {
+            ClearContentOfTables();
+            Svc.FlushAllCaches();
+            CreateSomeTasksForSearching();
+            IDictionary<string, string> searchAttributes = new Dictionary<string, string>
+            {
+                { "TypeName", "/PensioB/Sempera/Affiliation" },
+                { "RetirementPlanName", "construo" },
+                { "AffiliateSynergyID", "6788" },
+                { "AffiliationID", "285" },
+            };
+            FindTasksResult findTasksResult = Svc.FindTasks(@"/PensioB/Sempera/Affiliation/ManualCapitalAcquiredVerificationNeeded", searchAttributes, TaskStateEnum.CREATED);
+            Assert.IsNotNull(findTasksResult);
+            Assert.AreEqual(1, findTasksResult.NumberOfMatchingTasks);
+            Assert.AreEqual(findTasksResult.NumberOfMatchingTasks, findTasksResult.Tasks.Count);
+        }
+
+        [TestMethod]
+        public void SelectTask_TaskType_NoState_ThreeCorrectAttributes()
+        {
+            ClearContentOfTables();
+            Svc.FlushAllCaches();
+            CreateSomeTasksForSearching();
+            IDictionary<string, string> searchAttributes = new Dictionary<string, string>
+            {
+                { "TypeName", "/PensioB/Sempera/Affiliation" },
+                { "RetirementPlanName", "construo" },
+                { "AffiliationID", "285" },
+            };
+            FindTasksResult findTasksResult = Svc.FindTasks(@"/PensioB/Sempera/Affiliation/ManualCapitalAcquiredVerificationNeeded", searchAttributes, null);
+            Assert.IsNotNull(findTasksResult);
+            Assert.AreEqual(1, findTasksResult.NumberOfMatchingTasks);
+            Assert.AreEqual(findTasksResult.NumberOfMatchingTasks, findTasksResult.Tasks.Count);
+        }
     }
+
+    // ReSharper restore InconsistentNaming
 }
