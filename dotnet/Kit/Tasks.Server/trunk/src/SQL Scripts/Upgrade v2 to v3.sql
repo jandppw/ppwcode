@@ -24,14 +24,20 @@ print '';
 print 'Upgrading from v2 to v3 ...';
 print '';
 
-
-print 'Altering dbo.Task, make Reference CS and AS'
-drop index IX_Task_Reference on dbo.Task;
-alter table dbo.Task
-  alter column Reference varchar(512) collate Latin1_General_CS_AS;
-create index IX_Task_Reference on dbo.Task(Reference);
+print 'Altering dbo.Task, make Reference and TaskType CS and AS'
+if exists(select * from sys.sysindexes s where s.name = 'IX_Task_Reference')
+begin
+  drop index IX_Task_Reference on dbo.Task;
+  alter table dbo.Task
+    alter column Reference varchar(512) collate Latin1_General_CS_AS;
+  create index IX_Task_Reference on dbo.Task(Reference);
+end  
 go
-
+drop index IX_Task_TaskType on dbo.Task;
+alter table dbo.Task
+  alter column TaskType varchar(128) collate Latin1_General_CS_AS not null;
+create index IX_Task_TaskType on dbo.Task(TaskType);
+go
 
 print 'Creating table dbo.TaskAttributes';
 create table dbo.TaskAttributes (
