@@ -6,7 +6,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		SolutionItems\App.config.Description.txt = SolutionItems\App.config.Description.txt
 		SolutionItems\configuration.user.xml = SolutionItems\configuration.user.xml
 		SolutionItems\configuration.xml = SolutionItems\configuration.xml
-		PensioB.Tasks.RemoteTest\PPWCode.Kit.Tasks.API_I.RemoteTest.testrunconfig = PensioB.Tasks.RemoteTest\PPWCode.Kit.Tasks.API_I.RemoteTest.testrunconfig
 		..\PPWCode.Kit.Tasks.Server.tests.wrapdesc = ..\PPWCode.Kit.Tasks.Server.tests.wrapdesc
 		..\PPWCode.Kit.Tasks.Server.wrapdesc = ..\PPWCode.Kit.Tasks.Server.wrapdesc
 		SolutionItems\Security.txt = SolutionItems\Security.txt
@@ -78,8 +77,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityAddIns) = postSolution
-		OpenWrap.VisualStudioIntegration2008 = 1;Ensures OpenWrap initialization when a solution is opened.;OpenWrap Visual Studio Solution Add-in
 	EndGlobalSection
 EndGlobal
