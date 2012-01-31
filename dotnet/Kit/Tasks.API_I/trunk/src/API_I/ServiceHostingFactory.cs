@@ -27,9 +27,6 @@ namespace PPWCode.Kit.Tasks.API_I
         private const string TasksEndpointConfigurationName = "PPWCode.Kit.Tasks.Server.API_I.TasksDao";
         private static readonly object s_TaskChannelStaticLock = new object();
         private static ChannelFactory<ITasksDao> s_TaskChannelFactory;
-        private const string TasksMergeEndpointConfigurationName = "PPWCode.Kit.Tasks.Server.API_I.ITasks";
-        private static readonly object s_TasksMergeChannelStaticLock = new object();
-        private static ChannelFactory<ITasks> s_TasksMergeChannelFactory;
 
         public static ITasksDao CreateTasksInstance()
         {
@@ -40,19 +37,6 @@ namespace PPWCode.Kit.Tasks.API_I
                     s_TaskChannelFactory = new ChannelFactory<ITasksDao>(TasksEndpointConfigurationName);
                 }
                 return s_TaskChannelFactory.CreateChannel();
-            }
-        }
-
-        public static ITasks CreateTasks()
-        {
-            lock (s_TasksMergeChannelStaticLock)
-            {
-                if (s_TasksMergeChannelFactory == null)
-                {
-                    s_TasksMergeChannelFactory = 
-                        new ChannelFactory<ITasks>(TasksMergeEndpointConfigurationName);
-                }
-                return s_TasksMergeChannelFactory.CreateChannel();
             }
         }
     }
