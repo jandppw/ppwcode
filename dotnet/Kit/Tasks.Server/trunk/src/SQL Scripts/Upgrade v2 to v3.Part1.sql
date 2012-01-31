@@ -21,7 +21,7 @@ GO
 
 print '';
 print '';
-print 'Upgrading from v2 to v3 ...';
+print 'Upgrading from v2 to v3 Part 1...';
 print '';
 
 print 'Altering dbo.Task, make Reference and TaskType CS and AS'
@@ -241,16 +241,8 @@ begin
 		
 	rollback tran
 	raiserror ('ERROR: dbo.TaskAttributes is not consistent with dbo.Task.Reference !!!', 16, 1);
-	goto eob
 end
 
 commit tran
-
-print 'Altering dbo.Task, drop unneeded column Reference'
-drop index IX_Task_Reference on dbo.Task;
-alter table dbo.Task
-  drop column Reference;
-
-eob:
 go
 	
