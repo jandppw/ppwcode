@@ -108,6 +108,11 @@ namespace PPWCode.Kit.Tasks.API_I
         /// <inheritdoc cref="ITasksDao.FindTasks"/>
         public FindTasksResult FindTasks(string taskType, IDictionary<string, string> searchAttributes, TaskStateEnum? taskState)
         {
+            return FindTasks(new[] {taskType}, searchAttributes, taskState);
+        }
+
+        public FindTasksResult FindTasks(IEnumerable<string> taskTypes, IDictionary<string, string> searchAttributes, TaskStateEnum? taskState)
+        {
             Contract.Ensures(Contract.Result<FindTasksResult>() != null);
 
             CheckObjectAlreadyDisposed();
@@ -115,10 +120,23 @@ namespace PPWCode.Kit.Tasks.API_I
             {
                 using (WindowsIdentity.Impersonate())
                 {
-                    return TasksDao.FindTasks(taskType, searchAttributes, taskState);
+                    return TasksDao.FindTasks(taskTypes, searchAttributes, taskState);
                 }
             }
-            return TasksDao.FindTasks(taskType, searchAttributes, taskState);
+            return TasksDao.FindTasks(taskTypes, searchAttributes, taskState);
+        }
+
+        public void UpdateTaskAttributes(IEnumerable<string> taskTypes, IDictionary<string, string> searchAttributes, IDictionary<string, string> replaceAttributes)
+        {
+            CheckObjectAlreadyDisposed();
+            if (WindowsIdentity != null)
+            {
+                using (WindowsIdentity.Impersonate())
+                {
+                    TasksDao.UpdateTaskAttributes(taskTypes, searchAttributes, replaceAttributes);
+                }
+            }
+            TasksDao.UpdateTaskAttributes(taskTypes, searchAttributes, replaceAttributes);
         }
 
         #endregion

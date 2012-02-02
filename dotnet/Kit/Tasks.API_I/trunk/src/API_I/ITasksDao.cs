@@ -25,6 +25,8 @@ using PPWCode.Vernacular.Persistence.I;
 using PPWCode.Vernacular.Persistence.I.Dao.Wcf;
 using PPWCode.Vernacular.Persistence.I.Dao.Wcf.Helpers.Errors;
 
+using System.Linq;
+
 #endregion
 
 namespace PPWCode.Kit.Tasks.API_I
@@ -45,14 +47,23 @@ namespace PPWCode.Kit.Tasks.API_I
     {
         /// <summary>
         /// Return a <see cref="Task">collection of <c>Tasks</c></see>,
-        /// with the exact given <paramref name="tasktype"/>,
+        /// of any of the given <paramref name="taskTypes"/> (or any task if left empty),
         /// whose <see cref="Task.Reference"/> starts with <paramref name="reference"/>,
         /// and whose <see cref="Task.State"/> is one of the states included
         /// in <paramref name="taskState"/>.
         /// </summary>
         [OperationContract]
         [TransactionFlow(TransactionFlowOption.Allowed)]
-        FindTasksResult FindTasks(string tasktype, IDictionary<string, string> searchAttributes, TaskStateEnum? taskState);
+        FindTasksResult FindTasks(IEnumerable<string> taskTypes, IDictionary<string, string> searchAttributes, TaskStateEnum? taskState);
+
+        /// <summary>
+        /// Searches for <c>Tasks</c> of any of the the given <paramref name="taskTypes"/>,
+        /// with all of the given attributes matching <paramref name="searchAttributes"/>,
+        /// and for all Tasks found, replaces all the given <paramref name="replaceAttributes">.
+        /// </summary>
+        [OperationContract]
+        [TransactionFlow(TransactionFlowOption.Allowed)]
+        void UpdateTaskAttributes(IEnumerable<string> taskTypes, IDictionary<string, string> searchAttributes, IDictionary<string, string> replaceAttributes);
     }
 
     // ReSharper disable InconsistentNaming
@@ -63,12 +74,21 @@ namespace PPWCode.Kit.Tasks.API_I
     {
         #region Implementation of ITasksDao
 
-        public FindTasksResult FindTasks(string tasktype, IDictionary<string, string> searchAttributes, TaskStateEnum? taskState)
+        public FindTasksResult FindTasks(IEnumerable<string> taskTypes, IDictionary<string, string> searchAttributes, TaskStateEnum? taskState)
         {
             Contract.Requires(Transaction.Current != null);
+            Contract.Requires(taskTypes != null);
             Contract.Ensures(Contract.Result<FindTasksResult>() != null);
 
             return default(FindTasksResult);
+        }
+
+        public void UpdateTaskAttributes(IEnumerable<string> taskTypes, IDictionary<string, string> searchAttributes, IDictionary<string, string> replaceAttributes)
+        {
+            Contract.Requires(Transaction.Current != null);
+            Contract.Requires(taskTypes != null);
+            Contract.Requires(replaceAttributes != null);
+            Contract.Requires(replaceAttributes.Any());
         }
 
         #endregion
