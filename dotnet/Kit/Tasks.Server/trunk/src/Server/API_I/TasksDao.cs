@@ -25,6 +25,8 @@ using System.ServiceModel;
 using System.Text;
 using System.Transactions;
 
+using log4net;
+
 using NHibernate;
 
 using PPWCode.Kit.Tasks.API_I;
@@ -32,8 +34,7 @@ using PPWCode.Vernacular.Persistence.I;
 using PPWCode.Vernacular.Persistence.I.Dao;
 using PPWCode.Vernacular.Persistence.I.Dao.NHibernate;
 using PPWCode.Vernacular.Persistence.I.Dao.Wcf.Helpers.Errors;
-
-using log4net;
+using PPWCode.Vernacular.Exceptions.I;
 
 #endregion
 
@@ -72,7 +73,7 @@ namespace PPWCode.Kit.Tasks.Server.API_I
         #region ITasksDao members
 
         [OperationBehavior(TransactionScopeRequired = true, TransactionAutoComplete = true)]
-        public FindTasksResult FindTasks(string tasktype, IDictionary<string, string> searchAttributes, TaskStateEnum? taskState)
+        public FindTasksResult FindTasks(IEnumerable<string> taskTypes, IDictionary<string, string> searchAttributes, TaskStateEnum? taskState)
         {
             const int MaximumResults = 50;
             const string MethodName = "FindTasks";
@@ -88,7 +89,7 @@ namespace PPWCode.Kit.Tasks.Server.API_I
                     string.Format(
                         "{0}({1},{2},{3})",
                         MethodName,
-                        tasktype ?? string.Empty,
+                        taskTypes,
                         searchAttributes,
                         taskState.HasValue
                             ? taskState.ToString()
@@ -101,7 +102,7 @@ namespace PPWCode.Kit.Tasks.Server.API_I
             }
             try
             {
-                IQuery query = BuildFindTasksQuery(tasktype, searchAttributes, taskState, MaximumResults);
+                IQuery query = BuildFindTasksQuery(taskTypes, searchAttributes, taskState, MaximumResults);
                 result = query.List<Task>();
                 if (result.Count < MaximumResults)
                 {
@@ -109,7 +110,7 @@ namespace PPWCode.Kit.Tasks.Server.API_I
                 }
                 else
                 {
-                    query = BuildCountTasksQuery(tasktype, searchAttributes, taskState);
+                    query = BuildCountTasksQuery(taskTypes, searchAttributes, taskState);
                     numberOfMatchingTasks = (int)query.UniqueResult<long>();
                 }
             }
@@ -119,7 +120,7 @@ namespace PPWCode.Kit.Tasks.Server.API_I
                 string message = string.Format(
                     "{0}({1},{2},{3})",
                     MethodName,
-                    tasktype ?? string.Empty,
+                    taskTypes,
                     searchAttributes,
                     taskState.HasValue ?
                                            taskState.ToString()
@@ -137,7 +138,7 @@ namespace PPWCode.Kit.Tasks.Server.API_I
                     string.Format(
                         "{0}({1},{2},{3}) result {4}",
                         MethodName,
-                        tasktype ?? string.Empty,
+                        taskTypes,
                         searchAttributes,
                         taskState.HasValue
                             ? taskState.ToString()
@@ -150,8 +151,91 @@ namespace PPWCode.Kit.Tasks.Server.API_I
             return new FindTasksResult(allowedResult, numberOfMatchingTasks);
         }
 
+        [OperationBehavior(TransactionScopeRequired = true, TransactionAutoComplete = true)]
+        public void UpdateTaskAttributes(IEnumerable<string> taskTypes, IDictionary<string, string> searchAttributes, IDictionary<string, string> replaceAttributes)
+        {
+            const string MethodName = "UpdateTaskAttributes";
+
+            CheckObjectAlreadyDisposed();
+
+            if (s_Logger.IsDebugEnabled)
+            {
+                s_Logger.Debug(
+                    string.Format(
+                        "{0}({1},{2},{3})",
+                        MethodName,
+                        taskTypes,
+                        searchAttributes,
+                        replaceAttributes
+                        )
+                    );
+            }
+
+            if (searchAttributes == null)
+            {
+                searchAttributes = new Dictionary<string, string>();
+            }
+            try
+            {
+                IQuery query = BuildFindTasksQuery(taskTypes, searchAttributes, null, int.MaxValue);
+                IList<Task> tasks = query.List<Task>();
+                foreach (Task task in tasks)
+                {
+                    //check that all keys exist, skip task if not so
+                    if (replaceAttributes.Keys.All(k => task.Attributes.ContainsKey(k)))
+                    {
+                        //replace the values
+                        foreach (string key in replaceAttributes.Keys)
+                        {
+                            task.RemoveAttribute(key);
+                            task.AddAttribute(key, replaceAttributes[key]);
+                        }
+                    }
+                    else
+                    {
+                        // log info
+                        s_Logger.InfoFormat(
+                            "Skipped task because at least one replacement attribute key could not be found Task=({0},{1},{2},{3})",
+                            task,
+                            taskTypes,
+                            searchAttributes,
+                            replaceAttributes);
+                    }
+                }
+            }
+            catch (HibernateException he)
+            {
+                // Any hibernate exception is an error
+                string message = string.Format(
+                    "{0}({1},{2},{3})",
+                    MethodName,
+                    taskTypes,
+                    searchAttributes,
+                    replaceAttributes
+                    );
+                s_Logger.Fatal(message, he);
+                StatelessCrudDao.TriageException(he, message);
+                // Line needed to keep resharper happy :) 
+                // triageException should give an exception back instead of throwing it already
+                throw new Exception();
+            }
+
+            if (s_Logger.IsDebugEnabled)
+            {
+                s_Logger.Debug(
+                    string.Format(
+                        "{0}({1},{2},{3}) ended succussfully",
+                        MethodName,
+                        taskTypes,
+                        searchAttributes,
+                        replaceAttributes
+                        )
+                    );
+            }
+        }
+
         private static TaskQuery BuildBaseTasksQuery(
-            string tasktype,
+            IEnumerable<string> taskTypes,
             IEnumerable<KeyValuePair<string, string>> searchAttributes,
             TaskStateEnum? taskState,
             string optionalOrderbyClause)
@@ -160,7 +244,7 @@ namespace PPWCode.Kit.Tasks.Server.API_I
             Contract.Ensures(Contract.Result<TaskQuery>() != null);
 
             // Start with base query
-            StringBuilder queryString = new StringBuilder(@"from Task t", 1024);
+            StringBuilder queryString = new StringBuilder(@"from Task t", 2048);
             List<string> wherePredicates = new List<string>();
             IDictionary<string, object> parameters = new Dictionary<string, object>();
 
@@ -177,15 +261,25 @@ namespace PPWCode.Kit.Tasks.Server.API_I
                 }
             }
 
-            // Handle taskType
-            if (!string.IsNullOrEmpty(tasktype))
+            // Handle taskTypes
             {
-                if (!tasktype.EndsWith("/"))
+                StringBuilder orTasks = new StringBuilder(512);
+                int i = 0;
+                foreach (string taskType in taskTypes)
                 {
-                    tasktype = string.Concat(tasktype, "/");
+                    if (!string.IsNullOrEmpty(taskType))
+                    {
+                        orTasks.Append(i == 0 ? "(" : " or ");
+                        orTasks.Append(@"t.TaskType = :TaskType" + i);
+                        parameters.Add(@"TaskType" + i, taskType.EndsWith("/") ? taskType : string.Concat(taskType, "/"));
+                        i++;
+                    }
                 }
-                wherePredicates.Add(@"t.TaskType = :TaskType");
-                parameters.Add(@"TaskType", tasktype);
+                if (i > 0)
+                {
+                    orTasks.Append(')');
+                    wherePredicates.Add(orTasks.ToString());
+                }
             }
 
             // Handle taskState
@@ -246,33 +340,36 @@ namespace PPWCode.Kit.Tasks.Server.API_I
         }
 
         private IQuery BuildFindTasksQuery(
-            string tasktype,
+            IEnumerable<string> taskTypes,
             IEnumerable<KeyValuePair<string, string>> searchAttributes,
             TaskStateEnum? taskState,
-            int maximumResults)
+            int? maximumResults)
         {
             Contract.Requires(searchAttributes != null);
             Contract.Ensures(Contract.Result<IQuery>() != null);
 
-            TaskQuery taskQuery = BuildBaseTasksQuery(tasktype, searchAttributes, taskState, @"t.CreatedAt asc");
+            TaskQuery taskQuery = BuildBaseTasksQuery(taskTypes, searchAttributes, taskState, @"t.CreatedAt asc");
             IQuery query = Session.CreateQuery(taskQuery.QueryString);
             foreach (KeyValuePair<string, object> parameter in taskQuery.Parameters)
             {
                 query.SetParameter(parameter.Key, parameter.Value);
             }
-            query.SetMaxResults(maximumResults);
+            if (maximumResults != null)
+            {
+                query.SetMaxResults(maximumResults.Value);
+            }
             return query;
         }
 
         private IQuery BuildCountTasksQuery(
-            string tasktype,
+            IEnumerable<string> taskTypes,
             IEnumerable<KeyValuePair<string, string>> searchAttributes,
             TaskStateEnum? taskState)
         {
             Contract.Requires(searchAttributes != null);
             Contract.Ensures(Contract.Result<IQuery>() != null);
 
-            TaskQuery taskQuery = BuildBaseTasksQuery(tasktype, searchAttributes, taskState, null);
+            TaskQuery taskQuery = BuildBaseTasksQuery(taskTypes, searchAttributes, taskState, null);
             IQuery query = Session.CreateQuery(@"select count(*) " + taskQuery.QueryString);
             foreach (KeyValuePair<string, object> parameter in taskQuery.Parameters)
             {
