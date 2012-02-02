@@ -45,6 +45,18 @@ namespace PPWCode.Kit.Tasks.Server.Mock.API_I
             return null;
         }
 
+        public FindTasksResult FindTasks(IEnumerable<string> taskTypes, IDictionary<string, string> searchAttributes, TaskStateEnum? taskState)
+        {
+            // NOP
+            return null;
+        }
+
+        public void UpdateTaskAttributes(IEnumerable<string> taskTypes, IDictionary<string, string> searchAttributes, IDictionary<string, string> replaceAttributes)
+        {
+            // NOP
+        }
+
+
         #endregion
 
         #region ICrudDao Members
