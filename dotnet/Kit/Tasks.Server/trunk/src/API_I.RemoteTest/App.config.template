@@ -99,7 +99,7 @@
 
         <!-- Setup the root category, add the appenders and set the default priority -->
         <root>
-            <level value="WARN" />
+            <level value="DEBUG" />
             <appender-ref ref="EventLogAppender" />
             ${Log4NetRollingFileAppender}
             ${Log4NetEmailAppender}
