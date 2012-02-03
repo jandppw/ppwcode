@@ -187,7 +187,6 @@ namespace PPWCode.Kit.Tasks.Server.API_I
                         //replace the values
                         foreach (string key in replaceAttributes.Keys)
                         {
-                            task.RemoveAttribute(key);
                             task.AddAttribute(key, replaceAttributes[key]);
                         }
                     }
