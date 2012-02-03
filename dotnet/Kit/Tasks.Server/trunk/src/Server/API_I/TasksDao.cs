@@ -25,8 +25,6 @@ using System.ServiceModel;
 using System.Text;
 using System.Transactions;
 
-using log4net;
-
 using NHibernate;
 
 using PPWCode.Kit.Tasks.API_I;
@@ -34,7 +32,8 @@ using PPWCode.Vernacular.Persistence.I;
 using PPWCode.Vernacular.Persistence.I.Dao;
 using PPWCode.Vernacular.Persistence.I.Dao.NHibernate;
 using PPWCode.Vernacular.Persistence.I.Dao.Wcf.Helpers.Errors;
-using PPWCode.Vernacular.Exceptions.I;
+
+using log4net;
 
 #endregion
 
@@ -80,26 +79,24 @@ namespace PPWCode.Kit.Tasks.Server.API_I
 
             CheckObjectAlreadyDisposed();
 
-            ICollection<Task> result;
             int numberOfMatchingTasks;
 
             if (s_Logger.IsDebugEnabled)
             {
-                s_Logger.Debug(
-                    string.Format(
-                        "{0}({1},{2},{3})",
-                        MethodName,
-                        taskTypes,
-                        searchAttributes,
-                        taskState.HasValue
-                            ? taskState.ToString()
-                            : string.Empty));
+                s_Logger.DebugFormat(
+                    "{0}({1},{2},{3})",
+                    MethodName,
+                    string.Join(@",", taskTypes.ToArray()),
+                    searchAttributes,
+                    taskState != null
+                        ? taskState.ToString()
+                        : string.Empty);
             }
 
-            if (searchAttributes == null)
-            {
-                searchAttributes = new Dictionary<string, string>();
-            }
+            // coalesce if nescessary
+            searchAttributes = searchAttributes ?? new Dictionary<string, string>();
+            taskTypes = taskTypes ?? Enumerable.Empty<string>();
+            IList<Task> result;
             try
             {
                 IQuery query = BuildFindTasksQuery(taskTypes, searchAttributes, taskState, MaximumResults);
@@ -120,10 +117,10 @@ namespace PPWCode.Kit.Tasks.Server.API_I
                 string message = string.Format(
                     "{0}({1},{2},{3})",
                     MethodName,
-                    taskTypes,
+                    string.Join(@",", taskTypes.ToArray()),
                     searchAttributes,
-                    taskState.HasValue ?
-                                           taskState.ToString()
+                    taskState != null
+                        ? taskState.ToString()
                         : string.Empty);
                 s_Logger.Fatal(message, he);
                 StatelessCrudDao.TriageException(he, message);
@@ -134,20 +131,19 @@ namespace PPWCode.Kit.Tasks.Server.API_I
 
             if (s_Logger.IsDebugEnabled)
             {
-                s_Logger.Debug(
-                    string.Format(
-                        "{0}({1},{2},{3}) result {4}",
-                        MethodName,
-                        taskTypes,
-                        searchAttributes,
-                        taskState.HasValue
-                            ? taskState.ToString()
-                            : string.Empty, result));
+                s_Logger.DebugFormat(
+                    "{0}({1},{2},{3}) result {4}",
+                    MethodName,
+                    string.Join(@",", taskTypes.ToArray()),
+                    searchAttributes,
+                    taskState.HasValue
+                        ? taskState.ToString()
+                        : string.Empty, result);
             }
 
             ICollection<Task> allowedResult = result
                 .Where(r => HasSufficientSecurity(r.GetType(), SecurityActionFlag.RETRIEVE))
-                .ToList();
+                .ToArray();
             return new FindTasksResult(allowedResult, numberOfMatchingTasks);
         }
 
@@ -164,20 +160,17 @@ namespace PPWCode.Kit.Tasks.Server.API_I
                     string.Format(
                         "{0}({1},{2},{3})",
                         MethodName,
-                        taskTypes,
+                        string.Join(@",", taskTypes.ToArray()),
                         searchAttributes,
-                        replaceAttributes
-                        )
-                    );
+                        replaceAttributes));
             }
 
-            if (searchAttributes == null)
-            {
-                searchAttributes = new Dictionary<string, string>();
-            }
+            // coalesce if nescessary
+            searchAttributes = searchAttributes ?? new Dictionary<string, string>();
+            taskTypes = taskTypes ?? Enumerable.Empty<string>();
             try
             {
-                IQuery query = BuildFindTasksQuery(taskTypes, searchAttributes, null, int.MaxValue);
+                IQuery query = BuildFindTasksQuery(taskTypes, searchAttributes, null, null);
                 IList<Task> tasks = query.List<Task>();
                 foreach (Task task in tasks)
                 {
@@ -196,7 +189,7 @@ namespace PPWCode.Kit.Tasks.Server.API_I
                         s_Logger.InfoFormat(
                             "Skipped task because at least one replacement attribute key could not be found Task=({0},{1},{2},{3})",
                             task,
-                            taskTypes,
+                            string.Join(@",", taskTypes.ToArray()),
                             searchAttributes,
                             replaceAttributes);
                     }
@@ -208,10 +201,9 @@ namespace PPWCode.Kit.Tasks.Server.API_I
                 string message = string.Format(
                     "{0}({1},{2},{3})",
                     MethodName,
-                    taskTypes,
+                    string.Join(@",", taskTypes.ToArray()),
                     searchAttributes,
-                    replaceAttributes
-                    );
+                    replaceAttributes);
                 s_Logger.Fatal(message, he);
                 StatelessCrudDao.TriageException(he, message);
                 // Line needed to keep resharper happy :) 
@@ -225,11 +217,9 @@ namespace PPWCode.Kit.Tasks.Server.API_I
                     string.Format(
                         "{0}({1},{2},{3}) ended succussfully",
                         MethodName,
-                        taskTypes,
+                        string.Join(@",", taskTypes.ToArray()),
                         searchAttributes,
-                        replaceAttributes
-                        )
-                    );
+                        replaceAttributes));
             }
         }
 
@@ -264,15 +254,12 @@ namespace PPWCode.Kit.Tasks.Server.API_I
             {
                 StringBuilder orTasks = new StringBuilder(512);
                 int i = 0;
-                foreach (string taskType in taskTypes)
+                foreach (string taskType in taskTypes.Where(taskType => !string.IsNullOrEmpty(taskType)))
                 {
-                    if (!string.IsNullOrEmpty(taskType))
-                    {
-                        orTasks.Append(i == 0 ? "(" : " or ");
-                        orTasks.Append(@"t.TaskType = :TaskType" + i);
-                        parameters.Add(@"TaskType" + i, taskType.EndsWith("/") ? taskType : string.Concat(taskType, "/"));
-                        i++;
-                    }
+                    orTasks.Append(i == 0 ? "(" : " or ");
+                    orTasks.Append(@"t.TaskType = :TaskType" + i);
+                    parameters.Add(@"TaskType" + i, taskType.EndsWith("/") ? taskType : string.Concat(taskType, "/"));
+                    i++;
                 }
                 if (i > 0)
                 {
@@ -387,20 +374,17 @@ namespace PPWCode.Kit.Tasks.Server.API_I
         /// <param name="po"></param>
         private static void CheckTask(Task task)
         {
-            if (task != null)
+            // Make sure that a tasktype always end with a /
+            if (task != null && !task.TaskType.EndsWith("/"))
             {
-                // Make sure that a tasktype always end with a /
-                if (!task.TaskType.EndsWith("/"))
-                {
-                    task.TaskType += "/";
-                }
+                task.TaskType += "/";
             }
         }
 
         private IPersistentObject CreateTask(IPersistentObject po)
         {
             Contract.Requires(po != null);
-            Contract.Requires(typeof(Task).IsAssignableFrom(po.GetType()));
+            Contract.Requires(po is Task);
             Contract.Ensures(Contract.Result<IPersistentObject>() != null);
 
             CheckObjectAlreadyDisposed();
@@ -416,7 +400,7 @@ namespace PPWCode.Kit.Tasks.Server.API_I
         private IPersistentObject UpdateTask(IPersistentObject po)
         {
             Contract.Requires(po != null);
-            Contract.Requires(typeof(Task).IsAssignableFrom(po.GetType()));
+            Contract.Requires(po is Task);
             Contract.Ensures(Contract.Result<IPersistentObject>() != null);
 
             CheckObjectAlreadyDisposed();

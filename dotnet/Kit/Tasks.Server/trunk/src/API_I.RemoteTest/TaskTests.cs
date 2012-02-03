@@ -16,7 +16,6 @@
 
 #region Using
 
-using System;
 using System.Collections.Generic;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -37,10 +36,9 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             {
                 { key, value }
             };
-            FindTasksResult findTasksResult = Svc.FindTasks(@"", searchAttributes, null);
+            FindTasksResult findTasksResult = Svc.FindTasks(string.Empty, searchAttributes, null);
             Assert.IsNotNull(findTasksResult);
             Assert.AreEqual(expectedCount, findTasksResult.NumberOfMatchingTasks);
-            
         }
 
         [TestMethod]
@@ -107,8 +105,6 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
         [TestMethod]
         public void SelectTask_TaskType_CreatedState_NoAttributes()
         {
-            ClearContentOfTables();
-            Svc.FlushAllCaches();
             CreateSomeTasksForSearching();
             FindTasksResult findTasksResult = Svc.FindTasks(@"/PensioB/Sempera/Affiliation/ManualCapitalAcquiredVerificationNeeded", null, TaskStateEnum.CREATED);
             Assert.IsNotNull(findTasksResult);
@@ -119,8 +115,6 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
         [TestMethod]
         public void SelectTask_TaskType_CreatedAndInProgressState_NoAttributes()
         {
-            ClearContentOfTables();
-            Svc.FlushAllCaches();
             CreateSomeTasksForSearching();
             FindTasksResult findTasksResult = Svc.FindTasks(@"/PensioB/Sempera/Affiliation/ManualCapitalAcquiredVerificationNeeded", null, TaskStateEnum.CREATED | TaskStateEnum.IN_PROGRESS);
             Assert.IsNotNull(findTasksResult);
@@ -131,8 +125,6 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
         [TestMethod]
         public void SelectTask_TaskType_CreatedState_TwoCorrectAttributes()
         {
-            ClearContentOfTables();
-            Svc.FlushAllCaches();
             CreateSomeTasksForSearching();
             IDictionary<string, string> searchAttributes = new Dictionary<string, string>
             {
@@ -148,8 +140,6 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
         [TestMethod]
         public void SelectTask_TaskType_CreatedState_ThreeCorrectAttributes()
         {
-            ClearContentOfTables();
-            Svc.FlushAllCaches();
             CreateSomeTasksForSearching();
             IDictionary<string, string> searchAttributes = new Dictionary<string, string>
             {
@@ -166,8 +156,6 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
         [TestMethod]
         public void SelectTask_TaskType_CreatedState_FourCorrectAttributes()
         {
-            ClearContentOfTables();
-            Svc.FlushAllCaches();
             CreateSomeTasksForSearching();
             IDictionary<string, string> searchAttributes = new Dictionary<string, string>
             {
@@ -185,8 +173,6 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
         [TestMethod]
         public void SelectTask_TaskType_NoState_ThreeCorrectAttributes()
         {
-            ClearContentOfTables();
-            Svc.FlushAllCaches();
             CreateSomeTasksForSearching();
             IDictionary<string, string> searchAttributes = new Dictionary<string, string>
             {
@@ -204,8 +190,6 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
         [ExpectedException(typeof(ProgrammingError))]
         public void UpdateTaskAttributes_ThreeCorrectAttributes_ZeroReplaceAttributes()
         {
-            ClearContentOfTables();
-            Svc.FlushAllCaches();
             CreateSomeTasksForSearching();
             IDictionary<string, string> searchAttributes = new Dictionary<string, string>
             {
@@ -220,8 +204,6 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
         [TestMethod]
         public void UpdateTaskAttributes_ThreeCorrectAttributes_OneMatchingReplaceAttribute()
         {
-            ClearContentOfTables();
-            Svc.FlushAllCaches();
             CreateSomeTasksForSearching();
             IDictionary<string, string> searchAttributes = new Dictionary<string, string>
             {
@@ -246,23 +228,17 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             Assert.AreEqual(0, oldFindTasksResult.NumberOfMatchingTasks);
             Assert.IsNotNull(newFindTasksResult);
             Assert.AreEqual(1, newFindTasksResult.NumberOfMatchingTasks);
-            using(IEnumerator<Task> enu = newFindTasksResult.Tasks.GetEnumerator())
+            foreach (Task task in newFindTasksResult.Tasks)
             {
-                enu.Reset();
-                enu.MoveNext();
-                Assert.AreEqual(enu.Current.Attributes["TypeName"], "/PensioB/Sempera/Affiliation");
-                Assert.AreEqual(enu.Current.Attributes["RetirementPlanName"], "construo-test");
-                Assert.AreEqual(enu.Current.Attributes["AffiliationID"], "285");
+                Assert.AreEqual(task.Attributes["TypeName"], "/PensioB/Sempera/Affiliation");
+                Assert.AreEqual(task.Attributes["RetirementPlanName"], "construo-test");
+                Assert.AreEqual(task.Attributes["AffiliationID"], "285");
             }
         }
-
-
 
         [TestMethod]
         public void UpdateTaskAttributes_DiffNoOfAttributes_All_OneNewValue()
         {
-            ClearContentOfTables();
-            Svc.FlushAllCaches();
             SaveTask(CreateTasksWithOneAttribute());
             SaveTask(CreateTasksWithTwoAttributes());
             SaveTask(CreateTasksWithThreeAttributes());
@@ -281,8 +257,8 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             {
                 { "key1", "modifiedvalue1" }
             };
-            FindTasksResult oldFindTasksResult = Svc.FindTasks(@"", oldSearchAttributes, null);
-            FindTasksResult newFindTasksResult = Svc.FindTasks(@"", newSearchAttributes, null);
+            FindTasksResult oldFindTasksResult = Svc.FindTasks(string.Empty, oldSearchAttributes, null);
+            FindTasksResult newFindTasksResult = Svc.FindTasks(string.Empty, newSearchAttributes, null);
             Assert.IsNotNull(oldFindTasksResult);
             Assert.AreEqual(0, oldFindTasksResult.NumberOfMatchingTasks);
             Assert.IsNotNull(newFindTasksResult);
@@ -292,8 +268,6 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
         [TestMethod]
         public void UpdateTaskAttributes_DiffNoOfAttributes_All_TwoNewValues()
         {
-            ClearContentOfTables();
-            Svc.FlushAllCaches();
             SaveTask(CreateTasksWithOneAttribute());
             SaveTask(CreateTasksWithTwoAttributes());
             SaveTask(CreateTasksWithThreeAttributes());
@@ -311,7 +285,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             CheckAttributeOccurrences("key1", "modifiedvalue1", 2);
             CheckAttributeOccurrences("key2", "modifiedvalue2", 2);
 
-            FindTasksResult findTasksResult = Svc.FindTasks(@"", replaceAttributes, null);
+            FindTasksResult findTasksResult = Svc.FindTasks((string)null, replaceAttributes, null);
             Assert.IsNotNull(findTasksResult);
             Assert.AreEqual(2, findTasksResult.NumberOfMatchingTasks);
         }
