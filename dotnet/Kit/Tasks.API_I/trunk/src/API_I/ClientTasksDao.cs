@@ -18,6 +18,7 @@
 
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using System.Security.Principal;
 
 using PPWCode.Vernacular.Persistence.I.Dao;
@@ -108,7 +109,12 @@ namespace PPWCode.Kit.Tasks.API_I
         /// <inheritdoc cref="ITasksDao.FindTasks"/>
         public FindTasksResult FindTasks(string taskType, IDictionary<string, string> searchAttributes, TaskStateEnum? taskState)
         {
-            return FindTasks(new[] { taskType }, searchAttributes, taskState);
+            Contract.Ensures(Contract.Result<FindTasksResult>() != null);
+
+            IEnumerable<string> taskTypes = string.IsNullOrEmpty(taskType) 
+                ? Enumerable.Empty<string>() 
+                : new[] { taskType };
+            return FindTasks(taskTypes, searchAttributes, taskState);
         }
 
         public FindTasksResult FindTasks(IEnumerable<string> taskTypes, IDictionary<string, string> searchAttributes, TaskStateEnum? taskState)
@@ -134,6 +140,7 @@ namespace PPWCode.Kit.Tasks.API_I
                 using (WindowsIdentity.Impersonate())
                 {
                     TasksDao.UpdateTaskAttributes(taskTypes, searchAttributes, replaceAttributes);
+                    return;
                 }
             }
             TasksDao.UpdateTaskAttributes(taskTypes, searchAttributes, replaceAttributes);
