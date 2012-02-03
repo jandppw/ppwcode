@@ -147,7 +147,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             return result;
         }
 
-        protected static bool EqualAttributes(Task t1, Task t2)
+        private static bool EqualAttributes(Task t1, Task t2)
         {
             bool result = t1.Attributes.Count == t2.Attributes.Count;
             if (result)
@@ -172,7 +172,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             Assert.IsNotNull(createdTask);
             Assert.AreEqual(task.State, createdTask.State);
             Assert.AreEqual(task.TaskType, createdTask.TaskType);
-            EqualAttributes(task, createdTask);
+            Assert.IsTrue(EqualAttributes(task, createdTask));
             return createdTask;
         }
 
@@ -180,7 +180,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
 
         #region Private Helpers
 
-        protected static void ClearContentOfTables()
+        private static void ClearContentOfTables()
         {
             string connectionString = ConfigurationManager.ConnectionStrings["TasksConnectionString"].ConnectionString;
             Assert.IsFalse(connectionString == null);
@@ -190,7 +190,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
                 {
                     @"dbo.TaskAttributes",
                     @"dbo.Task",
-                    @"dbo.AuditLog",
+                    @"dbo.AuditLog"
                 };
                 con.Open();
                 foreach (string tblName in tblNames)
