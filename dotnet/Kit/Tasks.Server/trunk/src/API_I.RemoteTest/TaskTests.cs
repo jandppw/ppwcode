@@ -35,7 +35,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
         {
             IDictionary<string, string> searchAttributes = new Dictionary<string, string>
             {
-                { "key1", "value1" }
+                { key, value }
             };
             FindTasksResult findTasksResult = Svc.FindTasks(@"", searchAttributes, null);
             Assert.IsNotNull(findTasksResult);
