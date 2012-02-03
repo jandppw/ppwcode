@@ -108,7 +108,7 @@ namespace PPWCode.Kit.Tasks.API_I
         /// <inheritdoc cref="ITasksDao.FindTasks"/>
         public FindTasksResult FindTasks(string taskType, IDictionary<string, string> searchAttributes, TaskStateEnum? taskState)
         {
-            return FindTasks(new[] {taskType}, searchAttributes, taskState);
+            return FindTasks(new[] { taskType }, searchAttributes, taskState);
         }
 
         public FindTasksResult FindTasks(IEnumerable<string> taskTypes, IDictionary<string, string> searchAttributes, TaskStateEnum? taskState)
