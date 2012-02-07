@@ -12,14 +12,12 @@
 
         public void Do()
         {
-            // MUDO: rename all occurrences
-            Sharepoint.RenameFolder(BaseRelativeUrl, OldFolderName, NewFolderName);
+            Sharepoint.RenameAllOccurrencesOfFolder(BaseRelativeUrl, OldFolderName, NewFolderName);
         }
 
         public void Undo()
         {
-            // MUDO: rename all occurrences
-            Sharepoint.RenameFolder(BaseRelativeUrl, NewFolderName, OldFolderName);
+            Sharepoint.RenameAllOccurrencesOfFolder(BaseRelativeUrl, NewFolderName, OldFolderName);
         }
 
         public ISharePointClient Sharepoint { get; set; }
