@@ -202,6 +202,39 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ProgrammingError))]
+        public void UpdateTaskAttributes_ZeroSearchAttributes_ThreeCorrectAttributes()
+        {
+            CreateSomeTasksForSearching();
+            IDictionary<string, string> searchAttributes = new Dictionary<string, string>();
+            IDictionary<string, string> replaceAttributes = new Dictionary<string, string>
+            {
+                { "TypeName", "/PensioB/Sempera/Affiliation" },
+                { "RetirementPlanName", "construo" },
+                { "AffiliationID", "285" },
+            };
+            Svc.UpdateTaskAttributes(new[] { @"/PensioB/Sempera/Affiliation/ManualCapitalAcquiredVerificationNeeded" }, searchAttributes, replaceAttributes);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ProgrammingError))]
+        public void UpdateTaskAttributes_OneSearchAttributes_ThreeCorrectAttributes()
+        {
+            CreateSomeTasksForSearching();
+            IDictionary<string, string> searchAttributes = new Dictionary<string, string>
+            {
+                { "TypeName", "/Test" }
+            };
+            IDictionary<string, string> replaceAttributes = new Dictionary<string, string>
+            {
+                { "TypeName", "/PensioB/Sempera/Affiliation" },
+                { "RetirementPlanName", "construo" },
+                { "AffiliationID", "285" },
+            };
+            Svc.UpdateTaskAttributes(new[] { @"/PensioB/Sempera/Affiliation/ManualCapitalAcquiredVerificationNeeded" }, searchAttributes, replaceAttributes);
+        }
+
+        [TestMethod]
         public void UpdateTaskAttributes_ThreeCorrectAttributes_OneMatchingReplaceAttribute()
         {
             CreateSomeTasksForSearching();
@@ -243,21 +276,21 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             SaveTask(CreateTasksWithTwoAttributes());
             SaveTask(CreateTasksWithThreeAttributes());
 
+            IDictionary<string, string> searchAttributes = new Dictionary<string, string>
+            {
+                { "key1", "value1" }
+            };
             IDictionary<string, string> replaceAttributes = new Dictionary<string, string>
             {
                 { "key1", "modifiedvalue1" }
             };
-            Svc.UpdateTaskAttributes(new string[0], null, replaceAttributes);
+            Svc.UpdateTaskAttributes(new string[0], searchAttributes, replaceAttributes);
 
-            IDictionary<string, string> oldSearchAttributes = new Dictionary<string, string>
-            {
-                { "key1", "value1" }
-            };
             IDictionary<string, string> newSearchAttributes = new Dictionary<string, string>
             {
                 { "key1", "modifiedvalue1" }
             };
-            FindTasksResult oldFindTasksResult = Svc.FindTasks(string.Empty, oldSearchAttributes, null);
+            FindTasksResult oldFindTasksResult = Svc.FindTasks(string.Empty, searchAttributes, null);
             FindTasksResult newFindTasksResult = Svc.FindTasks(string.Empty, newSearchAttributes, null);
             Assert.IsNotNull(oldFindTasksResult);
             Assert.AreEqual(0, oldFindTasksResult.NumberOfMatchingTasks);
@@ -272,12 +305,17 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             SaveTask(CreateTasksWithTwoAttributes());
             SaveTask(CreateTasksWithThreeAttributes());
 
+            IDictionary<string, string> searchAttributes = new Dictionary<string, string>
+            {
+                { "key1", "value1" },
+                { "key2", "value2" }
+            };
             IDictionary<string, string> replaceAttributes = new Dictionary<string, string>
             {
                 { "key1", "modifiedvalue1" },
                 { "key2", "modifiedvalue2" }
             };
-            Svc.UpdateTaskAttributes(new string[0], null, replaceAttributes);
+            Svc.UpdateTaskAttributes(new string[0], searchAttributes, replaceAttributes);
 
             CheckAttributeOccurrences("key1", "value1", 1);
             CheckAttributeOccurrences("key2", "value2", 0);
@@ -286,6 +324,87 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             CheckAttributeOccurrences("key2", "modifiedvalue2", 2);
 
             FindTasksResult findTasksResult = Svc.FindTasks((string)null, replaceAttributes, null);
+            Assert.IsNotNull(findTasksResult);
+            Assert.AreEqual(2, findTasksResult.NumberOfMatchingTasks);
+        }
+
+        [TestMethod]
+        public void UpdateTaskAttributes_OneTaskTypesMatchesOne_OneNewValue()
+        {
+            SaveTask(CreateTasksWithOneAttribute());
+            SaveTask(CreateTasksWithTwoAttributes());
+            SaveTask(CreateTasksWithThreeAttributes());
+
+            IDictionary<string, string> searchAttributes = new Dictionary<string, string>
+            {
+                { "key1", "value1" }
+            };
+            IDictionary<string, string> replaceAttributes = new Dictionary<string, string>
+            {
+                { "key1", "modifiedvalue1" }
+            };
+            Svc.UpdateTaskAttributes(new string[1] {"/PensioB/Sempera/Affiliation/ManualCapitalAcquiredVerificationNeeded/"}, searchAttributes, replaceAttributes);
+
+            CheckAttributeOccurrences("key1", "value1", 2);
+            CheckAttributeOccurrences("key2", "value2", 2);
+            CheckAttributeOccurrences("key3", "value3", 1);
+            CheckAttributeOccurrences("key1", "modifiedvalue1", 1);
+
+            FindTasksResult findTasksResult = Svc.FindTasks("/PensioB/Sempera/Affiliation/ManualCapitalAcquiredVerificationNeeded/", replaceAttributes, null);
+            Assert.IsNotNull(findTasksResult);
+            Assert.AreEqual(1, findTasksResult.NumberOfMatchingTasks);
+        }
+
+        [TestMethod]
+        public void UpdateTaskAttributes_OneTaskTypesMatchesTwo_OneNewValue()
+        {
+            SaveTask(CreateTasksWithOneAttribute());
+            SaveTask(CreateTasksWithTwoAttributes());
+            SaveTask(CreateTasksWithThreeAttributes());
+
+            IDictionary<string, string> searchAttributes = new Dictionary<string, string>
+            {
+                { "key1", "value1" }
+            };
+            IDictionary<string, string> replaceAttributes = new Dictionary<string, string>
+            {
+                { "key1", "modifiedvalue1" }
+            };
+            Svc.UpdateTaskAttributes(new string[1] { "taskType/" }, searchAttributes, replaceAttributes);
+
+            CheckAttributeOccurrences("key1", "value1", 1);
+            CheckAttributeOccurrences("key2", "value2", 2);
+            CheckAttributeOccurrences("key3", "value3", 1);
+            CheckAttributeOccurrences("key1", "modifiedvalue1", 2);
+
+            FindTasksResult findTasksResult = Svc.FindTasks("taskType/", replaceAttributes, null);
+            Assert.IsNotNull(findTasksResult);
+            Assert.AreEqual(2, findTasksResult.NumberOfMatchingTasks);
+        }
+
+        [TestMethod]
+        public void UpdateTaskAttributes_TwoTaskTypesMatchAll_OneNewValue()
+        {
+            SaveTask(CreateTasksWithOneAttribute());
+            SaveTask(CreateTasksWithTwoAttributes());
+            SaveTask(CreateTasksWithThreeAttributes());
+
+            IDictionary<string, string> searchAttributes = new Dictionary<string, string>
+            {
+                { "key1", "value1" }
+            };
+            IDictionary<string, string> replaceAttributes = new Dictionary<string, string>
+            {
+                { "key1", "modifiedvalue1" }
+            };
+            Svc.UpdateTaskAttributes(new string[2] { "taskType/", "/PensioB/Sempera/Affiliation/ManualCapitalAcquiredVerificationNeeded/" }, searchAttributes, replaceAttributes);
+
+            CheckAttributeOccurrences("key1", "value1", 0);
+            CheckAttributeOccurrences("key2", "value2", 2);
+            CheckAttributeOccurrences("key3", "value3", 1);
+            CheckAttributeOccurrences("key1", "modifiedvalue1", 3);
+
+            FindTasksResult findTasksResult = Svc.FindTasks("taskType/", replaceAttributes, null);
             Assert.IsNotNull(findTasksResult);
             Assert.AreEqual(2, findTasksResult.NumberOfMatchingTasks);
         }

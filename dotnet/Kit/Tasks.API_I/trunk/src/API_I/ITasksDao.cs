@@ -60,6 +60,7 @@ namespace PPWCode.Kit.Tasks.API_I
         /// Searches for <c>Tasks</c> of any of the the given <paramref name="taskTypes"/>,
         /// with all of the given attributes matching <paramref name="searchAttributes"/>,
         /// and for all Tasks found, replaces all the given <paramref name="replaceAttributes">.
+        /// It is required that all keys to be replaced are also searched for.
         /// </summary>
         [OperationContract]
         [TransactionFlow(TransactionFlowOption.Allowed)]
@@ -87,8 +88,11 @@ namespace PPWCode.Kit.Tasks.API_I
         {
             Contract.Requires(Transaction.Current != null);
             Contract.Requires(taskTypes != null);
+            Contract.Requires(searchAttributes != null);
+            Contract.Requires(searchAttributes.Any());
             Contract.Requires(replaceAttributes != null);
             Contract.Requires(replaceAttributes.Any());
+            Contract.Requires(replaceAttributes.Keys.All(k => searchAttributes.ContainsKey(k)));
         }
 
         #endregion
