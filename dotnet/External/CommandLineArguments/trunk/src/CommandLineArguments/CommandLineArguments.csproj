@@ -44,9 +44,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="cmds.txt" />
-    <Content Include="README.txt" />
-    <Content Include="LICENSE.txt" />
+    <None Include="cmds.txt" />
+    <None Include="README.txt" />
+    <None Include="LICENSE.txt" />
   </ItemGroup>
   <Import Project="..\..\wraps\openwrap\build\OpenWrap.CSharp.targets" />
 </Project>
