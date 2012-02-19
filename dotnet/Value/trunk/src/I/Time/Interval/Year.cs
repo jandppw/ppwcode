@@ -17,6 +17,8 @@ limitations under the License.
 #region Using
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
 #endregion
@@ -45,15 +47,15 @@ namespace PPWCode.Value.I.Time.Interval
         /// <summary>
         /// Create a new year instance from an integer representing the year number.
         /// </summary>
-        /// <param name="int">The year, as a number, in the Gregorian calendar.
+        /// <param name="year">The year, as a number, in the Gregorian calendar.
         /// There are no limitations.</param>
-        public Year(int @int)
+        public Year(int year)
         {
-            Contract.Ensures(Int == @int);
+            Contract.Ensures(Int == year);
 
-            m_Int = @int;
-            m_Begin = new DateTime(@int, 1, 1);
-            m_End = new DateTime(@int + 1, 1, 1);
+            m_Int = year;
+            m_Begin = new DateTime(year, 1, 1);
+            m_End = new DateTime(year + 1, 1, 1);
         }
 
         /// <summary>
@@ -72,12 +74,14 @@ namespace PPWCode.Value.I.Time.Interval
 
         #region Constants
 
-        public static readonly TimeSpan DURATION_NON_LEAP_YEAR = new TimeSpan(365, 0, 0, 0);
-        public static readonly TimeSpan DURATION_LEAP_YEAR = new TimeSpan(366, 0, 0, 0);
+        public static readonly TimeSpan DURATION_NON_LEAP_YEAR = TimeSpan.FromDays(365);
+        public static readonly TimeSpan DURATION_LEAP_YEAR = TimeSpan.FromDays(366);
 
         #endregion
 
         #region Properties
+
+        // we store redundant data; it makes little sense to recalculate this stuff a lot with little space loss
 
         private readonly int m_Int;
 
@@ -122,6 +126,50 @@ namespace PPWCode.Value.I.Time.Interval
             return this;
         }
 
+        public static readonly TimeIntervalRelation IN
+            = TimeIntervalRelation.Or(
+                TimeIntervalRelation.Starts,
+                TimeIntervalRelation.During,
+                TimeIntervalRelation.Finishes);
+
+        public IList<Quarter> Quarters
+        {
+            get
+            {
+                Contract.Ensures(Contract.Result<IList<Quarter>>() != null);
+                Contract.Ensures(Contract.Result<IList<Quarter>>().Count == 4);
+                Contract.Ensures(Contract.ForAll(Contract.Result<IList<Quarter>>(),
+                    q => TimeIntervalRelation.LeastUncertainTimeIntervalRelation(q, this).Implies(IN)));
+                Contract.Ensures(TimeIntervalRelation.LeastUncertainTimeIntervalRelation(
+                    Contract.Result<IList<Quarter>>()[0], this) == TimeIntervalRelation.Starts);
+                Contract.Ensures(Contract.ForAll(0, 3,
+                    i => TimeIntervalRelation.LeastUncertainTimeIntervalRelation(
+                            Contract.Result<IList<Quarter>>()[i],
+                            Contract.Result<IList<Quarter>>()[i + 1])
+                         == TimeIntervalRelation.Meets));
+                Contract.Ensures(TimeIntervalRelation.LeastUncertainTimeIntervalRelation(
+                    Contract.Result<IList<Quarter>>()[3], this) == TimeIntervalRelation.Finishes);
+
+                List<Quarter> result = new List<Quarter>(4);
+                for (int i = 1; i <= 4; i++)
+                {
+                    result.Add(new Quarter(m_Int, i));
+                }
+                return result;
+            }
+        }
+
+        // TODO add era, millennium, century, decade
+        // TODO add months, weeks, days, hours, minutes, seconds, milliseconds
+        // IDEA private constructor, and factory methods instead, caching years;
+        //      normally, any program will only use a handfull of years, no?
+
         #endregion
+
+        public override string ToString()
+        {
+            return "[" + m_Int + "[\u0394(year)"; // \u0394 is Greek capital delta
+
+        }
     }
 }
