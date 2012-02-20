@@ -59,7 +59,7 @@ namespace PPWCode.Kit.Tasks.API_I
         /// <summary>
         /// Searches for <c>Tasks</c> of any of the the given <paramref name="taskTypes"/>,
         /// with all of the given attributes matching <paramref name="searchAttributes"/>,
-        /// and for all Tasks found, replaces all the given <paramref name="replaceAttributes">.
+        /// and for all Tasks found, replaces all the given <paramref name="replaceAttributes"/>.
         /// It is required that all keys to be replaced are also searched for.
         /// </summary>
         [OperationContract]
