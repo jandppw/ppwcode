@@ -10,4 +10,4 @@ using System.Reflection;
 [assembly: AssemblyVersion("2.0.0.0")]
 
 // keep in sync with package version
-[assembly: AssemblyFileVersion("2.2.1.0")]
+[assembly: AssemblyFileVersion("2.3.0.0")]
