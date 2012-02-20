@@ -591,10 +591,10 @@ namespace PPWCode.Util.SharePoint.I
                    }
                     string listName = foldernames[1];
 
-                    if (foldernames.Length < 3 || foldernames.Length == 3 && string.IsNullOrEmpty(foldernames[2]))
+                    if ((foldernames.Length < 3) || ((foldernames.Length == 3) && string.IsNullOrEmpty(foldernames[2])))
                     {
-                        string errorInformation = string.Format("Path [{0}] is not valid",theNewFolderName);
-                        throw new Exception(string.Format("Error in creating form [{0}].Exeption({1})", theNewFolderName,errorInformation));
+                        string errorInformation = string.Format("Path [{0}] is not valid", theNewFolderName);
+                        throw new Exception(string.Format("Error in creating form [{0}].Exeption({1})", theNewFolderName, errorInformation));
                     }
                     if (CheckExistenceOfFolderWithExactPath(newFolderName))
                     {
@@ -682,7 +682,7 @@ namespace PPWCode.Util.SharePoint.I
         //all subfolders will be deleted
         //if parameter deleteChildren is false
         //folder will only by deleted if folder has no children
-        public void DeleteFolder(string folderNameToDelete , bool deleteChildren)
+        public void DeleteFolder(string folderNameToDelete, bool deleteChildren)
         {
             try
             {
@@ -844,7 +844,6 @@ namespace PPWCode.Util.SharePoint.I
                     if (string.IsNullOrEmpty(foldernames[foldernames.Length - 1]))
                     {
                         baseRelativeUrl = ExtractRelativeUrlFromBaseRelativeUrl(baseRelativeUrl);
-
                     }
                     string relativeUrl = ExtractRelativeUrlFromBaseRelativeUrl(baseRelativeUrl);
                     
