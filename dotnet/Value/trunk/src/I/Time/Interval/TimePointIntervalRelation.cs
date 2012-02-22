@@ -574,9 +574,9 @@ namespace PPWCode.Value.I.Time.Interval
         ///// <summary>
         ///// Given a point in time <c><var>t</var></c> and a 2 time intervals <c><var>I1</var></c>,
         ///// <c><var>I2</var></c>, given
-        ///// <c>tpir = LeastUncertainTimePointIntervalRelation(<var>t</var>, <var>I1</var>)</c> 
-        ///// and <c>tir == LeastUncertainTimeIntervalRelation(<var>I1</var>, <var>I2</var>)</c>,
-        ///// <c>compose(tpir, tir) == LeastUncertainTimePointIntervalRelation(<var>t</var>, <var>I2</var>)</c>.
+        ///// <c>tpir = LeastUncertain(<var>t</var>, <var>I1</var>)</c> 
+        ///// and <c>tir == LeastUncertain(<var>I1</var>, <var>I2</var>)</c>,
+        ///// <c>compose(tpir, tir) == LeastUncertain(<var>t</var>, <var>I2</var>)</c>.
         ///// </summary>
         //public static TimePointIntervalRelation Compose(TimePointIntervalRelation tpir, TimeIntervalRelation tir)
         //{
@@ -616,7 +616,7 @@ namespace PPWCode.Value.I.Time.Interval
         /// is considered as unknown, and thus is not used to restrict the relation more, 
         /// leaving it with more <see cref="Uncertainty"/>.
         /// </returns>
-        public static TimePointIntervalRelation LeastUncertainTimePointIntervalRelation(DateTime? t, ITimeInterval i)
+        public static TimePointIntervalRelation LeastUncertain(DateTime? t, ITimeInterval i)
         {
             // MUDO contract
 

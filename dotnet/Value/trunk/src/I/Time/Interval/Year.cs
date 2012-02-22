@@ -65,7 +65,7 @@ namespace PPWCode.Value.I.Time.Interval
         /// <param name="dt">This date falls in the resulting year instance</param>
         public Year(DateTime dt) : this(dt.Year)
         {
-            Contract.Ensures(TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(dt, this).Equals(TimePointIntervalRelation.In));
+            Contract.Ensures(TimePointIntervalRelation.LeastUncertain(dt, this).Equals(TimePointIntervalRelation.In));
             
             // NOP
         }
@@ -139,15 +139,15 @@ namespace PPWCode.Value.I.Time.Interval
                 Contract.Ensures(Contract.Result<IList<Quarter>>() != null);
                 Contract.Ensures(Contract.Result<IList<Quarter>>().Count == 4);
                 Contract.Ensures(Contract.ForAll(Contract.Result<IList<Quarter>>(),
-                    q => TimeIntervalRelation.LeastUncertainTimeIntervalRelation(q, this).Implies(IN)));
-                Contract.Ensures(TimeIntervalRelation.LeastUncertainTimeIntervalRelation(
+                    q => TimeIntervalRelation.LeastUncertain(q, this).Implies(IN)));
+                Contract.Ensures(TimeIntervalRelation.LeastUncertain(
                     Contract.Result<IList<Quarter>>()[0], this) == TimeIntervalRelation.Starts);
                 Contract.Ensures(Contract.ForAll(0, 3,
-                    i => TimeIntervalRelation.LeastUncertainTimeIntervalRelation(
+                    i => TimeIntervalRelation.LeastUncertain(
                             Contract.Result<IList<Quarter>>()[i],
                             Contract.Result<IList<Quarter>>()[i + 1])
                          == TimeIntervalRelation.Meets));
-                Contract.Ensures(TimeIntervalRelation.LeastUncertainTimeIntervalRelation(
+                Contract.Ensures(TimeIntervalRelation.LeastUncertain(
                     Contract.Result<IList<Quarter>>()[3], this) == TimeIntervalRelation.Finishes);
 
                 List<Quarter> result = new List<Quarter>(4);
