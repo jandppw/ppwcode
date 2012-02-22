@@ -1127,7 +1127,7 @@ namespace PPWCode.Value.I.Time.Interval
         /// it with more <see cref="Uncertainty"/>.
         /// </returns>
         [Pure]
-        public static TimeIntervalRelation LeastUncertainTimeIntervalRelation(ITimeInterval i1, ITimeInterval i2)
+        public static TimeIntervalRelation LeastUncertain(ITimeInterval i1, ITimeInterval i2)
         {
             // MUDO contract
             TimeIntervalRelation result = Full;
@@ -1458,7 +1458,7 @@ namespace PPWCode.Value.I.Time.Interval
         /// TimeInterval i1 = ...;
         /// TimeInterval i2 = ...;
         /// TimeIntervalRelation condition = ...;
-        /// TimeIntervalRelation actual = LeastUncertainTimeIntervalRelation(i1, i2);
+        /// TimeIntervalRelation actual = LeastUncertain(i1, i2);
         /// if (! actual.implies(condition)) {
         ///   throw new ....
         /// }

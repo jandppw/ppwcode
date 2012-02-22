@@ -69,7 +69,7 @@ namespace PPWCode.Value.I.Time.Interval
         /// <param name="dt">This date falls in the resulting year instance</param>
         public Quarter(DateTime dt) : this(dt.Year, (dt.Month + 2) / 3)
         {
-            Contract.Ensures(TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(dt, this).Equals(TimePointIntervalRelation.In));
+            Contract.Ensures(TimePointIntervalRelation.LeastUncertain(dt, this).Equals(TimePointIntervalRelation.In));
             
             // NOP
         }
@@ -220,7 +220,7 @@ namespace PPWCode.Value.I.Time.Interval
         {
             get
             {
-                Contract.Ensures(TimeIntervalRelation.LeastUncertainTimeIntervalRelation(Contract.Result<Year>(), this)
+                Contract.Ensures(TimeIntervalRelation.LeastUncertain(Contract.Result<Year>(), this)
                     .Implies(ENCLOSES));
 
                 return new Year(m_Year);

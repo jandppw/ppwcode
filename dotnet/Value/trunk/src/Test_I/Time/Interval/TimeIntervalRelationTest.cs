@@ -389,7 +389,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
             {
                 foreach (ITimeInterval ti2 in Tis)
                 {
-                    result = TimeIntervalRelation.LeastUncertainTimeIntervalRelation(ti1, ti2);
+                    result = TimeIntervalRelation.LeastUncertain(ti1, ti2);
                     float uncertainty = result.Uncertainty;
                     Console.WriteLine("(" + ti1 + ", " + ti2 + ") =:= " + result + "(~" + uncertainty + ")");
                 }

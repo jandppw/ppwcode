@@ -252,7 +252,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
         {
             DateTime? t = null;
             ITimeInterval i = new BeginEndTimeInterval(DateTime.Now, null);
-            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
+            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertain(t, i);
             //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
             Assert.AreEqual(TimePointIntervalRelation.Full, result);
         }
@@ -262,7 +262,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
         {
             DateTime? t = null;
             ITimeInterval i = new BeginEndTimeInterval(null, DateTime.Now);
-            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
+            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertain(t, i);
             //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
             Assert.AreEqual(TimePointIntervalRelation.Full, result);
         }
@@ -273,7 +273,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
             DateTime? t = null;
             DateTime now = DateTime.Now;
             ITimeInterval i = new BeginEndTimeInterval(now, now);
-            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
+            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertain(t, i);
             //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
             Assert.AreEqual(TimePointIntervalRelation.Full, result);
         }
@@ -283,7 +283,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
         {
             DateTime? t = DateTime.Now;
             ITimeInterval i = new BeginEndTimeInterval(t, null);
-            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
+            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertain(t, i);
             //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
             Assert.AreEqual(TimePointIntervalRelation.Begins, result);
         }
@@ -293,7 +293,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
         {
             DateTime? t = DateTime.Now;
             ITimeInterval i = new BeginEndTimeInterval(null, t);
-            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
+            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertain(t, i);
             //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
             Assert.AreEqual(TimePointIntervalRelation.Ends, result);
         }
@@ -303,7 +303,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
         {
             DateTime? t = new DateTime(1995, 6, 23);
             ITimeInterval i = new BeginEndTimeInterval(new DateTime(1996, 7, 4), null);
-            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
+            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertain(t, i);
             //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
             Assert.AreEqual(TimePointIntervalRelation.Before, result);
         }
@@ -313,7 +313,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
         {
             DateTime? t = new DateTime(1995, 6, 23);
             ITimeInterval i = new BeginEndTimeInterval(new DateTime(1996, 7, 4), new DateTime(2010, 3, 12));
-            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
+            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertain(t, i);
             //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
             Assert.AreEqual(TimePointIntervalRelation.Before, result);
         }
@@ -323,7 +323,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
         {
             DateTime? t = new DateTime(1995, 6, 23);
             ITimeInterval i = new BeginEndTimeInterval(null, new DateTime(2010, 3, 12));
-            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
+            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertain(t, i);
             //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
             Assert.AreEqual(TimePointIntervalRelation.BeforeEnd, result);
         }
@@ -333,7 +333,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
         {
             DateTime? t = new DateTime(1995, 6, 23);
             ITimeInterval i = new BeginEndTimeInterval(new DateTime(1991, 11, 17), new DateTime(2010, 3, 12));
-            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
+            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertain(t, i);
             //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
             Assert.AreEqual(TimePointIntervalRelation.In, result);
         }
@@ -343,7 +343,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
         {
             DateTime? t = new DateTime(2010, 3, 12);
             ITimeInterval i = new BeginEndTimeInterval(new DateTime(1991, 11, 17), new DateTime(2010, 3, 12));
-            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
+            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertain(t, i);
             //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
             Assert.AreEqual(TimePointIntervalRelation.Ends, result);
         }
@@ -353,7 +353,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
         {
             DateTime? t = new DateTime(2011, 3, 12);
             ITimeInterval i = new BeginEndTimeInterval(new DateTime(1991, 11, 17), new DateTime(2010, 3, 12));
-            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
+            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertain(t, i);
             //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
             Assert.AreEqual(TimePointIntervalRelation.After, result);
         }
@@ -363,7 +363,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
         {
             DateTime? t = new DateTime(2011, 3, 12);
             ITimeInterval i = new BeginEndTimeInterval(null, new DateTime(2010, 3, 12));
-            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
+            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertain(t, i);
             //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
             Assert.AreEqual(TimePointIntervalRelation.After, result);
         }
@@ -373,7 +373,7 @@ namespace PPWCode.Value.Test_I.Time.Interval
         {
             DateTime? t = new DateTime(2011, 3, 12);
             ITimeInterval i = new BeginEndTimeInterval(new DateTime(1991, 11, 17), null);
-            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertainTimePointIntervalRelation(t, i);
+            TimePointIntervalRelation result = TimePointIntervalRelation.LeastUncertain(t, i);
             //Console.WriteLine("(" + t + ", " + i + ") =:= " + result);
             Assert.AreEqual(TimePointIntervalRelation.AfterBegin, result);
         }

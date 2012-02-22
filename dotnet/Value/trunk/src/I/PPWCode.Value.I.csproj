@@ -141,6 +141,7 @@
     <Compile Include="Time\NamespaceDoc.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Time\Interval\img\Allen Relations.odg" />
   </ItemGroup>
   <ItemGroup>
