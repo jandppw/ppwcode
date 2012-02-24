@@ -343,7 +343,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             {
                 { "key1", "modifiedvalue1" }
             };
-            Svc.UpdateTaskAttributes(new string[1] {"/PensioB/Sempera/Affiliation/ManualCapitalAcquiredVerificationNeeded/"}, searchAttributes, replaceAttributes);
+            Svc.UpdateTaskAttributes(new[] { "/PensioB/Sempera/Affiliation/ManualCapitalAcquiredVerificationNeeded/" }, searchAttributes, replaceAttributes);
 
             CheckAttributeOccurrences("key1", "value1", 2);
             CheckAttributeOccurrences("key2", "value2", 2);
@@ -397,7 +397,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             {
                 { "key1", "modifiedvalue1" }
             };
-            Svc.UpdateTaskAttributes(new string[2] { "taskType/", "/PensioB/Sempera/Affiliation/ManualCapitalAcquiredVerificationNeeded/" }, searchAttributes, replaceAttributes);
+            Svc.UpdateTaskAttributes(new[] { "taskType/", "/PensioB/Sempera/Affiliation/ManualCapitalAcquiredVerificationNeeded/" }, searchAttributes, replaceAttributes);
 
             CheckAttributeOccurrences("key1", "value1", 0);
             CheckAttributeOccurrences("key2", "value2", 2);
