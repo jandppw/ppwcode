@@ -6,6 +6,7 @@ name: PPWCode.Kit.Tasks.Server
 # build configuration
 build: msbuild;
   project=src\Server\PPWCode.Kit.Tasks.Server.csproj;
+  project=src\Server.NTServiceHost\PPWCode.Kit.Tasks.Server.NTServiceHost.csproj;
   profile=net35;
 build: files;
   file=. -> LICENSE;
