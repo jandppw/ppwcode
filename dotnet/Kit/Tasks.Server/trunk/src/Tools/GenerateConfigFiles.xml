@@ -3,8 +3,8 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <PropertyGroup>
-    <ConfigurationFile>$(SolutionDir)SolutionItems\configuration.xml</ConfigurationFile>
-    <UserConfigurationFile>$(SolutionDir)SolutionItems\configuration.user.xml</UserConfigurationFile>
+    <ConfigurationFile>..\SolutionItems\configuration.xml</ConfigurationFile>
+    <UserConfigurationFile>..\SolutionItems\configuration.user.xml</UserConfigurationFile>
     <UserConfigurationFileTemplate>App.config.template.user</UserConfigurationFileTemplate>
   </PropertyGroup>
   <Choose>
