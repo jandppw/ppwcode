@@ -7,7 +7,7 @@
     <!-- easy with MSBuild 4.0 -->
     <MSBuildCommunityTasksLib Condition="$(MSBuildToolsVersion) == '4.0'">$(MSBuildThisFileDirectory)\MSBuild.Community.Tasks.dll</MSBuildCommunityTasksLib>
     <!-- since we use OpenWrap, try to guess the location of this file -->
-    <MSBuildCommunityTasksLib Condition="$(MSBuildCommunityTasksLib) == ''">$(MSBuildDirectory)\..\..\wraps\MSBuild.Community.Tasks\build\MSBuild.Community.Tasks.dll</MSBuildCommunityTasksLib>
+    <MSBuildCommunityTasksLib Condition="$(MSBuildCommunityTasksLib) == ''">$(MSBuildProjectDirectory)\..\..\wraps\MSBuild.Community.Tasks\build\MSBuild.Community.Tasks.dll</MSBuildCommunityTasksLib>
   </PropertyGroup>
 
   <UsingTask AssemblyFile="$(MSBuildCommunityTasksLib)" TaskName="MSBuild.Community.Tasks.AspNet.InstallAspNet" />
