@@ -1,0 +1,16 @@
+name: CommandLineArguments
+
+# build the CommandLineArguments 
+build: msbuild;
+  project=src\CommandLineArguments\CommandLineArguments.csproj;
+  profile=net35;
+
+build: files;
+  file=. -> README.txt;
+  file=. -> LICENSE.txt;
+  
+# symlinks
+use-symlinks: false
+
+# standard dependencies
+depends: openwrap = 2.0 anchored content
