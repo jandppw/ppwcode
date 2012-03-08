@@ -1,2 +1,0 @@
-/lines foo.txt
-/chars bar.txt
