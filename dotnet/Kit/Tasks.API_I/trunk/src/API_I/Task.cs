@@ -35,7 +35,7 @@ namespace PPWCode.Kit.Tasks.API_I
     /// </summary>
     /// <remarks>
     /// <para>Tasks are identified by client systems by
-    /// a <see cref="TaskType"/> and a <see cref="Reference"/>,
+    /// a <see cref="TaskType"/> and a <see cref="Attributes"/>,
     /// which can later be used to retrieve collections of
     /// <c>Tasks</c>. These values are free text, limited
     /// by good practice.</para>
@@ -240,7 +240,7 @@ namespace PPWCode.Kit.Tasks.API_I
         /// to distinguish different types of <c>Tasks</c>. Mandatory.
         /// </summary>
         /// <remarks>
-        /// The <c>TaskType</c> can be combined with the <see cref="Reference"/>
+        /// The <c>TaskType</c> can be combined with the <see cref="Attributes"/>
         /// when retrieving <c>Tasks</c>.
         /// </remarks>
         [PPWAuditLogPropertyIgnore(AuditLogAction = PPWAuditLogActionEnum.ALL)]
@@ -384,7 +384,7 @@ namespace PPWCode.Kit.Tasks.API_I
         /// <summary>
         /// <c>Tasks</c> are civilized if they have a singular <see cref="State"/>
         /// (see <see cref="IsSingleTaskState"/>),
-        /// a <see cref="TaskType"/> and a <see cref="Reference"/>.
+        /// a <see cref="TaskType"/> and a <see cref="Attributes"/>.
         /// </summary>
         /// <returns></returns>
         [Pure]

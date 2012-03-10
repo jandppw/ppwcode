@@ -48,7 +48,7 @@ namespace PPWCode.Kit.Tasks.API_I
         /// <summary>
         /// Return a <see cref="Task">collection of <c>Tasks</c></see>,
         /// of any of the given <paramref name="taskTypes"/> (or any task if left empty),
-        /// whose <see cref="Task.Reference"/> starts with <paramref name="reference"/>,
+        /// whose <see cref="Task.Attributes"/> contains all <paramref name="searchAttributes"/>,
         /// and whose <see cref="Task.State"/> is one of the states included
         /// in <paramref name="taskState"/>.
         /// </summary>
