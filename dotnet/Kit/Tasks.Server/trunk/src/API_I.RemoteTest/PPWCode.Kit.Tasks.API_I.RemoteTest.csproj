@@ -14,6 +14,8 @@
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>..\..\scratch\bin\PPWCode.Kit.Tasks.API_I.RemoteTest\</OutputPath>
+    <IntermediateOutputPath>..\..\scratch\obj\PPWCode.Kit.Tasks.API_I.RemoteTest\</IntermediateOutputPath>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -51,6 +53,8 @@
     <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>..\..\scratch\bin\PPWCode.Kit.Tasks.API_I.RemoteTest\</OutputPath>
+    <IntermediateOutputPath>..\..\scratch\obj\PPWCode.Kit.Tasks.API_I.RemoteTest\</IntermediateOutputPath>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <DefineConstants>TRACE</DefineConstants>
@@ -58,19 +62,6 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>1591,1592,1573,1571,1570,1572</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugServiceHosting|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <NoWarn>1591,1592,1573,1571,1570,1572</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-  </PropertyGroup>
-  <PropertyGroup>
-    <OutputPath Condition="'$(OutputPath)' == ''">..\..\scratch\bin\$(MSBuildProjectName)-$(Configuration)-$(Platform)\</OutputPath>
-    <IntermediateOutputPath Condition="'$(IntermediateOutputPath)' == ''">..\..\scratch\obj\$(MSBuildProjectName)-$(Configuration)-$(Platform)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
@@ -105,19 +96,13 @@
   </ItemGroup>
   <Import Project="..\..\wraps\openwrap\build\OpenWrap.CSharp.targets" />
   <Import Project="..\..\wraps\Microsoft.Stylecop-PPWStyle\build\Microsoft.StyleCop.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
   <!-- targets that hook in the BeforeBuild, to generate correct App.config files -->
-  <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets" />
-  <Import Project="$(SolutionDir)Tools\GenerateConfigFiles.xml" />
-  <Target Name="BeforeBuild">
-    <CallTarget Targets="GenerateConfigFilesUser" />
-    <CallTarget Targets="GenerateConfigFilesDefault" />
-    <CallTarget Targets="DeleteUserConfigurationFileTemplate" />
-  </Target>
+  <Import Project="..\..\wraps\MSBuild.Community.Tasks\build\MSBuild.Community.Tasks.targets" />
+  <!-- generate correct App.config files -->
+  <PropertyGroup>
+    <AppConfigTemplate-ConfigDirectory>$(MSBuildProjectDirectory)\..\SolutionItems</AppConfigTemplate-ConfigDirectory>
+    <AppConfigTemplate-TemplateFile>$(MSBuildProjectDirectory)\App.config.template</AppConfigTemplate-TemplateFile>
+    <AppConfigTemplate-FinalFile>$(MSBuildProjectDirectory)\App.config</AppConfigTemplate-FinalFile>
+  </PropertyGroup>
+  <Import Project="..\..\wraps\PPWCode.Util.AppConfigTemplate\build\AppConfigTemplate.targets" />
 </Project>
