@@ -187,54 +187,6 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ProgrammingError))]
-        public void UpdateTaskAttributes_ThreeCorrectAttributes_ZeroReplaceAttributes()
-        {
-            CreateSomeTasksForSearching();
-            IDictionary<string, string> searchAttributes = new Dictionary<string, string>
-            {
-                { "TypeName", "/PensioB/Sempera/Affiliation" },
-                { "RetirementPlanName", "construo" },
-                { "AffiliationID", "285" },
-            };
-            IDictionary<string, string> replaceAttributes = new Dictionary<string, string>();
-            Svc.UpdateTaskAttributes(new[] { @"/PensioB/Sempera/Affiliation/ManualCapitalAcquiredVerificationNeeded" }, searchAttributes, replaceAttributes);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ProgrammingError))]
-        public void UpdateTaskAttributes_ZeroSearchAttributes_ThreeCorrectAttributes()
-        {
-            CreateSomeTasksForSearching();
-            IDictionary<string, string> searchAttributes = new Dictionary<string, string>();
-            IDictionary<string, string> replaceAttributes = new Dictionary<string, string>
-            {
-                { "TypeName", "/PensioB/Sempera/Affiliation" },
-                { "RetirementPlanName", "construo" },
-                { "AffiliationID", "285" },
-            };
-            Svc.UpdateTaskAttributes(new[] { @"/PensioB/Sempera/Affiliation/ManualCapitalAcquiredVerificationNeeded" }, searchAttributes, replaceAttributes);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ProgrammingError))]
-        public void UpdateTaskAttributes_OneSearchAttributes_ThreeCorrectAttributes()
-        {
-            CreateSomeTasksForSearching();
-            IDictionary<string, string> searchAttributes = new Dictionary<string, string>
-            {
-                { "TypeName", "/Test" }
-            };
-            IDictionary<string, string> replaceAttributes = new Dictionary<string, string>
-            {
-                { "TypeName", "/PensioB/Sempera/Affiliation" },
-                { "RetirementPlanName", "construo" },
-                { "AffiliationID", "285" },
-            };
-            Svc.UpdateTaskAttributes(new[] { @"/PensioB/Sempera/Affiliation/ManualCapitalAcquiredVerificationNeeded" }, searchAttributes, replaceAttributes);
-        }
-
-        [TestMethod]
         public void UpdateTaskAttributes_ThreeCorrectAttributes_OneMatchingReplaceAttribute()
         {
             CreateSomeTasksForSearching();
