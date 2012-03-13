@@ -1,0 +1,12 @@
+﻿name: NHibernate
+build: files; 
+    file=bin-net35 -> src\NHibernate.dll; 
+    file=bin-net35 -> src\NHibernate.xml;
+    file=bin-net35 -> src\nhibernate-configuration.xsd; 
+    file=bin-net35 -> src\nhibernate-mapping.xsd; 
+    file=. -> src\lgpl.txt
+use-symlinks: false
+depends: openwrap = 2.0 anchored content
+depends: Iesi.Collections = 3.1.0
+depends: ANTLR3.Runtime.Net = 3.1.0
+depends: NHibernate.LinFu = 3.1.0
