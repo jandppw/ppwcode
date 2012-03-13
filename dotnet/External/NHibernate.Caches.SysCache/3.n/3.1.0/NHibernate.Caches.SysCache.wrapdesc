@@ -1,0 +1,5 @@
+﻿name: NHibernate.Caches.SysCache
+build: files;
+  file=bin-net35 -> src\NHibernate.Caches.SysCache.dll;
+use-symlinks: false
+depends: openwrap = 2.0 anchored content
