@@ -1,0 +1,5 @@
+Start PowerShell op met Admin rechten en wijzig de policy (indien dit nog niet gedaan is)
+
+>Set-ExecutionPolicy RemoteSigned
+
+Dit laat toe om scripts uit te voeren.
