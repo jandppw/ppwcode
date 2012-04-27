@@ -297,11 +297,6 @@ namespace PPWCode.Kit.Tasks.API_I
 
         public void AddAttribute(string key, string value)
         {
-            if (State != TaskStateEnum.CREATED)
-            {
-                throw new ProgrammingError("Attributes are immutable when state is different from CREATED.");
-            }
-
             if (m_Attributes == null)
             {
                 m_Attributes = new Dictionary<string, string>();
@@ -326,7 +321,7 @@ namespace PPWCode.Kit.Tasks.API_I
         {
             if (State != TaskStateEnum.CREATED)
             {
-                throw new ProgrammingError("Attributes are immutable when state is different from CREATED.");
+                throw new ProgrammingError("Attributes cannot be removed when state is different from CREATED.");
             }
 
             m_Attributes.Remove(key);
@@ -336,7 +331,7 @@ namespace PPWCode.Kit.Tasks.API_I
         {
             if (State != TaskStateEnum.CREATED)
             {
-                throw new ProgrammingError("Attributes are immutable when state is different from CREATED.");
+                throw new ProgrammingError("Attributes cannot be removed when state is different from CREATED.");
             }
 
             m_Attributes.Remove(pair);
