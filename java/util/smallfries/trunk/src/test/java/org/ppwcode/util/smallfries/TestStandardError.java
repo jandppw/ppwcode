@@ -50,7 +50,7 @@ public class TestStandardError {
     StandardError standardError = new StandardError();
     assertTrue(standardError.isBiasCorrected());
     assertEquals(0L, standardError.getN());
-    assertEquals(Double.NaN, standardError.getResult());
+    equalPrimitiveValue(Double.NaN, standardError.getResult());
   }
 
   @Test
@@ -58,11 +58,11 @@ public class TestStandardError {
     StandardError standardError1 = new StandardError(false);
     assertFalse(standardError1.isBiasCorrected());
     assertEquals(0L, standardError1.getN());
-    assertEquals(Double.NaN, standardError1.getResult());
+    equalPrimitiveValue(Double.NaN, standardError1.getResult());
     StandardError standardError2 = new StandardError(true);
     assertTrue(standardError2.isBiasCorrected());
     assertEquals(0L, standardError2.getN());
-    assertEquals(Double.NaN, standardError2.getResult());
+    equalPrimitiveValue(Double.NaN, standardError2.getResult());
   }
 
   @Test

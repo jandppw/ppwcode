@@ -50,7 +50,7 @@ public class TestGeometricStandardError {
     GeometricStandardError standardError = new GeometricStandardError();
     assertTrue(standardError.isBiasCorrected());
     assertEquals(0L, standardError.getN());
-    assertEquals(Double.NaN, standardError.getResult());
+    equalPrimitiveValue(Double.NaN, standardError.getResult());
   }
 
   @Test
@@ -58,11 +58,11 @@ public class TestGeometricStandardError {
     GeometricStandardError standardError1 = new GeometricStandardError(false);
     assertFalse(standardError1.isBiasCorrected());
     assertEquals(0L, standardError1.getN());
-    assertEquals(Double.NaN, standardError1.getResult());
+    equalPrimitiveValue(Double.NaN, standardError1.getResult());
     GeometricStandardError standardError2 = new GeometricStandardError(true);
     assertTrue(standardError2.isBiasCorrected());
     assertEquals(0L, standardError2.getN());
-    assertEquals(Double.NaN, standardError2.getResult());
+    equalPrimitiveValue(Double.NaN, standardError2.getResult());
   }
 
   @Test
