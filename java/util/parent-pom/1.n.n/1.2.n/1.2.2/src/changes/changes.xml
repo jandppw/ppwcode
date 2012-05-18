@@ -1,0 +1,51 @@
+<document>
+
+  <!--
+  $Date$
+  $Revision$
+  $HeadURL$
+
+  Copyright 2007 - $Date$ by PeopleWare n.v.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+  <!-- see http://maven.apache.org/reference/plugins/changes/ for documentation -->
+  <!-- There are four valid values for action type:  add, fix, remove, update. -->
+  <properties>
+    <title>Version history of ppwcode util parent POM</title>
+    <author email="jandockx@gmail.comockx@gmail.com">Jan Dockx</author>
+  </properties>
+  <body>
+    <release version="1.2.1" date="2008-12-10" description="New parent pom">
+      <action dev="jandockx@gmail.com" type="update">
+        New parent pom, which no longer uses snapshot for checkstyle and license header templates
+      </action>
+    </release>
+    <release version="1.2.0" date="2008-10-14" description="New parent pom">
+      <action dev="jandockx@gmail.com" type="add">
+        New parent pom.
+      </action>
+    </release>
+    <release version="1.1.0" date="2008-10-01" description="New parent pom">
+      <action dev="jandockx@gmail.com" type="add">
+        New parent pom with updated versions of dependencies.
+      </action>
+    </release>
+    <release version="1.0.0" date="2008-09-24" description="First release">
+      <action dev="jandockx@gmail.com" type="add">
+        First version.
+      </action>
+    </release>
+  </body>
+</document>
