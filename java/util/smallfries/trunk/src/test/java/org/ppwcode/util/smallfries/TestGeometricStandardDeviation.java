@@ -50,7 +50,7 @@ public class TestGeometricStandardDeviation {
     GeometricStandardDeviation standardDeviation = new GeometricStandardDeviation();
     assertTrue(standardDeviation.isBiasCorrected());
     assertEquals(0L, standardDeviation.getN());
-    assertEquals(Double.NaN, standardDeviation.getResult());
+    equalPrimitiveValue(Double.NaN, standardDeviation.getResult());
   }
 
   @Test
@@ -58,11 +58,11 @@ public class TestGeometricStandardDeviation {
     GeometricStandardDeviation standardDeviation1 = new GeometricStandardDeviation(false);
     assertFalse(standardDeviation1.isBiasCorrected());
     assertEquals(0L, standardDeviation1.getN());
-    assertEquals(Double.NaN, standardDeviation1.getResult());
+    equalPrimitiveValue(Double.NaN, standardDeviation1.getResult());
     GeometricStandardDeviation standardDeviation2 = new GeometricStandardDeviation(true);
     assertTrue(standardDeviation2.isBiasCorrected());
     assertEquals(0L, standardDeviation2.getN());
-    assertEquals(Double.NaN, standardDeviation2.getResult());
+    equalPrimitiveValue(Double.NaN, standardDeviation2.getResult());
   }
 
   @Test

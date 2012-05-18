@@ -565,7 +565,7 @@ public class TestMathUtil {
     assertNotNull(logValues);
     assertEquals(values.length, logValues.length);
     for (int i = 0; i < logValues.length; i++) {
-      assertEquals(Math.log(values[i]), logValues[i]);
+      equalPrimitiveValue(Math.log(values[i]), logValues[i]);
     }
   }
 }
