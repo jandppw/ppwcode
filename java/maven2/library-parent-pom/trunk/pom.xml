@@ -38,7 +38,7 @@
   <!-- ARTIFACT ID, GROUP ID, VERSION, PACKAGING, NAME & DESCRIPTION: OVERWRITE IN YOUR CHILD POM (know what you are doing :-) ) -->
     <groupId>org.ppwcode</groupId>
     <artifactId>ppwcode-library-parent-pom</artifactId>
-    <version>1.2.4</version>
+    <version>1.2.5</version>
     <packaging>pom</packaging>
     <name>ppwcode library parent pom</name>
     <description>A parent pom for collections of libaries, or single libraries.
