@@ -1,0 +1,938 @@
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <!--
+  Copyright 2007 - $Date$ by PeopleWare n.v.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  $Date$
+  $Revision$
+  $HeadURL$
+  -->
+
+
+  <!-- NOTE: you probably have to give Maven more memory:
+             export MAVEN_OPTS=-Xmx1024M -->
+
+  <!--  TODO good documentation -->
+
+  <!-- IMPORTANT NOTE: it turns out that the group id and artifact id of a parent pom cannot be a calculated
+       value; the group id and artifact id of a leaf pom can -->
+
+
+    <modelVersion>4.0.0</modelVersion>
+
+  <!-- ARTIFACT ID, GROUP ID, VERSION, PACKAGING, NAME & DESCRIPTION: OVERWRITE IN YOUR CHILD POM (know what you are doing :-) ) -->
+    <groupId>org.ppwcode</groupId>
+    <artifactId>ppwcode-library-parent-pom</artifactId>
+    <version>1.2.4</version>
+    <packaging>pom</packaging>
+    <name>ppwcode library parent pom</name>
+    <description>A parent pom for collections of libaries, or single libraries.
+    This POM is intended for reuse outside the ppwcode project.
+    </description>
+
+  <!-- INCEPTION YEAR: OVERWRITE IN YOUR CHILD POM (you can't be that old :-) ) -->
+    <inceptionYear>2007</inceptionYear> <!-- copy of Beedraz -->
+
+  <!-- ORGANIZATION: OVERWRITE IN YOUR CHILD POM (do you think you got what it takes to work for us? :-) ) -->
+    <organization>
+        <name>PeopleWare n.v.</name>
+        <url>http://www.peopleware.be/</url>
+    </organization>
+
+  <!-- MAILING LISTS: OVERWRITE IN YOUR CHILD POM (your chit chat is off-topic in our lists :-) ) -->
+    <mailingLists>
+        <mailingList>
+            <name>ppwcode Announce</name>
+            <subscribe>http://groups.google.com/group/ppwcode-announce/subscribe</subscribe>
+            <unsubscribe>http://groups.google.com/group/ppwcode-announce/subscribe</unsubscribe>
+            <post>ppwcode-announce@googlegroups.com</post>
+            <archive>http://groups.google.com/group/ppwcode-announce/topics</archive>
+        </mailingList>
+        <mailingList>
+            <name>ppwcode Developers</name>
+            <subscribe>http://groups.google.com/group/ppwcode-dev/subscribe</subscribe>
+            <unsubscribe>http://groups.google.com/group/ppwcode-dev/subscribe</unsubscribe>
+            <post>ppwcode-dev@googlegroups.com</post>
+            <archive>http://groups.google.com/group/ppwcode-dev/topics</archive>
+        </mailingList>
+        <mailingList>
+            <name>ppwcode Users</name>
+            <subscribe>http://groups.google.com/group/ppwcode-users/subscribe</subscribe>
+            <unsubscribe>http://groups.google.com/group/ppwcode-users/subscribe</unsubscribe>
+            <post>ppwcode-users@googlegroups.com</post>
+            <archive>http://groups.google.com/group/ppwcode-users/topics</archive>
+        </mailingList>
+        <mailingList>
+            <name>ppwcode Subversion commits</name>
+            <subscribe>http://groups.google.com/group/ppwcode-svn/subscribe</subscribe>
+            <unsubscribe>http://groups.google.com/group/ppwcode-svn/subscribe</unsubscribe>
+            <post>ppwcode-svn@googlegroups.com</post>
+            <archive>http://groups.google.com/group/ppwcode-svn/topics</archive>
+        </mailingList>
+    </mailingLists>
+
+  <!-- ISSUE MANAGEMENT: OVERWRITE IN YOUR CHILD POM (your problems aren't ours :-) ) -->
+    <issueManagement>
+        <system>Google Code</system>
+        <url>http://code.google.com/p/ppwcode/issues/list</url>
+    </issueManagement>
+
+  <!-- DEVELOPERS & CONTRIBUTORS: OVERWRITE IN YOUR CHILD POM (we don't work for you :-) ) -->
+    <developers>
+        <developer>
+            <name>Jan Dockx</name>
+            <id>jandockx</id>
+            <email>jandockx@gmail.org</email>
+            <timezone>+1</timezone>
+            <organization>PeopleWare n.v.</organization>
+            <organizationUrl>http://www.peopleware.be/</organizationUrl>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+            <properties>
+                <aim>jandockx@mac.com</aim>
+                <skype>callto:jandockx</skype>
+            </properties>
+        </developer>
+        <developer>
+            <name>Tom Mahieu</name>
+            <id>Tom.Mahieu</id>
+            <email>Tom.Mahieu@gmail.com</email>
+            <timezone>+1</timezone>
+            <organization>PeopleWare n.v.</organization>
+            <organizationUrl>http://www.peopleware.be/</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Ruben Vandeginste</name>
+            <id>ruben.vandeginste</id>
+            <email>ruben.vandeginste@gmail.com</email>
+            <timezone>+1</timezone>
+            <organization>PeopleWare n.v.</organization>
+            <organizationUrl>http://www.peopleware.be/</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Jurgen Lust</name>
+            <id>jurgen.lust</id>
+            <email>jurgen.lust@gmail.com</email>
+            <timezone>+1</timezone>
+            <organization>BeeWorks</organization>
+            <organizationUrl>http://www.beeworks.be/</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+    <contributors>
+        <contributor>
+            <organization>PeopleWare n.v.</organization>
+            <organizationUrl>http://www.peopleware.be/</organizationUrl>
+            <timezone>+1</timezone>
+        </contributor>
+        <contributor>
+            <organization>AristA vzw</organization>
+            <organizationUrl>http://www.arista.be/</organizationUrl>
+            <timezone>+1</timezone>
+        </contributor>
+        <contributor>
+            <organization>HDP vzw</organization>
+            <organizationUrl>http://www.hdp.be/</organizationUrl>
+            <timezone>+1</timezone>
+        </contributor>
+    </contributors>
+
+  <!-- REPOSITORIES: ADD REPOSITORIES NEEDED FOR YOUR PROJECT IN THE CHILD POM -->
+    <repositories>
+<!--
+    <repository>
+      <id>ppwcodeRepo</id>
+      <!++ This needs to be copied in all child poms, to find the parent ++>
+      <name>ppwcode Maven 2 repository</name>
+      <url>http://www.ppwcode.org/java/maven2repo</url>
+    </repository>
+-->
+    </repositories>
+
+  <!-- LICENSE: OVERWRITE IF NEEDED IN YOUR CHILD POM (Apache v2 is a good license, though :-) ) -->
+    <licenses>
+        <license>
+            <name>Apache License, version 2</name>
+            <url>LICENSE</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+
+    <properties>
+    <!--
+         We keep the version numbers of Java and Maven and the Maven plugins
+         we use centralized here. This way we have a quick overview and
+         upgrading a plugin gets easier.
+    -->
+    <!-- Java version -->
+        <ppwcode.java.version>1.5</ppwcode.java.version>
+    <!-- Maven version -->
+        <ppwcode.maven.version>2.1.0</ppwcode.maven.version>
+        <ppwcode.ejb.version>3.0</ppwcode.ejb.version>
+    <!--
+        The default java encoding is UTF-8. Override this in your project
+        if you have trouble building. However, if this happens, it is better
+        to fix your project. UTF-8 is always a good
+    -->
+        <ppwcode.java.encoding>UTF-8</ppwcode.java.encoding>
+    <!--
+        Maven plugin versions
+        This could just as well be put in the pluginManagement section,
+        but listing the versions here makes it easier to upgrade.
+    -->
+        <ppwcode.plugin.antrun.version>1.3</ppwcode.plugin.antrun.version>
+        <ppwcode.plugin.assembly.version>2.2-beta-3</ppwcode.plugin.assembly.version>
+        <ppwcode.plugin.checkstyle.version>2.2</ppwcode.plugin.checkstyle.version>
+        <ppwcode.plugin.changes.version>2.1</ppwcode.plugin.changes.version>
+        <ppwcode.plugin.clean.version>2.3</ppwcode.plugin.clean.version>
+        <ppwcode.plugin.cobertura.version>2.2</ppwcode.plugin.cobertura.version>
+        <ppwcode.plugin.compiler.version>2.0.2</ppwcode.plugin.compiler.version>
+        <ppwcode.plugin.dependency.version>2.1</ppwcode.plugin.dependency.version>
+        <ppwcode.plugin.deploy.version>2.4</ppwcode.plugin.deploy.version>
+        <ppwcode.plugin.docbkx.version>2.0.9</ppwcode.plugin.docbkx.version>
+        <ppwcode.plugin.ear.version>2.3.2</ppwcode.plugin.ear.version>
+        <ppwcode.plugin.eclipse.version>2.7</ppwcode.plugin.eclipse.version>
+        <ppwcode.plugin.ejb.version>2.1</ppwcode.plugin.ejb.version>
+        <ppwcode.plugin.enforcer.version>1.0-beta-1</ppwcode.plugin.enforcer.version>
+        <ppwcode.plugin.findbugs.version>2.0</ppwcode.plugin.findbugs.version>
+        <ppwcode.plugin.install.version>2.3</ppwcode.plugin.install.version>
+        <ppwcode.plugin.jar.version>2.2</ppwcode.plugin.jar.version>
+        <ppwcode.plugin.javadoc.version>2.5</ppwcode.plugin.javadoc.version>
+        <ppwcode.plugin.jdepend.version>2.0-beta-2</ppwcode.plugin.jdepend.version>
+        <ppwcode.plugin.jxr.version>2.1</ppwcode.plugin.jxr.version>
+        <ppwcode.plugin.plugin.version>2.5</ppwcode.plugin.plugin.version>
+        <ppwcode.plugin.pmd.version>2.4</ppwcode.plugin.pmd.version>
+        <ppwcode.plugin.projectinfo.version>2.1.1</ppwcode.plugin.projectinfo.version>
+        <ppwcode.plugin.release.version>2.0-beta-9</ppwcode.plugin.release.version>
+        <ppwcode.plugin.resources.version>2.3</ppwcode.plugin.resources.version>
+        <ppwcode.plugin.site.version>2.0-beta-7</ppwcode.plugin.site.version>
+        <ppwcode.plugin.source.version>2.0.4</ppwcode.plugin.source.version>
+        <ppwcode.plugin.statscm.version>1.2.0</ppwcode.plugin.statscm.version>
+        <ppwcode.plugin.surefire.version>2.4.3</ppwcode.plugin.surefire.version>
+        <ppwcode.plugin.taglist.version>2.3</ppwcode.plugin.taglist.version>
+        <ppwcode.plugin.war.version>2.0.2</ppwcode.plugin.war.version>
+
+    <!-- OVERWRITE THESE PROPERTIES WITH SETTINGS APPROPRIATE TO YOUR PROJECT IN YOUR CHILD POM -->
+
+    <!-- Checkstyle configuration -->
+    <!-- The location of the checkstyle configuration in your build classpath -->
+        <ppwcode.checkstyle.configLocation>org/ppwcode/checkstyle/ppwcode_checks.xml</ppwcode.checkstyle.configLocation>
+    <!-- Suppressions file:  is project specific and MUST be defined in child POM -->
+        <ppwcode.checkstyle.suppressionsLocation></ppwcode.checkstyle.suppressionsLocation>
+    <!-- File describing the project's license template, which must be defined in each text file in your project.
+         MUST be defined in child POM -->
+        <ppwcode.checkstyle.headerLocation></ppwcode.checkstyle.headerLocation>
+
+    <!-- location of the docbook documentation -->
+        <site.target.docbooks>target/site/docbooks</site.target.docbooks>
+    </properties>
+
+
+  <!--
+        The url of the project site, for external readers
+  -->
+    <url>http://www.ppwcode.org/java/projectdocs/${project.artifactId}/${project.version}</url>
+
+  <!--
+        Configuration of the source code repository, Subversion in our case
+  -->
+    <scm>
+        <connection>scm:svn:http://ppwcode.googlecode.com/svn/java/maven2/library-parent-pom/trunk</connection>
+        <developerConnection>scm:svn:https://ppwcode.googlecode.com/svn/java/maven2/library-parent-pom/trunk</developerConnection>
+        <url>http://code.google.com/p/ppwcode/source/browse/java/maven2/library-parent-pom</url>
+    </scm>
+
+  <!--
+        Distribution Management: where do we want to put our jars and our
+        documentation website?
+  -->
+    <distributionManagement>
+        <repository>
+            <id>ppwcodeRepo</id>
+            <name>Main ppwcode Maven 2 Repository</name>
+            <url>scpexe://cvs.peopleware.be/ppw/projects/ppwcode/public_html/java/maven2repo</url>
+            <uniqueVersion>true</uniqueVersion>
+        </repository>
+        <snapshotRepository>
+            <id>ppwcodeSnapshotRepo</id>
+            <name>ppwcode Maven 2 Snapshot Repository</name>
+            <url>scpexe://cvs.peopleware.be/ppw/projects/ppwcode/public_html/java/maven2snapshotrepo</url>
+        </snapshotRepository>
+        <site>
+            <id>ppwcodeSite</id>
+            <name>ppwcode Project Documentation Site</name>
+            <url>scpexe://cvs.peopleware.be/ppw/projects/ppwcode/public_html/java/projectdocs</url>
+        </site>
+    </distributionManagement>
+
+
+
+  <!-- ============================================================================================================ -->
+  <!-- ALL THINGS BELOW THIS MARK SHOULD BE CONSIDERED PART OF THE PARENT POM, AND NOT BE OVERWRITTEN IN CHILD POMS -->
+
+  <!-- Build Settings -->
+    <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav</artifactId>
+                <version>1.0-beta-2</version>
+            </extension>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh-external</artifactId>
+                <version>1.0-beta-7</version>
+            </extension>
+        </extensions>
+
+        <defaultGoal>install</defaultGoal>
+
+    <!--  also compile resources! needed for test -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/main/java</directory>
+        <!-- ${project.compileSourceRoots} doesn't work here, probably because that is a list or an array,
+             and not 1 directory -->
+                <includes>
+          <!-- add tlds to taglib jar -->
+                    <include>*.tld</include>
+          <!-- add jsp-tags to taglib jar -->
+                    <include>**/*.tagx</include>
+                    <include>**/*.tag</include>
+                    <include>**/*.usage</include>
+          <!-- copy all properties files for inclusion in jar -->
+                    <include>**/*.properties</include>
+          <!-- add xml files to jar -->
+                    <include>**/*.xml</include>
+          <!-- add betwixt files to jar -->
+                    <include>**/*.betwixt</include>
+          <!-- add text files to jar -->
+                    <include>**/*.txt</include>
+                </includes>
+            </resource>
+        </resources>
+
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+            <testResource>
+                <directory>src/test/java</directory>
+                <includes>
+          <!-- add tlds to taglib jar -->
+                    <include>*.tld</include>
+          <!-- add jsp-tags to taglib jar -->
+                    <include>**/*.tagx</include>
+                    <include>**/*.tag</include>
+                    <include>**/*.usage</include>
+          <!-- copy all properties files for inclusion in jar -->
+                    <include>**/*.properties</include>
+          <!-- add xml files to jar -->
+                    <include>**/*.xml</include>
+          <!-- add betwixt files to jar -->
+                    <include>**/*.betwixt</include>
+          <!-- add text files to jar -->
+                    <include>**/*.txt</include>
+                </includes>
+            </testResource>
+        </testResources>
+
+        <!--
+            The plugin management section is used to configure plugins, without
+            actually enabling them. To specify which plugins should be enabled,
+            see the plugins section.
+        -->
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${ppwcode.plugin.compiler.version}</version>
+                    <configuration>
+                        <compilerVersion>${ppwcode.java.version}</compilerVersion>
+                        <source>${ppwcode.java.version}</source>
+                        <target>${ppwcode.java.version}</target>
+                        <encoding>${ppwcode.java.encoding}</encoding>
+            <!--
+                            These settings should be overridden for production
+                            environments, using a profile
+                        -->
+                        <debug>true</debug>
+                        <showDeprecation>true</showDeprecation>
+                        <showWarnings>true</showWarnings>
+                        <optimize>false</optimize>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>${ppwcode.plugin.install.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-eclipse-plugin</artifactId>
+                    <version>${ppwcode.plugin.eclipse.version}</version>
+                    <configuration>
+                        <downloadSources>true</downloadSources>
+                        <downloadJavadocs>true</downloadJavadocs>
+                        <wtpVersion>2.0</wtpVersion>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>${ppwcode.plugin.war.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>${ppwcode.plugin.site.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${ppwcode.plugin.surefire.version}</version>
+                    <configuration>
+            <!--
+                            Don't fail the build when a unit test fails.
+                            We want the surefire reports!
+                        -->
+                        <testFailureIgnore>true</testFailureIgnore>
+            <!--
+                            always because this ensures that every test
+                            gets a clean environment to run in
+                        -->
+                        <forkMode>pertest</forkMode>
+            <!--
+                            Only classes with Test in their names are
+                            considered
+                        -->
+                        <includes>
+                            <include>**/*Test.java</include>
+                            <include>**/Test*.java</include>
+                        </includes>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>${ppwcode.plugin.release.version}</version>
+                    <configuration>
+                        <goals>deploy site site-deploy</goals>
+                        <preparationGoals>clean install</preparationGoals>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <version>${ppwcode.plugin.antrun.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>${ppwcode.plugin.assembly.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>${ppwcode.plugin.clean.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${ppwcode.plugin.jar.version}</version>
+                    <configuration>
+                        <archive>
+                            <manifestEntries>
+                                <Implementation-Title>${pom.artifactId}</Implementation-Title>
+                                <Implementation-Version>${pom.version}</Implementation-Version>
+                                <Implementation-Vendor-Id>${pom.groupId}</Implementation-Vendor-Id>
+                                <Implementation-Vendor>${pom.organization.name}</Implementation-Vendor>
+                                <Specification-Title>${pom.artifactId}</Specification-Title>
+                                <Specification-Version>${pom.version}</Specification-Version>
+                                <Specification-Vendor>${pom.organization.name}</Specification-Vendor>
+                            </manifestEntries>
+                        </archive>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>test-jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${ppwcode.plugin.source.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>attach-test-sources</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>test-jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>${ppwcode.plugin.deploy.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-plugin-plugin</artifactId>
+                    <version>${ppwcode.plugin.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>${ppwcode.plugin.resources.version}</version>
+                    <configuration>
+                        <encoding>${ppwcode.java.encoding}</encoding>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-ejb-plugin</artifactId>
+                    <version>${ppwcode.plugin.ejb.version}</version>
+                    <configuration>
+                        <ejbVersion>${ppwcode.ejb.version}</ejbVersion>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-ear-plugin</artifactId>
+                    <version>${ppwcode.plugin.ear.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>cobertura-maven-plugin</artifactId>
+                    <version>${ppwcode.plugin.cobertura.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>${ppwcode.plugin.enforcer.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${ppwcode.plugin.javadoc.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>com.agilejava.docbkx</groupId>
+                    <artifactId>docbkx-maven-plugin</artifactId>
+                    <version>${ppwcode.plugin.docbkx.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>generate-html</goal>
+                            </goals>
+                            <phase>pre-site</phase>
+                            <configuration>
+              <!-- Copy images so they would be available for the site -->
+                                <preProcess>
+                                    <copy todir="${site.target.docbooks}/images" failOnError="false">
+                                        <fileset dir="src/docbkx/images" />
+                                    </copy>
+                                </preProcess>
+              <!-- Copy the css files for the stylesheet of the docbook pages -->
+                                <preProcess>
+                                    <copy todir="${site.target.docbooks}/css" failOnError="false">
+                                        <fileset dir="src/docbkx/css" />
+                                    </copy>
+                                </preProcess>
+                                <targetDirectory>${site.target.docbooks}</targetDirectory>
+                                <htmlhelpEnumerateImages>true</htmlhelpEnumerateImages>
+                                <xincludeSupported>true</xincludeSupported>
+                            </configuration>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>net.sf.docbook</groupId>
+                            <artifactId>docbook-xml</artifactId>  
+                            <version>5.0</version>
+                            <scope>runtime</scope>
+                            <classifier>xsd-resources</classifier>
+                            <type>zip</type>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <!--
+            This is where we enable plugins
+        -->
+        <plugins>
+      <!--
+                Make sure we are building with the right tools. A common
+                cause for build errors is an outdated Maven.
+            -->
+            <plugin>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>enforce-versions</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>${ppwcode.maven.version}</version>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>${ppwcode.java.version}</version>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+      <!-- IDEA maven-remote-resources-plugin -->
+
+<!-- MUDO waiting for mail host, list
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-changes-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>announcement-generate</goal>
+            </goals>
+            <id>announcement-generate</id>
+          </execution>
+          <execution>
+            <goals>
+              <goal>announcement-mail</goal>
+            </goals>
+            <id>announcement-mail</id>
+          </execution>
+        </executions>
+        <configuration>
+          <smtpHost>localhost</smtpHost>
+          <smtpPort implementation="java.lang.Integer">33125</smtpPort>
+          <toAddresses>
+            <toAddress implementation="java.lang.String">beedraz@googlegroups.com</toAddress>
+          </toAddresses>
+        </configuration>
+      </plugin>
+-->
+            <plugin>
+                <groupId>com.agilejava.docbkx</groupId>
+                <artifactId>docbkx-maven-plugin</artifactId>
+            </plugin>
+
+        </plugins>
+    </build>
+
+
+
+  <!-- Reporting settings -->
+    <reporting>
+
+        <plugins>
+            <plugin>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>${ppwcode.plugin.surefire.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>taglist-maven-plugin</artifactId>
+                <version>${ppwcode.plugin.taglist.version}</version>
+                <configuration>
+                    <multipleLineComments>true</multipleLineComments>
+                    <tags>
+                        <tag>MUDO</tag>
+                        <tag>@mudo</tag>
+                        <tag>NIY</tag>
+                        <tag>@niy</tag>
+                        <tag>XXX</tag>
+                        <tag>TODO</tag>
+                        <tag>@todo</tag>
+                        <tag>IDEA</tag>
+                        <tag>@idea</tag>
+                    </tags>
+                </configuration>
+            </plugin>
+      <!--
+	Cobertura creates code coverage reports for unit tests
+      -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>${ppwcode.plugin.jxr.version}</version>
+                <configuration>
+                    <bottom>Copyright (c) ${project.inceptionYear} ${project.organization.name}. All Rights Reserved.</bottom>
+                    <destDir>${project.build.directory}/site/xref</destDir>
+                    <docTitle>${project.name} ${project.version} Reference</docTitle>
+                    <inputEncoding>${ppwcode.java.encoding}</inputEncoding>
+                    <javadocDir>${project.build.directory}/site/apidocs</javadocDir>
+                    <outputDirectory>${project.build.directory}/site</outputDirectory>
+                    <outputEncoding>${ppwcode.java.encoding}</outputEncoding>
+                    <windowTitle>${project.name} ${project.version} Reference</windowTitle>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${ppwcode.plugin.javadoc.version}</version>
+                <configuration>
+                    <source>${ppwcode.java.version}</source>
+                    <author>true</author> <!-- show author tags -->
+                    <protected>true</protected> <!-- only show public and protected stuff -->
+                    <package>false</package>
+                    <private>false</private>
+                    <breakiterator>true</breakiterator> <!-- use new algorithm to determine end of first sentence -->
+                    <stylesheet>maven</stylesheet>
+                    <docfilessubdirs>true</docfilessubdirs> <!-- enable deep copy of all doc-files subdirectories ... -->
+                    <excludedocfilessubdir>.svn</excludedocfilessubdir> <!-- ... but don't copy CVS files -->
+                    <linksource>true</linksource> <!-- HTML version of each source file -->
+                    <links>
+                        <link>http://java.sun.com/j2se/1.5.0/docs/api</link>
+            <!--  add links for all ppwcode packages that are released -->
+                    </links>
+          <!-- no overview documentation in this project yet
+          <offlineLinks>
+          </offlineLinks>
+          <doctitle></doctitle>
+          <overview></overview>
+          -->
+          <!-- windowtitle default is ok -->
+                    <header>&lt;a href="${pom.url}"&gt;${pom.artifactId} ${pom.version}&lt;/a&gt;</header>
+          <!-- IDEA replace header with logo -->
+                    <footer>&lt;a href="${pom.url}"&gt;${pom.artifactId} ${pom.version}&lt;/a&gt;</footer>
+                    <bottom>&amp;copy; ${project.organization.name}, ${pom.inceptionYear}.</bottom>
+                    <docencoding>${ppwcode.java.encoding}</docencoding>
+                    <tags> <!-- order defines order in which tags are shown -->
+                        <tag>
+                            <name>note</name>
+                            <placement>a</placement>
+                            <head>Note:</head>
+                        </tag>
+                        <tag>
+                            <name>deprecated</name>
+              <!-- we want the standard tag here -->
+                        </tag>
+                        <tag>
+                            <name>protected</name>
+                            <placement>a</placement>
+                            <head>Information for Subtype Implementors:</head>
+                        </tag>
+                        <tag>
+                            <name>param</name>
+              <!-- we want the standard tag here -->
+                        </tag>
+                        <tag>
+                            <name>return</name>
+              <!-- we want the standard tag here -->
+                        </tag>
+                        <tag>
+                            <name>throws</name>
+              <!-- we want the standard tag here -->
+                        </tag>
+                        <tag>
+                            <name>see</name>
+              <!-- we want the standard tag here -->
+                        </tag>
+                        <tag>
+                            <name>author</name>
+              <!-- we want the standard tag here -->
+                        </tag>
+                        <tag>
+                            <name>since</name>
+              <!-- we want the standard tag here -->
+                        </tag>
+                        <tag>
+                            <name>mudo</name>
+                            <placement>a</placement>
+                            <head>Must do:</head>
+                        </tag>
+                        <tag>
+                            <name>todo</name>
+                            <placement>a</placement>
+                            <head>To do:</head>
+                        </tag>
+                        <tag>
+                            <name>idea</name>
+                            <placement>a</placement>
+                            <head>Idea:</head>
+                        </tag>
+                    </tags>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>${ppwcode.plugin.findbugs.version}</version>
+                <configuration>
+          <!--
+                      <effort>Min|Default|Max</effort>
+                      <xmlOutput>true|false</xmlOutput>
+                      <relaxed>true|false</relaxed>
+                      <excludeFilterFile>findbugs-exclude.xml</excludeFilterFile>
+                      <includeFilterFile>findbugs-include.xml</includeFilterFile>
+                      <debug>true|false</debug>
+                      <onlyAnalyze>org.codehaus.mojo.findbugs.*</onlyAnalyze>
+                      <pluginList>/libs/fb-contrib/fb-contrib-2.8.0.jar</pluginList>
+                      -->
+                    <threshold>Low</threshold>
+                    <effort>Max</effort>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${ppwcode.plugin.checkstyle.version}</version>
+                <configuration>
+                    <configLocation>${ppwcode.checkstyle.configLocation}</configLocation>
+          <!--<suppressionsLocation>${ppwcode.checkstyle.suppressionsLocation}</suppressionsLocation>-->
+                    <headerLocation>${ppwcode.checkstyle.headerLocation}</headerLocation>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>${ppwcode.plugin.pmd.version}</version>
+                <configuration>
+                    <rulesets>
+                        <ruleset>/rulesets/basic.xml</ruleset>
+                        <ruleset>/rulesets/unusedcode.xml</ruleset>
+                        <ruleset>/rulesets/coupling.xml</ruleset>
+                        <ruleset>/rulesets/optimizations.xml</ruleset>
+                        <ruleset>/rulesets/design.xml</ruleset>
+                        <ruleset>/rulesets/sunsecure.xml</ruleset>
+                        <ruleset>/rulesets/strictexception.xml</ruleset>
+                        <ruleset>/rulesets/javabeans.xml</ruleset>
+                        <ruleset>/rulesets/strings.xml</ruleset>
+                        <ruleset>/rulesets/imports.xml</ruleset>
+                        <ruleset>/rulesets/clone.xml</ruleset>
+                        <ruleset>/rulesets/naming.xml</ruleset>
+                        <ruleset>/rulesets/junit.xml</ruleset>
+                        <ruleset>/rulesets/codesize.xml</ruleset>
+                    </rulesets>
+                    <linkXref>true</linkXref>
+                    <minimumTokens>100</minimumTokens>
+                    <targetJdk>${ppwcode.java.version}</targetJdk>
+                    <sourceEncoding>${ppwcode.java.encoding}</sourceEncoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${ppwcode.plugin.dependency.version}</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>${ppwcode.plugin.projectinfo.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jdepend-maven-plugin</artifactId>
+                <version>${ppwcode.plugin.jdepend.version}</version>
+        <!-- jdepend-2-dot exists! -->
+        <!-- MUDO there is currently no way to provide jdepend with configuration (properties file); for the time being, it
+             is stored in ${basedir}/toolProperties, but not used -->
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-changes-plugin</artifactId>
+                <version>${ppwcode.plugin.changes.version}</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>changes-report</report>
+              <!-- IDEA add issue tracker report ? -->
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+
+            <plugin>
+                <groupId>net.sf</groupId>
+                <artifactId>stat-scm</artifactId>
+                <version>${ppwcode.plugin.statscm.version}</version>
+        <!-- MUDO needs more config ?? -->
+            </plugin>
+
+
+      <!-- IDEA add maven-jdiff-plugin (compares Javadoc of different versions) -->
+
+      <!-- IDEA maven-pdf-plugin looks interesting, but is still under development -->
+      <!-- IDEA maven-uml-plugin looks interesting, but is still under development -->
+
+      <!-- linkcheck would be desirable, but no maven 2 plugin was found -->
+      <!-- doccheck is probably not desirable, and no maven 2 plugin was found -->
+
+      <!-- EMMA might be interesting http://mojo.codehaus.org/emma-maven-plugin/howto.html -->
+        </plugins>
+    </reporting>
+
+
+
+    <pluginRepositories>
+<!--
+    <pluginRepository>
+      <id>ApacheMaven2PluginSnapshots</id>
+      <!++  needed for surefire snapshot version ++>
+      <url>http://people.apache.org/repo/m2-snapshot-repository</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </pluginRepository>
+-->
+<!--
+    <pluginRepository>
+      <id>pluginSnapshots</id>
+      <url>http://snapshots.maven.codehaus.org/maven2</url>
+    </pluginRepository>
+    <pluginRepository>
+      <id>stat-scm-sourceforge</id>
+      <url>http://stat-scm.sourceforge.net/maven2</url>
+    </pluginRepository>
+-->
+    </pluginRepositories>
+
+
+
+<!--
+  <ciManagement>...</ciManagement>
+  <prerequisites>...</prerequisites>
+  <distributionManagement>...</distributionManagement>
+  <profiles>...</profiles>
+-->
+
+</project>
