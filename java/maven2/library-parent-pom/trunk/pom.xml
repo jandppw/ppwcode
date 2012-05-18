@@ -276,18 +276,18 @@
         <repository>
             <id>ppwcodeRepo</id>
             <name>Main ppwcode Maven 2 Repository</name>
-            <url>scpexe://cvs.peopleware.be/ppw/projects/ppwcode/public_html/java/maven2repo</url>
+            <url>scpexe://hypocrates.peopleware.be/srv/www/ppwcode/java/maven2repo</url>
             <uniqueVersion>true</uniqueVersion>
         </repository>
         <snapshotRepository>
             <id>ppwcodeSnapshotRepo</id>
             <name>ppwcode Maven 2 Snapshot Repository</name>
-            <url>scpexe://cvs.peopleware.be/ppw/projects/ppwcode/public_html/java/maven2snapshotrepo</url>
+            <url>scpexe://hypocrates.peopleware.be/srv/www/ppwcode/java/maven2snapshotrepo</url>
         </snapshotRepository>
         <site>
             <id>ppwcodeSite</id>
             <name>ppwcode Project Documentation Site</name>
-            <url>scpexe://cvs.peopleware.be/ppw/projects/ppwcode/public_html/java/projectdocs</url>
+            <url>scpexe://hypocrates.peopleware.be/srv/www/ppwcode/java/projectdocs</url>
         </site>
     </distributionManagement>
 
