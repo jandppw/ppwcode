@@ -21,12 +21,14 @@ import static org.ppwcode.util.smallfries_I.MathUtil.equalPrimitiveValue;
 import static org.ppwcode.util.smallfries_I.MathUtil.equalValue;
 import static org.ppwcode.util.smallfries_I.MathUtil.geometricMean;
 import static org.ppwcode.util.smallfries_I.MathUtil.logTransform;
+import static org.ppwcode.util.smallfries_I.MathUtil.median;
 import static org.ppwcode.util.smallfries_I.MathUtil.populationStandardDeviation;
 import static org.ppwcode.util.smallfries_I.MathUtil.populationVariance;
 import static org.ppwcode.util.smallfries_I.MathUtil.sampleStandardDeviation;
 import static org.ppwcode.util.smallfries_I.MathUtil.sampleVariance;
 import static org.ppwcode.util.smallfries_I.MathUtil.ulp;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -423,6 +425,37 @@ public class TestMathUtil {
         product *= doubles[i];
       }
       return Math.pow(product, 1.0 / doubles.length);
+    }
+  }
+
+  @Test
+  public void testMedian() {
+    double[] values = new double[0];
+    assertTrue(equalPrimitiveValue(medianByHand(values), median(values)));
+    values = new double[]{1.1};
+    assertTrue(equalPrimitiveValue(medianByHand(values), median(values)));
+    values = new double[]{1.1, 2.2};
+    assertTrue(equalPrimitiveValue(medianByHand(values), median(values)));
+    values = new double[]{1.1, 2.2, 3.3};
+    assertTrue(equalPrimitiveValue(medianByHand(values), median(values)));
+    values = new double[]{1.1, 2.2, 3.3, 4.4};
+    assertTrue(equalPrimitiveValue(medianByHand(values), median(values)));
+  }
+
+  /**
+   * @pre   doubles != null;
+   */
+  private double medianByHand(double... doubles) {
+    assert doubles != null;
+    if (doubles.length == 0) {
+      return Double.NaN;
+    } else {
+      Arrays.sort(doubles);
+      int pos = (int)Math.floor((doubles.length - 1) * 1.0 / 2);
+      if (doubles.length % 2 == 0) {
+        return (doubles[pos] + doubles[pos+1]) / 2;
+      }
+      return doubles[pos];
     }
   }
 

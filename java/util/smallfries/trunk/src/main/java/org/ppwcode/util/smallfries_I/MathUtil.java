@@ -29,6 +29,7 @@ import org.apache.commons.math.stat.descriptive.moment.StandardDeviation;
 import org.apache.commons.math.stat.descriptive.moment.Variance;
 import org.apache.commons.math.stat.descriptive.rank.Max;
 import org.apache.commons.math.stat.descriptive.rank.Min;
+import org.apache.commons.math.stat.descriptive.rank.Median;
 import org.apache.commons.math.stat.descriptive.summary.Product;
 import org.apache.commons.math.stat.descriptive.summary.Sum;
 import org.ppwcode.metainfo_I.Copyright;
@@ -500,6 +501,15 @@ public final class MathUtil {
     assert doubles != null;
     GeometricMean gm = new GeometricMean();
     return gm.evaluate(doubles);
+  }
+
+  /**
+   * @pre  doubles != null;
+   */
+  public static double median(double... doubles) {
+    assert doubles != null;
+    Median median = new Median();
+    return median.evaluate(doubles);
   }
 
   /**
