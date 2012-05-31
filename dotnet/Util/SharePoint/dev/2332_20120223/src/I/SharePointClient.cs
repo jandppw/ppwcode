@@ -228,7 +228,6 @@ namespace PPWCode.Util.SharePoint.I
                     };
                     string fileVerUrl = spClientContext.Url + "/" + specificVersion.Url;
                     byte[] content = wc.DownloadData(fileVerUrl);
-                    //byte[] content = ReadFile(fileVerUrl);
                     return new SharePointDocument(content);
                 }
             }
@@ -270,7 +269,7 @@ namespace PPWCode.Util.SharePoint.I
                     Upload(relativeUrl, doc);
                     if (retrieveVersion)
                     {
-                        SharePointDocumentVersion sharePointDocumentVersion = RetrieveCurrentVersionFromUrl(relativeUrl, spClientContext);
+                        SharePointDocumentVersion sharePointDocumentVersion = RetrieveCurrentVersion(relativeUrl, spClientContext);
                         result = sharePointDocumentVersion.Version;
                     }
                 }
@@ -968,14 +967,9 @@ namespace PPWCode.Util.SharePoint.I
 
         public IEnumerable<SharePointDocumentVersion> RetrieveAllVersionsFromUrl(string relativeUrl)
         {
-            //FileVersionCollection collection = RetrievePreviousVersionsFromUrl(relativeUrl);
+           
             List<SharePointDocumentVersion> documentVersions = new List<SharePointDocumentVersion>();
-            //foreach (var version in collection)
-            //{
-            //    documentVersions.Add(new SharePointDocumentVersion(version.VersionLabel, version.Created));
-            //}
-            //documentVersions.Add(RetrieveCurrentVersion(relativeUrl));
-            //return documentVersions;
+            
             using (ClientContext spClientcontext = GetSharePointClientContext())
             {
                 try
@@ -1003,44 +997,7 @@ namespace PPWCode.Util.SharePoint.I
             }
         }
 
-        private FileVersionCollection RetrievePreviousVersionsFromUrl(string relativeUrl)
-        {
-            using (ClientContext spClientcontext = GetSharePointClientContext())
-            {
-                try
-                {
-                    File file = spClientcontext.Site.RootWeb.GetFileByServerRelativeUrl(relativeUrl);
-                    spClientcontext.Load(file);
-                    spClientcontext.Load(file.Versions);
-                    spClientcontext.ExecuteQuery();
-                    FileVersionCollection collection = file.Versions;
-                    return collection;
-                }
-                catch (Exception ex)
-                {
-                    s_Logger.ErrorFormat(
-                        "Error searching Versions from file [{0}]. Exception({1}).",
-                        relativeUrl,
-                        ex);
-                    throw;
-                }
-            }
-        }
-
-        public SharePointDocumentVersion RetrieveCurrentVersion(string relativeUrl)
-        {
-            using (ClientContext spClientcontext = GetSharePointClientContext())
-            {
-                return RetrieveCurrentVersionFromUrl(relativeUrl, spClientcontext);
-            }
-        }
-
-        public SharePointDocumentVersion RetrieveCurrentVersion(string relativeUrl, ClientContext spClientContext)
-        {
-            return RetrieveCurrentVersionFromUrl(relativeUrl, spClientContext);
-        }
-
-        private static SharePointDocumentVersion RetrieveCurrentVersionFromUrl(string relativeUrl, ClientContext spClientcontext)
+       private static SharePointDocumentVersion RetrieveCurrentVersion(string relativeUrl, ClientContext spClientcontext)
         {
             try
             {
