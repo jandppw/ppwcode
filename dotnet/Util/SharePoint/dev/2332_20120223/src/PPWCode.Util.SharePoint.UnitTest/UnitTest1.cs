@@ -1,11 +1,16 @@
 ﻿#region Using
 
 using System;
+using System.Collections;
 using System.IO;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using PPWCode.Util.SharePoint.I;
+
+using Microsoft.SharePoint.Client;
+
+using File = Microsoft.SharePoint.Client.File;
 
 #endregion
 
@@ -39,10 +44,10 @@ namespace PPWCode.Util.SharePoint.UnitTest
         [TestMethod]
         public void TestUpload()
         {
-            Uri sourceUri = new Uri(@"D:\ivan\icon.pdf");
-            Uri targetUri = new Uri(@"http://pensiob-sp2010/PensioB/Test/");
+            Uri sourceUri = new Uri(@"C:\Users\kristel.bogaerts\Documents\Allerlei\Probeer.pdf");
+            Uri targetUri = new Uri(@"http://Hoefnix/PensioB/a/");
 
-            byte[] contents = File.ReadAllBytes(sourceUri.LocalPath);
+            byte[] contents = System.IO.File.ReadAllBytes(sourceUri.LocalPath);
 
             ISharePointClient sharePointClient = GetSharePointService(targetUri);
 
@@ -58,7 +63,9 @@ namespace PPWCode.Util.SharePoint.UnitTest
                     : "/",
                 fileName);
 
-            sharePointClient.UploadDocument(fileName, targetSpDoc);
+            string nr = sharePointClient.UploadDocumentReceiveVersion(fileName, targetSpDoc);
+            Console.WriteLine(nr);
+            
         }
 
         [TestMethod]
@@ -190,27 +197,27 @@ namespace PPWCode.Util.SharePoint.UnitTest
         public void TestAll()
         {
             {
-                Uri startUri = new Uri(@"http://pensiob-sp2010/PensioB/");
+                Uri startUri = new Uri(@"http://hoefnix/PensioB/");
                 SharePointClient sharePointClient = (SharePointClient)GetSharePointService(startUri);
                 if (sharePointClient != null)
                 {
                     try
                     {
 
-                        sharePointClient.CreateFolder("PensioB/bbbb/cccc/dddd/eeee/ffff/gggg/bbbb/gggg",true);
+                        sharePointClient.CreateFolder("PensioB/bbbb/cccc/dddd/eeee/ffff/gggg/bbbb/gggg", true);
                         int getal1 = sharePointClient.CountAllOccurencesOfFolderInPath("PensioB", "gggg");
                         Console.WriteLine(getal1);
-                        bool check1 = sharePointClient.CheckExistenceOfFolderWithExactPath("PensioB/bbbb/cccc/dddd/eeee/ffff/gggg/bbbb/gggg");
+                        bool check1 = sharePointClient.CheckExistenceOfFolderWithExactPath("/PensioB/HEYVAERT,KOEN@79110600301@2/Construo/Payments/DEATH%20-%202012-05-21/Beneficiaries/VANDEGINSTE,AN@316685-86030620287/LetterRequestingInformationOfBeneficiary.pdf");
                         Console.WriteLine(check1);
-                        sharePointClient.DeleteFolder("PensioB/bbbb/cccc/dddd/eeee/ffff/gggg/bbbb/gggg",true);
+                        sharePointClient.DeleteFolder("PensioB/a", false);
                         int getal2 = sharePointClient.CountAllOccurencesOfFolderInPath("PensioB", "gggg");
                         Console.WriteLine(getal2);
-                        sharePointClient.DeleteFolder("PensioB/bbbb/cccc/dddd/eeee/ffff",true);
+                        sharePointClient.DeleteFolder("PensioB/bbbb/cccc/dddd/eeee/ffff", true);
                         int getal3 = sharePointClient.CountAllOccurencesOfFolderInPath("PensioB", "gggg");
                         Console.WriteLine(getal3);
-                        bool check2 = sharePointClient.CheckExistenceOfFolderWithExactPath("PensioB/bbbb/cccc/dddd/eeee/ffff/gggg/bbbb/gggg");
+                        bool check2 = sharePointClient.CheckExistenceOfFolderWithExactPath("PensioB/a");
                         Console.WriteLine(check2);
-                        sharePointClient.CreateFolder("PensioB/bbbb/cccc/dddd/eeee/ffff/gggg/bbbb/gggg/",true);
+                        sharePointClient.CreateFolder("PensioB/bbbb/cccc/dddd/eeee/ffff/gggg/bbbb/gggg/", true);
                         int getal4 = sharePointClient.CountAllOccurencesOfFolderInPath("PensioB", "gggg");
                         Console.WriteLine(getal4);
                         int getal5 = sharePointClient.CountAllOccurencesOfFolderInPath("PensioB/bbbb/cccc/dddd/eeee/ffff/gggg/bbbb", "gggg");
@@ -218,7 +225,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
                         int getal6 = sharePointClient.CountAllOccurencesOfFolderInPath("PensioB/bbbb/cccc/dddd/eeee/ffff/gggg/bbbb/gggg", "gggg");
                         Console.WriteLine(getal6);
 
-                        //sharePointClient.CreateFolder("/PensioB","GGGG/DDDD");
+                        sharePointClient.CreateFolder("/PensioB", "GGGG/DDDD");
                     }
                     catch (Exception ex)
                     {
@@ -228,6 +235,46 @@ namespace PPWCode.Util.SharePoint.UnitTest
 
             } 
  
+        }
+        [TestMethod]
+        public void TestVersions()
+        {
+            Uri startUri = new Uri(@"http://hoefnix/PensioB/");
+            SharePointClient sharePointClient = (SharePointClient)GetSharePointService(startUri);
+            if (sharePointClient != null)
+            {
+               try
+                {
+                    System.Collections.Generic.IEnumerable<SharePointDocumentVersion> sharePointDocumentVersions = sharePointClient.RetrieveAllVersionsFromUrl(@"/PensioB/HEYVAERT,KOEN@79110600301@2/Construo/Payments/DEATH%20-%202012-05-21/Beneficiaries/VANDEGINSTE,AN@316685-86030620287/LetterRequestingInformationOfBeneficiary.pdf");
+                    foreach (var version in sharePointDocumentVersions)
+                    {
+                        Console.WriteLine(version.Version);
+                        Console.WriteLine(version.CreationDate);
+                        Console.WriteLine(version.Url);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(string.Format("Exception: {0}", ex));
+                }
+            }
+        }
+        [TestMethod]
+        public void TestDownloadWithSpecificVersion()
+        {
+            Uri startUri = new Uri(@"http://hoefnix/PensioB/");
+            SharePointClient sharePointClient = (SharePointClient)GetSharePointService(startUri);
+            if (sharePointClient != null)
+            {
+                try
+                {
+                    SharePointDocument sharePointDocument = sharePointClient.DownloadSpecificVersion("/PensioB/HEYVAERT,KOEN@79110600301@2/Construo/Payments/DEATH%20-%202012-05-21/Beneficiaries/VANDEGINSTE,AN@316685-86030620287/LetterRequestingInformationOfBeneficiary.pdf", "2.0");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(string.Format("Exception: {0}", ex));
+                }
+            }
         }
     }
 }
