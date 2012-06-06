@@ -1,4 +1,5 @@
 /*
+/*
  * Copyright 2004 - $Date: 2008-11-15 23:58:07 +0100 (za, 15 nov 2008) $ by PeopleWare n.v..
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -965,7 +966,7 @@ namespace PPWCode.Util.SharePoint.I
             return relativeUrl;
         }
 
-        public IEnumerable<SharePointDocumentVersion> RetrieveAllVersionsFromUrl(string relativeUrl)
+        public IOrderedEnumerable<SharePointDocumentVersion> RetrieveAllVersionsFromUrl(string relativeUrl)
         {
            
             List<SharePointDocumentVersion> documentVersions = new List<SharePointDocumentVersion>();
@@ -984,7 +985,7 @@ namespace PPWCode.Util.SharePoint.I
                         documentVersions.Add(new SharePointDocumentVersion(version.VersionLabel, version.Created, version.Url));
                     }
                     documentVersions.Add(new SharePointDocumentVersion(file.UIVersionLabel, file.TimeLastModified, file.ServerRelativeUrl));
-                    return documentVersions;
+                    return documentVersions.OrderBy(ver => ver.CreationDate); ;
                 }
                 catch (Exception ex)
                 {

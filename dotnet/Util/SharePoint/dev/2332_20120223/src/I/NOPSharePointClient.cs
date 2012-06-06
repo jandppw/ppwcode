@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 
 using Microsoft.SharePoint.Client;
@@ -121,10 +122,10 @@ namespace PPWCode.Util.SharePoint.I
             return default(SharePointDocument);
         }
 
-        public IEnumerable<SharePointDocumentVersion> RetrieveAllVersionsFromUrl(string baseRelativeUrl)
+        public IOrderedEnumerable<SharePointDocumentVersion> RetrieveAllVersionsFromUrl(string baseRelativeUrl)
         {
             //NOP
-            return default(IEnumerable<SharePointDocumentVersion>);
+            return default(IOrderedEnumerable<SharePointDocumentVersion>);
         }
 
         #endregion

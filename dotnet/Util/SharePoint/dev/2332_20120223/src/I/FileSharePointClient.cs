@@ -332,7 +332,7 @@ namespace PPWCode.Util.SharePoint.I
             throw new NotImplementedException();
         }
 
-        public IEnumerable<SharePointDocumentVersion> RetrieveAllVersionsFromUrl(string relativeUrl)
+        public IOrderedEnumerable<SharePointDocumentVersion> RetrieveAllVersionsFromUrl(string relativeUrl)
         {
             throw new NotImplementedException();
         }
