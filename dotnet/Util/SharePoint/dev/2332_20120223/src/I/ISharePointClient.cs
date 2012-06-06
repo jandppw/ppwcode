@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using System.Net;
 
 using Microsoft.SharePoint.Client;
@@ -113,7 +114,7 @@ namespace PPWCode.Util.SharePoint.I
 
         bool CheckExistenceOfFolderWithExactPath(string folderPath);
 
-        IEnumerable<SharePointDocumentVersion> RetrieveAllVersionsFromUrl(string baseRelativeUrl);
+        IOrderedEnumerable<SharePointDocumentVersion> RetrieveAllVersionsFromUrl(string baseRelativeUrl);
        
     }
 
@@ -271,11 +272,11 @@ namespace PPWCode.Util.SharePoint.I
             return default(bool);
         }
 
-        public IEnumerable<SharePointDocumentVersion> RetrieveAllVersionsFromUrl(string relativeUrl)
+        public IOrderedEnumerable<SharePointDocumentVersion> RetrieveAllVersionsFromUrl(string relativeUrl)
         {
             Contract.Requires(!string.IsNullOrEmpty(SharePointSiteUrl));
             Contract.Requires(!string.IsNullOrEmpty(relativeUrl));
-            return default(IEnumerable<SharePointDocumentVersion>); 
+            return default(IOrderedEnumerable<SharePointDocumentVersion>); 
         }
 
         #endregion
