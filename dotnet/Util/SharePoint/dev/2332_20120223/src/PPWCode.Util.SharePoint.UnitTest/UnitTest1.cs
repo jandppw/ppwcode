@@ -204,28 +204,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
                     try
                     {
 
-                        sharePointClient.CreateFolder("PensioB/bbbb/cccc/dddd/eeee/ffff/gggg/bbbb/gggg", true);
-                        int getal1 = sharePointClient.CountAllOccurencesOfFolderInPath("PensioB", "gggg");
-                        Console.WriteLine(getal1);
-                        bool check1 = sharePointClient.CheckExistenceOfFolderWithExactPath("/PensioB/HEYVAERT,KOEN@79110600301@2/Construo/Payments/DEATH%20-%202012-05-21/Beneficiaries/VANDEGINSTE,AN@316685-86030620287/LetterRequestingInformationOfBeneficiary.pdf");
-                        Console.WriteLine(check1);
-                        sharePointClient.DeleteFolder("PensioB/a", false);
-                        int getal2 = sharePointClient.CountAllOccurencesOfFolderInPath("PensioB", "gggg");
-                        Console.WriteLine(getal2);
-                        sharePointClient.DeleteFolder("PensioB/bbbb/cccc/dddd/eeee/ffff", true);
-                        int getal3 = sharePointClient.CountAllOccurencesOfFolderInPath("PensioB", "gggg");
-                        Console.WriteLine(getal3);
-                        bool check2 = sharePointClient.CheckExistenceOfFolderWithExactPath("PensioB/a");
-                        Console.WriteLine(check2);
-                        sharePointClient.CreateFolder("PensioB/bbbb/cccc/dddd/eeee/ffff/gggg/bbbb/gggg/", true);
-                        int getal4 = sharePointClient.CountAllOccurencesOfFolderInPath("PensioB", "gggg");
-                        Console.WriteLine(getal4);
-                        int getal5 = sharePointClient.CountAllOccurencesOfFolderInPath("PensioB/bbbb/cccc/dddd/eeee/ffff/gggg/bbbb", "gggg");
-                        Assert.AreEqual(getal5, 5);
-                        int getal6 = sharePointClient.CountAllOccurencesOfFolderInPath("PensioB/bbbb/cccc/dddd/eeee/ffff/gggg/bbbb/gggg", "gggg");
-                        Console.WriteLine(getal6);
-
-                        sharePointClient.CreateFolder("/PensioB", "GGGG/DDDD");
+                     
                     }
                     catch (Exception ex)
                     {
