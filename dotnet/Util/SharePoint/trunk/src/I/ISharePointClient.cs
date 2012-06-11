@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using System.Net;
 
 #endregion
@@ -59,7 +60,11 @@ namespace PPWCode.Util.SharePoint.I
 
         SharePointDocument DownloadDocument(string relativeUrl);
 
+        SharePointDocument DownloadSpecificVersion(string baseRelativeUrl, string version);
+
         void UploadDocument(string relativeUrl, SharePointDocument doc);
+
+        string UploadDocumentReceiveVersion(string relativeUrl, SharePointDocument doc);
 
         /// <summary>
         /// Validate existence of specified Uri
@@ -106,6 +111,8 @@ namespace PPWCode.Util.SharePoint.I
         int CountAllOccurencesOfFolderInPath(string baseRelativeUrl, string folderName);
 
         bool CheckExistenceOfFolderWithExactPath(string folderPath);
+
+        IOrderedEnumerable<SharePointDocumentVersion> RetrieveAllVersionsFromUrl(string baseRelativeUrl);
     }
 
     // ReSharper disable InconsistentNaming
@@ -153,12 +160,29 @@ namespace PPWCode.Util.SharePoint.I
             return default(SharePointDocument);
         }
 
+        public SharePointDocument DownloadSpecificVersion(string relativeUrl, string version)
+        {
+            Contract.Requires(!string.IsNullOrEmpty(SharePointSiteUrl));
+            Contract.Requires(!string.IsNullOrEmpty(relativeUrl));
+            Contract.Requires(!relativeUrl.StartsWith(SharePointSiteUrl));
+            return default(SharePointDocument); 
+        }
+
         public void UploadDocument(string relativeUrl, SharePointDocument doc)
         {
             Contract.Requires(!string.IsNullOrEmpty(SharePointSiteUrl));
             Contract.Requires(relativeUrl != null);
             Contract.Requires(!relativeUrl.StartsWith(SharePointSiteUrl));
             Contract.Requires(doc != null);
+        }
+
+        public string UploadDocumentReceiveVersion(string relativeUrl, SharePointDocument doc)
+        {
+            Contract.Requires(!string.IsNullOrEmpty(SharePointSiteUrl));
+            Contract.Requires(relativeUrl != null);
+            Contract.Requires(!relativeUrl.StartsWith(SharePointSiteUrl));
+            Contract.Requires(doc != null);
+            return default(string);
         }
 
         public bool ValidateUri(Uri sharePointUri)
@@ -243,6 +267,13 @@ namespace PPWCode.Util.SharePoint.I
             Contract.Requires(!string.IsNullOrEmpty(SharePointSiteUrl));
             Contract.Requires(!string.IsNullOrEmpty(folderPath));
             return default(bool);
+        }
+
+        public IOrderedEnumerable<SharePointDocumentVersion> RetrieveAllVersionsFromUrl(string relativeUrl)
+        {
+            Contract.Requires(!string.IsNullOrEmpty(SharePointSiteUrl));
+            Contract.Requires(!string.IsNullOrEmpty(relativeUrl));
+            return default(IOrderedEnumerable<SharePointDocumentVersion>); 
         }
 
         #endregion
