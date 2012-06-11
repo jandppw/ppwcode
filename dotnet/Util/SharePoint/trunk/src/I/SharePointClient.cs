@@ -17,10 +17,10 @@
 #region Using
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 
 using log4net;
@@ -75,11 +75,11 @@ namespace PPWCode.Util.SharePoint.I
 
         private static void CreateFolderForEnsure(ClientContext spClientContext, string relativeUrl)
         {
-           string workUrl = relativeUrl.StartsWith("/")
+            string workUrl = relativeUrl.StartsWith("/")
                                  ? relativeUrl.Substring(1)
                                  : relativeUrl;
             string[] foldernames = workUrl.Split('/');
-           
+
             spClientContext.Load(spClientContext.Site.RootWeb.RootFolder);
             spClientContext.ExecuteQuery();
 
@@ -95,8 +95,7 @@ namespace PPWCode.Util.SharePoint.I
                     Folder workfolder = spClientContext.Site.RootWeb.GetFolderByServerRelativeUrl(workname);
                     spClientContext.Load(workfolder);
                     spClientContext.ExecuteQuery();
-                  
-                    
+
                     parentfolder = workfolder;
                 }
                 catch (ServerException se)
@@ -189,7 +188,67 @@ namespace PPWCode.Util.SharePoint.I
             }
         }
 
+        public SharePointDocument DownloadSpecificVersion(string baseRelativeUrl, string version)
+        {
+            try
+            {
+                using (ClientContext spClientContext = GetSharePointClientContext())
+                {
+                    Web currentWeb = spClientContext.Web;
+
+                    spClientContext.Load(currentWeb);
+                    spClientContext.ExecuteQuery();
+
+                    List<SharePointDocumentVersion> fileVersionCollection =
+                        RetrieveAllVersionsFromUrl(baseRelativeUrl)
+                            .OrderBy(x => x.CreationDate)
+                            .ToList();
+
+                    SharePointDocumentVersion specificVersion =
+                        fileVersionCollection.SingleOrDefault(x => x.Version == version);
+
+                    // nothing found: throw semantic exception
+                    if (specificVersion == null)
+                    {
+                        throw new Exception(string.Format("Version ({0}) not found.", version));
+                    }
+
+                    // current?
+                    if (specificVersion.Version == fileVersionCollection.Last().Version)
+                    {
+                        return DownloadDocument(baseRelativeUrl);
+                    }
+
+                    // older version
+                    var wc = new WebClient()
+                    {
+                        UseDefaultCredentials = true
+                    };
+                    string fileVerUrl = spClientContext.Url + "/" + specificVersion.Url;
+                    byte[] content = wc.DownloadData(fileVerUrl);
+                    return new SharePointDocument(content);
+                }
+            }
+            catch (Exception e)
+            {
+                s_Logger.Error(string.Format("DownloadDocument({0}) failed using ClientContext {1}.", baseRelativeUrl, SharePointSiteUrl), e);
+                throw;
+            }
+        }
+
         public void UploadDocument(string relativeUrl, SharePointDocument doc)
+        {
+            UploadDocumentRetrieveVersion(relativeUrl, doc, false);
+        }
+
+        public string UploadDocumentReceiveVersion(string relativeUrl, SharePointDocument doc)
+        {
+            return UploadDocumentRetrieveVersion(relativeUrl, doc, true);
+        }
+
+        #region private helpers for upload
+
+        private string UploadDocumentRetrieveVersion(string relativeUrl, SharePointDocument doc, bool retrieveVersion)
         {
             using (ClientContext spClientContext = GetSharePointClientContext())
             {
@@ -201,43 +260,15 @@ namespace PPWCode.Util.SharePoint.I
                 EnsureFolder(parentFolder);
                 spClientContext.ExecuteQuery();
 
+                string result = null;
+
                 try
                 {
-                    string targetUrl = string.Format("{0}{1}", SharePointSiteUrl, relativeUrl);
-
-                    // Create a PUT Web request to upload the file.
-                    WebRequest request = WebRequest.Create(targetUrl);
-
-                    //Set credentials of the current security context
-                    request.Credentials = CredentialCache.DefaultCredentials;
-                    request.Method = "PUT";
-
-                    // Create buffer to transfer file
-                    byte[] fileBuffer = new byte[1024];
-
-                    // Write the contents of the local file to the request stream.
-                    using (Stream stream = request.GetRequestStream())
+                    Upload(relativeUrl, doc);
+                    if (retrieveVersion)
                     {
-                        //Load the content from local file to stream
-                        using (MemoryStream ms = new MemoryStream(doc.Content))
-                        {
-                            ms.Position = 0;
-
-                            // Get the start point
-                            int startBuffer = ms.Read(fileBuffer, 0, fileBuffer.Length);
-                            for (int i = startBuffer; i > 0; i = ms.Read(fileBuffer, 0, fileBuffer.Length))
-                            {
-                                stream.Write(fileBuffer, 0, i);
-                            }
-                        }
-                    }
-
-                    // Perform the PUT request
-                    WebResponse response = request.GetResponse();
-                    if (response != null)
-                    {
-                        //Close response
-                        response.Close();
+                        SharePointDocumentVersion sharePointDocumentVersion = RetrieveCurrentVersion(relativeUrl, spClientContext);
+                        result = sharePointDocumentVersion.Version;
                     }
                 }
                 catch (Exception e)
@@ -245,8 +276,52 @@ namespace PPWCode.Util.SharePoint.I
                     s_Logger.Error(string.Format("UploadDocument({0}) failed using ClientContext {1}.", relativeUrl, SharePointSiteUrl), e);
                     throw;
                 }
+
+                return result;
             }
         }
+
+        private void Upload(string relativeUrl, SharePointDocument doc)
+        {
+            string targetUrl = string.Format("{0}{1}", SharePointSiteUrl, relativeUrl);
+
+            // Create a PUT Web request to upload the file.
+            WebRequest request = WebRequest.Create(targetUrl);
+
+            //Set credentials of the current security context
+            request.Credentials = CredentialCache.DefaultCredentials;
+            request.Method = "PUT";
+
+            // Create buffer to transfer file
+            byte[] fileBuffer = new byte[1024];
+
+            // Write the contents of the local file to the request stream.
+            using (Stream stream = request.GetRequestStream())
+            {
+                //Load the content from local file to stream
+                using (MemoryStream ms = new MemoryStream(doc.Content))
+                {
+                    ms.Position = 0;
+
+                    // Get the start point
+                    int startBuffer = ms.Read(fileBuffer, 0, fileBuffer.Length);
+                    for (int i = startBuffer; i > 0; i = ms.Read(fileBuffer, 0, fileBuffer.Length))
+                    {
+                        stream.Write(fileBuffer, 0, i);
+                    }
+                }
+            }
+
+            // Perform the PUT request
+            WebResponse response = request.GetResponse();
+            if (response != null)
+            {
+                //Close response
+                response.Close();
+            }
+        }
+
+        #endregion
 
         public bool ValidateUri(Uri sharePointUri)
         {
@@ -276,10 +351,6 @@ namespace PPWCode.Util.SharePoint.I
                             {
                                 clientContext.ExecuteQuery();
                                 return true;
-                            }
-                            catch (ServerException)
-                            {
-                                return false;
                             }
                             catch (Exception)
                             {
@@ -365,7 +436,7 @@ namespace PPWCode.Util.SharePoint.I
 
                     // find all items with given name inside the baseRelativeUrl
                     CamlQuery query = CreateCamlQueryFindExactFolderPath(
-                        urlContainingFolder, 
+                        urlContainingFolder,
                         string.Format("{0}/{1}", urlContainingFolder, oldFolderName));
                     ListItemCollection listItemCollection = list.GetItems(query);
 
@@ -426,7 +497,7 @@ namespace PPWCode.Util.SharePoint.I
 
         // ReSharper disable MemberCanBeMadeStatic.Local
         private CamlQuery CreateCamlQueryFindExactFolderPath(string baseRelativeUrl, string oldFolderName)
-        // ReSharper restore MemberCanBeMadeStatic.Local
+            // ReSharper restore MemberCanBeMadeStatic.Local
         {
             CamlQuery query = new CamlQuery();
             query.ViewXml = "<View Scope=\"RecursiveAll\"> " +
@@ -476,7 +547,6 @@ namespace PPWCode.Util.SharePoint.I
 
         #endregion
 
-
         // renameFolder(string baseRelativeUrl, string oldFolderName, string newFolderName)
         // ex. renameAllOccurencesOfFolder("/PensioB", "NAME, FIRSTNAME@123409876@12", "NAME, FIRSTNAME@123409876@9876")
         // ex. renameAllOccurencesOfFolder("/PensioB/NAME, FIRSTNAME@123409876@12/Payments/Beneficiaries", "NAME, FIRSTNAME@123409876@12", "NAME, FIRSTNAME@123409876@9876")
@@ -488,13 +558,13 @@ namespace PPWCode.Util.SharePoint.I
         // ("PensioB", "AAA-Test/test1/test2", "AAA-Test1/test3/test9")
         public void RenameAllOccurrencesOfFolder(string baseRelativeUrl, string oldFolderName, string newFolderName)
         {
-           List<string> renamedListItemCollection = new List<string>();
-           try
-           {
+            List<string> renamedListItemCollection = new List<string>();
+            try
+            {
                 using (ClientContext spClientContext = GetSharePointClientContext())
                 {
                     Web web = spClientContext.Site.RootWeb;
-                    
+
                     // get document library
                     List list = web.Lists.GetByTitle(ExtractListName(baseRelativeUrl));
 
@@ -502,13 +572,12 @@ namespace PPWCode.Util.SharePoint.I
                     CamlQuery query = CreateCamlQueryFindAllOccurencesOfFolder(baseRelativeUrl, oldFolderName);
                     ListItemCollection listItemCollection = list.GetItems(query);
 
-
                     // To load all fields, take the following
                     // spClientContext.Load(listItemCollection);
 
                     // only load required fields
                     spClientContext.Load(
-                        listItemCollection, 
+                        listItemCollection,
                         fs => fs.Include(
                             fi => fi["Title"],
                             fi => fi["FileLeafRef"],
@@ -530,7 +599,7 @@ namespace PPWCode.Util.SharePoint.I
                             string newFileRef = listItemCollection[counter]["FileRef"].ToString();
                             renamedListItemCollection.Add(newFileRef);
                         }
-                     }
+                    }
                 }
             }
             catch (Exception e)
@@ -546,20 +615,20 @@ namespace PPWCode.Util.SharePoint.I
                     catch (Exception exception)
                     {
                         s_Logger.ErrorFormat(
-                                "Error during cleanup (folder={0}, old={1}, new={2}) of failed rename. Exception({3}).",
-                                relativeUrl,
-                                newFolderName,
-                                oldFolderName,
-                                exception);
+                            "Error during cleanup (folder={0}, old={1}, new={2}) of failed rename. Exception({3}).",
+                            relativeUrl,
+                            newFolderName,
+                            oldFolderName,
+                            exception);
                     }
                 }
-               
+
                 s_Logger.ErrorFormat(
-                        "Error renaming in [{0}] from old name [{1}] to new name [{2}]. Exception({3}).",
-                        baseRelativeUrl,
-                        oldFolderName,
-                        newFolderName,
-                        e);
+                    "Error renaming in [{0}] from old name [{1}] to new name [{2}]. Exception({3}).",
+                    baseRelativeUrl,
+                    oldFolderName,
+                    newFolderName,
+                    e);
                 throw;
             }
         }
@@ -583,23 +652,23 @@ namespace PPWCode.Util.SharePoint.I
                         newFolderName = '/' + newFolderName;
                     }
                     string[] foldernames = newFolderName.Split('/');
-                 
-                   if (string.IsNullOrEmpty(foldernames[foldernames.Length - 1]))
-                   {
+
+                    if (string.IsNullOrEmpty(foldernames[foldernames.Length - 1]))
+                    {
                         newFolderName = ExtractRelativeUrlFromBaseRelativeUrl(newFolderName);
                         foldernames = newFolderName.Split('/');
-                   }
+                    }
                     string listName = foldernames[1];
 
                     if ((foldernames.Length < 3) || ((foldernames.Length == 3) && string.IsNullOrEmpty(foldernames[2])))
                     {
                         string errorInformation = string.Format("Path [{0}] is not valid", theNewFolderName);
-                        throw new Exception(string.Format("Error in creating form [{0}].Exeption({1})", theNewFolderName, errorInformation));
+                        throw new Exception(string.Format("Error in creating form [{0}].Exception({1})", theNewFolderName, errorInformation));
                     }
                     if (CheckExistenceOfFolderWithExactPath(newFolderName))
                     {
                         string errorInformation = string.Format("Path [{0}] already exist", theNewFolderName);
-                        throw new Exception(string.Format("Error in creating form [{0}].Exeption({1})", theNewFolderName, errorInformation)); 
+                        throw new Exception(string.Format("Error in creating form [{0}].Exception({1})", theNewFolderName, errorInformation));
                     }
 
                     Web web = spClientContext.Web;
@@ -653,12 +722,13 @@ namespace PPWCode.Util.SharePoint.I
             catch (Exception ex)
             {
                 s_Logger.ErrorFormat(
-                   "Error creating folder [{0}]. Exception({1}).",
-                   newFolderName,
-                   ex);
-                throw; 
+                    "Error creating folder [{0}]. Exception({1}).",
+                    newFolderName,
+                    ex);
+                throw;
             }
         }
+
         private void Create(List list, string[] foldernames, int teller, string url, string newFolderName)
         {
             ListItemCreationInformation newItem = new ListItemCreationInformation();
@@ -674,7 +744,7 @@ namespace PPWCode.Util.SharePoint.I
             newItem.LeafName = foldernames[teller];
             ListItem item = list.AddItem(newItem);
             item["Title"] = foldernames[teller];
-            item.Update(); 
+            item.Update();
         }
 
         //delete folder 
@@ -696,7 +766,7 @@ namespace PPWCode.Util.SharePoint.I
                     }
 
                     string[] foldernames = folderNameToDelete.Split('/');
-                   
+
                     if (string.IsNullOrEmpty(foldernames[foldernames.Length - 1]))
                     {
                         folderNameToDelete = ExtractRelativeUrlFromBaseRelativeUrl(folderNameToDelete);
@@ -707,7 +777,7 @@ namespace PPWCode.Util.SharePoint.I
                         throw new Exception(string.Format("Error in deleting form [{0}].Exeption[{1}]", theFolderNameToDelete, errorInformation));
                     }
                     string relativeUrl = ExtractRelativeUrlFromBaseRelativeUrl(folderNameToDelete);
-                    
+
                     Web web = spClientcontext.Web;
                     List list = web.Lists.GetByTitle(ExtractListName(folderNameToDelete));
 
@@ -732,7 +802,7 @@ namespace PPWCode.Util.SharePoint.I
                         else
                         {
                             string errorInformation = string.Format("Folder to delete does not exist");
-                            throw new Exception(string.Format("Error in deleting form [{0}].Exeption[{1}]", theFolderNameToDelete, errorInformation)); 
+                            throw new Exception(string.Format("Error in deleting form [{0}].Exeption[{1}]", theFolderNameToDelete, errorInformation));
                         }
                     }
                     else
@@ -757,7 +827,7 @@ namespace PPWCode.Util.SharePoint.I
                         else
                         {
                             string errorInformation = string.Format("Folder to delete does not exist");
-                            throw new Exception(string.Format("Error in deleting form [{0}].Exeption[{1}]", theFolderNameToDelete, errorInformation));  
+                            throw new Exception(string.Format("Error in deleting form [{0}].Exeption[{1}]", theFolderNameToDelete, errorInformation));
                         }
                     }
                 }
@@ -768,9 +838,10 @@ namespace PPWCode.Util.SharePoint.I
                     "Error deleting folder [{0}]. Exception({1}).",
                     folderNameToDelete,
                     ex);
-                throw;   
+                throw;
             }
         }
+
         //checks if folder exists in list
         //Parameter baseRelativeUrl has to start with List ex.PensioB/test1
         public int CountAllOccurencesOfFolderInPath(string baseRelativeUrl, string foldername)
@@ -815,10 +886,10 @@ namespace PPWCode.Util.SharePoint.I
                     catch (Exception ex)
                     {
                         s_Logger.ErrorFormat(
-                                         "Error searching folder [{0}]. Exception({1}).",
-                                         baseRelativeUrl,
-                                         ex);
-                        throw;     
+                            "Error searching folder [{0}]. Exception({1}).",
+                            baseRelativeUrl,
+                            ex);
+                        throw;
                     }
                 }
             }
@@ -846,7 +917,7 @@ namespace PPWCode.Util.SharePoint.I
                         baseRelativeUrl = ExtractRelativeUrlFromBaseRelativeUrl(baseRelativeUrl);
                     }
                     string relativeUrl = ExtractRelativeUrlFromBaseRelativeUrl(baseRelativeUrl);
-                    
+
                     try
                     {
                         //get document library
@@ -862,16 +933,16 @@ namespace PPWCode.Util.SharePoint.I
                     catch (Exception ex)
                     {
                         s_Logger.ErrorFormat(
-                                          "Error searching folder [{0}]. Exception({1}).",
-                                          baseRelativeUrl,
-                                          ex);
-                        throw;   
+                            "Error searching folder [{0}]. Exception({1}).",
+                            baseRelativeUrl,
+                            ex);
+                        throw;
                     }
                 }
             }
             return false;
         }
-       
+
         private string ExtractRelativeUrlFromBaseRelativeUrl(string baseRelativeUrl)
         {
             // make sure url starts with "/"
@@ -890,6 +961,57 @@ namespace PPWCode.Util.SharePoint.I
                 }
             }
             return relativeUrl;
+        }
+
+        public IOrderedEnumerable<SharePointDocumentVersion> RetrieveAllVersionsFromUrl(string relativeUrl)
+        {
+            List<SharePointDocumentVersion> documentVersions = new List<SharePointDocumentVersion>();
+            
+            using (ClientContext spClientcontext = GetSharePointClientContext())
+            {
+                try
+                {
+                    File file = spClientcontext.Site.RootWeb.GetFileByServerRelativeUrl(relativeUrl);
+                    spClientcontext.Load(file);
+                    spClientcontext.Load(file.Versions);
+                    spClientcontext.ExecuteQuery();
+                    FileVersionCollection collection = file.Versions;
+                    foreach (var version in collection)
+                    {
+                        documentVersions.Add(new SharePointDocumentVersion(version.VersionLabel, version.Created, version.Url));
+                    }
+                    documentVersions.Add(new SharePointDocumentVersion(file.UIVersionLabel, file.TimeLastModified, file.ServerRelativeUrl));
+                    return documentVersions.OrderBy(ver => ver.CreationDate);
+                }
+                catch (Exception ex)
+                {
+                    s_Logger.ErrorFormat(
+                        "Error searching Versions from file [{0}]. Exception({1}).",
+                        relativeUrl,
+                        ex);
+                    throw;
+                }
+            }
+        }
+
+       private static SharePointDocumentVersion RetrieveCurrentVersion(string relativeUrl, ClientContext spClientcontext)
+        {
+            try
+            {
+                File file = spClientcontext.Site.RootWeb.GetFileByServerRelativeUrl(relativeUrl);
+                spClientcontext.Load(file);
+                spClientcontext.Load(file.Versions);
+                spClientcontext.ExecuteQuery();
+                return new SharePointDocumentVersion(file.UIVersionLabel, file.TimeLastModified, file.ServerRelativeUrl);
+            }
+            catch (Exception ex)
+            {
+                s_Logger.ErrorFormat(
+                    "Error searching Major Versions from file [{0}]. Exception({1}).",
+                    relativeUrl,
+                    ex);
+                throw;
+            }
         }
     }
 }

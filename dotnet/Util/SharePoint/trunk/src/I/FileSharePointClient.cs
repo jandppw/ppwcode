@@ -28,7 +28,11 @@ using System.Security.Principal;
 using System.Threading;
 using System.Xml.Serialization;
 
+using Microsoft.SharePoint.Client;
+
 using PPWCode.Util.SharePoint.I.Helpers;
+
+using File = System.IO.File;
 
 #endregion
 
@@ -314,6 +318,21 @@ namespace PPWCode.Util.SharePoint.I
         }
 
         public bool CheckExistenceOfFolderWithExactPath(string baseRelativeUrl)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string UploadDocumentReceiveVersion(string relativeUrl, SharePointDocument doc)
+        {
+            throw new NotImplementedException();
+        }
+         
+        public SharePointDocument DownloadSpecificVersion (string baseRelativeUrl, string version)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IOrderedEnumerable<SharePointDocumentVersion> RetrieveAllVersionsFromUrl(string relativeUrl)
         {
             throw new NotImplementedException();
         }

@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 
 #endregion
@@ -54,6 +55,12 @@ namespace PPWCode.Util.SharePoint.I
         public void UploadDocument(string relativeUrl, SharePointDocument doc)
         {
             //NOP
+        }
+
+        public string UploadDocumentReceiveVersion (string relativeUrl, SharePointDocument doc)
+        {
+            //NOP
+            return default(string);
         }
 
         /// <inheritdoc cref="ISharePointClient.ValidateUri" />
@@ -105,6 +112,18 @@ namespace PPWCode.Util.SharePoint.I
         {
             //NOP
             return true;
+        }
+
+        public SharePointDocument DownloadSpecificVersion (string baseRelativeUrl, string version)
+        {
+            //NOP
+            return default(SharePointDocument);
+        }
+
+        public IOrderedEnumerable<SharePointDocumentVersion> RetrieveAllVersionsFromUrl(string baseRelativeUrl)
+        {
+            //NOP
+            return default(IOrderedEnumerable<SharePointDocumentVersion>);
         }
 
         #endregion
