@@ -3,9 +3,8 @@ description: NUnit libraries, currently version 2.6.0
 build: files;
   file=bin-net35 -> src\nunit.framework.dll; 
   file=bin-net35 -> src\nunit.framework.xml; 
-  file=runner -> src\nunit-console.exe;
-  file=runner -> src\nunit-console.exe.config;
   file=. -> src\license.txt;
+  file=runner -> src\runner\*.*;
 use-symlinks: false
 anchored: true
 depends: openwrap = 2.0 anchored content
