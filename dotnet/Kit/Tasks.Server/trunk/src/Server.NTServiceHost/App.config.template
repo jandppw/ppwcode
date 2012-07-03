@@ -195,7 +195,7 @@
             <object
                 id="NHibernateSessionTasksFactory"
                 name="NHibernateSessionTasksFactory"
-                type="${TasksServiceFactory}"
+                type="PPWCode.Kit.Tasks.Server.API_I.NHibernateSessionTasksFactory, PPWCode.Kit.Tasks.Server"
                 factory-method="GetSessionFactory"
                 singleton="true"/>
         </objects>
