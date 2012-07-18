@@ -1,0 +1,10 @@
+<configuration>
+  <variables env="Debug" use="true" >
+    <!-- Enable/Disable security / nhibernate profiler -->
+    <var name="UseSecurity" value="false" />
+    <var name="UseProfiler" value="false" />
+    
+    <!-- database connection strings used for tests -->
+    <var name="TestTasksConnectionString"    value="Data Source=uniprix;Initial Catalog=HudsonTasks.PensioB.Tasks;Integrated Security=True" />
+  </variables>
+</configuration>
