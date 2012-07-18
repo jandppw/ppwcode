@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRunConfiguration name="TasksIntegrationTests" id="7f4bf203-4bcf-4346-8e11-84eba086b4c4" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2006">
+  <Timeouts testTimeout="2700000" />
+  <Deployment>
+    <DeploymentItem filename="PensioB.Tasks.RemoteTest\bin\Debug\NHibernate.ByteCode.LinFu.dll" />
+    <DeploymentItem filename="PensioB.Tasks.RemoteTest\bin\Debug\PPWCode.Kit.Tasks.Server.dll" />
+    <DeploymentItem filename="PensioB.Tasks.RemoteTest\bin\Debug\PPWCode.Kit.Tasks.Server.Mock.dll" />
+  </Deployment>
+  <NamingScheme baseName="TasksIntegrationTests" useDefault="false" />
+  <TestTypeSpecific />
+</TestRunConfiguration>
