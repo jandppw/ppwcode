@@ -14,8 +14,8 @@
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>..\..\scratch\bin\PPWCode.Kit.Tasks.API_I.RemoteTest\</OutputPath>
-    <IntermediateOutputPath>..\..\scratch\obj\PPWCode.Kit.Tasks.API_I.RemoteTest\</IntermediateOutputPath>
+    <OutputPath>..\..\scratch\bin\$(MSBuildProjectName)-$(Configuration)-$(Platform)\</OutputPath>
+    <IntermediateOutputPath>..\..\scratch\obj\$(MSBuildProjectName)-$(Configuration)-$(Platform)\</IntermediateOutputPath>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -53,8 +53,8 @@
     <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>..\..\scratch\bin\PPWCode.Kit.Tasks.API_I.RemoteTest\</OutputPath>
-    <IntermediateOutputPath>..\..\scratch\obj\PPWCode.Kit.Tasks.API_I.RemoteTest\</IntermediateOutputPath>
+    <OutputPath>..\..\scratch\bin\$(MSBuildProjectName)-$(Configuration)-$(Platform)\</OutputPath>
+    <IntermediateOutputPath>..\..\scratch\obj\$(MSBuildProjectName)-$(Configuration)-$(Platform)\</IntermediateOutputPath>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <DefineConstants>TRACE</DefineConstants>
@@ -92,17 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="App.config.template" />
   </ItemGroup>
   <Import Project="..\..\wraps\openwrap\build\OpenWrap.CSharp.targets" />
   <Import Project="..\..\wraps\Microsoft.Stylecop-PPWStyle\build\Microsoft.StyleCop.targets" />
-  <!-- targets that hook in the BeforeBuild, to generate correct App.config files -->
-  <Import Project="..\..\wraps\MSBuild.Community.Tasks\build\MSBuild.Community.Tasks.targets" />
-  <!-- generate correct App.config files -->
-  <PropertyGroup>
-    <AppConfigTemplate-ConfigDirectory>$(MSBuildProjectDirectory)\..\SolutionItems</AppConfigTemplate-ConfigDirectory>
-    <AppConfigTemplate-TemplateFile>$(MSBuildProjectDirectory)\App.config.template</AppConfigTemplate-TemplateFile>
-    <AppConfigTemplate-FinalFile>$(MSBuildProjectDirectory)\App.config</AppConfigTemplate-FinalFile>
-  </PropertyGroup>
-  <Import Project="..\..\wraps\PPWCode.Util.AppConfigTemplate\build\AppConfigTemplate.targets" />
 </Project>
