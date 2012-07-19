@@ -1,4 +1,4 @@
-﻿namespace PPWCode.Kit.Tasks.Server.NTServiceHost
+﻿namespace PPWCode.Kit.Tasks.NTServiceHost
 {
     partial class Service
     {
