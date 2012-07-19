@@ -28,7 +28,7 @@ using PPWCode.Vernacular.Persistence.I.Dao.Wcf.Helpers.Hosting;
 
 #endregion
 
-namespace PPWCode.Kit.Tasks.Server.NTServiceHost
+namespace PPWCode.Kit.Tasks.NTServiceHost
 {
     public partial class Service : ServiceBase
     {

@@ -22,7 +22,7 @@ using log4net.Config;
 
 #endregion
 
-namespace PPWCode.Kit.Tasks.Server.NTServiceHost
+namespace PPWCode.Kit.Tasks.NTServiceHost
 {
     public static class Program
     {
