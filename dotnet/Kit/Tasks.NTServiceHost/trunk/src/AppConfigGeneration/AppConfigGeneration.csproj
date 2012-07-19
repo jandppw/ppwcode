@@ -35,21 +35,21 @@
     <GenericTemplate-FileToGenerate Include="hoefnix-ntservicehost">
       <Visible>false</Visible>
       <Template>NTServiceHost.exe.config.xml</Template>
-      <Config>config.hoefnix.xml</Config>
+      <Config>AppConfigPeopleWare\config.hoefnix.xml</Config>
       <Result>hoefnix-PPWCode.Kit.Tasks.NTServiceHost.exe.config</Result>
     </GenericTemplate-FileToGenerate>
     <!-- test -->
     <GenericTemplate-FileToGenerate Include="test-ntservicehost">
       <Visible>false</Visible>
       <Template>NTServiceHost.exe.config.xml</Template>
-      <Config>config.test.xml</Config>
+      <Config>AppConfigPeopleWare\config.test.xml</Config>
       <Result>test-PPWCode.Kit.Tasks.NTServiceHost.exe.config</Result>
     </GenericTemplate-FileToGenerate>
     <!-- prod -->
     <GenericTemplate-FileToGenerate Include="prod-ntservicehost">
       <Visible>false</Visible>
       <Template>NTServiceHost.exe.config.xml</Template>
-      <Config>config.prod.xml</Config>
+      <Config>AppConfigPeopleWare\config.prod.xml</Config>
       <Result>prod-PPWCode.Kit.Tasks.NTServiceHost.exe.config</Result>
     </GenericTemplate-FileToGenerate>
   </ItemGroup>
@@ -57,9 +57,9 @@
     <!-- listing all config files -->
     <Content Include="config.user.xml" />
     <Content Include="config.localhost.xml" />
-    <Content Include="config.hoefnix.xml" />
-    <Content Include="config.test.xml" />
-    <Content Include="config.prod.xml" />
+    <Content Include="AppConfigPeopleWare\config.hoefnix.xml" />
+    <Content Include="AppConfigPeopleWare\config.test.xml" />
+    <Content Include="AppConfigPeopleWare\config.prod.xml" />
     <!-- listing the template files -->
     <Content Include="NTServiceHost.exe.config.xml" />
     <!-- listing the generated files -->
