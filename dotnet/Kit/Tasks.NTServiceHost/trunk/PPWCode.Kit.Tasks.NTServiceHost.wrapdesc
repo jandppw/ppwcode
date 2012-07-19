@@ -8,7 +8,7 @@ build: msbuild;
   configuration=Debug;
   platform=AnyCPU;
   project=src\AppConfigGeneration\AppConfigGeneration.csproj;
-  project=src\Server.NTServiceHost\PPWCode.Kit.Tasks.Server.NTServiceHost.csproj;
+  project=src\NTServiceHost\PPWCode.Kit.Tasks.NTServiceHost.csproj;
   profile=net35;
 build: files;
   file=. -> LICENSE;
