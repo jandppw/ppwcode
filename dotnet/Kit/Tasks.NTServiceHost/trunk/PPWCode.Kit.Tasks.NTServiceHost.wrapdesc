@@ -1,5 +1,5 @@
 # name
-name: PPWCode.Kit.Tasks.Server
+name: PPWCode.Kit.Tasks.NTServiceHost
 
 # package contains Server project, can be used with inproc hosting
 # for integration tests in other projects
