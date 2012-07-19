@@ -16,3 +16,12 @@ To get up and running,
 
 If 2) fails, delete the existing wraps directory from this project, and try again.
 
+
+REMARKS:
+The AppConfigGeneration project contains svn:externals links to a
+private repository. The reason is that the AppConfigGeneration project
+is used to automatically generate App.config configuration files
+for specific deployment environments. We consider these settings private.
+For our own sanity, we linked the configuration files to our own external
+private subversion repository for now. When a better solution comes up,
+we will change this.
