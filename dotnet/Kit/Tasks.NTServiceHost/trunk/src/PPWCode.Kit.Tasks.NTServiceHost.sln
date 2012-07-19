@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\version = ..\version
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Kit.Tasks.Server.NTServiceHost", "Server.NTServiceHost\PPWCode.Kit.Tasks.Server.NTServiceHost.csproj", "{62C214CA-3FA5-47C0-AA49-6F0BEDF75C89}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Kit.Tasks.NTServiceHost", "NTServiceHost\PPWCode.Kit.Tasks.NTServiceHost.csproj", "{62C214CA-3FA5-47C0-AA49-6F0BEDF75C89}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A0F28404-9566-4DD2-B09B-3C147A778821} = {A0F28404-9566-4DD2-B09B-3C147A778821}
 	EndProjectSection
