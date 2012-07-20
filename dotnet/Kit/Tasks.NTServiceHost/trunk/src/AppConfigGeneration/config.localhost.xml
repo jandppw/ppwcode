@@ -3,7 +3,7 @@
   <var name="UseSecurity" value="false" />
   <var name="UseProfiler" value="false" />
 
-  <var name="TasksConnectionString" value="Data Source=localhost;Initial Catalog=PensioB.Audit;Integrated Security=True" />
+  <var name="TasksConnectionString" value="Data Source=localhost;Initial Catalog=PensioB.Tasks;Integrated Security=True" />
 
   <!-- Host / port -->
   <var name="TasksDaoHost" value="localhost" />
