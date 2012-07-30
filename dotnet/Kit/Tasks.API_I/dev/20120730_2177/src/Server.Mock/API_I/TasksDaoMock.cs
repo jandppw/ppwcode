@@ -41,14 +41,12 @@ namespace PPWCode.Kit.Tasks.Server.Mock.API_I
 
         public FindTasksResult FindTasks(string tasktype, IDictionary<string, string> searchAttributes, TaskStateEnum? taskState)
         {
-            // NOP
-            return null;
+            return new FindTasksResult(m_Tasks, 0);
         }
 
         public FindTasksResult FindTasks(IEnumerable<string> taskTypes, IDictionary<string, string> searchAttributes, TaskStateEnum? taskState)
         {
-            // NOP
-            return null;
+            return new FindTasksResult(m_Tasks, 0);
         }
 
         public void UpdateTaskAttributes(IEnumerable<string> taskTypes, IDictionary<string, string> searchAttributes, IDictionary<string, string> replaceAttributes)
@@ -241,7 +239,7 @@ namespace PPWCode.Kit.Tasks.Server.Mock.API_I
         {
             get
             {
-                throw new NotImplementedException();
+                return CommunicationState.Opened;
             }
         }
 
