@@ -18,7 +18,7 @@
 
 using System.Collections.Generic;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 using PPWCode.Vernacular.Exceptions.I;
 
@@ -27,7 +27,7 @@ using PPWCode.Vernacular.Exceptions.I;
 namespace PPWCode.Kit.Tasks.API_I.RemoteTest
 {
     // ReSharper disable InconsistentNaming
-    [TestClass]
+    [TestFixture]
     public class TaskTests : BaseTaskTests
     {
         private void CheckAttributeOccurrences(string key, string value, int expectedCount)
@@ -41,7 +41,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             Assert.AreEqual(expectedCount, findTasksResult.NumberOfMatchingTasks);
         }
 
-        [TestMethod]
+        [Test]
         public void CreateTask()
         {
             SaveTask(CreateTasksWithOneAttribute());
@@ -49,7 +49,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             SaveTask(CreateTasksWithThreeAttributes());
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ProgrammingError))]
         public void CreateTaskAndDelete()
         {
@@ -57,7 +57,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             Svc.Delete(task);
         }
 
-        [TestMethod]
+        [Test]
         public void CreateAndUpdateStates()
         {
             Task task = SaveTask(CreateTasksWithOneAttribute());
@@ -75,7 +75,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             }
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ProgrammingError))]
         public void CreateAndUpdateStateThenTaskType()
         {
@@ -92,7 +92,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             }
         }
 
-        [TestMethod]
+        [Test]
         public void SelectTask_UnknownTaskType_CreatedState_NoAttributes()
         {
             CreateSomeTasksForSearching();
@@ -102,7 +102,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             Assert.AreEqual(findTasksResult.NumberOfMatchingTasks, findTasksResult.Tasks.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void SelectTask_TaskType_CreatedState_NoAttributes()
         {
             CreateSomeTasksForSearching();
@@ -112,7 +112,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             Assert.AreEqual(findTasksResult.NumberOfMatchingTasks, findTasksResult.Tasks.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void SelectTask_TaskType_CreatedAndInProgressState_NoAttributes()
         {
             CreateSomeTasksForSearching();
@@ -122,7 +122,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             Assert.AreEqual(findTasksResult.NumberOfMatchingTasks, findTasksResult.Tasks.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void SelectTask_TaskType_CreatedState_TwoCorrectAttributes()
         {
             CreateSomeTasksForSearching();
@@ -137,7 +137,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             Assert.AreEqual(findTasksResult.NumberOfMatchingTasks, findTasksResult.Tasks.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void SelectTask_TaskType_CreatedState_ThreeCorrectAttributes()
         {
             CreateSomeTasksForSearching();
@@ -153,7 +153,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             Assert.AreEqual(findTasksResult.NumberOfMatchingTasks, findTasksResult.Tasks.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void SelectTask_TaskType_CreatedState_FourCorrectAttributes()
         {
             CreateSomeTasksForSearching();
@@ -170,7 +170,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             Assert.AreEqual(findTasksResult.NumberOfMatchingTasks, findTasksResult.Tasks.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void SelectTask_TaskType_NoState_ThreeCorrectAttributes()
         {
             CreateSomeTasksForSearching();
@@ -186,7 +186,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             Assert.AreEqual(findTasksResult.NumberOfMatchingTasks, findTasksResult.Tasks.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void UpdateTaskAttributes_ThreeCorrectAttributes_OneMatchingReplaceAttribute()
         {
             CreateSomeTasksForSearching();
@@ -221,7 +221,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             }
         }
 
-        [TestMethod]
+        [Test]
         public void UpdateTaskAttributes_DiffNoOfAttributes_All_OneNewValue()
         {
             SaveTask(CreateTasksWithOneAttribute());
@@ -250,7 +250,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             Assert.AreEqual(3, newFindTasksResult.NumberOfMatchingTasks);
         }
 
-        [TestMethod]
+        [Test]
         public void UpdateTaskAttributes_DiffNoOfAttributes_All_TwoNewValues()
         {
             SaveTask(CreateTasksWithOneAttribute());
@@ -280,7 +280,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             Assert.AreEqual(2, findTasksResult.NumberOfMatchingTasks);
         }
 
-        [TestMethod]
+        [Test]
         public void UpdateTaskAttributes_OneTaskTypesMatchesOne_OneNewValue()
         {
             SaveTask(CreateTasksWithOneAttribute());
@@ -307,7 +307,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             Assert.AreEqual(1, findTasksResult.NumberOfMatchingTasks);
         }
 
-        [TestMethod]
+        [Test]
         public void UpdateTaskAttributes_OneTaskTypesMatchesTwo_OneNewValue()
         {
             SaveTask(CreateTasksWithOneAttribute());
@@ -334,7 +334,7 @@ namespace PPWCode.Kit.Tasks.API_I.RemoteTest
             Assert.AreEqual(2, findTasksResult.NumberOfMatchingTasks);
         }
 
-        [TestMethod]
+        [Test]
         public void UpdateTaskAttributes_TwoTaskTypesMatchAll_OneNewValue()
         {
             SaveTask(CreateTasksWithOneAttribute());

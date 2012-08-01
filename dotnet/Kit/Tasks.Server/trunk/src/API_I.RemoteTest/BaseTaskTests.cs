@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 using PPWCode.Util.OddsAndEnds.I.Extensions;
 
@@ -30,20 +30,20 @@ using Spring.Context.Support;
 
 namespace PPWCode.Kit.Tasks.API_I.RemoteTest
 {
-    [TestClass]
+    [TestFixture]
     public abstract class BaseTaskTests
     {
         #region Test Setup
 
         protected ClientTasksDao Svc { get; private set; }
 
-        [TestInitialize]
+        [TestFixtureSetUp]
         public void Initialize()
         {
             Svc = GetClientTasksDao();
         }
 
-        [TestCleanup]
+        [TestFixtureTearDown]
         public void Cleanup()
         {
             Svc.Dispose();
