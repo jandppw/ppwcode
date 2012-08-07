@@ -20,7 +20,6 @@ create table dbo.[ScriptLogging] (
   ExecutionTime datetime not null,
   
   constraint PK_ScriptLogging primary key (ScriptLoggingID),
-  constraint UQ_ScriptLogging unique (VersionID, ScriptName),
   constraint FK_ScriptLogging_Version foreign key (VersionID) references dbo.[Version] (VersionID)
 )
 go
