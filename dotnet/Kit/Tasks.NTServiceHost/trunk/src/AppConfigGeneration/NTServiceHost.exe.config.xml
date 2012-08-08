@@ -150,26 +150,25 @@
 
         <bindings>
             <netTcpBinding>
-                <binding
-                      name="netTcpBinding_Dao"
-                      maxReceivedMessageSize="5000000"
-                      sendTimeout="00:02:00"
-                      receiveTimeout="00:02:00"
-                      transactionFlow="true">
-                    <reliableSession
-                       ordered="true"
-                       inactivityTimeout="00:02:00"
-                       enabled="true" />
-                    <security mode="Transport">
-                        <transport
-                            clientCredentialType="Windows"
-                            protectionLevel="EncryptAndSign" />
-                    </security>
-                    <readerQuotas
-                        maxDepth="64"
-                        maxStringContentLength="32768" />
-                </binding>
-
+              <binding
+                    name="netTcpBinding_Dao"
+                    maxReceivedMessageSize="5242880"
+                    sendTimeout="00:02:00"
+                    receiveTimeout="00:02:00"
+                    transactionFlow="true" >
+                <reliableSession
+                   ordered="true"
+                   inactivityTimeout="00:02:00"
+                   enabled="true" />
+                <security mode="Transport">
+                  <transport
+                      clientCredentialType="Windows"
+                      protectionLevel="EncryptAndSign" />
+                </security>
+                <readerQuotas
+                    maxDepth="64"
+                    maxStringContentLength="1048576" />
+              </binding>
             </netTcpBinding>
         </bindings>
 
