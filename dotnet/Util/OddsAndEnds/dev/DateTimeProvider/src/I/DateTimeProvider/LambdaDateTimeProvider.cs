@@ -2,6 +2,8 @@
 
 using System;
 
+using PPWCode.Util.OddsAndEnds.I.Extensions;
+
 #endregion
 
 namespace PPWCode.Util.OddsAndEnds.I.DateTimeProvider
@@ -15,14 +17,13 @@ namespace PPWCode.Util.OddsAndEnds.I.DateTimeProvider
         /// DateTimeProvider.Current = x;
         /// </summary>
 
-        public Func<DateTime> LambdaToday { get; set; }
         public Func<DateTime> LambdaNow { get; set; }
 
         #region Overrides of DateTimeProvider
 
         public override DateTime Today
         {
-            get { return LambdaToday(); }
+            get { return LambdaNow().StripHours(); }
         }
 
         public override DateTime Now
