@@ -83,7 +83,7 @@
                   type="log4net.Appender.SmtpAppender">
             <subject value="${Log4NetSmtpSubject}" />
             <from value="${Log4NetSmtpFrom}"/>
-            <to value ="${Log4NetSmtpTo}"/>
+            <to value="${Log4NetSmtpTo}"/>
             <smtpHost value="${Log4NetSmtpHost}"/>
             <port value="${Log4NetSmtpPort}"/>
             <authentication value="None" />
