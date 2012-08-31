@@ -23,3 +23,6 @@ depends: Microsoft.SharePoint.Client >= 14.0 and < 15.0
 # ppwcode
 depends: PPWCode.Util.OddsAndEnds >= 2.0 and < 3.0
 
+# testen
+depends: NUnit >= 2.6 and < 3.0
+

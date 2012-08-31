@@ -28,8 +28,6 @@ using System.Security.Principal;
 using System.Threading;
 using System.Xml.Serialization;
 
-using Microsoft.SharePoint.Client;
-
 using PPWCode.Util.SharePoint.I.Helpers;
 
 using File = System.IO.File;
