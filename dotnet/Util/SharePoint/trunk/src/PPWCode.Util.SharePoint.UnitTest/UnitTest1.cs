@@ -3,14 +3,15 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PPWCode.Util.SharePoint.I;
+
+using NUnit.Framework;
 
 #endregion
 
 namespace PPWCode.Util.SharePoint.UnitTest
 {
-    [TestClass]
+    [TestFixture]
     public class UnitTest1
     {
         private static ISharePointClient GetSharePointService(Uri uri)
@@ -20,19 +21,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
             return sharePointClient;
         }
 
-        //[TestInitialize]
-        //private void SetUp()
-        //{
-
-        //}
-
-        //[TestCleanup]
-        //private void TearDown()
-        //{
-
-        //}
-
-        [TestMethod]
+        [Test]
         public void TestUpload()
         {
             var sourceUri = new Uri(@"C:\Temp\temp.pdf");
@@ -58,7 +47,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
             Console.WriteLine(nr);
         }
 
-        [TestMethod]
+        [Test]
         public void TestChangeName()
         {
             var startUri = new Uri(@"http://pensiob-sp2010/PensioB/");
@@ -83,7 +72,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
             }
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailingChangeFolderName()
         {
             var startUri = new Uri(@"http://hoefnix/PensioB/");
@@ -106,7 +95,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
             }
         }
 
-        [TestMethod]
+        [Test]
         public void TestNew()
         {
             var startUri = new Uri(@"http://hoefnix/PensioB/");
@@ -128,7 +117,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
             }
         }
 
-        [TestMethod]
+        [Test]
         public void TestDeleteFolder()
         {
             var startUri = new Uri(@"http://pensiob-sp2010/PensioB/");
@@ -146,7 +135,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
             }
         }
 
-        [TestMethod]
+        [Test]
         public void CheckExistenceAllOccurencesFolder()
         {
             var startUri = new Uri(@"http://pensiob-sp2010/PensioB/");
@@ -165,7 +154,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
             }
         }
 
-        [TestMethod]
+        [Test]
         //[ExpectedException(typeof(Exception))]
         public void CheckExistenceFolderWithExactPath()
         {
@@ -185,7 +174,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
             }
         }
 
-        [TestMethod]
+        [Test]
         public void TestAll()
         {
             {
@@ -226,7 +215,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
             }
         }
 
-        [TestMethod]
+        [Test]
         public void TestVersions()
         {
             var startUri = new Uri(@"http://hoefnix/PensioB/");
@@ -252,7 +241,7 @@ namespace PPWCode.Util.SharePoint.UnitTest
             }
         }
 
-        [TestMethod]
+        [Test]
         public void TestDownloadWithSpecificVersion()
         {
             var startUri = new Uri(@"http://hoefnix/PensioB/");
