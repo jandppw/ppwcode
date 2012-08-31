@@ -36,7 +36,7 @@ namespace PPWCode.Vernacular.Semantics.Test_I
 
         private AbstractRousseauObject[] m_Subjects;
 
-        [Test]
+        [SetUp]
         public void MyTestInitialize()
         {
             m_Subjects = new AbstractRousseauObject[2];
