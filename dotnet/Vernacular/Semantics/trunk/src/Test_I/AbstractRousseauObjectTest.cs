@@ -16,7 +16,7 @@
 
 #region Using
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 using PPWCode.Vernacular.Exceptions.I;
 using PPWCode.Vernacular.Semantics.I;
@@ -25,35 +25,18 @@ using PPWCode.Vernacular.Semantics.I;
 
 namespace PPWCode.Vernacular.Semantics.Test_I
 {
-    [TestClass]
+    [TestFixture]
     public class AbstractRousseauObjectTest
     {
         /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
+        /// Gets or sets the test context which provides
+        /// information about and functionality for the current test run.
+        /// </summary>
         public TestContext TestContext { get; set; }
-
-        #region Additional test attributes
-
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
 
         private AbstractRousseauObject[] m_Subjects;
 
-        [TestInitialize]
+        [Test]
         public void MyTestInitialize()
         {
             m_Subjects = new AbstractRousseauObject[2];
@@ -67,15 +50,13 @@ namespace PPWCode.Vernacular.Semantics.Test_I
             };
         }
 
-        [TestCleanup]
+        [Test]
         public void MyTestCleanup()
         {
             m_Subjects = null;
         }
 
-        #endregion
-
-        [TestMethod]
+        [Test]
         public void WildExceptionsTest()
         {
             foreach (AbstractRousseauObject aro in m_Subjects)
@@ -85,9 +66,9 @@ namespace PPWCode.Vernacular.Semantics.Test_I
         }
 
         /// <summary>
-        ///A test for ThrowIfNotCivilized
-        ///</summary>
-        [TestMethod]
+        /// A test for ThrowIfNotCivilized
+        /// </summary>
+        [Test]
         public void ThrowIfNotCivilizedTest()
         {
             foreach (AbstractRousseauObject aro in m_Subjects)
@@ -103,7 +84,7 @@ namespace PPWCode.Vernacular.Semantics.Test_I
             }
         }
 
-        [TestMethod]
+        [Test]
         public void IsCivilizedTest()
         {
             foreach (AbstractRousseauObject aro in m_Subjects)
@@ -113,9 +94,9 @@ namespace PPWCode.Vernacular.Semantics.Test_I
         }
 
         /// <summary>
-        ///A test for AbstractRousseauObject Constructor
-        ///</summary>
-        [TestMethod]
+        /// A test for AbstractRousseauObject Constructor
+        /// </summary>
+        [Test]
         public void AbstractRousseauObjectConstructorTest()
         {
             AbstractRousseauObject target = new RousseauObject();
