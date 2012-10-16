@@ -14,14 +14,14 @@
         this.board = null;
         this.column = column;
         this.row = 0;
-      }
+      };
 
       Queen.prototype.isOnSameRowToTheRight = function(queen) {
         if (! queen) {
           throw "No queen";
         }
         return this.row === queen.row;
-      }
+      };
 
       Queen.prototype.isOnSameDiagonalToTheRight = function(queen) {
         if (! queen) {
@@ -30,14 +30,14 @@
         var columnsToTheRight = queen.column - this.column;
         var rowsBelow = queen.row - this.row; // or above: [-7, 7]
         return columnsToTheRight === Math.abs(rowsBelow);
-      }
+      };
       
       Queen.prototype.canSlayToTheRight = function(queen) {
         if (! queen) {
           throw "No queen";
         }
         return this.isOnSameRowToTheRight(queen) || this.isOnSameDiagonalToTheRight(queen);
-      }
+      };
 
       Queen.prototype.isSaveToLeft = function() {
         if (! this.board) {
@@ -53,7 +53,7 @@
           i++;
         }
         return result;
-      }
+      };
 
       Queen.prototype.advanceDown = function() {
         if (this.row < board.size - 1) {
@@ -62,18 +62,18 @@
         else {
           throw "at the end of the board";
         }
-      }
+      };
 
       Queen.prototype.advanceDownUntilSafe = function() {
         do {
           this.advanceDown(); // throws at the end of the board
         }
         while (! this.isSaveToLeft());
-      }
+      };
 
       Queen.prototype.toString = function() {
         return "(" + this.column + ", " + this.row + ")";
-      }
+      };
       
       var Board = function(size) {
         if (! size) {
@@ -84,25 +84,20 @@
         }
         this.size = size;
         this.queens = [];
-        for (i = 0; i < size; i++) {
+        for (var i = 0; i < size; i++) {
           this.queens[i] = null;
         }
-      }
+      };
       
       Board.prototype.addQueen = function(queen) {
         this.queens[queen.column] = queen;
         queen.board = this;
-      }
-
-      Board.prototype.removeQueen = function(queen) {
-        this.queens[queen.column] = null;
-        queen.board = null;
-      }
+      };
 
       Board.prototype.fillBoardToTheRightFrom = function(column) {
         if (column >= this.size) {
           // success! everything to the left is safe, and we are past the board
-          return;
+          // nop, just return
         }
         else {
           var queen = new Queen(column);
@@ -126,19 +121,15 @@
             }
           }
         }
-      }
+      };
 
       Board.prototype.buildSolution = function() {
         this.fillBoardToTheRightFrom(0);
-      }
-
-      Board.prototype.buildAllSolutions = function() {
-        this.fillBoardToTheRightFrom(0);
-      }
+      };
 
       Board.prototype.toString = function() {
         return this.queens;
-      }
+      };
 
       var board = new Board(8);
       board.buildSolution();
