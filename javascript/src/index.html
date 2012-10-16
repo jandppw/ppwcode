@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+
+    <!-- TITLE -->
+    <title>8 queens</title>
+    
+    <!-- STYLE -->
+
+    <script>
+      var Queen = function(column) {
+        // summary: rows and columns are 0 based
+        this.board = null;
+        this.column = column;
+        this.row = 0;
+      }
+
+      Queen.prototype.isOnSameRowToTheRight = function(queen) {
+        if (! queen) {
+          throw "No queen";
+        }
+        return this.row === queen.row;
+      }
+
+      Queen.prototype.isOnSameDiagonalToTheRight = function(queen) {
+        if (! queen) {
+          throw "No queen";
+        }
+        var columnsToTheRight = queen.column - this.column;
+        var rowsBelow = queen.row - this.row; // or above: [-7, 7]
+        return columnsToTheRight === Math.abs(rowsBelow);
+      }
+      
+      Queen.prototype.canSlayToTheRight = function(queen) {
+        if (! queen) {
+          throw "No queen";
+        }
+        return this.isOnSameRowToTheRight(queen) || this.isOnSameDiagonalToTheRight(queen);
+      }
+
+      Queen.prototype.isSaveToLeft = function() {
+        if (! this.board) {
+          throw "No board";
+        }
+        var result = true;
+        var i = 0;
+        while (result && i < this.column) {
+          if (! board.queens[i]) {
+            throw "no queen on column " + i;
+          }
+          result = ! board.queens[i].canSlayToTheRight(this);
+          i++;
+        }
+        return result;
+      }
+
+      Queen.prototype.advanceDown = function() {
+        if (this.row < board.size - 1) {
+          this.row++;
+        }
+        else {
+          throw "at the end of the board";
+        }
+      }
+
+      Queen.prototype.advanceDownUntilSafe = function() {
+        do {
+          this.advanceDown(); // throws at the end of the board
+        }
+        while (! this.isSaveToLeft());
+      }
+
+      Queen.prototype.toString = function() {
+        return "(" + this.column + ", " + this.row + ")";
+      }
+      
+      var Board = function(size) {
+        if (! size) {
+          throw "no size";
+        }
+        if (size < 0) {
+          throw "size must be positive";
+        }
+        this.size = size;
+        this.queens = [];
+        for (i = 0; i < size; i++) {
+          this.queens[i] = null;
+        }
+      }
+      
+      Board.prototype.addQueen = function(queen) {
+        this.queens[queen.column] = queen;
+        queen.board = this;
+      }
+
+      Board.prototype.removeQueen = function(queen) {
+        this.queens[queen.column] = null;
+        queen.board = null;
+      }
+
+      Board.prototype.fillBoardToTheRightFrom = function(column) {
+        if (column >= this.size) {
+          // success! everything to the left is safe, and we are past the board
+          return;
+        }
+        else {
+          var queen = new Queen(column);
+          this.addQueen(queen);
+
+          // go to first position safe to the left
+          // solve to the right
+          // if we get an exception, go to next safe position to the left
+          // retry
+          if (! queen.isSaveToLeft()) {
+            queen.advanceDownUntilSafe(); // throws at the end of the board
+          }
+          var doneToTheRight = false;
+          while (! doneToTheRight) {
+            try {
+              this.fillBoardToTheRightFrom(column + 1);
+              doneToTheRight = true;
+            }
+            catch (e) {
+              queen.advanceDownUntilSafe(); // throws at the end of the board
+            }
+          }
+        }
+      }
+
+      Board.prototype.buildSolution = function() {
+        this.fillBoardToTheRightFrom(0);
+      }
+
+      Board.prototype.buildAllSolutions = function() {
+        this.fillBoardToTheRightFrom(0);
+      }
+
+      Board.prototype.toString = function() {
+        return this.queens;
+      }
+
+      var board = new Board(8);
+      board.buildSolution();
+      console.log(board);
+    </script>
+  </head>
+  <body id="navigatorContent">
+    <h1>8 Queens</h1>
+  </body>
+</html>
