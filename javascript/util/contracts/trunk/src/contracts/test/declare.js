@@ -3,6 +3,8 @@ define(["dojo/main", "util/doh/main", "contracts/declare"],
 
     var propertyValue1 = "A property value";
     var propertyValue2 = "Another property value";
+    var propertyValue3 = 3.14;
+    var propertyValue4 = Math.sqrt(2);
     var method = function() {
       // object must have a property "aProperty"
       return this.aProperty;
@@ -13,6 +15,7 @@ define(["dojo/main", "util/doh/main", "contracts/declare"],
     };
     var constructor = function() {
       this.aProperty = propertyValue2;
+      this.aNumberProperty =  propertyValue4;
     };
 
     doh.register("be/ppwcode/util/contracts/I/declare", [
@@ -24,6 +27,11 @@ define(["dojo/main", "util/doh/main", "contracts/declare"],
       function testSimpleDeclare() {
         var Result = subjectDeclare(null, {
           aProperty : propertyValue1,
+          aNumberProperty : propertyValue3,
+
+          // MUDO add array, object, boolean, ...
+
+
           aMethod : method,
           toString: toStringMethod,
           constructor: constructor
@@ -43,6 +51,9 @@ define(["dojo/main", "util/doh/main", "contracts/declare"],
         doh.t(resultInstance.__proto__.hasOwnProperty("aProperty"));
         doh.is(propertyValue1, resultInstance.__proto__.aProperty);
         doh.is(propertyValue2, resultInstance.aProperty);
+        doh.t(resultInstance.__proto__.hasOwnProperty("aNumberProperty"));
+        doh.is(propertyValue3, resultInstance.__proto__.aNumberProperty);
+        doh.is(propertyValue4, resultInstance.aNumberProperty);
         doh.t(resultInstance.__proto__.hasOwnProperty("aMethod"));
         doh.is(method, resultInstance.aMethod);
         doh.is(propertyValue1, resultInstance.__proto__.aMethod());
