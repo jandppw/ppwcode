@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+
+    <!-- TITLE -->
+    <title>Curry</title>
+    
+    <!-- STYLE -->
+
+    <script>
+      var max = 50;
+      var result = -1;
+      var start = null;
+      var end= null;
+
+      var f = function (a,b,c,x) {
+        return (a * x * x) + (b * x) + c;
+      };
+      console.log(f(4, 3, 2, 7));
+
+      var f4 = function (b, c, x) {
+        return f(4, b, c, x);
+      };
+      console.log(f4(3, 2, 7));
+
+      var f43 = function (c, x) {
+        return f4(3, c, x);
+      };
+      console.log(f43(2, 7));
+
+      var f432 = function (x) {
+        return f43(2, x);
+      };
+      console.log(f432(7));
+
+      result = [];
+      start = new Date();
+      for (var a = 0; a < max; a++) {
+        for (var b = 0; b < max; b++) {
+          for (var c = 0; c < max; c++) {
+            for (var x = 0; x < max; x++) {
+              result[result.length] = f(a, b, c, x);
+            }
+          }
+        }
+      }
+      end = new Date();
+      console.log(Math.pow(max, 4) + " times f: " + (end - start)/1000 + "s");
+
+      var fx = function(a) {
+        return function(b) {
+          return function(c) {
+            return function(x) {
+              return f(a, b, c, x);
+            }
+          }
+        }
+      };
+      console.log(fx(4)(3)(2)(7));
+
+      result = [];
+      start = new Date();
+      for (a = 0; a < max; a++) {
+        for (b = 0; b < max; b++) {
+          for (c = 0; c < max; c++) {
+            for (x = 0; x < max; x++) {
+              result[result.length] = fx(a)(b)(c)(x);
+            }
+          }
+        }
+      }
+      end = new Date();
+      console.log(Math.pow(max, 4) + " times fx: " + (end - start)/1000 + "s");
+
+      var fx2 = function(x) {
+        var xSqr = x * x;
+        return function(a) {
+          var t2 = a * xSqr;
+          return function(b) {
+            var t12 = t2 + (b * x);
+            return function(c) {
+              return t12 + c;
+            }
+          }
+        }
+      };
+      console.log(fx2(7)(4)(3)(2));
+
+      result = [];
+      start = new Date();
+      for (x = 0; x < max; x++) {
+        var xR = fx2(x);
+        for (a = 0; a < max; a++) {
+          var xaR = xR(a);
+          for (b = 0; b < max; b++) {
+            var xabR = xaR(a);
+            for (c = 0; c < max; c++) {
+              result[result.length] = xabR(c);
+            }
+          }
+        }
+      }
+      end = new Date();
+      console.log(Math.pow(max, 4) + " times fx2: " + (end - start)/1000 + "s");
+    </script>
+  </head>
+  <body>
+    <h1>Curry</h1>
+  </body>
+</html>

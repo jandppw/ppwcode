@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+
+    <!-- TITLE -->
+    <title>ADT</title>
+    
+    <!-- STYLE -->
+
+    <script>
+      var myObject = function() {
+        var value = 0;
+
+        var theThis = function(command) {
+          switch (command) {
+            case "increment":
+              value++;
+              return;
+            case "getValue":
+              return value;
+            default:
+              return (theThis("getValue"));
+          }
+        };
+
+        return theThis;
+      }();
+
+      myObject("increment");
+      myObject("increment");
+      console.log(myObject());
+    </script>
+  </head>
+  <body id="navigatorContent">
+    <h1>ADT</h1>
+  </body>
+</html>
