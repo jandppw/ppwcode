@@ -1,8 +1,17 @@
 define(["dojo/_base/declare"], function(dojoDeclare) {
 
-  function _crackParameters(className, superclass, props) {
-    // copied from dojo/_base/declare.js - declare - first 6 lines of code
+  var _invariantPropertyName = "invariants";
+  // hardcoded name of type invariant property
 
+  var _contractMethodImplName = "impl";
+  var _contractMethodPreName = "pre";
+  var _contractMethodPostName = "post";
+
+  function _errorMsgContractMethod(propName) {
+    return "ContractMethod '" + propName + "' not well-formed: ";
+  }
+
+  function _crackParameters(className, superclass, props) {
     // summary:
     //    Returns an object with properties "className", "superclass" and "props",
     //    taking into account that in the arguments className is optional; that
@@ -16,6 +25,9 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
     //    {"className" : "", "superclass" : arguments[0], "props" : arguments[1]}.
     //    When there is a className, the resulting object is
     //    {"className" : arguments[0], "superclass" : arguments[1], "props" : arguments[2]}.
+
+    // copied from dojo/_base/declare.js - declare - first 6 lines of code
+
     if(typeof className != "string"){
       props = superclass;
       superclass = className;
@@ -26,7 +38,91 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
     return {"className" : className, "superclass" : superclass, "props" : props};
   }
 
-  var ppwcodeDeclare = function(className, superclass, props) {
+  var _objectProto = Object.prototype;
+  var _urToStringF = _objectProto.toString;
+
+  function _urToString(o) {
+    return _urToStringF.call(o);
+  }
+
+  function _isFunction(candidateFunction) {
+    return _urToString(candidateFunction) === "[object Function]";
+  }
+
+  function _isArray(candidateArray) {
+    return _urToString(candidateArray) === "[object Array]";
+  }
+
+  function _isFunctionOrArray(candidate) {
+    return _isFunction(candidate) || _isArray(candidate);
+  }
+
+  function _checkInvariantsWellFormed(candidateInvariants) {
+    // summary:
+    //    Void method, that throws an error if the candidateInvariants are not
+    //    well-formed invariants.
+
+    // TODO
+  }
+
+  function _checkPresWellFormed(candidatePres) {
+    // summary:
+    //    Void method, that throws an error if the candidatePres are not
+    //    well-formed preconditions.
+
+    // TODO
+  }
+
+  function _checkPostsWellFormed(candidatePosts) {
+    // summary:
+    //    Void method, that throws an error if the candidatePosts are not
+    //    well-formed postconditions (nominal or exceptional).
+
+    // TODO
+  }
+
+  function _isContractMethod(candidateCm, propName) {
+    // summary:
+    //    Boolean method that returns true if candidateCm is of (duck) type
+    //    ContractMethod. If it is close, but not well-formed, we throw an
+    //    error.
+    // description:
+    //    This method returns true if:
+    //    - candidateCm is an Object, i.e., not a function or an Array
+    //    - candidateCm has one of the properties impl, pre or post
+    //    It then is an error when
+    //    - candidateCm does not have all 3 properties impl, pre, post
+    //    - impl is not a Function
+    //    - _checkPresWellFormed(candidateCm.pre) fails
+    //    - _checkPostsWellFormed(candidateCm.post) fails
+
+    var result = (! _isFunctionOrArray(candidateCm)) &&
+                   (_contractMethodImplName in candidateCm ||
+                      _contractMethodPreName in candidateCm ||
+                      _contractMethodPostName in candidateCm);
+
+    if (result) {
+      if (! _contractMethodImplName in candidateCm) {
+        throw new SyntaxError(_errorMsgContractMethod(propName) + _contractMethodImplName + " not defined");
+      }
+      if (! _contractMethodPreName in candidateCm) {
+        throw new SyntaxError(_errorMsgContractMethod(propName) + _contractMethodPreName + " not defined");
+      }
+      if (! _contractMethodPostName in candidateCm) {
+        throw new SyntaxError(_errorMsgContractMethod(propName) + _contractMethodPostName+ " not defined");
+      }
+      if (! _isFunction(candidateCm[_contractMethodImplName])) {
+        throw new SyntaxError(_errorMsgContractMethod(propName) + _contractMethodImplName+ " not a Function");
+      }
+
+      _checkPresWellFormed(candidateCm[_contractMethodPreName]);
+      _checkPostsWellFormed(candidateCm[_contractMethodPostName]);
+    }
+
+    return result;
+  }
+
+  function ppwcodeDeclare(className, superclass, props) {
     // summary:
     //		Create a feature-rich constructor from compact notation.
     // className: String?
@@ -243,7 +339,33 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
     //	|	// B.m2
 
 
-    var trueArgs= _crackParameters(className, superclass, props);
+    var trueArgs = _crackParameters(className, superclass, props);
+    /* we normalize props, so that we are sure that
+     * - a property "invariants" contains sensible invariants
+     * - if the value of a property with name pn of props (props[pn]) is an object cm that
+     *   has (duck) type ContractMethod,
+     *   -- the actual function (cm.impl) is a function, and associated to the property name
+     *      (in stead of cm)
+     *   -- the preconditions (cm.pre) are sensible preconditions, and associated to the
+     *      pre property of the method in props (props[pn].pre)
+     *   -- the postconditions (cm.post) are sensible postconditions, and associated to the
+     *      post property of the method in props (props[pn].post)
+     *
+     */
+    var trueProps = trueArgs.props;
+    var propName;
+    var propValue;
+    for (propName in trueProps) {
+      propValue = trueProps[propName];
+      if (propName === _invariantPropertyName) {
+        _checkInvariantsWellFormed(propValue);
+      }
+      else if (_isContractMethod(propValue, propName)) {
+        propValue[_contractMethodImplName][_contractMethodPreName] = propValue[_contractMethodPreName];
+        propValue[_contractMethodImplName][_contractMethodPostName] = propValue[_contractMethodPostName];
+        trueProps[propName] = propValue[_contractMethodImplName];
+      }
+    }
     return dojoDeclare(trueArgs.className, trueArgs.superclass, trueArgs.props);
   }
 
