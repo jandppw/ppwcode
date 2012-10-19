@@ -1,0 +1,3 @@
+define([
+  "./declare"
+], 1);
