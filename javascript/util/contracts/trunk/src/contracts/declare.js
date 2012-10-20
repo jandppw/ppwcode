@@ -96,25 +96,24 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
     //    - _checkPresWellFormed(candidateCm.pre) fails
     //    - _checkPostsWellFormed(candidateCm.post) fails
 
-    var result = (! _isFunctionOrArray(candidateCm)) &&
-                   (_contractMethodImplName in candidateCm ||
-                      _contractMethodPreName in candidateCm ||
-                      _contractMethodPostName in candidateCm);
+    var result = candidateCm && (! _isFunctionOrArray(candidateCm)) &&
+                   (candidateCm.hasOwnProperty(_contractMethodImplName) ||
+                     candidateCm.hasOwnProperty(_contractMethodPreName) ||
+                     candidateCm.hasOwnProperty(_contractMethodPostName));
 
     if (result) {
-      if (! _contractMethodImplName in candidateCm) {
+      if (! candidateCm.hasOwnProperty(_contractMethodImplName)) {
         throw new SyntaxError(_errorMsgContractMethod(propName) + _contractMethodImplName + " not defined");
       }
-      if (! _contractMethodPreName in candidateCm) {
+      if (! candidateCm.hasOwnProperty(_contractMethodPreName)) {
         throw new SyntaxError(_errorMsgContractMethod(propName) + _contractMethodPreName + " not defined");
       }
-      if (! _contractMethodPostName in candidateCm) {
+      if (! candidateCm.hasOwnProperty(_contractMethodPostName)) {
         throw new SyntaxError(_errorMsgContractMethod(propName) + _contractMethodPostName+ " not defined");
       }
       if (! _isFunction(candidateCm[_contractMethodImplName])) {
         throw new SyntaxError(_errorMsgContractMethod(propName) + _contractMethodImplName+ " not a Function");
       }
-
       _checkPresWellFormed(candidateCm[_contractMethodPreName]);
       _checkPostsWellFormed(candidateCm[_contractMethodPostName]);
     }
@@ -353,20 +352,23 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
      *
      */
     var trueProps = trueArgs.props;
-    var propName;
-    var propValue;
-    for (propName in trueProps) {
-      propValue = trueProps[propName];
-      if (propName === _invariantPropertyName) {
-        _checkInvariantsWellFormed(propValue);
-      }
-      else if (_isContractMethod(propValue, propName)) {
-        propValue[_contractMethodImplName][_contractMethodPreName] = propValue[_contractMethodPreName];
-        propValue[_contractMethodImplName][_contractMethodPostName] = propValue[_contractMethodPostName];
-        trueProps[propName] = propValue[_contractMethodImplName];
-      }
+    if (trueProps.hasOwnProperty(_invariantPropertyName)) {
+      var propNames = Object.getOwnPropertyNames(trueProps);
+      propNames.forEach(function(propName) {
+        var propValue = trueProps[propName];
+        if (propName === _invariantPropertyName) {
+          _checkInvariantsWellFormed(propValue);
+        }
+        else if (_isContractMethod(propValue, propName)) {
+          var actualMethod = propValue[_contractMethodImplName];
+          actualMethod[_contractMethodPreName] = propValue[_contractMethodPreName];
+          actualMethod[_contractMethodImplName] = actualMethod;
+          actualMethod[_contractMethodPostName] = propValue[_contractMethodPostName];
+          trueProps[propName] = actualMethod;
+        }
+      });
     }
-    return dojoDeclare(trueArgs.className, trueArgs.superclass, trueArgs.props);
+    return dojoDeclare(trueArgs.className, trueArgs.superclass, trueProps);
   }
 
   return ppwcodeDeclare;
