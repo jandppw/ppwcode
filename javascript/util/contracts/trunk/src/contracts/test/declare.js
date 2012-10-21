@@ -34,6 +34,7 @@ define(["dojo/main", "util/doh/main", "contracts/declare"],
       doh.t(fcmCandidate.hasOwnProperty("pre"));
       doh.t(fcmCandidate.hasOwnProperty("impl"));
       doh.t(fcmCandidate.hasOwnProperty("post"));
+      doh.t(fcmCandidate.hasOwnProperty("excp"));
       doh.is(fcmCandidate, fcmCandidate.impl);
     }
 
@@ -88,12 +89,14 @@ define(["dojo/main", "util/doh/main", "contracts/declare"],
           constructor : {
             pre  : [],
             impl : constructor,
-            post : []
+            post : [],
+            excp : []
           },
           oneMoreMethod : {
             pre  : [],
             impl : functionValue,
-            post : []
+            post : [],
+            excp : []
           }
         });
         var resultInstance = new Result();
@@ -112,7 +115,7 @@ define(["dojo/main", "util/doh/main", "contracts/declare"],
         doh.t(resultPrototype.hasOwnProperty("constructor"));
         doh.is(resultInstance.constructor, resultPrototype.constructor);
         testResultInstanceProperty(resultInstance, "oneMoreMethod", functionValue, functionValue);
-// MUDO error        functionIsResultingFunctionFromContractMethod(resultInstance.constructor);
+        functionIsResultingFunctionFromContractMethod(resultInstance.constructor);
         functionIsResultingFunctionFromContractMethod(resultInstance.oneMoreMethod);
       }
 
