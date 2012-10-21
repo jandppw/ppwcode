@@ -6,6 +6,7 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
   var _invariantPropertyName = "invariants";
   // hardcoded name of type invariant property
 
+  var _contractTrigger = "c.";
   var _contractMethodImplName = "impl";
   var _contractMethodPreName = "pre";
   var _contractMethodPostName = "post";
@@ -85,12 +86,30 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
     // TODO
   }
 
-  function _buildContractMethod(method) {
+  function buildContractMethod(method) {
     var methodText = method.toString();
     // methodText contains the text of the method.
     // In some browsers, this contains comments and eol's; in others, it doesn't.
-    console.log(methodText);
-    return method;
+
+    var i;
+    var preconditions = [];
+    var postconditions = [];
+    var excpconditions = [];
+    var implText = "";
+    var trigger = "";
+    var currentChar = "";
+    for (i = 0; i < methodText.length; i++) {
+      currentChar = methodText.charAt(i);
+      implText += currentChar;
+    }
+    var cmethod;
+    eval("cmethod = " + implText);
+    cmethod[_contractMethodImplName] = cmethod;
+    cmethod[_contractMethodPreName] = preconditions;
+    cmethod[_contractMethodPostName] = postconditions;
+    cmethod[_contractMethodExcpName] = excpconditions;
+    console.log(cmethod);
+    return cmethod;
   }
 
   function _isContractMethod(candidateCm, propName) {
@@ -207,7 +226,7 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
           _checkInvariantsWellFormed(propValue);
         }
         else if (_isFunction(propValue)) {
-          trueProps[propName] = _buildContractMethod(propValue);
+          trueProps[propName] = buildContractMethod(propValue);
         }
 //        else if (_isContractMethod(propValue, propName)) {
 //          var actualMethod = propValue[_contractMethodImplName];
@@ -222,7 +241,8 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
   }
 
   var contracts = {
-    declare : dojoDeclare
+    declare : ppwcodeDeclare,
+    buildContractMethod : buildContractMethod
   };
   contracts[_contractMethodPreName] = precondition;
   contracts[_contractMethodPostName] = postcondition;

@@ -74,6 +74,18 @@ define(["dojo/main", "util/doh/main", "contracts/main"],
         doh.is(resultInstance.constructor, resultPrototype.constructor)
       },
 
+      function testParse() {
+        var input = "function() {\r" +
+        "          c.pre(function() { return true; });\r" +
+        "          c.post(function(result) { return result === this.stringProperty; });\r" +
+        "          c.excp(function(e) { return e != null; });\r" +
+        "\r" +
+        "          return this.stringProperty;\r" +
+        "        }";
+
+
+      },
+
       function testContractDeclare() {
         console.log("contract");
         var Result = c.declare(null, {
