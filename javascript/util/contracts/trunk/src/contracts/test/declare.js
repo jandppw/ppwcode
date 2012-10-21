@@ -238,7 +238,7 @@ define(["dojo/main", "util/doh/main", "contracts/declare"],
             post : [
               function(first, last, dob) { return this.firstName === first; },
               function(first, last, dob) { return this.lastName === last; },
-              function(first, last, dob) { return this.dob === dob; },
+              function(first, last, dob) { return this.dob === dob; }
             ],
             excp : [
               function(first, last, dob, exc) { return isString(exc); },
