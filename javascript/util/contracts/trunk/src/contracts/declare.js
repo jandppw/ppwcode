@@ -153,11 +153,11 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
     return result;
   }
 
-  function argumentsToArray() {
+  function argumentsToArray(argsThing) {
     var result = [];
     var i;
-    for (i = 0; arguments.length; i++) {
-      result.push(arguments[i]);
+    for (i = 0; i < argsThing.length; i++) {
+      result.push(argsThing[i]);
     }
     return result;
   }
@@ -184,7 +184,10 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
     if (errors.length > 0) {
       var error = {
         msg    : conditionTypeText + "s failed",
-        errors : errors
+        errors : errors,
+        toString : function() {
+          return this.msg + " [" + this.errors + "]";
+        }
       };
       throw error;
     }

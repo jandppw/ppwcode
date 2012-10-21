@@ -38,10 +38,20 @@ define(["dojo/main", "util/doh/main", "contracts/declare"],
       doh.is(fcmCandidate, fcmCandidate.impl);
     }
 
+    function isString(o) {
+      return typeof o === "string" || (typeof o === "object" && o.constructor === String);
+    }
+
     doh.register("be/ppwcode/util/contracts/I/declare", [
 
       function testDoh() {
         console.log("test ran");
+      },
+
+      function stringType() {
+        var aString = "this is a test string";
+        doh.is("string", typeof aString);
+        doh.t(isString(aString));
       },
 
       function testSimpleDeclare() {
@@ -188,6 +198,72 @@ define(["dojo/main", "util/doh/main", "contracts/declare"],
         testResultInstanceProperty(resultInstance, "oneMoreMethod", functionValue, functionValue);
         functionIsResultingFunctionFromContractMethod(resultInstance.constructor);
         functionIsResultingFunctionFromContractMethod(resultInstance.oneMoreMethod);
+      },
+
+      function realTest() {
+        var now = new Date();
+
+        var Person = subjectDeclare(null, {
+          invariants : [
+            function() { return this.hasOwnProperty("firstName"); },
+            function() { return this.firstName; },
+            function() { return isString(this.firstName); },
+            function() { return this.hasOwnProperty("lastName"); },
+            function() { return this.lastName; },
+            function() { return isString(this.lastName); },
+            function() { return this.hasOwnProperty("dob"); },
+            function() { return this.dob; },
+            function() { return this.dob instanceof Date; },
+            function() { return now > this.dob; },
+            function() { return this.age; },
+            function() { return this.age instanceof Function; }
+          ],
+          constructor : {
+            pre  : [
+              function() { return first },
+              function() { return isString(first); },
+              function() { return last },
+              function() { return isString(last); },
+              function() { return dob },
+              function() { return dob instanceof Date}
+            ],
+            impl : function(first, last, dob) {
+              if (now <= dob) {
+                throw "dob must be in the past (" + dob + ")";
+              }
+              this.firstName = first;
+              this.lastName = last;
+              this.dob = dob;
+            },
+            post : [
+              function(first, last, dob) { return this.firstName === first; },
+              function(first, last, dob) { return this.lastName === last; },
+              function(first, last, dob) { return this.dob === dob; },
+            ],
+            excp : [
+              function(first, last, dob, exc) { return isString(exc); },
+              function(first, last, dob, exc) { return exc === "dob must be in the past (" + dob + ")"; },
+              function(first, last, dob, exc) { return now <= dob; }
+            ]
+          },
+          age : {
+            pre  : [],
+            impl : function() {
+              return (new Date(now.getTime() - this.dob.getTime())).getFullYear() - 1970;
+            },
+            post : [
+              function(result) {
+                return result === (now.getFullYear() - this.dob.getFullYear() +
+                ((now.getMonth() < this.dob.getMonth() ||
+                  (now.getMonth() === this.dob.getMonth() && now.getDate() < this.dob.getDate())) ? 1 : 0));
+              }
+            ],
+            excp : []
+          }
+        });
+        // var pInstance = new (Object.getPrototypeOf(Person).cPrePostInvar(Person))("Jan", "Dockx", new Date(1966, 10, 3));
+        var pInstance = new Person("Jan", "Dockx", new Date(1966, 9, 3));
+        var age = pInstance.cPrePostInvar(pInstance.age)();
       }
 
     ]);
