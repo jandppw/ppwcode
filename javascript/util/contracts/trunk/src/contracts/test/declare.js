@@ -1,5 +1,5 @@
-define(["dojo/main", "util/doh/main", "contracts/main"],
-  function(dojo, doh, c) {
+define(["dojo/main", "util/doh/main", "contracts/declare"],
+  function(dojo, doh, subjectDeclare) {
 
     var booleanValue = true;
     var stringValue1 = "A property value";
@@ -44,8 +44,7 @@ define(["dojo/main", "util/doh/main", "contracts/main"],
       },
 
       function testSimpleDeclare() {
-        console.log("simple");
-        var Result = c.declare(null, {
+        var Result = subjectDeclare(null, {
           nullProperty : null,
           booleanProperty : booleanValue,
           stringProperty : stringValue1,
@@ -74,21 +73,8 @@ define(["dojo/main", "util/doh/main", "contracts/main"],
         doh.is(resultInstance.constructor, resultPrototype.constructor)
       },
 
-      function testParse() {
-        var input = "function() {\r" +
-        "          c.pre(function() { return true; });\r" +
-        "          c.post(function(result) { return result === this.stringProperty; });\r" +
-        "          c.excp(function(e) { return e != null; });\r" +
-        "\r" +
-        "          return this.stringProperty;\r" +
-        "        }";
-
-
-      },
-
       function testContractDeclare() {
-        console.log("contract");
-        var Result = c.declare(null, {
+        var Result = subjectDeclare(null, {
           invariants : [],
           nullProperty : null,
           booleanProperty : booleanValue,
@@ -99,23 +85,20 @@ define(["dojo/main", "util/doh/main", "contracts/main"],
           objectProperty : objectValue,
           functionProperty : functionValue,
           toString : toStringMethod,
-          constructor : constructor,
-//          constructor : {
-//            pre  : [],
-//            impl : constructor,
-//            post : []
-//          },
-          oneMoreMethod : function() {
-            c.pre(function() { return true; });
-            c.post(function(result) { return result === this.stringProperty; });
-            c.excp(function(e) { return e != null; });
-
-            return this.stringProperty;
+          constructor : {
+            pre  : [],
+            impl : constructor,
+            post : []
+          },
+          oneMoreMethod : {
+            pre  : [],
+            impl : functionValue,
+            post : []
           }
         });
         var resultInstance = new Result();
         doh.is(Result, resultInstance.constructor);
-// TODO why does this fail? doh.is(Object.getPrototypeOf(Result), Object.getPrototypeOf(resultInstance));
+//        doh.is(Object.getPrototypeOf(Result), Object.getPrototypeOf(resultInstance));
         testResultInstanceProperty(resultInstance, "nullProperty", null, null);
         testResultInstanceProperty(resultInstance, "booleanProperty", booleanValue, booleanValue);
         testResultInstanceProperty(resultInstance, "stringProperty", stringValue1, stringValue2);
@@ -126,11 +109,11 @@ define(["dojo/main", "util/doh/main", "contracts/main"],
         testResultInstanceProperty(resultInstance, "functionProperty", functionValue, functionValue);
         testResultInstanceProperty(resultInstance, "toString", toStringMethod, toStringMethod);
         var resultPrototype = Object.getPrototypeOf(resultInstance);
-//        doh.t(resultPrototype.hasOwnProperty("constructor"));
-//        doh.is(resultInstance.constructor, resultPrototype.constructor);
-//        testResultInstanceProperty(resultInstance, "oneMoreMethod", functionValue, functionValue);
+        doh.t(resultPrototype.hasOwnProperty("constructor"));
+        doh.is(resultInstance.constructor, resultPrototype.constructor);
+        testResultInstanceProperty(resultInstance, "oneMoreMethod", functionValue, functionValue);
 // MUDO error        functionIsResultingFunctionFromContractMethod(resultInstance.constructor);
-//        functionIsResultingFunctionFromContractMethod(resultInstance.oneMoreMethod);
+        functionIsResultingFunctionFromContractMethod(resultInstance.oneMoreMethod);
       }
 
     ]);
