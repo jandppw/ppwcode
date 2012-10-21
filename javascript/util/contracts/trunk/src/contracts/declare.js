@@ -8,6 +8,10 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
   var _contractMethodPostName = "post";
   var _contractMethodExcpName = "excp";
 
+  var _callWithContractsMethodName_Pre = "cPre";
+  var _callWithContractsMethodName_PrePost = "cPrePost";
+  var _callWithContractsMethodName_PrePostInvar = "cPrePostInvar";
+
   function _errorMsgContractMethod(propName) {
     return "ContractMethod '" + propName + "' not well-formed: ";
   }
@@ -149,6 +153,104 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
     return result;
   }
 
+  function argumentsToArray() {
+    var result = [];
+    var i;
+    for (i = 0; arguments.length; i++) {
+      result.push(arguments[i]);
+    }
+    return result;
+  }
+
+  function checkConditions(conditionTypeText, conditions, subject, args, extraArg) {
+    var extendedArgs = args.slice(0);
+    extendedArgs.push(extraArg);
+    var errors = [];
+    conditions.forEach(function(condition) {
+      var conditionResult;
+      try {
+        conditionResult = condition.apply(subject, extendedArgs);
+        if (!conditionResult ) {
+          errors.push(condition);
+        }
+      }
+      catch (e) {
+        errors.push({
+          condition : condition,
+          exc       : e
+        });
+      }
+    });
+    if (errors.length > 0) {
+      var error = {
+        msg    : conditionTypeText + "s failed",
+        errors : errors
+      };
+      throw error;
+    }
+  }
+
+  function _functionWithPre(method) {
+    var theThis = this;
+
+    return function() {
+      var args = argumentsToArray(arguments);
+
+      checkConditions("Preconditions", method[_contractMethodPreName], theThis, args, null);
+      return method[_contractMethodImplName].apply(theThis, args);
+    };
+  }
+
+  function _functionWithPrePost(method) {
+    var theThis = this;
+
+    return function() {
+      var args = argumentsToArray(arguments);
+
+      checkConditions("Preconditions", method[_contractMethodPreName], theThis, args, null);
+      var result;
+      var nominalEnd = false;
+      try {
+        result = method[_contractMethodImplName].apply(theThis, args);
+        nominalEnd = true;
+      }
+      catch (methodExc) {
+        // this is exceptional (non-nominal), yet defined behavior
+        checkConditions("Exception condition", method[_contractMethodExcpName], theThis, args, methodExc);
+      }
+      if (nominalEnd) {
+        checkConditions("Postcondition", method[_contractMethodPostName], theThis, args, result);
+      }
+      return result;
+    };
+  }
+
+  function _functionWithPrePostInvar(method) {
+    var theThis = this;
+
+    return function() {
+      var args = argumentsToArray(arguments);
+
+      checkConditions("Preconditions", method[_contractMethodPreName], theThis, args, null);
+      var result;
+      var nominalEnd = false;
+      try {
+        result = method[_contractMethodImplName].apply(theThis, args);
+        nominalEnd = true;
+      }
+      catch (methodExc) {
+        // this is exceptional (non-nominal), yet defined behavior
+        checkConditions("Invariant", theThis[_invariantPropertyName], theThis, [], null);
+        checkConditions("Exception condition", method[_contractMethodExcpName], theThis, args, methodExc);
+      }
+      if (nominalEnd) {
+        checkConditions("Invariant", theThis[_invariantPropertyName], theThis, [], null);
+        checkConditions("Postcondition", method[_contractMethodPostName], theThis, args, result);
+      }
+      return result;
+    };
+  }
+
   function ppwcodeDeclare(className, superclass, props) {
     var trueArgs = _crackParameters(className, superclass, props);
     /* we normalize props, so that we are sure that
@@ -161,7 +263,6 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
      *      pre property of the method in props (props[pn].pre)
      *   -- the postconditions (cm.post) are sensible postconditions, and associated to the
      *      post property of the method in props (props[pn].post)
-     *
      */
     var trueProps = trueArgs.props;
     var classHasContracts = trueProps.hasOwnProperty(_invariantPropertyName);
@@ -181,6 +282,10 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
           trueProps[propName] = actualMethod;
         }
       });
+      // and we add the contract-verification methods
+      trueProps[_callWithContractsMethodName_Pre] = _functionWithPre;
+      trueProps[_callWithContractsMethodName_PrePost] = _functionWithPrePost;
+      trueProps[_callWithContractsMethodName_PrePostInvar] = _functionWithPrePostInvar;
     }
     var result = dojoDeclare(trueArgs.className, trueArgs.superclass, trueProps);
     if (classHasContracts) {

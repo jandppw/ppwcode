@@ -117,6 +117,77 @@ define(["dojo/main", "util/doh/main", "contracts/declare"],
         testResultInstanceProperty(resultInstance, "oneMoreMethod", functionValue, functionValue);
         functionIsResultingFunctionFromContractMethod(resultInstance.constructor);
         functionIsResultingFunctionFromContractMethod(resultInstance.oneMoreMethod);
+      },
+
+      function testContractDeclareWithConditions() {
+        var Result = subjectDeclare(null, {
+          invariants : [
+            function() { return this.nullProperty != undefined; },
+            function() { return booleanProperty != undefined; },
+            function() { return stringProperty != undefined; },
+            function() { return numberProperty != undefined; },
+            function() { return arrayProperty != undefined; },
+            function() { return dateProperty != undefined; },
+            function() { return objectProperty != undefined; },
+            function() { return functionProperty != undefined; },
+            function() { return toString != undefined; },
+            function() { return constructor != undefined; },
+            function() { return oneMoreMethod != undefined; }
+          ],
+          nullProperty : null,
+          booleanProperty : booleanValue,
+          stringProperty : stringValue1,
+          numberProperty : numberValue1,
+          arrayProperty : arrayValue,
+          dateProperty : dateValue,
+          objectProperty : objectValue,
+          functionProperty : functionValue,
+          toString : toStringMethod,
+          constructor : {
+            pre  : [],
+            impl : constructor,
+            post : [
+              function() { return this.nullProperty === null; },
+              function() { return this.booleanProperty === booleanValue; },
+              function() { return this.stringProperty === stringValue2; },
+              function() { return this.numberProperty === numberValue2; },
+              function() { return this.arrayProperty === arrayValue; },
+              function() { return this.dateProperty === dateValue; },
+              function() { return this.objectProperty === objectValue; },
+              function() { return this.functionProperty === functionValue; },
+              function() { return this.toString === toStringMethod; },
+              function() { return this.constructor === constructor; },
+              function() { return this.oneMoreMethod === functionValue; }
+            ],
+            excp : []
+          },
+          oneMoreMethod : {
+            pre  : [],
+            impl : functionValue,
+            post : [
+              function(result) { return result === this.stringProperty; }
+            ],
+            excp : []
+          }
+        });
+        var resultInstance = new Result();
+        doh.is(Result, resultInstance.constructor);
+//        doh.is(Object.getPrototypeOf(Result), Object.getPrototypeOf(resultInstance));
+        testResultInstanceProperty(resultInstance, "nullProperty", null, null);
+        testResultInstanceProperty(resultInstance, "booleanProperty", booleanValue, booleanValue);
+        testResultInstanceProperty(resultInstance, "stringProperty", stringValue1, stringValue2);
+        testResultInstanceProperty(resultInstance, "numberProperty", numberValue1, numberValue2);
+        testResultInstanceProperty(resultInstance, "arrayProperty", arrayValue, arrayValue);
+        testResultInstanceProperty(resultInstance, "dateProperty", dateValue, dateValue);
+        testResultInstanceProperty(resultInstance, "objectProperty", objectValue, objectValue);
+        testResultInstanceProperty(resultInstance, "functionProperty", functionValue, functionValue);
+        testResultInstanceProperty(resultInstance, "toString", toStringMethod, toStringMethod);
+        var resultPrototype = Object.getPrototypeOf(resultInstance);
+        doh.t(resultPrototype.hasOwnProperty("constructor"));
+        doh.is(resultInstance.constructor, resultPrototype.constructor);
+        testResultInstanceProperty(resultInstance, "oneMoreMethod", functionValue, functionValue);
+        functionIsResultingFunctionFromContractMethod(resultInstance.constructor);
+        functionIsResultingFunctionFromContractMethod(resultInstance.oneMoreMethod);
       }
 
     ]);
