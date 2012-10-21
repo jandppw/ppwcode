@@ -6,6 +6,7 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
   var _contractMethodImplName = "impl";
   var _contractMethodPreName = "pre";
   var _contractMethodPostName = "post";
+  var _contractMethodExcpName = "excp";
 
   function _errorMsgContractMethod(propName) {
     return "ContractMethod '" + propName + "' not well-formed: ";
@@ -69,6 +70,7 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
     // summary:
     //    Void method, that throws an error if the candidatePres are not
     //    well-formed preconditions.
+    //    Preconditions must have the same argument names as the impl.
 
     // TODO
   }
@@ -76,7 +78,19 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
   function _checkPostsWellFormed(candidatePosts) {
     // summary:
     //    Void method, that throws an error if the candidatePosts are not
-    //    well-formed postconditions (nominal or exceptional).
+    //    well-formed postconditions.
+    //    Postconditions must have the same argument names as the impl, and have one
+    //    extra (last) argument, the result.
+
+    // TODO
+  }
+
+  function _checkExcpsWellFormed(candidateExcps) {
+    // summary:
+    //    Void method, that throws an error if the candidateExcps are not
+    //    well-formed exception conditions.
+    //    Exception conditions must have the same argument names as the impl, and have one
+    //    extra (last) argument, the exception, which is not null.
 
     // TODO
   }
@@ -99,21 +113,35 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
     var result = candidateCm && (! _isFunctionOrArray(candidateCm)) &&
                    (candidateCm.hasOwnProperty(_contractMethodImplName) ||
                      candidateCm.hasOwnProperty(_contractMethodPreName) ||
-                     candidateCm.hasOwnProperty(_contractMethodPostName));
+                     candidateCm.hasOwnProperty(_contractMethodPostName) ||
+                     candidateCm.hasOwnProperty(_contractMethodExcpName));
 
     if (result) {
-      if (! candidateCm.hasOwnProperty(_contractMethodImplName)) {
-        throw new SyntaxError(_errorMsgContractMethod(propName) + _contractMethodImplName + " not defined");
-      }
       if (! candidateCm.hasOwnProperty(_contractMethodPreName)) {
         throw new SyntaxError(_errorMsgContractMethod(propName) + _contractMethodPreName + " not defined");
+      }
+      if (! candidateCm.hasOwnProperty(_contractMethodImplName)) {
+        throw new SyntaxError(_errorMsgContractMethod(propName) + _contractMethodImplName + " not defined");
       }
       if (! candidateCm.hasOwnProperty(_contractMethodPostName)) {
         throw new SyntaxError(_errorMsgContractMethod(propName) + _contractMethodPostName+ " not defined");
       }
+      if (! candidateCm.hasOwnProperty(_contractMethodExcpName)) {
+        throw new SyntaxError(_errorMsgContractMethod(propName) + _contractMethodExcpName+ " not defined");
+      }
+      if (! _isArray(candidateCm[_contractMethodPreName])) {
+        throw new SyntaxError(_errorMsgContractMethod(propName) + _contractMethodPreName+ " not an Array");
+      }
       if (! _isFunction(candidateCm[_contractMethodImplName])) {
         throw new SyntaxError(_errorMsgContractMethod(propName) + _contractMethodImplName+ " not a Function");
       }
+      if (! _isArray(candidateCm[_contractMethodPostName])) {
+        throw new SyntaxError(_errorMsgContractMethod(propName) + _contractMethodPostName+ " not an Array");
+      }
+      if (! _isArray(candidateCm[_contractMethodExcpName])) {
+        throw new SyntaxError(_errorMsgContractMethod(propName) + _contractMethodExcpName+ " not an Array");
+      }
+
       _checkPresWellFormed(candidateCm[_contractMethodPreName]);
       _checkPostsWellFormed(candidateCm[_contractMethodPostName]);
     }
@@ -122,222 +150,6 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
   }
 
   function ppwcodeDeclare(className, superclass, props) {
-    // summary:
-    //		Create a feature-rich constructor from compact notation.
-    // className: String?
-    //		The optional name of the constructor (loosely, a "class")
-    //		stored in the "declaredClass" property in the created prototype.
-    //		It will be used as a global name for a created constructor.
-    // superclass: Function|Function[]
-    //		May be null, a Function, or an Array of Functions. This argument
-    //		specifies a list of bases (the left-most one is the most deepest
-    //		base).
-    // props: Object
-    //		An object whose properties are copied to the created prototype.
-    //		Add an instance-initialization function by making it a property
-    //		named "constructor".
-    // returns: dojo/_base/declare.__DeclareCreatedObject
-    //		New constructor function.
-    // description:
-    //		Create a constructor using a compact notation for inheritance and
-    //		prototype extension.
-    //
-    //		Mixin ancestors provide a type of multiple inheritance.
-    //		Prototypes of mixin ancestors are copied to the new class:
-    //		changes to mixin prototypes will not affect classes to which
-    //		they have been mixed in.
-    //
-    //		Ancestors can be compound classes created by this version of
-    //		declare(). In complex cases all base classes are going to be
-    //		linearized according to C3 MRO algorithm
-    //		(see http://www.python.org/download/releases/2.3/mro/ for more
-    //		details).
-    //
-    //		"className" is cached in "declaredClass" property of the new class,
-    //		if it was supplied. The immediate super class will be cached in
-    //		"superclass" property of the new class.
-    //
-    //		Methods in "props" will be copied and modified: "nom" property
-    //		(the declared name of the method) will be added to all copied
-    //		functions to help identify them for the internal machinery. Be
-    //		very careful, while reusing methods: if you use the same
-    //		function under different names, it can produce errors in some
-    //		cases.
-    //
-    //		It is possible to use constructors created "manually" (without
-    //		declare()) as bases. They will be called as usual during the
-    //		creation of an instance, their methods will be chained, and even
-    //		called by "this.inherited()".
-    //
-    //		Special property "-chains-" governs how to chain methods. It is
-    //		a dictionary, which uses method names as keys, and hint strings
-    //		as values. If a hint string is "after", this method will be
-    //		called after methods of its base classes. If a hint string is
-    //		"before", this method will be called before methods of its base
-    //		classes.
-    //
-    //		If "constructor" is not mentioned in "-chains-" property, it will
-    //		be chained using the legacy mode: using "after" chaining,
-    //		calling preamble() method before each constructor, if available,
-    //		and calling postscript() after all constructors were executed.
-    //		If the hint is "after", it is chained as a regular method, but
-    //		postscript() will be called after the chain of constructors.
-    //		"constructor" cannot be chained "before", but it allows
-    //		a special hint string: "manual", which means that constructors
-    //		are not going to be chained in any way, and programmer will call
-    //		them manually using this.inherited(). In the latter case
-    //		postscript() will be called after the construction.
-    //
-    //		All chaining hints are "inherited" from base classes and
-    //		potentially can be overridden. Be very careful when overriding
-    //		hints! Make sure that all chained methods can work in a proposed
-    //		manner of chaining.
-    //
-    //		Once a method was chained, it is impossible to unchain it. The
-    //		only exception is "constructor". You don't need to define a
-    //		method in order to supply a chaining hint.
-    //
-    //		If a method is chained, it cannot use this.inherited() because
-    //		all other methods in the hierarchy will be called automatically.
-    //
-    //		Usually constructors and initializers of any kind are chained
-    //		using "after" and destructors of any kind are chained as
-    //		"before". Note that chaining assumes that chained methods do not
-    //		return any value: any returned value will be discarded.
-    //
-    // example:
-    //	|	declare("my.classes.bar", my.classes.foo, {
-    //	|		// properties to be added to the class prototype
-    //	|		someValue: 2,
-    //	|		// initialization function
-    //	|		constructor: function(){
-    //	|			this.myComplicatedObject = new ReallyComplicatedObject();
-    //	|		},
-    //	|		// other functions
-    //	|		someMethod: function(){
-    //	|			doStuff();
-    //	|		}
-    //	|	});
-    //
-    // example:
-    //	|	var MyBase = declare(null, {
-    //	|		// constructor, properties, and methods go here
-    //	|		// ...
-    //	|	});
-    //	|	var MyClass1 = declare(MyBase, {
-    //	|		// constructor, properties, and methods go here
-    //	|		// ...
-    //	|	});
-    //	|	var MyClass2 = declare(MyBase, {
-    //	|		// constructor, properties, and methods go here
-    //	|		// ...
-    //	|	});
-    //	|	var MyDiamond = declare([MyClass1, MyClass2], {
-    //	|		// constructor, properties, and methods go here
-    //	|		// ...
-    //	|	});
-    //
-    // example:
-    //	|	var F = function(){ console.log("raw constructor"); };
-    //	|	F.prototype.method = function(){
-    //	|		console.log("raw method");
-    //	|	};
-    //	|	var A = declare(F, {
-    //	|		constructor: function(){
-    //	|			console.log("A.constructor");
-    //	|		},
-    //	|		method: function(){
-    //	|			console.log("before calling F.method...");
-    //	|			this.inherited(arguments);
-    //	|			console.log("...back in A");
-    //	|		}
-    //	|	});
-    //	|	new A().method();
-    //	|	// will print:
-    //	|	// raw constructor
-    //	|	// A.constructor
-    //	|	// before calling F.method...
-    //	|	// raw method
-    //	|	// ...back in A
-    //
-    // example:
-    //	|	var A = declare(null, {
-    //	|		"-chains-": {
-    //	|			destroy: "before"
-    //	|		}
-    //	|	});
-    //	|	var B = declare(A, {
-    //	|		constructor: function(){
-    //	|			console.log("B.constructor");
-    //	|		},
-    //	|		destroy: function(){
-    //	|			console.log("B.destroy");
-    //	|		}
-    //	|	});
-    //	|	var C = declare(B, {
-    //	|		constructor: function(){
-    //	|			console.log("C.constructor");
-    //	|		},
-    //	|		destroy: function(){
-    //	|			console.log("C.destroy");
-    //	|		}
-    //	|	});
-    //	|	new C().destroy();
-    //	|	// prints:
-    //	|	// B.constructor
-    //	|	// C.constructor
-    //	|	// C.destroy
-    //	|	// B.destroy
-    //
-    // example:
-    //	|	var A = declare(null, {
-    //	|		"-chains-": {
-    //	|			constructor: "manual"
-    //	|		}
-    //	|	});
-    //	|	var B = declare(A, {
-    //	|		constructor: function(){
-    //	|			// ...
-    //	|			// call the base constructor with new parameters
-    //	|			this.inherited(arguments, [1, 2, 3]);
-    //	|			// ...
-    //	|		}
-    //	|	});
-    //
-    // example:
-    //	|	var A = declare(null, {
-    //	|		"-chains-": {
-    //	|			m1: "before"
-    //	|		},
-    //	|		m1: function(){
-    //	|			console.log("A.m1");
-    //	|		},
-    //	|		m2: function(){
-    //	|			console.log("A.m2");
-    //	|		}
-    //	|	});
-    //	|	var B = declare(A, {
-    //	|		"-chains-": {
-    //	|			m2: "after"
-    //	|		},
-    //	|		m1: function(){
-    //	|			console.log("B.m1");
-    //	|		},
-    //	|		m2: function(){
-    //	|			console.log("B.m2");
-    //	|		}
-    //	|	});
-    //	|	var x = new B();
-    //	|	x.m1();
-    //	|	// prints:
-    //	|	// B.m1
-    //	|	// A.m1
-    //	|	x.m2();
-    //	|	// prints:
-    //	|	// A.m2
-    //	|	// B.m2
-
-
     var trueArgs = _crackParameters(className, superclass, props);
     /* we normalize props, so that we are sure that
      * - a property "invariants" contains sensible invariants
@@ -352,7 +164,8 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
      *
      */
     var trueProps = trueArgs.props;
-    if (trueProps.hasOwnProperty(_invariantPropertyName)) {
+    var classHasContracts = trueProps.hasOwnProperty(_invariantPropertyName);
+    if (classHasContracts) {
       var propNames = Object.getOwnPropertyNames(trueProps);
       propNames.forEach(function(propName) {
         var propValue = trueProps[propName];
@@ -364,11 +177,21 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
           actualMethod[_contractMethodPreName] = propValue[_contractMethodPreName];
           actualMethod[_contractMethodImplName] = actualMethod;
           actualMethod[_contractMethodPostName] = propValue[_contractMethodPostName];
+          actualMethod[_contractMethodExcpName] = propValue[_contractMethodExcpName];
           trueProps[propName] = actualMethod;
         }
       });
     }
-    return dojoDeclare(trueArgs.className, trueArgs.superclass, trueProps);
+    var result = dojoDeclare(trueArgs.className, trueArgs.superclass, trueProps);
+    if (classHasContracts) {
+      // now we still need to add stuff back to the constructor
+      result.prototype.constructor[_contractMethodPreName] = result._meta.ctor[_contractMethodPreName];
+      result.prototype.constructor[_contractMethodImplName] = result.prototype.constructor;
+      result.prototype.constructor[_contractMethodPostName] = result._meta.ctor[_contractMethodPostName];
+      result.prototype.constructor[_contractMethodExcpName] = result._meta.ctor[_contractMethodExcpName];
+    }
+
+    return result;
   }
 
   return ppwcodeDeclare;
