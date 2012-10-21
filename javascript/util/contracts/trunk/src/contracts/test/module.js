@@ -1,3 +1,3 @@
 define([
-  "contracts/test/declare"
+  "contracts/test/main"
 ], 1);
