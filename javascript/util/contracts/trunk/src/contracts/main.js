@@ -9,6 +9,7 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
   var _contractMethodImplName = "impl";
   var _contractMethodPreName = "pre";
   var _contractMethodPostName = "post";
+  var _contractMethodExcpName = "excp";
 
   function _errorMsgContractMethod(propName) {
     return "ContractMethod '" + propName + "' not well-formed: ";
@@ -29,7 +30,7 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
     //    When there is a className, the resulting object is
     //    {"className" : arguments[0], "superclass" : arguments[1], "props" : arguments[2]}.
 
-    // copied from dojo/_base/declare.js - declare - first 6 lines of code
+    // copied from dojo/_base/main.js - declare - first 6 lines of code
 
     if(typeof className != "string"){
       props = superclass;
@@ -132,6 +133,57 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
     return result;
   }
 
+  function precondition(cond) {
+    // summary:
+    //   define a precondition; the cond is evaluated, and if it does not return
+    //   true, we throw an error
+    // cond:
+    //   a boolean function, that can use this and the arguments of the function it
+    //   is defined in
+
+    var condThis = null; // MUDO how do we get the this?
+    var condResult = cond.call(condThis);
+    if (! condResult) {
+      throw "Precondition violation: " + cond.toString();
+    }
+  }
+
+  function postcondition(cond) {
+    // summary:
+    //   define a precondition; the cond is evaluated, and if it does not return
+    //   true, we throw an error
+    // cond:
+    //   a boolean function, with the result of the function this is a postcondition
+    //   for as its only argument; the function can use this and the arguments of the function it
+    //   is defined in
+    //   TODO add old-values
+
+    var condThis = null; // MUDO how do we get the this?
+    var result = null; // MUDO how do we get the result?
+    var condResult = cond.call(condThis, result);
+    if (! condResult) {
+      throw "Postcondition violation: " + cond.toString();
+    }
+  }
+
+  function excpcondition(cond) {
+    // summary:
+    //   define an exception condition; the cond is evaluated, and if it does not return
+    //   true, we throw an error
+    // cond:
+    //   a boolean function, with the exception of the function this is an exception condition
+    //   for as its only argument; the function can use this and the arguments of the function it
+    //   is defined in
+    //   TODO there could be, but should be no old values
+
+    var condThis = null; // MUDO how do we get the this?
+    var excp = null; // MUDO how do we get the exception?
+    var condResult = cond.call(condThis, excp);
+    if (! condResult) {
+      throw "Postcondition violation: " + cond.toString();
+    }
+  }
+
   function ppwcodeDeclare(className, superclass, props) {
     var trueArgs = _crackParameters(className, superclass, props);
     /* we normalize props, so that we are sure that
@@ -170,11 +222,12 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
   }
 
   var contracts = {
-    pre     : precondition,
-    post    : postcondition,
-    excp    : excpcondition,
     declare : dojoDeclare
   };
+  contracts[_contractMethodPreName] = precondition;
+  contracts[_contractMethodPostName] = postcondition;
+  contracts[_contractMethodExcpName] = excpcondition;
+
 
   return contracts;
 

@@ -1,4 +1,4 @@
-define(["dojo/main", "util/doh/main", "contracts/contracts"],
+define(["dojo/main", "util/doh/main", "contracts/main"],
   function(dojo, doh, c) {
 
     var booleanValue = true;
@@ -45,7 +45,7 @@ define(["dojo/main", "util/doh/main", "contracts/contracts"],
 
       function testSimpleDeclare() {
         console.log("simple");
-        var Result = subjectDeclare(null, {
+        var Result = c.declare(null, {
           nullProperty : null,
           booleanProperty : booleanValue,
           stringProperty : stringValue1,
@@ -76,7 +76,7 @@ define(["dojo/main", "util/doh/main", "contracts/contracts"],
 
       function testContractDeclare() {
         console.log("contract");
-        var Result = subjectDeclare(null, {
+        var Result = c.declare(null, {
           invariants : [],
           nullProperty : null,
           booleanProperty : booleanValue,
@@ -87,16 +87,16 @@ define(["dojo/main", "util/doh/main", "contracts/contracts"],
           objectProperty : objectValue,
           functionProperty : functionValue,
           toString : toStringMethod,
-          constructor : constructor
+          constructor : constructor,
 //          constructor : {
 //            pre  : [],
 //            impl : constructor,
 //            post : []
 //          },
           oneMoreMethod : function() {
-            _c_pre(function() { return true; });
-            _c_post(function(result) { return result === this.stringProperty; });
-            _c_excp(function(e) { return e != null; });
+            c.pre(function() { return true; });
+            c.post(function(result) { return result === this.stringProperty; });
+            c.excp(function(e) { return e != null; });
 
             return this.stringProperty;
           }
