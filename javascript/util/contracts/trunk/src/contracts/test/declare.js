@@ -13,6 +13,9 @@ define(["dojo/main", "util/doh/main", "contracts/declare"],
       // object must have a property "stringProperty"
       return this.stringProperty;
     };
+    var functionValuePost = [
+      function(result) { return result === this.stringProperty; }
+    ];
     var toStringMethod = function() {
       // object must have a method "functionProperty"
       return this.functionProperty();
@@ -21,6 +24,20 @@ define(["dojo/main", "util/doh/main", "contracts/declare"],
       this.stringProperty = stringValue2;
       this.numberProperty =  numberValue2;
     };
+    var constructorPost = [
+      function() { return this.nullProperty === null; },
+      function() { return this.booleanProperty === booleanValue; },
+      function() { return this.stringProperty === stringValue2; },
+      function() { return this.numberProperty === numberValue2; },
+      function() { return this.arrayProperty === arrayValue; },
+      function() { return this.dateProperty === dateValue; },
+      function() { return this.objectProperty === objectValue; },
+      function() { return this.functionProperty === functionValue; },
+      function() { return this.toString === toStringMethod; },
+      function() { return this.constructor === constructor; },
+      function() { return this.oneMoreMethod === functionValue; }
+    ];
+
 
     function testResultInstanceProperty(resultInstance, propertyName, expectedValuePrototype, expectedValueInstance) {
       var resultPrototype = Object.getPrototypeOf(resultInstance);
@@ -29,13 +46,43 @@ define(["dojo/main", "util/doh/main", "contracts/declare"],
       doh.is(expectedValueInstance, resultInstance[propertyName]);
     }
 
-    function functionIsResultingFunctionFromContractMethod(fcmCandidate) {
-      doh.isNot(null, fcmCandidate);
-      doh.t(fcmCandidate.hasOwnProperty("pre"));
-      doh.t(fcmCandidate.hasOwnProperty("impl"));
-      doh.t(fcmCandidate.hasOwnProperty("post"));
-      doh.t(fcmCandidate.hasOwnProperty("excp"));
-      doh.is(fcmCandidate, fcmCandidate.impl);
+    var _objectProto = Object.prototype;
+    var _urToStringF = _objectProto.toString;
+
+    function _urToString(o) {
+      return _urToStringF.call(o);
+    }
+
+    function _isFunction(candidateFunction) {
+      return _urToString(candidateFunction) === "[object Function]";
+    }
+
+    function _isArray(candidateArray) {
+      return _urToString(candidateArray) === "[object Array]";
+    }
+
+    function hasContract(instance, methodName, pre, impl, post, exc) {
+      doh.t(instance);
+      var cstr = instance.constructor;
+      doh.t(cstr);
+      var meta= cstr._meta;
+      doh.t(meta);
+      var contract = meta.contract;
+      doh.t(contract);
+      var invariants = contract.invariants;
+      doh.t(invariants);
+      doh.t(_isArray(invariants));
+      var methodContract = contract[methodName];
+      doh.t(methodContract);
+      doh.t(! _isArray(methodContract) && ! _isFunction(methodContract));
+      doh.t(methodContract.pre);
+      doh.t(_isArray(methodContract.pre));
+      doh.t(methodContract.impl);
+      doh.t(_isFunction(methodContract.impl));
+      doh.t(methodContract.post);
+      doh.t(_isArray(methodContract.post));
+      doh.t(methodContract.excp);
+      doh.t(_isArray(methodContract.excp));
     }
 
     function isString(o) {
@@ -123,27 +170,28 @@ define(["dojo/main", "util/doh/main", "contracts/declare"],
         testResultInstanceProperty(resultInstance, "toString", toStringMethod, toStringMethod);
         var resultPrototype = Object.getPrototypeOf(resultInstance);
         doh.t(resultPrototype.hasOwnProperty("constructor"));
-        doh.is(resultInstance.constructor, resultPrototype.constructor);
+        doh.is(resultInstance.constructor, resultPrototype.constructor); // dojo constructor wraps around our function
         testResultInstanceProperty(resultInstance, "oneMoreMethod", functionValue, functionValue);
-        functionIsResultingFunctionFromContractMethod(resultInstance.constructor);
-        functionIsResultingFunctionFromContractMethod(resultInstance.oneMoreMethod);
+        hasContract(resultInstance, "constructor", [], constructor, [], []);
+        hasContract(resultInstance, "oneMoreMethod", [], functionValue, [], []);
       },
 
       function testContractDeclareWithConditions() {
+        var resultInvariants = [
+          function() { return this.nullProperty != undefined; },
+          function() { return booleanProperty != undefined; },
+          function() { return stringProperty != undefined; },
+          function() { return numberProperty != undefined; },
+          function() { return arrayProperty != undefined; },
+          function() { return dateProperty != undefined; },
+          function() { return objectProperty != undefined; },
+          function() { return functionProperty != undefined; },
+          function() { return toString != undefined; },
+          function() { return constructor != undefined; },
+          function() { return oneMoreMethod != undefined; }
+        ];
         var Result = subjectDeclare(null, {
-          invariants : [
-            function() { return this.nullProperty != undefined; },
-            function() { return booleanProperty != undefined; },
-            function() { return stringProperty != undefined; },
-            function() { return numberProperty != undefined; },
-            function() { return arrayProperty != undefined; },
-            function() { return dateProperty != undefined; },
-            function() { return objectProperty != undefined; },
-            function() { return functionProperty != undefined; },
-            function() { return toString != undefined; },
-            function() { return constructor != undefined; },
-            function() { return oneMoreMethod != undefined; }
-          ],
+          invariants : resultInvariants,
           nullProperty : null,
           booleanProperty : booleanValue,
           stringProperty : stringValue1,
@@ -156,27 +204,13 @@ define(["dojo/main", "util/doh/main", "contracts/declare"],
           constructor : {
             pre  : [],
             impl : constructor,
-            post : [
-              function() { return this.nullProperty === null; },
-              function() { return this.booleanProperty === booleanValue; },
-              function() { return this.stringProperty === stringValue2; },
-              function() { return this.numberProperty === numberValue2; },
-              function() { return this.arrayProperty === arrayValue; },
-              function() { return this.dateProperty === dateValue; },
-              function() { return this.objectProperty === objectValue; },
-              function() { return this.functionProperty === functionValue; },
-              function() { return this.toString === toStringMethod; },
-              function() { return this.constructor === constructor; },
-              function() { return this.oneMoreMethod === functionValue; }
-            ],
+            post : constructorPost,
             excp : []
           },
           oneMoreMethod : {
             pre  : [],
             impl : functionValue,
-            post : [
-              function(result) { return result === this.stringProperty; }
-            ],
+            post : functionValuePost,
             excp : []
           }
         });
@@ -194,10 +228,11 @@ define(["dojo/main", "util/doh/main", "contracts/declare"],
         testResultInstanceProperty(resultInstance, "toString", toStringMethod, toStringMethod);
         var resultPrototype = Object.getPrototypeOf(resultInstance);
         doh.t(resultPrototype.hasOwnProperty("constructor"));
-        doh.is(resultInstance.constructor, resultPrototype.constructor);
+        doh.is(resultInstance.constructor, resultPrototype.constructor); // dojo constructor wraps around our function
         testResultInstanceProperty(resultInstance, "oneMoreMethod", functionValue, functionValue);
-        functionIsResultingFunctionFromContractMethod(resultInstance.constructor);
-        functionIsResultingFunctionFromContractMethod(resultInstance.oneMoreMethod);
+        hasContract(resultInstance, "constructor", [], constructor, constructorPost, []);
+        hasContract(resultInstance, "oneMoreMethod", [], functionValue, functionValuePost, []);
+        doh.is(resultInvariants, resultInstance.constructor._meta.contract.invariants);
       },
 
       function realTest() {
