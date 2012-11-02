@@ -7,7 +7,6 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
   var _contractMethodPreName = "pre";
   var _contractMethodPostName = "post";
   var _contractMethodExcpName = "excp";
-  var _contractInMetaName = "contract";
 
   var _callWithContractsMethodName_Pre = "cPre";
   var _callWithContractsMethodName_PrePost = "cPrePost";
@@ -154,24 +153,6 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
     return result;
   }
 
-  function methodContractOf(/*Object*/ o, /*Function*/ f) {
-    var result = null;
-    var contract = o.constructor._meta.contract;
-    if (contract) {
-      var methodNames = Object.getOwnPropertyNames(contract);
-      var methodContractSingleton = methodNames.filter(function(cm) {
-        return contract[cm][_contractMethodImplName] === f;
-      });
-      if (methodContractSingleton.length === 1) {
-        result = contract[methodContractSingleton[0]];
-      }
-    }
-    if (!result) {
-      throw "No contract found in " + o + " for " + f;
-    }
-    return result;
-  }
-
   function argumentsToArray(argsThing) {
     var result = [];
     var i;
@@ -218,8 +199,8 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
     return function() {
       var args = argumentsToArray(arguments);
 
-      checkConditions("Preconditions", methodContractOf(theThis, method)[_contractMethodPreName], theThis, args, null);
-      return method.apply(theThis, args);
+      checkConditions("Preconditions", method[_contractMethodPreName], theThis, args, null);
+      return method[_contractMethodImplName].apply(theThis, args);
     };
   }
 
@@ -229,19 +210,19 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
     return function() {
       var args = argumentsToArray(arguments);
 
-      checkConditions("Preconditions", methodContractOf(theThis, method)[_contractMethodPreName], theThis, args, null);
+      checkConditions("Preconditions", method[_contractMethodPreName], theThis, args, null);
       var result;
       var nominalEnd = false;
       try {
-        result = method.apply(theThis, args);
+        result = method[_contractMethodImplName].apply(theThis, args);
         nominalEnd = true;
       }
       catch (methodExc) {
         // this is exceptional (non-nominal), yet defined behavior
-        checkConditions("Exception condition", methodContractOf(theThis, method)[_contractMethodExcpName], theThis, args, methodExc);
+        checkConditions("Exception condition", method[_contractMethodExcpName], theThis, args, methodExc);
       }
       if (nominalEnd) {
-        checkConditions("Postcondition", methodContractOf(theThis, method)[_contractMethodPostName], theThis, args, result);
+        checkConditions("Postcondition", method[_contractMethodPostName], theThis, args, result);
       }
       return result;
     };
@@ -250,29 +231,29 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
   function _functionWithPrePostInvar(method) {
     var theThis = this;
 
-    var contract = theThis.constructor._meta.contract;
-    if (!contract) {
-      throw "No contract found in " + theThis;
+    var invariants = theThis.constructor._meta[_invariantPropertyName];
+    if (!invariants) {
+      throw "No invariants found in " + theThis;
     }
 
     return function() {
       var args = argumentsToArray(arguments);
 
-      checkConditions("Preconditions", methodContractOf(theThis, method)[_contractMethodPreName], theThis, args, null);
+      checkConditions("Preconditions", method[_contractMethodPreName], theThis, args, null);
       var result;
       var nominalEnd = false;
       try {
-        result = method.apply(theThis, args);
+        result = method[_contractMethodImplName].apply(theThis, args);
         nominalEnd = true;
       }
       catch (methodExc) {
         // this is exceptional (non-nominal), yet defined behavior
-        checkConditions("Invariant", contract[_invariantPropertyName], theThis, [], null);
-        checkConditions("Exception condition", methodContractOf(theThis, method)[_contractMethodExcpName], theThis, args, methodExc);
+        checkConditions("Invariant", invariants, theThis, [], null);
+        checkConditions("Exception condition", method[_contractMethodExcpName], theThis, args, methodExc);
       }
       if (nominalEnd) {
-        checkConditions("Invariant", contract[_invariantPropertyName], theThis, [], null);
-        checkConditions("Postcondition", methodContractOf(theThis, method)[_contractMethodPostName], theThis, args, result);
+        checkConditions("Invariant", invariants, theThis, [], null);
+        checkConditions("Postcondition", method[_contractMethodPostName], theThis, args, result);
       }
       return result;
     };
@@ -292,26 +273,23 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
      *      post property of the method in props (props[pn].post)
      */
     var trueProps = trueArgs.props;
+    var invariants = [];
     var classHasContracts = trueProps.hasOwnProperty(_invariantPropertyName);
     if (classHasContracts) {
-      var contract = {};
       var propNames = Object.getOwnPropertyNames(trueProps);
       propNames.forEach(function(propName) {
         var propValue = trueProps[propName];
         if (propName === _invariantPropertyName) {
           _checkInvariantsWellFormed(propValue);
-          contract[_invariantPropertyName] = propValue;
+          invariants = propValue;
           delete trueProps[_invariantPropertyName];
         }
         else if (_isContractMethod(propValue, propName)) {
-          // remember the contract, make the methode the actual method in trueProps
-          // this also works for the constructor
           var actualMethod = propValue[_contractMethodImplName];
-          contract[propName] = {};
-          contract[propName][_contractMethodPreName] = propValue[_contractMethodPreName];
-          contract[propName][_contractMethodPostName] = propValue[_contractMethodPostName];
-          contract[propName][_contractMethodExcpName] = propValue[_contractMethodExcpName];
-          contract[propName][_contractMethodImplName] = actualMethod;
+          actualMethod[_contractMethodPreName] = propValue[_contractMethodPreName];
+          actualMethod[_contractMethodImplName] = actualMethod;
+          actualMethod[_contractMethodPostName] = propValue[_contractMethodPostName];
+          actualMethod[_contractMethodExcpName] = propValue[_contractMethodExcpName];
           trueProps[propName] = actualMethod;
         }
       });
@@ -322,8 +300,13 @@ define(["dojo/_base/declare"], function(dojoDeclare) {
     }
     var result = dojoDeclare(trueArgs.className, trueArgs.superclass, trueProps);
     if (classHasContracts) {
-      // finally, add the contract to _meta
-      result._meta[_contractInMetaName] = contract;
+      // now we still need to add stuff back to the constructor
+      result.prototype.constructor[_contractMethodPreName] = result._meta.ctor[_contractMethodPreName];
+      result.prototype.constructor[_contractMethodImplName] = result.prototype.constructor;
+      result.prototype.constructor[_contractMethodPostName] = result._meta.ctor[_contractMethodPostName];
+      result.prototype.constructor[_contractMethodExcpName] = result._meta.ctor[_contractMethodExcpName];
+      // finally, add the invariants to _meta
+      result._meta[_invariantPropertyName] = invariants;
     }
 
     return result;
