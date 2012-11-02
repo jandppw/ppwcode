@@ -1,5 +1,5 @@
 define(["dojo/main", "util/doh/main", "contracts/declare"],
-  function(dojo, doh, subjectDeclare) {
+  function(dojo, doh, c) {
 
     var booleanValue = true;
     var stringValue1 = "A property value";
@@ -87,7 +87,7 @@ define(["dojo/main", "util/doh/main", "contracts/declare"],
       },
 
       function testSimpleDeclare() {
-        var Result = subjectDeclare(null, {
+        var Result = c.declare(null, {
           nullProperty : null,
           booleanProperty : booleanValue,
           stringProperty : stringValue1,
@@ -117,7 +117,7 @@ define(["dojo/main", "util/doh/main", "contracts/declare"],
       },
 
       function testContractDeclare() {
-        var Result = subjectDeclare(null, {
+        var Result = c.declare(null, {
           invariants : [],
           nullProperty : null,
           booleanProperty : booleanValue,
@@ -175,7 +175,7 @@ define(["dojo/main", "util/doh/main", "contracts/declare"],
           function() { return constructor != undefined; },
           function() { return oneMoreMethod != undefined; }
         ];
-        var Result = subjectDeclare(null, {
+        var Result = c.declare(null, {
           invariants : resultInvariants,
           nullProperty : null,
           booleanProperty : booleanValue,
@@ -221,9 +221,10 @@ define(["dojo/main", "util/doh/main", "contracts/declare"],
       },
 
       function realTest() {
+        dojo.config.checkPre = true;
         var now = new Date();
 
-        var Person = subjectDeclare(null, {
+        var Person = c.declare(null, {
           invariants : [
             function() { return this.hasOwnProperty("firstName"); },
             function() { return this.firstName; },
@@ -240,12 +241,12 @@ define(["dojo/main", "util/doh/main", "contracts/declare"],
           ],
           constructor : {
             pre  : [
-              function() { return first },
-              function() { return isString(first); },
-              function() { return last },
-              function() { return isString(last); },
-              function() { return dob },
-              function() { return dob instanceof Date}
+              function(first, last, dob) { return first },
+              function(first, last, dob) { return isString(first); },
+              function(first, last, dob) { return last },
+              function(first, last, dob) { return isString(last); },
+              function(first, last, dob) { return dob },
+              function(first, last, dob) { return dob instanceof Date}
             ],
             impl : function(first, last, dob) {
               if (now <= dob) {
@@ -283,7 +284,7 @@ define(["dojo/main", "util/doh/main", "contracts/declare"],
         });
         // var pInstance = new (Object.getPrototypeOf(Person).cPrePostInvar(Person))("Jan", "Dockx", new Date(1966, 10, 3));
         var pInstance = new Person("Jan", "Dockx", new Date(1966, 9, 3));
-        var age = pInstance.cPrePostInvar(pInstance.age)();
+        var age = pInstance.age.applyPostInvarCheck(pInstance);
       }
 
     ]);
