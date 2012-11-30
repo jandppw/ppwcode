@@ -1,0 +1,424 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9AEBCB75-C8A3-4E8B-844C-82282D0CA157}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FrontEnd</RootNamespace>
+    <AssemblyName>FrontEnd</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <SignAssembly>false</SignAssembly>
+    <UseIISExpress>false</UseIISExpress>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Local|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;PROFILE</DefineConstants>
+    <Optimize>false</Optimize>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>true</CodeAnalysisFailOnMissingRules>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AjaxControlToolkit, Version=3.0.20229.14008, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\AjaxControlToolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Data.v8.2, Version=8.2.4.0, Culture=neutral, PublicKeyToken=9b171c9fd64da1d1, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.v8.2.Linq, Version=8.2.4.0, Culture=neutral, PublicKeyToken=9b171c9fd64da1d1, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Utils.v8.2, Version=8.2.4.0, Culture=neutral, PublicKeyToken=9b171c9fd64da1d1, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.ASPxEditors.v8.2, Version=8.2.4.0, Culture=neutral, PublicKeyToken=9b171c9fd64da1d1, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.ASPxGridView.v8.2, Version=8.2.4.0, Culture=neutral, PublicKeyToken=9b171c9fd64da1d1, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.ASPxGridView.v8.2.Export, Version=8.2.4.0, Culture=neutral, PublicKeyToken=9b171c9fd64da1d1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Web.ASPxHtmlEditor.v8.2, Version=8.2.4.0, Culture=neutral, PublicKeyToken=9b171c9fd64da1d1, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.ASPxScheduler.v8.2, Version=8.2.4.0, Culture=neutral, PublicKeyToken=9b171c9fd64da1d1, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.ASPxSpellChecker.v8.2, Version=8.2.4.0, Culture=neutral, PublicKeyToken=9b171c9fd64da1d1, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.v8.2, Version=8.2.4.0, Culture=neutral, PublicKeyToken=9b171c9fd64da1d1, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpo.v8.2, Version=8.2.4.0, Culture=neutral, PublicKeyToken=9b171c9fd64da1d1, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraReports.v8.2.Web, Version=8.2.4.0, Culture=neutral, PublicKeyToken=9b171c9fd64da1d1, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Windows\assembly\GAC_MSIL\System.Windows.Forms\2.0.0.0__b77a5c561934e089\System.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.Mobile" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Themes\Default\css\img\bg_body.png" />
+    <Content Include="App_Themes\Default\css\img\bg_submenu.png" />
+    <Content Include="App_Themes\Default\css\img\Users.png" />
+    <Content Include="configs\Debug\web.config" />
+    <Content Include="configs\Local\web.config" />
+    <Content Include="configs\Release\web.config" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BasePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Code\BaseUserControl.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Code\Context.cs">
+      <DependentUpon>Context.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Code\DetailComponent.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Code\lang.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Code\ListComponent.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Code\Permission.cs" />
+    <Compile Include="Code\Rights.cs" />
+    <Compile Include="Code\SelectionItem.cs" />
+    <Compile Include="Code\SelectionPermission.cs" />
+    <Compile Include="Code\UserObject.cs" />
+    <Compile Include="Code\UserManager.cs" />
+    <Compile Include="Components\DescriptionInputComponent.ascx.cs">
+      <DependentUpon>DescriptionInputComponent.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Components\DescriptionInputComponent.ascx.designer.cs">
+      <DependentUpon>DescriptionInputComponent.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Components\LoginControl.ascx.cs">
+      <DependentUpon>LoginControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Components\LoginControl.ascx.designer.cs">
+      <DependentUpon>LoginControl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Metadata\MetadataComponent.ascx.cs">
+      <DependentUpon>MetadataComponent.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Components\Metadata\MetadataComponent.ascx.designer.cs">
+      <DependentUpon>MetadataComponent.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Components\RoleComponents\CheckBoxList.ascx.cs">
+      <DependentUpon>CheckBoxList.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Components\RoleComponents\CheckBoxList.ascx.designer.cs">
+      <DependentUpon>CheckBoxList.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Components\RoleComponents\Roles.ascx.cs">
+      <DependentUpon>Roles.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Components\RoleComponents\Roles.ascx.designer.cs">
+      <DependentUpon>Roles.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Components\RoleComponents\RoleDetail.ascx.cs">
+      <DependentUpon>RoleDetail.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Components\RoleComponents\RoleDetail.ascx.designer.cs">
+      <DependentUpon>RoleDetail.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Components\SelectionComponents\MyTypeConverter.cs" />
+    <Compile Include="Components\SelectionComponents\SelectionComponent.ascx.cs">
+      <DependentUpon>SelectionComponent.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Components\SelectionComponents\SelectionComponent.ascx.designer.cs">
+      <DependentUpon>SelectionComponent.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Components\SelectionComponents\SelectionTypes.cs" />
+    <Compile Include="Components\UserDetail.ascx.cs">
+      <DependentUpon>UserDetail.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Components\UserDetail.ascx.designer.cs">
+      <DependentUpon>UserDetail.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Components\Users.ascx.cs">
+      <DependentUpon>Users.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Components\Users.ascx.designer.cs">
+      <DependentUpon>Users.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="NotAuthorized.aspx.cs">
+      <DependentUpon>NotAuthorized.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="NotAuthorized.aspx.designer.cs">
+      <DependentUpon>NotAuthorized.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Roles.aspx.cs">
+      <DependentUpon>Roles.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Roles.aspx.designer.cs">
+      <DependentUpon>Roles.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RoleDetail.aspx.cs">
+      <DependentUpon>RoleDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RoleDetail.aspx.designer.cs">
+      <DependentUpon>RoleDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserDetail.aspx.cs">
+      <DependentUpon>UserDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserDetail.aspx.designer.cs">
+      <DependentUpon>UserDetail.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Users.aspx.cs">
+      <DependentUpon>Users.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Users.aspx.designer.cs">
+      <DependentUpon>Users.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Welcome.aspx.cs">
+      <DependentUpon>Welcome.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Welcome.aspx.designer.cs">
+      <DependentUpon>Welcome.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UserManagement.Master.cs">
+      <DependentUpon>UserManagement.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserManagement.Master.designer.cs">
+      <DependentUpon>UserManagement.Master</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Code\Context.xsd" />
+    <None Include="Code\lang.xsd" />
+    <Compile Include="App_GlobalResources\Components.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Components.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Code\ErrorLogger.cs" />
+    <Compile Include="Code\MenuItem.cs" />
+    <Compile Include="Components\UserRole.ascx.cs">
+      <DependentUpon>UserRole.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Components\UserRole.ascx.designer.cs">
+      <DependentUpon>UserRole.ascx</DependentUpon>
+    </Compile>
+    <Content Include="UserManagement.Master" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UserManagement.Data\UserManagement.Data.csproj">
+      <Project>{1622EB33-2A38-4109-A606-3942F197800F}</Project>
+      <Name>UserManagement.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Themes\Default\css\Editors.css" />
+    <Content Include="App_Themes\Default\css\Global.css" />
+    <Content Include="App_Themes\Default\css\Grid.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_LocalResources\UserManagement.Master.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Themes\Default\css\areset.css" />
+    <Content Include="App_Themes\Default\css\img\bg_button_back.gif" />
+    <Content Include="App_Themes\Default\css\img\bg_button_delete.gif" />
+    <Content Include="App_Themes\Default\css\img\bg_button_delete_dis-green.gif" />
+    <Content Include="App_Themes\Default\css\img\bg_button_new.gif" />
+    <Content Include="App_Themes\Default\css\img\bg_button_save.gif" />
+    <Content Include="App_Themes\Default\css\img\bg_button_save_dis-red.gif" />
+    <Content Include="App_Themes\Default\css\img\bg_dxgvHeader.gif" />
+    <Content Include="App_Themes\Default\css\img\bg_languages.gif" />
+    <Content Include="App_Themes\Default\css\img\bg_link_add.gif" />
+    <Content Include="App_Themes\Default\css\img\bg_logon.gif" />
+    <Content Include="App_Themes\Default\css\img\bg_logout.gif" />
+    <Content Include="App_Themes\Default\css\img\bg_main.gif" />
+    <Content Include="App_Themes\Default\css\img\bg_nav.gif" />
+    <Content Include="App_Themes\Default\css\img\bg_next.gif" />
+    <Content Include="App_Themes\Default\css\img\bg_previous.gif" />
+    <Content Include="App_Themes\Default\css\img\de.png" />
+    <Content Include="App_Themes\Default\css\img\empty.jpg" />
+    <Content Include="App_Themes\Default\css\img\en.png" />
+    <Content Include="App_Themes\Default\css\img\expand.jpg" />
+    <Content Include="App_Themes\Default\css\img\filter_16x16.gif" />
+    <Content Include="App_Themes\Default\css\img\filter_16x16.png" />
+    <Content Include="App_Themes\Default\css\img\fr.png" />
+    <Content Include="App_Themes\Default\css\img\icon_add.gif" />
+    <Content Include="App_Themes\Default\css\img\icon_filter.gif" />
+    <Content Include="App_Themes\Default\css\img\nl.png" />
+    <Content Include="Components\DescriptionInputComponent.ascx" />
+    <Content Include="Components\LoginControl.ascx" />
+    <Content Include="Components\Metadata\MetadataComponent.ascx" />
+    <Content Include="Components\RoleComponents\CheckBoxList.ascx" />
+    <Content Include="Components\RoleComponents\Roles.ascx" />
+    <Content Include="Components\RoleComponents\RoleDetail.ascx" />
+    <Content Include="Components\UserRole.ascx" />
+    <Content Include="Components\SelectionComponents\SelectionComponent.ascx" />
+    <Content Include="Components\UserDetail.ascx" />
+    <Content Include="Components\Users.ascx" />
+    <Content Include="Global.asax" />
+    <Content Include="Login.aspx" />
+    <Content Include="NotAuthorized.aspx" />
+    <Content Include="Roles.aspx" />
+    <Content Include="RoleDetail.aspx" />
+    <Content Include="UserDetail.aspx" />
+    <Content Include="Users.aspx" />
+    <Content Include="Welcome.aspx" />
+    <Content Include="Components\App_LocalResources\LoginControl.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Components\App_LocalResources\UserDetail.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Components\App_LocalResources\Users.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Components\RoleComponents\App_LocalResources\Roles.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Components\RoleComponents\App_LocalResources\RoleDetail.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Components\RoleComponents\App_LocalResources\CheckBoxList.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_LocalResources\NotAuthorized.aspx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_LocalResources\Welcome.aspx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Components\SelectionComponents\App_LocalResources\SelectionComponent.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Components\Metadata\App_LocalResources\MetadataComponent.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Components\App_LocalResources\UserRole.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_GlobalResources\Components.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Components.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Components\App_LocalResources\DescriptionInputComponent.ascx.resx" />
+    <EmbeddedResource Include="Properties\licenses.licx" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>False</AutoAssignPort>
+          <DevelopmentServerPort>52039</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost/FrontEnd</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>http://usermanagement.local</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PreBuildEvent>IF $(ConfigurationName)==Local  xcopy  $(ProjectDir)\Properties\configs\Local\Settings.settings  $(ProjectDir)\Properties\Settings.settings /Y
+IF $(ConfigurationName)==Local  xcopy  $(ProjectDir)\Properties\configs\Local\Settings.Designer.cs  $(ProjectDir)\Properties\Settings.Designer.cs /Y
+IF $(ConfigurationName)==Local  xcopy  $(ProjectDir)\configs\Local\web.config  $(ProjectDir)\Web.config /Y
+IF $(ConfigurationName)==Debug  xcopy  $(ProjectDir)\Properties\configs\Debug\Settings.settings  $(ProjectDir)\Properties\Settings.settings /Y
+IF $(ConfigurationName)==Debug  xcopy  $(ProjectDir)\Properties\configs\Debug\Settings.Designer.cs  $(ProjectDir)\Properties\Settings.Designer.cs /Y
+IF $(ConfigurationName)==Debug  xcopy  $(ProjectDir)\configs\Debug\web.config  $(ProjectDir)\Web.config /Y
+IF $(ConfigurationName)==Release  xcopy  $(ProjectDir)\Properties\configs\Release\Settings.settings  $(ProjectDir)\Properties\Settings.settings /Y
+IF $(ConfigurationName)==Release  xcopy  $(ProjectDir)\Properties\configs\Release\Settings.Designer.cs  $(ProjectDir)\Properties\Settings.Designer.cs /Y
+IF $(ConfigurationName)==Release  xcopy  $(ProjectDir)\configs\Release\web.config  $(ProjectDir)\Web.config /Y</PreBuildEvent>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrontEnd", "FrontEnd\FrontEnd.csproj", "{9AEBCB75-C8A3-4E8B-844C-82282D0CA157}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagement.Data", "UserManagement.Data\UserManagement.Data.csproj", "{1622EB33-2A38-4109-A606-3942F197800F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Local|Any CPU = Local|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9AEBCB75-C8A3-4E8B-844C-82282D0CA157}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AEBCB75-C8A3-4E8B-844C-82282D0CA157}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AEBCB75-C8A3-4E8B-844C-82282D0CA157}.Local|Any CPU.ActiveCfg = Local|Any CPU
+		{9AEBCB75-C8A3-4E8B-844C-82282D0CA157}.Local|Any CPU.Build.0 = Local|Any CPU
+		{9AEBCB75-C8A3-4E8B-844C-82282D0CA157}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AEBCB75-C8A3-4E8B-844C-82282D0CA157}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1622EB33-2A38-4109-A606-3942F197800F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1622EB33-2A38-4109-A606-3942F197800F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1622EB33-2A38-4109-A606-3942F197800F}.Local|Any CPU.ActiveCfg = Local|Any CPU
+		{1622EB33-2A38-4109-A606-3942F197800F}.Local|Any CPU.Build.0 = Local|Any CPU
+		{1622EB33-2A38-4109-A606-3942F197800F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1622EB33-2A38-4109-A606-3942F197800F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

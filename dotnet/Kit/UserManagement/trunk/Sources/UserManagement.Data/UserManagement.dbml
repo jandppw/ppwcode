@@ -1,0 +1,454 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="UserManagement" Class="UserManagementDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost;Initial Catalog=UserManagement;Integrated Security=True" SettingsObjectName="UserManagement.Data.Properties.Settings" SettingsPropertyName="userManagementConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.ConstraintMessage" Member="ConstraintMessages">
+    <Type Name="ConstraintMessage">
+      <Column Name="ConstraintName" Type="System.String" DbType="NVarChar(128) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ConstraintType" Type="System.String" DbType="VarChar(11) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.Xml.Linq.XDocument" DbType="Xml" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="UserCreate" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UserModified" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DateModified" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="User_ConstraintMessage" Member="User" ThisKey="UserCreate" OtherKey="UserID" Type="User" IsForeignKey="true" />
+      <Association Name="User_ConstraintMessage1" Member="User1" ThisKey="UserModified" OtherKey="UserID" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserRole" Member="UserRoles">
+    <Type Name="UserRole">
+      <Column Name="UserRoleID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="RoleID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserCreate" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UserModified" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DateModified" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Role_UserRole" Member="Role" ThisKey="RoleID" OtherKey="RoleID" Type="Role" IsForeignKey="true" />
+      <Association Name="User_UserRole" Member="User" ThisKey="UserID" OtherKey="UserID" Type="User" IsForeignKey="true" />
+      <Association Name="User_UserRole1" Member="User1" ThisKey="UserCreate" OtherKey="UserID" Type="User" IsForeignKey="true" />
+      <Association Name="User_UserRole2" Member="User2" ThisKey="UserModified" OtherKey="UserID" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Language" Member="Languages">
+    <Type Name="Language">
+      <Column Name="LanguageLCID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CultureName" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Association Name="Language_User" Member="Users" ThisKey="LanguageLCID" OtherKey="LanguageLCID" Type="User" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Menu" Member="Menus">
+    <Type Name="Menu">
+      <Column Name="MenuID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ParentMenuID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Sequence" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="URL" Type="System.String" DbType="NVarChar(512)" CanBeNull="true" />
+      <Column Name="Description" Type="System.Xml.Linq.XDocument" DbType="Xml" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Menu_MenuPermission" Member="MenuPermissions" ThisKey="MenuID" OtherKey="MenuID" Type="MenuPermission" />
+    </Type>
+  </Table>
+  <Table Name="dbo.MenuPermission" Member="MenuPermissions">
+    <Type Name="MenuPermission">
+      <Column Name="MenuID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PermissionID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Menu_MenuPermission" Member="Menu" ThisKey="MenuID" OtherKey="MenuID" Type="Menu" IsForeignKey="true" />
+      <Association Name="Permission_MenuPermission" Member="Permission" ThisKey="PermissionID" OtherKey="PermissionID" Type="Permission" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Page" Member="Pages">
+    <Type Name="Page">
+      <Column Name="PageID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Association Name="Page_PagePermission" Member="PagePermissions" ThisKey="PageID" OtherKey="PageID" Type="PagePermission" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PagePermission" Member="PagePermissions">
+    <Type Name="PagePermission">
+      <Column Name="PageID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PermissionID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Page_PagePermission" Member="Page" ThisKey="PageID" OtherKey="PageID" Type="Page" IsForeignKey="true" />
+      <Association Name="Permission_PagePermission" Member="Permission" ThisKey="PermissionID" OtherKey="PermissionID" Type="Permission" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Permission" Member="Permissions">
+    <Type Name="Permission">
+      <Column Name="PermissionID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RequiredPermissionID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Action" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.Xml.Linq.XDocument" DbType="Xml NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="UserCreate" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UserModified" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DateModified" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Permission_MenuPermission" Member="MenuPermissions" ThisKey="PermissionID" OtherKey="PermissionID" Type="MenuPermission" />
+      <Association Name="Permission_PagePermission" Member="PagePermissions" ThisKey="PermissionID" OtherKey="PermissionID" Type="PagePermission" />
+      <Association Name="Permission_Permission" Member="Permissions" ThisKey="PermissionID" OtherKey="RequiredPermissionID" Type="Permission" />
+      <Association Name="Permission_RolePermission" Member="RolePermissions" ThisKey="PermissionID" OtherKey="PermissionID" Type="RolePermission" />
+      <Association Name="Permission_Permission" Member="Permission1" ThisKey="RequiredPermissionID" OtherKey="PermissionID" Type="Permission" IsForeignKey="true" />
+      <Association Name="User_Permission" Member="User" ThisKey="UserCreate" OtherKey="UserID" Type="User" IsForeignKey="true" />
+      <Association Name="User_Permission1" Member="User1" ThisKey="UserModified" OtherKey="UserID" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Role" Member="Roles">
+    <Type Name="Role">
+      <Column Name="RoleID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Description" Type="System.Xml.Linq.XDocument" DbType="Xml NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="UserCreate" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UserModified" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DateModified" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Role_UserRole" Member="UserRoles" ThisKey="RoleID" OtherKey="RoleID" Type="UserRole" />
+      <Association Name="Role_RolePermission" Member="RolePermissions" ThisKey="RoleID" OtherKey="RoleID" Type="RolePermission" />
+      <Association Name="User_Role" Member="User" ThisKey="UserCreate" OtherKey="UserID" Type="User" IsForeignKey="true" />
+      <Association Name="User_Role1" Member="User1" ThisKey="UserModified" OtherKey="UserID" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.RolePermission" Member="RolePermissions">
+    <Type Name="RolePermission">
+      <Column Name="RolePermissionID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="RoleID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PermissionID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserCreate" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UserModified" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DateModified" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Permission_RolePermission" Member="Permission" ThisKey="PermissionID" OtherKey="PermissionID" Type="Permission" IsForeignKey="true" />
+      <Association Name="Role_RolePermission" Member="Role" ThisKey="RoleID" OtherKey="RoleID" Type="Role" IsForeignKey="true" />
+      <Association Name="User_RolePermission" Member="User" ThisKey="UserCreate" OtherKey="UserID" Type="User" IsForeignKey="true" />
+      <Association Name="User_RolePermission1" Member="User1" ThisKey="UserModified" OtherKey="UserID" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[User]" Member="Users">
+    <Type Name="User">
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(320) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="NVarChar(32)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(320) NOT NULL" CanBeNull="false" />
+      <Column Name="LanguageLCID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(64)" CanBeNull="true" />
+      <Column Name="Lockout" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="UserCreate" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UserModified" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DateModified" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="User_ConstraintMessage" Member="ConstraintMessages" ThisKey="UserID" OtherKey="UserCreate" Type="ConstraintMessage" />
+      <Association Name="User_ConstraintMessage1" Member="ConstraintMessages1" ThisKey="UserID" OtherKey="UserModified" Type="ConstraintMessage" />
+      <Association Name="User_UserRole" Member="UserRoles" ThisKey="UserID" OtherKey="UserID" Type="UserRole" />
+      <Association Name="User_UserRole1" Member="UserRoles1" ThisKey="UserID" OtherKey="UserCreate" Type="UserRole" />
+      <Association Name="User_UserRole2" Member="UserRoles2" ThisKey="UserID" OtherKey="UserModified" Type="UserRole" />
+      <Association Name="User_Permission" Member="Permissions" ThisKey="UserID" OtherKey="UserCreate" Type="Permission" />
+      <Association Name="User_Permission1" Member="Permissions1" ThisKey="UserID" OtherKey="UserModified" Type="Permission" />
+      <Association Name="User_Role" Member="Roles" ThisKey="UserID" OtherKey="UserCreate" Type="Role" />
+      <Association Name="User_Role1" Member="Roles1" ThisKey="UserID" OtherKey="UserModified" Type="Role" />
+      <Association Name="User_RolePermission" Member="RolePermissions" ThisKey="UserID" OtherKey="UserCreate" Type="RolePermission" />
+      <Association Name="User_RolePermission1" Member="RolePermissions1" ThisKey="UserID" OtherKey="UserModified" Type="RolePermission" />
+      <Association Name="User_User" Member="Users" ThisKey="UserID" OtherKey="UserCreate" Type="User" />
+      <Association Name="User_User1" Member="Users1" ThisKey="UserID" OtherKey="UserModified" Type="User" />
+      <Association Name="Language_User" Member="Language" ThisKey="LanguageLCID" OtherKey="LanguageLCID" Type="Language" IsForeignKey="true" />
+      <Association Name="User_User" Member="User1" ThisKey="UserCreate" OtherKey="UserID" Type="User" IsForeignKey="true" />
+      <Association Name="User_User1" Member="User2" ThisKey="UserModified" OtherKey="UserID" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.fnCanSeeRole" Method="fnCanSeeRole" IsComposable="true">
+    <Parameter Name="UserID" Parameter="userID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="RoleID" Parameter="roleID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Boolean" />
+  </Function>
+  <Function Name="dbo.fnCanSeeUser" Method="fnCanSeeUser" IsComposable="true">
+    <Parameter Name="UserID" Parameter="userID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="ViewUserID" Parameter="viewUserID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Boolean" />
+  </Function>
+  <Function Name="dbo.fnGetMenuItems" Method="fnGetMenuItems" IsComposable="true">
+    <Parameter Name="UserID" Parameter="userID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="LanguageLCID" Parameter="languageLCID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="DefaultLanguageLCID" Parameter="defaultLanguageLCID" Type="System.Int32" DbType="Int" />
+    <ElementType Name="fnGetMenuItemsResult">
+      <Column Name="[level]" Member="level" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Sequence" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MenuID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ParentMenuID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="URL" Type="System.String" DbType="NVarChar(512)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.fnGetPagePermissions" Method="fnGetPagePermissions" IsComposable="true">
+    <Parameter Name="UserID" Parameter="userID" Type="System.Int32" DbType="Int" />
+    <ElementType Name="fnGetPagePermissionsResult">
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Action" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.fnGetPermissionsList" Method="fnGetPermissionsList" IsComposable="true">
+    <Parameter Name="UserID" Parameter="userID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.String" />
+  </Function>
+  <Function Name="dbo.P_ConstraintMessage_D" Method="P_ConstraintMessage_D">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="ConstraintName" Parameter="constraintName" Type="System.String" DbType="NVarChar(128)" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_UserRole_U" Method="P_UserRole_U">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="UserRoleID" Parameter="userRoleID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="UserID" Parameter="userID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="RoleID" Parameter="roleID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_ConstraintMessage_I" Method="P_ConstraintMessage_I">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="ConstraintName" Parameter="constraintName" Type="System.String" DbType="NVarChar(128)" />
+    <Parameter Name="ConstraintType" Parameter="constraintType" Type="System.String" DbType="VarChar(11)" />
+    <Parameter Name="Description" Parameter="description" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_ConstraintMessage_U" Method="P_ConstraintMessage_U">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="ConstraintName" Parameter="constraintName" Type="System.String" DbType="NVarChar(128)" />
+    <Parameter Name="ConstraintType" Parameter="constraintType" Type="System.String" DbType="VarChar(11)" />
+    <Parameter Name="Description" Parameter="description" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_ErrorHandler" Method="P_ErrorHandler">
+    <Parameter Name="xact_state" Type="System.Int32" DbType="Int" />
+    <Parameter Name="lcid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="default_lcid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="error_number" Type="System.Int32" DbType="Int" />
+    <Parameter Name="error_severity" Type="System.Int32" DbType="Int" />
+    <Parameter Name="error_state" Type="System.Int32" DbType="Int" />
+    <Parameter Name="error_message" Type="System.String" DbType="NVarChar(4000)" />
+    <Parameter Name="error_line" Type="System.Int32" DbType="Int" />
+    <Parameter Name="error_procedure" Type="System.String" DbType="NVarChar(128)" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Parameter Name="constraint_name" Type="System.String" DbType="NVarChar(128)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_Language_D" Method="P_Language_D">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="LanguageLCID" Parameter="languageLCID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_Language_I" Method="P_Language_I">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="LanguageLCID" Parameter="languageLCID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="CultureName" Parameter="cultureName" Type="System.String" DbType="NVarChar(20)" />
+    <Parameter Name="Description" Parameter="description" Type="System.String" DbType="NVarChar(128)" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_Language_U" Method="P_Language_U">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="LanguageLCID" Parameter="languageLCID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="CultureName" Parameter="cultureName" Type="System.String" DbType="NVarChar(20)" />
+    <Parameter Name="Description" Parameter="description" Type="System.String" DbType="NVarChar(128)" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_Menu_D" Method="P_Menu_D">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="MenuID" Parameter="menuID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_Menu_I" Method="P_Menu_I">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="MenuID" Parameter="menuID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="ParentMenuID" Parameter="parentMenuID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Sequence" Parameter="sequence" Type="System.Int32" DbType="Int" />
+    <Parameter Name="URL" Parameter="uRL" Type="System.String" DbType="NVarChar(512)" />
+    <Parameter Name="Description" Parameter="description" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_Menu_U" Method="P_Menu_U">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="MenuID" Parameter="menuID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="ParentMenuID" Parameter="parentMenuID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Sequence" Parameter="sequence" Type="System.Int32" DbType="Int" />
+    <Parameter Name="URL" Parameter="uRL" Type="System.String" DbType="NVarChar(512)" />
+    <Parameter Name="Description" Parameter="description" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_MenuPermission_D" Method="P_MenuPermission_D">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="MenuID" Parameter="menuID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="PermissionID" Parameter="permissionID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_MenuPermission_I" Method="P_MenuPermission_I">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="MenuID" Parameter="menuID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="PermissionID" Parameter="permissionID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_Page_D" Method="P_Page_D">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="PageID" Parameter="pageID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_Page_I" Method="P_Page_I">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="PageID" Parameter="pageID" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="NVarChar(255)" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_Page_U" Method="P_Page_U">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="PageID" Parameter="pageID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="NVarChar(255)" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_PagePermission_D" Method="P_PagePermission_D">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="PageID" Parameter="pageID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="PermissionID" Parameter="permissionID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_PagePermission_I" Method="P_PagePermission_I">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="PageID" Parameter="pageID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="PermissionID" Parameter="permissionID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_Permission_D" Method="P_Permission_D">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="PermissionID" Parameter="permissionID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_Permission_I" Method="P_Permission_I">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="PermissionID" Parameter="permissionID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="RequiredPermissionID" Parameter="requiredPermissionID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Action" Parameter="action" Type="System.Char" DbType="Char(1)" />
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="NVarChar(128)" />
+    <Parameter Name="Description" Parameter="description" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_Permission_U" Method="P_Permission_U">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="PermissionID" Parameter="permissionID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="RequiredPermissionID" Parameter="requiredPermissionID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Action" Parameter="action" Type="System.Char" DbType="Char(1)" />
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="NVarChar(128)" />
+    <Parameter Name="Description" Parameter="description" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_Role_D" Method="P_Role_D">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="RoleID" Parameter="roleID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_Role_D_Override" Method="P_Role_D_Override">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="RoleID" Parameter="roleID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_Role_I" Method="P_Role_I">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="RoleID" Parameter="roleID" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Parameter Name="Description" Parameter="description" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_Role_U" Method="P_Role_U">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="RoleID" Parameter="roleID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Description" Parameter="description" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_RolePermission_D" Method="P_RolePermission_D">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="RolePermissionID" Parameter="rolePermissionID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_RolePermission_I" Method="P_RolePermission_I">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="RolePermissionID" Parameter="rolePermissionID" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Parameter Name="RoleID" Parameter="roleID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="PermissionID" Parameter="permissionID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_RolePermission_U" Method="P_RolePermission_U">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="RolePermissionID" Parameter="rolePermissionID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="RoleID" Parameter="roleID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="PermissionID" Parameter="permissionID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_User_D" Method="P_User_D">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="UserID" Parameter="userID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_User_D_Override" Method="P_User_D_Override">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="UserID" Parameter="userID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_User_I" Method="P_User_I">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="UserID" Parameter="userID" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Parameter Name="UserName" Parameter="userName" Type="System.String" DbType="NVarChar(320)" />
+    <Parameter Name="Password" Parameter="password" Type="System.String" DbType="NVarChar(32)" />
+    <Parameter Name="Email" Parameter="email" Type="System.String" DbType="NVarChar(320)" />
+    <Parameter Name="LanguageLCID" Parameter="languageLCID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="NVarChar(128)" />
+    <Parameter Name="FirstName" Parameter="firstName" Type="System.String" DbType="NVarChar(64)" />
+    <Parameter Name="Lockout" Parameter="lockout" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_User_U" Method="P_User_U">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="UserID" Parameter="userID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="UserName" Parameter="userName" Type="System.String" DbType="NVarChar(320)" />
+    <Parameter Name="Password" Parameter="password" Type="System.String" DbType="NVarChar(32)" />
+    <Parameter Name="Email" Parameter="email" Type="System.String" DbType="NVarChar(320)" />
+    <Parameter Name="LanguageLCID" Parameter="languageLCID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Name" Parameter="name" Type="System.String" DbType="NVarChar(128)" />
+    <Parameter Name="FirstName" Parameter="firstName" Type="System.String" DbType="NVarChar(64)" />
+    <Parameter Name="Lockout" Parameter="lockout" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_UserRole_D" Method="P_UserRole_D">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="UserRoleID" Parameter="userRoleID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.P_UserRole_I" Method="P_UserRole_I">
+    <Parameter Name="Context" Parameter="context" Type="System.Xml.Linq.XDocument" DbType="Xml" />
+    <Parameter Name="UserRoleID" Parameter="userRoleID" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Parameter Name="UserID" Parameter="userID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="RoleID" Parameter="roleID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="errorinfo" Type="System.String" DbType="NVarChar(4000)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+</Database>

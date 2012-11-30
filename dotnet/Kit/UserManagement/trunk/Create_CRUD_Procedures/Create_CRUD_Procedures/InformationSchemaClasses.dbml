@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database Name="zetes_registration" Class="InformationSchemaClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost;Initial Catalog=zetes_registration;Integrated Security=True" SettingsObjectName="Create_CRUD_Procedures.Properties.Settings" SettingsPropertyName="zetesConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.v_sys_relation_info" Member="RelationInfos">
+    <Type Name="RelationInfo">
+      <Column Name="TABLE_NAME" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="TABLE_TYPE" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="COLUMN_NAME" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Column Name="ORDINAL_POSITION" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DATA_TYPE" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Column Name="CHARACTER_OCTET_LENGTH" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CHARACTER_MAXIMUM_LENGTH" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="NUMERIC_PRECISION" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="NUMERIC_SCALE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="is_computed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="is_identity" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="is_pk" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="PK_ORDINAL_POSITION" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="has_audit" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Permission" Member="Permissions">
+    <Type Name="Permission">
+      <Column Name="PermissionId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RequiredPermissionId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Action" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.Xml.Linq.XElement" DbType="Xml NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="UserCreate" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UserModified" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DateModified" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Permission_Permission" Member="Permissions" ThisKey="PermissionId" OtherKey="RequiredPermissionId" Type="Permission" />
+      <Association Name="Permission_Permission" Member="Permission1" ThisKey="RequiredPermissionId" OtherKey="PermissionId" Type="Permission" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>

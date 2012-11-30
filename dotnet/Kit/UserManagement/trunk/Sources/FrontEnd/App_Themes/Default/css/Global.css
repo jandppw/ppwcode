@@ -1,0 +1,461 @@
+﻿body
+{
+	background: url(img/bg_body.png) #D4F9B3 top left repeat-x;
+}
+
+div#global
+{
+	position: relative;
+}
+
+#divMain
+{
+	border: none;
+	position: absolute;
+	left: 0;
+	top: 144px;
+	background: url(img/bg_main.gif) white top left repeat-x;
+	margin-top: 0 !important;
+	padding-left: 15px;
+	padding-right: 15px;
+	width: 920px;
+}
+
+#divLogin
+{
+	width: 400px;
+	background-color: #D4F9B3;
+	color: #254E66;
+	margin: auto;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+#divLoginBase
+{
+	padding-left: 25px;
+}
+
+#divExpand
+{
+	width: 350px;
+	background: url(img/expand.jpg) #D4F9B3 no-repeat top right;
+	height: 17px;
+	color: black;
+	margin-top: 3px;
+	margin-left: 25px;
+	text-align: right;
+}
+
+#divLoginExtra
+{
+	height: 0px;
+	padding-top: 7px;
+	padding-left: 25px;
+}
+
+#divSubmit
+{
+	height: 20px;
+	background-color: #D4F9B3;
+	width: 350px;
+	padding-top: 7px;
+	padding-left: 25px;
+}
+
+.loginColumn
+{
+	width: 100px;
+}
+
+#ctl00_cphMain_LoginControl1_lblAdvanced
+{
+	color: #254E66;
+	margin-right: 25px;
+	font-size: 80%;
+}
+
+#divContent
+{
+	padding-top: 15px;
+	padding-bottom: 25px;
+}
+
+#divMenu
+{
+	margin-top: 2px;
+}
+
+#divMenu .dxmMenuItem
+{
+	background: url(img/bg_nav.gif) transparent top right no-repeat;
+	padding-right: 30px;
+	font-weight: bold;
+	color: #254E66;
+	font-size: 11pt;
+}
+
+.dxmMenu, .dxmVerticalMenu
+{
+	border: none;
+	background-color: Transparent;
+}
+
+.dxmMenuItemHover
+{
+	border: none;
+}
+
+#divHeader ul
+{
+	margin-top: 0;
+}
+
+#divLanguage
+{
+	height: 25px;
+	margin-left: auto;
+	margin-right: 10px;
+	/*margin-top: -20px;*/
+	text-align: right;
+	float: right;
+	padding-top: 9px;
+	width: 125px;
+	background-color: transparent;
+	/*background-image: url(img/bg_languages.gif);*/
+	background-repeat: no-repeat;
+	background-attachment: scroll;
+	background-position: left top;
+}
+
+#divLanguage a
+{
+	color: black;
+}
+
+#divLogo
+{
+	background: url(img/Users.png) transparent top left no-repeat;
+	padding-left: 135px;
+	height: 113px;
+}
+
+#divError
+{
+	padding-top: 10px;
+}
+
+#divLogo h1
+{
+	margin-top: 0;
+	padding-top: 80px;
+	color: white;
+	display: none;
+}
+
+.ButtonColumn
+{
+	padding: 10px;
+	padding-left: 0;
+}
+
+.popupControl
+{
+	background-color: #AAD4FF;
+	position: absolute;
+	visibility: hidden;
+	border-style: solid;
+	border-color: Black;
+	border-width: 2px;
+}
+
+.modalBackground
+{
+	background-color: Gray;
+	filter: alpha(opacity=70);
+	opacity: 0.7;
+}
+
+.modalPopup
+{
+	background-color: #ffffdd;
+	border-width: 3px;
+	border-style: solid;
+	border-color: Gray;
+	padding: 3px;
+	width: 250px;
+}
+
+.hiddenInput
+{
+	display: none;
+}
+
+.lblWrongUserPass
+{
+	color: Red;
+	font-weight: bold;
+}
+
+#ctl00_cphMain_LoginControl1_btnSubmit
+{
+	background: url(img/bg_logon.gif) #069 top left no-repeat;
+	color: white;
+	padding: 3px;
+	padding-left: 10px;
+	padding-right: 10px;
+	text-decoration: none;
+}
+
+#divLogout
+{
+	padding-left: 20px;
+	position: absolute;
+	color: White;
+	top: 3px;
+	right: 10px;
+}
+
+a#ctl00_linkLogout
+{
+	background: url(img/bg_logout.gif) transparent 0px 3px no-repeat;
+	padding-left: 20px;
+	color: White;
+	font-family: Tahoma;
+	font-size: 9pt;
+}
+
+#ctl00_linkEN
+{
+	background: url(img/en.png) transparent top left no-repeat;
+}
+
+#ctl00_linkNL
+{
+	background: url(img/nl.png) transparent top left no-repeat;
+}
+
+#ctl00_linkFR
+{
+	background: url(img/fr.png) transparent top left no-repeat;
+}
+
+#ctl00_linkDE
+{
+	background: url(img/de.png) transparent top left no-repeat;
+}
+
+/* ***** C U S T O M ***** */
+
+.LinkCreate
+{
+	color: #930;
+	font-weight: bold;
+	text-decoration: none;
+	background: url(img/bg_link_add.gif) white top left no-repeat;
+	padding: 6px;
+	padding-left: 27px;
+	/*display: block;*/
+	margin-bottom: 15px;
+	display:table;
+	/*width: 200px;*/
+}
+
+.lnkDescriptionNew
+{
+	font-weight: bold;
+	text-decoration: none;
+	background: url(img/bg_button_new.gif) #fc6 top left no-repeat;
+	padding: 3px;
+	color: #930;
+	padding-left: 27px;
+	width: 50px;
+	display: block;
+}
+
+.lnkNewEdit
+{
+	font-weight: bold;
+	text-decoration: none;
+	background: url(img/bg_button_new.gif) #fc6 top left no-repeat;
+	padding: 3px;
+	color: #930;
+	padding-left: 27px;
+	width: 65px;
+	display: block;
+}
+
+.data-actions
+{
+	vertical-align: top;
+}
+
+tr.dxgvDataRow .dxgvCommandColumn a, .dxgvEditFormTable .dxgvCommandColumn a, tr.dxgvFocusedRow .dxgvCommandColumn a
+{
+	font-size: 0.80em;
+	color: white;
+	padding: 3px;
+	border: 1px solid black;
+	text-decoration: none;
+	background: #0b8043;
+	padding-left: 6px;
+	padding-right: 6px;
+}
+
+tr.dxgvDataRow .dxgvCommandColumn a, .dxgvEditFormTable .dxgvCommandColumn a, tr.dxgvFocusedRow .dxgvCommandColumn a
+{
+	font-size: 0.80em;
+	color: white;
+	padding: 3px;
+	border: 1px solid black;
+	text-decoration: none;
+	background: #0b8043;
+	padding-left: 6px;
+	padding-right: 6px;
+}
+
+
+a.data-update
+{
+	padding: 4px;
+	color: white !important;
+	text-decoration: none;
+	background: #693;
+	border: 1px solid white;
+}
+
+.btnSubmit
+{
+	background: url(img/bg_button_save.gif) #693 top left no-repeat;
+	color: white;
+	padding: 3px;
+	padding-left: 20px;
+	padding-right: 10px;
+	text-decoration: none;
+}
+
+.btnBack
+{
+	background: url(img/bg_button_back.gif) #069 top left no-repeat;
+	color: white;
+	padding: 3px;
+	padding-left: 20px;
+	padding-right: 10px;
+	text-decoration: none;
+}
+
+.btnDelete
+{
+	background: url(img/bg_button_delete_dis-green.gif) #693 top left no-repeat;
+	color: white;
+	padding: 3px;
+	padding-left: 20px;
+	padding-right: 10px;
+	text-decoration: none;
+}
+
+.btnSubmitChanged
+{
+	background: url(img/bg_button_save_dis-red.gif) #693 top left no-repeat;
+	color: white;
+	padding: 3px;
+	padding-left: 20px;
+	padding-right: 10px;
+	text-decoration: none;
+}
+
+.linkSelect
+{
+	background: url(img/bg_logon.gif) #069 top left no-repeat;
+	color: white;
+	padding: 3px;
+	padding-left: 10px;
+	padding-right: 10px;
+	text-decoration: none;
+	border: none;
+}
+
+table.data-details td .descriptionNewColumn
+{
+	vertical-align: bottom;
+	padding-bottom: 5px;
+}
+
+.createColumn
+{
+	vertical-align: middle;
+	padding-top: 15px;
+}
+
+.swapButton
+{
+	background: url(img/bg_logon.gif) #069 top left no-repeat;
+	color: white;
+	padding: 3px;
+	padding-left: 10px;
+	padding-right: 10px;
+	text-decoration: none;
+}
+
+.tableHeader
+{
+	white-space: nowrap;
+	padding-top: 8px;
+	padding-right: 6px;
+	padding-bottom: 8px;
+	padding-left: 6px;
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+	border-bottom-color: white;
+	background-color: #cccccc;
+	background-image: url(img/bg_dxgvHeader.gif);
+	background-repeat: repeat-x;
+	background-attachment: scroll;
+	background-position: left top;
+	font-family: Tahoma;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	font-size: 9pt;
+	line-height: normal;
+	font-size-adjust: none;
+	font-stretch: normal;
+	color: Black;
+}
+
+.tableRow
+{
+	background-color: #fafafa;
+}
+
+.dxmMenuItemSelected
+{
+	border: none;	
+}
+
+input.next
+{
+	text-decoration: none;
+	background: url(img/bg_next.gif) #333 top right no-repeat;
+	border: 1px solid #693;
+	color: white;
+	padding: 3px 20px 3px 10px;
+}
+
+input.previous
+{
+	text-decoration: none;
+	background: url(img/bg_previous.gif) #ccc top left no-repeat;
+	border: 1px solid #aaa;
+	color: #333;
+	padding: 3px 10px 3px 20px;
+}
+
+input.finish
+{
+	text-decoration: none;
+	background: url(img/bg_button_save.gif) #333 top left no-repeat;
+	border: 1px solid #693;
+	color: white;
+	padding: 3px 10px 3px 20px;
+}
