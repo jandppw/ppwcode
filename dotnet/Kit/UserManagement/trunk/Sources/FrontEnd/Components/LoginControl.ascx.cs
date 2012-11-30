@@ -34,7 +34,7 @@ namespace FrontEnd.Components
 
             if (user != null)
             {
-                Session["UserContext"] = XDocument.Parse(UserManager.GetContext(user).ToString());
+                Session["UserContext"] = XElement.Parse(UserManager.GetContext(user).ToString());
                 lblWrongUserPass.Visible = false;
                 CurrentUser = user;
                 CultureInfo c = CultureInfo.GetCultureInfo(user.User.LanguageLCID);

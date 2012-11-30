@@ -18,9 +18,9 @@ namespace FrontEnd
             set { Session["User"] = value; }
         }
 
-        public XDocument UserContext
+        public XElement UserContext
         {
-            get { return (XDocument)Session["UserContext"]; }
+            get { return (XElement)Session["UserContext"]; }
             set { Session["UserContext"] = value; }
         }
 
@@ -75,7 +75,7 @@ namespace FrontEnd
         {
             UserManagementDataContext result = null;
             BasePage bp = new BasePage();
-            XDocument context = bp.UserContext;
+            XElement context = bp.UserContext;
 
             if (HttpContext.Current != null)
             {
@@ -95,7 +95,7 @@ namespace FrontEnd
             return result;
         }
 
-        public static XDocument GetUserContext()
+        public static XElement GetUserContext()
         {
             BasePage bp = new BasePage();
             return bp.UserContext;

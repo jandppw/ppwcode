@@ -214,7 +214,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_ConstraintMessage_D")]
-		public int P_ConstraintMessage_D([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ConstraintName", DbType="NVarChar(128)")] string constraintName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_ConstraintMessage_D([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ConstraintName", DbType="NVarChar(128)")] string constraintName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, constraintName, errorinfo);
 			errorinfo = ((string)(result.GetParameterValue(2)));
@@ -222,7 +222,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_UserRole_U")]
-		public int P_UserRole_U([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserRoleID", DbType="Int")] System.Nullable<int> userRoleID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserID", DbType="Int")] System.Nullable<int> userID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RoleID", DbType="Int")] System.Nullable<int> roleID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_UserRole_U([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserRoleID", DbType="Int")] System.Nullable<int> userRoleID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserID", DbType="Int")] System.Nullable<int> userID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RoleID", DbType="Int")] System.Nullable<int> roleID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, userRoleID, userID, roleID, errorinfo);
 			errorinfo = ((string)(result.GetParameterValue(4)));
@@ -230,7 +230,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_ConstraintMessage_I")]
-		public int P_ConstraintMessage_I([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ConstraintName", DbType="NVarChar(128)")] string constraintName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ConstraintType", DbType="VarChar(11)")] string constraintType, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Description", DbType="Xml")] System.Xml.Linq.XDocument description, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_ConstraintMessage_I([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ConstraintName", DbType="NVarChar(128)")] string constraintName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ConstraintType", DbType="VarChar(11)")] string constraintType, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Description", DbType="Xml")] System.Xml.Linq.XElement description, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, constraintName, constraintType, description, errorinfo);
 			errorinfo = ((string)(result.GetParameterValue(4)));
@@ -238,7 +238,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_ConstraintMessage_U")]
-		public int P_ConstraintMessage_U([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ConstraintName", DbType="NVarChar(128)")] string constraintName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ConstraintType", DbType="VarChar(11)")] string constraintType, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Description", DbType="Xml")] System.Xml.Linq.XDocument description, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_ConstraintMessage_U([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ConstraintName", DbType="NVarChar(128)")] string constraintName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ConstraintType", DbType="VarChar(11)")] string constraintType, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Description", DbType="Xml")] System.Xml.Linq.XElement description, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, constraintName, constraintType, description, errorinfo);
 			errorinfo = ((string)(result.GetParameterValue(4)));
@@ -255,7 +255,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_Language_D")]
-		public int P_Language_D([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="LanguageLCID", DbType="Int")] System.Nullable<int> languageLCID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_Language_D([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="LanguageLCID", DbType="Int")] System.Nullable<int> languageLCID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, languageLCID, errorinfo);
 			errorinfo = ((string)(result.GetParameterValue(2)));
@@ -263,7 +263,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_Language_I")]
-		public int P_Language_I([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="LanguageLCID", DbType="Int")] System.Nullable<int> languageLCID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="CultureName", DbType="NVarChar(20)")] string cultureName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Description", DbType="NVarChar(128)")] string description, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_Language_I([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="LanguageLCID", DbType="Int")] System.Nullable<int> languageLCID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="CultureName", DbType="NVarChar(20)")] string cultureName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Description", DbType="NVarChar(128)")] string description, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, languageLCID, cultureName, description, errorinfo);
 			errorinfo = ((string)(result.GetParameterValue(4)));
@@ -271,7 +271,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_Language_U")]
-		public int P_Language_U([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="LanguageLCID", DbType="Int")] System.Nullable<int> languageLCID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="CultureName", DbType="NVarChar(20)")] string cultureName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Description", DbType="NVarChar(128)")] string description, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_Language_U([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="LanguageLCID", DbType="Int")] System.Nullable<int> languageLCID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="CultureName", DbType="NVarChar(20)")] string cultureName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Description", DbType="NVarChar(128)")] string description, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, languageLCID, cultureName, description, errorinfo);
 			errorinfo = ((string)(result.GetParameterValue(4)));
@@ -279,7 +279,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_Menu_D")]
-		public int P_Menu_D([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="MenuID", DbType="Int")] System.Nullable<int> menuID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_Menu_D([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="MenuID", DbType="Int")] System.Nullable<int> menuID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, menuID, errorinfo);
 			errorinfo = ((string)(result.GetParameterValue(2)));
@@ -287,7 +287,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_Menu_I")]
-		public int P_Menu_I([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="MenuID", DbType="Int")] System.Nullable<int> menuID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ParentMenuID", DbType="Int")] System.Nullable<int> parentMenuID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Sequence", DbType="Int")] System.Nullable<int> sequence, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="URL", DbType="NVarChar(512)")] string uRL, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Description", DbType="Xml")] System.Xml.Linq.XDocument description, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_Menu_I([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="MenuID", DbType="Int")] System.Nullable<int> menuID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ParentMenuID", DbType="Int")] System.Nullable<int> parentMenuID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Sequence", DbType="Int")] System.Nullable<int> sequence, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="URL", DbType="NVarChar(512)")] string uRL, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Description", DbType="Xml")] System.Xml.Linq.XElement description, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, menuID, parentMenuID, sequence, uRL, description, errorinfo);
 			errorinfo = ((string)(result.GetParameterValue(6)));
@@ -295,7 +295,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_Menu_U")]
-		public int P_Menu_U([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="MenuID", DbType="Int")] System.Nullable<int> menuID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ParentMenuID", DbType="Int")] System.Nullable<int> parentMenuID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Sequence", DbType="Int")] System.Nullable<int> sequence, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="URL", DbType="NVarChar(512)")] string uRL, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Description", DbType="Xml")] System.Xml.Linq.XDocument description, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_Menu_U([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="MenuID", DbType="Int")] System.Nullable<int> menuID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="ParentMenuID", DbType="Int")] System.Nullable<int> parentMenuID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Sequence", DbType="Int")] System.Nullable<int> sequence, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="URL", DbType="NVarChar(512)")] string uRL, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Description", DbType="Xml")] System.Xml.Linq.XElement description, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, menuID, parentMenuID, sequence, uRL, description, errorinfo);
 			errorinfo = ((string)(result.GetParameterValue(6)));
@@ -303,7 +303,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_MenuPermission_D")]
-		public int P_MenuPermission_D([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="MenuID", DbType="Int")] System.Nullable<int> menuID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PermissionID", DbType="Int")] System.Nullable<int> permissionID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_MenuPermission_D([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="MenuID", DbType="Int")] System.Nullable<int> menuID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PermissionID", DbType="Int")] System.Nullable<int> permissionID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, menuID, permissionID, errorinfo);
 			errorinfo = ((string)(result.GetParameterValue(3)));
@@ -311,7 +311,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_MenuPermission_I")]
-		public int P_MenuPermission_I([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="MenuID", DbType="Int")] System.Nullable<int> menuID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PermissionID", DbType="Int")] System.Nullable<int> permissionID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_MenuPermission_I([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="MenuID", DbType="Int")] System.Nullable<int> menuID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PermissionID", DbType="Int")] System.Nullable<int> permissionID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, menuID, permissionID, errorinfo);
 			errorinfo = ((string)(result.GetParameterValue(3)));
@@ -319,7 +319,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_Page_D")]
-		public int P_Page_D([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PageID", DbType="Int")] System.Nullable<int> pageID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_Page_D([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PageID", DbType="Int")] System.Nullable<int> pageID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, pageID, errorinfo);
 			errorinfo = ((string)(result.GetParameterValue(2)));
@@ -327,7 +327,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_Page_I")]
-		public int P_Page_I([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PageID", DbType="Int")] ref System.Nullable<int> pageID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Name", DbType="NVarChar(255)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_Page_I([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PageID", DbType="Int")] ref System.Nullable<int> pageID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Name", DbType="NVarChar(255)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, pageID, name, errorinfo);
 			pageID = ((System.Nullable<int>)(result.GetParameterValue(1)));
@@ -336,7 +336,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_Page_U")]
-		public int P_Page_U([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PageID", DbType="Int")] System.Nullable<int> pageID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Name", DbType="NVarChar(255)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_Page_U([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PageID", DbType="Int")] System.Nullable<int> pageID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Name", DbType="NVarChar(255)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, pageID, name, errorinfo);
 			errorinfo = ((string)(result.GetParameterValue(3)));
@@ -344,7 +344,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_PagePermission_D")]
-		public int P_PagePermission_D([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PageID", DbType="Int")] System.Nullable<int> pageID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PermissionID", DbType="Int")] System.Nullable<int> permissionID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_PagePermission_D([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PageID", DbType="Int")] System.Nullable<int> pageID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PermissionID", DbType="Int")] System.Nullable<int> permissionID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, pageID, permissionID, errorinfo);
 			errorinfo = ((string)(result.GetParameterValue(3)));
@@ -352,7 +352,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_PagePermission_I")]
-		public int P_PagePermission_I([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PageID", DbType="Int")] System.Nullable<int> pageID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PermissionID", DbType="Int")] System.Nullable<int> permissionID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_PagePermission_I([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PageID", DbType="Int")] System.Nullable<int> pageID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PermissionID", DbType="Int")] System.Nullable<int> permissionID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, pageID, permissionID, errorinfo);
 			errorinfo = ((string)(result.GetParameterValue(3)));
@@ -360,7 +360,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_Permission_D")]
-		public int P_Permission_D([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PermissionID", DbType="Int")] System.Nullable<int> permissionID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_Permission_D([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PermissionID", DbType="Int")] System.Nullable<int> permissionID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, permissionID, errorinfo);
 			errorinfo = ((string)(result.GetParameterValue(2)));
@@ -368,7 +368,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_Permission_I")]
-		public int P_Permission_I([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PermissionID", DbType="Int")] System.Nullable<int> permissionID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RequiredPermissionID", DbType="Int")] System.Nullable<int> requiredPermissionID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Action", DbType="Char(1)")] System.Nullable<char> action, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Name", DbType="NVarChar(128)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Description", DbType="Xml")] System.Xml.Linq.XDocument description, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_Permission_I([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PermissionID", DbType="Int")] System.Nullable<int> permissionID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RequiredPermissionID", DbType="Int")] System.Nullable<int> requiredPermissionID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Action", DbType="Char(1)")] System.Nullable<char> action, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Name", DbType="NVarChar(128)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Description", DbType="Xml")] System.Xml.Linq.XElement description, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, permissionID, requiredPermissionID, action, name, description, errorinfo);
 			errorinfo = ((string)(result.GetParameterValue(6)));
@@ -376,7 +376,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_Permission_U")]
-		public int P_Permission_U([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PermissionID", DbType="Int")] System.Nullable<int> permissionID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RequiredPermissionID", DbType="Int")] System.Nullable<int> requiredPermissionID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Action", DbType="Char(1)")] System.Nullable<char> action, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Name", DbType="NVarChar(128)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Description", DbType="Xml")] System.Xml.Linq.XDocument description, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_Permission_U([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PermissionID", DbType="Int")] System.Nullable<int> permissionID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RequiredPermissionID", DbType="Int")] System.Nullable<int> requiredPermissionID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Action", DbType="Char(1)")] System.Nullable<char> action, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Name", DbType="NVarChar(128)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Description", DbType="Xml")] System.Xml.Linq.XElement description, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, permissionID, requiredPermissionID, action, name, description, errorinfo);
 			errorinfo = ((string)(result.GetParameterValue(6)));
@@ -384,7 +384,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_Role_D")]
-		public int P_Role_D([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RoleID", DbType="Int")] System.Nullable<int> roleID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_Role_D([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RoleID", DbType="Int")] System.Nullable<int> roleID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, roleID, errorinfo);
 			errorinfo = ((string)(result.GetParameterValue(2)));
@@ -392,7 +392,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_Role_D_Override")]
-		public int P_Role_D_Override([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RoleID", DbType="Int")] System.Nullable<int> roleID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_Role_D_Override([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RoleID", DbType="Int")] System.Nullable<int> roleID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, roleID, errorinfo);
 			errorinfo = ((string)(result.GetParameterValue(2)));
@@ -400,7 +400,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_Role_I")]
-		public int P_Role_I([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RoleID", DbType="Int")] ref System.Nullable<int> roleID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Description", DbType="Xml")] System.Xml.Linq.XDocument description, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_Role_I([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RoleID", DbType="Int")] ref System.Nullable<int> roleID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Description", DbType="Xml")] System.Xml.Linq.XElement description, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, roleID, description, errorinfo);
 			roleID = ((System.Nullable<int>)(result.GetParameterValue(1)));
@@ -409,7 +409,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_Role_U")]
-		public int P_Role_U([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RoleID", DbType="Int")] System.Nullable<int> roleID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Description", DbType="Xml")] System.Xml.Linq.XDocument description, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_Role_U([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RoleID", DbType="Int")] System.Nullable<int> roleID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Description", DbType="Xml")] System.Xml.Linq.XElement description, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, roleID, description, errorinfo);
 			errorinfo = ((string)(result.GetParameterValue(3)));
@@ -417,7 +417,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_RolePermission_D")]
-		public int P_RolePermission_D([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RolePermissionID", DbType="Int")] System.Nullable<int> rolePermissionID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_RolePermission_D([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RolePermissionID", DbType="Int")] System.Nullable<int> rolePermissionID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, rolePermissionID, errorinfo);
 			errorinfo = ((string)(result.GetParameterValue(2)));
@@ -425,7 +425,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_RolePermission_I")]
-		public int P_RolePermission_I([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RolePermissionID", DbType="Int")] ref System.Nullable<int> rolePermissionID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RoleID", DbType="Int")] System.Nullable<int> roleID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PermissionID", DbType="Int")] System.Nullable<int> permissionID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_RolePermission_I([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RolePermissionID", DbType="Int")] ref System.Nullable<int> rolePermissionID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RoleID", DbType="Int")] System.Nullable<int> roleID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PermissionID", DbType="Int")] System.Nullable<int> permissionID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, rolePermissionID, roleID, permissionID, errorinfo);
 			rolePermissionID = ((System.Nullable<int>)(result.GetParameterValue(1)));
@@ -434,7 +434,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_RolePermission_U")]
-		public int P_RolePermission_U([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RolePermissionID", DbType="Int")] System.Nullable<int> rolePermissionID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RoleID", DbType="Int")] System.Nullable<int> roleID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PermissionID", DbType="Int")] System.Nullable<int> permissionID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_RolePermission_U([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RolePermissionID", DbType="Int")] System.Nullable<int> rolePermissionID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RoleID", DbType="Int")] System.Nullable<int> roleID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PermissionID", DbType="Int")] System.Nullable<int> permissionID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, rolePermissionID, roleID, permissionID, errorinfo);
 			errorinfo = ((string)(result.GetParameterValue(4)));
@@ -442,7 +442,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_User_D")]
-		public int P_User_D([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserID", DbType="Int")] System.Nullable<int> userID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_User_D([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserID", DbType="Int")] System.Nullable<int> userID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, userID, errorinfo);
 			errorinfo = ((string)(result.GetParameterValue(2)));
@@ -450,7 +450,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_User_D_Override")]
-		public int P_User_D_Override([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserID", DbType="Int")] System.Nullable<int> userID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_User_D_Override([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserID", DbType="Int")] System.Nullable<int> userID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, userID, errorinfo);
 			errorinfo = ((string)(result.GetParameterValue(2)));
@@ -458,7 +458,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_User_I")]
-		public int P_User_I([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserID", DbType="Int")] ref System.Nullable<int> userID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserName", DbType="NVarChar(320)")] string userName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Password", DbType="NVarChar(32)")] string password, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Email", DbType="NVarChar(320)")] string email, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="LanguageLCID", DbType="Int")] System.Nullable<int> languageLCID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Name", DbType="NVarChar(128)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="FirstName", DbType="NVarChar(64)")] string firstName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Lockout", DbType="Bit")] System.Nullable<bool> lockout, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_User_I([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserID", DbType="Int")] ref System.Nullable<int> userID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserName", DbType="NVarChar(320)")] string userName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Password", DbType="NVarChar(32)")] string password, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Email", DbType="NVarChar(320)")] string email, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="LanguageLCID", DbType="Int")] System.Nullable<int> languageLCID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Name", DbType="NVarChar(128)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="FirstName", DbType="NVarChar(64)")] string firstName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Lockout", DbType="Bit")] System.Nullable<bool> lockout, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, userID, userName, password, email, languageLCID, name, firstName, lockout, errorinfo);
 			userID = ((System.Nullable<int>)(result.GetParameterValue(1)));
@@ -467,7 +467,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_User_U")]
-		public int P_User_U([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserID", DbType="Int")] System.Nullable<int> userID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserName", DbType="NVarChar(320)")] string userName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Password", DbType="NVarChar(32)")] string password, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Email", DbType="NVarChar(320)")] string email, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="LanguageLCID", DbType="Int")] System.Nullable<int> languageLCID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Name", DbType="NVarChar(128)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="FirstName", DbType="NVarChar(64)")] string firstName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Lockout", DbType="Bit")] System.Nullable<bool> lockout, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_User_U([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserID", DbType="Int")] System.Nullable<int> userID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserName", DbType="NVarChar(320)")] string userName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Password", DbType="NVarChar(32)")] string password, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Email", DbType="NVarChar(320)")] string email, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="LanguageLCID", DbType="Int")] System.Nullable<int> languageLCID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Name", DbType="NVarChar(128)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="FirstName", DbType="NVarChar(64)")] string firstName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Lockout", DbType="Bit")] System.Nullable<bool> lockout, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, userID, userName, password, email, languageLCID, name, firstName, lockout, errorinfo);
 			errorinfo = ((string)(result.GetParameterValue(9)));
@@ -475,7 +475,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_UserRole_D")]
-		public int P_UserRole_D([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserRoleID", DbType="Int")] System.Nullable<int> userRoleID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_UserRole_D([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserRoleID", DbType="Int")] System.Nullable<int> userRoleID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, userRoleID, errorinfo);
 			errorinfo = ((string)(result.GetParameterValue(2)));
@@ -483,7 +483,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.P_UserRole_I")]
-		public int P_UserRole_I([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XDocument context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserRoleID", DbType="Int")] ref System.Nullable<int> userRoleID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserID", DbType="Int")] System.Nullable<int> userID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RoleID", DbType="Int")] System.Nullable<int> roleID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
+		public int P_UserRole_I([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Context", DbType="Xml")] System.Xml.Linq.XElement context, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserRoleID", DbType="Int")] ref System.Nullable<int> userRoleID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserID", DbType="Int")] System.Nullable<int> userID, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RoleID", DbType="Int")] System.Nullable<int> roleID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="NVarChar(4000)")] ref string errorinfo)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), context, userRoleID, userID, roleID, errorinfo);
 			userRoleID = ((System.Nullable<int>)(result.GetParameterValue(1)));
@@ -502,7 +502,7 @@ namespace UserManagement.Data
 		
 		private string _ConstraintType;
 		
-		private System.Xml.Linq.XDocument _Description;
+		private System.Xml.Linq.XElement _Description;
 		
 		private System.Nullable<int> _UserCreate;
 		
@@ -524,7 +524,7 @@ namespace UserManagement.Data
     partial void OnConstraintNameChanged();
     partial void OnConstraintTypeChanging(string value);
     partial void OnConstraintTypeChanged();
-    partial void OnDescriptionChanging(System.Xml.Linq.XDocument value);
+    partial void OnDescriptionChanging(System.Xml.Linq.XElement value);
     partial void OnDescriptionChanged();
     partial void OnUserCreateChanging(System.Nullable<int> value);
     partial void OnUserCreateChanged();
@@ -584,7 +584,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="Xml", UpdateCheck=UpdateCheck.Never)]
-		public System.Xml.Linq.XDocument Description
+		public System.Xml.Linq.XElement Description
 		{
 			get
 			{
@@ -1302,7 +1302,7 @@ namespace UserManagement.Data
 		
 		private string _URL;
 		
-		private System.Xml.Linq.XDocument _Description;
+		private System.Xml.Linq.XElement _Description;
 		
 		private EntitySet<MenuPermission> _MenuPermissions;
 		
@@ -1318,7 +1318,7 @@ namespace UserManagement.Data
     partial void OnSequenceChanged();
     partial void OnURLChanging(string value);
     partial void OnURLChanged();
-    partial void OnDescriptionChanging(System.Xml.Linq.XDocument value);
+    partial void OnDescriptionChanging(System.Xml.Linq.XElement value);
     partial void OnDescriptionChanged();
     #endregion
 		
@@ -1409,7 +1409,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="Xml", UpdateCheck=UpdateCheck.Never)]
-		public System.Xml.Linq.XDocument Description
+		public System.Xml.Linq.XElement Description
 		{
 			get
 			{
@@ -1938,7 +1938,7 @@ namespace UserManagement.Data
 		
 		private string _Name;
 		
-		private System.Xml.Linq.XDocument _Description;
+		private System.Xml.Linq.XElement _Description;
 		
 		private System.Nullable<int> _UserCreate;
 		
@@ -1974,7 +1974,7 @@ namespace UserManagement.Data
     partial void OnActionChanged();
     partial void OnNameChanging(string value);
     partial void OnNameChanged();
-    partial void OnDescriptionChanging(System.Xml.Linq.XDocument value);
+    partial void OnDescriptionChanging(System.Xml.Linq.XElement value);
     partial void OnDescriptionChanged();
     partial void OnUserCreateChanging(System.Nullable<int> value);
     partial void OnUserCreateChanged();
@@ -2083,7 +2083,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="Xml NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
-		public System.Xml.Linq.XDocument Description
+		public System.Xml.Linq.XElement Description
 		{
 			get
 			{
@@ -2421,7 +2421,7 @@ namespace UserManagement.Data
 		
 		private int _RoleID;
 		
-		private System.Xml.Linq.XDocument _Description;
+		private System.Xml.Linq.XElement _Description;
 		
 		private System.Nullable<int> _UserCreate;
 		
@@ -2445,7 +2445,7 @@ namespace UserManagement.Data
     partial void OnCreated();
     partial void OnRoleIDChanging(int value);
     partial void OnRoleIDChanged();
-    partial void OnDescriptionChanging(System.Xml.Linq.XDocument value);
+    partial void OnDescriptionChanging(System.Xml.Linq.XElement value);
     partial void OnDescriptionChanged();
     partial void OnUserCreateChanging(System.Nullable<int> value);
     partial void OnUserCreateChanged();
@@ -2487,7 +2487,7 @@ namespace UserManagement.Data
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="Xml NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
-		public System.Xml.Linq.XDocument Description
+		public System.Xml.Linq.XElement Description
 		{
 			get
 			{

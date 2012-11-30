@@ -137,7 +137,7 @@ namespace FrontEnd
         }
 
         private string QueryChangeCulture(CultureInfo ci) {
-            Session["UserContext"] = XDocument.Parse(UserManager.GetContext(m_User).ToString());
+            Session["UserContext"] = XElement.Parse(UserManager.GetContext(m_User).ToString());
             NameValueCollection queryList = new NameValueCollection(Request.QueryString);
             queryList.Set("MyCulture", ci.Name);
             return string.Concat(Request.AppRelativeCurrentExecutionFilePath, "?", BuildQueryString(queryList));

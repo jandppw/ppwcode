@@ -27,7 +27,7 @@ namespace FrontEnd.Code
             return BasePage.GetDatabaseContext();
         }
 
-        public static XDocument GetUserContext()
+        public static XElement GetUserContext()
         {
             return BasePage.GetUserContext();
         }
@@ -47,7 +47,7 @@ namespace FrontEnd.Code
             }
         }
 
-        protected string ParseXml2String(XDocument doc)
+        protected string ParseXml2String(XElement doc)
         {
             using (StringWriter sw = new StringWriter())
             {
