@@ -1,0 +1,94 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="UserManagement.Master.cs" Inherits="FrontEnd.UserManagementMaster" %>
+
+<%@ Register Assembly="DevExpress.Web.v8.2, Version=8.2.4.0, Culture=neutral, PublicKeyToken=9b171c9fd64da1d1"
+    Namespace="DevExpress.Web.ASPxMenu" TagPrefix="dxm" %>
+<%@ Register Assembly="DevExpress.Web.ASPxEditors.v8.2, Version=8.2.4.0, Culture=neutral, PublicKeyToken=9b171c9fd64da1d1"
+    Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dxe" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>UserManagement</title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="frmMain" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server">
+    </asp:ScriptManager>
+
+    <script language="javascript">
+        var prm = Sys.WebForms.PageRequestManager.getInstance();
+
+        prm.add_initializeRequest(InitializeRequest);
+        prm.add_endRequest(EndRequest);
+
+        function InitializeRequest(sender, args) {
+            $get('global').style.cursor = 'wait';
+        }
+
+        function EndRequest(sender, args) {
+            $get('global').style.cursor = 'auto';
+        }
+
+        function pickcolor(elm) {
+            window.open('colorpicker.htm#' + elm.id,
+          '',
+	  'location=0,status=0,scrollbars=0,width=550,height=305');
+        }
+    </script>
+
+    <div id="global">
+        <div id="divHeader">
+            <div id="divLogout">
+                <table>
+                    <tr>
+                        <td>
+                            <dxe:ASPxLabel ID="lblLoggedInAs" runat="server" Text="ASPxLabel" Visible="false">
+                            </dxe:ASPxLabel>
+                        </td>
+                        <td>
+                            <asp:LinkButton ID="linkLogout" runat="server" Font-Underline="false" Visible="false"
+                                OnClick="LinkLogoutClick" meta:resourcekey="linkLogout">Logoff</asp:LinkButton>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <dxe:ASPxLabel ID="lblVersion" runat="server" Text="ASPxLabel" Visible="false">
+                            </dxe:ASPxLabel>
+                        </td>
+                    </tr>  
+                </table>
+            </div>
+            <div id="divLogo">
+            </div>
+            <div id="divLanguage">
+                <asp:LinkButton ID="linkEN" runat="server" Font-Underline="false" OnClick="LinkEnClick">&nbsp;&nbsp;&nbsp;&nbsp;</asp:LinkButton>
+                &nbsp;&nbsp;
+                <asp:LinkButton ID="linkNL" runat="server" Font-Underline="false" OnClick="LinkNlClick">&nbsp;&nbsp;&nbsp;&nbsp;</asp:LinkButton>
+                &nbsp;&nbsp;
+                <asp:LinkButton ID="linkFR" runat="server" Font-Underline="false" OnClick="LinkFrClick">&nbsp;&nbsp;&nbsp;&nbsp;</asp:LinkButton>
+                &nbsp;&nbsp;
+                <asp:LinkButton ID="linkDE" runat="server" Font-Underline="false" OnClick="LinkDeClick">&nbsp;&nbsp;&nbsp;&nbsp;</asp:LinkButton>
+            </div>
+            <div id="divMenu">
+                <dxm:ASPxMenu ID="mnuMain" runat="server">
+                </dxm:ASPxMenu>
+            </div>
+        </div>
+        <br />
+        <div id="divMain">
+            <div id="divError">
+                <dxe:ASPxLabel Font-Bold="true" ForeColor="red" ID="lblError" runat="server" Text="">
+                </dxe:ASPxLabel>
+            </div>
+            <div id="divContent">
+                <asp:ContentPlaceHolder ID="cphMain" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+        </div>
+        <asp:LinqDataSource ID="dsMenuItems" runat="server">
+        </asp:LinqDataSource>
+    </div>
+    </form>
+</body>
+</html>

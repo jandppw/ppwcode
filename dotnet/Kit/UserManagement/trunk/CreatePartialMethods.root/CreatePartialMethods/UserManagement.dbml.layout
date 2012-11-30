@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="zetes">
+  <DataContextMoniker Name="/zetesDataContext" />
+  <nestedChildShapes>
+    <classShape Id="9b11b6cd-485f-45fa-a28b-31a59f73f780" absoluteBounds="0.5, 0.5, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/zetesDataContext/UIDRoutine" />
+      <nestedChildShapes>
+        <elementListCompartment Id="ed98be4e-5850-4bed-b0d2-7e6a386436b7" absoluteBounds="0.51500000000000012, 0.96, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="53cf2a4d-3f1e-49bd-a6de-5dc0efd01858" absoluteBounds="0.5, 2.375, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/zetesDataContext/UIDRoutineParameter" />
+      <nestedChildShapes>
+        <elementListCompartment Id="b0e97e5c-3662-4456-a429-b0ab7e614362" absoluteBounds="0.51500000000000012, 2.835, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>
