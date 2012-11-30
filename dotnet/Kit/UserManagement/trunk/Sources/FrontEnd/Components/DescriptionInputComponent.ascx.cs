@@ -28,7 +28,7 @@ namespace FrontEnd.Components
             }
         }
 
-        public XDocument XmlValue
+        public XElement XmlValue
         {
             get
             {
@@ -37,7 +37,7 @@ namespace FrontEnd.Components
                 {
                     return null;
                 }
-                return XDocument.Parse(GetValues().ToString());
+                return XElement.Parse(GetValues().ToString());
             }
             set
             {

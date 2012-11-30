@@ -5,9 +5,9 @@ namespace UserManagement.Data {
 
     partial class UserManagementDataContext {
         private const string UnknownError = "Unknown error: {0}";
-        private readonly XDocument m_UserContext;
+        private readonly XElement m_UserContext;
 
-        public UserManagementDataContext(XDocument context) : base(global::UserManagement.Data.Properties.Settings.Default.userManagementConnectionString, mappingSource) {
+        public UserManagementDataContext(XElement context) : base(Properties.Settings.Default.userManagementConnectionString, mappingSource) {
             m_UserContext = context;
         }
 
