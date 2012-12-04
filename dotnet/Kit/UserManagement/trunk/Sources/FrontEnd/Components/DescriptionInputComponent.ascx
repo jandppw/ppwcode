@@ -70,6 +70,7 @@
             <UpdateParameters>
                 <asp:ControlParameter ControlID="ASPxGridView1" Name="id" PropertyName="ClientID"
                     Type="String" />
+                <asp:Parameter Name="lcid" Type="Int32" />
                 <asp:Parameter Name="lcidText" Type="String" />
                 <asp:Parameter Name="Value" Type="String" />
             </UpdateParameters>

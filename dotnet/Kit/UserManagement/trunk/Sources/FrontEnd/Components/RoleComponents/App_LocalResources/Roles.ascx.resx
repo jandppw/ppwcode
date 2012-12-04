@@ -127,6 +127,6 @@
     <value>Please select an entity from the dropdown first</value>
   </data>
   <data name="linkCreate" xml:space="preserve">
-    <value>Create new policy</value>
+    <value>Create new role</value>
   </data>
 </root>
