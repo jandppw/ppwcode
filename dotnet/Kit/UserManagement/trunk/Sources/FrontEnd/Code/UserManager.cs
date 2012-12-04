@@ -66,87 +66,13 @@ namespace FrontEnd.Code
 
         public static bool CanSeeDetail(UserObject user, string page, int id)
         {
-            //if ((ID != -1) && (ID != -99))
+            //if (id != -1)
             //{
-            //    if ((page == "~/OrganizerDetail.aspx") && (BaseUserControl.canSeeOrganizer(user.UserID, ID)))
+            //    if ((page == "~/UserDetail.aspx") && (BaseUserControl.canSeeUser(user.UserID, id)))
             //        return true;
-            //    else if ((page == "~/ResellerDetail.aspx") && (BaseUserControl.canSeeReseller(user.UserID, ID)))
+            //    else if ((page == "~/RoleDetail.aspx") && (BaseUserControl.canSeeRole(user.UserID, id)))
             //        return true;
-            //    else if ((page == "~/AgentDetail.aspx") && (BaseUserControl.canSeeAgent(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/EventDetail.aspx") && (BaseUserControl.canSeeEvent(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/ShowDetail.aspx") && (BaseUserControl.canSeeShow(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/ProductDetail.aspx") && (BaseUserControl.canSeeProduct(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/ArticleDetail.aspx") && (BaseUserControl.canSeeArticle(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/VenueDetail.aspx") && (BaseUserControl.canSeeVenue(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/VenueLayoutDetail.aspx") && (BaseUserControl.canSeeVenueLayout(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/VenueAreaDetail.aspx") && (BaseUserControl.canSeeVenueArea(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/VenueTypeDetail.aspx") && (BaseUserControl.canSeeVenueType(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/EventTypeDetail.aspx") && (BaseUserControl.canSeeEventType(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/ActionDetail.aspx") && (BaseUserControl.canSeeAction(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/UserDetail.aspx") && (BaseUserControl.canSeeUser(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/UserShowEventDetail.aspx") && (BaseUserControl.canSeeUserShowEvent(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/PolicyDetail.aspx") && (BaseUserControl.canSeePolicy(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/AgentGroupDetail.aspx") && (BaseUserControl.canSeeAgentGroup(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/ResellerAgreementDetail.aspx") && (BaseUserControl.canSeeResellerAgreement(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/AgentAgreementDetail.aspx") && (BaseUserControl.canSeeAgentAgreement(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/ResellerPaymentDetail.aspx") && (BaseUserControl.canSeeResellerPaymentway(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/ResellerServiceDetail.aspx") && (BaseUserControl.canSeeResellerService(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/ResellerShipmentDetail.aspx") && (BaseUserControl.canSeeResellerShipment(user.UserID, ID)))
-            //        return true;
-            //    else if (page == "~/EventReport.aspx")
-            //        return true;
-            //    else if ((page == "~/ArticlePromoActionDetail.aspx") && (BaseUserControl.canSeeArticlePromoAction(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/FAQDetail.aspx") && (BaseUserControl.canSeeFAQ(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/CalendarDetail.aspx") && (BaseUserControl.canSeeCalendar(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/BarcodePoolDetail.aspx") && (BaseUserControl.canSeeBarcodePool(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/BasketDetail.aspx") && (BaseUserControl.canSeeBasket(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/PaymentProviderDetail.aspx") && (BaseUserControl.canSeePaymentProvider(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/BaseTemplateDetail.aspx") && (BaseUserControl.canSeeBaseTemplate(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/TicketTechBlockNomenDetail.aspx") && (BaseUserControl.canSeeTicketTechBlockNomen(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/TicketTemplateDetail.aspx"))// && (BaseUserControl.canSeeTicketTemplate(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/ArticleVoucherDetail.aspx") && (BaseUserControl.canSeeArticleVoucher(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/MailTemplateDetail.aspx") && (BaseUserControl.canSeeMailTemplate(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/PageTemplateDetail.aspx") && (BaseUserControl.canSeePageTemplate(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/ShowCalendarExceptionDetail.aspx") && (BaseUserControl.canSeeShow(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/ResellerCounterDetail.aspx") && (BaseUserControl.canSeeResellerCounter(user.UserID, ID)))
-            //        return true;
-            //    else if ((page == "~/WebshopPageConfigDetail.aspx") && (BaseUserControl.canSeeWebshopPageConfig(user.UserID, ID)))
-            //        return true;
-			//    else if ((page == "~/WebShopSupportTextDetail.aspx") && (BaseUserControl.canSeeWebshopSupportTextDetail(user.UserID, ID)))
-			//        return true;
-            //    return true;
+            //    return false;
             //}
             return true;
         }

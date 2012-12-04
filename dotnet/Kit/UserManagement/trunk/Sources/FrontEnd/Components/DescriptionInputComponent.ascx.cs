@@ -128,7 +128,7 @@ namespace FrontEnd.Components
             }
         }
 
-        public void UpdateList(String id, String lcidText, String value)
+        public void UpdateList(String id, int lcid, String lcidText, String value)
         {
             messagesMessage l = createMessage(lcidText, value);
 
