@@ -45,7 +45,10 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin"],
           }
 
 //          this._c_post(this, function(kwargs) {return this.key == kwargs.key;});
-          Object.seal(this);
+        },
+
+        postCreate: function() {
+          Object.freeze(this);
         },
 
         // summary:
