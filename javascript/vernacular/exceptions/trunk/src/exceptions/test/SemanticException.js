@@ -22,39 +22,38 @@ define(["dojo/main", "ppwcode/contracts/doh", "../SemanticException"],
 
     doh.register(SemanticException.prototype.declaredClass, [
 
-      function testConstructor1() {
+      function testConstructor1a() {
         var subject = new SemanticException();
         doh.invars(subject);
-        doh.t(subject.key);
         doh.is(null, subject.key);
-        doh.t(subject.cause);
+        doh.is(null, subject.cause);
+      },
+
+      function testConstructor1b() {
+        var subject = new SemanticException({});
+        doh.invars(subject);
+        doh.is(null, subject.key);
         doh.is(null, subject.cause);
       },
 
       function testConstructor2() {
         var subject = new SemanticException({key: aKey});
         doh.invars(subject);
-        doh.t(subject.key);
         doh.is(aKey, subject.key);
-        doh.t(subject.cause);
         doh.is(null, subject.cause);
       },
 
       function testConstructor3() {
         var subject = new SemanticException({cause: aCause});
         doh.invars(subject);
-        doh.t(subject.key);
         doh.is(null, subject.key);
-        doh.t(subject.cause);
         doh.is(aCause, subject.cause);
       },
 
       function testConstructor4() {
         var subject = new SemanticException({key: aKey, cause: aCause});
         doh.invars(subject);
-        doh.t(subject.key);
         doh.is(aKey, subject.key);
-        doh.t(subject.cause);
         doh.is(aCause, subject.cause);
       }
 
