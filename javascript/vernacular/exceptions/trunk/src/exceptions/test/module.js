@@ -15,5 +15,5 @@
  */
 
 define([
-  "exceptions/test/SemanticException"
+  "./SemanticException"
 ], 1);
