@@ -17,7 +17,7 @@ limitations under the License.
 define(["dojo/_base/declare", "ppwcode/contracts/_Mixin"],
     function(declare, _ContractMixin) {
 
-      var SemanticException = declare("be.ppwcode.vernacular.exceptions.SemanticException", [_ContractMixin], {
+      var SemanticException = declare([_ContractMixin], {
         // summary:
         //   Supertype for exceptions related to semantics: the nominal effect of a method could
         //   not be reached, because doing so under the given circumstances would violate semantics

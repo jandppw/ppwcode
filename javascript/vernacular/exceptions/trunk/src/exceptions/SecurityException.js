@@ -17,7 +17,7 @@ limitations under the License.
 define(["dojo/_base/declare", "./SemanticException"],
     function(declare, SemanticException) {
 
-      var SecurityException = declare("be.ppwcode.vernacular.exceptions.SecurityException", [SemanticException], {
+      var SecurityException = declare([SemanticException], {
         // summary:
         //   `SecurityExceptions` signal that an attempted action was refused because of security reasons.
         //   Most often this means the current user does not have the right to perform the attempted action.

@@ -20,7 +20,7 @@ define(["dojo/main", "ppwcode/contracts/doh", "../SemanticException"],
     var aKey = "SOME KEY";
     var aCause = "SOME CAUSE";
 
-    doh.register(SemanticException.prototype.declaredClass, [
+    doh.register("ppwcode vernacular exceptions SemanticException", [
 
       function testConstructor1a() {
         var subject = new SemanticException();

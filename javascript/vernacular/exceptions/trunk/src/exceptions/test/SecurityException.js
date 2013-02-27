@@ -20,7 +20,7 @@ define(["dojo/main", "ppwcode/contracts/doh", "../SecurityException"],
     var aKey = "SOME KEY";
     var aCause = "SOME CAUSE";
 
-    doh.register(SecurityException.prototype.declaredClass, [
+    doh.register("ppwcode vernacular exceptions SecurityException", [
 
       function testConstructor1a() {
         var subject = new SecurityException();

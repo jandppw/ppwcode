@@ -17,7 +17,7 @@ limitations under the License.
 define(["dojo/_base/declare", "./SemanticException"],
     function(declare, SemanticException) {
 
-      var PropertyException = declare("be.ppwcode.vernacular.exceptions.PropertyException", [SemanticException], {
+      var PropertyException = declare([SemanticException], {
         // summary:
         //   `PropertyExceptions` are exceptions that carry with them information about the property for
         //   which they occurred. They are usually thrown by a property setter during validation.

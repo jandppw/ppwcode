@@ -24,7 +24,7 @@ define(["dojo/main", "ppwcode/contracts/doh", "../PropertyException"],
       testProperty: 3
     };
 
-    doh.register(PropertyException.prototype.declaredClass, [
+    doh.register("ppwcode vernacular exceptions PropertyException", [
 
       function testConstructor1a() {
         var subject = new PropertyException({sender: mockSender});
