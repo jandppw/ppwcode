@@ -175,7 +175,7 @@
         <behaviors>
             <serviceBehaviors>
                 <behavior name="Standard.ServiceBehavior">
-                    <serviceAuthorization principalPermissionMode="UseWindowsGroups" />
+                    ${TasksServiceAuthorization}
                     <serviceMetadata />
                     <dataContractSerializer maxItemsInObjectGraph="999999" />
                 </behavior>
