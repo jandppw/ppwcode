@@ -23,4 +23,16 @@
   <var name="Log4NetSmtpHost"    value="" />
   <var name="Log4NetSmtpPort"    value="" />
 
+  <!-- security authorization -->
+  <var name="TasksServiceAuthorization" value="&lt;serviceAuthorization principalPermissionMode=&quot;UseWindowsGroups&quot; /&gt;" />
+
+  <!--
+  <var name="TasksServiceAuthorization"
+       value="&lt;serviceAuthorization principalPermissionMode=&quot;Custom&quot; &gt;
+                   &lt;authorizationPolicies&gt;
+                       &lt;add policyType=&quot;PPWCode.Vernacular.Persistence.I.Dao.Wcf.AuthorizationPolicy,  PPWCode.Vernacular.Persistence.I&quot; /&gt;
+                   &lt;/authorizationPolicies&gt;
+              &lt;/serviceAuthorization&gt;" />
+     -->
+
 </configuration>
