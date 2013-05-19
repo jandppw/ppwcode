@@ -28,30 +28,11 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin"],
         //    i18n messages can use all information found in the particular `SemanticException`
 
         invars: [
-          function() {return this._c_isString("key");},
-          function() {return this.key != "";},
+          function() {return this._c_prop_string("key");},
           function() {return this.cause || this.cause == null;} // TODO not undefined
-
         ],
 
-        constructor: function(kwargs) {
-          if (kwargs) {
-            if (kwargs.key) {
-              this.key = kwargs.key;
-            }
-            if (kwargs.cause) {
-              this.cause = kwargs.cause;
-            }
-          }
-
-//          this._c_post(this, function(kwargs) {return this.key == kwargs.key;});
-        },
-
-        postCreate: function() {
-          Object.freeze(this);
-        },
-
-        // summary:
+        // key: String?
         //    `key` is a string, that is used to lookup i18n messages to show to the user when
         //    this exception occurs.
         // description:
@@ -59,18 +40,22 @@ define(["dojo/_base/declare", "ppwcode/contracts/_Mixin"],
         //    i18n messages can use all information found in the particular `SemanticException`
         key: null,
 
-        // summary:
+        // cause: Object?
         //    The underlying cause of this exception, if any.
         cause: null,
 
-        like: function(/*SemanticException*/ other) {
-//          this._c_post(this, function(result) {!other ? result === false : true;});
-//          this._c_post(this, function(result) {other === this ? result === true : true;});
-//          this._c_post(this, function(result) {!other.key ? result === false : true;});
-//          this._c_post(this, function(result) {!other.cause ? result === false : true;});
-//          this._c_post(this, function(result) {other != null && this.key != other.key ? result == false : true;});
-//          this._c_post(this, function(result) {other != null && this.cause != other.cause ? result == false : true;});
+        constructor: function(kwargs) {
+          if (kwargs) {
+            this.key = kwargs.key;
+            this.cause = kwargs.cause;
+          }
+        },
 
+        postCreate: function() {
+          Object.freeze(this);
+        },
+
+        like: function(/*SemanticException*/ other) {
           if (!other || ! other.key || ! other.cause) {
             return false;
           }
