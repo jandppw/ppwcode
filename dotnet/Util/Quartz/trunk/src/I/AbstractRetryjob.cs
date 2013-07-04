@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using Quartz;
-
 using log4net;
 
-namespace PPWCode.Util.Quartz
+namespace PPWCode.Util.Quartz.I
 {
     public abstract class AbstractRetryjob
         : AbstractSecurityCronJob
