@@ -25,7 +25,7 @@ namespace PPWCode.Util.Quartz
         }
 
         public AggregateException(string message, IEnumerable<Exception> exceptions)
-            :base(message)
+            : base(message)
         {
             Set = (HashSet<Exception>)exceptions;
         }

@@ -20,8 +20,8 @@ using log4net;
 namespace PPWCode.Util.Quartz
 {
     public abstract class AbstractSecurityJob
-        :  IStatefulJob,
-           ISchedulerPlugin
+        : IStatefulJob,
+          ISchedulerPlugin
     {
         #region Fields
 
@@ -80,8 +80,8 @@ namespace PPWCode.Util.Quartz
                     {
                         string domainName = AdSearch.GetDomainFromUserAccount(userAccount);
                         AdSearch adSearch = new AdSearch(domainName);
-                        string userPrincipalName = null;
                         ResultPropertyValueCollection property = adSearch.GetProperty(userAccount, @"userprincipalname");
+                        string userPrincipalName = null;
                         if (property != null && property.Count == 1)
                         {
                             userPrincipalName = property[0].ToString();
@@ -107,7 +107,7 @@ namespace PPWCode.Util.Quartz
                     {
                         try
                         {
-                            ScheduleJobForExecution(context.Scheduler, job, context.MergedJobDataMap);
+                            ScheduleJobForExecution(context.Scheduler, job, context.MergedJobDataMap, null);
                         }
                         catch (Exception e)
                         {
@@ -128,7 +128,7 @@ namespace PPWCode.Util.Quartz
             //NOP
         }
 
-        private static void ScheduleJobForExecution(IScheduler scheduler, AbstractSecurityJob job, JobDataMap jobDataMap, TimeSpan? ts = null)
+        private static void ScheduleJobForExecution(IScheduler scheduler, AbstractSecurityJob job, JobDataMap jobDataMap, TimeSpan? ts)
         {
             // Determine TriggerName
             Trigger[] triggers = scheduler.GetTriggersOfJob(job.Name, job.GroupName);
@@ -138,7 +138,8 @@ namespace PPWCode.Util.Quartz
             {
                 triggerNr++;
                 triggerName = string.Format(@"{0}_{1:0000}", job.Name, triggerNr);
-            } while (triggers.Any(t => t.Name == triggerName && t.Group == job.GroupName));
+            }
+            while (triggers.Any(t => t.Name == triggerName && t.Group == job.GroupName));
 
             // trigger
             DateTime startTimeUtc = DateTime.UtcNow + (ts ?? TimeSpan.Zero);
@@ -268,7 +269,7 @@ namespace PPWCode.Util.Quartz
         /// </summary>
         /// <typeparam name="T">Type v/d job</typeparam>
         /// <param name="params">Parameters (afhankelijk v/h type v/d job)</param>
-        public static void StartJobImmediately<T>(IEnumerable<KeyValuePair<string, object>> @params = null)
+        public static void StartJobImmediately<T>(IEnumerable<KeyValuePair<string, object>> @params)
             where T : AbstractSecurityJob, new()
         {
             lock (s_LockObject)
@@ -277,11 +278,11 @@ namespace PPWCode.Util.Quartz
                 IScheduler scheduler = schedulerFactory.GetScheduler();
 
                 JobDataMap jobDataMap = new JobDataMap();
-                foreach (KeyValuePair<string, object> param in @params ?? CreateParams(false, true))
+                foreach (KeyValuePair<string, object> param in @params ?? CreateParams(false, true, true))
                 {
                     jobDataMap[param.Key] = param.Value;
                 }
-                ScheduleJobForExecution(scheduler, new T(), jobDataMap);
+                ScheduleJobForExecution(scheduler, new T(), jobDataMap, null);
             }
         }
 
@@ -302,7 +303,7 @@ namespace PPWCode.Util.Quartz
         /// <summary>
         /// Aanmaken van een default set van parameters, rekening houdend met de WCF ServiceSecurityContext
         /// </summary>
-        public static IDictionary<string, object> CreateParams(bool fireChildJobs, bool alertOnFinished, bool useWcfContext = true)
+        public static IDictionary<string, object> CreateParams(bool fireChildJobs, bool alertOnFinished, bool useWcfContext)
         {
             WindowsIdentity windowsIdentity = useWcfContext && ServiceSecurityContext.Current != null
                                                   ? ServiceSecurityContext.Current.WindowsIdentity
