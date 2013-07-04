@@ -7,17 +7,14 @@ using System.Net.Mail;
 using System.Security.Principal;
 using System.ServiceModel;
 using System.Threading;
-
 using PPWCode.Util.OddsAndEnds.I.ActiveDirectory;
 using PPWCode.Vernacular.Exceptions.I;
-
 using Quartz;
 using Quartz.Impl;
 using Quartz.Spi;
-
 using log4net;
 
-namespace PPWCode.Util.Quartz
+namespace PPWCode.Util.Quartz.I
 {
     public abstract class AbstractSecurityJob
         : IStatefulJob,

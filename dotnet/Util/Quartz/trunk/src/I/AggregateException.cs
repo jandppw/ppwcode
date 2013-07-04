@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace PPWCode.Util.Quartz
+namespace PPWCode.Util.Quartz.I
 {
     [Serializable]
     public sealed class AggregateException : 

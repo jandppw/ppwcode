@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-
 using Quartz;
-
 using log4net;
 
-namespace PPWCode.Util.Quartz
+namespace PPWCode.Util.Quartz.I
 {
     public abstract class AbstractSecurityCronJob
         : AbstractSecurityJob

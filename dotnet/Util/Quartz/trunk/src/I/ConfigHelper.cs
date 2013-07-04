@@ -2,7 +2,7 @@
 using System.Configuration;
 using System.Globalization;
 
-namespace PPWCode.Util.Quartz
+namespace PPWCode.Util.Quartz.I
 {
     public static class ConfigHelper
     {
