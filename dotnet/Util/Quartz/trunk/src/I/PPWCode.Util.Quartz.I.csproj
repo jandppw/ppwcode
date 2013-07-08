@@ -128,13 +128,20 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
-    <Compile Include="AbstractRetryjob.cs" />
-    <Compile Include="AbstractSecurityCronJob.cs" />
-    <Compile Include="AbstractSecurityJob.cs" />
+    <Compile Include="AbstractPpwJob.cs" />
+    <Compile Include="AbstractPpwRetryJob.cs" />
     <Compile Include="AggregateException.cs" />
     <Compile Include="ConfigHelper.cs" />
     <Compile Include="IRetryJobFault.cs" />
+    <Compile Include="Identity\CurrentWindowsIdentityProvider.cs" />
+    <Compile Include="Identity\IIdentityProvider.cs" />
+    <Compile Include="Identity\SerializedWindowsIdentityProvider.cs" />
+    <Compile Include="Logging\Ilog.cs" />
+    <Compile Include="Logging\NetLog.cs" />
+    <Compile Include="Logging\SendMail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scheduler\IPpwScheduler.cs" />
+    <Compile Include="Scheduler\PPWAbstractScheduler.cs" />
   </ItemGroup>
   <Import Project="..\..\wraps\openwrap\build\OpenWrap.CSharp.targets" />
   <Import Project="..\..\wraps\Microsoft.Stylecop-PPWStyle\build\Microsoft.StyleCop.targets" />
