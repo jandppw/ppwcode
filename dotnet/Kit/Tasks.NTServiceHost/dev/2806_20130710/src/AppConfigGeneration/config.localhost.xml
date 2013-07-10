@@ -1,0 +1,38 @@
+﻿<configuration>
+
+  <var name="UseSecurity" value="false" />
+  <var name="UseProfiler" value="false" />
+
+  <var name="TasksConnectionString" value="Data Source=localhost;Initial Catalog=PensioB.Tasks;Integrated Security=True" />
+
+  <!-- Host / port -->
+  <var name="TasksDaoHost" value="localhost" />
+  <var name="TasksDaoPort" value="27300" />
+
+  <!-- log4net -->
+  <var name="Log4NetRollingFileAppender" value="" />
+  <!-- <var name="Log4NetRollingFileAppender" value="&lt;appender-ref ref=&quot;RollingFileAppender&quot; /&gt;" /> -->
+
+  <var name="Log4NetEmailAppender"       value="" />
+  <!-- <var name="Log4NetEmailAppender" value="&lt;appender-ref ref=&quot;EmailAppender&quot; /&gt;" /> -->
+
+  <var name="Log4NetLogFileName" value="logs\log-file.txt" />
+  <var name="Log4NetSmtpSubject" value="" />
+  <var name="Log4NetSmtpFrom"    value="" />
+  <var name="Log4NetSmtpTo"      value="" />
+  <var name="Log4NetSmtpHost"    value="" />
+  <var name="Log4NetSmtpPort"    value="" />
+
+  <!-- security authorization -->
+  <var name="TasksServiceAuthorization" value="&lt;serviceAuthorization principalPermissionMode=&quot;UseWindowsGroups&quot; /&gt;" />
+
+  <!--
+  <var name="TasksServiceAuthorization"
+       value="&lt;serviceAuthorization principalPermissionMode=&quot;Custom&quot; &gt;
+                   &lt;authorizationPolicies&gt;
+                       &lt;add policyType=&quot;PPWCode.Vernacular.Persistence.I.Dao.Wcf.AuthorizationPolicy,  PPWCode.Vernacular.Persistence.I&quot; /&gt;
+                   &lt;/authorizationPolicies&gt;
+              &lt;/serviceAuthorization&gt;" />
+     -->
+
+</configuration>
