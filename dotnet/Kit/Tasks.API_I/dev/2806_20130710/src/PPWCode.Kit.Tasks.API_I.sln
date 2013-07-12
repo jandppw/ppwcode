@@ -19,18 +19,23 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		DebugNoInvariants|Any CPU = DebugNoInvariants|Any CPU
 		Documentation|Any CPU = Documentation|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{7F2A56FD-2E56-4721-8DA8-3FA65FA2CFDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7F2A56FD-2E56-4721-8DA8-3FA65FA2CFDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F2A56FD-2E56-4721-8DA8-3FA65FA2CFDD}.DebugNoInvariants|Any CPU.ActiveCfg = DebugNoInvariants|Any CPU
+		{7F2A56FD-2E56-4721-8DA8-3FA65FA2CFDD}.DebugNoInvariants|Any CPU.Build.0 = DebugNoInvariants|Any CPU
 		{7F2A56FD-2E56-4721-8DA8-3FA65FA2CFDD}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
 		{7F2A56FD-2E56-4721-8DA8-3FA65FA2CFDD}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{7F2A56FD-2E56-4721-8DA8-3FA65FA2CFDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F2A56FD-2E56-4721-8DA8-3FA65FA2CFDD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}.DebugNoInvariants|Any CPU.ActiveCfg = DebugNoInvariants|Any CPU
+		{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}.DebugNoInvariants|Any CPU.Build.0 = DebugNoInvariants|Any CPU
 		{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
 		{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{B17B1B5B-25E7-45EC-819A-A7C2F43F000B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -38,8 +43,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityAddIns) = postSolution
-		OpenWrap.VisualStudioIntegration2010 = 1;Ensures OpenWrap initialization when a solution is opened.;OpenWrap Visual Studio Solution Add-in
 	EndGlobalSection
 EndGlobal
