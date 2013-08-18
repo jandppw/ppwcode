@@ -31,4 +31,4 @@ using System.Reflection;
 // version used for informational purposes
 // for bugfixes, this version number should be increased
 // and a tag should be made in subversion
-[assembly: AssemblyFileVersion("3.1.0.0")]
+[assembly: AssemblyFileVersion("3.2.0.0")]
