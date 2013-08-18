@@ -30,18 +30,23 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		DebugNoInvariants|Any CPU = DebugNoInvariants|Any CPU
 		Documentation|Any CPU = Documentation|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{43C0CF91-F289-48D3-96CD-1D56C0372227}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{43C0CF91-F289-48D3-96CD-1D56C0372227}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43C0CF91-F289-48D3-96CD-1D56C0372227}.DebugNoInvariants|Any CPU.ActiveCfg = DebugNoInvariants|Any CPU
+		{43C0CF91-F289-48D3-96CD-1D56C0372227}.DebugNoInvariants|Any CPU.Build.0 = DebugNoInvariants|Any CPU
 		{43C0CF91-F289-48D3-96CD-1D56C0372227}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
 		{43C0CF91-F289-48D3-96CD-1D56C0372227}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{43C0CF91-F289-48D3-96CD-1D56C0372227}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43C0CF91-F289-48D3-96CD-1D56C0372227}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6F6DCD3C-9E12-4BBA-AB8B-984FCC7ED8E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6F6DCD3C-9E12-4BBA-AB8B-984FCC7ED8E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F6DCD3C-9E12-4BBA-AB8B-984FCC7ED8E6}.DebugNoInvariants|Any CPU.ActiveCfg = DebugNoInvariants|Any CPU
+		{6F6DCD3C-9E12-4BBA-AB8B-984FCC7ED8E6}.DebugNoInvariants|Any CPU.Build.0 = DebugNoInvariants|Any CPU
 		{6F6DCD3C-9E12-4BBA-AB8B-984FCC7ED8E6}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
 		{6F6DCD3C-9E12-4BBA-AB8B-984FCC7ED8E6}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{6F6DCD3C-9E12-4BBA-AB8B-984FCC7ED8E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
