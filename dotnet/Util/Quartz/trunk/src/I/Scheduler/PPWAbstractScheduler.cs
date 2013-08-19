@@ -73,7 +73,7 @@ namespace PPWCode.Util.Quartz.I.Scheduler
             }
         }
 
-        private static void ScheduleJobForExecution(IScheduler scheduler, AbstractPpwJob job, JobDataMap jobDataMap, TimeSpan? ts = null)
+        private static void ScheduleJobForExecution(IScheduler scheduler, AbstractPpwJob job, JobDataMap jobDataMap, TimeSpan? ts)
         {
             // Determine TriggerName
             Trigger[] triggers = scheduler.GetTriggersOfJob(job.GetType().Name, job.GroupName);
@@ -83,7 +83,8 @@ namespace PPWCode.Util.Quartz.I.Scheduler
             {
                 triggerNr++;
                 triggerName = string.Format(@"{0}_{1:0000}", job.GetType().Name, triggerNr);
-            } while (triggers.Any(t => t.Name == triggerName && t.Group == job.GroupName));
+            }
+            while (triggers.Any(t => t.Name == triggerName && t.Group == job.GroupName));
 
             // trigger
             DateTime startTimeUtc = DateTime.UtcNow + (ts ?? TimeSpan.Zero);

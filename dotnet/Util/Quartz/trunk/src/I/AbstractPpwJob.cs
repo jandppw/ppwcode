@@ -21,7 +21,7 @@ namespace PPWCode.Util.Quartz.I
         public static readonly object s_LockObject = new object();
         public abstract IIdentityProvider IdentityProvider { get; }
         public abstract Logging.ILog Log { get; }
-        public IScheduler Scheduler;
+        public IScheduler Scheduler { get; set; }
 
         public abstract void OnExecute(JobExecutionContext context);
         public abstract void FireChildJobs(JobExecutionContext context);
