@@ -22,7 +22,7 @@ namespace PPWCode.Util.Quartz.I
         public abstract void DoAction(JobExecutionContext context, int currentId);
         public abstract void RemoveFaults(JobDataMap jobDataMap);
         public abstract void Schedule(IScheduler scheduler);
-        public IPpwScheduler PpwScheduler;
+        public IPpwScheduler PpwScheduler { get; set; }
         
         public override sealed void OnExecute(JobExecutionContext context)
         {
