@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A0F28404-9566-4DD2-B09B-3C147A778821}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AppConfigGeneration</RootNamespace>
+    <AssemblyName>AppConfigGeneration</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <OutputPath>..\..\scratch\bin\$(MSBuildProjectName)-$(Configuration)-$(Platform)\</OutputPath>
+    <IntermediateOutputPath>..\..\scratch\obj\$(MSBuildProjectName)-$(Configuration)-$(Platform)\</IntermediateOutputPath>
+  </PropertyGroup>
+  <!-- bindings files to generate -->
+  <ItemGroup>
+    <!-- user -->
+    <GenericTemplate-FileToGenerate Include="user-ntservicehost">
+      <Visible>false</Visible>
+      <Template>NTServiceHost.exe.config.xml</Template>
+      <Config>config.user.xml</Config>
+      <Result>user-PPWCode.Kit.Tasks.NTServiceHost.exe.config</Result>
+    </GenericTemplate-FileToGenerate>
+    <!-- localhost -->
+    <GenericTemplate-FileToGenerate Include="localhost-ntservicehost">
+      <Visible>false</Visible>
+      <Template>NTServiceHost.exe.config.xml</Template>
+      <Config>config.localhost.xml</Config>
+      <Result>localhost-PPWCode.Kit.Tasks.NTServiceHost.exe.config</Result>
+    </GenericTemplate-FileToGenerate>
+    <!-- hoefnix -->
+    <GenericTemplate-FileToGenerate Include="hoefnix-ntservicehost">
+      <Visible>false</Visible>
+      <Template>NTServiceHost.exe.config.xml</Template>
+      <Config>AppConfigPeopleWare\config.hoefnix.xml</Config>
+      <Result>hoefnix-PPWCode.Kit.Tasks.NTServiceHost.exe.config</Result>
+    </GenericTemplate-FileToGenerate>
+    <!-- test -->
+    <GenericTemplate-FileToGenerate Include="test-ntservicehost">
+      <Visible>false</Visible>
+      <Template>NTServiceHost.exe.config.xml</Template>
+      <Config>AppConfigPeopleWare\config.test.xml</Config>
+      <Result>test-PPWCode.Kit.Tasks.NTServiceHost.exe.config</Result>
+    </GenericTemplate-FileToGenerate>
+    <!-- prod -->
+    <GenericTemplate-FileToGenerate Include="prod-ntservicehost">
+      <Visible>false</Visible>
+      <Template>NTServiceHost.exe.config.xml</Template>
+      <Config>AppConfigPeopleWare\config.prod.xml</Config>
+      <Result>prod-PPWCode.Kit.Tasks.NTServiceHost.exe.config</Result>
+    </GenericTemplate-FileToGenerate>
+  </ItemGroup>
+  <ItemGroup>
+    <!-- listing all config files -->
+    <Content Include="config.user.xml" />
+    <Content Include="config.localhost.xml" />
+    <Content Include="AppConfigPeopleWare\config.hoefnix.xml" />
+    <Content Include="AppConfigPeopleWare\config.test.xml" />
+    <Content Include="AppConfigPeopleWare\config.prod.xml" />
+    <!-- listing the template files -->
+    <Content Include="NTServiceHost.exe.config.xml" />
+    <!-- listing the generated files -->
+    <Content Include="user-PPWCode.Kit.Tasks.NTServiceHost.exe.config" />
+    <Content Include="localhost-PPWCode.Kit.Tasks.NTServiceHost.exe.config" />
+    <Content Include="hoefnix-PPWCode.Kit.Tasks.NTServiceHost.exe.config" />
+    <Content Include="test-PPWCode.Kit.Tasks.NTServiceHost.exe.config" />
+    <Content Include="prod-PPWCode.Kit.Tasks.NTServiceHost.exe.config" />
+  </ItemGroup>
+  <Import Project="..\..\wraps\PPWCode.Util.AppConfigTemplate\build\AppConfigGenerationProject.targets" />
+  <PropertyGroup>
+    <BuildDependsOn>CreateUserConfig</BuildDependsOn>
+  </PropertyGroup>
+  <Target Name="CreateUserConfig" Condition="!Exists('config.user.xml')">
+    <Copy SourceFiles="config.localhost.xml" DestinationFiles="config.user.xml" />
+  </Target>
+</Project>
