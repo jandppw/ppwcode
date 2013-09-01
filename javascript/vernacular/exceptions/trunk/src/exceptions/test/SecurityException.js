@@ -14,8 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-define(["dojo/main", "ppwcode/contracts/doh", "../SecurityException"],
-  function(dojo, doh, SecurityException) {
+define(["ppwcode.contracts/doh", "../SecurityException"],
+  function(doh, SecurityException) {
 
     var aKey = "SOME KEY";
     var aCause = "SOME CAUSE";

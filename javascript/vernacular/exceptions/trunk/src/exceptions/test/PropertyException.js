@@ -14,8 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-define(["dojo/main", "ppwcode/contracts/doh", "../PropertyException"],
-  function(dojo, doh, PropertyException) {
+define(["ppwcode.contracts/doh", "../PropertyException"],
+  function(doh, PropertyException) {
 
     var aKey = "SOME KEY";
     var aCause = "SOME CAUSE";
