@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-define(["ppwcode.util.contracts/doh", "../PropertyException"],
+define(["ppwcode-util-contracts/doh", "../PropertyException"],
   function(doh, PropertyException) {
 
     var aKey = "SOME KEY";
