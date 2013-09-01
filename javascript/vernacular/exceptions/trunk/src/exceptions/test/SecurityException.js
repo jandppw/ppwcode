@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-define(["ppwcode.contracts/doh", "../SecurityException"],
+define(["ppwcode.util.contracts/doh", "../SecurityException"],
   function(doh, SecurityException) {
 
     var aKey = "SOME KEY";

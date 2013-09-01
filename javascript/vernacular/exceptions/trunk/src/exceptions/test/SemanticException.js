@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-define(["ppwcode.contracts/doh", "../SemanticException"],
+define(["ppwcode.util.contracts/doh", "../SemanticException"],
   function(doh, SemanticException) {
 
     var aKey = "SOME KEY";
