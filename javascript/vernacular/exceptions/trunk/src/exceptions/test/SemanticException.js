@@ -14,8 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-define(["dojo/main", "ppwcode/contracts/doh", "../SemanticException"],
-  function(dojo, doh, SemanticException) {
+define(["ppwcode.contracts/doh", "../SemanticException"],
+  function(doh, SemanticException) {
 
     var aKey = "SOME KEY";
     var aCause = "SOME CAUSE";

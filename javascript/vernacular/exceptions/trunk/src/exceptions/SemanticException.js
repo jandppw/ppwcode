@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-define(["dojo/_base/declare", "ppwcode/contracts/_Mixin"],
+define(["dojo/_base/declare", "ppwcode.contracts/_Mixin"],
     function(declare, _ContractMixin) {
 
       var SemanticException = declare([_ContractMixin], {
