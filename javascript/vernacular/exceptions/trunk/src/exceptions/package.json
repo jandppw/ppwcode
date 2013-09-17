@@ -1,10 +1,10 @@
 {
-  "name": "be.ppwcode-util-oddsAndEnds",
+  "name": "be.ppwcode-vernacular-exceptions",
   "version": "0.1.0",
-  "description": "ppwcode util oddsAndEnds by PeopleWare",
+  "description": "Exceptions used by the ppwcode written by PeopleWare",
   "keywords": [
+    "Exceptions",
     "ppwcode",
-    "oddsAndEnds",
     "PeopleWare"
   ],
   "maintainers": [
@@ -15,7 +15,7 @@
   ],
   "contributors": [],
   "bugs": {
-    "url": "https://projects.peopleware.be/jira44//browse/ppwcode"
+    "mail": "Jan_Dockx@peopleware.be"
   },
   "licenses": [
     {
@@ -26,10 +26,10 @@
   "repositories": [
     {
       "type": "svn",
-      "url": "http://projects.peopleware.be/svn16/ppwcode"
+      "url": "https://ppwcode.googlecode.com/svn/javascript/"
     }
   ],
   "dependencies": [
   ],
-  "dojoBuild": "ppwcode_util_oddsAndEnds.profile.js"
+  "dojoBuild": "ppwcode_vernacular_exceptions.profile.js"
 }
