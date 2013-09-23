@@ -32,3 +32,4 @@ using System.Reflection;
 // for bugfixes, this version number should be increased
 // and a tag should be made in subversion
 [assembly: AssemblyFileVersion("3.2.0.0")]
+[assembly: AssemblyInformationalVersion("3.2.0.0")]
