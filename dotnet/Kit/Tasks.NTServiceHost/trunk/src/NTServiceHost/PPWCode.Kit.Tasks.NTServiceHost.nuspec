@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
+    <projectUrl>http://www.ppwcode.org/</projectUrl>
+    <iconUrl>http://www.ppwcode.org/img/logo.jpg</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>NuGet packaging.</releaseNotes>
+    <copyright>Copyright 2013</copyright>
+    <tags>PPWCode</tags>
+    
+    <dependencies>
+      <dependency id="Microsoft.Contracts" version="[1,2)" />
+      <dependency id="Apache.Log4Net" version="[1.2.10]" />
+      <dependency id="Spring.Core" version="[1.3.1]" />
+      <dependency id="NHibernate" version="[3.1.0]" />
+      <dependency id="NHibernate.Caches.SysCache" version="[3.1.0]" />
+      <dependency id="HibernatingRhinos.Profiler.Appender" version="[1.0.0]" />
+      <dependency id="PPWCode.Kit.Tasks.Server" version="[3,4)" />
+    </dependencies>
+    
+ </metadata>
+
+ <files>
+   <file src="$OutputPath$**\*.*" target="bin" />
+ </files>
+ </package>
