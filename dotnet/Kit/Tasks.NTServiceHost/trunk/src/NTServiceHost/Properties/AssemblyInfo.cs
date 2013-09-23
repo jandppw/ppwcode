@@ -23,8 +23,8 @@ using log4net.Config;
 
 #endregion
 
-[assembly: AssemblyTitle("PPWCode.Kit.Tasks.Server.NTServiceHost")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("PPWCode.Kit.Tasks.NTServiceHost")]
+[assembly: AssemblyDescription("PPWCode.Kit.Tasks.NTServiceHost")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]

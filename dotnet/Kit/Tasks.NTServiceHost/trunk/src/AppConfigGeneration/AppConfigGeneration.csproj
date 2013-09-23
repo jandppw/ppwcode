@@ -69,7 +69,7 @@
     <Content Include="test-PPWCode.Kit.Tasks.NTServiceHost.exe.config" />
     <Content Include="prod-PPWCode.Kit.Tasks.NTServiceHost.exe.config" />
   </ItemGroup>
-  <Import Project="..\..\wraps\PPWCode.Util.AppConfigTemplate\build\AppConfigGenerationProject.targets" />
+  <Import Project="..\Packages\PPWCode.Util.AppConfigTemplate.3.0.3\build\AppConfigGenerationProject.targets" />
   <PropertyGroup>
     <BuildDependsOn>CreateUserConfig</BuildDependsOn>
   </PropertyGroup>
