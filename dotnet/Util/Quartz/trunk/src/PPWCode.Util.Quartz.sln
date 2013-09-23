@@ -5,9 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Util.Quartz.I", "I\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{C4F10757-FD8D-4B6F-9DF3-4A89CF73E29B}"
 	ProjectSection(SolutionItems) = preProject
-		..\PPWCode.Util.Quartz.wrapdesc = ..\PPWCode.Util.Quartz.wrapdesc
 		SolutionInfo.cs = SolutionInfo.cs
-		..\version = ..\version
 	EndProjectSection
 EndProject
 Global
