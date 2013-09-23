@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>NHibernate</id>
+    <version>3.1.0</version>
+    <authors>Ruben Vandeginste</authors>
+    <owners>PeopleWare nv</owners>
+    <!--
+    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
+    <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
+    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
+    -->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>NHibernate</description>
+    <releaseNotes>Repackaging.</releaseNotes>
+    <copyright>Copyright 2013</copyright>
+    <tags>NHibernate</tags>
+    <dependencies>
+      <dependency id="Iesi.Collections" version="[3.1.0]" />
+      <dependency id="ANTLR3.Runtime.Net" version="[3.1.0]" />
+      <dependency id="NHibernate.LinFu" version="[3.1.0]" />
+    </dependencies>
+  </metadata>
+
+  <!-- included files -->
+  <files>
+    <file src="src\NHibernate.dll" target="lib" />
+    <file src="src\NHibernate.xml" target="lib" />
+    <file src="src\lgpl.txt" target="doc" />
+    <file src="src\nhibernate-configuration.xsd" target="doc" />
+    <file src="src\nhibernate-mapping.xsd" target="doc" />
+  </files>
+</package>
