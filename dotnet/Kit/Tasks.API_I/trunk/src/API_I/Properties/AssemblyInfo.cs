@@ -22,7 +22,7 @@ using System.Runtime.InteropServices;
 #endregion
 
 [assembly: AssemblyTitle("PPWCode.Kit.Tasks.API_I")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("API of the PPWCode.Kit.Tasks service.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
