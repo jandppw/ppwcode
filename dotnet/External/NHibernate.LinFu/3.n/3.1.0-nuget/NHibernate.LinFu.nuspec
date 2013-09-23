@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>NHibernate.LinFu</id>
+    <version>3.1.0</version>
+    <authors>Ruben Vandeginste</authors>
+    <owners>PeopleWare nv</owners>
+    <!--
+    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
+    <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
+    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
+    -->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>NHibernate.LinFu</description>
+    <releaseNotes>Repackaging.</releaseNotes>
+    <copyright>Copyright 2013</copyright>
+    <tags>NHibernate.LinFu</tags>
+    <dependencies>
+      <!-- no dependencies -->
+    </dependencies>
+  </metadata>
+
+  <!-- included files -->
+  <files>
+    <file src="src\NHibernate.ByteCode.LinFu.dll" target="lib" />
+    <file src="src\NHibernate.ByteCode.LinFu.xml" target="lib" />
+    <file src="src\LinFu.DynamicProxy.dll" target="lib" />
+    <file src="src\lgpl.txt" target="doc" />
+    <file src="src\LinFu.license.txt" target="doc" />
+  </files>
+</package>
