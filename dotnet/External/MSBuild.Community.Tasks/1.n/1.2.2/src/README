@@ -1,0 +1,8 @@
+
+This package is a repacking of the MSBuild Community Tasks
+as an OpenWrap package.
+
+The original license of the package can be found in LICENSE.
+
+The file MSBuild.Community.Tasks.targets was modified to
+make it work in the OpenWrap context where we intend to use it.
