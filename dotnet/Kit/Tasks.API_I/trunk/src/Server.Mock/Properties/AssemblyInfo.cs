@@ -26,7 +26,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("PPWCode.Kit.Tasks.Server.Mock")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("PPWCode Kit Tasks Server Mock")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCulture("")]
 
