@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("PPWCode.Util.Quartz")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("PPWCode Util Quartz")]
 [assembly: AssemblyConfiguration("")]
 
 [assembly: ComVisible(false)]
