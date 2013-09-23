@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Apache.Log4Net</id>
+    <version>1.2.10</version>
+    <authors>Ruben Vandeginste</authors>
+    <owners>PeopleWare nv</owners>
+    <!--
+    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
+    <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
+    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
+    -->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Log4Net for logging</description>
+    <releaseNotes>Repackaging.</releaseNotes>
+    <copyright>Copyright 2013</copyright>
+    <tags>Log4Net</tags>
+    <dependencies>
+      <!-- no dependencies -->
+    </dependencies>
+  </metadata>
+
+  <!-- included files -->
+  <files>
+    <file src="src\log4net.dll" target="lib" />
+    <file src="src\log4net.xml" target="lib" />
+    <file src="src\log4net.xsd" target="doc" />
+    <file src="src\license.txt" target="doc" />
+  </files>
+</package>
