@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Microsoft.StyleCop.PPWStyle</id>
+    <version>1.0.3</version>
+    <authors>Ruben Vandeginste</authors>
+    <owners>PeopleWare nv</owners>
+    <!--
+    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
+    <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
+    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
+    -->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Microsoft.StyleCop.PPWStyle</description>
+    <releaseNotes>Repackaging.</releaseNotes>
+    <copyright>Copyright 2013</copyright>
+    <tags>StyleCop Microsoft</tags>
+    <dependencies>
+      <!-- no dependencies -->
+    </dependencies>
+  </metadata>
+
+  <!-- included files -->
+  <files>
+    <file src="src\*.dll" target="build" />
+    <file src="src\*.Targets" target="build" />
+    <file src="src\*.exe" target="build" />
+    <file src="src\*.StyleCop" target="build" />
+    <file src="src\LICENSE*" target="doc" />
+  </files>
+</package>
