@@ -72,5 +72,5 @@
     <Compile Include="CommandLine.cs" />
     <Compile Include="CommandLineText.cs" />
   </ItemGroup>
-  <Import Project="..\..\wraps\openwrap\build\OpenWrap.CSharp.targets" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
