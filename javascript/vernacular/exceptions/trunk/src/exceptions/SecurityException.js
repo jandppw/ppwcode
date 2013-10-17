@@ -14,8 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-define(["dojo/_base/declare", "./SemanticException"],
-    function(declare, SemanticException) {
+define(["dojo/_base/declare", "./SemanticException", "module"],
+    function(declare, SemanticException, module) {
 
       var SecurityException = declare([SemanticException], {
         // summary:
@@ -33,6 +33,8 @@ define(["dojo/_base/declare", "./SemanticException"],
         }
 
       });
+
+      SecurityException.mid = module.id;
 
       return SecurityException;
     }
