@@ -14,8 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin"],
-    function(declare, _ContractMixin) {
+define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "module"],
+    function(declare, _ContractMixin, module) {
 
       var SemanticException = declare([_ContractMixin], {
         // summary:
@@ -70,6 +70,8 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin"],
         // TODO need JSON and toString
 
       });
+
+      SemanticException.mid = module.id;
 
       return SemanticException;
     }
