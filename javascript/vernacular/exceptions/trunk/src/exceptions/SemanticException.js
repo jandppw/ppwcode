@@ -28,8 +28,7 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "module"],
         //    i18n messages can use all information found in the particular `SemanticException`
 
         invars: [
-          function() {return this._c_prop_string("key");},
-          function() {return this.cause || this.cause == null;} // TODO not undefined
+          function() {return this._c_prop_string("key");}
         ],
 
         // key: String?
@@ -67,7 +66,7 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "module"],
           }
         }
 
-        // TODO need JSON and toString
+        // IDEA need JSON and toString
 
       });
 

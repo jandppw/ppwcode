@@ -33,9 +33,8 @@ define(["dojo/_base/declare", "./SemanticException"],
 
         invars: [
           function() {return this.senderType;},
-          function() {return this.sender ? this.senderType === Object.getPrototypeOf(this.sender).constructor : true;}
-          // MUDO not true: it can be a supertype!
-          // TODO sender has property of name propertyName
+          function() {return !this.sender ||
+            (this.sender.isInstanceOf ? this.sender.isInstanceOf(this.senderType) : this.sender instanceof this.senderType);}
         ],
 
         constructor: function(kwargs) {
@@ -91,7 +90,7 @@ define(["dojo/_base/declare", "./SemanticException"],
           return result + ")";
         }
 
-        // TODO need JSON
+        // IDEA need JSON?
       });
 
       // summary:
