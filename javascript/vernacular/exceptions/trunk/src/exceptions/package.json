@@ -1,6 +1,6 @@
 {
-  "name": "be.ppwcode-vernacular-exceptions",
-  "version": "I 0.0",
+  "name": "ppwcode-vernacular-exceptions-I",
+  "version": "1.0",
   "description": "Library of exceptions that are used by ppwcode classes",
   "keywords": [
     "PeopleWare",
