@@ -22,7 +22,7 @@ define(["dojo/_base/declare", "./SemanticException"],
         //   `PropertyExceptions` are exceptions that carry with them information about the property for
         //   which they occurred. They are usually thrown by a property setter during validation.
         // description:
-        //   A `PropertyException</c> reports on an issue with one object. If there is a need to communicate
+        //   A `PropertyException` reports on an issue with one object. If there is a need to communicate
         //   an issue over more than one issue, use a `CompoundSemanticException`.
         //
         //   Specific property exception subtypes will make these advises binding in most cases.
