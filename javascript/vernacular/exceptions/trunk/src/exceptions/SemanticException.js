@@ -55,15 +55,11 @@ define(["dojo/_base/declare", "ppwcode-util-contracts/_Mixin", "module"],
         },
 
         like: function(/*SemanticException*/ other) {
-          if (!other || ! other.key || ! other.cause) {
-            return false;
-          }
-          else if (other === this) {
-            return true
-          }
-          else {
-            return other.key === this.key && other.cause === this.cause;
-          }
+          // summary:
+          //   An `other` exception is not like this one when it is of a different type or
+          //   has another key. Subclasses might expand this definition.
+
+          return other && (other === this || (other.constructor === this.constructor && this.key === other.key));
         }
 
         // IDEA need JSON and toString
