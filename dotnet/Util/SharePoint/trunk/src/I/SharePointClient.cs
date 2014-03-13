@@ -28,7 +28,7 @@ using log4net;
 using Microsoft.SharePoint.Client;
 
 using PPWCode.Util.SharePoint.I.Helpers;
-
+using Spring.Validation;
 using File = Microsoft.SharePoint.Client.File;
 
 #endregion
@@ -325,14 +325,19 @@ namespace PPWCode.Util.SharePoint.I
 
         public bool ValidateUri(Uri sharePointUri)
         {
+            s_Logger.DebugFormat("Validating for Uri: {0}", sharePointUri);
+
             if (sharePointUri != null)
             {
                 string baseUrl = sharePointUri.GetLeftPart(UriPartial.Authority);
+                s_Logger.DebugFormat("BaseUrl is: {0}", baseUrl);
 
                 if (!string.IsNullOrEmpty(baseUrl))
                 {
                     using (ClientContext clientContext = new ClientContext(baseUrl))
                     {
+                        s_Logger.DebugFormat("Credentials: {0}", Credentials != null ? "given" : "not given");
+
                         if (Credentials != null)
                         {
                             clientContext.Credentials = Credentials;
@@ -342,6 +347,7 @@ namespace PPWCode.Util.SharePoint.I
                         Web site = clientContext.Web;
 
                         string localPath = sharePointUri.LocalPath;
+                        s_Logger.DebugFormat("Local path is: {0}", localPath);
 
                         if (!string.IsNullOrEmpty(localPath))
                         {
@@ -350,16 +356,19 @@ namespace PPWCode.Util.SharePoint.I
                             try
                             {
                                 clientContext.ExecuteQuery();
+                                s_Logger.Debug("ValidatedAttribute");
                                 return true;
                             }
-                            catch (Exception)
+                            catch (Exception e)
                             {
+                                s_Logger.Debug("Does not validate because of error.", e);
                                 return false;
                             }
                         }
                     }
                 }
             }
+            s_Logger.Debug("Does not validate.");
             return false;
         }
 
@@ -382,6 +391,8 @@ namespace PPWCode.Util.SharePoint.I
         {
             try
             {
+                s_Logger.DebugFormat("SearchFiles in {0}", url);
+
                 using (ClientContext spClientContext = GetSharePointClientContext())
                 {
                     Web rootWeb = spClientContext.Site.RootWeb;
@@ -404,6 +415,9 @@ namespace PPWCode.Util.SharePoint.I
                         fileInformation.Properties.Add("ServerRelativeUrl", spFile.ServerRelativeUrl);
                         result.Add(fileInformation);
                     }
+
+                    s_Logger.DebugFormat("SearchFiles result: found {0} files.", result.Count);
+
                     return result;
                 }
             }
