@@ -10,5 +10,5 @@ using System.Reflection;
 [assembly: AssemblyVersion("2.0.0.0")]
 
 // keep in sync with package version
-[assembly: AssemblyFileVersion("2.5.0.0")]
-[assembly: AssemblyInformationalVersion("2.5.0.0")]
+[assembly: AssemblyFileVersion("2.6.0.0-rc")]
+[assembly: AssemblyInformationalVersion("2.6.0.0-rc")]
