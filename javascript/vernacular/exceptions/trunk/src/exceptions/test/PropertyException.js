@@ -17,9 +17,6 @@ limitations under the License.
 define(["ppwcode-util-contracts/doh", "../PropertyException"],
   function(doh, PropertyException) {
 
-    var aKey = "SOME KEY";
-    var aCause = "SOME CAUSE";
-
     var mockSender = {
       testProperty: 3
     };
