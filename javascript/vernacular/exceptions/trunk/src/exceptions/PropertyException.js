@@ -80,7 +80,7 @@ define(["dojo/_base/declare", "./SemanticException"],
 
         toString: function() {
           var result = "PropertyException (";
-          if (this.sender != null) {
+          if (this.sender) {
             result += "sender: " + this.sender;
           }
           else {

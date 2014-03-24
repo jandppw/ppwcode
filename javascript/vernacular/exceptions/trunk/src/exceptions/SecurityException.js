@@ -25,13 +25,6 @@ define(["dojo/_base/declare", "./SemanticException", "module"],
         // description:
         //   There are no extra properties in this class.
 
-        invars: [
-        ],
-
-        constructor: function(kwargs) {
-          this._c_NOP();
-        }
-
       });
 
       SecurityException.mid = module.id;
