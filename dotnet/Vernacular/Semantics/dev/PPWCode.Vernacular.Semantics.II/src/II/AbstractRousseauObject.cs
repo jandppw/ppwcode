@@ -20,7 +20,7 @@ using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
 
-using PPWCode.Vernacular.Exceptions.I;
+using PPWCode.Vernacular.Exceptions.II;
 
 #endregion
 

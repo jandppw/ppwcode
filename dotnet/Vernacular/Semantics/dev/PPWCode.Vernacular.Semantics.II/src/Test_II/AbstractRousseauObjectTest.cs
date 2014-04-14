@@ -18,7 +18,7 @@
 
 using NUnit.Framework;
 
-using PPWCode.Vernacular.Exceptions.I;
+using PPWCode.Vernacular.Exceptions.II;
 using PPWCode.Vernacular.Semantics.I;
 
 #endregion
