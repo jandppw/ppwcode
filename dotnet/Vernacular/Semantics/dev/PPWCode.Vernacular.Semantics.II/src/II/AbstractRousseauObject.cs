@@ -19,12 +19,11 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
-
 using PPWCode.Vernacular.Exceptions.II;
 
 #endregion
 
-namespace PPWCode.Vernacular.Semantics.I
+namespace PPWCode.Vernacular.Semantics.II
 {
     /// <summary>
     /// Abstract class that supports things
