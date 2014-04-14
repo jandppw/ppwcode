@@ -30,7 +30,7 @@ namespace PPWCode.Vernacular.Semantics.I
     /// explicit the difference in state that is acceptable for naked computer
     /// objects, and the state that is acceptable when those computer objects
     /// truly represent a domain object. This depends on the vernacular for
-    /// semantic exceptions layed out in <see cref="PPWCode.Vernacular.Exceptions.I"/>.
+    /// semantic exceptions layed out in <see cref="PPWCode.Vernacular.Exceptions.II"/>.
     /// <see cref="AbstractRousseauObject"/>
     /// provides help in implementing this contract.</para>
     /// </remarks>
