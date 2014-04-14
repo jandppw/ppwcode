@@ -23,7 +23,7 @@ using System.Linq;
 
 using NUnit.Framework;
 
-using PPWCode.Vernacular.Semantics.I;
+using PPWCode.Vernacular.Semantics.II;
 
 #endregion
 

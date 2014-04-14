@@ -26,7 +26,7 @@ using System.Text;
 
 #endregion
 
-namespace PPWCode.Vernacular.Semantics.I
+namespace PPWCode.Vernacular.Semantics.II
 {
     /// <summary>
     /// Abstract class that supports things

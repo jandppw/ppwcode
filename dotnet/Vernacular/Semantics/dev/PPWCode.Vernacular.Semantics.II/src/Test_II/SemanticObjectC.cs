@@ -18,7 +18,7 @@
 
 using System.Diagnostics.Contracts;
 
-using PPWCode.Vernacular.Semantics.I;
+using PPWCode.Vernacular.Semantics.II;
 
 #endregion
 

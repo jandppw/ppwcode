@@ -21,7 +21,7 @@ using System.Diagnostics.Contracts;
 
 #endregion
 
-namespace PPWCode.Vernacular.Semantics.I
+namespace PPWCode.Vernacular.Semantics.II
 {
     /// <summary>
     /// A type that formalizes how to work with objects that represent real-world objects
