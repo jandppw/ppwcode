@@ -8,8 +8,8 @@
     <ProjectGuid>{7200287D-1E31-4C53-B24F-602A35614B6A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PPWCode.Vernacular.Semantics.Test_II</RootNamespace>
-    <AssemblyName>PPWCode.Vernacular.Semantics.Test_II</AssemblyName>
+    <RootNamespace>PPWCode.Vernacular.Semantics.Test.II</RootNamespace>
+    <AssemblyName>PPWCode.Vernacular.Semantics.Test.II</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -54,7 +54,7 @@
     <NoWarn>1591,1592,1573,1571,1570,1572</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <RegisterForComInterop>false</RegisterForComInterop>
-    <DocumentationFile>..\..\scratch\bin\PPWCode.Vernacular.Semantics.Test_II-Debug-AnyCPU\PPWCode.Vernacular.Semantics.Test_II.xml</DocumentationFile>
+    <DocumentationFile>..\..\scratch\bin\PPWCode.Vernacular.Semantics.Test_II-Debug-AnyCPU\PPWCode.Vernacular.Semantics.Test.II.xml</DocumentationFile>
     <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
     <CodeContractsEnumObligations>False</CodeContractsEnumObligations>
     <CodeContractsInferRequires>False</CodeContractsInferRequires>
@@ -103,7 +103,7 @@
     <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
     <NoWarn>1591,1592,1573,1571,1570,1572</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>..\..\scratch\bin\PPWCode.Vernacular.Semantics.Test_II-Release-AnyCPU\PPWCode.Vernacular.Semantics.Test_II.xml</DocumentationFile>
+    <DocumentationFile>..\..\scratch\bin\PPWCode.Vernacular.Semantics.Test_II-Release-AnyCPU\PPWCode.Vernacular.Semantics.Test.II.xml</DocumentationFile>
     <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
     <CodeContractsEnumObligations>False</CodeContractsEnumObligations>
     <CodeContractsInferRequires>False</CodeContractsInferRequires>
@@ -122,7 +122,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugNoInvariants|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <DefineConstants>TRACE;DEBUG;CONTRACTS_FULL;__OW_PLATFORM_AnyCPU__;__OW_PROFILE_net35__;</DefineConstants>
-    <DocumentationFile>..\..\scratch\bin\PPWCode.Vernacular.Semantics.Test_II-DebugNoInvariants-AnyCPU\PPWCode.Vernacular.Semantics.Test_II.xml</DocumentationFile>
+    <DocumentationFile>..\..\scratch\bin\PPWCode.Vernacular.Semantics.Test_II-DebugNoInvariants-AnyCPU\PPWCode.Vernacular.Semantics.Test.II.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <NoWarn>1591,1592,1573,1571,1570,1572</NoWarn>
     <DebugType>full</DebugType>
@@ -210,7 +210,7 @@
   <ItemGroup>
     <ProjectReference Include="..\II\PPWCode.Vernacular.Semantics.II.csproj">
       <Project>{DC2E40D4-0756-41CC-A77E-A03806991238}</Project>
-      <Name>PPWCode.Vernacular.Semantics.I</Name>
+      <Name>PPWCode.Vernacular.Semantics.II</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
