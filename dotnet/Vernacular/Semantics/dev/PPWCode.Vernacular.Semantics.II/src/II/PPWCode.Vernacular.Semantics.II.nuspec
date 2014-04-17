@@ -17,6 +17,7 @@
     
     <dependencies>
       <dependency id="PPWCode.Vernacular.Exceptions.II" version="[1,2)" />
+      <dependency id="Common.Logging" version="2.2.0" />
     </dependencies>
     
     <references>
