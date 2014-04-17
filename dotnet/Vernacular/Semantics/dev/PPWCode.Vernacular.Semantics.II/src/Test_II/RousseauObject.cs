@@ -17,13 +17,12 @@
 #region Using
 
 using System.Diagnostics.Contracts;
-
 using PPWCode.Vernacular.Exceptions.II;
 using PPWCode.Vernacular.Semantics.II;
 
 #endregion
 
-namespace PPWCode.Vernacular.Semantics.Test_I
+namespace PPWCode.Vernacular.Semantics.Test.II
 {
     public class RousseauObject : AbstractRousseauObject
     {
