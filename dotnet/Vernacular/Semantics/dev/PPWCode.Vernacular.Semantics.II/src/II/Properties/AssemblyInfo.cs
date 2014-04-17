@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 #endregion
 
-[assembly: AssemblyTitle("PPWCode.Vernacular.Semantics.I")]
+[assembly: AssemblyTitle("PPWCode.Vernacular.Semantics.II")]
 [assembly: AssemblyDescription("Main code of the PPWCode Semantics Vernacular")]
 [assembly: AssemblyConfiguration("")]
 [assembly: ComVisible(false)]
