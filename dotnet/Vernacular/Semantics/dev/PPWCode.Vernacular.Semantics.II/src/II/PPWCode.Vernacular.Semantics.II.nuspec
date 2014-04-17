@@ -16,9 +16,7 @@
     <tags>PPWCode</tags>
     
     <dependencies>
-      <dependency id="Microsoft.Contracts" version="[1,2)" />
-      <dependency id="Microsoft.StyleCop.PPWStyle" version="[1,2)" />
-      <dependency id="PPWCode.Vernacular.Exceptions.I" version="[2,3)" />
+      <dependency id="PPWCode.Vernacular.Exceptions.II" version="[1,2)" />
     </dependencies>
     
     <references>
