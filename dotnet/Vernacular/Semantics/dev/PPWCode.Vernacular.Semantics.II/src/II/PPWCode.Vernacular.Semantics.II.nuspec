@@ -27,13 +27,10 @@
 
   <!-- explicit file inclusion -->
   <files>
-    <file src="$OutputPath$$MSBuildProjectName$.dll" target="lib\net35" />
-    <file src="$OutputPath$$MSBuildProjectName$.pdb" target="lib\net35" />
-    <file src="$OutputPath$$MSBuildProjectName$.xml" target="lib\net35" />
-    <file src="$OutputPath$CodeContracts\$MSBuildProjectName$.Contracts.dll" target="lib\net35\CodeContracts" />
-    <file src="$OutputPath$CodeContracts\$MSBuildProjectName$.Contracts.pdb" target="lib\net35\CodeContracts" />
-    <file src="..\..\LICENSE" target="doc\LICENSE" />
-    <file src="..\..\NOTICE" target="doc\NOTICE" />
+      <file src="$OutputPath$CodeContracts\$MSBuildProjectName$.Contracts.dll" target="lib\net45\CodeContracts" />
+      <file src="$OutputPath$CodeContracts\$MSBuildProjectName$.Contracts.pdb" target="lib\net45\CodeContracts" />
+      <file src="..\..\LICENSE" target="doc\LICENSE" />
+      <file src="..\..\NOTICE" target="doc\NOTICE" />
   </files>
   
 </package>
