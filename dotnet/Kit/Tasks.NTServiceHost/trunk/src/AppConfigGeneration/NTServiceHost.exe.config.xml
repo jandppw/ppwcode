@@ -166,7 +166,7 @@
                       protectionLevel="EncryptAndSign" />
                 </security>
                 <readerQuotas
-                    maxDepth="64"
+                    maxDepth="128"
                     maxStringContentLength="1048576" />
               </binding>
             </netTcpBinding>
