@@ -23,6 +23,7 @@
   <!-- included files -->
   <files>
     <file src="src\Microsoft.Contracts.dll" target="lib\net35" />
+    <file src="src\Microsoft.Contracts.ExternalAnnotations.xml" target="lib\net35" />
     <file src="src\License.rtf" target="doc" />
     <file src="src\Redist.txt" target="doc" />
   </files>
